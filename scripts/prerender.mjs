@@ -79,7 +79,6 @@ const staticRouteModules = {
   "/case-studies": "src/pages/CaseStudies.tsx",
   "/new-age-leadership": "src/pages/NewAgeLeadership.tsx",
   "/blog": "src/pages/Blog.tsx",
-  "/answers": "src/pages/Answers.tsx",
   "/faq": "src/pages/Library.tsx",
   "/about": "src/pages/About.tsx",
   "/contact": "src/pages/Contact.tsx",

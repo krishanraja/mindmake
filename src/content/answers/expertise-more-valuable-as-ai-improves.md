@@ -6,6 +6,7 @@ answer: "Expertise becomes more valuable as AI improves because AI makes compete
 claim: "Most writing on AI and expertise asks which jobs AI will replace. The more useful question for a leader is what becomes scarce when competent output is abundant, and the answer is judgement tied to a specific business."
 target_query: "will AI make expertise less valuable in the future economy"
 published_at: "2026-09-15"
+category: leadership
 first_party:
   - Mindmake's work starts from the judgement a leader already has and builds systems that carry it further.
   - When competent output costs almost nothing, the scarce skill is deciding which output to trust.

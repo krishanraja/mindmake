@@ -71,7 +71,9 @@ const exactLocks = [
   [handoff.decisions?.message?.selection?.openingHeadline, "Build the business that can think with you.", "opening headline"],
   [handoff.decisions?.message?.selection?.gtmDoorDetail, "Build your AI native pricing, positioning and org.", "AI GTM subheading"],
   [handoff.decisions?.sharedLanguage?.selection?.blog, "Ideas you can use", "editorial route label"],
-  [handoff.decisions?.sharedLanguage?.selection?.answers, "Quick AI tips", "answer route label"],
+  /* Quick AI tips merged into Ideas you can use on 2026-09-25 (Krish); the
+     selection names no answer route label any more. */
+  [handoff.decisions?.sharedLanguage?.selection?.answers, undefined, "answer route label (merged into Ideas you can use)"],
   [handoff.decisions?.sharedLanguage?.selection?.faq, "Questions we get asked", "buying questions label"]
 ];
 for (const [actual, expected, label] of exactLocks) if (actual !== expected) failures.push(`${label}: expected ${expected}, found ${actual}`);

@@ -61,7 +61,8 @@ for (const finding of contract.verifiedOpenFindings) {
   requireCondition(finding.finding.length >= 30 && finding.acceptance.length >= 30, `${finding.id} needs a finding and acceptance criterion`);
 }
 
-const requiredRoutes = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/:slug", "/answers", "/answers/:slug", "/faq", "/contact", "/privacy", "/terms"];
+// /answers itself redirects to /blog since 2026-09-25 (Krish); the answer pages stay.
+const requiredRoutes = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/:slug", "/answers/:slug", "/faq", "/contact", "/privacy", "/terms"];
 for (const route of requiredRoutes) requireCondition(contract.routeContinuity.mustPreserve.includes(route), `route continuity is missing ${route}`);
 requireCondition(contract.routeContinuity.publicationUrl === "https://mindmakerlive.substack.com", "publication URL changed");
 requireCondition(contract.requiredViewports.length === 14, "the required viewport matrix must contain fourteen named sizes");
@@ -116,7 +117,7 @@ const rubricFailures = validateRubric(rubric);
 failures.push(...rubricFailures.map((failure) => `rubric v3: ${failure}`));
 const representativeAwardRoutes = [
   "/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog",
-  "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers",
+  "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
   "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms",
 ];
 requireCondition(

@@ -6,6 +6,7 @@ answer: "Adtech companies never competed on the model, they competed on who cont
 claim: "Cited sources describe the shift for a general adtech readership; Mindmake writes it as an operator checklist for the specific PE/VC-backed buyer deciding what to defend in the next 18 months, which none of them address."
 target_query: "how do adtech companies compete once AI can build targeting models without them"
 published_at: "2026-09-08"
+category: strategy
 lead: false
 first_party:
   - "Mindmake's framework separates adtech defensibility into three checkable assets: proprietary signal, embedded distribution, workflow lock-in, and treats the model itself as a commodity line item, not a moat"

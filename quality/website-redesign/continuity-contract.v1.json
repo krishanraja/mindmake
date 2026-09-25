@@ -587,7 +587,6 @@
       "/new-age-leadership",
       "/blog",
       "/blog/:slug",
-      "/answers",
       "/answers/:slug",
       "/faq",
       "/contact",

@@ -1,22 +1,23 @@
 import { writeFileSync, existsSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
-import { loadAnswers } from "./lib/answers-loader.mjs";
-import { loadBlogPosts } from "./lib/blog-posts-loader.mjs";
+import { loadIdeas } from "./lib/ideas-loader.mjs";
 import { site, staticPages } from "./lib/pages.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(here, "..");
 
-/* The answer pages, listed with the question each one answers, because the
-   question is what a reader arrives with and the title is only our wording of
-   it. Newest first, the order /answers itself uses. */
-const { answers, answerPath } = await loadAnswers(rootDir);
-const posts = await loadBlogPosts(rootDir);
+/* The ideas, in the one list and the one order /blog shows them: the quick
+   tips and the longer reads together, newest first. A tip is listed with the
+   question it answers, because the question is what a reader arrives with and
+   the title is only our wording of it. */
+const { ideas } = await loadIdeas(rootDir);
 const home = staticPages.find(page => page.path === "/");
 const labels = {};
-const answerLines = answers
-  .map((answer) => `- [${answer.title}](${site}${answerPath(answer.slug)}): answers "${answer.targetQuery}". ${answer.description}`)
+const ideaLines = ideas
+  .map((idea) => idea.kind === "tip"
+    ? `- [${idea.title}](${site}${idea.href}): answers "${idea.query}". ${idea.description}`
+    : `- [${idea.title}](${site}${idea.href}): ${idea.description}`)
   .join("\n");
 
 const llms = `# Mindmake
@@ -29,13 +30,9 @@ ${home.description}
 
 ${staticPages.filter(page => page.path !== "/").map(page => `- [${labels[page.path] || page.title}](${site}${page.path}): ${page.description}`).join("\n")}
 
-## Quick AI tips
-
-${answerLines}
-
 ## Ideas you can use
 
-${posts.map(post => `- [${post.title}](${site}/blog/${post.slug}): ${post.metaDescription}`).join("\n")}
+${ideaLines}
 `;
 
 // Optional directory, not a ranking signal or another commercial claim store.

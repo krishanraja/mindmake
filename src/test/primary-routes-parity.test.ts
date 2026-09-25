@@ -41,7 +41,10 @@ describe("primary routes parity", () => {
     const byHref = Object.fromEntries(PRIMARY_ROUTES.map(({ href, label }) => [href, label]));
     expect(byHref["/case-studies"]).toBe(selection.results);
     expect(byHref["/blog"]).toBe(selection.blog);
-    expect(byHref["/answers"]).toBe(selection.answers);
+    /* Quick AI tips merged into Ideas you can use (Krish, 2026-09-25): no
+       menu carries /answers, and the handoff no longer names a label for it. */
+    expect(byHref["/answers"]).toBeUndefined();
+    expect(selection.answers).toBeUndefined();
     expect(byHref["/faq"]).toBe(selection.faq);
     expect(PRIMARY_ROUTES.at(-1)?.label).toBe(selection.media);
     /* Home leads and About us sits before Media (Krish, 2026-09-25). */

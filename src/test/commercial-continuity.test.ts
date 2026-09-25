@@ -17,7 +17,6 @@ const REMOVED_ROUTES = [
   "/",
   "/blog",
   "/blog/a-useful-first-30-days-building-with-ai",
-  "/answers",
   "/answers/ai-decision-tool-trustworthy-leadership-team",
   "/ai-brain",
   "/ai-gtm",

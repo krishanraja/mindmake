@@ -1,7 +1,7 @@
 /**
  * The answer file format, and everything derived from one.
  *
- * `/answers` is the machine-first surface: one page per question a buyer asks,
+ * `/answers/:slug` is the machine-first surface: one page per question a buyer asks,
  * written to be fetched, read and quoted by an assistant as much as by a
  * person. A page is a markdown file in `src/content/answers/`, and dropping a
  * file in that directory is the whole publishing step. There is no manifest to
@@ -27,6 +27,7 @@
  *   claim: ...
  *   target_query: ...
  *   published_at: 2026-09-05
+ *   category: leadership
  *   first_party:
  *     - ...
  *   faq:
@@ -38,8 +39,14 @@
  * any preamble on the page for the same reason it is a field rather than the
  * first paragraph of the body: a retriever reads the first chunk and stops.
  * `claim` is the one thing this page says that the pages already answering the
- * question do not.
+ * question do not. `category` is the subject the page sits under on `/blog`,
+ * one of the four the archive uses (`src/lib/ideaFormat.ts`), so the quick
+ * tips and the longer reads share one subject filter.
  */
+
+/** The four subjects, spelled as `src/lib/ideaFormat.ts` spells them. */
+export type AnswerCategory = "ai-literacy" | "leadership" | "implementation" | "strategy";
+const CATEGORIES: ReadonlyArray<AnswerCategory> = ["ai-literacy", "leadership", "implementation", "strategy"];
 
 export interface AnswerFaqEntry {
   q: string;
@@ -58,6 +65,8 @@ export interface AnswerPage {
   targetQuery: string;
   /** ISO date the page was written, which is what the index sorts on. */
   publishedAt: string;
+  /** The subject the page sits under on the shared index. */
+  category: AnswerCategory;
   /** Statements this practice stands behind, quotable on their own. */
   firstParty: string[];
   faq: AnswerFaqEntry[];
@@ -212,6 +221,11 @@ export function parseAnswerFile(source: string, file: string): AnswerPage {
     throw new Error(`${file}: published_at is "${publishedAt}" rather than a YYYY-MM-DD date`);
   }
 
+  const category = text("category");
+  if (!CATEGORIES.includes(category as AnswerCategory)) {
+    throw new Error(`${file}: category is "${category}" rather than one of ${CATEGORIES.join(", ")}`);
+  }
+
   return {
     title: text("title"),
     slug,
@@ -220,6 +234,7 @@ export function parseAnswerFile(source: string, file: string): AnswerPage {
     claim: text("claim"),
     targetQuery: text("target_query"),
     publishedAt,
+    category: category as AnswerCategory,
     firstParty: list("first_party"),
     faq: faq as AnswerFaqEntry[],
     body,

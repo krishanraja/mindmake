@@ -6,6 +6,7 @@ answer: "A company keeps its judgement when senior people leave by recording how
 claim: "Most advice on knowledge loss is about documentation and handover checklists. Documents record what was done; the costly loss is the reasoning behind decisions, which almost no handover process captures."
 target_query: "how do I stop my company's knowledge and judgement leaving when senior people leave"
 published_at: "2026-09-18"
+category: leadership
 first_party:
   - A leader's own AI brain stays theirs. The standards and decisions they share with the team stay in the business's own accounts when people move on.
   - The most expensive thing a senior person takes with them is the reason they said no.

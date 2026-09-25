@@ -337,6 +337,20 @@ owns payload, privacy, retention, email and failure-path contracts.
     published record, why he started Mindmake, and three verbatim career
     references read from `src/data/testimonials.ts`. It is the fourth named
     surface in the Krish gate. No count of leaders helped appears.
+- One ideas page and lighter phone footers, from Krish's request on 25
+  September 2026, carried by the generated lock and that day's history log
+  entry.
+  - `/blog`, Ideas you can use, lists every quick tip and every longer read in
+    one list, newest first, each in the tips' entry form with its kind,
+    subject and date, under two filters: kind (All, Quick tips, Longer reads)
+    and subject (the archive's four). The tips keep their pages under
+    `/answers/:slug` and the reads under `/blog/:slug`; the `/answers` index
+    is gone and redirects to `/blog` (vercel.json and `src/App.tsx`). Every
+    menu and footer drops Quick AI tips. `llms.txt` lists the ideas in the
+    same order under one heading. Each answer file carries a `category`.
+  - On a phone the shell footer shows Contact, Privacy and Terms only, and the
+    homepage footer its statement, the subscribe action and the legal pair:
+    the menu carries the routes. Desktop footers are unchanged.
 - The leadership chapters on `/` and `/new-age-leadership`, from Krish's phone
   review on 25 September 2026. Recorded in
   `quality/route-lock/approved-production-r46.json`.

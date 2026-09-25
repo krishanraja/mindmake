@@ -21,7 +21,6 @@ const Blog = preloadable(() => import("./pages/Blog"));
 const BlogPost = preloadable(() => import("./pages/BlogPost"));
 const Questions = preloadable(() => import("./pages/Library"));
 const About = preloadable(() => import("./pages/About"));
-const Answers = preloadable(() => import("./pages/Answers"));
 const AnswerPage = preloadable(() => import("./pages/Answer"));
 const Alumni = preloadable(() => import("./pages/Alumni"));
 const AiBrain = preloadable(() => import("./pages/AiBrainLocked"));
@@ -38,7 +37,6 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/case-studies\/?$/, CaseStudies],
   [/^\/blog\/?$/, Blog],
   [/^\/blog\/[^/]+\/?$/, BlogPost],
-  [/^\/answers\/?$/, Answers],
   [/^\/answers\/[^/]+\/?$/, AnswerPage],
   [/^\/faq\/?$/, Questions],
   [/^\/about\/?$/, About],
@@ -237,12 +235,12 @@ function AppRoutes() {
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/library" element={<Navigate to="/blog" replace />} />
 
-            {/* The answer surface, and it is not the blog. `/blog` is the
-                curated editorial archive; these are one page per buyer
-                question, written to be fetched and quoted. They share the
-                design system and no data, so neither can drift into the
-                other. */}
-            <Route path="/answers" element={<Answers />} />
+            {/* The answer pages: one page per buyer question, written to be
+                fetched and quoted. Their index merged into /blog, "Ideas you
+                can use", on 2026-09-25 (owner ruling), so the old index address
+                sends the reader there; vercel.json carries the same redirect
+                for a direct hit. */}
+            <Route path="/answers" element={<Navigate to="/blog" replace />} />
             <Route path="/answers/:slug" element={<AnswerPage />} />
             <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
             <Route path="/contact" element={<Contact />} />

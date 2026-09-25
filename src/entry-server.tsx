@@ -24,7 +24,6 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Questions from "./pages/Library";
 import About from "./pages/About";
-import Answers from "./pages/Answers";
 import Answer from "./pages/Answer";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
@@ -69,7 +68,6 @@ function SiteRoutes() {
       <Route path="/about" element={<About />} />
       {/* `/answers/:slug` reads `useParams` for the same reason `/blog/:slug`
           does, so it is a route here rather than a component per path. */}
-      <Route path="/answers" element={<Answers />} />
       <Route path="/answers/:slug" element={<Answer />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/privacy" element={<Privacy />} />

@@ -6,6 +6,7 @@ answer: An AI decision tool is trustworthy enough for a leadership team when it 
 claim: The pages answering this question today treat trust as a governance and compliance problem. Trust in a decision tool is also a question of memory, and no framework asks whether the tool holds the record of how this leadership team has decided before.
 target_query: how do I evaluate whether an AI decision tool is trustworthy enough for my leadership team
 published_at: "2026-09-05"
+category: leadership
 first_party:
   - Mindmake builds AI systems that hold a leader's own standards, decisions and context, inside the client's own accounts, so what the system learns stays with the client.
   - A tool that cannot name which of your past decisions shaped an answer cannot be checked by the person whose judgement is on the line.

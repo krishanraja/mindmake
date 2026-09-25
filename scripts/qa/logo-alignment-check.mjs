@@ -130,7 +130,6 @@ const ROUTES = [
   "/new-age-leadership",
   "/blog",
   `/blog/${posts[0].slug}`,
-  "/answers",
   answerPath(answers[0].slug),
   "/faq",
   "/contact",

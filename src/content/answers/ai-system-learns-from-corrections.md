@@ -6,6 +6,7 @@ answer: "An AI system gets better at a particular business's work when each corr
 claim: "Most advice on improving AI output is about better prompts. Prompts help once. A record of corrections with reasons is what makes a system improve over time for one specific business."
 target_query: "how do I make an AI system learn from our corrections over time"
 published_at: "2026-09-24"
+category: implementation
 first_party:
   - In an AI brain, the old view stays visible and the better one becomes the new standard.
   - A correction without a reason teaches the system what to say once. A correction with a reason teaches it how to decide.

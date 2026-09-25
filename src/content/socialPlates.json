@@ -41,13 +41,6 @@
     "claim": "",
     "still": "film-04"
   },
-  "/answers": {
-    "file": "/social/answers.jpg",
-    "version": "53d122b9",
-    "headline": "Quick AI tips.",
-    "claim": "Answered with a position, not a summary.",
-    "still": "film-02"
-  },
   "/faq": {
     "file": "/social/faq.jpg",
     "version": "f017925b",

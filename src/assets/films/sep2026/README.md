@@ -17,7 +17,9 @@ The six original process loops are:
 
 Those six process loops have no WebM or poster derivatives. Generate those only after a placement is chosen. Do not add claims, captions, calls to action or interface labels inside the footage.
 
-The Archive Engine r04 hero package is the current recoverable homepage package:
+The Archive Engine r07 loop is the current homepage hero (Krish, 2026-09-25): a 16.04-second, 1920 by 1080, 24 fps silent H.264 MP4 derived from the approved Higgsfield motion candidate, with JPG and WebP posters taken from its first frame. It has no WebM derivative; the generated opening uses a single MP4 source.
+
+The Archive Engine r04 hero package is the recoverable fallback:
 
 - a 16.167-second, 1920 by 1080 loop at 24 frames per second;
 - silent H.264 MP4 and VP9 WebM sources, both below 4 MB;
@@ -44,7 +46,7 @@ The Archive Engine r04 hero package is the current recoverable homepage package:
 - JPG poster: `archive-engine-hero-poster-r04.jpg`
 - WebP poster: `archive-engine-hero-poster-r04.webp`
 
-**Current-site substitution:** The generated homepage release points its two opening `hero-stage` videos at this r04 MP4 and WebP poster. Keep the existing `film-02` media on the later AI Brain route stage unless that surface is being changed deliberately. The accepted source is `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html`; regenerate `src/components/homepage-release/` with `node scripts/qa/build-homepage-release.mjs` rather than hand-editing generated files. The WebM is supplied for later source-set use, but the current generated opening retains its established single-MP4 source. Do not overwrite the root `film-02` files because the AI Brain page also imports them.
+**Current-site substitution:** The generated homepage release now points its two opening `hero-stage` videos at the r07 MP4 and `archive-engine-hero-poster-r07.webp`; r04 was the hero until 2026-09-25 and can be restored by pointing `heroFilm` in the generator back at it. Keep the existing `film-02` media on the later AI Brain route stage unless that surface is being changed deliberately. The accepted source is `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html`; regenerate `src/components/homepage-release/` with `node scripts/qa/build-homepage-release.mjs` rather than hand-editing generated files. The WebM is supplied for later source-set use, but the current generated opening retains its established single-MP4 source. Do not overwrite the root `film-02` files because the AI Brain page also imports them.
 
 The rejected r06 local Blender render and all of its site derivatives were removed from this repository on Krish's instruction. It is not an approved visual reference and must not be restored or used as a production baseline.
 
@@ -138,3 +140,6 @@ The source scenes were generated in Higgsfield and finished locally into sealed 
 | `archive-engine-hero-loop-r04-16s-1080p-web-sealed.webm` | 3,030,164 | `8ECE4A4148DB1037C011D5951E0CB1F0917E3507A4703E428B2EFE797FEF9263` |
 | `archive-engine-hero-poster-r04.jpg` | 340,869 | `FEF7091FE67FF55459F0F9EDBF8050475AA5D651E5D0A59F075720945C44BAAE` |
 | `archive-engine-hero-poster-r04.webp` | 192,134 | `3B8750BE31464016D9E392DADCC75B097B8A0EAF034B23447156E4561AAA1366` |
+| `archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4` | 3,177,724 | `BBC314F345AC54D99D0D1E36D4BE5A48F4A388269D1CB3D0A88778C4A9A11354` |
+| `archive-engine-hero-poster-r07.jpg` | 252,399 | `E31C3ADB960476E6D1A4440D9582415A7077F56775A85A2AE8A8618620FEE266` |
+| `archive-engine-hero-poster-r07.webp` | 117,208 | `2FC8452ABD4CD20A9688F0F21F7D8F582B9042EFF9FA72891BF482657C6E3338` |

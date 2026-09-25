@@ -13,13 +13,12 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
 
-The approved R3 homepage is live: opening, historical stories, work and
-organisation, leadership dividend, AI Brain/AI GTM routes and footer. History
-has four native pinned states; leadership dividend has five. Both are reversible,
-release naturally and retain direct controls for reduced motion or insufficient
-height. The new-age-leadership route is a separate approved companion. The
-r35 candidate below replaces those three chapters; this paragraph describes
-production until it is read back.
+The approved R3 homepage is live with the r35 chapters: opening, the three
+new-age leadership chapters (reach, practice, and the AI Brain benefits beside
+the returned hour), AI Brain/AI GTM routes and footer. The chapters pin by
+scroll in both directions, release naturally and keep direct controls on
+reduced-motion and short screens. The new-age-leadership route is a separate
+approved companion that shares their source.
 
 [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md) owns the receipt.
 The active immutable source lock is selected by
@@ -286,7 +285,14 @@ owns payload, privacy, retention, email and failure-path contracts.
   `src/components/leadership-chapters/leadershipChapters.ts`, serves both
   pages; the homepage generator cuts the R3 chapters by named anchors. The R3
   pin controller is retired. Recorded in
-  `quality/route-lock/approved-production-r35.json`.
+  `quality/route-lock/approved-production-r35.json`. Live from main
+  `b286be8`: production read back on 25 September 2026 at 06:25 UTC serves
+  the three chapters on `/` and none of the retired ones, and
+  `/new-age-leadership` still serves them. Main's post-merge matrix passed
+  `qa:homepage-release` on all three engines, `qa:release-routes` and
+  `qa:logo-alignment`; `qa:new-age-r5-production` failed only its scope-leak
+  assertion, which still forbade any `.nal-page` on `/`. r36
+  (`quality/route-lock/approved-production-r36.json`) corrects it.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

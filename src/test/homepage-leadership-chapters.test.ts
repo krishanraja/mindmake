@@ -19,6 +19,18 @@ describe("homepage leadership chapters", () => {
     expect(homepageMarkup).toContain('href="#new-age-leadership"');
   });
 
+  it("opens the homepage reach chapter on the organisation alone, and keeps both states on /new-age-leadership", () => {
+    expect(homepageMarkup).toContain("The organisation<br /><em>changes shape.</em>");
+    expect(homepageMarkup).toContain("reach-organisation-only");
+    for (const retired of ["The feeling is familiar.", "The reach is new.", "reach-progress", "data-reach-jump", "capability-instrument", "Plato, Phaedrus"]) {
+      expect(homepageMarkup).not.toContain(retired);
+    }
+    const full = leadershipChaptersMarkup();
+    expect(full).toContain("The feeling is familiar.");
+    expect(full).toContain('data-reach-jump="organisation"');
+    expect(full).not.toContain("reach-organisation-only");
+  });
+
   it("no longer carries the retired R3 chapters", () => {
     for (const retired of ['data-component="history"', 'data-component="authority"', 'data-component="leadership-dividend"', "r3-mode-switch", "data-era=", "We have felt this before"]) {
       expect(homepageMarkup).not.toContain(retired);

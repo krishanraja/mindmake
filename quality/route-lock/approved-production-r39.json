@@ -1,0 +1,278 @@
+{
+  "artifact": "mindmake-approved-production-routes-r39",
+  "recordedAt": "2026-09-25",
+  "status": "candidate record. The homepage reach chapter opens on \"The organisation changes shape.\" alone, as one still screen.",
+  "scopeRequested": "Krish, 2026-09-25: \"yes\", to the recommendation that the homepage open straight on \"The organisation changes shape.\" because \"The feeling is familiar. The reach is new.\" refers back to the history chapter the homepage no longer has.",
+  "sessionDecisions": [
+    "leadershipChaptersMarkup takes an opening option. The default is unchanged, so /new-age-leadership keeps both reach states, its switch and its Sources.",
+    "The homepage generator asks for opening \"organisation\": the reach chapter is the organisation copy, grid and film as one still screen, with no first state, no capability reels, no Work/Organisation switch, no Sources (they cite the scrapped history) and no scroll track.",
+    "The \"And now, AI\" kicker stays, as in the screenshot Krish sent.",
+    "The homepage scroll contract drops the reach sequence and the browser gate asserts the static screen instead: the heading, one state, the grid, no switch, one screen tall, the retired words absent from the page, and the heading on screen at 1280x600 and 720x450."
+  ],
+  "routes": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/new-age-leadership",
+    "/case-studies",
+    "/blog",
+    "/blog/:slug",
+    "/answers",
+    "/answers/:slug",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms"
+  ],
+  "changePolicy": "This is a new immutable record. Never rewrite r1 through r17, or any candidate or earlier approval manifest. Material routes remain locked. Owner approval, production deployment and publication remain separate authority gates, none of which this record supplies.",
+  "contractSources": {
+    "brain": [
+      "src/pages/AiBrainLocked.tsx",
+      "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html"
+    ],
+    "gtm": [
+      "src/pages/AiGtm.tsx"
+    ]
+  },
+  "files": {
+    ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
+    "src/pages/AiBrainLocked.tsx": "2e4f24516e77ff9f5da6be699cf67306fb4bafc2460b4661c3b33de9d11793b6",
+    "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
+    "src/styles/mindmake-locked-gtm.css": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "src/pages/NewAgeLeadership.tsx": "96a0b024fd35ef96e99f114e7e9427588abeeab49711cd4af0cf3b406c690cc0",
+    "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
+    "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
+    "src/components/mindmake/locked/CaseProofField.tsx": "95eaa1afceea8f82bb187c0ddfe9506e71de840315383b6509cabab716baf5a0",
+    "src/pages/CaseStudies.tsx": "2f612f3f0d529829f3e200dd2c6511a7459294114651e4afdb0d702beb4336a0",
+    "src/styles/mindmake-instruments.css": "c6cae779a8dc465e1222105c0de712ef708e41c35bab3024b5c32d472ec3895e",
+    "src/pages/Index.tsx": "698a89e4886efb50df71e5c5a878e96a42d983aaecbc068c58bfc3a80ed0a4e3",
+    "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
+    "src/pages/Blog.tsx": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
+    "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
+    "src/pages/Answers.tsx": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
+    "src/pages/Answer.tsx": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
+    "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
+    "src/components/mindmake/MindmakeShell.tsx": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
+    "src/components/mindmake/LeadBrief.tsx": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
+    "src/styles/mindmake.css": "e820640517c34be922e5953289a6b76787c9aab144aa204b7e40deda08b58d74",
+    "src/styles/mindmake-brief.css": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
+    "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
+    "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
+    "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
+    "src/App.tsx": "0643615283d8d4ab3083c9867d97e0664701dbf8c0bae692abdf04578195a17d",
+    "src/entry-server.tsx": "ac7a18adfd46748caa2edf69bc577246cb5fd95511a93102745117d7d455dcef",
+    "scripts/qa/approved-route-lock-check.mjs": "24e643666cc6c6c4a5d61fc08ace674d7f02f80a47c77f3c76da38b5e1f67b69",
+    "scripts/qa/approved-route-lock-self-test.mjs": "4b2ee28594f8d8b15b27362233da1358a03fdd1bb3b6cd7482386b7f386c2d19",
+    ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
+    "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
+    "scripts/qa/full-route-continuity-check.mjs": "7e511207cac76747018303820d593500321e67714a4aa5097fe565cc012feba0",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
+    "src/components/homepage-release/component-styles.css": "bad341aff16e4fb44ec783b1f76db18a89da54317c7595542bd3c4e9aa652e92",
+    "src/components/homepage-release/integration.css": "9450be7a8b0c8a447615a3e1cbe83162abcce37c7699adf3cd6450a49bd2f6bb",
+    "src/components/homepage-release/markup.ts": "e1f91e9084aa47df9754aec0e262215c096a4a11b40b41e7f5691e12465b610d",
+    "src/components/homepage-release/page.css": "c4563e591365b320732c43d5da9dfaafc60fcf42c9a17246cd131c5ef934fade",
+    "src/components/homepage-release/runtime.d.ts": "e2339b4db423e47fb72a13901762a40ab8c7dc665c72ae27cad03c9015c99509",
+    "src/components/homepage-release/runtime.js": "9d25a8d88682b66616e9e5a719aa1faf9043c7b3d006620452c80fefab2c4e82",
+    "scripts/qa/build-homepage-release.mjs": "26e2ee7aed089db868ddca95f8f231f026c8799bfb39d227b56cadb246423ef2",
+    "scripts/qa/homepage-release-browser-check.mjs": "2c706f8c988b7bb168c8045a299a46966cfedc2770b840fcfc2d90c0bd5fcd7b",
+    "scripts/qa/homepage-release-adapter-check.mjs": "ae9ea60d107c9a2c137dd4fa3d6427ab29b5b10a373d1946257c35db89141b8e",
+    "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
+    "scripts/qa/homepage-scroll-contract.mjs": "729e85c6164189174d4a3d655d87356bfd552884bbf482d9f2bf8c75ac9bdcc7",
+    "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
+    "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
+    "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
+    "scripts/lib/pages.mjs": "2b7bcf0e6f8a98e828da153a4c21aa5e4f34848c72131f3ab2ca5fd3e2af18c4",
+    "src/content/socialPlates.json": "ac43595d604111435790b48c6f9c6d45a0363d7f78f20a1ea86535548628bb44",
+    "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
+    "package.json": "f73a99424154617a7baa7dd85aac1a4ec3ae57f09fe15da70aafe9e67f60a3c8",
+    "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
+    "scripts/qa/release-route-smoke.mjs": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
+    "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
+    "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
+    "src/pages/AiBrain.tsx": "8cafeb3fd3ea7c85664a6a002cd12a1562c18121d68a81572899ecd7a0c5c250",
+    "package-lock.json": "6a7f43aa68c44c768f2cc01f6fbfd8aa2bb4628bd5b8fdbe1c83a1098ca59261",
+    "vercel.json": "a1be53303da99d3dcb4ff6222c8007bcdc3a088628fe94da387293c5f372a4a1",
+    "index.html": "b6fb79d2ae3a093bd678f2164be46d753d2976747e138123de40dfab8e293312",
+    "src/components/SEO.tsx": "a86c617e64417880af2c2c022ac0e0dc0178930b41447c6a15aaefc8e7ea1043",
+    "src/lib/seoCollector.ts": "cc10e62fdda955aee1fb516207d15ba739f6c2bc616d12ed289c251eb277869f",
+    "scripts/generate-sitemap.mjs": "b87cdcaa8e55e89489bdcbe474cba9e0abb987851d7147ea181f5600b47a131f",
+    "scripts/generate-llms.mjs": "c100fc1a8c9614974484b99679697de3baf6181fffb8b31dd4a24496a11701c5",
+    "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
+    "scripts/qa/current-documentation-check.mjs": "8ccfa7ac79df3f956798223a578f18d8162b4c9c3acc8fd18cec1fbfff4bc405",
+    "scripts/qa/website-restart-contract-check.mjs": "cedd4810a5fa2d883565eaa95cf8d31233488648c5c85d6c93d68c8b679212b1",
+    "src/test/discoverability.test.ts": "5327fa483bd558580dced126a666e54df427d6664aff614e115bfab0fc8b3b3b",
+    "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
+    "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
+    "src/test/brief2-public-contract.test.ts": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
+    "public/sitemap.xml": "5721855b87fd7ce63765f373a76a6610c67c032a0a2ca628fbaeea9ee8702b82",
+    "public/llms.txt": "3fbf05b005c823de334066becaf069736240617f4d072064a343579f21ff801d",
+    "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
+    "public/site.webmanifest": "6bee8c8f39dfff7ae9238d49043596ccce8609015ea9b51666f4f0fd9bf5ed83",
+    "public/social/ai-brain.jpg": "7875a0b6ab08e8787a010502d4e17c615b2b485aa25dc57d26e17ededcb3b36c",
+    "public/social/ai-gtm.jpg": "8b42284cd1b790544e5118bfb887bbe9e8a5a1339cd40331994d27c952a0f170",
+    "public/social/new-age-leadership.jpg": "d13a3a27c11814059731317f059311f20dec8dcabbfaabd4aebd1574262b9731",
+    "public/favicon.svg": "1b813838a8a80fac0412fbd78ae6676563ac49dc0ace456d9817a49931211303",
+    "public/favicon.ico": "77c728ed9f12e278cdb1839691bc03567a7c2ef6e03108db1d16cd3d5760e6f6",
+    "public/favicon-16x16.png": "76edadb52e8981de23dd6027620218c46fab16b7191d227ea0e59ca5d99243af",
+    "public/favicon-32x32.png": "0a7a72987926794bdd8fada62fdedad1e024ccde79cb76779b51818c54338d6d",
+    "public/favicon-192x192.png": "6cd8702cd58a8f5079d8c590fefd6f21f1b29e7cc2beac85f1ad35ad408bd560",
+    "public/favicon-512x512.png": "a526a6ab7c6478ac94c5f2d15ee54396353545256beb8f6e2ec1290c1909c144",
+    "public/favicon-192x192-maskable.png": "c2bc5545b2f0388921198f5fa0712b9f1d1979fe6e18b9824a7d1f46b3ac660a",
+    "public/favicon-512x512-maskable.png": "afc5c5d2736dd7212f391693f3d525da6cf59488d50288e708cd135a6235c300",
+    "public/apple-touch-icon.png": "af33563c644bddddc61e471dc0c79aa9ee7f6836bb5e2809dcc253ba00f3e09f",
+    "public/safari-pinned-tab.svg": "694cb4a56de28eaf403d3a1f3526ee9e4efc5f689f8b53f5266edee8b4205e83",
+    "public/mindmake-logo-512.png": "7172f1a79ec2c25b5a30274e7212eb21d423591b37ce72efa2ce8582b94e3568",
+    "supabase/functions/submit-mindmake-brief/core.ts": "25a99c005f436aca9b67209ab26debd98a63f8e6e142585189f5a6a8445f2088",
+    "supabase/functions/submit-mindmake-brief/core_test.ts": "8987d3d69412ca06a6b03beef6e3b9f25e932f030fd48ffc34de9435b94f2130",
+    "src/test/mindmake-brief-backend-core.test.ts": "4abd13b98aac8ebd07fc72b9a22a766220eead7351206a031c21b39acaf82494",
+    "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
+    "src/index.css": "fe3529727ad57664bafcbe3c1eacbc923a450f9d40c26ea632f01ba651321ee6",
+    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
+    "src/components/mindmake/SourceRecords.tsx": "6a958fe737ac5b665d83163a095ccd4bda7c098a9d0ba9c38dba9b9ebdbe0f8a",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/index.html": "046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css": "2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js": "6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136",
+    "scripts/qa/logo-alignment-check.mjs": "e72e918dfc8ac2019ed423f1a08c37c329c967bf0f958203ef07b95e8d3cce7b",
+    "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
+    "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
+    "scripts/qa/new-age-r5-production-check.mjs": "86db61496a4b0ee713c9ad4ac337997895f6f351bb02b29d3a3cf83217448c9b",
+    "src/pages/AiGtm.tsx": "42183ec976b21643375d74f549fe207e72feb7da980ebd79c7ffef0efe856bab",
+    "src/styles/mindmake-gtm-plain.css": "787983312dc8812cdcaecd6c2120a8f3bd636ac9f2e5d8b98c864c5da4b473d9",
+    "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
+    "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
+    "src/components/leadership-chapters/leadershipChapters.ts": "1c04fa21fdf0939bc1b0cab55c83696824f1055d1664c171059807d623a9775a",
+    "src/test/homepage-leadership-chapters.test.ts": "bc8caa8cf8bd6d6319c09972553c1238b5b31d3918a54b5af3ee9afc6558a005",
+    "src/components/RouteTransitions.tsx": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
+    "src/lib/preloadable.ts": "fee50216ad2139646bb11b172e3779f141049a54d88b1327bbaf8862b65d0a10",
+    "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
+    "src/components/mindmake/PairingBridge.tsx": "8b4a6799f67347b3b3cb74087796251bba480c1cc384e6600ba801947f2e15ef",
+    "src/styles/mindmake-pairing.css": "a92612c651b8c8156e8dae3f9232bdc0790b9cc0cbbb68a05631a272324c3020",
+    "src/lib/keepLastWords.ts": "43adcbb2907b140a85f912ea5bac298ed79d4021964e7e323d3b9d182e4ca907",
+    "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
+    "scripts/qa/line-break-check.mjs": "9ab29ee6bc4ff99312ef7a1ddd05a94538ef5d48999402cbb4d25f4baebd5fe2"
+  },
+  "newlyLocked": [],
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": [
+        "memory",
+        "proof",
+        "correction",
+        "living-record"
+      ],
+      "requiredInstruments": [
+        "brain-object",
+        "brain-field",
+        "proof-machine",
+        "correction-machine",
+        "record-machine"
+      ]
+    },
+    "gtm": {
+      "citedSignals": [
+        "product",
+        "pricing",
+        "commerce",
+        "service"
+      ],
+      "stages": [
+        "Your business",
+        "What changes",
+        "Your team",
+        "Result"
+      ],
+      "requiredInstruments": [
+        "signal-selector",
+        "outcome-grid",
+        "lever-track",
+        "response-selector",
+        "team-board",
+        "test-slip",
+        "data-device-variant"
+      ]
+    }
+  },
+  "forbiddenPhrases": [
+    "keep the seat",
+    "meter the work",
+    "price the result"
+  ],
+  "verification": {
+    "status": "Run on 2026-09-25, Linux, Node 22.22.2, Chromium from /opt/pw-browsers.",
+    "performed": [
+      "qa:approved-routes and its self-test against this record, qa:docs, qa:homepage-handoff, qa:website-feedback --release, qa:material-review:self-test, qa:plain-language, typecheck, lint, unit suite, the canonical build, qa:homepage-release:pre-merge and qa:new-age-r5-production (Chromium): pass.",
+      "Screenshots of the homepage reach screen at 1440x900 and 390x844 and of its hand-off into the practice chapter reviewed on the built site."
+    ],
+    "required": [
+      "Main's post-merge matrix green on the merge commit, and a production readback that / shows \"The organisation changes shape.\" with no \"The feeling is familiar.\""
+    ],
+    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
+  },
+  "supersedes": {
+    "path": "quality/route-lock/approved-production-r38.json",
+    "reason": "Opens the homepage reach chapter on the organisation state alone. No earlier record is rewritten."
+  },
+  "textLineEndings": "lf",
+  "browserPlatforms": {
+    "routes": {
+      "chromium": "ubuntu-latest",
+      "firefox": "ubuntu-latest",
+      "webkit": "macos-latest"
+    },
+    "expectedRouteCases": 208,
+    "expectedSupplementalCases": 9,
+    "motion": "All fifteen ordered-state cases (five per engine) and the reduced-motion and short-screen fallbacks on both platforms",
+    "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
+  },
+  "scope": {
+    "baselineCommit": "94d1524",
+    "allowedExistingChanges": []
+  },
+  "additionalTextExtensions": [
+    ".svg",
+    ".xml",
+    ".webmanifest"
+  ],
+  "retired": [
+    {
+      "path": "src/pages/AiGtmLocked.tsx",
+      "lastHash": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
+      "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "src/components/homepage-release/pinnedChapters.css",
+      "lastHash": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/components/homepage-release/pinnedChapters.ts",
+      "lastHash": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/test/homepage-pin-lifecycle.test.ts",
+      "lastHash": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/components/mindmake/SubscribeBand.tsx",
+      "lastHash": "55830e8053d2851e7795d2a34c368997d18b5bb49ca06a8d6a6a7398fadc1bee",
+      "reason": "Removed on Krish's instruction (2026-09-25). Its film and poster remain in use elsewhere. Recorded in project-documentation/history/LOG.md."
+    }
+  ]
+}

@@ -408,6 +408,26 @@
         "src/test/homepage-leadership-chapters.test.ts",
         "Desktop and phone screenshots of every chapter state reviewed on the built site."
       ]
+    },
+    {
+      "id": "HOMEPAGE-REACH-OPENING-001",
+      "exactFeedback": "yes",
+      "source": "Krish, 25 September 2026, answering the recommendation after r35: open the homepage's reach chapter straight on \"The organisation changes shape.\", because \"The feeling is familiar. The reach is new.\" refers back to the history chapter the homepage no longer has",
+      "surface": "/",
+      "section": "The reach chapter (\"And now, AI\")",
+      "device": "desktop and mobile",
+      "element": "the first state, \"The feeling is familiar. The reach is new.\", its capability reels, its Sources list and the Work/Organisation switch",
+      "classification": "correction",
+      "requiredOutcome": "The homepage reach chapter opens on \"The organisation changes shape.\" with the organisation grid; /new-age-leadership keeps both states.",
+      "acceptanceTest": "The built homepage shows \"The organisation changes shape.\" as the reach heading with the grid, one screen tall, with no first state, switch or Sources and none of the retired words on the page, at 1440x900 and 390x844; /new-age-leadership still renders both states.",
+      "status": "verified",
+      "resolution": "leadershipChaptersMarkup takes an opening option; the homepage generator asks for \"organisation\" and renders the reach chapter as one still screen. Recorded in quality/route-lock/approved-production-r39.json.",
+      "evidence": [
+        "quality/route-lock/approved-production-r39.json",
+        "scripts/qa/homepage-release-browser-check.mjs --built --pre-merge (Chromium)",
+        "src/test/homepage-leadership-chapters.test.ts",
+        "Desktop and phone screenshots of the reach screen reviewed on the built site."
+      ]
     }
   ]
 }

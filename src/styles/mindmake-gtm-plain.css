@@ -101,6 +101,10 @@
 .mm-locked-gtm.mm-gtm-plain .next-levers .leaf-price { top: 34px; }
 .mm-locked-gtm.mm-gtm-plain .next-levers .leaf-positioning,
 .mm-locked-gtm.mm-gtm-plain .next-levers .leaf-people { bottom: 34px; }
+/* Every word on the paper cards is ink on paper, at readable contrast. */
+.mm-locked-gtm.mm-gtm-plain .paper-leaf h3,
+.mm-locked-gtm.mm-gtm-plain .test-slip h3 { color: #1d4a37; }
+.mm-locked-gtm.mm-gtm-plain .leaf-index { color: rgba(20, 35, 29, 0.78); }
 .mm-locked-gtm.mm-gtm-plain .leaf-was {
   display: flex;
   flex-wrap: wrap;
@@ -109,7 +113,7 @@
   justify-content: space-between;
   padding-top: 0.75rem;
   margin-top: 0.9rem;
-  color: rgba(20, 35, 29, 0.62);
+  color: rgba(20, 35, 29, 0.8);
   font-size: 0.68rem;
   font-weight: 600;
   border-top: 1px solid rgba(20, 35, 29, 0.18);
@@ -118,8 +122,8 @@
   text-decoration-color: rgba(154, 90, 28, 0.7);
 }
 .mm-locked-gtm.mm-gtm-plain .leaf-was a {
-  color: #7a4d17;
-  font-size: 0.6rem;
+  color: #6b4212;
+  font-size: 0.64rem;
   letter-spacing: 0.08em;
   text-decoration: none;
   text-transform: uppercase;
@@ -254,26 +258,48 @@
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
-.mm-locked-gtm.mm-gtm-plain .stage-next-short { display: none; }
-@media (max-width: 700px) { .mm-locked-gtm.mm-gtm-plain .stage-next-short { display: inline; } }
-.mm-locked-gtm.mm-gtm-plain .lever-dots {
-  display: flex;
-  gap: 0.4rem;
+/* Carousel controls follow the site's carousel pattern (case studies, AI
+   brain): square arrow buttons either side of a mono position count. */
+.mm-locked-gtm.mm-gtm-plain .stage-controls {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  gap: 0.6rem;
   align-items: center;
-  justify-content: center;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+.mm-locked-gtm.mm-gtm-plain .stage-controls .stage-arrow {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  place-items: center;
+  color: var(--cream);
+  font-size: 1rem;
+  text-align: center;
+  background: transparent;
+  border: 1px solid rgba(234, 223, 202, 0.28);
+  border-radius: 2px;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.mm-locked-gtm.mm-gtm-plain .stage-controls .stage-arrow:disabled {
+  color: rgba(234, 223, 202, 0.3);
+  border-color: rgba(234, 223, 202, 0.12);
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm-locked-gtm.mm-gtm-plain .stage-controls .stage-arrow:not(:disabled):hover { color: var(--mint); border-color: var(--mint); }
+}
+.mm-locked-gtm.mm-gtm-plain .stage-controls .stage-arrow:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+.mm-locked-gtm.mm-gtm-plain .stage-controls .stage-count {
   margin: 0;
-}
-.mm-locked-gtm.mm-gtm-plain .lever-dots i {
-  width: 6px;
-  height: 6px;
-  background: rgba(234, 223, 202, 0.28);
-  border-radius: 50%;
-  transition: width 200ms ease, background 200ms ease;
-}
-.mm-locked-gtm.mm-gtm-plain .lever-dots i.is-on {
-  width: 18px;
-  background: var(--brass-bright);
-  border-radius: 999px;
+  color: var(--mint-muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: none;
 }
 
 /* The decision slip is the approved customer-test slip, attached to the board. */
@@ -294,12 +320,35 @@
   margin-bottom: clamp(2.4rem, 5vh, 4rem);
 }
 .mm-locked-gtm.mm-gtm-plain .next-proof .signal-readout { min-height: 0; padding-block: 1.4rem 1.3rem; }
-.mm-locked-gtm.mm-gtm-plain .next-proof .readout-topline a {
+/* Quote, then outcome, then who said it: the attribution sits last, smaller. */
+.mm-locked-gtm.mm-gtm-plain .proof-attribution {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+.mm-locked-gtm.mm-gtm-plain .proof-attribution p {
+  margin: 0;
+  color: rgba(234, 223, 202, 0.62);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+.mm-locked-gtm.mm-gtm-plain .proof-attribution a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--mint);
+  font-size: 0.74rem;
+  font-weight: 650;
   text-decoration: none;
 }
+.mm-locked-gtm.mm-gtm-plain .proof-attribution a:hover { text-decoration: underline; }
 .mm-locked-gtm.mm-gtm-plain .next-proof blockquote.observation {
-  margin: 0.9rem 0 0.6rem;
+  margin: 0 0 0.6rem;
   max-width: 44ch;
 }
 .mm-locked-gtm.mm-gtm-plain .proof-result {
@@ -359,13 +408,15 @@
   .mm-locked-gtm.mm-gtm-plain .next-levers .instrument { min-height: 0; }
   .mm-locked-gtm.mm-gtm-plain .lever-track > .mobile-leaf { min-height: 250px; }
   .mm-locked-gtm.mm-gtm-plain .leaf-was a { display: inline-flex; align-items: center; min-height: 44px; }
-  .mm-locked-gtm.mm-gtm-plain .stage-controls button { min-height: 44px; }
   .mm-locked-gtm.mm-gtm-plain .next-deck .signal-tab { min-height: 56px; }
-  .mm-locked-gtm.mm-gtm-plain .stage-next-long { display: none; }
-  .mm-locked-gtm.mm-gtm-plain .next-proof .readout-topline a { display: inline-flex; align-items: center; min-height: 44px; }
   .mm-locked-gtm.mm-gtm-plain .next-proof { margin-bottom: 1.6rem; }
 
   .mm-locked-gtm.mm-gtm-plain .intro { padding-top: 5rem; padding-bottom: 1.6rem; }
+  /* The lede takes the full measure; the film sits behind its lower edge
+     under the existing scrim rather than squeezing it into a narrow column. */
+  .mm-locked-gtm.mm-gtm-plain .intro-side { max-width: none; }
+  .mm-locked-gtm.mm-gtm-plain .intro-copy { max-width: 36ch; }
+  .mm-locked-gtm.mm-gtm-plain .proof-attribution { flex-direction: column; align-items: flex-start; }
   .mm-locked-gtm.mm-gtm-plain .next-deck .signal-tab:last-of-type { grid-column: auto; }
   .mm-locked-gtm.mm-gtm-plain .next-deck .signal-readout { min-height: 0; }
   .mm-locked-gtm.mm-gtm-plain .readout-note { display: none; }
@@ -394,10 +445,10 @@
   .mm-locked-gtm.mm-gtm-plain .role-tag em { position: static; justify-self: start; }
   .mm-locked-gtm.mm-gtm-plain .team-lead .role-tag em { justify-self: center; }
   .mm-locked-gtm.mm-gtm-plain .team-tally { white-space: normal; }
-  .mm-locked-gtm.mm-gtm-plain .next-proof .readout-topline { flex-direction: column; gap: 0.5rem; font-size: 0.58rem; }
   .mm-locked-gtm.mm-gtm-plain .next-proof blockquote.observation { font-size: 1.45rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mm-locked-gtm.mm-gtm-plain .role-tag { animation: none; transform: none; opacity: 1; }
 }
+.mm-locked-gtm.mm-gtm-plain .proof-attribution a span { margin-left: 0.35em; }

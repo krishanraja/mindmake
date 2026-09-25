@@ -1,0 +1,250 @@
+/* AI Brain refinements, r41 (Krish, 2026-09-25).
+   Hand-written corrections loaded after the generated locked stylesheet, so
+   the generated file stays reproducible from its prototype sources. The
+   rules here share one principle: nothing explains itself, nothing moves
+   or resizes when a visitor interacts, and every word is readable. */
+
+/* ---------- Hero: the orbit becomes the ground of the whole opening ---------- */
+.mm-locked-brain .opening { overflow-x: clip; }
+.mm-locked-brain .opening .brain-object {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 68%;
+  width: max(92vmin, 34rem);
+  margin: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-color: rgba(198, 154, 81, .2);
+  background: radial-gradient(circle, rgba(145, 232, 188, .07), rgba(7, 17, 14, .18) 52%, transparent 72%);
+  box-shadow: none;
+}
+.mm-locked-brain .opening .brain-object .signal { width: 8px; height: 8px; }
+.mm-locked-brain .opening-copy { z-index: 5; }
+@media (max-width: 900px) {
+  .mm-locked-brain .opening .brain-object { left: 58%; top: 56%; width: max(128vmin, 30rem); }
+}
+@media (max-width: 760px) {
+  .mm-locked-brain .opening .brain-object { left: 62%; top: 60%; width: 150vw; }
+}
+
+/* ---------- 01 Remember ---------- */
+/* The heading inherits the site's light heading colour unless told otherwise;
+   on this paper section it must be ink, like section 04. */
+.mm-locked-brain .memory .chapter-copy > h2 { color: var(--ink); }
+
+/* Every idea keeps one fixed size. Selection changes colour only. */
+.mm-locked-brain .meaning-node-s2::before {
+  width: 10px;
+  height: 10px;
+  box-shadow: 0 0 0 5px rgba(145, 232, 188, .06);
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.mm-locked-brain .meaning-node-s2[data-standing="settled"]::before {
+  border-color: rgba(145, 232, 188, .9);
+  background: rgba(145, 232, 188, .28);
+}
+.mm-locked-brain .meaning-node-s2[data-standing="working"]::before {
+  border: 1px dashed rgba(224, 189, 120, .85);
+  background: #07110e;
+}
+.mm-locked-brain .meaning-node-s2.is-active::before {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--brass-light);
+  background: var(--brass-light);
+  box-shadow: 0 0 0 5px rgba(224, 189, 120, .28), 0 0 22px rgba(224, 189, 120, .5);
+}
+
+/* A quiet cue that the ideas can be picked: each one pings in turn and, on
+   wider screens, its name comes online beside it. It stops at the first
+   pick, and never runs for reduced motion. */
+.mm-locked-brain .meaning-node-s2::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border: 1px solid var(--mint);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.mm-locked-brain .meaning-node-s2[data-standing="working"]::after { border-color: var(--brass-light); }
+.mm-locked-brain:not([data-meaning-touched]) .memory:not([data-build="idle"]) .meaning-node-s2:not(.is-active)::after {
+  animation: mm-brain-ping 9s ease-out var(--cue-delay, 0s) infinite;
+}
+@media (min-width: 761px) {
+  .mm-locked-brain:not([data-meaning-touched]) .memory:not([data-build="idle"]) .meaning-node-s2:not(.is-active) span {
+    animation: mm-brain-online 9s ease var(--cue-delay, 0s) infinite;
+  }
+}
+@keyframes mm-brain-ping {
+  0% { opacity: 0; transform: scale(1); }
+  3% { opacity: .75; }
+  14% { opacity: 0; transform: scale(3.4); }
+  100% { opacity: 0; transform: scale(3.4); }
+}
+@keyframes mm-brain-online {
+  0%, 100% { opacity: 0; clip-path: inset(0 100% 0 0); }
+  4% { opacity: .85; clip-path: inset(0 0 0 0); }
+  18% { opacity: .85; clip-path: inset(0 0 0 0); }
+  26% { opacity: 0; clip-path: inset(0 0 0 0); }
+}
+
+/* The panel: one-line titles at one fitted size, and a statement frame
+   sized to the longest statement so the panel never jumps. */
+.mm-locked-brain .plain-inspector h3 {
+  max-inline-size: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-wrap: nowrap;
+  font-size: var(--inspector-title-size, clamp(1.35rem, 2.1vw, 2.2rem));
+}
+/* The panel sits under the graph at every width, so the longest title has
+   room to stay on one line at a readable size. */
+@media (min-width: 761px) {
+  .mm-locked-brain .brain-stage { height: min(72vh, 580px); grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+  .mm-locked-brain .brain-field { border-right: 0; border-bottom: 1px solid rgba(234, 223, 201, .14); }
+  .mm-locked-brain .plain-inspector { padding: 1.2rem clamp(1.3rem, 2.5vw, 2.2rem) 1.3rem; }
+  .mm-locked-brain .plain-inspector h3 { margin: .55rem 0 .45rem; }
+  .mm-locked-brain .plain-inspector p { margin: 0; }
+}
+@media (max-width: 760px) {
+  .mm-locked-brain .plain-inspector { display: flex; gap: 0; }
+}
+/* The fitted size wins over the shell's column-relative headline size (r42),
+   which assumed a wrapping title; without a fit it falls back to that size. */
+.mm-site .mm-locked-brain .memory .plain-inspector > h3 {
+  font-size: var(--inspector-title-size, min(clamp(1.8rem, 2.5vw, 2.8rem), 14cqi));
+}
+@media (max-width: 760px) {
+  .mm-site .mm-locked-brain .memory .plain-inspector > h3 { font-size: var(--inspector-title-size, 1.35rem); }
+}
+.mm-stable-frame { display: grid; }
+.mm-stable-frame > * { grid-area: 1 / 1; }
+.mm-stable-frame > .mm-stable-ghost { visibility: hidden; pointer-events: none; }
+
+/* ---------- 02 Check ---------- */
+/* Labels style only the direct label, never words inside a quotation
+   (the line-break guard wraps the last two words in a span). */
+.mm-locked-brain .source-pod span,
+.mm-locked-brain .proof-result span,
+.mm-locked-brain .memory-sheet span,
+.mm-locked-brain .record-card span {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+.mm-locked-brain .proof-result > span,
+.mm-locked-brain .memory-sheet > span {
+  color: var(--brass-light);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .5rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-locked-brain .record-card > span {
+  color: var(--brass-light);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .5rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-locked-brain .proof-machine { grid-template-rows: 1fr auto auto; }
+.mm-locked-brain .source-pod strong { margin: 0; }
+.mm-locked-brain .proof-machine .machine-action { grid-column: 1 / -1; }
+
+/* The switch: a label that names what happens next, and a track that shows
+   the current position. Full width, so it never looks like a stray cell. */
+.mm-locked-brain .source-switch {
+  min-height: 60px;
+  padding-inline: clamp(1rem, 2.4vw, 1.5rem);
+  font-size: .82rem;
+}
+.mm-locked-brain .source-switch b {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 46px;
+  height: 26px;
+  border: 1px solid rgba(7, 17, 14, .4);
+  border-radius: 13px;
+  background: rgba(7, 17, 14, .08);
+  transition: background-color 200ms ease;
+}
+.mm-locked-brain .source-switch b i {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--mint-deep);
+  transition: transform 200ms ease;
+}
+.mm-locked-brain .source-switch[aria-checked="true"] b { background: rgba(31, 125, 91, .18); }
+.mm-locked-brain .source-switch[aria-checked="true"] b i { transform: translateX(20px); }
+.mm-locked-brain[data-source-test="true"] .source-pod-one { transform: none; }
+
+/* ---------- 03 Learn: builds with scroll, both ways ---------- */
+.mm-locked-brain .correction {
+  --learn: var(--learn-scroll, 1);
+}
+.mm-locked-brain .correction .memory-sheet-before {
+  opacity: calc(1 - var(--learn) * .7);
+  transform: none;
+}
+.mm-locked-brain .correction .memory-sheet-after {
+  opacity: calc(.18 + var(--learn) * .82);
+  transform: none;
+}
+.mm-locked-brain .correction-machine { grid-template-rows: 1fr; }
+.mm-locked-brain .correction .memory-sheet p { font-size: clamp(1.4rem, 2vw, 2.1rem); line-height: 1.08; }
+.mm-locked-brain .learning-gate b {
+  position: relative;
+  z-index: 1;
+  padding: .45rem .7rem;
+  background: #0a1812;
+}
+.mm-locked-brain .learning-gate i:first-child {
+  background: linear-gradient(transparent, var(--brass-light) calc(var(--learn) * 100%), rgba(224, 189, 120, .15) calc(var(--learn) * 100%));
+}
+/* On phones the change reads top to bottom as the visitor scrolls. */
+@media (max-width: 760px) {
+  .mm-locked-brain .correction-machine {
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 3.2rem auto;
+  }
+  .mm-locked-brain .memory-sheet { min-height: 128px; padding: 1.2rem; }
+  .mm-locked-brain .memory-sheet::after { inset: .7rem; }
+  .mm-locked-brain .memory-sheet p { font-size: 1.35rem; }
+  .mm-locked-brain .learning-gate { border-block: 1px solid rgba(234, 223, 201, .12); border-inline: 0; }
+  .mm-locked-brain .learning-gate i { width: 100%; height: 1px; }
+  .mm-locked-brain .learning-gate i:first-child {
+    background: linear-gradient(90deg, transparent, var(--brass-light) calc(var(--learn) * 100%), rgba(224, 189, 120, .15) calc(var(--learn) * 100%));
+  }
+  .mm-locked-brain .learning-gate b { transform: none; font-size: .5rem; }
+  /* The shorter instrument moves up; keep the whole lede on the clay band. */
+  .mm-locked-brain .correction::before {
+    background: linear-gradient(180deg, rgba(111, 56, 47, .95) 0 53%, transparent 53%), repeating-linear-gradient(0deg, transparent 0 79px, rgba(19, 39, 30, .06) 80px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-locked-brain .correction { --learn: 1; }
+}
+
+/* ---------- The evidence bar only speaks when something is wrong ---------- */
+.mm-locked-brain[data-evidence-state="ready"] .truth-bar,
+.mm-locked-brain[data-evidence-state="loading"] .truth-bar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-locked-brain .meaning-node-s2::after,
+  .mm-locked-brain .meaning-node-s2 span { animation: none !important; }
+}

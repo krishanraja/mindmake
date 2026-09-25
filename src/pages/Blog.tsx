@@ -45,7 +45,6 @@ const Blog = () => {
       <section className="mm-blog-page" aria-labelledby="blog-title">
         <header className="mm-container mm-blog-hero">
           <h1 id="blog-title">Ideas you can use.</h1>
-          <p>Each note gives you a question, check or working method to take into a real decision.</p>
         </header>
 
         <div className="mm-container mm-blog-tools" aria-label="Find an article">

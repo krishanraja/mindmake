@@ -238,8 +238,19 @@ describe("the answer pages", () => {
       expect(answer.publishedAt >= "2026-08-26", `${answer.slug} predates the site`).toBe(true);
       expect(answer.publishedAt <= today, `${answer.slug} is dated ahead of today`).toBe(true);
     }
-    const dates = answers.map((answer) => answer.publishedAt);
-    expect(dates).toEqual([...dates].sort().reverse());
+    /* A page marked `lead: false` never opens the index (Krish, 2026-09-25);
+       the newest page allowed to lead does, and the rest keep date order. */
+    expect(answers[0].lead).toBe(true);
+    const newestLeader = answers.filter((answer) => answer.lead).map((answer) => answer.publishedAt).sort().reverse()[0];
+    expect(answers[0].publishedAt).toBe(newestLeader);
+    const rest = answers.slice(1).map((answer) => answer.publishedAt);
+    expect(rest).toEqual([...rest].sort().reverse());
+  });
+
+  it("never lets the adtech answer lead", () => {
+    const adtech = answers.find((answer) => answer.slug === "adtech-compete-ai-targeting-models-defensibility-audit");
+    expect(adtech?.lead).toBe(false);
+    expect(answers[0].slug).not.toBe(adtech?.slug);
   });
 
   it("says the answer and the FAQ in structured data", () => {

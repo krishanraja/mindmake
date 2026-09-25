@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 import { sourceHashBytes } from "../lib/source-hash.mjs";
 
 const root = resolve(import.meta.dirname, "../..");
-const manifestPath = resolve(root, "quality/route-lock/approved-production-r42.json");
+const manifestPath = resolve(root, "quality/route-lock/approved-production-r43.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 for (const extension of ['.svg', '.xml', '.webmanifest']) {
@@ -30,7 +30,7 @@ manifest.files[firstPath] = "0".repeat(64);
 
 const output = resolve(tmpdir(), "mindmake-route-lock-self-test");
 await mkdir(output, { recursive: true });
-const badManifest = resolve(output, "approved-production-r42-bad.json");
+const badManifest = resolve(output, "approved-production-r43-bad.json");
 await writeFile(badManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 
 const result = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
@@ -50,7 +50,7 @@ const unanchored = JSON.parse(await readFile(manifestPath, "utf8"));
 delete unanchored.minimumContracts.gtm.signals;
 delete unanchored.minimumContracts.gtm.responseChoices;
 delete unanchored.minimumContracts.gtm.citedSignals;
-const unanchoredManifest = resolve(output, "approved-production-r42-unanchored.json");
+const unanchoredManifest = resolve(output, "approved-production-r43-unanchored.json");
 await writeFile(unanchoredManifest, `${JSON.stringify(unanchored, null, 2)}\n`);
 const unanchoredResult = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
   cwd: root,

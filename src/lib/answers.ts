@@ -1,4 +1,4 @@
-import { byNewestFirst, parseAnswerFile, type AnswerPage } from "@/lib/answerFormat";
+import { orderAnswers, parseAnswerFile, type AnswerPage } from "@/lib/answerFormat";
 
 /**
  * The published answer pages, read straight from the directory.
@@ -18,9 +18,9 @@ const sources = import.meta.glob("/src/content/answers/*.md", {
   import: "default",
 }) as Record<string, string>;
 
-export const answers: AnswerPage[] = Object.entries(sources)
-  .map(([file, source]) => parseAnswerFile(source, file))
-  .sort(byNewestFirst);
+export const answers: AnswerPage[] = orderAnswers(
+  Object.entries(sources).map(([file, source]) => parseAnswerFile(source, file)),
+);
 
 export const answerBySlug = (slug: string | undefined) =>
   slug ? answers.find((answer) => answer.slug === slug) : undefined;

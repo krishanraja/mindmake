@@ -1,11 +1,12 @@
 ---
-title: "Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend"
+title: "Adtech can't compete on the model any more. Here's what is left to defend"
 slug: "adtech-compete-ai-targeting-models-defensibility-audit"
 description: "Adtech never competed on the model. A five-line defensibility audit for PE-backed leaders once AI can build targeting models alone."
 answer: "Adtech companies never competed on the model, they competed on who controlled the data, the distribution and the workflow around it. Once AI can build a targeting model from a laptop, that fiction ends, and Mindmake's position is that PE-backed adtech leaders need a line-by-line audit of the three things AI still cannot take: proprietary signal, embedded distribution, and workflow lock-in, not another trend piece explaining that disruption is coming."
 claim: "Cited sources describe the shift for a general adtech readership; Mindmake writes it as an operator checklist for the specific PE/VC-backed buyer deciding what to defend in the next 18 months, which none of them address."
 target_query: "how do adtech companies compete once AI can build targeting models without them"
 published_at: "2026-09-08"
+lead: false
 first_party:
   - "Mindmake's framework separates adtech defensibility into three checkable assets: proprietary signal, embedded distribution, workflow lock-in, and treats the model itself as a commodity line item, not a moat"
   - "Mindmake runs this as a one-decision proof: pick the single line of the P&L most exposed to model commoditisation, build the audit, hand it to the leadership team with a call on what to cut, keep, or re-price"

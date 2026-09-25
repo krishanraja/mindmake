@@ -1,0 +1,290 @@
+{
+  "artifact": "mindmake-approved-production-routes-r43",
+  "recordedAt": "2026-09-25",
+  "status": "candidate record. Krish's phone review of the offer pages, homepage opening, proof rail, answers and blog.",
+  "scopeRequested": "Krish, 2026-09-25 (phone review, 16 screenshots): \"1. On the AI Brain page in the screen grab that says \"Nothing gets lost,\" above that text there is some caveat text saying, \"The current view is in focus. The source records the correction.\" This text is redundant. Remove it completely. 2. On the AI Brain hero section on mobile, the text at the bottom that says \"The brain is private to the leader\" is not necessary. Delete that and then you need to figure out how to delete the box that says, \"Where must human judgement remain entirely?\" Delete that whole component but keep the circular animation behind it and put that circular animation large over the top behind all of the hero section over the video. 3. On the AI GTM page, in the screen grab that says \"Software finishes the work,\" there are text colour contrast issues with white text on a light background. Sort all of these out. Just below that the Back and Price buttons are not in the right design system of this repository. Fix that. 4. On the page that says \"Make your pricing, positioning, and team AI-native,\" the text beneath that wraps awkwardly and too aggressively. Fix that. - The proof you can inspect on mobile has completely omitted the rest of the testimonials and businesses I've worked with. Reinstate those somehow inside the mobile experience while keeping it mobile-first. - On the answers page I don't want ad tech to be at the top ever. I also want you to generate a series of fresh blog posts with various dates in recent times that are based on posts about the benefits of an AI brain and the critical nature of expertise and judgement in tomorrow's economy. - On the ideas you can use page the text under \"Ideas you can use\" is unnecessary and all of the content can come up as a result. - On the homepage, in the hero section, the content is shoved into the top half of the screen and should be more evenly spaced out to use the mobile screen better. On the AI brain page: - The \"One Decision Wakes the Whole Brain\" has the wrong colour for the background it's on and the brain nodes beneath it keep changing size as I interact with all the different nodes, which must never happen. - The text that says \"Accepted thinking backed by direct evidence\" needs to be deleted. - The \"Human Release Judgement\" and all of its counterpart titles should never wrap to a second line. This way this whole component remains bulletproof and stable throughout all interactions. - I would like it to be clearer visually that there are different nodes doing different things. Maybe they can light up and pulse at different points and the text next to each node can come online via animation. Do this subtly just to give a cue to the user that they can interact with it. - The \"What Krish said\" component: the \"What Krish said\" text needs to be deleted. - \"What the product requires\": text needs to be deleted. - The two connected words need to be deleted. - The \"Final output\" words need to be deleted. - The \"Take one source away and try it\" buttons at the bottom need to be refactored because I don't really understand the user experience there. They seem clustered and confused. On the AI Brain and AI GTM pages, where it links to the other service above the \"Get Your Free AI Brief\" button, this doesn't visually look correct. It doesn't look clear where I'm navigating from and to. I think you've lost some basic interaction design and UX principles here and you need to rethink this on the AI Brain page. In the screenshot, the old view stays visible. The word \"Learning\" intersects a horizontal line, which doesn't look good. This section should build with scroll as opposed to requiring manual interaction. On the AI GTM page, in the results section, \"Chief Revenue Officer, Data Infrastructure Company\" needs to go underneath the quote and the business outcome in smaller characters.\" Then: \"If you spot other instances of the problems I'm talking about or similar patterns that give you confidence that I'd want them changed too, please include them. Simplicity, minimalism, and plain English are key, as are visual stability, predictability, and intuition.\" Then: \"the mobile results page also is not swipeable by thumb, its glitchy and only works on certain parts of the card\"",
+  "sessionDecisions": [
+    "AI Brain hero: the decision plaque, the private-to-the-leader note and the 'Evidence connecting' readout are removed. The orbit rings, disc and signal dots stay, enlarged into a decorative layer (aria-hidden, no pointer events) between the film and the copy across the whole opening.",
+    "AI Brain 01: the heading is ink on the paper section (it inherited the site's light heading colour). Every idea dot keeps one 10px size; selection changes colour only. Settled thinking shows as a solid mint dot, working thinking as a dashed brass ring. Until the first pick, ideas ping in turn and, on wider screens, their names come online beside them; reduced motion turns this off. The standing line ('Accepted thinking, backed by direct evidence') is deleted. Titles never wrap: one size, fitted once to the longest title, and the panel sits under the graph at every width so that size stays readable. The statement frame is sized to the longest statement so the panel never changes height.",
+    "AI Brain 02: 'What Krish said', 'What the product requires' and both 'Connected' labels are deleted. 'final output.' rendered as a mono label because the line-break guard wraps the last two words in a span and the label selectors matched any span; label selectors now match direct children only, across the proof, correction and record instruments. 'Take one source away / Try it' becomes one full-width switch ('Remove one source' / 'Put the source back') with a track showing its position; the result panel keeps one height in both states.",
+    "AI Brain 03: the replay button, its status line and the source caveat are removed. The comparison builds from before to now as the instrument rises through the screen, and unbuilds on the way back, read from the instrument's own position so every screen size agrees. 'Learning' sits in a gap in its line instead of across it. Phones read the change top to bottom. Reduced motion and ?render=final show the finished state; without JavaScript it is finished.",
+    "AI Brain 04 and footer: the record counts are read from the fixture. The evidence bar shows nothing while the record is ready or loading ('Current record. Ten sources connected.' and 'Synthetic approved fixture / private demonstration' are removed) and still speaks for stale, error and recovery.",
+    "Both offer pages end in two distinct parts: the brief first, then the other service as one card link that names where the reader is and where it goes ('AI brain \u2192 AI GTM'). The brief keeps data-mm-primary; wording of the pair is unchanged.",
+    "AI GTM: the paper-card labels and the desktop decision slip heading are ink on paper (they inherited the site's near-white heading colour); the index, strike-through and source text are raised to readable contrast. The carousel controls use the site's carousel pattern: square arrow buttons either side of a mono '01 / 04' count, the next change named in the button's label. The hero lede takes the full measure on phones instead of a 66% column. The result reads quote, outcome, then the attribution in smaller type with the story link.",
+    "Homepage phone opening: headline and lede hold the upper part, the doors and proof line sit in the lower part over the film, and the small type moves to phone-readable sizes. Made in the hand-written integration.css; the generated R3 adapter and its source are unchanged. Words and order are unchanged.",
+    "Case studies phone rail: every card element allows pan-x and pan-y, and the card's inner scroll box no longer contains overscroll, so a sideways swipe anywhere moves the rail and a vertical swipe scrolls the page to the testimonials and client logos, which were present but unreachable. The rail stops 76px short of the screen so 'Everyone on the record.' shows beneath it.",
+    "Answers: a page may carry lead: false; it never opens the index (the adtech answer carries it). Five new answers, 12 to 24 September 2026, on the AI brain and on expertise and judgement. Answer and blog titles are in sentence case, and the index shows each entry's question as a sentence-case question. The index subtitle is removed, as it only described the page.",
+    "Blog: the subtitle under 'Ideas you can use.' is removed, top spacing is tightened, and the subject filters sit on one sideways-scrolling row on phones so the first idea reaches the first screen."
+  ],
+  "routes": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/new-age-leadership",
+    "/case-studies",
+    "/blog",
+    "/blog/:slug",
+    "/answers",
+    "/answers/:slug",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms"
+  ],
+  "changePolicy": "This is a new immutable record. Never rewrite r1 through r17, or any candidate or earlier approval manifest. Material routes remain locked. Owner approval, production deployment and publication remain separate authority gates, none of which this record supplies.",
+  "contractSources": {
+    "brain": [
+      "src/pages/AiBrainLocked.tsx",
+      "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html"
+    ],
+    "gtm": [
+      "src/pages/AiGtm.tsx"
+    ]
+  },
+  "files": {
+    ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
+    "src/pages/AiBrainLocked.tsx": "e2922bf06cfec67e671010ad99e56d24456af9cf224fc0411507dd2ac9f88e43",
+    "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "1040fd54e660e0040f740ce769cee7033957e2a6d79b4bf0389479fd1d590c9e",
+    "src/styles/mindmake-locked-gtm.css": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "src/pages/NewAgeLeadership.tsx": "96a0b024fd35ef96e99f114e7e9427588abeeab49711cd4af0cf3b406c690cc0",
+    "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
+    "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
+    "src/components/mindmake/locked/CaseProofField.tsx": "37964c4f93a8046ee86219d1e8b0da985137070d9ff893f363142f33d667e3d5",
+    "src/pages/CaseStudies.tsx": "2f612f3f0d529829f3e200dd2c6511a7459294114651e4afdb0d702beb4336a0",
+    "src/styles/mindmake-instruments.css": "c6cae779a8dc465e1222105c0de712ef708e41c35bab3024b5c32d472ec3895e",
+    "src/pages/Index.tsx": "2b50d7bdc5c9b99b1b3cedf43f98cc3b2a1df0f8188491f2904cf5b781f31986",
+    "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
+    "src/pages/Blog.tsx": "143437b2a70f9ad13106432e02fdeef9e34f67277d2535c4bc49c266d0952196",
+    "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
+    "src/pages/Answers.tsx": "0ae2e58102882d84082486c01025a67543a1ad456003292d05d946eb73cfed8c",
+    "src/pages/Answer.tsx": "600c2da20bc0dae3862041785936f35042f9638b44f72453caf1a968a28a0e92",
+    "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
+    "src/components/mindmake/MindmakeShell.tsx": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
+    "src/components/mindmake/LeadBrief.tsx": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
+    "src/styles/mindmake.css": "5911e87036d5a00e771d694960b7340c4a6802c0d02449f1580c0baa75764794",
+    "src/styles/mindmake-brief.css": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
+    "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
+    "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
+    "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
+    "src/App.tsx": "0643615283d8d4ab3083c9867d97e0664701dbf8c0bae692abdf04578195a17d",
+    "src/entry-server.tsx": "ac7a18adfd46748caa2edf69bc577246cb5fd95511a93102745117d7d455dcef",
+    "scripts/qa/approved-route-lock-check.mjs": "d6eb4f0b84d88da514c8ca74fbafd18aaa56812b14fc46ca7673beff3e7a528a",
+    "scripts/qa/approved-route-lock-self-test.mjs": "54b19c856e6462b5e66f078a070ac2043f1afe577abf00df119326e5faebff9e",
+    ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
+    "scripts/qa/locked-material-production-check.mjs": "6dbe1dcdfcad99a9c910e13ae02e88fbea7d1fe0295f6dc5f693a5b0fa37960b",
+    "scripts/qa/full-route-continuity-check.mjs": "baed7b4a3a244a282b383c938a7c79d5cc34ea819328aad027e005fc4566d2e5",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
+    "src/components/homepage-release/component-styles.css": "3551589416109510ef10617266d4ead05321cf9bfe452146da27bc59608fd449",
+    "src/components/homepage-release/integration.css": "bd91390b68b62cb65be16ce55c7aa6a77a19c39e6f2eb69608afa91b589e2c7b",
+    "src/components/homepage-release/markup.ts": "8d3b90305ee796c60e71a7571bb88dd7caf70ddc0fbe110954a6648ed33db7e4",
+    "src/components/homepage-release/page.css": "1fffdf5316db0a0c15ff915fc80d928fc809e1a78f9070fc7d409b764a594182",
+    "src/components/homepage-release/runtime.d.ts": "c1aff6ae788422b2bf77c0dfb3f035f07c54b951295b7054f523dbb48545383c",
+    "src/components/homepage-release/runtime.js": "25ed130d2af76ffa2c29816ab71aa35520f833f51db9cf0a63a7b42b6c87bb01",
+    "scripts/qa/build-homepage-release.mjs": "2efad9a87effe92b0603c93e324f46eb7e9c09aafd021485162dc18bf242413e",
+    "scripts/qa/homepage-release-browser-check.mjs": "9d41a08065c14b8de9ed0bdbea2d1658f25cf8e014b0e3462c89dd0fc0f425a3",
+    "scripts/qa/homepage-release-adapter-check.mjs": "ae9ea60d107c9a2c137dd4fa3d6427ab29b5b10a373d1946257c35db89141b8e",
+    "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
+    "scripts/qa/homepage-scroll-contract.mjs": "d77ba4202a7dce0a85713ac8cadd1bfd3c822812e0df77c6b55565567f2161de",
+    "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
+    "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
+    "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
+    "scripts/lib/pages.mjs": "2b7bcf0e6f8a98e828da153a4c21aa5e4f34848c72131f3ab2ca5fd3e2af18c4",
+    "src/content/socialPlates.json": "d8d81fae1ef324b62a3acaa24e0cc2e71b9a5d839c5f24782419d70262116ba5",
+    "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
+    "package.json": "f73a99424154617a7baa7dd85aac1a4ec3ae57f09fe15da70aafe9e67f60a3c8",
+    "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
+    "scripts/qa/release-route-smoke.mjs": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
+    "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
+    "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
+    "src/pages/AiBrain.tsx": "8cafeb3fd3ea7c85664a6a002cd12a1562c18121d68a81572899ecd7a0c5c250",
+    "package-lock.json": "6a7f43aa68c44c768f2cc01f6fbfd8aa2bb4628bd5b8fdbe1c83a1098ca59261",
+    "vercel.json": "a1be53303da99d3dcb4ff6222c8007bcdc3a088628fe94da387293c5f372a4a1",
+    "index.html": "b6fb79d2ae3a093bd678f2164be46d753d2976747e138123de40dfab8e293312",
+    "src/components/SEO.tsx": "a86c617e64417880af2c2c022ac0e0dc0178930b41447c6a15aaefc8e7ea1043",
+    "src/lib/seoCollector.ts": "cc10e62fdda955aee1fb516207d15ba739f6c2bc616d12ed289c251eb277869f",
+    "scripts/generate-sitemap.mjs": "b87cdcaa8e55e89489bdcbe474cba9e0abb987851d7147ea181f5600b47a131f",
+    "scripts/generate-llms.mjs": "c100fc1a8c9614974484b99679697de3baf6181fffb8b31dd4a24496a11701c5",
+    "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
+    "scripts/qa/current-documentation-check.mjs": "8ccfa7ac79df3f956798223a578f18d8162b4c9c3acc8fd18cec1fbfff4bc405",
+    "scripts/qa/website-restart-contract-check.mjs": "728d1fabc3259549bfdacf3244b2f4ac5b50618a93d2081d7e9d43104bc19a00",
+    "src/test/discoverability.test.ts": "679c11150944c99dda0e79240e52bc4dfa15ba335ed50aa385aa3aecaff3d1e6",
+    "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
+    "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
+    "src/test/brief2-public-contract.test.ts": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
+    "public/sitemap.xml": "4e5859b5c5957b99313f1e506a521ed8fcef501bd17836f0cbf9c327157480ab",
+    "public/llms.txt": "f3deb8ff07f08aa70a9a0343bba4adc83d720cdc79f04cf41494c2e9cb468918",
+    "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
+    "public/site.webmanifest": "6bee8c8f39dfff7ae9238d49043596ccce8609015ea9b51666f4f0fd9bf5ed83",
+    "public/social/ai-brain.jpg": "7875a0b6ab08e8787a010502d4e17c615b2b485aa25dc57d26e17ededcb3b36c",
+    "public/social/ai-gtm.jpg": "8b42284cd1b790544e5118bfb887bbe9e8a5a1339cd40331994d27c952a0f170",
+    "public/social/new-age-leadership.jpg": "d13a3a27c11814059731317f059311f20dec8dcabbfaabd4aebd1574262b9731",
+    "public/favicon.svg": "1b813838a8a80fac0412fbd78ae6676563ac49dc0ace456d9817a49931211303",
+    "public/favicon.ico": "77c728ed9f12e278cdb1839691bc03567a7c2ef6e03108db1d16cd3d5760e6f6",
+    "public/favicon-16x16.png": "76edadb52e8981de23dd6027620218c46fab16b7191d227ea0e59ca5d99243af",
+    "public/favicon-32x32.png": "0a7a72987926794bdd8fada62fdedad1e024ccde79cb76779b51818c54338d6d",
+    "public/favicon-192x192.png": "6cd8702cd58a8f5079d8c590fefd6f21f1b29e7cc2beac85f1ad35ad408bd560",
+    "public/favicon-512x512.png": "a526a6ab7c6478ac94c5f2d15ee54396353545256beb8f6e2ec1290c1909c144",
+    "public/favicon-192x192-maskable.png": "c2bc5545b2f0388921198f5fa0712b9f1d1979fe6e18b9824a7d1f46b3ac660a",
+    "public/favicon-512x512-maskable.png": "afc5c5d2736dd7212f391693f3d525da6cf59488d50288e708cd135a6235c300",
+    "public/apple-touch-icon.png": "af33563c644bddddc61e471dc0c79aa9ee7f6836bb5e2809dcc253ba00f3e09f",
+    "public/safari-pinned-tab.svg": "694cb4a56de28eaf403d3a1f3526ee9e4efc5f689f8b53f5266edee8b4205e83",
+    "public/mindmake-logo-512.png": "7172f1a79ec2c25b5a30274e7212eb21d423591b37ce72efa2ce8582b94e3568",
+    "supabase/functions/submit-mindmake-brief/core.ts": "25a99c005f436aca9b67209ab26debd98a63f8e6e142585189f5a6a8445f2088",
+    "supabase/functions/submit-mindmake-brief/core_test.ts": "8987d3d69412ca06a6b03beef6e3b9f25e932f030fd48ffc34de9435b94f2130",
+    "src/test/mindmake-brief-backend-core.test.ts": "4abd13b98aac8ebd07fc72b9a22a766220eead7351206a031c21b39acaf82494",
+    "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
+    "src/index.css": "fe3529727ad57664bafcbe3c1eacbc923a450f9d40c26ea632f01ba651321ee6",
+    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
+    "src/components/mindmake/SourceRecords.tsx": "6a958fe737ac5b665d83163a095ccd4bda7c098a9d0ba9c38dba9b9ebdbe0f8a",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/index.html": "046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css": "2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js": "6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136",
+    "scripts/qa/logo-alignment-check.mjs": "c4e3dbd28709a39b75c4bf8c719b2eb992bdddb5aa0ba53864186e7d1a7bee32",
+    "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
+    "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
+    "scripts/qa/new-age-r5-production-check.mjs": "86db61496a4b0ee713c9ad4ac337997895f6f351bb02b29d3a3cf83217448c9b",
+    "src/pages/AiGtm.tsx": "bd106257ab8183ae86dbc3d6249a42c935642230c5e7c91f2a1a2c94d987b028",
+    "src/styles/mindmake-gtm-plain.css": "acfa59021a76674c2170fa2bc84567f7c4576ba8f90c8156532f9bc834953262",
+    "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
+    "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
+    "src/components/leadership-chapters/leadershipChapters.ts": "ca3df3202fec02644693c16be62029790e3493a642f72352e11cf33c37249bf3",
+    "src/test/homepage-leadership-chapters.test.ts": "adabe281f5076665b7b322a6412ba398c862aee2c421dcda593346b4a21d84f9",
+    "src/components/RouteTransitions.tsx": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
+    "src/lib/preloadable.ts": "fee50216ad2139646bb11b172e3779f141049a54d88b1327bbaf8862b65d0a10",
+    "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
+    "src/components/mindmake/PairingBridge.tsx": "488ee1e5372215bdacffd5fcc23f4ce10750ea69cd8086d3bc81735678ad9d65",
+    "src/styles/mindmake-pairing.css": "8a395eb6a2d2355b6be3dd7ce6107c2947ed3669fc27dce44b6ab34b0c2918c8",
+    "src/lib/keepLastWords.ts": "cd461a3982132f249a5640fb25ec3f07b58c95c4c74420ad01f2cab70e092663",
+    "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
+    "scripts/qa/line-break-check.mjs": "9ab29ee6bc4ff99312ef7a1ddd05a94538ef5d48999402cbb4d25f4baebd5fe2",
+    "src/components/homepage-release/pinnedChapters.ts": "578fd7d0c728fadd171b550e4d707b96bfbc7aa1d2ef18a0fa561c26b693b156",
+    "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
+    "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3",
+    "src/styles/mindmake-brain-refinements.css": "79593cf9ea20a975a0ff5cc813f402158bee269fa93a1dadd557446e99d4614f"
+  },
+  "newlyLocked": [
+    "src/styles/mindmake-brain-refinements.css"
+  ],
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": [
+        "memory",
+        "proof",
+        "correction",
+        "living-record"
+      ],
+      "requiredInstruments": [
+        "brain-object",
+        "brain-field",
+        "proof-machine",
+        "correction-machine",
+        "record-machine"
+      ]
+    },
+    "gtm": {
+      "citedSignals": [
+        "product",
+        "pricing",
+        "commerce",
+        "service"
+      ],
+      "stages": [
+        "Your business",
+        "What changes",
+        "Your team",
+        "Result"
+      ],
+      "requiredInstruments": [
+        "signal-selector",
+        "outcome-grid",
+        "lever-track",
+        "response-selector",
+        "team-board",
+        "test-slip",
+        "data-device-variant"
+      ]
+    }
+  },
+  "forbiddenPhrases": [
+    "keep the seat",
+    "meter the work",
+    "price the result"
+  ],
+  "verification": {
+    "status": "Run on 2026-09-25, Linux, Node 22.22.2, Chromium from /opt/pw-browsers via PLAYWRIGHT_CHROMIUM, on the branch merged with main at a01c727 (r41, r42).",
+    "performed": [
+      "qa:approved-routes and its self-test against this record, qa:docs, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, typecheck, lint, the full unit suite (568 tests), the canonical build, qa:line-breaks (no findings at 1440x900 or 390x844) and qa:homepage-release:pre-merge (Chromium): pass.",
+      "Built-site Chromium probe at 390x844 and 1440x900: every /ai-brain idea dot measures 10x10px after clicking all 20; the inspector keeps one height and every title fits one line; the proof result keeps its height through the source switch; none of the removed texts remain; the correction's --learn-scroll reads 0, 1, 0 as the instrument moves down, up and down; #memory-title contrast 14.51:1; every /ai-gtm paper-card text colour is at least 5.72:1 on the paper.",
+      "/case-studies at 390x844: every card element declares pan-x (0 in the way), the dock is on screen and 'Everyone on the record.' shows on the first screen. With CDP touch events, a vertical swipe on a card scrolled the page 385px; before the change it scrolled 0px.",
+      "Screenshots at 390x844 and 1440x900 of every changed surface reviewed by eye.",
+      "locked-material-production-check and case-proof-field-production-check need a Chrome channel absent from this container; their updated assertions were exercised by the probe above. Firefox and WebKit run on main after merge, per the 2026-09-25 ruling."
+    ]
+  },
+  "supersedes": {
+    "path": "quality/route-lock/approved-production-r42.json",
+    "reason": "Krish's 2026-09-25 phone review. No earlier record is rewritten."
+  },
+  "textLineEndings": "lf",
+  "browserPlatforms": {
+    "routes": {
+      "chromium": "ubuntu-latest",
+      "firefox": "ubuntu-latest",
+      "webkit": "macos-latest"
+    },
+    "expectedRouteCases": 208,
+    "expectedSupplementalCases": 9,
+    "motion": "All fifteen ordered-state cases (five per engine) and the reduced-motion and short-screen fallbacks on both platforms",
+    "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
+  },
+  "scope": {
+    "baselineCommit": "6ad1138",
+    "allowedExistingChanges": []
+  },
+  "additionalTextExtensions": [
+    ".svg",
+    ".xml",
+    ".webmanifest"
+  ],
+  "retired": [
+    {
+      "path": "src/pages/AiGtmLocked.tsx",
+      "lastHash": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
+      "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "src/components/homepage-release/pinnedChapters.css",
+      "lastHash": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/components/homepage-release/pinnedChapters.ts",
+      "lastHash": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/test/homepage-pin-lifecycle.test.ts",
+      "lastHash": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/components/mindmake/SubscribeBand.tsx",
+      "lastHash": "55830e8053d2851e7795d2a34c368997d18b5bb49ca06a8d6a6a7398fadc1bee",
+      "reason": "Removed on Krish's instruction (2026-09-25). Its film and poster remain in use elsewhere. Recorded in project-documentation/history/LOG.md."
+    }
+  ]
+}

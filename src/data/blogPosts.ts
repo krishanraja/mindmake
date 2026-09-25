@@ -17,7 +17,7 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     slug: "the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
-    title: "The Start Cost: Why Good AI Work Gets Deferred",
+    title: "The start cost: why good AI work gets deferred",
     excerpt: "Good ideas often stall because starting them takes too much effort. The right AI context can lower that cost.",
     category: "implementation",
     tags: ["Starting work", "Useful context", "Leadership", "AI systems"],
@@ -72,7 +72,7 @@ Time saved is only the first result. The larger gain is what becomes possible be
   },
   {
     slug: "four-modes-of-ai-literacy-every-leader-needs",
-    title: "Four Ways Leaders Can Work Better With AI",
+    title: "Four ways leaders can work better with AI",
     excerpt: "A practical way to use AI for first drafts, better checks, repeatable work and harder decisions.",
     category: "ai-literacy",
     tags: ["Using AI", "Leadership", "Decision making", "Practice"],
@@ -128,7 +128,7 @@ That note is more useful than a score from a training course. It shows how you w
   },
   {
     slug: "why-ai-training-fails-and-building-works",
-    title: "Why Practice Changes More Than a Training Day",
+    title: "Why practice changes more than a training day",
     excerpt: "Training can create interest. Practice with real work is what turns that interest into a useful habit.",
     category: "implementation",
     tags: ["Practice", "Training", "Real work", "Learning"],
@@ -192,7 +192,7 @@ The useful result is not a folder of prompts. It is a working job, a clear owner
   },
   {
     slug: "shadow-ai-to-strategic-ai-leaders-guide",
-    title: "Find the AI Work Already Happening in Your Team",
+    title: "Find the AI work already happening in your team",
     excerpt: "A calm way to learn what people use, protect what matters and keep the experiments that are genuinely useful.",
     category: "strategy",
     tags: ["Team AI use", "Risk", "Shared rules", "Useful experiments"],
@@ -248,7 +248,7 @@ Meet again after a month. Look at what people used, what went wrong and what the
   },
   {
     slug: "measuring-ai-work-that-pays-back",
-    title: "How to Tell Whether AI Work Is Paying Back",
+    title: "How to tell whether AI work is paying back",
     excerpt: "A practical way to measure time returned, work improved and what that time makes possible next.",
     category: "implementation",
     tags: ["Value", "Time returned", "Business results", "AI work"],
@@ -319,7 +319,7 @@ Stop or change the system if checking takes too long, quality falls or no one us
   },
   {
     slug: "builder-vs-consumer-mindset-in-ai",
-    title: "From One-Off AI Help to Systems You Can Reuse",
+    title: "From one-off AI help to systems you can reuse",
     excerpt: "Simple AI help is useful. The larger gain comes when your context and standards make the next piece of work better too.",
     category: "ai-literacy",
     tags: ["AI systems", "Memory", "Quality", "Repeatable work"],
@@ -380,7 +380,7 @@ If so, you have more than a good chat. You have a small asset that can keep lear
   },
   {
     slug: "ai-vendor-theatre-how-to-spot-and-avoid-it",
-    title: "How to Test an AI Vendor Before You Commit",
+    title: "How to test an AI vendor before you commit",
     excerpt: "Five checks that turn a polished demo into a clearer product, data and contract decision.",
     category: "strategy",
     tags: ["AI vendors", "Buying", "Product checks", "Contracts"],
@@ -447,7 +447,7 @@ Do this before the trial starts. A test with no finish line will always find a r
   },
   {
     slug: "a-useful-first-30-days-building-with-ai",
-    title: "A Useful First 30 Days of Building With AI",
+    title: "A useful first 30 days of building with AI",
     excerpt: "A practical month for choosing real work, testing a small number of systems and keeping the evidence.",
     category: "implementation",
     tags: ["30-day plan", "Building", "Real work", "Proof"],
@@ -516,7 +516,7 @@ That is a successful first month either way. You have replaced hope with evidenc
   },
   {
     slug: "ai-literacy-for-executive-teams-lab-model",
-    title: "How an Executive Team Can Learn AI Together",
+    title: "How an executive team can learn AI together",
     excerpt: "A practical way to build shared judgement around AI by working on one real decision together.",
     category: "leadership",
     tags: ["Executive teams", "Shared judgement", "Decisions", "Practice"],
@@ -575,7 +575,7 @@ The useful result is not that everyone uses the same AI tool. It is that the tea
   },
   {
     slug: "how-to-increase-creative-leadership-with-ai",
-    title: "Use AI to See More Without Losing Your Taste",
+    title: "Use AI to see more without losing your taste",
     excerpt: "AI can widen the field. Your experience, judgement and taste still decide which idea deserves to move.",
     category: "leadership",
     tags: ["Ideas", "Taste", "Leadership", "Creative work"],
@@ -639,7 +639,7 @@ AI helped open the field. Your judgement closes it.
   },
   {
     slug: "how-to-control-your-use-of-ai-as-a-leader",
-    title: "Put AI Inside Clear Business Rules",
+    title: "Put AI inside clear business rules",
     excerpt: "A practical way to show what AI is for, what it may decide, how the work is checked and who owns the final call.",
     category: "leadership",
     tags: ["Business rules", "AI checks", "Ownership", "Leadership"],

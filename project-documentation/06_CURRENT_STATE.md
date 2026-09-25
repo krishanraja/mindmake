@@ -249,15 +249,16 @@ owns payload, privacy, retention, email and failure-path contracts.
   release is recorded in the history ledger when it lands; until then treat the
   live deployment as the authority on what /ai-gtm renders.
 
-- Analytics: every page loads the Google tag (gtag.js, `G-SMXQH8E4CM`) as the
-  first child of `<head>`, alongside Plausible, from `index.html`, which every
-  prerendered route is written from. Recorded in
-  `quality/route-lock/approved-production-r29.json`. Open limit: GA sets
-  first-party cookies and fires before any consent choice, while the cookie
-  notice ("Private analytics only") and section 5 of `/privacy` still describe
-  privacy-friendly analytics alone. Both are approved copy; the correction, and
-  whether GA should wait for consent, needs Krish's decision. The supplied
-  snippet does not skip localhost, so local QA previews also send hits.
+- Analytics: Plausible (cookieless) counts every visit. Google Analytics
+  (`G-SMXQH8E4CM`) is consent-gated from `index.html`: nothing is requested from
+  Google and no cookie is set until the visitor chooses Allow on the privacy
+  notice, stored as `mindmake_consent=analytics`; Decline stores `essential`.
+  The older `accepted` answer was given to a Plausible-only notice and never
+  counts as a yes, so GA undercounts visitors who answered before 25 September
+  2026, and QA runs (which store `accepted`) send it nothing. `/privacy`
+  section 5 names both tools and carries "Change your analytics choice", which
+  forgets the answer, removes the `_ga` cookies and reloads. Recorded in
+  `quality/route-lock/approved-production-r31.json`.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

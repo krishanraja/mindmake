@@ -4,6 +4,7 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import "@/styles/mindmake.css";
 import { CONTACT_EMAIL } from "@/lib/publicLinks";
+import { AnalyticsChoiceReset } from "@/components/CookieConsent";
 
 const sections = [
   {
@@ -20,11 +21,11 @@ const sections = [
   },
   {
     title: "4. Who helps us handle it",
-    body: <><p>Mindmake uses trusted providers for website hosting, data storage, email, company research, AI services, privacy-friendly analytics, payments and publication delivery. These providers process information for the service they supply. Some may process data outside your country.</p><p>We do not sell personal information. We may share it when the law requires this, when a business transfer requires it or when you ask us to.</p><p>You can ask for the current provider list and transfer safeguards by emailing us.</p></>,
+    body: <><p>Mindmake uses trusted providers for website hosting, data storage, email, company research, AI services, website analytics (Plausible, and Google Analytics if you allow it), payments and publication delivery. These providers process information for the service they supply. Some may process data outside your country.</p><p>We do not sell personal information. We may share it when the law requires this, when a business transfer requires it or when you ask us to.</p><p>You can ask for the current provider list and transfer safeguards by emailing us.</p></>,
   },
   {
     title: "5. Analytics and your device",
-    body: <><p>The site uses privacy-friendly analytics to count visits and understand which pages help. It does not use advertising cookies. Your privacy choice is kept on your device so the site can remember it.</p><p>External sites, including the Mindmake publication, have their own privacy terms.</p></>,
+    body: <><p>The site counts visits with Plausible, which sets no cookies. If you allow it, Google Analytics also sets cookies to show which pages help. It stays off until you choose Allow, and nothing is sent to Google before then. The site does not use advertising cookies. Your choice is kept on your device so the site can remember it.</p><p><AnalyticsChoiceReset /></p><p>External sites, including the Mindmake publication, have their own privacy terms.</p></>,
   },
   {
     title: "6. Two emails, and then nothing",
@@ -58,7 +59,7 @@ export default function Privacy() {
         <header className="mm-container mm-legal-hero">
           <h1>Privacy policy.</h1>
           <p>This page explains what Mindmake collects, why it is needed and the choices you have.</p>
-          <small>Last updated: 26 August 2026</small>
+          <small>Last updated: 25 September 2026</small>
         </header>
         <div className="mm-container mm-legal-sections">
           {sections.map((section) => <section key={section.title}><h2>{section.title}</h2><div>{section.body}</div></section>)}

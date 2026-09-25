@@ -33,38 +33,71 @@ describe("CookieConsent", () => {
 
   it("stays out of the way on the first screen", () => {
     render(<CookieConsent />);
-    expect(screen.queryByText("Got it")).not.toBeInTheDocument();
+    expect(screen.queryByText("Allow")).not.toBeInTheDocument();
     expect(document.documentElement).not.toHaveClass("mm-cookie-visible");
   });
 
   it("shows banner once the visitor scrolls, when no consent stored", () => {
     render(<CookieConsent />);
     leaveFirstScreen();
-    expect(screen.getByText("Got it")).toBeInTheDocument();
+    expect(screen.getByText("Allow")).toBeInTheDocument();
     expect(document.documentElement).toHaveClass("mm-cookie-visible");
   });
 
   it("shows banner immediately when the page is already scrolled", () => {
     window.scrollY = window.innerHeight * 2;
     render(<CookieConsent />);
-    expect(screen.getByText("Got it")).toBeInTheDocument();
+    expect(screen.getByText("Allow")).toBeInTheDocument();
   });
 
-  it("hides banner after clicking accept", () => {
+  it("hides banner after allowing analytics", () => {
     render(<CookieConsent />);
     leaveFirstScreen();
-    fireEvent.click(screen.getByText("Got it"));
-    expect(screen.queryByText("Got it")).not.toBeInTheDocument();
-    expect(localStorage.getItem("mindmake_consent")).toBe("accepted");
+    fireEvent.click(screen.getByText("Allow"));
+    expect(screen.queryByText("Allow")).not.toBeInTheDocument();
+    expect(localStorage.getItem("mindmake_consent")).toBe("analytics");
     expect(document.documentElement).not.toHaveClass("mm-cookie-visible");
     expect(document.documentElement.style.getPropertyValue("--mm-cookie-reserve")).toBe("");
+  });
+
+  it("loads Google Analytics only when the visitor allows it", () => {
+    const load = vi.fn();
+    window.mmLoadGoogleTag = load;
+    render(<CookieConsent />);
+    leaveFirstScreen();
+    expect(load).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByText("Allow"));
+    expect(load).toHaveBeenCalledTimes(1);
+    delete window.mmLoadGoogleTag;
+  });
+
+  it("declining stores the answer and never loads Google Analytics", () => {
+    const load = vi.fn();
+    window.mmLoadGoogleTag = load;
+    render(<CookieConsent />);
+    leaveFirstScreen();
+    fireEvent.click(screen.getByText("Decline"));
+    expect(load).not.toHaveBeenCalled();
+    expect(localStorage.getItem("mindmake_consent")).toBe("essential");
+    expect(screen.queryByText("Allow")).not.toBeInTheDocument();
+    delete window.mmLoadGoogleTag;
+  });
+
+  it("the head loads Google's script only for a stored yes, never for the old answer", () => {
+    const head = readFileSync(resolve(__dirname, "../../index.html"), "utf8");
+    const tag = head.slice(head.indexOf("<!-- Google tag"), head.indexOf("</script>", head.indexOf("<!-- Google tag")));
+    expect(head.indexOf("<!-- Google tag")).toBe(head.indexOf("<head>") + "<head>\n    ".length);
+    expect(tag).not.toMatch(/<script[^>]*\ssrc=/);
+    expect(tag).toContain("gtag('consent', 'default', {analytics_storage: 'denied'");
+    expect(tag).toContain("localStorage.getItem('mindmake_consent') === 'analytics'");
+    expect(tag).not.toContain("'accepted'");
   });
 
   it("does not show banner when consent already stored", () => {
     localStorage.setItem("mindmake_consent", "accepted");
     render(<CookieConsent />);
     leaveFirstScreen();
-    expect(screen.queryByText("Got it")).not.toBeInTheDocument();
+    expect(screen.queryByText("Allow")).not.toBeInTheDocument();
   });
 
   it("still shows the notice when storage cannot be read", () => {
@@ -74,7 +107,7 @@ describe("CookieConsent", () => {
 
     render(<CookieConsent />);
     leaveFirstScreen();
-    expect(screen.getByText("Got it")).toBeInTheDocument();
+    expect(screen.getByText("Allow")).toBeInTheDocument();
   });
 
   it("still closes the notice when storage cannot be written", () => {
@@ -84,8 +117,8 @@ describe("CookieConsent", () => {
 
     render(<CookieConsent />);
     leaveFirstScreen();
-    fireEvent.click(screen.getByText("Got it"));
-    expect(screen.queryByText("Got it")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("Allow"));
+    expect(screen.queryByText("Allow")).not.toBeInTheDocument();
   });
 });
 

@@ -79,12 +79,12 @@ export function mountHomepageRuntime(root, { onStart }) {
 
   const routeContent = {
     brain: {
-      title: "Make your judgement reusable.",
-      lede: "Give your standards, context and past decisions a memory you can use.",
-      caption: "The next decision begins with what the last one taught you.",
-      source: "Anonymous client outcome · Research and content",
-      steps: ["The founder's standards", "A system they own", "Used on real work"],
-      result: "Research-backed publishing moved from days to under an hour, and from roughly monthly to most days.",
+      title: "Own your judgement, and amplify it.",
+      lede: "Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader.",
+      caption: null,
+      source: null,
+      steps: ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."],
+      result: null,
       film: asset6,
     },
     gtm: {

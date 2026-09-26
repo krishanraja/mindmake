@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#08140f" />
-    <title>BRAIN-NARRATIVE-S4 r1 / production markup source</title>
+    <title>BRAIN-NARRATIVE-S5 / production markup source</title>
   </head>
   <!--
     Production markup source for /ai-brain, injected by src/pages/AiBrainLocked.tsx.
-    It succeeds BRAIN-MOTION-S3 (index-s2-motion-s3.html, kept unchanged as the
-    record of the previous approval). The hero film and orbit, the constellation
-    and the living record are carried over from S3 byte for byte apart from their
-    copy; the three new chapters use the Brain's existing grounds and leaf style.
+    S5 sharpens S4 (git holds S4 at 68bbdd9): the hero says where the Brain works,
+    the constellation's label names each idea's standing, the living record feeds
+    four named tools, and one new chapter, the month, says how a Brain is built.
+    S4 succeeded BRAIN-MOTION-S3 (index-s2-motion-s3.html, kept unchanged as the
+    record of that approval). Every chapter uses the Brain's existing grounds,
+    leaves and rail.
     Styles: src/styles/mindmake-locked-brain.css, mindmake-brain-refinements.css
     and mindmake-brain-narrative.css. This file is not a standalone prototype.
   -->
@@ -32,7 +34,7 @@
         </figure>
         <div class="opening-copy">
           <h1 id="opening-title">An AI brain of your own.</h1>
-          <p>Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you and sharper with every call you make.</p>
+          <p>Every AI you can buy already knows the market, and none of them know you. We help you build the one that does. It is private to you, works in every AI you use and gets sharper with every call you make.</p>
           <a class="primary-link" href="#you">Start with you <span aria-hidden="true">↓</span></a>
         </div>
         <div class="brain-object" aria-hidden="true">
@@ -49,6 +51,7 @@
         <a href="#sharper" data-phase-link="sharper"><span>03</span>Sharper</a>
         <a href="#living-record" data-phase-link="record"><span>04</span>Private</a>
         <a href="#business" data-phase-link="business"><span>05</span>Business</a>
+        <a href="#built" data-phase-link="built"><span>06</span>Built</a>
       </nav>
 
       <section class="chapter you" id="you" data-phase="you" data-build="idle" aria-labelledby="you-title">
@@ -70,7 +73,7 @@
         <div class="chapter-copy">
           <span class="chapter-number" aria-hidden="true">02</span>
           <h2 id="memory-title">What a Brain holds.</h2>
-          <p>Ideas, standards and the reasons that connect them. Yours would be built from your real work and what you tell us, and look like no one else's.</p>
+          <p>Ideas, standards and the reasons that connect them. We build yours from your real work, so it looks like no one else's, and only you decide what it believes.</p>
         </div>
         <div class="brain-stage instrument">
           <div class="brain-field" id="meaningFieldS2" aria-label="Twenty connected ideas in the Brain">
@@ -78,7 +81,7 @@
             <div class="field-focus" aria-hidden="true"></div>
           </div>
           <aside class="plain-inspector" id="meaningInspectorS2" aria-live="polite">
-            <span id="inspectorKindS2">What this Brain holds</span>
+            <span id="inspectorKindS2" data-standing="settled">Agreed by you</span>
             <h3 id="inspectorTitleS2">Human release judgement</h3>
             <p id="inspectorStatementS2">People stay accountable for work that reaches the outside world.</p>
           </aside>
@@ -114,6 +117,12 @@
             <ol class="record-reel" id="recordReelS2" aria-live="off"></ol>
             <div class="reel-focus" aria-hidden="true"></div>
           </div>
+          <ul class="record-ports" aria-label="Your Brain works in">
+            <li style="--i: 0">ChatGPT</li>
+            <li style="--i: 1">Claude</li>
+            <li style="--i: 2">Copilot</li>
+            <li style="--i: 3">Gemini</li>
+          </ul>
           <div class="record-controls">
             <p><span class="live-dot" aria-hidden="true"></span><strong id="recordStateS2">Live record</strong><small id="recordIndexS2">1 of 51</small></p>
             <button class="record-control js-action" id="pauseRecordS2" type="button" aria-pressed="false">Pause</button>
@@ -123,7 +132,6 @@
           <noscript>
             <div class="no-js-record">
               <p><strong>Complete record:</strong> 20 ideas, 18 connections, 10 sources and 3 corrections.</p>
-              <p>The live carousel needs JavaScript. The full record remains available in the approved source fixture.</p>
             </div>
           </noscript>
         </div>
@@ -142,6 +150,23 @@
             <li class="leaf" data-step><span>Price</span><p>What is it worth to them?</p></li>
             <li class="leaf" data-step><span>Positioning</span><p>Why would they choose us?</p></li>
             <li class="leaf" data-step><span>People</span><p>Who should do the work?</p></li>
+          </ol>
+        </div>
+      </section>
+      <section class="chapter built" id="built" data-phase="built" data-build="idle" aria-labelledby="built-title">
+        <div class="chapter-copy">
+          <span class="chapter-number" aria-hidden="true">06</span>
+          <h2 id="built-title">We build it with you in 30 days.</h2>
+          <p>You bring real work and make every call. The longer we build together, the more of your judgement it carries.</p>
+          <a class="built-link" href="/blog/how-an-ai-brain-works">How it works, in full</a>
+        </div>
+        <div class="month-field instrument" data-steps>
+          <div class="month-track" aria-hidden="true"><span class="month-days"><i style="--t: 0.005"></i><i style="--t: 0.039"></i><i style="--t: 0.074"></i><i style="--t: 0.108"></i><i style="--t: 0.142"></i><i style="--t: 0.176"></i><i style="--t: 0.211"></i><i style="--t: 0.250"></i><i style="--t: 0.261"></i><i style="--t: 0.273"></i><i style="--t: 0.284"></i><i style="--t: 0.296"></i><i style="--t: 0.307"></i><i style="--t: 0.319"></i><i style="--t: 0.330"></i><i style="--t: 0.341"></i><i style="--t: 0.353"></i><i style="--t: 0.364"></i><i style="--t: 0.376"></i><i style="--t: 0.387"></i><i style="--t: 0.399"></i><i style="--t: 0.410"></i><i style="--t: 0.421"></i><i style="--t: 0.433"></i><i style="--t: 0.444"></i><i style="--t: 0.456"></i><i style="--t: 0.467"></i><i style="--t: 0.479"></i><i style="--t: 0.500"></i><i style="--t: 0.620"></i></span><span class="month-tail"></span></div>
+          <ol class="leaf-stack month-stack">
+            <li class="leaf" data-step><span>Week 1</span><p>It learns your taste from what you approve, turn down and edit.</p></li>
+            <li class="leaf" data-step><span>Weeks 2 to 4</span><p>We test it on your real decisions, and nothing goes in until you agree.</p></li>
+            <li class="leaf" data-step data-role="call"><span>Day 30</span><p>You run it in plain words. Correct it once and it updates everywhere.</p></li>
+            <li class="leaf" data-step data-role="after"><span>After</span><p>Better models make it sharper. None of them can rewrite what you believe.</p></li>
           </ol>
         </div>
       </section>

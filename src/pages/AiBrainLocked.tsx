@@ -50,10 +50,10 @@ const evidenceMessages = {
 
 type BrainItem = (typeof fixture.items)[number];
 
-// The page is five chapters after the opening, in this order. Each heading
+// The page is six chapters after the opening, in this order. Each heading
 // must appear exactly once, so a copy edit can never silently drop or double
 // a chapter the scroll build, the rail and the checks all depend on.
-const chapterTitles = ["opening-title", "you-title", "memory-title", "sharper-title", "record-title", "business-title"];
+const chapterTitles = ["opening-title", "you-title", "memory-title", "sharper-title", "record-title", "business-title", "built-title"];
 
 function prepareMarkup() {
   let markup = `${extractLockedMain(lockedDocument)}${extractLockedBlock(lockedDocument, "truth-bar")}`;
@@ -72,6 +72,11 @@ const lockedMarkup = prepareMarkup();
 // Settled thinking and thinking still being worked out look different in the
 // graph, so the nodes read as doing different jobs before anyone clicks.
 const isSettled = (item: BrainItem) => item.standing === "accepted" || item.standing === "owned_call" || item.standing === "accepted_learning";
+
+// The inspector's label names the picked idea's standing, in the colour the
+// graph already gives it: the leader's own settled calls, or the Brain's
+// reading, which stays a reading until the leader agrees it.
+const standingLabel = (item: BrainItem) => (isSettled(item) ? "Agreed by you" : "Your Brain's reading");
 
 // Text that changes on interaction sits in a frame sized to its longest
 // variant, so the panel never grows or shrinks as a visitor clicks around.
@@ -125,8 +130,13 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         node.classList.toggle("is-active", active);
         node.setAttribute("aria-pressed", active ? "true" : "false");
       });
+      const kind = q<HTMLElement>("#inspectorKindS2");
       const title = q<HTMLElement>("#inspectorTitleS2");
       const statement = q<HTMLElement>("#inspectorStatementS2");
+      if (kind) {
+        kind.textContent = standingLabel(item);
+        kind.dataset.standing = isSettled(item) ? "settled" : "working";
+      }
       if (title) title.textContent = item.title;
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
     };
@@ -276,6 +286,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       }
       const index = q<HTMLElement>("#recordIndexS2");
       if (index) index.textContent = `${current + 1} of ${records.length}`;
+      // Each record that lands reaches all four tools: the ports light in
+      // turn, by colour and opacity only. Alternating the name restarts it.
+      if (!reducedMotion.matches && !renderFinal) root.dataset.portPulse = root.dataset.portPulse === "a" ? "b" : "a";
     };
     const nextRecord = () => { current = (current + 1) % records.length; paint(); };
     const stopTimer = () => { if (timer) window.clearInterval(timer); timer = 0; };
@@ -365,7 +378,7 @@ export default function AiBrainLocked() {
 
   return (
     <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" compactFooter>
-      <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you." canonical="/ai-brain" />
+      <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you and at work in every AI you use." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       <PairingBridge route="brain" onStart={() => openBrief("brain")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />

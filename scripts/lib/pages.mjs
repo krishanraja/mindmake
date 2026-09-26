@@ -22,7 +22,7 @@ export const staticPages = [
   {
     path: "/ai-brain",
     title: "Build your AI brain",
-    description: "Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you.",
+    description: "Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you and at work in every AI you use.",
     headline: "Build your AI brain.",
     claim: "Private to you, and sharper with every call you make.",
     still: "film-02",

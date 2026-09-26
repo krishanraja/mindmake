@@ -639,3 +639,19 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-history .device-mobile .bridge p { font-size: 13.5px; line-height: 1.3; margin-top: 8px; }
   .mm-homepage-release .r3-history .bridge .mm-bridge-payoff { margin-top: .3em; font-size: 1.15em; }
 }
+
+/* The footer holds still and keeps every route on screen (2026-09-26): R3's
+   review-only scroll preview made its contents bob 5px and fade forever, and
+   between 701 and 1180px the five-column rail ran past the right edge. */
+.mm-homepage-release .r3-footer .site-footer > * { animation: none; }
+@media (min-width: 701px) and (max-width: 1180px) {
+  .mm-homepage-release .r3-footer .preview-desktop .site-footer .footer-routes { grid-template-columns: repeat(3, auto); }
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  .mm-homepage-release .r3-footer .preview-desktop .site-footer .footer-routes { grid-column: 1 / -1; }
+}
+/* On 391 to 700px phones the footer sat in a centred 390px frame, off the
+   masthead's gutter; it fills the width as the route chapter does. */
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-footer > .r3-variant.preview-mobile { width: 100%; margin-inline: 0; }
+}

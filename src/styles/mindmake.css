@@ -1032,13 +1032,13 @@ html {
   .mm-footer-routes { grid-column: 1 / -1; }
 }
 @media (max-width: 700px) {
-  /* R3's phone footer: a flex column in a 390px frame. */
+  /* R3's phone footer: a flex column, full width on the masthead's gutter. */
   .mm-footer-grid {
     display: flex;
     flex-direction: column;
     gap: clamp(18px, 5vw, 26px);
-    width: min(390px, 100%);
-    margin-inline: auto;
+    width: 100%;
+    margin-inline: 0;
     padding: clamp(26px, 7vw, 38px) max(5.13vw, var(--mm-safe-left), var(--mm-safe-right)) max(7vw, var(--mm-safe-bottom));
   }
   .mm-footer-routes { display: none; }

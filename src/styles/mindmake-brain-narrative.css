@@ -481,3 +481,41 @@
   .mm-locked-brain .month-days i::after,
   .mm-locked-brain .month-tail { opacity: 1; transition: none; }
 }
+
+/* ---------- Fixed chrome reserves its measured space (Krish, 2026-09-26) ----------
+   The shell's header is fixed over the page, so every chapter after the
+   opening is the height left beneath it and lands flush under it (the rail
+   used to land it 12px lower, a full screen tall, with its foot under the
+   bar). On the one-screen layouts its content also centres above the action
+   bar and the privacy notice, from the heights those two publish, and follows
+   the bar as it slides in or stands down. Not on a phone held sideways: there
+   the notice moves to the top corner and its published reserve is not a
+   bottom edge. */
+.mm-site .mm-locked-brain .chapter:not(.opening) {
+  --header-h: var(--mm-header-height, 68px);
+  scroll-margin-top: var(--mm-header-height, 68px);
+}
+@media (min-width: 761px) and (min-height: 521px) {
+  .mm-site .mm-locked-brain .chapter:not(.opening) {
+    --brain-foot: clamp(2rem, 5vh, 4.8rem);
+    padding-bottom: calc(var(--brain-foot) + var(--mm-bar-reserve, 0px) + var(--mm-cookie-reserve, 0px));
+    transition: padding-bottom .2s ease;
+  }
+  /* No instrument is taller than the band it centres in, so a short laptop
+     with the notice still up never tucks a panel's foot under the bar. */
+  .mm-site .mm-locked-brain .chapter:not(.opening) :is(.brain-stage, .record-machine, .leaf-stack:not(.month-stack), .month-field, .lever-field) {
+    max-height: calc(100svh - var(--mm-header-height, 68px) - var(--mm-bar-reserve, 0px) - var(--mm-cookie-reserve, 0px) - clamp(2rem, 5vh, 4.8rem) * 2);
+  }
+  /* The rail centres in the same band the chapters do. */
+  .mm-site .mm-locked-brain .phase-rail {
+    top: calc((100svh + var(--mm-header-height, 68px) - var(--mm-bar-reserve, 0px) - var(--mm-cookie-reserve, 0px)) / 2);
+    transition: top .2s ease;
+  }
+}
+@media (max-height: 760px) and (min-width: 901px) {
+  .mm-site .mm-locked-brain .chapter:not(.opening) { --brain-foot: 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-site .mm-locked-brain .chapter:not(.opening),
+  .mm-site .mm-locked-brain .phase-rail { transition: none; }
+}

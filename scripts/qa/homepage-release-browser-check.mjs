@@ -71,7 +71,7 @@ try {
         await page.evaluate(()=>document.fonts.ready);
         await page.waitForSelector('.mm-home-leadership .reach-sequence',{timeout:60000});
         console.log(`Testing ${label}`);
-        assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Build the business that can think with you.',`${label}: approved opening`);
+        assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Build the human + AI business that augments your vision.',`${label}: approved opening`);
         // Negative control: the scrapped R3 chapters must not survive anywhere in the page.
         for (const retired of ['authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
         assert(await page.locator('.mm-home-leadership').evaluate(node=>{ const history=node.previousElementSibling; return history?.matches('[data-chapter="history"]') && !!history.querySelector('[data-component="history"]') && history.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'; }),`${label}: opening, history, the leadership chapters, then the route`);
@@ -127,7 +127,7 @@ try {
           assert(await page.locator('.mm-home-leadership .work-scroll').evaluate(node=>parseFloat(getComputedStyle(node).getPropertyValue('--work-fill')))===1,`${label}: the rail is full at the last scene`);
         }
         // The returned hour stays in the page after the benefits.
-        assert(words(await page.locator('.mm-home-leadership .proof-return h2').innerText())==='What will you do with the hours it gives back?',`${label}: the returned hour`);
+        assert(words(await page.locator('.mm-home-leadership .proof-return h2').innerText())==='What will you do with the hours you save on a task?',`${label}: the returned hour`);
         // Full real homepage CTA to the existing lead journey, not a prototype stub.
         console.log(`Checking ${label}: real lead entry`);
         await page.locator('[data-component="route"] [data-start-route]:visible').click();

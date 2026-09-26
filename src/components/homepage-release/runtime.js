@@ -4,12 +4,10 @@ import asset1 from "../../assets/mindmake-wordmark.svg";
 import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07.webp";
 import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4";
 import asset4 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
-import asset5 from "../../assets/films/film-02-poster.webp";
-import asset6 from "../../assets/films/film-02-loop.mp4";
-import asset7 from "../../assets/films/film-04-loop.mp4";
-import asset8 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
-import asset9 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
-import asset10 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
+import asset5 from "../../assets/films/film-04-loop.mp4";
+import asset6 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
+import asset7 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
+import asset8 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 export function mountHomepageRuntime(root, { onStart }) {
   const abort = new AbortController();
   const observers = new Set();
@@ -79,13 +77,13 @@ export function mountHomepageRuntime(root, { onStart }) {
 
   const routeContent = {
     brain: {
-      title: "Make your judgement reusable.",
-      lede: "Give your standards, context and past decisions a memory you can use.",
+      title: "Own your judgement, and amplify it.",
+      lede: "Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader.",
       caption: "The next decision begins with what the last one taught you.",
       source: "Anonymous client outcome · Research and content",
-      steps: ["The founder's standards", "A system they own", "Used on real work"],
+      steps: ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."],
       result: "Research-backed publishing moved from days to under an hour, and from roughly monthly to most days.",
-      film: asset6,
+      film: asset3,
     },
     gtm: {
       title: "We turn an AI market shift into one tested commercial move.",
@@ -94,7 +92,7 @@ export function mountHomepageRuntime(root, { onStart }) {
       source: "Anonymous client outcome · Media advisory",
       steps: ["Expertise people value", "A clear offer", "A defined plan launched"],
       result: "A respected advisory firm turned its expertise into a clear offer clients could buy.",
-      film: asset7,
+      film: asset5,
     },
   };
   let selectedRoute = "brain";
@@ -136,10 +134,10 @@ export function mountHomepageRuntime(root, { onStart }) {
   within("route", "[data-start-route]").forEach((button) => listen(button, "click", () => { onStart(button.dataset.startRoute); }));
 
   const stories = [
-    { era: "370 BC · Writing", image: asset4, alt: "An illustrative historical writing scene", question: "If knowledge lives outside us, will memory grow weaker?", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
-    { era: "1675 · Engine loom", image: asset8, alt: "An illustrative mechanised loom scene", question: "If the machine can do the work, what happens to the worker?", outcome: "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." },
-    { era: "1970s · Calculator", image: asset9, alt: "An illustrative classroom calculator scene", question: "If the device does the arithmetic, will children stop learning to think?", outcome: "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." },
-    { era: "2000s · Satnav", image: asset10, alt: "An illustrative early satellite navigation scene", question: "If the device knows the route, will we lose our sense of direction?", outcome: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
+    { era: "370 BC · Writing", image: asset4, alt: "An illustrative historical writing scene", question: "“If knowledge lives outside us, will memory grow weaker?”", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
+    { era: "1675 · Engine loom", image: asset6, alt: "An illustrative mechanised loom scene", question: "“If the machine can do the work, what happens to the worker?”", outcome: "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." },
+    { era: "1970s · Calculator", image: asset7, alt: "An illustrative classroom calculator scene", question: "“If the device does the arithmetic, will children stop learning to think?”", outcome: "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." },
+    { era: "2000s · Satnav", image: asset8, alt: "An illustrative early satellite navigation scene", question: "“If the device knows the route, will we lose our sense of direction?”", outcome: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
   ];
   const selectStory = (index) => {
     within("history", ".history-frame").forEach((frame) => {

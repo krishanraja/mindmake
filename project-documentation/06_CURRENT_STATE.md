@@ -383,8 +383,9 @@ owns payload, privacy, retention, email and failure-path contracts.
     on screen, and the one being uncovered, play their films.
 - The homepage opening hero plays the Archive Engine r07 loop
   (`src/assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4`,
-  Krish, 2026-09-25) with a WebP poster taken from its first frame; the route
-  stage keeps `film-02`. The r04 package remains as the recoverable fallback. Krish rejected the r06
+  Krish, 2026-09-25) with a WebP poster taken from its first frame; since
+  26 September 2026 the closing chapter's AI brain state plays the same loop
+  and poster, and its AI GTM state keeps `film-04`. The r04 package remains as the recoverable fallback. Krish rejected the r06
   local Blender render after seeing the moving result and ordered its complete
   removal from the repository. r06 is not an approved visual reference and
   consumed no Higgsfield generative-video credits.

@@ -78,10 +78,13 @@
       const item = routeContent[route];
       frame.querySelector(".route-copy h2").textContent = item.title;
       frame.querySelector(".lede").textContent = item.lede;
-      frame.querySelector("figcaption").textContent = item.caption;
-      frame.querySelector(".receipt header p").textContent = item.source;
+      const captionNode = frame.querySelector("figcaption");
+      if (captionNode) captionNode.textContent = item.caption;
+      const sourceHeaderNode = frame.querySelector(".receipt header p");
+      if (sourceHeaderNode) sourceHeaderNode.textContent = item.source;
       [...frame.querySelectorAll(".receipt li")].forEach((node, index) => { node.textContent = item.steps[index]; });
-      frame.querySelector("blockquote").textContent = item.result;
+      const resultNode = frame.querySelector("blockquote");
+      if (resultNode) resultNode.textContent = item.result;
       const sourceNode = frame.querySelector("video source");
       if (sourceNode.getAttribute("src") !== item.film) sourceNode.setAttribute("src", item.film);
       frame.querySelector("[data-start-route]").dataset.startRoute = route;

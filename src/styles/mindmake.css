@@ -695,6 +695,14 @@ html {
   margin-inline: 0;
   padding-inline: max(calc(var(--mm-chrome-frame) * var(--mm-chrome-gutter)), var(--mm-safe-left), var(--mm-safe-right));
 }
+/* Above a phone the logo keeps the homepage's size but sits on the page's own
+   content edge, so the logo and the content under it share one gutter (main's
+   Chromium gutter check, 2026-09-26). On a phone the two edges already agree. */
+@media (min-width: 701px) {
+  .mm-header > .mm-container { padding-inline: var(--mm-header-inline, var(--mm-edge)); }
+}
+/* /new-age-leadership names its own edge at every width, phones included. */
+.mm-site.mm-route-leadership .mm-header > .mm-container { padding-inline: var(--mm-header-inline); }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 /* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
    and these mirror it, including the two narrow overrides. That file is
@@ -955,7 +963,8 @@ html {
   align-content: start;
   gap: clamp(18px, 2vw, 28px) 5vw;
   width: 100%;
-  padding: clamp(26px, 2.2vw, 34px) max(4.4vw, var(--mm-safe-left), var(--mm-safe-right)) calc(clamp(26px, 2.2vw, 34px) + var(--mm-safe-bottom));
+  /* On the page's own edge, as the masthead is above a phone. */
+  padding: clamp(26px, 2.2vw, 34px) var(--mm-header-inline, var(--mm-edge)) calc(clamp(26px, 2.2vw, 34px) + var(--mm-safe-bottom));
   border-top: 3px solid var(--mm-chrome-mint);
   background: #06110d;
 }
@@ -1634,7 +1643,7 @@ html.mm-cookie-visible .mm-brain-r5 .close>div,
 html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm-cookie-reserve,0px) / -2))}
 
 @media(max-height:520px) and (orientation:landscape){
-  .mm-cookie-notice{inset:calc(58px + var(--mm-safe-top)) 8px auto auto}
+  .mm-cookie-notice{inset:calc(var(--mm-header-bar, 66px) + 8px + var(--mm-safe-top)) 8px auto auto}
 }
 
 /* Both reserves are published by the components that occupy the space, and

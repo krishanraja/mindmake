@@ -82,6 +82,8 @@ const LOGOS = [
 const SHARED = [
   "main .mm-container",
   ".mm-footer > .mm-container > *",
+  /* The footer drawn on the homepage's structure since 2026-09-26. */
+  ".mm-footer-brand > .mm-brand",
   /* The commercial block's own copy. Its film layer is full-bleed by design and
      its instrument is the other column, so neither is a left edge. */
   ".mm-decision-balance-offer > h2",

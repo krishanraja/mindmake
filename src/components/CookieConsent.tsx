@@ -1,4 +1,5 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { setBottomReserve } from "@/lib/bottomReserve";
 
 const CONSENT_KEY = "mindmake_consent";
 /* "analytics" allows Google Analytics and "essential" declines it. Any stored
@@ -107,8 +108,14 @@ export const CookieConsent = () => {
        change to the card's inset cannot leave a copy of it here to drift. */
     const publishReserve = () => {
       const box = notice.getBoundingClientRect();
-      const occupied = Math.max(0, window.innerHeight - box.top);
-      root.style.setProperty("--mm-cookie-reserve", `${occupied}px`);
+      /* On a short landscape screen the notice moves to the top, under the
+         masthead, and occupies nothing at the bottom. Measuring it from the
+         bottom anyway published most of the screen as reserve, which lifted
+         the action bar off the top of the screen and left the page ending in
+         a band of nothing. */
+      const atBottom = window.innerHeight - box.bottom < 64;
+      const occupied = atBottom ? Math.max(0, window.innerHeight - box.top) : 0;
+      setBottomReserve("--mm-cookie-reserve", `${occupied}px`);
     };
 
     root.classList.add("mm-cookie-visible");

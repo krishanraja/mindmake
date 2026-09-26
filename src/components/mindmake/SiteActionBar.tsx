@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { track } from "@/lib/analytics";
+import { setBottomReserve } from "@/lib/bottomReserve";
 
 /**
  * The way in, pinned to the bottom of the screen.
@@ -94,7 +95,7 @@ export function SiteActionBar({ onStart, door, label }: SiteActionBarProps) {
     }
 
     const publishReserve = () => {
-      root.style.setProperty("--mm-bar-reserve", `${bar.getBoundingClientRect().height}px`);
+      setBottomReserve("--mm-bar-reserve", `${bar.getBoundingClientRect().height}px`);
     };
     publishReserve();
     const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(publishReserve);

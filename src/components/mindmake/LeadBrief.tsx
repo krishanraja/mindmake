@@ -21,6 +21,14 @@ import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mi
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
+import {
+  KEYBOARD_OPEN_THRESHOLD_PX,
+  fieldAction,
+  fieldGroup,
+  isTextEntry,
+  revealWithinScroller,
+  useKeyboardSafeViewport,
+} from "@/hooks/useKeyboardSafeViewport";
 import opportunitiesFilm from "@/assets/films/sep2026/opportunities-resolve-loop-r01-20s-720p-web-sealed.mp4";
 import opportunitiesPoster from "@/assets/films/sep2026/opportunities-resolve-poster.webp";
 import {
@@ -287,62 +295,9 @@ const usesCoarseInteraction = () => {
   return coarsePointer || navigator.maxTouchPoints > 0;
 };
 
-/* How far the visible height has to fall below its resting height, with a
-   field being typed into, before the dialog treats the software keyboard as
-   open. The address bar moves about 56px; a keyboard takes 250 or more. */
-export const KEYBOARD_OPEN_THRESHOLD_PX = 150;
-const REVEAL_GAP_PX = 12;
-
-/* A field that brings up the software keyboard, as opposed to a button, a box
-   or a native selector. */
-const isTextEntry = (element: Element | null): element is HTMLInputElement | HTMLTextAreaElement =>
-  (element instanceof HTMLInputElement && !["checkbox", "radio", "button", "submit", "hidden"].includes(element.type))
-  || element instanceof HTMLTextAreaElement;
-
-/* What has to be on screen for a field to be usable: its label, the field and
-   whatever hint or error it points at. */
-const fieldGroup = (field: HTMLElement): HTMLElement[] => {
-  const labels = "labels" in field && field.labels ? Array.from(field.labels as NodeListOf<HTMLElement>) : [];
-  const described = (field.getAttribute("aria-describedby") ?? "")
-    .split(/\s+/)
-    .map((id) => (id ? document.getElementById(id) : null))
-    .filter((element): element is HTMLElement => element instanceof HTMLElement);
-  return [...labels, field, ...described];
-};
-
-/**
- * Keeps a group of elements between the dialog's sticky header and the bottom
- * of what can actually be seen, by scrolling the panel alone.
- *
- * It does nothing while the group is already in view, so it can run on every
- * change of the visible viewport without moving anything that is already
- * readable. When it does move, it is instant and it scrolls the panel rather
- * than calling `scrollIntoView`, which would also scroll the page and the
- * visual viewport the dialog is pinned to.
- */
-const revealWithinPanel = (panel: HTMLElement, group: HTMLElement[]) => {
-  if (group.length === 0) return;
-  const panelRect = panel.getBoundingClientRect();
-  const viewport = window.visualViewport;
-  const visibleTop = viewport?.offsetTop ?? 0;
-  const visibleBottom = Math.min(panelRect.bottom, viewport ? viewport.offsetTop + viewport.height : window.innerHeight);
-  const chromeBottom = Array.from(panel.querySelectorAll<HTMLElement>(".mm-brief-top, .mm-brief-path"))
-    .filter((element) => {
-      const style = window.getComputedStyle(element);
-      return style.position === "sticky" && style.display !== "none";
-    })
-    .reduce((edge, element) => Math.max(edge, element.getBoundingClientRect().bottom), Math.max(panelRect.top, visibleTop));
-  const upper = chromeBottom + REVEAL_GAP_PX;
-  const lower = visibleBottom - REVEAL_GAP_PX;
-  const rects = group.map((element) => element.getBoundingClientRect());
-  const top = Math.min(...rects.map((rect) => rect.top));
-  const bottom = Math.max(...rects.map((rect) => rect.bottom));
-  if (top >= upper && bottom <= lower) return;
-  /* The label is what says what the field is for, so when the group cannot
-     fit the band its top wins. */
-  const delta = top < upper || bottom - top > lower - upper ? top - upper : bottom - lower;
-  panel.scrollTop += delta;
-};
+/* The keyboard handling is shared with the site's other text dialogs. */
+export { KEYBOARD_OPEN_THRESHOLD_PX };
+const BRIEF_CHROME = ".mm-brief-top, .mm-brief-path";
 
 /* The read is a written brief, not a conversation: any sentence that asks the
    visitor something, or invites a correction, is dropped before display. The
@@ -750,7 +705,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
          keyboard or leave the field under it. */
       const active = document.activeElement;
       if (panel && isTextEntry(active) && panel.contains(active)) {
-        revealWithinPanel(panel, fieldGroup(active));
+        revealWithinScroller(panel, fieldGroup(active), fieldAction(active), BRIEF_CHROME);
         setStepAnnouncement(headingText);
         return;
       }
@@ -766,106 +721,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     return () => window.clearTimeout(focusTimer);
   }, [open, step]);
 
-  useEffect(() => {
-    if (!open || !backdropRef.current) return;
-
-    const backdrop = backdropRef.current;
-    const visualViewport = window.visualViewport;
-    let animationFrame = 0;
-    let layoutHeight = Math.max(
-      window.innerHeight,
-      visualViewport ? visualViewport.height + visualViewport.offsetTop : 0,
-    );
-    /* The tallest the visible viewport has been with nothing being typed into.
-       Measuring the keyboard against this, rather than against the layout
-       height, still works when the visual viewport is panned and in in-app
-       browsers that shrink the whole page for the keyboard. */
-    let restingHeight = visualViewport?.height ?? window.innerHeight;
-    let restingWidth = visualViewport?.width ?? window.innerWidth;
-
-    const focusedTextField = () => {
-      const active = document.activeElement;
-      return isTextEntry(active) && panelRef.current?.contains(active) ? active : null;
-    };
-
-    /* Runs after the new size has been written, and moves nothing unless the
-       focused field has actually gone out of view. */
-    const revealFocusedField = () => {
-      window.cancelAnimationFrame(animationFrame);
-      animationFrame = window.requestAnimationFrame(() => {
-        const panel = panelRef.current;
-        const active = document.activeElement;
-        const field = active instanceof HTMLElement && panel?.contains(active)
-          && (isTextEntry(active) || active instanceof HTMLSelectElement)
-          ? active
-          : null;
-        if (panel && field) revealWithinPanel(panel, fieldGroup(field));
-      });
-    };
-
-    const syncViewport = (reveal: boolean) => {
-      const viewport = window.visualViewport;
-      const height = viewport?.height ?? window.innerHeight;
-      const width = viewport?.width ?? window.innerWidth;
-      const offsetTop = viewport?.offsetTop ?? 0;
-      const offsetLeft = viewport?.offsetLeft ?? 0;
-      const visibleBottom = height + offsetTop;
-      if (Math.abs(width - restingWidth) > 1) {
-        restingWidth = width;
-        restingHeight = height;
-        layoutHeight = Math.max(window.innerHeight, visibleBottom);
-      }
-      const typing = focusedTextField() !== null;
-      if (!typing) restingHeight = Math.max(restingHeight, height);
-      layoutHeight = Math.max(layoutHeight, window.innerHeight, visibleBottom);
-      const keyboardInset = Math.max(0, layoutHeight - visibleBottom);
-      const keyboardOpen = typing && restingHeight - height > KEYBOARD_OPEN_THRESHOLD_PX;
-
-      backdrop.style.setProperty("--mm-brief-viewport-height", `${Math.round(height)}px`);
-      backdrop.style.setProperty("--mm-brief-viewport-width", `${Math.round(width)}px`);
-      backdrop.style.setProperty("--mm-brief-viewport-top", `${Math.round(offsetTop)}px`);
-      backdrop.style.setProperty("--mm-brief-viewport-left", `${Math.round(offsetLeft)}px`);
-      backdrop.style.setProperty("--mm-brief-keyboard-inset", `${Math.round(keyboardInset)}px`);
-      if (keyboardOpen) backdrop.setAttribute("data-keyboard", "open");
-      else backdrop.removeAttribute("data-keyboard");
-
-      if (reveal) revealFocusedField();
-    };
-
-    const onVisualViewportResize = () => syncViewport(true);
-    const onVisualViewportScroll = () => syncViewport(false);
-    const onWindowResize = () => syncViewport(true);
-    const onFocusIn = () => syncViewport(true);
-    const onFocusOut = () => window.requestAnimationFrame(() => syncViewport(false));
-    const onOrientationChange = () => {
-      const viewport = window.visualViewport;
-      layoutHeight = Math.max(
-        window.innerHeight,
-        viewport ? viewport.height + viewport.offsetTop : 0,
-      );
-      restingHeight = viewport?.height ?? window.innerHeight;
-      restingWidth = viewport?.width ?? window.innerWidth;
-      syncViewport(true);
-    };
-
-    syncViewport(false);
-    visualViewport?.addEventListener("resize", onVisualViewportResize);
-    visualViewport?.addEventListener("scroll", onVisualViewportScroll);
-    window.addEventListener("resize", onWindowResize);
-    window.addEventListener("orientationchange", onOrientationChange);
-    backdrop.addEventListener("focusin", onFocusIn);
-    backdrop.addEventListener("focusout", onFocusOut);
-
-    return () => {
-      window.cancelAnimationFrame(animationFrame);
-      visualViewport?.removeEventListener("resize", onVisualViewportResize);
-      visualViewport?.removeEventListener("scroll", onVisualViewportScroll);
-      window.removeEventListener("resize", onWindowResize);
-      window.removeEventListener("orientationchange", onOrientationChange);
-      backdrop.removeEventListener("focusin", onFocusIn);
-      backdrop.removeEventListener("focusout", onFocusOut);
-    };
-  }, [open]);
+  /* The backdrop is sized and placed from the visible viewport, and the
+     panel scrolls a focused field above the keyboard. */
+  useKeyboardSafeViewport({ open, host: backdropRef, scroller: panelRef, prefix: "--mm-brief", chrome: BRIEF_CHROME });
 
   /* On a phone the action under a choice often starts below the fold, and a
      tap that seems to do nothing reads as broken. After a choice made by
@@ -876,7 +734,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     const panel = panelRef.current;
     const action = choiceActionRef.current;
     if (!panel || !action) return;
-    const frame = window.requestAnimationFrame(() => revealWithinPanel(panel, [action]));
+    const frame = window.requestAnimationFrame(() => revealWithinScroller(panel, [action], [], BRIEF_CHROME));
     return () => window.cancelAnimationFrame(frame);
   }, [capacity, pressure]);
 
@@ -964,8 +822,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
 
   const submitCompany = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    /* The personal-address offer renders a form of its own inside this one,
-       and React bubbles its submit up to here. Only this form starts a read. */
+    /* Only this form starts a read. The personal-address offer, which has a
+       form of its own, sits beside it rather than inside it. */
     if (event.target !== event.currentTarget) return;
     const nextEmail = email.trim().toLowerCase();
     const problem = workEmailProblem(nextEmail);
@@ -1405,36 +1263,44 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
 
         {step === "company" && (
           <section className="mm-brief-step mm-brief-start-step is-company">
-            <form className="mm-brief-start-form" onSubmit={submitCompany} noValidate>
+            {/* The form holds the field alone, and the action names it with
+                `form`. The offer of a person below carries a form of its own,
+                and inside this one it was a form inside a form: Chromium stops
+                a nested form's submit at the outer form, so React never saw
+                it, nothing prevented it, and "Have a person pick this up"
+                reloaded the page with everything typed lost. */}
+            <div className="mm-brief-start-form">
               <div className="mm-brief-start-content">
                 {initialContext && <p className="mm-brief-carried-context"><span>Starting point</span>{initialContext}</p>}
                 <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which business should we read?</h2>
                 <p className="mm-brief-start-lede">Your work email tells us where to look. We read public company information while you answer the next question.</p>
-                <p className="mm-brief-entry-field">
-                  <label htmlFor="mm-company-email">Work email</label>
-                  <input
-                    ref={firstFieldRef}
-                    id="mm-company-email"
-                    name="email"
-                    type="email"
-                    inputMode="email"
-                    autoComplete="work email"
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    enterKeyHint="go"
-                    placeholder="you@company.com"
-                    value={email}
-                    aria-invalid={entryErrorField === "email" || undefined}
-                    aria-describedby={entryErrorField === "email" ? "mm-company-email-error" : "mm-company-email-hint"}
-                    onChange={(event) => {
-                      setEmail(event.target.value);
-                      if (entryError) { setEntryError(""); setEntryErrorField(null); }
-                    }}
-                  />
-                  <small id="mm-company-email-hint">We use the domain, not your inbox.</small>
-                </p>
-                {entryError && <p id="mm-company-email-error" className="mm-form-error" role="alert">{entryError}</p>}
+                <form id="mm-company-form" className="mm-brief-company-form" onSubmit={submitCompany} noValidate>
+                  <p className="mm-brief-entry-field">
+                    <label htmlFor="mm-company-email">Work email</label>
+                    <input
+                      ref={firstFieldRef}
+                      id="mm-company-email"
+                      name="email"
+                      type="email"
+                      inputMode="email"
+                      autoComplete="work email"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      enterKeyHint="go"
+                      placeholder="you@company.com"
+                      value={email}
+                      aria-invalid={entryErrorField === "email" || undefined}
+                      aria-describedby={entryErrorField === "email" ? "mm-company-email-error" : "mm-company-email-hint"}
+                      onChange={(event) => {
+                        setEmail(event.target.value);
+                        if (entryError) { setEntryError(""); setEntryErrorField(null); }
+                      }}
+                    />
+                    <small id="mm-company-email-hint">We use the domain, not your inbox.</small>
+                  </p>
+                  {entryError && <p id="mm-company-email-error" className="mm-form-error" role="alert">{entryError}</p>}
+                </form>
                 {entryError === FREE_EMAIL_PROBLEM && (
                   <HumanHandoff
                     reason="personal-email"
@@ -1444,10 +1310,10 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 )}
               </div>
               <footer className="mm-brief-action-rail">
-                <button className="mm-button" data-mm-primary type="submit">Read the business <span aria-hidden="true">→</span></button>
+                <button className="mm-button" data-mm-primary type="submit" form="mm-company-form">Read the business <span aria-hidden="true">→</span></button>
                 <p>No brief reaches our team until you confirm later. <a href="/privacy" target="_blank" rel="noreferrer">How we handle information</a>.</p>
               </footer>
-            </form>
+            </div>
           </section>
         )}
 

@@ -966,6 +966,42 @@ describe("the dialog's structure", () => {
     expect(phone).toContain("grid-template-columns: 1fr");
     expect(phone).toContain("var(--mm-safe-bottom)");
   });
+
+  it("sizes the drawer from the visible viewport on a phone, not only the card", () => {
+    /* `.mm-brief-panel.is-drawer` sets 100dvh at a higher specificity than
+       `.mm-brief-panel`, and 100dvh does not shrink for Android's keyboard.
+       Naming the card alone left the homepage's drawer full height behind the
+       keyboard with nothing to scroll (Krish, 2026-09-26). */
+    const phone = css.slice(css.indexOf("@media (max-width: 560px)"));
+    const rule = phone.slice(phone.indexOf(".mm-brief-panel,\n  .mm-brief-panel.is-drawer {"));
+    expect(rule.slice(0, rule.indexOf("}"))).toContain("height: var(--mm-brief-viewport-height, 100dvh)");
+  });
+
+  it("dresses the offer of a person from the dialog's own tone tokens", () => {
+    /* Its form is otherwise styled by mindmake-instruments.css, whose dark
+       tokens put pale text on the paper steps, and which the homepage does not
+       load at all. */
+    for (const part of [".mm-details-field > legend", ".mm-details .mm-qchip", ".mm-details .mm-qchip[aria-pressed=\"true\"]"]) {
+      expect(css, part).toContain(`.mm-brief-panel[data-tone] ${part}`);
+    }
+  });
+});
+
+describe("the offer of a person under a personal address", () => {
+  it("is not a form inside the company form", async () => {
+    /* Chromium stops a nested form's submit at the outer form, so React never
+       saw it and "Have a person pick this up" reloaded the page. */
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    fireEvent.change(screen.getByLabelText("Work email"), { target: { value: "anya@gmail.com" } });
+    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(await screen.findByRole("button", { name: /ask a person to look at this/i }));
+    const offerForm = document.querySelector(".mm-handoff form");
+    expect(offerForm).not.toBeNull();
+    expect(offerForm?.parentElement?.closest("form")).toBeNull();
+    /* The step's own button still sends the step's own form. */
+    const read = screen.getByRole("button", { name: /read the business/i }) as HTMLButtonElement;
+    expect(read.form?.id).toBe("mm-company-form");
+  });
 });
 
 /**

@@ -24,6 +24,11 @@
 /* ---------- Structure ---------- */
 
 .mm-dialog-open { overflow: hidden; }
+/* index.css paints every <small> in a fixed grey meant for the old white
+   pages. In here a <small> takes the colour of what it sits in unless a rule
+   below gives it one: the preview's leaf labels were that grey on the sand
+   leaf at 2:1, and on the clay proof leaf at 2.4:1. */
+.mm-brief-panel :where(small) { color: inherit; }
 /* The body alone does not hold the page still on a phone, because html and
    body both clip horizontal overflow and so the body's overflow never reaches
    the viewport. Phone widths only: above them the classic scrollbar would
@@ -99,6 +104,8 @@
   margin: 0 !important;
   padding: clamp(30px, 6vh, 64px) clamp(24px, 5vw, 56px) max(50px, var(--mm-safe-bottom));
 }
+/* The company step's form wraps its one field, not the step. */
+.mm-brief-step .mm-brief-company-form { display: block; margin: 0; }
 .mm-brief-start-content {
   width: 100%;
   max-width: 570px;
@@ -170,7 +177,9 @@
   outline: 2px solid color-mix(in srgb, var(--mmb-accent) 30%, transparent);
   outline-offset: 3px;
 }
-.mm-brief-entry-field input::placeholder { color: color-mix(in srgb, var(--mmb-fg) 26%, transparent); }
+/* Placeholder text is text: at 26% of the ink it was 1.9:1. The caption
+   colour reads as a hint beside the near-black of a typed address. */
+.mm-brief-entry-field input::placeholder { color: var(--mmb-muted); }
 .mm-brief-entry-field small {
   display: block;
   margin-top: 9px;
@@ -405,11 +414,12 @@
   cursor: pointer;
 }
 
-.mm-form-error {
+.mm-form-error,
+.mm-brief-panel[data-tone] .mm-form-error {
   margin-top: 12px;
-  border-left: 3px solid var(--mm-amber);
+  border-left: 3px solid var(--mmb-alert, var(--mm-amber));
   padding-left: 12px;
-  color: var(--mm-amber);
+  color: var(--mmb-alert, var(--mm-amber));
   font-family: var(--mm-mono);
   font-size: 12px;
   line-height: 1.5;
@@ -473,7 +483,9 @@
   cursor: pointer;
   touch-action: manipulation;
 }
-.mm-brief-step .mm-button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+/* Dimmed, so it reads as not yet, but still readable: at .45 its label was
+   2.6:1 on paper. At .6 it is 4.0:1 on paper and 5.0:1 on ink. */
+.mm-brief-step .mm-button:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
 
 .mm-capacity-grid { margin-top: 28px; }
 .mm-capacity-line { margin-top: 14px; font-size: 14.5px; line-height: 1.55; }
@@ -556,8 +568,15 @@
   }
   /* The panel is already the height of what can be seen, keyboard or not,
      so the keyboard is not added to its bottom padding again. Adding it twice
-     left no room to show a field in, and the field went under the header. */
-  .mm-brief-panel {
+     left no room to show a field in, and the field went under the header.
+     The drawer is named as well: `.mm-brief-panel.is-drawer` above sets
+     100dvh at a higher specificity than this, and 100dvh does not shrink for
+     Android's keyboard. The homepage's drawer stayed the full height of the
+     screen behind the keyboard, had nothing to scroll, and the work email sat
+     under the keyboard with only the heading and lede showing (Krish,
+     2026-09-26, Android Chrome). */
+  .mm-brief-panel,
+  .mm-brief-panel.is-drawer {
     --mm-brief-top-h: calc(58px + var(--mm-safe-top));
     width: 100%;
     height: var(--mm-brief-viewport-height, 100dvh);
@@ -569,6 +588,10 @@
   /* With the keyboard up the home indicator is under it, so its inset is not
      room anyone can use. */
   .mm-brief-backdrop[data-keyboard="open"] .mm-brief-panel { scroll-padding-bottom: 16px; }
+  /* With the keyboard up the start steps stop filling the screen, so the
+     action follows the field instead of waiting at the foot of a step the
+     keyboard has covered. */
+  .mm-brief-backdrop[data-keyboard="open"] .mm-brief-panel .mm-brief-start-step { min-height: 0; }
   .mm-brief-panel.is-drawer { --mm-brief-top-h: calc(68px + var(--mm-safe-top)); animation-name: mm-brief-sheet-in; }
   .mm-brief-panel.is-drawer .mm-brief-top {
     padding-inline: max(16px, var(--mm-safe-right)) max(16px, var(--mm-safe-left));
@@ -614,6 +637,16 @@
   .mm-company-read { flex-direction: column; }
   .mm-success-actions { flex-direction: column; align-items: stretch; }
   .mm-success-actions .mm-text-button { align-self: center; }
+}
+
+/* Above phone width the panel keeps its layout height, so a software keyboard
+   (a tablet, a phone held sideways) covers its lower part. The keyboard's
+   height becomes room to scroll into, which is what lets the dialog lift a
+   focused field above it; without it a step shorter than the panel had
+   nothing to scroll and the field stayed under the keyboard. */
+@media (min-width: 561px) {
+  .mm-brief-backdrop[data-keyboard="open"] .mm-brief-panel { padding-bottom: var(--mm-brief-keyboard-inset, 0px); }
+  .mm-brief-backdrop[data-keyboard="open"] .mm-brief-panel .mm-brief-start-step { min-height: 0; }
 }
 
 /* The live form has eight real divisions. At phone widths and shorter desktop
@@ -776,7 +809,8 @@
   --mmb-bg: var(--mm-mint-wash);
   --mmb-fg: #ffffff;
   --mmb-fg2: var(--mm-tx2);
-  --mmb-muted: var(--mm-mut);
+  /* --mm-mut measured 4.3:1 on forest; this is 5.4:1. */
+  --mmb-muted: #8a9e93;
   --mmb-line: rgba(255, 255, 255, .2);
   --mmb-card: rgba(255, 255, 255, .06);
   --mmb-accent: var(--mm-mint);
@@ -786,10 +820,17 @@
   --mmb-bg: var(--mm-paper);
   --mmb-fg: var(--mm-ink);
   --mmb-fg2: var(--mm-tx2-d);
-  --mmb-muted: var(--mm-mut-d);
+  /* The caption colour on paper. --mm-mut-d measured 3.4:1 here, under the
+     4.5:1 every caption in this dialog needs: "Work email", "We use the
+     domain, not your inbox.", the rail and the footer line are all small
+     text somebody has to read. This is 4.9:1 on paper, 5.3:1 on the card,
+     and still a step lighter than --mmb-fg2 at 6.9:1. */
+  --mmb-muted: #636b61;
   --mmb-line: var(--mm-paper-line);
   --mmb-card: var(--mm-paper2);
   --mmb-accent: var(--mm-mint-d);
+  /* The bright amber is 1.9:1 on paper; its paper counterpart is 4.8:1. */
+  --mmb-alert: var(--mm-amber-d);
   --mmb-top: rgba(244, 240, 232, .96);
 }
 
@@ -833,6 +874,84 @@
 .mm-brief-panel[data-tone="forest"] .mm-value-preview { color: var(--mmb-muted); }
 .mm-brief-panel[data-tone="ink"] .mm-value-preview strong,
 .mm-brief-panel[data-tone="forest"] .mm-value-preview strong { color: var(--mmb-fg); }
+
+/* The offer of a person, when it asks for the four details inside the dialog.
+ *
+ * Its form (DetailsJourney) is styled in mindmake-instruments.css, which the
+ * homepage does not load and /ai-brain does. On the homepage it arrived
+ * unstyled, eight division names run together as one line of text. Where the
+ * sheet had loaded, the page's dark tokens came with it: the question and its
+ * mark in pale mint and the eight choices in pale grey-green on the cream
+ * paper, at 1.2:1 to 1.9:1, with dark borders round them. It is dressed here
+ * instead, from the dialog's own tone tokens and in the dialog's own form
+ * language, so it reads the same on every page and every ground. */
+.mm-brief-panel[data-tone] .mm-handoff .mm-i { color: var(--mmb-fg2); }
+.mm-brief-panel[data-tone] .mm-handoff .mm-i-hot { stroke: var(--mmb-accent); }
+.mm-brief-panel[data-tone] .mm-handoff .mm-i-fill { fill: color-mix(in srgb, var(--mmb-accent) 18%, transparent); }
+.mm-brief-panel[data-tone] .mm-handoff-last { color: var(--mmb-alert, var(--mm-amber)); }
+.mm-brief-panel[data-tone] .mm-details { display: grid; gap: 15px; margin: 4px 0 0; }
+.mm-brief-panel[data-tone] .mm-details-pair { display: grid; gap: 15px; }
+@media (min-width: 620px) {
+  .mm-brief-panel[data-tone] .mm-details-pair { grid-template-columns: 1fr 1fr; }
+}
+.mm-brief-panel[data-tone] .mm-details-field { display: grid; gap: 7px; min-width: 0; margin: 0; border: 0; padding: 0; }
+.mm-brief-panel[data-tone] .mm-details-field > label { color: var(--mmb-muted); }
+.mm-brief-panel[data-tone] .mm-details-field > legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  float: none;
+  width: 100%;
+  margin: 0 0 3px;
+  padding: 0;
+  color: var(--mmb-fg2);
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+.mm-brief-panel[data-tone] .mm-details .mm-q-mark { width: 24px; height: 24px; flex: none; margin: 0; }
+.mm-brief-panel[data-tone] .mm-details-field input::placeholder { color: var(--mmb-muted); }
+.mm-brief-panel[data-tone] .mm-details-field > small { color: var(--mmb-muted); font-size: 12.5px; line-height: 1.45; }
+.mm-brief-panel[data-tone] .mm-details .mm-qchips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mm-brief-panel[data-tone] .mm-details .mm-qchip {
+  display: inline-flex;
+  align-items: center;
+  height: auto;
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--mmb-fg) 28%, transparent);
+  border-radius: 0;
+  background: transparent;
+  padding: 0 14px;
+  color: var(--mmb-fg);
+  font-family: var(--mm-grotesque);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-brief-panel[data-tone] .mm-details .mm-qchip[aria-pressed="true"] {
+  border-color: var(--mmb-fg);
+  background: var(--mmb-fg);
+  color: var(--mmb-bg);
+}
+.mm-brief-panel[data-tone] .mm-details .mm-qchip:focus-visible { outline: 2px solid var(--mmb-accent); outline-offset: 3px; }
+.mm-brief-panel[data-tone] .mm-details .mm-journey-error {
+  margin: 0;
+  border-left: 3px solid var(--mmb-alert, var(--mm-amber));
+  padding-left: 12px;
+  color: var(--mmb-alert, var(--mm-amber));
+  font-family: var(--mm-mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.mm-brief-panel[data-tone] .mm-details .mm-button { justify-self: start; margin-top: 3px; }
+@media (max-width: 559px) {
+  .mm-brief-panel[data-tone] .mm-details .mm-qchips { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .mm-brief-panel[data-tone] .mm-details .mm-qchip { width: 100%; padding-inline: 11px; font-size: 12px; }
+}
 
 /* The reading moment: a quiet accent rule filling under the message. */
 .mm-reading-rule {
@@ -1185,6 +1304,10 @@
   letter-spacing: .16em;
   text-transform: uppercase;
 }
+/* The two panels over the preview are sand, where the bright mint kicker
+   measured 1.04:1. The deep mint is the leaf labels' own, 5.4:1 there. */
+.mm-folio-panel header p,
+.mm-folio-panel-kicker { color: var(--mmf-mint-deep); }
 .mm-folio-binding-head > span { color: rgba(234, 220, 193, .68); font-size: 12px; line-height: 1.35; }
 
 .mm-folio-source-keys {
@@ -1215,7 +1338,7 @@
 .mm-folio-source-keys button[type="button"] { height: 100%; cursor: pointer; }
 .mm-folio-source-keys span { color: var(--mmf-brass); font: 11px/1 var(--mm-mono); }
 .mm-folio-source-keys small {
-  color: rgba(234, 220, 193, .52);
+  color: rgba(234, 220, 193, .64);
   font: 9px/1 var(--mm-mono);
   letter-spacing: .11em;
   text-transform: uppercase;
@@ -1294,7 +1417,7 @@
   line-height: .94;
   letter-spacing: -.035em;
 }
-.mm-folio-leaf-count { color: rgba(6, 23, 17, .5); font: 9px/1 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; }
+.mm-folio-leaf-count { color: rgba(6, 23, 17, .68); font: 9px/1 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; }
 .mm-folio-leaf-count b { color: var(--mmf-mint-deep); font-size: 18px; font-weight: 500; }
 
 .mm-folio-leaves {
@@ -1378,7 +1501,7 @@
   padding-top: clamp(12px, 1.8vh, 22px);
   border-top: 1px solid var(--mmf-line-dark);
 }
-.mm-folio-actions > p { grid-column: 1 / -1; margin: 0; color: rgba(6, 23, 17, .58); font: 8px/1.35 var(--mm-mono); letter-spacing: .04em; }
+.mm-folio-actions > p { grid-column: 1 / -1; margin: 0; color: rgba(6, 23, 17, .68); font: 8px/1.35 var(--mm-mono); letter-spacing: .04em; }
 .mm-folio-primary.mm-button { min-width: 0; width: 100%; margin: 0; }
 .mm-folio-back-leaf {
   min-height: 44px;
@@ -1432,11 +1555,13 @@
 }
 .mm-folio-time-layout label > span b { color: var(--mmf-mint-deep); font: 9px/1 var(--mm-mono); }
 .mm-folio-time-layout input:checked + span { background: var(--mmf-ink); color: var(--mmf-paper-light); }
+/* The chosen row turns ink, where the deep mint number was 2.5:1. */
+.mm-folio-time-layout input:checked + span b { color: var(--mmf-mint); }
 .mm-folio-time-layout input:focus-visible + span { outline: 2px solid var(--mmf-mint-deep); outline-offset: -2px; }
 .mm-folio-time-preview { min-height: 230px; display: flex; flex-direction: column; padding: 24px; border-left: 1px solid var(--mmf-brass); background: rgba(173, 135, 80, .1); }
 .mm-folio-time-preview p { margin: 0; color: var(--mmf-mint-deep); font: 8px/1 var(--mm-mono); letter-spacing: .14em; text-transform: uppercase; }
 .mm-folio-time-preview strong { margin: 24px 0 auto; font-family: var(--mm-serif); font-size: clamp(24px, 3vw, 36px); font-weight: 430; line-height: 1.08; }
-.mm-folio-time-preview small { padding-top: 18px; border-top: 1px solid var(--mmf-line-dark); color: rgba(6, 23, 17, .58); font: 8px/1.35 var(--mm-mono); text-transform: uppercase; }
+.mm-folio-time-preview small { padding-top: 18px; border-top: 1px solid var(--mmf-line-dark); color: rgba(6, 23, 17, .68); font: 8px/1.35 var(--mm-mono); text-transform: uppercase; }
 .mm-folio-panel footer { display: flex; justify-content: flex-end; gap: 12px; padding-top: 18px; border-top: 1px solid var(--mmf-line-dark); }
 .mm-folio-quiet { min-height: 44px; border: 1px solid var(--mmf-line-dark); padding: 10px 16px; background: transparent; color: var(--mmf-ink); font: 9px/1 var(--mm-mono); cursor: pointer; }
 .mm-folio-keep-surface { width: min(620px, 100%); }

@@ -50,8 +50,9 @@ The owner-approved public copy is locked:
 | GTM door | Build your AI GTM |
 | GTM door explanation | Build your AI native pricing, positioning and org. |
 | Shared proof | Build the first working version on real work. Keep the system. |
-| Brain headline | Make your judgement reusable. |
-| Brain promise | Give your standards, context and past decisions a memory you can use. |
+| Brain headline | Own your judgement, and amplify it. |
+| Brain promise | Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader. |
+| Brain steps | Your brain, built out. The systems that amplify you, proven. The confidence of being an AI era leader. |
 | Brain film line | The next decision begins with what the last one taught you. |
 | GTM headline | Make your pricing, positioning and team AI-native. |
 | GTM promise | AI is changing what customers pay for, how they choose and who does the work. We rebuild your go-to-market around it, then test it with real buyers. |

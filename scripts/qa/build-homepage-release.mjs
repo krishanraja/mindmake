@@ -30,6 +30,14 @@ import postcss from 'postcss';
 // restores r04 after Krish rejected and ordered removal of the r06 render.
 //
 // A fourth (Krish, 2026-09-25): the footer statement breaks before "changes".
+//
+// A sixth (Krish, 2026-09-26): the closing chapter's AI brain state plays the
+// hero's Archive Engine loop and poster (`routeFilm`), and the four history
+// questions are set in quotation marks (`quoted`). The runtime used to restore
+// the brain state's title, lede and steps from older copy of its own on every
+// load, so the words in the markup never showed; they are now read from the
+// markup (`brainWords`), which leaves one place to change them. The AI GTM
+// state keeps film-04 and its own words.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -81,7 +89,21 @@ body = body
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
   .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
-  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
+  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`)
+  .replace(/(<section class="route-stage"><video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*><source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`);
+// The history questions are what people asked at the time, so they read as
+// quotations, in the curly marks the rest of the site quotes with.
+const list = values => `[${values.map(value => JSON.stringify(value)).join(', ')}]`;
+const quoted = question => `“${question.replace(/^["“]|["”]$/g, '')}”`;
+body = body.replace(/(<h3 data-story-question=""[^>]*>)([^<]+)(<\/h3>)/g, (_, open, question, close) => `${open}${quoted(question)}${close}`);
+const brainWords = (() => {
+  const copies = [...body.matchAll(/<div class="route-copy"[^>]*><h2>([^<]+)<\/h2><p class="lede">([^<]+)<\/p>/g)].map(([, title, lede]) => ({ title, lede }));
+  const steps = [...body.matchAll(/<article class="receipt">[\s\S]*?<ol>([\s\S]*?)<\/ol>/g)].map(([, list]) => [...list.matchAll(/<li>([^<]+)<\/li>/g)].map(([, step]) => step));
+  if (copies.length !== 2 || steps.length !== 2 || steps[0].length !== 3) throw new Error('Homepage adapter anchor missing: route brain words');
+  const words = { ...copies[0], steps: steps[0] };
+  if (JSON.stringify({ ...copies[1], steps: steps[1] }) !== JSON.stringify(words)) throw new Error('Homepage adapter drift: desktop and phone route words differ');
+  return words;
+})();
 // The route labels say what the reader gets, Home leads and About us sits
 // before Media, in every menu and footer (Krish, 2026-09-25). PRIMARY_ROUTES in
 // src/lib/publicLinks.ts carries the same list for every other page.
@@ -102,12 +124,21 @@ const phoneFooterRoutes = /(<div class="r3-variant preview-mobile"><footer class
 if (!phoneFooterRoutes.test(body)) throw new Error('Homepage adapter anchor missing: phone footer routes');
 body = body.replace(phoneFooterRoutes, '$1');
 body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 2, 'hero film'], [/archive-engine-hero-poster-r07/g, 2, 'hero poster'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 4, 'hero and route film'], [/archive-engine-hero-poster-r07/g, 4, 'hero and route poster'], [/<section class="route-stage"><video [^>]*archive-engine-hero-poster-r07[^>]*><source src="[^"]*archive-engine-hero-loop-r07/g, 2, 'route film'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<h3 data-story-question=""[^>]*>“[^"“”<]+”<\/h3>/g, 2, 'quoted history question'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
 const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
 let script = read('script.js');
+if (Object.values(brainWords).flat().some(text => /[&<>]/.test(text))) throw new Error('Route brain words carry markup; set them as plain text');
+script = cut(script, '    brain: {\n', '      caption:', `    brain: {\n      title: ${JSON.stringify(brainWords.title)},\n      lede: ${JSON.stringify(brainWords.lede)},\n`, 'route brain title and lede');
+script = script.replace(/(    brain: \{[\s\S]*?      steps: )\[[^\]]*\](,[\s\S]*?      film: )"\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/, (_, open, middle) => `${open}${list(brainWords.steps)}${middle}${JSON.stringify(heroFilm.mp4)}`);
+script = script.replace(/question: "([^"]+)"/g, (_, question) => `question: ${JSON.stringify(quoted(question))}`);
+for (const [pattern, expected, label] of [[/question: "“[^"“”]+”"/g, 4, 'quoted history questions'], [/film-02-loop/g, 0, 'retired route film in runtime'], [new RegExp(`title: ${JSON.stringify(brainWords.title).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g'), 1, 'route brain title']]) {
+  const found = (script.match(pattern) ?? []).length;
+  if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
+}
+if (script.split(`steps: ${list(brainWords.steps)}`).length !== 2) throw new Error('Authorised correction drifted: route brain steps');
 script = cut(script, '  const selectAuthority = (phase) => {', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
 script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
 script = cut(script, '  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');

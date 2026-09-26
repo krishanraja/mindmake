@@ -7,16 +7,18 @@
 // declares a pinned practice case like the desktop.
 // From r41 the R3 history chapter is back ahead of them (Krish, 2026-09-25:
 // "reinstate"), pinned at the top of the viewport by pinnedChapters.ts.
+// On 26 September 2026 Krish reworded both reach states, and set the history
+// questions in quotation marks; the states below are those words.
 export const APPROVED_SCROLL_STATES = {
   history: [
-    'If knowledge lives outside us, will memory grow weaker?',
-    'If the machine can do the work, what happens to the worker?',
-    'If the device does the arithmetic, will children stop learning to think?',
-    'If the device knows the route, will we lose our sense of direction?',
+    '“If knowledge lives outside us, will memory grow weaker?”',
+    '“If the machine can do the work, what happens to the worker?”',
+    '“If the device does the arithmetic, will children stop learning to think?”',
+    '“If the device knows the route, will we lose our sense of direction?”',
   ],
   reach: [
-    'The feeling is familiar. The reach is new.',
-    'The organisation changes shape.',
+    'The feeling is similar. The scale is not.',
+    'What people do, and should do, changes shape.',
   ],
   practice: [
     'It notices what changed.',

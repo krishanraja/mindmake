@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { homepageMarkup } from "@/components/homepage-release/markup";
 import { leadershipChaptersMarkup, mountLeadershipChapters, practiceRest, practiceSweep } from "@/components/leadership-chapters/leadershipChapters";
+import { mountReturnedHour } from "@/components/homepage-release/returnedHour";
+import { readFileSync } from "node:fs";
 
 describe("homepage leadership chapters", () => {
   afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
@@ -13,7 +15,7 @@ describe("homepage leadership chapters", () => {
     expect(chapters).toBeGreaterThan(opening);
     expect(route).toBeGreaterThan(chapters);
     const rendered = leadershipChaptersMarkup();
-    for (const words of ["The organisation<br /><em>changes shape.</em>", "The system does not replace your judgement.", "What your AI Brain makes possible", "What will you do with the hours it gives back?"]) {
+    for (const words of ["What people do, and should do,<br />", "When built right,<br />", "What your AI Brain makes possible", "What will you do with the hours you save on a task?"]) {
       expect(rendered).toContain(words);
     }
   });
@@ -28,12 +30,43 @@ describe("homepage leadership chapters", () => {
     const history = homepageMarkup.indexOf('data-component="history"');
     expect(history).toBeGreaterThan(homepageMarkup.indexOf('id="opening"'));
     expect(history).toBeLessThan(homepageMarkup.indexOf('id="new-age-leadership"'));
-    expect(homepageMarkup).toContain("You are not the first person to wonder what a new tool might take from you.");
+    expect(homepageMarkup).toContain("We've been making new technology the enemy for thousands of years.");
     expect(homepageMarkup.match(/data-era="[0-3]"/g)?.length).toBeGreaterThanOrEqual(4);
     expect(homepageMarkup).toContain('href="#history"');
     const chapters = leadershipChaptersMarkup();
-    expect(chapters).toContain("The feeling is familiar.");
+    expect(chapters).toContain("The feeling is similar.");
     expect(chapters).toContain('data-reach-jump="organisation"');
+  });
+
+  /* 26 September 2026 (Krish): the history questions are quotations, and the
+     closing chapter's AI brain state keeps the words and film its markup
+     carries. The runtime used to restore older words over them on load. */
+  it("quotes the history questions and keeps the closing chapter's words and film", () => {
+    const runtime = readFileSync("src/components/homepage-release/runtime.js", "utf8");
+    expect(homepageMarkup.match(/<h3 data-story-question=""[^>]*>“If knowledge lives outside us, will memory grow weaker\?”<\/h3>/g)).toHaveLength(2);
+    expect(runtime.match(/question: "“[^"]+”"/g)).toHaveLength(4);
+    expect(homepageMarkup.match(/<h2>Own your judgement, and amplify it\.<\/h2>/g)).toHaveLength(2);
+    expect(runtime).toContain('title: "Own your judgement, and amplify it."');
+    expect(runtime).toContain('steps: ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."]');
+    expect(`${homepageMarkup}${runtime}`).not.toContain("film-02");
+    expect(homepageMarkup.match(/<section class="route-stage"><video [^>]*poster="[^"]*archive-engine-hero-poster-r07[^"]*"><source src="[^"]*archive-engine-hero-loop-r07/g)).toHaveLength(2);
+  });
+
+  it("crosses out the returned hour's first answer, and gives the words back when unmounted", () => {
+    const root = document.createElement("div");
+    root.innerHTML = `<div class="mm-home-leadership">${leadershipChaptersMarkup()}</div>`;
+    document.body.append(root);
+    const answer = root.querySelector<HTMLElement>(".proof-return li")!;
+    const unmount = mountReturnedHour(root);
+    expect(answer.querySelector("s.mm-hour-strike")?.textContent).toBe("Clock off work earlier?");
+    expect(answer.classList.contains("mm-hour-struck")).toBe(true);
+    /* jsdom lays nothing out, so the answer reads as above the fold: fully struck. */
+    expect(answer.style.getPropertyValue("--strike")).toBe("1.0000");
+    unmount();
+    expect(answer.querySelector("s")).toBeNull();
+    expect(answer.textContent).toBe("Clock off work earlier?");
+    expect(answer.classList.contains("mm-hour-struck")).toBe(false);
+    expect(answer.style.getPropertyValue("--strike")).toBe("");
   });
 
   it("hides every decorative chapter film from assistive technology", () => {

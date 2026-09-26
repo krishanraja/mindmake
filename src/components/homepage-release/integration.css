@@ -126,11 +126,6 @@ body.mm-homepage-active { margin: 0; }
     white-space: nowrap;
   }
 }
-/* "Make your judgement reusable." on a phone: at 13cqi, "judgement reusable."
-   is about 96cqi wide against an 89.7cqi column, so keeping the last two words
-   together ran the full stop off the screen, and letting them part left
-   "reusable." alone. At 11.8cqi the pair fits the column at every phone width. */
-.mm-homepage-release .r3-route .preview-mobile .site-frame .route-copy h2 { font-size: 11.8cqi; }
 .mm-homepage-release .r3-footer .legal a { font-size: clamp(11px, 0.9vw, 14px); }
 .mm-homepage-release .r3-footer .site-footer small { font-size: clamp(10px, 0.7vw, 12px); }
 
@@ -349,9 +344,6 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-route .preview-mobile figcaption { font-size: clamp(13px, 3.4cqi, 15px); }
   .mm-homepage-release .r3-route .preview-mobile .receipt ol li { font-size: clamp(11px, 3cqi, 13px); }
   .mm-homepage-release .r3-route .preview-mobile .receipt blockquote { font-size: clamp(14px, 3.6cqi, 16px); }
-  /* The longest step keeps its last two words together, so it takes the
-     column its words need rather than a third. */
-  .mm-homepage-release .r3-route .preview-mobile .receipt ol li:first-child { flex: 1.4; }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors span { font-size: 11px; }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors strong { font-size: clamp(20px, 5.4cqi, 23px); }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors small { font-size: clamp(15px, 4cqi, 17px); line-height: 1.3; }
@@ -431,3 +423,114 @@ body.mm-homepage-active { margin: 0; }
 }
 .mm-homepage-release .r3-footer .mm-subscribe-cta,
 .mm-homepage-release .mm-route-badged::before { font-family: var(--r3-mono); }
+
+/* ---------------------------------------------------------------------------
+   Fewer, longer lines, 2026-09-26 (Krish): the history questions, "What
+   people do, and should do, changes shape." and "When built right, AI is our
+   biggest level-up." wrapped a word or two to a line, and on a laptop the
+   lines beneath them ran off the bottom of the pinned frame. Homepage only;
+   /new-age-leadership keeps its own sizes. Each size is read from the width
+   the words have to fit, measured in the delivered faces, with a few per cent
+   to spare, so the breaks hold at every desktop width. -------------------- */
+
+/* The four questions are quoted (the generator sets the marks) and run the
+   width of the story column in three balanced lines. The frame is a size
+   container, so the type also yields to a short screen: at 1536x730 the
+   answer beneath still clears the bottom of the frame. On a desktop the
+   opening mark (0.37em) hangs in the gutter, so the words keep the edge the
+   era line above them starts on. */
+.mm-homepage-release .r3-history .device-desktop .story-copy h3 {
+  max-width: none;
+  font-size: clamp(28px, min(4.4cqw, 7.2cqh), 60px);
+  text-indent: -.37em;
+  text-wrap: balance;
+}
+.mm-homepage-release .r3-history .device-mobile .story-copy h3 { max-width: none; text-wrap: balance; }
+
+@media (min-width: 901px) {
+  /* "What people do," is the reach heading's longest line at 6.14em, in a
+     column 30.2vw wide once the gutters are off. Both states take the size,
+     so the heading does not jump when the state changes. */
+  .mm-homepage-release .mm-home-leadership .reach-copy-state h2 {
+    font-size: clamp(36px, min(4.6vw, 9vh), 88px);
+    line-height: .9;
+    text-wrap: balance;
+  }
+  /* "AI is our biggest level-up." is 9.09em and holds one line of the 31.2vw
+     introduction: two lines in all, where there were four. */
+  .mm-homepage-release .mm-home-leadership .work-intro h2 {
+    font-size: clamp(28px, 3.3vw, 64px);
+    text-wrap: balance;
+  }
+  /* The returned hour's panel pins, so on a short laptop the question gives up
+     a little height rather than the list running under the fold. */
+  .mm-homepage-release .mm-home-leadership .proof-return h2 { font-size: clamp(38px, min(5.4vw, 10.5vh), 90px); }
+}
+/* Below 900px the introduction takes the full width less the gutters, about
+   90vw, so 9.2vw keeps the same two lines on a phone, beside the reach
+   heading's size there, where "level-up." used to sit alone. */
+@media (max-width: 900px) {
+  .mm-homepage-release .mm-home-leadership .work-intro h2 { font-size: clamp(28px, 9.2vw, 72px); text-wrap: balance; }
+}
+
+/* The returned hour's three answers each hold one line (Krish, 2026-09-26).
+   The longest, "Invest in to the AI brain you own that will compound over
+   time?", is 26.45em at this tracking; 3.66% of the list's width sets it with
+   about 3% to spare, 21.7px at 1440 and 13px on a 390px phone. A phone
+   narrower than that keeps the 13px floor and balances onto two lines. */
+.mm-homepage-release .mm-home-leadership .proof-return ul { container-type: inline-size; }
+.mm-homepage-release .mm-home-leadership .proof-return li {
+  font-size: clamp(13px, 3.66cqi, 22px);
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+/* The first answer is crossed out in red as the reader scrolls
+   (returnedHour.ts sets --strike from 0 to 1, both ways). The struck words
+   recede a little as the line completes. Without script the answer is simply
+   struck, which is also where reduced motion rests. */
+.mm-homepage-release .mm-home-leadership .proof-return li:first-child:not(.mm-hour-struck) {
+  text-decoration: line-through max(2px, .09em) #c93a2a;
+}
+.mm-homepage-release .mm-home-leadership .proof-return .mm-hour-strike {
+  color: rgb(6 17 13 / calc(1 - .38 * var(--strike, 1)));
+  text-decoration: none;
+  background: linear-gradient(#c93a2a, #c93a2a) no-repeat 0 44% / calc(var(--strike, 1) * 100%) max(2px, .1em);
+}
+
+/* The closing chapter, 2026-09-26 (Krish): "Own your judgement, and amplify
+   it." with its lede and three steps. The approved 8ch measure broke the
+   title as "Own your / judgement, / and / amplify it.", leaving "and" alone.
+   Bound by its column instead, at 6cqi on a desktop and the authored 13cqi on
+   a phone, the title balances into "Own your / judgement, / and amplify it.":
+   "and amplify it." is 5.35em and fits both columns with room to spare, and
+   "Own your judgement," at 8.15em fits neither. */
+.mm-homepage-release .r3-route .site-frame .route-copy h2 { max-width: none; text-wrap: balance; }
+.mm-homepage-release .r3-route .preview-desktop .site-frame .route-copy h2 { font-size: 6cqi; }
+.mm-homepage-release .r3-route .preview-desktop .lede { margin-top: 1.6cqi; }
+.mm-homepage-release .r3-route .preview-desktop .primary { margin-top: 2.2cqi; }
+/* The receipt's third column held the client quote, which is gone, so the
+   steps take its width as well: three even columns with room between them,
+   at a size a reader does not have to lean in for. */
+.mm-homepage-release .r3-route .preview-desktop .receipt { align-items: start; padding-block: 2cqi; }
+.mm-homepage-release .r3-route .preview-desktop .receipt ol {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.6cqi;
+}
+.mm-homepage-release .r3-route .preview-desktop .receipt ol li { font-size: max(15px, 1.1cqi); line-height: 1.3; }
+.mm-homepage-release .r3-route .preview-desktop .receipt ol li::before { margin-bottom: .6cqi; }
+/* On a phone three columns left each step 110px at 11.7px, so they stack:
+   the number beside each step, one step to a line. */
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-route .preview-mobile .receipt { padding: 7cqi 5.13cqi; }
+  .mm-homepage-release .r3-route .preview-mobile .receipt ol { flex-direction: column; gap: 3.6cqi; margin-top: 5cqi; }
+  .mm-homepage-release .r3-route .preview-mobile .receipt ol li {
+    display: grid;
+    grid-template-columns: 9cqi 1fr;
+    align-items: baseline;
+    font-size: clamp(15px, 4cqi, 17px);
+    line-height: 1.3;
+  }
+  .mm-homepage-release .r3-route .preview-mobile .receipt ol li::before { margin: 0; font-size: 11px; }
+}

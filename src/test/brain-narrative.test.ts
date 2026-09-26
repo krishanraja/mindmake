@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
-import { sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
+import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import fixture from "@/data/vnext/brain-fixture.json";
 import { blogPosts } from "@/data/blogPosts";
 
@@ -95,7 +95,7 @@ describe("the Brain narrative", () => {
 
   it("retires the source check, the correction and the memory promise", () => {
     const html = serverRender("/ai-brain");
-    for (const retired of ['id="proof"', 'id="correction"', "testSourceS2", "correctionMachine", "Nothing gets lost.", "One decision wakes the whole Brain.", "It remembers what mattered", "What this Brain holds", "approved source fixture"]) {
+    for (const retired of ['id="proof"', 'id="correction"', "testSourceS2", "correctionMachine", "Nothing gets lost.", "One decision wakes the whole Brain.", "It remembers what mattered", "What this Brain holds", "approved source fixture", "It is written in plain words"]) {
       expect(html, retired).not.toContain(retired);
     }
   });
@@ -163,6 +163,26 @@ describe("the stepped build", () => {
     expect(sequenceProgress(start, height, viewport)).toBe(0);
     expect(sequenceProgress(start - height, height, viewport)).toBe(1);
     expect(sequenceProgress(start - height / 2, height, viewport)).toBeCloseTo(0.5);
+  });
+
+  it("paces the month by its own steps, each lit as it reaches the reading line", () => {
+    // Four steps 100px apart; the reading line at 600px.
+    const tops = (first: number) => [first, first + 100, first + 200, first + 300];
+    expect(readingProgress(tops(620), 600)).toBe(0);
+    expect(stepStates(readingProgress(tops(599), 600), 4)).toEqual(["current", "next", "next", "next"]);
+    // The third step (Day 30) is only current once its own top is past the line.
+    expect(stepStates(readingProgress(tops(401), 600), 4)).toEqual(["past", "current", "next", "next"]);
+    expect(stepStates(readingProgress(tops(399), 600), 4)).toEqual(["past", "past", "current", "next"]);
+    // The days keep pace: halfway through a step is halfway through its share.
+    expect(readingProgress(tops(350), 600)).toBeCloseTo(0.625);
+    expect(readingProgress(tops(200), 600)).toBe(1);
+    expect(readingProgress([], 600)).toBe(1);
+  });
+
+  it("marks only the month as paced by reading", () => {
+    const doc = page();
+    const paced = [...doc.querySelectorAll<HTMLElement>("[data-steps]")].filter((sequence) => sequence.dataset.steps === "reading");
+    expect(paced.map((sequence) => sequence.closest(".chapter")?.id)).toEqual(["built"]);
   });
 
   it("undoes itself on the way back", () => {

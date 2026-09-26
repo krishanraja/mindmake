@@ -83,11 +83,14 @@
 
 .mm-decision-balance-mobile-film { display: none; }
 
+/* The offer takes the width of its panel. Held to 8.5ch, "Build one useful AI
+   system on real work." stood in four short lines beside an empty half of the
+   panel at every size (Krish, 2026-09-26). On a desktop it is set a step
+   smaller so it reads in three full lines across the panel, not four. */
 .mm-decision-balance-offer h2 {
-  max-width: 8.5ch;
   margin: 0;
   color: var(--db-cream);
-  font: 400 clamp(54px, 5.4vw, 88px)/0.88 var(--mm-serif);
+  font: 400 clamp(54px, 4.4vw, 88px)/0.88 var(--mm-serif);
   letter-spacing: -0.055em;
   text-wrap: balance;
 }
@@ -544,7 +547,7 @@
 
 @media (max-width: 1100px) and (min-width: 861px) {
   .mm-decision-balance-shell { grid-template-columns: minmax(340px, 0.9fr) minmax(510px, 1.1fr); }
-  .mm-decision-balance-offer h2 { font-size: clamp(48px, 5.7vw, 68px); }
+  .mm-decision-balance-offer h2 { font-size: clamp(48px, 5.2vw, 68px); }
   .mm-decision-balance-assembly .pan { width: 39%; }
   .mm-decision-balance-dialog-result { grid-template-columns: minmax(240px, 0.72fr) minmax(440px, 1.28fr); }
 }
@@ -560,7 +563,7 @@
   .mm-decision-balance-mobile-film video { object-fit: cover; object-position: 61% center; filter: saturate(0.58) brightness(0.34) contrast(1.18); }
   .mm-decision-balance-mobile-film span { background: linear-gradient(180deg, rgba(4, 15, 10, 0.66), rgba(4, 15, 10, 0.9) 58%, rgba(4, 15, 10, 0.97)), radial-gradient(circle at 73% 40%, transparent, rgba(4, 15, 10, 0.42) 58%); }
   .mm-decision-balance-offer::after { right: 0; bottom: -1px; width: 34%; height: 1px; background: linear-gradient(90deg, transparent, var(--db-brass-light)); }
-  .mm-decision-balance-offer h2 { grid-column: 1/3; max-width: 9ch; font-size: clamp(46px, 13vw, 66px); }
+  .mm-decision-balance-offer h2 { grid-column: 1/3; font-size: clamp(46px, 13vw, 66px); }
   .mm-decision-balance-lede { grid-column: 1/3; font-size: 16px; line-height: 1.3; }
   .mm-decision-balance-offer-links { grid-column: 1/3; }
   .mm-decision-balance-offer-links a { min-height: 58px; padding: 9px 11px; }
@@ -680,7 +683,7 @@
 @media (min-width: 861px) and (max-height: 720px) {
   .mm-decision-balance-shell { height: calc(100dvh - var(--mm-header-height)); min-height: 0; }
   .mm-decision-balance-offer { gap: 8px; padding-top: 12px; padding-bottom: 12px; }
-  .mm-decision-balance-offer h2 { max-width: 10.5ch; font-size: clamp(46px, 4vw, 54px); line-height: 0.9; }
+  .mm-decision-balance-offer h2 { font-size: clamp(46px, 4vw, 54px); line-height: 0.9; }
   .mm-decision-balance-lede { font-size: 14px; line-height: 1.25; }
   .mm-decision-balance-offer-links a { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
   .mm-decision-balance-contract { font-size: 13px; line-height: 1.25; }
@@ -706,7 +709,7 @@
 
 @media (min-width: 861px) and (min-height: 721px) and (max-height: 850px) {
   .mm-decision-balance-offer { gap: 11px; padding-top: 24px; padding-bottom: 24px; }
-  .mm-decision-balance-offer h2 { font-size: clamp(45px, 5vw, 64px); }
+  .mm-decision-balance-offer h2 { font-size: clamp(45px, 4.4vw, 64px); }
   .mm-decision-balance-lede { font-size: 15px; }
   .mm-decision-balance-contract { font-size: 14px; }
   .mm-decision-balance-instrument { padding-top: 24px; padding-bottom: 24px; }

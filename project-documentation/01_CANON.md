@@ -487,7 +487,8 @@ as separate software.
 objection chips and the ask bar. That file is the source of truth for public
 answers, because it is what ships. It covers cost, whether you need to be
 technical, what happens when the work ends, who sees your data, how this differs
-from a consultant, why not just use a chatbot, how much of the team's time it
+from a consultant, why not just use a chatbot, where you use your AI brain, how
+you keep your AI brain up to date, how much of the team's time it
 takes, what you keep, whether it is a document or something that works, how soon
 you see something working, how to start, whether it fits your business,
 whether we will email forever, what actually happens in the work, what is

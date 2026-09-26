@@ -16,6 +16,74 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "how-an-ai-brain-works",
+    title: "How an AI brain learns your judgement",
+    excerpt: "An AI brain holds how you judge, and you decide what goes into it. How we build one, how it stays right and why it outlasts any model.",
+    category: "implementation",
+    tags: ["AI brain", "Judgement", "Standards", "Ownership"],
+    author: "Mindmake",
+    publishedAt: "2026-09-26",
+    updatedAt: "2026-09-26",
+    readingTime: 5,
+    featured: true,
+    metaDescription: "How an AI brain learns a leader's taste from real work, keeps their calls apart from its guesses, repairs itself after a correction and outlasts any model.",
+    content: `
+## Every AI knows the market
+
+Every AI you can buy has read the public record. It writes well, answers fast and knows how businesses like yours usually work. None of it knows how you decide.
+
+Your judgement lives somewhere else: in the draft you sent back, the candidate you passed on, the price you refused to cut. You rarely write any of it down, and when you try, it comes out as "be bold" or "keep it simple", which tells an AI almost nothing.
+
+An AI brain is where that judgement lives instead. It is a private, written record of your standards, the examples that meet them and the reasons behind them, and it works on your real work. Five design choices make it different from a longer prompt or a memory setting.
+
+## 1. It learns your taste from what you turn down
+
+People explain their taste badly and show it well. So we skip the questionnaire. We put real work in front of you: two drafts, three options, a proposal with one line wrong. You approve some, reject others and edit the rest, and the Brain writes down why.
+
+That gives a far richer standard than a list of preferences. "Be bold" becomes something the Brain can apply: what bold means in your market, two pieces of work that get it right, the exception you always make and what would change your mind.
+
+## 2. Your calls stay yours
+
+A Brain holds three kinds of thing and never mixes them up. Facts come from sources you can check. Readings are the Brain's own guesses about you, such as "you seem to prefer shorter proposals". Convictions are the standards you have agreed.
+
+A reading stays a reading until you agree it, so the Brain cannot quietly turn a guess into a truth about you. Every standard carries its source, the day you agreed it and where it applies, so you can inspect it and argue with it.
+
+## 3. A correction repairs what relied on it
+
+Most AI memory handles a correction by adding another note and hoping the next answer finds it. A Brain records which guidance depends on which standard. When you change your mind, it finds the work that leaned on the old view and brings it into line.
+
+Take a standard many leaders start with: every piece of work that leaves the building needs a person to release it. Later you narrow it. Work that reaches the outside world still needs your release, and internal drafts you can undo can go ahead without it. The Brain updates the guidance built on the first version, keeps the old version in view and records why it changed.
+
+## 4. It asks the question that could change the decision
+
+A Brain does not need to know everything about you. It needs the missing piece that would change a real decision. So when we build one, we ask which unknown matters most and the cheapest way to find it out. Usually that is a quick reaction to an example, and never a form.
+
+That keeps the effort small for you, and it keeps the Brain pointed at decisions rather than at collecting a profile.
+
+## 5. Models do the work, and you keep the authority
+
+Models are the replaceable part. Your Brain's standards, examples, history and permissions sit outside any one model, in files that belong to you. A model can propose a change to your Brain. Only you can accept it.
+
+So a better model makes your Brain sharper, and none of them can rewrite what you believe. When your company changes AI tools, your Brain moves with you.
+
+## How we build one
+
+We build it with you in 30 days.
+
+In the first week, your Brain learns your taste from real work. Over the next three weeks we choose with you which tools to chain together for the work you want to speed up, hand off or do better, and we build your Brain into them. By day 30 it has proved itself on real outcomes, and you know how to run it. You correct it in plain words, without code.
+
+The longer we build together, the more of your judgement it carries. It lives in your own accounts, and you decide who sees it.
+
+## What is new here, and what is not
+
+None of these ingredients is new on its own. Researchers have argued for separate, structured memory in AI systems for some time, as in the CoALA framework from Sumers and colleagues (2023). Zep keeps track of when a fact was true and when the system learned it (Rasmussen and colleagues, 2025). A-MEM lets an AI organise and update its own memories as it goes (Xu and colleagues, 2025).
+
+What we add is discipline, pointed at one person's judgement: evidence before memory, corrections that repair what depended on them, and a person who decides what the Brain believes.
+
+*The models will keep changing. Your judgement is the part worth owning.*
+    `,
+  },
+  {
     slug: "the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
     title: "The start cost: why good AI work gets deferred",
     excerpt: "Good ideas often stall because starting them takes too much effort. The right AI context can lower that cost.",

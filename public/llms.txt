@@ -19,6 +19,7 @@ Part people. Part agent. Led by judgement. Build your AI brain or your AI native
 
 ## Ideas you can use
 
+- [How an AI brain learns your judgement](https://mindmake.co/blog/how-an-ai-brain-works): How an AI brain learns a leader's taste from real work, keeps their calls apart from its guesses, repairs itself after a correction and outlasts any model.
 - [An AI system gets better at your work when every correction is kept with its reason](https://mindmake.co/answers/ai-system-learns-from-corrections): answers "how do I make an AI system learn from our corrections over time". Correcting AI in the moment fixes one answer. Recording the correction and its reason fixes every answer after it. Here is how that works.
 - [People should decide what reaches the outside world, what cannot be undone and what sets the standard](https://mindmake.co/answers/what-humans-should-decide-when-ai-does-the-work): answers "what decisions should humans still make when AI can do most of the work". Let AI do reversible internal work. Keep people accountable for anything that reaches customers, cannot be undone or defines what good looks like.
 - [Keep a company's judgement when senior people leave by recording its decisions and the reasons behind them](https://mindmake.co/answers/keep-company-judgement-when-senior-people-leave): answers "how do I stop my company's knowledge and judgement leaving when senior people leave". Handover notes capture tasks. What leaves with a senior person is how they decide. Record decisions, reasons and exceptions while they are still here.

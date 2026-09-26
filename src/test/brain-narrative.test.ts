@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
 import { sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import fixture from "@/data/vnext/brain-fixture.json";
+import { blogPosts } from "@/data/blogPosts";
 
 /**
  * /ai-brain after the S4 narrative (Krish, 2026-09-25) and its S5 sharpening
@@ -84,6 +85,12 @@ describe("the Brain narrative", () => {
     const main = doc.querySelector(".mm-locked-brain")!;
     const withDays = [...main.querySelectorAll<HTMLElement>(".chapter[data-phase]")].filter((chapter) => /30 days/.test(chapter.textContent ?? ""));
     expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);
+  });
+
+  it("links the month to the long read, which exists", () => {
+    const link = page().querySelector<HTMLAnchorElement>("#built .built-link");
+    const slug = link?.getAttribute("href")?.replace(/^\/blog\//, "");
+    expect(blogPosts.map((post) => post.slug)).toContain(slug);
   });
 
   it("retires the source check, the correction and the memory promise", () => {

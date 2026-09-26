@@ -143,6 +143,36 @@
       "answer": "You can, and you should. Those tools are excellent. They just start from nothing every morning. The brain is the part that remembers your standards, so the tools you already pay for start from you."
     },
     {
+      "id": "where-to-use",
+      "question": "Where do I use my AI brain?",
+      "keywords": [
+        "where",
+        "use",
+        "tools",
+        "tool",
+        "which",
+        "apps",
+        "connect",
+        "work"
+      ],
+      "answer": "Wherever the work is that you want to speed up, hand off or do better. During the build we choose with you which tools to chain together for it, build your Brain into them and prove it on real work. Your Brain is written in plain words and belongs to you, so no single AI company holds it."
+    },
+    {
+      "id": "keep-it-right",
+      "question": "How do I keep my AI brain up to date?",
+      "keywords": [
+        "update",
+        "maintain",
+        "change",
+        "correct",
+        "code",
+        "after",
+        "yourself",
+        "keep"
+      ],
+      "answer": "You tell it what changed, in plain words and without code, and the work built on that standard follows. Before we finish, we show you how to run each tool we built, so nothing waits on us."
+    },
+    {
       "id": "team",
       "question": "How much of my team's time does this take?",
       "keywords": [

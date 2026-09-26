@@ -25,7 +25,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 </video>
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">
-                  <h1>Build the human + AI business that augments your vision.</h1>
+                  <h1>Build the human + AI business that augments <span class="mm-hero-your">your</span> vision.</h1>
                   <p class="hero-lede">For leaders in creative industries with the high standards and curiosity required to drive the new era.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
                     <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
@@ -47,7 +47,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 </video>
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">
-                  <h1>Build the human + AI business that augments your vision.</h1>
+                  <h1>Build the human + AI business that augments <span class="mm-hero-your">your</span> vision.</h1>
                   <p class="hero-lede">For leaders in creative industries with the high standards and curiosity required to drive the new era.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
                     <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>

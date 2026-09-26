@@ -655,3 +655,19 @@ body.mm-homepage-active { margin: 0; }
 @media (max-width: 700px) {
   .mm-homepage-release .r3-footer > .r3-variant.preview-mobile { width: 100%; margin-inline: 0; }
 }
+
+/* "your" in the hero headline (Krish, 2026-09-26): a mint underline drawn in
+   left to right once the headline has arrived. A background line rather than
+   text-decoration, so it can be drawn and keeps its weight at every size;
+   reduced motion and no-script readers get it already drawn. */
+.mm-homepage-release .r3-opening h1 .mm-hero-your {
+  padding-bottom: .04em;
+  background: linear-gradient(var(--mint, #9df0c8), var(--mint, #9df0c8)) 0 100% / 100% .06em no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mm-homepage-release .r3-opening h1 .mm-hero-your { animation: mm-hero-your-draw .9s cubic-bezier(.65, 0, .25, 1) .9s both; }
+}
+@keyframes mm-hero-your-draw {
+  from { background-size: 0% .06em; }
+  to { background-size: 100% .06em; }
+}

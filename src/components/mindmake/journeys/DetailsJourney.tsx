@@ -170,12 +170,12 @@ export function DetailsJourney({
           inputMode="email"
           autoComplete="email"
           aria-invalid={errorField === "email" || undefined}
-          aria-describedby={errorField === "email" ? errorId : undefined}
+          aria-describedby={errorField === "email" ? errorId : `${id}-email-hint`}
           placeholder="you@company.com"
           value={email}
           onChange={(event) => { setEmail(event.target.value); if (error) { setError(""); setErrorField(null); } }}
         />
-        <small>{emailHint ?? "We read your company from this."}</small>
+        <small id={`${id}-email-hint`}>{emailHint ?? "We read your company from this."}</small>
       </p>
 
       <fieldset className="mm-details-field mm-details-divisions" aria-invalid={errorField === "division" || undefined} aria-describedby={errorField === "division" ? errorId : undefined}>

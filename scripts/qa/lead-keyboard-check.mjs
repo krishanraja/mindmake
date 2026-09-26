@@ -20,6 +20,15 @@
  * the space left above the keyboard, nothing scrolls sideways, and
  * first.last@company.com arrives on the name step with both names filled.
  *
+ * Reported again (Krish, 2026-09-26, Android Chrome at 412x915): "Every time I
+ * click on the keyboard on this screen it just obstructs the actual text box
+ * I'm trying to type into." That was the homepage, whose dialog is the drawer,
+ * and this check had only ever walked the centred card from /case-studies. It
+ * now walks both, plus /ai-brain's drawer, the fields of the offer of a person
+ * that opens under a personal address, and a visual viewport that iOS has
+ * panned as well as shrunk. The offer's own button is also pressed, because it
+ * used to reload the page from inside a nested form.
+ *
  * Everything runs against a local dev server whose Supabase address does not
  * exist. The company read and the code request are answered with fixtures;
  * every other function call is refused, so nothing is researched or sent.
@@ -39,6 +48,8 @@ import { chromium } from "playwright";
 const args = process.argv.slice(2);
 const flag = (name) => { const at = args.indexOf(`--${name}`); return at === -1 ? undefined : args[at + 1]; };
 const root = resolve(flag("root") ?? fileURLToPath(new URL("../../", import.meta.url)));
+/* `--only <text>` walks only the labels containing it, e.g. "decision". */
+const only = flag("only");
 const output = resolve(flag("out") ?? resolve(fileURLToPath(new URL("../../", import.meta.url)), "artifacts/lead-keyboard"));
 const { createServer } = await import(resolve(root, "node_modules/vite/dist/node/index.js"));
 
@@ -55,7 +66,8 @@ const dossier = {
 /* Visible heights with the keyboard up: the keyboard alone, then with the
    autofill strip Chrome and the Samsung keyboard add above it. */
 const viewports = [
-  { width: 390, height: 844, keyboard: [400, 330] },
+  { width: 412, height: 915, keyboard: [480, 380] },
+  { width: 390, height: 844, keyboard: [400, 330], pan: 140 },
   { width: 320, height: 568, keyboard: [300, 250] },
   { width: 844, height: 390, keyboard: [200, 160], landscape: true },
 ];
@@ -90,19 +102,20 @@ async function prepare(page) {
     /* A visual viewport this script can shrink the way a keyboard does. */
     const real = window.visualViewport;
     const fake = new EventTarget();
-    const state = { height: null };
+    const state = { height: null, top: 0 };
     for (const [key, read] of Object.entries({
       height: () => state.height ?? real?.height ?? window.innerHeight,
       width: () => real?.width ?? window.innerWidth,
-      offsetTop: () => 0,
+      offsetTop: () => state.top,
       offsetLeft: () => 0,
       pageTop: () => window.scrollY,
       pageLeft: () => window.scrollX,
       scale: () => 1,
     })) Object.defineProperty(fake, key, { get: read });
     Object.defineProperty(window, "visualViewport", { configurable: true, get: () => fake });
-    window.__mmKeyboard = (visibleHeight) => {
+    window.__mmKeyboard = (visibleHeight, panned = 0) => {
       state.height = visibleHeight;
+      state.top = visibleHeight === null ? 0 : panned;
       fake.dispatchEvent(new Event("resize"));
     };
   });
@@ -129,12 +142,23 @@ async function prepare(page) {
   });
 }
 
+/* The centred card (/case-studies, which also loads the stylesheet the
+   offer of a person is otherwise dressed from), the homepage's drawer and
+   /ai-brain's drawer. */
+const entries = [
+  { name: "card", path: "/case-studies?start=1", door: /Build your AI GTM/ },
+  { name: "home", path: "/?start=brain" },
+  { name: "brain", path: "/ai-brain?start=brain" },
+];
+
 const settle = (page) => page.evaluate(() => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(done, 60)))));
 
 /* Where everything is, read from the page the way a person would see it. */
-async function measure(page, fieldSelector, actionSelector) {
-  return page.evaluate(([selector, action]) => {
-    const panel = document.querySelector('.mm-brief-panel[role="dialog"]');
+const BRIEF_PANEL = '.mm-brief-panel[role="dialog"]';
+
+async function measure(page, fieldSelector, actionSelector, panelSelector = BRIEF_PANEL) {
+  return page.evaluate(([selector, action, panelAt]) => {
+    const panel = document.querySelector(panelAt);
     const field = document.querySelector(selector);
     const viewport = window.visualViewport;
     const visibleBottom = Math.min(panel.getBoundingClientRect().bottom, viewport.offsetTop + viewport.height);
@@ -143,6 +167,7 @@ async function measure(page, fieldSelector, actionSelector) {
     const sticky = (element) => element && getComputedStyle(element).position === "sticky" && getComputedStyle(element).display !== "none";
     const chromeBottom = Math.max(
       panel.getBoundingClientRect().top,
+      viewport.offsetTop,
       ...[top, rail].filter(sticky).map((element) => element.getBoundingClientRect().bottom),
     );
     const group = [
@@ -162,22 +187,25 @@ async function measure(page, fieldSelector, actionSelector) {
       headerBottom: top ? Math.round(top.getBoundingClientRect().bottom) : null,
       railTop: sticky(rail) ? Math.round(rail.getBoundingClientRect().top) : null,
       actionHeight: actionRect ? Math.round(actionRect.height) : null,
-      keyboardFlag: panel.parentElement.getAttribute("data-keyboard"),
+      keyboardFlag: panel.getAttribute("data-keyboard") ?? panel.parentElement.getAttribute("data-keyboard"),
       sideways: Math.max(document.documentElement.scrollWidth - window.innerWidth, panel.scrollWidth - panel.clientWidth),
     };
-  }, [fieldSelector, actionSelector]);
+  }, [fieldSelector, actionSelector, panelSelector]);
 }
 
-async function checkField(page, label, name, fieldSelector, actionSelector, heights) {
+async function checkField(page, label, name, fieldSelector, actionSelector, heights, pan = 0, panelSelector = BRIEF_PANEL) {
   const shots = [];
   await page.evaluate(() => window.__mmKeyboard(null));
   await settle(page);
   await page.locator(fieldSelector).evaluate((element) => element.focus({ preventScroll: true }));
-  for (const [index, visible] of heights.entries()) {
-    await page.evaluate((height) => window.__mmKeyboard(height), visible);
+  /* The last height is tried again with the visual viewport panned down, the
+     way iOS moves it to show a field, when the viewport asks for that. */
+  const states = [...heights.map((visible) => [visible, 0]), ...(pan ? [[heights.at(-1), pan]] : [])];
+  for (const [index, [visible, panned]] of states.entries()) {
+    await page.evaluate(([height, top]) => window.__mmKeyboard(height, top), [visible, panned]);
     await settle(page);
-    const box = await measure(page, fieldSelector, actionSelector);
-    const where = `${label} ${name} with ${visible}px visible`;
+    const box = await measure(page, fieldSelector, actionSelector, panelSelector);
+    const where = `${label} ${name} with ${visible}px visible${panned ? `, panned ${panned}px` : ""}`;
     const inView = box.groupTop >= box.chromeBottom - 1 && box.groupBottom <= box.visibleBottom + 1;
     const band = box.visibleBottom - box.chromeBottom;
     fail(!box.focused, `${where}: the field lost focus`);
@@ -186,10 +214,10 @@ async function checkField(page, label, name, fieldSelector, actionSelector, heig
     fail(box.actionHeight !== null && box.actionHeight > band, `${where}: the step's action (${box.actionHeight}px) cannot fit above the keyboard (${band}px)`);
     fail(box.sideways > 1, `${where}: the page scrolls sideways by ${box.sideways}px`);
     fail(box.keyboardFlag !== "open", `${where}: the dialog did not register the keyboard`);
-    observations.push({ viewport: label, field: name, visibleHeight: visible, ...box, inView });
-    if (index === heights.length - 1) {
-      const file = `${label}-${name}-keyboard.png`.replace(/[^a-z0-9.-]+/gi, "-");
-      await page.screenshot({ path: resolve(output, file), clip: { x: 0, y: 0, width: page.viewportSize().width, height: visible } });
+    observations.push({ viewport: label, field: name, visibleHeight: visible, panned, ...box, inView });
+    if (index >= heights.length - 1) {
+      const file = `${label}-${name}-keyboard${panned ? "-panned" : ""}.png`.replace(/[^a-z0-9.-]+/gi, "-");
+      await page.screenshot({ path: resolve(output, file), clip: { x: 0, y: panned, width: page.viewportSize().width, height: visible } });
       shots.push(file);
     }
   }
@@ -200,8 +228,9 @@ async function checkField(page, label, name, fieldSelector, actionSelector, heig
 }
 
 try {
-  for (const viewport of viewports) {
-    const label = `${viewport.width}x${viewport.height}`;
+  for (const viewport of viewports) for (const entry of entries) {
+    const label = `${entry.name}-${viewport.width}x${viewport.height}`;
+    if (only && !label.includes(only)) continue;
     try {
     const context = await browser.newContext({
       viewport: { width: viewport.width, height: viewport.height },
@@ -212,14 +241,37 @@ try {
     });
     const page = await context.newPage();
     await prepare(page);
-    await page.goto(`${origin}/case-studies?start=1`, { waitUntil: "domcontentloaded" });
+    await page.goto(`${origin}${entry.path}`, { waitUntil: "domcontentloaded" });
     const dialog = page.locator('.mm-brief-panel[role="dialog"]');
     await dialog.waitFor({ state: "visible", timeout: 30000 });
     await page.evaluate(() => document.fonts.ready);
-    await dialog.getByRole("button", { name: /Build your AI GTM/ }).click();
+    if (entry.door) await dialog.getByRole("button", { name: entry.door }).click();
 
     await dialog.locator("#mm-company-email").fill("anya.divekar@peldonrose.com");
-    await checkField(page, label, "company-email", "#mm-company-email", '.is-company [data-mm-primary]', viewport.keyboard);
+    await checkField(page, label, "company-email", "#mm-company-email", '.is-company [data-mm-primary]', viewport.keyboard, viewport.pan);
+
+    /* A personal address, the offer of a person, and its three fields. */
+    await dialog.locator("#mm-company-email").fill("anya@gmail.com");
+    await dialog.getByRole("button", { name: /read the business/i }).click();
+    await dialog.locator(".mm-handoff-trigger").click();
+    await dialog.locator(".mm-handoff .mm-details").waitFor();
+    const handoffInputs = await page.locator(".mm-handoff .mm-details input").evaluateAll((inputs) => inputs.map((input) => input.id));
+    for (const [index, name] of ["handoff-first-name", "handoff-last-name", "handoff-email"].entries()) {
+      const selector = `[id="${handoffInputs[index]}"]`;
+      fail(!handoffInputs[index], `${label}: the offer of a person has no ${name} field`);
+      if (handoffInputs[index]) await checkField(page, label, name, selector, ".mm-handoff .mm-details [data-mm-primary]", viewport.keyboard, viewport.pan);
+    }
+    /* Its button, with the names still empty, answers with the name error
+       and leaves the page where it is. Inside the company form it reloaded
+       the page instead. */
+    const before = page.url();
+    await dialog.locator(".mm-handoff").getByRole("button", { name: /have a person pick this up/i }).click();
+    await settle(page);
+    const stayed = await dialog.count() === 1 && page.url() === before && await dialog.locator(".mm-handoff .mm-journey-error").isVisible();
+    fail(!stayed, `${label}: pressing the offer's button did not answer in place (url ${page.url()})`);
+    if (!stayed) throw new Error("the offer's button left the dialog");
+
+    await dialog.locator("#mm-company-email").fill("anya.divekar@peldonrose.com");
     await dialog.getByRole("button", { name: /read the business/i }).click();
     await dialog.getByRole("heading", { name: "Who is this for?" }).waitFor();
 
@@ -231,15 +283,15 @@ try {
     if (!filled[1]) await dialog.locator("#mm-last-name").fill("Divekar");
     observations.push({ viewport: label, step: "profile", prefilled: filled });
     await page.screenshot({ path: resolve(output, `${label}-profile-prefilled.png`) });
-    await checkField(page, label, "first-name", "#mm-first-name", '.is-profile [data-mm-primary]', viewport.keyboard);
-    await checkField(page, label, "last-name", "#mm-last-name", '.is-profile [data-mm-primary]', viewport.keyboard);
+    await checkField(page, label, "first-name", "#mm-first-name", '.is-profile [data-mm-primary]', viewport.keyboard, viewport.pan);
+    await checkField(page, label, "last-name", "#mm-last-name", '.is-profile [data-mm-primary]', viewport.keyboard, viewport.pan);
 
     const select = dialog.locator(".mm-brief-role-select");
     if (await select.isVisible()) await select.selectOption("leadership");
     else await dialog.getByRole("button", { name: "Leadership" }).click();
     await dialog.getByRole("button", { name: /see the company read/i }).click();
     await dialog.getByRole("heading", { name: "This is what I can see so far." }).waitFor({ timeout: 15000 });
-    await dialog.getByRole("button", { name: "Customers can now do more without us" }).click();
+    await dialog.locator(".mm-choice-grid button").first().click();
     await dialog.getByRole("button", { name: /use this problem/i }).click();
     await dialog.getByRole("button", { name: "Grow this business" }).click();
     await dialog.getByRole("button", { name: /show me the recommendation/i }).click();
@@ -253,22 +305,51 @@ try {
     await dialog.getByRole("button", { name: /^continue/i }).click();
 
     await dialog.locator("#mm-work-email").waitFor();
-    await checkField(page, label, "contact-email", "#mm-work-email", ".is-contact .mm-button", viewport.keyboard);
+    await checkField(page, label, "contact-email", "#mm-work-email", ".is-contact .mm-button", viewport.keyboard, viewport.pan);
     await dialog.getByRole("button", { name: /send the code/i }).click();
     await dialog.locator("#mm-verification-code").waitFor();
-    await checkField(page, label, "code", "#mm-verification-code", ".is-verify .mm-button", viewport.keyboard);
+    await checkField(page, label, "code", "#mm-verification-code", ".is-verify .mm-button", viewport.keyboard, viewport.pan);
     await context.close();
     } catch (error) {
       failures.push(`${label}: the walk stopped: ${String(error?.message ?? error).split("\n")[0]}`);
     }
+  }
+
+  /* The other dialog on the site that asks for text before the lead dialog:
+     "Start here" on /new-age-leadership, one decision in a textarea. */
+  for (const viewport of viewports) {
+    const label = `decision-${viewport.width}x${viewport.height}`;
+    if (only && !label.includes(only)) continue;
+    const context = await browser.newContext({
+      viewport: { width: viewport.width, height: viewport.height },
+      isMobile: true,
+      hasTouch: true,
+      deviceScaleFactor: 2,
+      reducedMotion: "reduce",
+    });
+    try {
+      const page = await context.newPage();
+      await prepare(page);
+      await page.goto(`${origin}/new-age-leadership`, { waitUntil: "domcontentloaded" });
+      const start = page.locator(".mm-decision-balance-start");
+      await start.waitFor({ state: "attached", timeout: 30000 });
+      await page.evaluate(() => document.fonts.ready);
+      await start.scrollIntoViewIfNeeded();
+      await start.click();
+      await page.locator(".mm-decision-balance-dialog textarea").waitFor({ state: "visible" });
+      await checkField(page, label, "decision", ".mm-decision-balance-dialog textarea", ".mm-decision-balance-frame", viewport.keyboard, viewport.pan, ".mm-decision-balance-dialog");
+    } catch (error) {
+      failures.push(`${label}: the walk stopped: ${String(error?.message ?? error).split("\n")[0]}`);
+    }
+    await context.close();
   }
 } finally {
   await browser.close();
   await server.close();
 }
 
-const landscape = failures.filter((message) => message.startsWith("844x390"));
-const blocking = failures.filter((message) => !message.startsWith("844x390"));
+const landscape = failures.filter((message) => message.includes("844x390"));
+const blocking = failures.filter((message) => !message.includes("844x390"));
 const receipt = {
   check: "lead-keyboard",
   root,

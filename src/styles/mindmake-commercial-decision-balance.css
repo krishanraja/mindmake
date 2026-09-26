@@ -622,6 +622,21 @@
   }
 }
 
+/* A phone's keyboard shrinks only what can be seen, not 100svh, so the dialog
+   takes its height and place from the visible viewport the component measures
+   (useKeyboardSafeViewport). With the keyboard up the step stops filling the
+   screen, so the question, the field and its button sit together above it
+   instead of the field waiting at the foot of a step the keyboard covers. */
+@media (max-width: 860px) {
+  .mm-decision-balance-dialog {
+    top: var(--mm-db-viewport-top, 0px);
+    bottom: auto;
+    max-height: var(--mm-db-viewport-height, 100svh);
+  }
+  .mm-decision-balance-dialog[data-keyboard="open"] .mm-decision-balance-dialog-shell,
+  .mm-decision-balance-dialog[data-keyboard="open"] .mm-decision-balance-dialog-input { min-height: 0; }
+}
+
 @media (max-width: 860px) and (max-height: 680px) and (orientation: portrait) {
   .mm-decision-balance-offer { gap: 8px; min-height: calc(100svh - var(--mm-header-height)); padding-top: 16px; padding-bottom: 12px; }
   .mm-decision-balance-offer h2 { font-size: clamp(38px, 11.5vw, 50px); }

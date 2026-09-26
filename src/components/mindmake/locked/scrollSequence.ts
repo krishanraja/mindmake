@@ -26,3 +26,26 @@ export function stepStates(progress: number, count: number): StepState[] {
   const lit = progress <= 0 ? -1 : Math.min(count - 1, Math.floor(progress * count));
   return Array.from({ length: count }, (_, index) => (index < lit ? "past" : index === lit ? "current" : "next"));
 }
+
+/**
+ * Progress paced by the steps themselves, for an instrument whose steps sit
+ * below something that shows the whole build at once (the month's thirty
+ * days). Reading from the instrument's top lit that rail and the last steps
+ * while they were still under the action bar (Krish, 2026-09-26: "this
+ * section builds a bit too early"). Here step i becomes current as its own
+ * top crosses the reading line, and the progress between two crossings runs
+ * with the distance travelled, so anything keyed to --seq-p keeps pace with
+ * the step being read. The last step completes once it has travelled one
+ * step's height past the line. Scrolling back undoes it.
+ */
+export function readingProgress(stepTops: number[], line: number) {
+  const count = stepTops.length;
+  if (count === 0) return 1;
+  if (stepTops[0] >= line) return 0;
+  let current = 0;
+  while (current + 1 < count && stepTops[current + 1] < line) current += 1;
+  const pitch = count > 1 ? (stepTops[count - 1] - stepTops[0]) / (count - 1) : 1;
+  const next = current + 1 < count ? stepTops[current + 1] : stepTops[current] + pitch;
+  const travelled = Math.max(0, Math.min(1, (line - stepTops[current]) / Math.max(1, next - stepTops[current])));
+  return Math.min(1, (current + travelled) / count);
+}

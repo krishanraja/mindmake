@@ -604,3 +604,30 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .mm-home-leadership .capability-core::after,
   .mm-homepage-release .mm-home-leadership .capability-core i { top: 45%; }
 }
+
+/* The footer's last rows (Krish, 2026-09-26): Privacy and Terms read as two
+   links, each a full tap target with clear air between them, and the
+   copyright sits on the shared left edge rather than alone in the corner. */
+.mm-homepage-release .r3-footer .site-footer .legal { column-gap: 28px; row-gap: 0; }
+.mm-homepage-release .r3-footer .site-footer .legal a { display: inline-flex; align-items: center; min-height: 44px; }
+.mm-homepage-release .r3-footer .site-footer > small { justify-self: start; text-align: left; }
+
+/* The bridge opens the history chapter (Krish, 2026-09-26: "not impactful
+   enough ... looks too much like the text below it"). Its headline was set
+   smaller than the era questions under it and its lede was the questions'
+   serif in mint at reading size, so nothing marked the start of the chapter.
+   The headline now leads the chapter's scale, the lede steps back to a quiet
+   cream, and the closing sentence stands on its own line in mint italic. */
+.mm-homepage-release .r3-history .history-frame[data-bridge-treatment="contrast"] .bridge h2 { line-height: .96; letter-spacing: -.045em; text-wrap: balance; }
+.mm-homepage-release .r3-history .device-desktop .history-frame[data-bridge-treatment="contrast"] .bridge h2 { max-width: 22ch; font-size: clamp(30px, 3.5cqw, 56px); }
+.mm-homepage-release .r3-history .device-mobile .history-frame[data-bridge-treatment="contrast"] .bridge h2 { max-width: none; font-size: clamp(30px, 9cqw, 40px); }
+.mm-homepage-release .r3-history .bridge p { color: rgba(238, 226, 204, .74); }
+.mm-homepage-release .r3-history .device-desktop .bridge p { max-width: 60ch; margin-top: clamp(12px, 1.8cqh, 22px); }
+.mm-homepage-release .r3-history .bridge .mm-bridge-payoff {
+  display: block;
+  margin-top: .45em;
+  color: var(--mint);
+  font-size: 1.3em;
+  font-style: italic;
+  line-height: 1.15;
+}

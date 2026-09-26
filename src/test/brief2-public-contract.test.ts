@@ -608,7 +608,7 @@ describe("the conversion contract", () => {
     }
 
     const links = read("src/lib/publicLinks.ts");
-    expect(links).toContain("https://mindmakerlive.substack.com");
+    expect(links).toContain("https://makeyourmindup.ai");
     expect(links).toContain('SUBSCRIBE_LABEL = "Subscribe for free"');
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
     expect(shell).toContain("SUBSCRIBE_URL");

@@ -9,15 +9,14 @@
 export const PUBLICATION_URL = "https://makeyourmindup.ai";
 
 /**
- * Where every "Subscribe for free" lands: the publication's one-field form,
- * not its archive. A reader who has just been promised a subscription should
- * not have to find the box on a page of posts. The form lives on the
- * publication's Substack host, where makeyourmindup.ai's own buttons send it.
+ * Where every "Subscribe for free" lands: the publication's own site,
+ * makeyourmindup.ai, the same place as Media (Krish, 2026-09-26: "Every single
+ * subscribe link should go to makeyourmindup.ai").
  *
  * Subscribing is the site's low-commitment way to stay close. It never
  * competes with START_LABEL, which is the way in for a reader who is ready.
  */
-export const SUBSCRIBE_URL = "https://mindmakerlive.substack.com/subscribe";
+export const SUBSCRIBE_URL = PUBLICATION_URL;
 export const SUBSCRIBE_LABEL = "Subscribe for free";
 export const START_PATH = "/?start=1";
 

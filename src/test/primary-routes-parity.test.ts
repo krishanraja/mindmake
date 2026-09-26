@@ -22,7 +22,7 @@ describe("primary routes parity", () => {
     const media = PRIMARY_ROUTES.find(({ label }) => label === "Media");
     expect(media?.href).toBe(PUBLICATION_URL);
     expect(PUBLICATION_URL).toBe("https://makeyourmindup.ai");
-    expect(SUBSCRIBE_URL).toBe("https://mindmakerlive.substack.com/subscribe");
+    expect(SUBSCRIBE_URL).toBe("https://makeyourmindup.ai");
     expect(media?.badge).toBe(SUBSCRIBE_LABEL);
     for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) {
       expect(nav).toContain(`data-badge="${SUBSCRIBE_LABEL}">Media</a>`);

@@ -186,6 +186,9 @@ observations.push(`${matchingApprovedSourceFiles} of ${Object.keys(approved.file
 // recovery prompt. The complete earlier text is independently hash-checked below.
 const release = await readFile(resolve(root, "project-documentation/website-redesign/RELEASE-2026-09-24.md"), "utf8");
 const history = await readFile(resolve(root, "project-documentation/history/LOG.md"), "utf8");
+// The verbatim originals moved to their own file on 26 September 2026 so LOG.md
+// can stay a dated log (the docs steward's rule); LOG.md keeps a pointer at every anchor.
+const archive = await readFile(resolve(root, "project-documentation/history/ARCHIVE.md"), "utf8");
 const currentDocumentationRequirements = [
   ["state", "Status: approved-r3-live"],
   ["state", "06_CURRENT_STATE.md"],
@@ -207,11 +210,11 @@ const currentDocumentationRequirements = [
   ["state", "npm run qa:homepage-release"],
   ["state", "npm run qa:release-routes"],
   ["state", "Browser emulation is not a physical-device pass"],
-  ["state", "../history/LOG.md#archive-2026-09-24-website-redesign-state-md"],
+  ["state", "../history/ARCHIVE.md#archive-2026-09-24-website-redesign-state-md"],
   ["release", "Publish after all other checks pass; record this exception"],
   ["release", "Neither check has been performed"],
   ["release", "not a permanent waiver for future work"],
-  ["release", "../history/LOG.md#archive-2026-09-24-website-redesign-release-2026-09-24-md"],
+  ["release", "../history/ARCHIVE.md#archive-2026-09-24-website-redesign-release-2026-09-24-md"],
 ];
 const obsoleteCurrentClaims = [
   "This is the single current state route for the unreleased multi-surface redesign.",
@@ -403,15 +406,15 @@ function validateArchivedDocument(log, entry) {
   return null;
 }
 for (const entry of archivedDocuments) {
-  const issue = validateArchivedDocument(history, entry);
+  const issue = validateArchivedDocument(archive, entry);
   requireCondition(!issue, `${entry.path}: ${issue}`);
   const marker = "<!-- BEGIN VERBATIM " + entry.path + " -->\n" + "``````markdown\n";
-  const corrupt = history.replace(/\r\n/g, "\n").replace(marker, marker + "[deliberate negative-control corruption]");
+  const corrupt = archive.replace(/\r\n/g, "\n").replace(marker, marker + "[deliberate negative-control corruption]");
   requireCondition(validateArchivedDocument(corrupt, entry) === "archive byte/hash mismatch",
     `${entry.path}: archive corruption negative control did not fail closed`);
 }
 let archiveTransportControls = 0;
-const historyLf = history.replace(/\r\n/g, "\n");
+const historyLf = archive.replace(/\r\n/g, "\n");
 for (const transported of [historyLf, historyLf.replace(/\n/g, "\r\n")]) {
   for (const entry of archivedDocuments) {
     requireCondition(!validateArchivedDocument(transported, entry), `${entry.path}: line-ending transport changed archived meaning`);

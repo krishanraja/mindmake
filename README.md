@@ -1,6 +1,6 @@
 # Mindmake website
 
-**Build the business that can think with you.**
+**Build the human + AI business that augments your vision.**
 
 Live: [mindmake.co](https://mindmake.co). A principal-led AI and commercial
 strategy practice. Build your AI brain: **Your judgement, running.** Build your

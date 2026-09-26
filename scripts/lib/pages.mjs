@@ -13,9 +13,9 @@ export const site = "https://mindmake.co";
 export const staticPages = [
   {
     path: "/",
-    title: "Build the business that can think with you.",
+    title: "Build the human + AI business that augments your vision.",
     description: "Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.",
-    headline: "Build the business that can think with you.",
+    headline: "Build the human + AI business that augments your vision.",
     claim: "Part people. Part agent. Led by judgement.",
     still: "film-02",
   },

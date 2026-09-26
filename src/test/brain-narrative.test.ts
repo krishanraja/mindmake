@@ -10,7 +10,7 @@ import fixture from "@/data/vnext/brain-fixture.json";
  * (Krish, 2026-09-26): the hero, then six chapters that speak to the reader.
  * You (the questions only they can answer), Inside (what a Brain holds, each
  * idea labelled with its standing), Sharper (one decision), Private (the living
- * record, reaching four named tools), Business (one call reaching the four
+ * record, reaching four kinds of work), Business (one call reaching the four
  * levers) and Built (the month we build it in). The source-check and
  * correction chapters stay retired.
  */
@@ -73,10 +73,14 @@ describe("the Brain narrative", () => {
     expect(html).toContain('data-standing="settled">Agreed by you</span>');
   });
 
-  it("names the four tools the record reaches, and says 30 days only where it builds", () => {
+  it("names the work the record reaches, not AI companies, and says 30 days only where it builds", () => {
     const doc = page();
     const ports = [...doc.querySelectorAll("#living-record .record-ports li")].map((port) => port.textContent?.trim());
-    expect(ports).toEqual(["ChatGPT", "Claude", "Copilot", "Gemini"]);
+    expect(ports).toEqual(["Board paper", "Client reply", "Next post", "Team brief"]);
+    // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
+    // integrations with named AI companies.
+    const text = doc.querySelector(".mm-locked-brain")?.textContent ?? "";
+    for (const vendor of ["ChatGPT", "OpenAI", "Claude", "Anthropic", "Copilot", "Gemini"]) expect(text, vendor).not.toContain(vendor);
     const main = doc.querySelector(".mm-locked-brain")!;
     const withDays = [...main.querySelectorAll<HTMLElement>(".chapter[data-phase]")].filter((chapter) => /30 days/.test(chapter.textContent ?? ""));
     expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);

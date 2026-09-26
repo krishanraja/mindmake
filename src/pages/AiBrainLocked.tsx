@@ -78,6 +78,9 @@ const isSettled = (item: BrainItem) => item.standing === "accepted" || item.stan
 // reading, which stays a reading until the leader agrees it.
 const standingLabel = (item: BrainItem) => (isSettled(item) ? "Agreed by you" : "Your Brain's reading");
 
+// Whether two ideas share a connection, in either direction.
+const linked = (a: string, b?: string) => fixture.relationships.some((relationship) => (relationship.from === a && relationship.to === b) || (relationship.to === a && relationship.from === b));
+
 // Text that changes on interaction sits in a frame sized to its longest
 // variant, so the panel never grows or shrinks as a visitor clicks around.
 function reserveLongest(target: HTMLElement | null, variants: string[]) {
@@ -113,7 +116,6 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     const renderFinal = params.get("render") === "final";
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const itemById = new Map(fixture.items.map((item) => [item.id, item]));
-    const focusIds = new Set(["BI-003", "BI-007", "BI-010", "BI-018"]);
     const field = q<HTMLElement>("#meaningFieldS2");
     const svg = q<SVGSVGElement>("#relationshipFieldS2");
 
@@ -137,6 +139,14 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         kind.textContent = standingLabel(item);
         kind.dataset.standing = isSettled(item) ? "settled" : "working";
       }
+      // The picked idea's own connections light, so the reasons that tie it
+      // to the rest of the Brain are the ones on show.
+      svg?.querySelectorAll<SVGLineElement>("line").forEach((line) => {
+        line.classList.toggle("is-focus", line.dataset.from === item.id || line.dataset.to === item.id);
+      });
+      field?.querySelectorAll<HTMLElement>(".meaning-node-s2").forEach((node) => {
+        node.classList.toggle("is-linked", linked(item.id, node.dataset.id));
+      });
       if (title) title.textContent = item.title;
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
     };
@@ -175,7 +185,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         line.setAttribute("y1", String(from.y));
         line.setAttribute("x2", String(to.x));
         line.setAttribute("y2", String(to.y));
-        if (focusIds.has(from.id) && focusIds.has(to.id)) line.classList.add("is-focus");
+        line.dataset.from = from.id;
+        line.dataset.to = to.id;
+        if (from.id === selectedId || to.id === selectedId) line.classList.add("is-focus");
         svg.append(line);
       });
 
@@ -191,6 +203,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         button.setAttribute("aria-label", `${item.title}. ${plainStatements[item.id] ?? item.statement}`);
         button.setAttribute("aria-pressed", item.id === selectedId ? "true" : "false");
         if (item.id === selectedId) button.classList.add("is-active");
+        if (linked(selectedId, item.id)) button.classList.add("is-linked");
         const label = document.createElement("span");
         label.textContent = item.title;
         button.append(label);
@@ -378,7 +391,7 @@ export default function AiBrainLocked() {
 
   return (
     <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" compactFooter>
-      <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you and at work in every AI you use." canonical="/ai-brain" />
+      <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       <PairingBridge route="brain" onStart={() => openBrief("brain")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />

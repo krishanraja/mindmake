@@ -296,10 +296,16 @@
 /* 02: the inspector's label names the picked idea's standing, in the colour
    the graph already gives it: mint for the leader's own call, brass for the
    Brain's reading. */
+.mm-locked-brain .plain-inspector > span { transition: color 260ms ease; }
 .mm-locked-brain .plain-inspector > span[data-standing="working"] { color: var(--brass-light); }
+/* The picked idea's own connections light in brass, and the ideas at their
+   other ends take a faint ring. Colour only; every node keeps its size. */
+.mm-locked-brain #relationshipFieldS2 line { transition: stroke 260ms ease, stroke-width 260ms ease; }
+.mm-locked-brain .meaning-node-s2.is-linked::before { box-shadow: 0 0 0 4px rgba(224, 189, 120, .2); }
 
-/* 04: every record that lands reaches all four tools. The ports sit on a mint
-   bus the reel's rail runs down into, and light in turn by colour alone. */
+/* 04: every record that lands reaches the work: four kinds of it, named as
+   jobs rather than tools. The ports sit on a mint bus the reel's rail runs
+   down into, and light in turn by colour alone. */
 .mm-locked-brain .record-machine { grid-template-rows: auto minmax(0, 1fr) auto auto; }
 .mm-locked-brain .record-ports {
   display: grid;
@@ -468,6 +474,8 @@
   .mm-locked-brain .month-stack .leaf > p { font-size: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .mm-locked-brain #relationshipFieldS2 line,
+  .mm-locked-brain .plain-inspector > span { transition: none; }
   .mm-locked-brain .record-ports li,
   .mm-locked-brain .record-ports li::before { animation: none !important; }
   .mm-locked-brain .month-days i::after,

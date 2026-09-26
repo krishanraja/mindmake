@@ -31,6 +31,16 @@ export type StoryFigure =
   | { shape: "cadence"; from: number; to: number; fromLabel: string; toLabel: string }
   /** One figure that stands on its own. Two pilots signed during the work. */
   | { shape: "count"; value: number; label: string; within: string }
+  /**
+   * A set cut down, and what went live in its place. Every tool the record
+   * counts is drawn, the ones stopped are struck through rather than removed,
+   * and the system that went live stands apart from them: "eleven of fourteen
+   * tools were stopped" and "one useful system live" are two facts, and a
+   * narrowing drawn as 14 → 3 said only the first and looked like its
+   * neighbour's figure. Only `cut` and `live` are printed; they are the
+   * headline's own numbers.
+   */
+  | { shape: "cut"; from: number; cut: number; live: number }
   /** No number in the record, so no number in the diagram. */
   | { shape: "offer"; before: string; after: string };
 
@@ -152,7 +162,7 @@ export const clientStories: ClientStory[] = [
   {
     id: "business-first",
     result: "The team cut eleven tools and put one useful system live.",
-    figure: { shape: "focus", from: 14, to: 3, keep: "few", fromLabel: "", toLabel: "" },
+    figure: { shape: "cut", from: 14, cut: 11, live: 1 },
     title: "Tie every AI choice back to the business",
     outcome: "Eleven of fourteen tools were stopped. The budget was kept and the first working system went live inside 90 days.",
     ...spoken("broadcast-president"),
@@ -193,6 +203,7 @@ export const FIGURE_INSTRUMENT: Record<StoryFigure["shape"], InstrumentKind> = {
   span: "rail",
   focus: "flap",
   count: "gauge",
+  cut: "flap",
   cadence: "recorder",
   offer: "drawer",
 };

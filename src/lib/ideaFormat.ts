@@ -138,3 +138,18 @@ export function mergeIdeas(
     ...tips.map((tip) => ideaFromTip(tip, toQuestion(tip.targetQuery))),
   ]);
 }
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
+/**
+ * A YYYY-MM-DD date as the site writes it: "26 September 2026", or
+ * "26 Sept 2026" on a card. Spelt out by hand because the server and each
+ * browser carry their own locale data and time zone: Safari writes "Sep"
+ * where Node writes "Sept", and a reader west of London would see the day
+ * before. Either difference breaks hydration.
+ */
+export function writtenOn(date: string, month: "long" | "short" = "long") {
+  const [year, monthNumber, day] = date.split("-").map(Number);
+  return `${day} ${(month === "long" ? MONTHS : SHORT_MONTHS)[monthNumber - 1]} ${year}`;
+}

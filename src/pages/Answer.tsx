@@ -7,6 +7,7 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { answerBySlug } from "@/lib/answers";
 import { answerJsonLd, answerPath, asQuestion } from "@/lib/answerFormat";
+import { writtenOn } from "@/lib/ideaFormat";
 import "@/styles/mindmake.css";
 
 /**
@@ -63,7 +64,7 @@ export default function Answer() {
             <p className="mm-answer-direct">{answer.answer}</p>
             <p className="mm-answer-claim mm-claim">{answer.claim}</p>
             <div className="mm-answer-meta">
-              <span>{new Date(answer.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
+              <span>{writtenOn(answer.publishedAt)}</span>
               <span>Answers: {asQuestion(answer.targetQuery)}</span>
             </div>
           </header>

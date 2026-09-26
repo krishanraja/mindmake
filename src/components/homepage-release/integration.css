@@ -588,3 +588,19 @@ body.mm-homepage-active { margin: 0; }
    one. It takes the mint and an underline, so colour is not the only cue. */
 .mm-homepage-release .r3-history .device-mobile .era-rail button[aria-current="true"] span { color: var(--mint); }
 .mm-homepage-release .r3-history .device-mobile .era-rail button[aria-current="true"] { box-shadow: inset 0 -2px 0 var(--mint); }
+
+/* Reduced motion (Krish, 2026-09-26): the reach reels stop moving, and the
+   moving layout left four of each column's ten words out of the window and
+   the highlight band between two rows. Frozen, the ten words sit as a still
+   list that fills the window, and the band and dial rest on the fifth row. */
+@media (prefers-reduced-motion: reduce) {
+  .mm-homepage-release .mm-home-leadership .capability-window { container-type: size; -webkit-mask-image: none; mask-image: none; }
+  .mm-homepage-release .mm-home-leadership .capability-reel { height: 100%; transform: none; }
+  .mm-homepage-release .mm-home-leadership .capability-reel ul { height: 100%; }
+  .mm-homepage-release .mm-home-leadership .capability-reel ul[aria-hidden="true"] { display: none; }
+  .mm-homepage-release .mm-home-leadership .capability-reel li { height: 10cqh; font-size: clamp(12px, 6.4cqh, 31px); }
+  .mm-homepage-release .mm-home-leadership .capability-window::before { top: 45%; height: 10cqh; }
+  .mm-homepage-release .mm-home-leadership .capability-core::before,
+  .mm-homepage-release .mm-home-leadership .capability-core::after,
+  .mm-homepage-release .mm-home-leadership .capability-core i { top: 45%; }
+}

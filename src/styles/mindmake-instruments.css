@@ -2597,3 +2597,16 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 /* The provenance note under the drum ran 408px of 1240. It is a footnote, and a
    footnote still gets to use its line. */
 .mm-drum-count { max-width: 78ch; }
+
+/* The attendance count (Krish, 2026-09-26): the figure runs up to 4000+ and
+   sits in mint ahead of the sentence. Tabular figures keep the line still
+   while it counts, and a minimum width stops the sentence sliding as the
+   digits grow. */
+.mm-leader-count-figure {
+  display: inline-block;
+  min-width: 2.6em;
+  font-size: 1.5em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--mm-mint);
+}

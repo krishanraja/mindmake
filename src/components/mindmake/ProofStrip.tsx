@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { LeaderCount } from "@/components/mindmake/LeaderCount";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { StoryIndex } from "@/components/mindmake/StoryIndex";
@@ -81,7 +82,7 @@ export function ProofVoices() {
         <div className="mm-attendance">
           <h3>
             <Instrument kind="drawer" className="mm-head-mark" />
-            <span>People from these organisations have joined our sessions</span>
+            <LeaderCount />
           </h3>
           <div className="mm-logo-rail">
             {attendeeBrands.map((brand) => (

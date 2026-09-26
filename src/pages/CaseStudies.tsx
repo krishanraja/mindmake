@@ -4,6 +4,7 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
+import { LeaderCount } from "@/components/mindmake/LeaderCount";
 import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
 import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -59,7 +60,7 @@ export default function CaseStudies() {
           <div className="mm-attendance">
             <h3>
               <Instrument kind="rail" className="mm-head-mark" />
-              People from these organisations have joined our sessions
+              <LeaderCount />
             </h3>
             <div className="mm-logo-rail">
               {attendeeBrands.map((brand) => (

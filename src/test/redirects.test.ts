@@ -64,7 +64,7 @@ describe("public route contract", () => {
 
   it("uses one current Media destination", () => {
     for (const source of ["/signal", "/builder-economy"]) {
-      expect(bySource.get(source)?.destination).toBe("https://mindmakerlive.substack.com");
+      expect(bySource.get(source)?.destination).toBe("https://makeyourmindup.ai");
     }
   });
 

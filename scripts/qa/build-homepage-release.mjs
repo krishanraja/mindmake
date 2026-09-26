@@ -83,6 +83,9 @@ let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"
 body = cut(body, '<section id="authority"', '<section id="route"', leadershipChapters, 'retired chapters');
 const publication = 'https://mindmakerlive.substack.com';
 const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
+// Every Media link lands on the publication's own site (Krish, 2026-09-26);
+// "Subscribe for free" keeps the one-field form on its Substack host.
+const media = 'https://makeyourmindup.ai';
 const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
 const heroFilm = {
   poster: '../../../src/assets/films/sep2026/archive-engine-hero-poster-r07.webp',
@@ -91,8 +94,8 @@ const heroFilm = {
 body = body
   .replace(/(<section class="hero-stage">\s*<video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*>\s*<source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`)
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
-  .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
-  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
+  .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${media}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
+  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${media}" target="_blank" rel="noreferrer">Media</a>`)
   .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`)
   .replace(/(<section class="route-stage"><video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*><source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`);
 // The history questions are what people asked at the time, so they read as
@@ -127,14 +130,14 @@ body = body.replace(/(<nav class="(?:primary|footer)-routes"[^>]*>)([\s\S]*?)(<\
   let routes = inner;
   for (const [href, label] of routeLabels) routes = routes.replace(new RegExp(`<a href="${href}">[^<]*</a>`), `<a href="${href}">${label}</a>`);
   routes = routes.replace(/<a href="\/answers">[^<]*<\/a>/, '');
-  routes = routes.replace(/(<a href="https:\/\/mindmakerlive\.substack\.com[^"]*"[^>]*>Media<\/a>)/, '<a href="/about">About us</a>$1');
+  routes = routes.replace(/(<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>)/, '<a href="/about">About us</a>$1');
   return `${open}<a href="/">Home</a>${routes}${close}`;
 });
 const phoneFooterRoutes = /(<div class="r3-variant preview-mobile"><footer class="site-footer"[^>]*>[\s\S]*?)<nav class="footer-routes"[^>]*>[\s\S]*?<\/nav>/;
 if (!phoneFooterRoutes.test(body)) throw new Error('Homepage adapter anchor missing: phone footer routes');
 body = body.replace(phoneFooterRoutes, '$1');
 body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 4, 'hero and route film'], [/archive-engine-hero-poster-r07/g, 4, 'hero and route poster'], [/<section class="route-stage"><video [^>]*archive-engine-hero-poster-r07[^>]*><source src="[^"]*archive-engine-hero-loop-r07/g, 2, 'route film'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<h3 data-story-question=""[^>]*>“[^"“”<]+”<\/h3>/g, 2, 'quoted history question'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 3, 'Media to the publication'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 4, 'hero and route film'], [/archive-engine-hero-poster-r07/g, 4, 'hero and route poster'], [/<section class="route-stage"><video [^>]*archive-engine-hero-poster-r07[^>]*><source src="[^"]*archive-engine-hero-loop-r07/g, 2, 'route film'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<h3 data-story-question=""[^>]*>“[^"“”<]+”<\/h3>/g, 2, 'quoted history question'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }

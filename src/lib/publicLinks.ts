@@ -1,23 +1,23 @@
 /**
  * The two outbound links the site uses in more than one place.
  *
- * PUBLICATION_URL is Mindmake's publication. The substack.com address is a
- * legacy hosting identifier, not a name: the publication is Mindmake's, and it
- * runs exactly two channels, The Money of AI and Built with AI. Nothing on the
- * site or in generated copy calls it anything else.
+ * PUBLICATION_URL is Mindmake's publication, and every "Media" link lands on
+ * it: makeyourmindup.ai (Krish, 2026-09-26). The publication runs exactly two
+ * channels, The Money of AI and Built with AI. Nothing on the site or in
+ * generated copy calls it anything else.
  */
-export const PUBLICATION_URL = "https://mindmakerlive.substack.com";
+export const PUBLICATION_URL = "https://makeyourmindup.ai";
 
 /**
  * Where every "Subscribe for free" lands: the publication's one-field form,
  * not its archive. A reader who has just been promised a subscription should
- * not have to find the box on a page of posts. The form keeps its own "read it
- * first" way through to the archive for anyone not ready to give an email.
+ * not have to find the box on a page of posts. The form lives on the
+ * publication's Substack host, where makeyourmindup.ai's own buttons send it.
  *
  * Subscribing is the site's low-commitment way to stay close. It never
  * competes with START_LABEL, which is the way in for a reader who is ready.
  */
-export const SUBSCRIBE_URL = `${PUBLICATION_URL}/subscribe`;
+export const SUBSCRIBE_URL = "https://mindmakerlive.substack.com/subscribe";
 export const SUBSCRIBE_LABEL = "Subscribe for free";
 export const START_PATH = "/?start=1";
 
@@ -83,5 +83,5 @@ export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; extern
   { label: "About us", href: "/about" },
   /* The label stays the approved "Media"; the badge beside it says what the
      click gets you (Krish, 2026-09-25). */
-  { label: "Media", href: SUBSCRIBE_URL, external: true, badge: SUBSCRIBE_LABEL },
+  { label: "Media", href: PUBLICATION_URL, external: true, badge: SUBSCRIBE_LABEL },
 ];

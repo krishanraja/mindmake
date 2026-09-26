@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar, type ActionBarDoor } from "@/components/mindmake/SiteActionBar";
 import { Link, useLocation } from "react-router-dom";
-import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
+import { PRIMARY_ROUTES, PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -225,7 +225,7 @@ export function MindmakeShell({
                   : <Link key={href} className="mm-footer-route" to={href}>{label}</Link>)}
               </>
             )}
-            {compactFooter && <a href={SUBSCRIBE_URL} target="_blank" rel="noreferrer">Media</a>}
+            {compactFooter && <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a>}
             <Link to="/contact">Contact</Link>
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>

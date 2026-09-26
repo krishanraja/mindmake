@@ -56,7 +56,7 @@ export default function Index() {
       const target = event.target instanceof Element ? event.target : null;
       const door = target?.closest<HTMLElement>("[data-route-choice]");
       if (door) track("door_click", { source: "homepage_hero", route: door.dataset.routeChoice ?? "" });
-      const publication = target?.closest("a[href*='substack.com']");
+      const publication = target?.closest("a[href*='substack.com'], a[href*='makeyourmindup.ai']");
       if (publication) track("substack_click", { source: publication.closest(".r3-navigation") ? "menu" : "homepage_footer" });
     };
     root.addEventListener("click", measure);

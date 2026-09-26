@@ -113,8 +113,9 @@
 
 
 /* styles-s3-r2.css */
-.nal-page .scroll-reveal{opacity:0;filter:blur(7px);transform:translateY(26px);transition:opacity .65s ease,filter .8s ease,transform .9s cubic-bezier(.2,.72,.2,1);will-change:opacity,filter,transform}
-.nal-page .scroll-reveal.is-revealed{opacity:1;filter:blur(0);transform:translateY(0)}
+/* No blur and no will-change (Krish, 2026-09-26): on Android Chrome the promoted, blurred layer painted a stale copy of the masthead where the heading should be. */
+.nal-page .scroll-reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .9s cubic-bezier(.2,.72,.2,1)}
+.nal-page .scroll-reveal.is-revealed{opacity:1;transform:none}
 .nal-page .work-intro h2 em{color:#146e52;text-shadow:none}
 .nal-page .motion-paused .scroll-reveal{transition:none}
 .nal-page .brain-benefits{position:relative;overflow:hidden;justify-content:flex-start}

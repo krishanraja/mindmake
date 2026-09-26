@@ -604,3 +604,70 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .mm-home-leadership .capability-core::after,
   .mm-homepage-release .mm-home-leadership .capability-core i { top: 45%; }
 }
+
+/* The footer's last rows (Krish, 2026-09-26): Privacy and Terms read as two
+   links, each a full tap target with clear air between them, and the
+   copyright sits on the shared left edge rather than alone in the corner. */
+.mm-homepage-release .r3-footer .site-footer .legal { column-gap: 28px; row-gap: 0; }
+.mm-homepage-release .r3-footer .site-footer .legal a { display: inline-flex; align-items: center; min-height: 44px; }
+.mm-homepage-release .r3-footer .site-footer > small { justify-self: start; text-align: left; }
+.mm-homepage-release .r3-footer .preview-mobile .site-footer > small { align-self: flex-start; }
+
+/* The bridge opens the history chapter (Krish, 2026-09-26: "not impactful
+   enough ... looks too much like the text below it"). Its headline was set
+   smaller than the era questions under it and its lede was the questions'
+   serif in mint at reading size, so nothing marked the start of the chapter.
+   The headline now leads the chapter's scale, the lede steps back to a quiet
+   cream, and the closing sentence stands on its own line in mint italic. */
+.mm-homepage-release .r3-history .history-frame[data-bridge-treatment="contrast"] .bridge h2 { line-height: .96; letter-spacing: -.045em; text-wrap: balance; }
+.mm-homepage-release .r3-history .device-desktop .history-frame[data-bridge-treatment="contrast"] .bridge h2 { max-width: 26ch; font-size: clamp(32px, 3.7cqw, 60px); }
+.mm-homepage-release .r3-history .device-desktop .history-frame[data-bridge-treatment="contrast"] .bridge { width: 60%; }
+.mm-homepage-release .r3-history .device-mobile .history-frame[data-bridge-treatment="contrast"] .bridge h2 { max-width: none; font-size: clamp(30px, 9cqw, 40px); }
+.mm-homepage-release .r3-history .bridge p { color: rgba(238, 226, 204, .74); }
+.mm-homepage-release .r3-history .device-desktop .bridge p { max-width: 60ch; margin-top: clamp(12px, 1.8cqh, 22px); }
+.mm-homepage-release .r3-history .bridge .mm-bridge-payoff {
+  display: block;
+  margin-top: .45em;
+  color: var(--mint);
+  font-size: 1.3em;
+  font-style: italic;
+  line-height: 1.15;
+}
+/* Short phones keep the order of scale but give the eras their room. */
+@media (max-width: 700px) and (max-height: 700px) {
+  .mm-homepage-release .r3-history .device-mobile .history-frame[data-bridge-treatment="contrast"] .bridge h2 { font-size: clamp(24px, 7.6cqw, 29px); }
+  .mm-homepage-release .r3-history .device-mobile .bridge p { font-size: 13.5px; line-height: 1.3; margin-top: 8px; }
+  .mm-homepage-release .r3-history .bridge .mm-bridge-payoff { margin-top: .3em; font-size: 1.15em; }
+}
+
+/* The footer holds still and keeps every route on screen (2026-09-26): R3's
+   review-only scroll preview made its contents bob 5px and fade forever, and
+   between 701 and 1180px the five-column rail ran past the right edge. */
+.mm-homepage-release .r3-footer .site-footer > * { animation: none; }
+@media (min-width: 701px) and (max-width: 1180px) {
+  .mm-homepage-release .r3-footer .preview-desktop .site-footer .footer-routes { grid-template-columns: repeat(3, auto); }
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  .mm-homepage-release .r3-footer .preview-desktop .site-footer .footer-routes { grid-column: 1 / -1; }
+}
+/* On 391 to 700px phones the footer sat in a centred 390px frame, off the
+   masthead's gutter; it fills the width as the route chapter does. */
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-footer > .r3-variant.preview-mobile { width: 100%; margin-inline: 0; }
+}
+
+/* "your" in the hero headline (Krish, 2026-09-26): a mint underline drawn in
+   left to right once the headline has arrived. A background line rather than
+   text-decoration, so it can be drawn and keeps its weight at every size;
+   reduced motion and no-script readers get it already drawn. */
+.mm-homepage-release .r3-opening h1 .mm-hero-your {
+  padding-bottom: .04em;
+  background: linear-gradient(var(--mint, #9df0c8), var(--mint, #9df0c8)) 0 100% / 100% .06em no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mm-homepage-release .r3-opening h1 .mm-hero-your { animation: mm-hero-your-draw .9s cubic-bezier(.65, 0, .25, 1) .9s both; }
+}
+@keyframes mm-hero-your-draw {
+  from { background-size: 0% .06em; }
+  to { background-size: 100% .06em; }
+}

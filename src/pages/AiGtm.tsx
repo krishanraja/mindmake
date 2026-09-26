@@ -229,7 +229,7 @@ export default function AiGtm() {
   const mapped = copy.levers ? LEVERS.map((key) => ({ name: LEVER_NAMES[key], ...copy.levers![key] })) : null;
 
   return (
-    <MindmakeShell onStart={() => openBrief("gtm")} siteClassName="mm-route-gtm" compactFooter>
+    <MindmakeShell onStart={() => openBrief("gtm")} siteClassName="mm-route-gtm">
       <SEO title="Build your AI GTM" description="Make your pricing, positioning and team AI-native, then test it with real buyers." canonical="/ai-gtm" />
       <div ref={rootRef} className="mm-gtm" data-mode={mode}>
         <Opening

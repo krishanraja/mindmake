@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
+import { PRIMARY_ROUTES, PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 
 const read = (path: string) => readFileSync(resolve(process.cwd(), path), "utf8");
 
@@ -20,7 +20,9 @@ describe("primary routes parity", () => {
   it("badges Media with the subscription, on both menus (Krish, 2026-09-25)", () => {
     const markup = read("src/components/homepage-release/markup.ts");
     const media = PRIMARY_ROUTES.find(({ label }) => label === "Media");
-    expect(media?.href).toBe(SUBSCRIBE_URL);
+    expect(media?.href).toBe(PUBLICATION_URL);
+    expect(PUBLICATION_URL).toBe("https://makeyourmindup.ai");
+    expect(SUBSCRIBE_URL).toBe("https://makeyourmindup.ai");
     expect(media?.badge).toBe(SUBSCRIBE_LABEL);
     for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) {
       expect(nav).toContain(`data-badge="${SUBSCRIBE_LABEL}">Media</a>`);

@@ -16,6 +16,7 @@ dist-ssr
 artifacts/award-panel/
 artifacts/homepage-release/pre-merge/
 artifacts/lead-keyboard/
+artifacts/lead-contrast/
 
 # Editor directories and files
 .vscode/*

@@ -41,11 +41,11 @@ Use this headline:
 
 > Mindmake has helped leaders across media, software and advisory with what's next in AI.
 
-The earlier "over 4000 leaders" count is retired from public copy under the claim control in `01_CANON.md`: a count returns only when the section 6 evidence trail is compiled and Krish approves it.
+Ruling (Krish, 2026-09-26): the count returns above the brand grid. The line runs a figure up to 4000+ and then reads:
 
-Use this line immediately above the brand grid:
+> 4000+ leaders who have adopted mind/make thinking, from businesses including
 
-> Attended by people from organisations including
+Krish approved the count on 26 September 2026; the section 6 evidence trail behind it has not yet been compiled, and should be before the figure is used anywhere else. Use this line immediately above the brand grid (`src/components/mindmake/LeaderCount.tsx`).
 
 The organisations below are attendance proof. They are not Mindmake advisory clients and must never be described as clients.
 

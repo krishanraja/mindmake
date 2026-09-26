@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { type MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar, type ActionBarDoor } from "@/components/mindmake/SiteActionBar";
 import { Link, useLocation } from "react-router-dom";
@@ -11,7 +11,6 @@ interface MindmakeShellProps {
   mainClassName?: string;
   siteClassName?: string;
   showMobileActionBar?: boolean;
-  compactFooter?: boolean;
 }
 
 /**
@@ -33,9 +32,7 @@ export function MindmakeShell({
   mainClassName = "",
   siteClassName = "",
   showMobileActionBar = true,
-  compactFooter = false,
 }: MindmakeShellProps) {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -53,13 +50,6 @@ export function MindmakeShell({
      rendering, losing the server heading with it. Vercel resolves either
      spelling, so this was a real visitor's page, not only a gate's. */
   const actionBarDoor = ACTION_BAR_DOORS[location.pathname.replace(/\/+$/, "") || "/"];
-
-  useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
 
   useEffect(() => setMenuOpen(false), [location.pathname, location.hash, location.search]);
 
@@ -140,10 +130,16 @@ export function MindmakeShell({
     onStart();
   };
 
+  const startFromFooter = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    track("scoping_request", { source: "footer" });
+    onStart();
+  };
+
   return (
     <div className={`mm-site ${siteClassName}`.trim()}>
       <a className="mm-skip" href="#main">Skip to content</a>
-      <header className={`mm-header${scrolled ? " is-scrolled" : ""}`}>
+      <header className="mm-header">
         <div className="mm-container mm-nav">
           <MindmakeBrand />
           <button
@@ -155,7 +151,7 @@ export function MindmakeShell({
             aria-controls="mindmake-menu"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            {menuOpen ? "Close" : "Menu"}
+            <b>{menuOpen ? "Close" : "Menu"}</b>
             <span className="mm-burger" aria-hidden="true"><i /><i /><i /></span>
           </button>
         </div>
@@ -198,39 +194,43 @@ export function MindmakeShell({
 
       <main id="main" ref={mainRef} className={mainClassName} tabIndex={-1}>{children}</main>
 
-      <footer className={`mm-footer${compactFooter ? " is-compact" : ""}`} ref={footerRef}>
-        <div className="mm-container mm-footer-grid">
-          <MindmakeBrand compact />
-          {!compactFooter && <p>We help leaders keep their edge as AI changes their market, and you keep what it learns.</p>}
-          {/* The footer's one quiet way to stay close, on every page. The
-              brief stays the way in; this is for the reader not ready yet. */}
-          <a
-            className="mm-subscribe-cta"
-            href={SUBSCRIBE_URL}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => track("substack_click", { source: "footer" })}
-          >
-            {SUBSCRIBE_LABEL} <span aria-hidden="true">↗</span>
-          </a>
-          {/* On a phone the route list is not rendered visible (owner ruling,
-              2026-09-25: the menu is a tap away and the list only took up
-              space); `.mm-footer-route` in mindmake.css hides it below 521px.
-              Contact and the legal pair stay, because the menu has no Contact. */}
-          <nav aria-label="Footer navigation">
-            {!compactFooter && (
-              <>
-                {PRIMARY_ROUTES.map(({ label, href, external }) => external
-                  ? <a key={href} className="mm-footer-route" href={href} target="_blank" rel="noreferrer">{label}</a>
-                  : <Link key={href} className="mm-footer-route" to={href}>{label}</Link>)}
-              </>
-            )}
-            {compactFooter && <a href={SUBSCRIBE_URL} target="_blank" rel="noreferrer">Media</a>}
-            <Link to="/contact">Contact</Link>
+      {/* The homepage's footer, on every page (owner ruling, 2026-09-26: "The bottom
+          nav bar is super inconsistent across pages"). The same words in the
+          same order as R3's: the brand, the statement, Subscribe, the route
+          rail, the legal pair, the copyright. The rail is not shown on a phone
+          (owner ruling, 2026-09-25: the menu is a tap away). Contact is not in it,
+          as it is not on the homepage: the address is on /about, /privacy and
+          /terms, and the brief is the way in. */}
+      <footer className="mm-footer" ref={footerRef}>
+        <div className="mm-footer-grid">
+          <div className="mm-footer-brand">
+            <MindmakeBrand compact />
+            <p className="mm-footer-statement">Keep your edge as AI<br />changes the market.</p>
+            {/* The footer's one quiet way to stay close. The brief stays the
+                way in; this is for the reader not ready yet. */}
+            <a
+              className="mm-subscribe-cta"
+              href={SUBSCRIBE_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => track("substack_click", { source: "footer" })}
+            >
+              {SUBSCRIBE_LABEL} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <nav className="mm-footer-routes" aria-label="Footer navigation">
+            {PRIMARY_ROUTES.map(({ label, href, external }) => external
+              ? <a key={href} href={href} target="_blank" rel="noreferrer" onClick={() => track("substack_click", { source: "footer" })}>{label}</a>
+              : <Link key={href} to={href}>{label}</Link>)}
+            {/* R3 links /start. Here it opens the brief in place, as the
+                menu's start action does; without script it follows the link. */}
+            <a href="/start" onClick={startFromFooter}>{START_LABEL}</a>
+          </nav>
+          <nav className="mm-footer-legal" aria-label="Legal navigation">
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
           </nav>
-          <small>Copyright {new Date().getFullYear()} Mindmake. Built in public, used in private.</small>
+          <small>© {new Date().getFullYear()} Mindmake.</small>
         </div>
       </footer>
 

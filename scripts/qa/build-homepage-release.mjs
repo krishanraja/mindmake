@@ -81,8 +81,10 @@ const register = value => {
 };
 let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
 body = cut(body, '<section id="authority"', '<section id="route"', leadershipChapters, 'retired chapters');
-const publication = 'https://mindmakerlive.substack.com';
-const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
+// Every Media and "Subscribe for free" link lands on the publication's own
+// site (Krish, 2026-09-26).
+const media = 'https://makeyourmindup.ai';
+const subscribe = { href: media, label: 'Subscribe for free' };
 const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
 const heroFilm = {
   poster: '../../../src/assets/films/sep2026/archive-engine-hero-poster-r07.webp',
@@ -91,8 +93,8 @@ const heroFilm = {
 body = body
   .replace(/(<section class="hero-stage">\s*<video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*>\s*<source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`)
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
-  .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
-  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
+  .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${media}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
+  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${media}" target="_blank" rel="noreferrer">Media</a>`)
   .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`)
   .replace(/(<section class="route-stage"><video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*><source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`);
 // The history questions are what people asked at the time, so they read as
@@ -127,14 +129,23 @@ body = body.replace(/(<nav class="(?:primary|footer)-routes"[^>]*>)([\s\S]*?)(<\
   let routes = inner;
   for (const [href, label] of routeLabels) routes = routes.replace(new RegExp(`<a href="${href}">[^<]*</a>`), `<a href="${href}">${label}</a>`);
   routes = routes.replace(/<a href="\/answers">[^<]*<\/a>/, '');
-  routes = routes.replace(/(<a href="https:\/\/mindmakerlive\.substack\.com[^"]*"[^>]*>Media<\/a>)/, '<a href="/about">About us</a>$1');
+  routes = routes.replace(/(<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>)/, '<a href="/about">About us</a>$1');
   return `${open}<a href="/">Home</a>${routes}${close}`;
 });
 const phoneFooterRoutes = /(<div class="r3-variant preview-mobile"><footer class="site-footer"[^>]*>[\s\S]*?)<nav class="footer-routes"[^>]*>[\s\S]*?<\/nav>/;
 if (!phoneFooterRoutes.test(body)) throw new Error('Homepage adapter anchor missing: phone footer routes');
 body = body.replace(phoneFooterRoutes, '$1');
 body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 4, 'hero and route film'], [/archive-engine-hero-poster-r07/g, 4, 'hero and route poster'], [/<section class="route-stage"><video [^>]*archive-engine-hero-poster-r07[^>]*><source src="[^"]*archive-engine-hero-loop-r07/g, 2, 'route film'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<h3 data-story-question=""[^>]*>“[^"“”<]+”<\/h3>/g, 2, 'quoted history question'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
+// A tenth (Krish, 2026-09-26: the bridge was "not impactful enough ... looks
+// too much like the text below it"): the words stay, and the closing sentence
+// becomes its own line so it can land as the pay-off.
+body = body.replace(/(<p data-optional-copy="bridgeLine">[^<]*?) It's all in the mind\.<\/p>/g, '$1 <em class="mm-bridge-payoff">It\'s all in the mind.</em></p>');
+// An eleventh (Krish, 2026-09-26): "your" in the headline is underlined, the
+// line drawn in as the page loads (integration.css draws it).
+body = body.replace(/<h1>Build the human \+ AI business that augments your vision\.<\/h1>/g, '<h1>Build the human + AI business that augments <span class="mm-hero-your">your</span> vision.</h1>');
+// An eighth (Krish, 2026-09-26): the hero lede reads "with the high standards".
+body = body.replace(/(<p class="hero-lede">For leaders in creative industries with )high standards/g, '$1the high standards');
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 3, 'Media to the publication'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 4, 'hero and route film'], [/archive-engine-hero-poster-r07/g, 4, 'hero and route poster'], [/<section class="route-stage"><video [^>]*archive-engine-hero-poster-r07[^>]*><source src="[^"]*archive-engine-hero-loop-r07/g, 2, 'route film'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<h3 data-story-question=""[^>]*>“[^"“”<]+”<\/h3>/g, 2, 'quoted history question'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/augments <span class="mm-hero-your">your<\/span> vision\.<\/h1>/g, 2, 'hero underline'], [/<em class="mm-bridge-payoff">It's all in the mind\.<\/em><\/p>/g, 2, 'bridge pay-off'], [/<p class="hero-lede">For leaders in creative industries with the high standards and curiosity required to drive the new era\.<\/p>/g, 2, 'hero lede'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
@@ -179,6 +190,32 @@ runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturn
 runtime = cut(runtime, 'button.toggleAttribute("aria-current", Number(button.dataset.era) === index)', null, 'setCurrent(button, Number(button.dataset.era) === index)', 'history current state');
 runtime = cut(runtime, '() => selectStory(Number(button.dataset.era))', null, '() => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }', 'history choice');
 runtime = runtime.replace('    video.play().catch(() => {});', '    if (!reducedMotion.matches) video.play().catch(() => {});');
+// A ninth (Krish, 2026-09-26): the four eras hold one layout. The phone copy
+// is anchored to the bottom of its frame, so a longer answer ("A review of 79
+// studies…" runs to three lines) pushed the label and question up as the eras
+// changed. Each frame's copy now reserves the tallest era's height, measured on
+// a hidden copy at the current width, so nothing moves from era to era.
+runtime = cut(runtime, '  selectRoute("brain");', null, `  const holdStoryHeight = () => within("history", ".story-copy").forEach(copy => {
+    if (copy.offsetParent === null) return;
+    const probe = copy.cloneNode(true);
+    probe.setAttribute("aria-hidden", "true");
+    probe.removeAttribute("id");
+    probe.querySelectorAll("[id]").forEach(node => node.removeAttribute("id"));
+    Object.assign(probe.style, { visibility: "hidden", pointerEvents: "none", minHeight: "0px", width: copy.offsetWidth + "px" });
+    copy.after(probe);
+    const question = probe.querySelector("[data-story-question]");
+    const outcome = probe.querySelector("[data-story-outcome]");
+    let tallest = 0;
+    stories.forEach(story => { question.textContent = story.question; outcome.textContent = story.outcome; tallest = Math.max(tallest, probe.offsetHeight); });
+    probe.remove();
+    copy.style.minHeight = tallest + "px";
+  });
+  let storyHeightFrame = 0;
+  const queueStoryHeight = () => { window.cancelAnimationFrame(storyHeightFrame); storyHeightFrame = requestAnimationFrame(holdStoryHeight); };
+  listen(window, "resize", queueStoryHeight);
+  document.fonts?.ready.then(queueStoryHeight);
+  queueStoryHeight();
+  selectRoute("brain");`, 'era height');
 runtime = cut(runtime, '  selectRoute("brain");', null, `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
     else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});

@@ -608,11 +608,14 @@ describe("the conversion contract", () => {
     }
 
     const links = read("src/lib/publicLinks.ts");
-    expect(links).toContain("https://mindmakerlive.substack.com");
+    expect(links).toContain("https://makeyourmindup.ai");
     expect(links).toContain('SUBSCRIBE_LABEL = "Subscribe for free"');
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
     expect(shell).toContain("SUBSCRIBE_URL");
-    expect(shell).toContain("Media");
+    /* Media reaches the shell footer through the shared route list, as it
+       does on the homepage's rail, rather than as a footer-only link. */
+    expect(shell).toContain("PRIMARY_ROUTES");
+    expect(links).toMatch(/label: "Media", href: PUBLICATION_URL/);
     expect(read("src/components/mindmake/LeadBrief.tsx")).toContain("SUBSCRIBE_LABEL");
   });
 });

@@ -228,7 +228,7 @@ export default function AiBrain() {
   const activeStory = BRAIN_STORY_PRESENTATIONS[activeStoryIndex];
 
   return (
-    <MindmakeShell onStart={openBrainBrief} mainClassName="mm-brain-r5 mm-brain-stable mm-brain-calm" showMobileActionBar={false} compactFooter>
+    <MindmakeShell onStart={openBrainBrief} mainClassName="mm-brain-r5 mm-brain-stable mm-brain-calm" showMobileActionBar={false}>
       <SEO title="Build your AI brain" description="Sharpen one consequential decision, use it on real work and leave the useful parts running in your own accounts." canonical="/ai-brain" />
 
       <section className="hero" aria-labelledby="brain-title" data-brain-view="hero">

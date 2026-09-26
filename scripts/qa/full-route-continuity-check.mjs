@@ -247,7 +247,7 @@ async function verifyShell(page, label) {
   for (const href of ["/ai-brain", "/ai-gtm", "/case-studies", "/blog", "/faq"]) {
     fail(!shell.internal.includes(href), `${label}: menu is missing ${href}`);
   }
-  fail(shell.media !== "https://mindmakerlive.substack.com/subscribe", `${label}: Media points to ${shell.media}`);
+  fail(shell.media !== "https://makeyourmindup.ai", `${label}: Media points to ${shell.media}`);
   fail(!shell.mainInert || !shell.footerInert, `${label}: open menu does not make the background inert`);
   fail(!shell.active, `${label}: open menu did not receive focus`);
   fail(!shell.activeRect || shell.activeRect.top < shell.headerBottom - 1 || shell.activeRect.bottom > shell.viewportHeight + 1, `${label}: focused menu route is outside the usable viewport (${JSON.stringify(shell)})`);
@@ -341,7 +341,7 @@ async function verifyFooter(page, label) {
     href: link.getAttribute("href"),
   })));
   for (const href of ["/contact", "/privacy", "/terms"]) fail(!footer.some((item) => item.href === href), `${label}: footer is missing ${href}`);
-  fail(!footer.some((item) => item.text === "Media" && item.href === "https://mindmakerlive.substack.com/subscribe"), `${label}: footer Media link is missing or incorrect`);
+  fail(!footer.some((item) => item.text === "Media" && item.href === "https://makeyourmindup.ai"), `${label}: footer Media link is missing or incorrect`);
 }
 
 async function verifyRouteActions(page, engine, viewport) {

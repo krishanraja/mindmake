@@ -402,8 +402,14 @@
   letter-spacing: -.052em;
 }
 .mm-site .gtm-turn-title em { color: var(--mm-mint-d); }
+/* Until the offer shares its row with the question it takes the whole
+   column: held to 13ch it broke into three short lines beside an empty
+   half of the screen (Krish, 2026-09-26). */
+@media (max-width: 1099px) {
+  .mm-site .gtm-turn-title { max-width: none; }
+}
 .gtm-turn-promise {
-  max-width: 50ch;
+  max-width: 60ch;
   margin-top: clamp(22px, 3.4vh, 34px);
   color: var(--mm-tx2-d);
   font-size: clamp(17px, 1.4vw, 19px);
@@ -590,7 +596,10 @@
   row-gap: clamp(20px, 3.5vh, 36px);
 }
 .gtm-team-head { grid-area: head; align-self: end; }
-.mm-site .gtm-team-head h2 { max-width: 13ch; font-size: clamp(34px, 3.8vw, 58px); font-weight: 390; }
+/* The heading takes its column. A 13ch cap broke "Your first commercial team
+   can be mostly agents." into four short lines in the left half of a phone
+   (Krish, 2026-09-26). */
+.mm-site .gtm-team-head h2 { font-size: clamp(34px, 3.8vw, 58px); font-weight: 390; }
 /* The chart sits on an instrument panel that says what it is. */
 .team-instrument {
   grid-area: board;
@@ -812,7 +821,7 @@
   .gtm-playbook .gtm-was { font-size: 15px; }
 
   .gtm-lever { grid-template-columns: 1fr; align-content: start; gap: 22px; }
-  .mm-site .gtm-felt { max-width: 18ch; font-size: clamp(30px, 8.2vw, 44px); line-height: 1; }
+  .mm-site .gtm-felt { max-width: none; font-size: clamp(30px, 8.2vw, 44px); line-height: 1; }
   .gtm-lever-card { padding: 20px; gap: 10px; }
   .gtm-lever-now { font-size: clamp(22px, 6vw, 28px); }
   .gtm-levers .gtm-stage-body { gap: 22px; padding-block: 20px 12px; }
@@ -845,6 +854,12 @@
   .mm-site .gtm-rail:not(.gtm-rail-days) .gtm-rail-step[data-active="true"] { flex: 1 1 auto; }
   .gtm-rail:not(.gtm-rail-days) .gtm-rail-step[data-active="false"] .gtm-rail-name { display: none; }
   .gtm-rail-fill { right: 4px; }
+}
+/* A tablet held upright has the width of a desktop column and none of its
+   neighbours: the opening line runs across it in two full lines rather than
+   three short ones in its left half. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .mm-site .gtm-opening h1 { max-width: none; font-size: clamp(46px, 8.4vw, 76px); }
 }
 @media (min-width: 700px) and (max-width: 899px) {
   .gtm-plan .gtm-step { grid-template-columns: 1fr; grid-template-areas: "when" "what" "detail"; grid-template-rows: none; }
@@ -1014,7 +1029,7 @@
   .mm-site .gtm-felt { font-size: clamp(32px, 3.6vw, 56px); }
   /* A laptop screen holds the whole team: less air, the same content. */
   .gtm-team .gtm-stage-body { padding-block: 14px; row-gap: 16px; }
-  .mm-site .gtm-team-head h2 { max-width: 16ch; font-size: clamp(30px, 3vw, 44px); }
+  .mm-site .gtm-team-head h2 { font-size: clamp(30px, 3vw, 44px); }
   .team-instrument { padding: 12px; gap: 10px; }
   .team-board { gap: 6px; }
   .team-bus { height: 14px; margin-block: -6px 0; }

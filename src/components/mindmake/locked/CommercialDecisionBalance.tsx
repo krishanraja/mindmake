@@ -8,6 +8,7 @@ import {
 } from "react";
 import { Link } from "react-router-dom";
 import { track } from "@/lib/analytics";
+import { useKeyboardSafeViewport } from "@/hooks/useKeyboardSafeViewport";
 import { START_LABEL } from "@/lib/publicLinks";
 import readinessFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
 import readinessPoster from "../../../../prototypes/website-redesign-recovery/case-study-browsing/media/ready-for-decision-loop-r01-20s-720p-web-sealed-poster.webp";
@@ -119,6 +120,12 @@ export function CommercialDecisionBalance({ context, onStart }: CommercialDecisi
   const [activeStage, setActiveStage] = useState(0);
   const [filmAvailable, setFilmAvailable] = useState(true);
   const [dialogStep, setDialogStep] = useState<"input" | "result">("input");
+  /* Open or shut, for the keyboard handling alone: the dialog itself is
+     opened and closed imperatively. */
+  const [dialogOpen, setDialogOpen] = useState(false);
+  /* On a phone the dialog is sized from what the keyboard leaves visible and
+     scrolls the decision field above it, as the lead dialog does. */
+  useKeyboardSafeViewport({ open: dialogOpen, host: dialogRef, prefix: "--mm-db" });
   const [decision, setDecision] = useState("");
   const [generatedDecision, setGeneratedDecision] = useState("");
   const [result, setResult] = useState<DecisionFrame>(FALLBACK_FRAME);
@@ -351,6 +358,7 @@ export function CommercialDecisionBalance({ context, onStart }: CommercialDecisi
     setDialogStep(complete ? "result" : "input");
     lockPagePosition();
     dialogRef.current?.showModal();
+    setDialogOpen(true);
     settlePagePosition();
     focusReliably(complete ? resultHeadingRef.current : decisionRef.current);
   };
@@ -505,6 +513,7 @@ export function CommercialDecisionBalance({ context, onStart }: CommercialDecisi
         onKeyUp={modalTabUp}
         onCancel={() => window.requestAnimationFrame(() => focusReliably(startRef.current))}
         onClose={() => {
+          setDialogOpen(false);
           const shouldHandoff = handoffPending.current;
           handoffPending.current = false;
           setDecisionError(false);

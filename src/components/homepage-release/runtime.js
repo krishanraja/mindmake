@@ -176,6 +176,26 @@ export function mountHomepageRuntime(root, { onStart }) {
   });
 
   selectStory(0);
+  const holdStoryHeight = () => within("history", ".story-copy").forEach(copy => {
+    if (copy.offsetParent === null) return;
+    const probe = copy.cloneNode(true);
+    probe.setAttribute("aria-hidden", "true");
+    probe.removeAttribute("id");
+    probe.querySelectorAll("[id]").forEach(node => node.removeAttribute("id"));
+    Object.assign(probe.style, { visibility: "hidden", pointerEvents: "none", minHeight: "0px", width: copy.offsetWidth + "px" });
+    copy.after(probe);
+    const question = probe.querySelector("[data-story-question]");
+    const outcome = probe.querySelector("[data-story-outcome]");
+    let tallest = 0;
+    stories.forEach(story => { question.textContent = story.question; outcome.textContent = story.outcome; tallest = Math.max(tallest, probe.offsetHeight); });
+    probe.remove();
+    copy.style.minHeight = tallest + "px";
+  });
+  let storyHeightFrame = 0;
+  const queueStoryHeight = () => { window.cancelAnimationFrame(storyHeightFrame); storyHeightFrame = requestAnimationFrame(holdStoryHeight); };
+  listen(window, "resize", queueStoryHeight);
+  document.fonts?.ready.then(queueStoryHeight);
+  queueStoryHeight();
   const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
     else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});

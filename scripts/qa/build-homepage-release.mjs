@@ -39,9 +39,9 @@ import postcss from 'postcss';
 // markup (`brainWords`), which leaves one place to change them. The AI GTM
 // state keeps film-04 and its own words.
 //
-// A seventh (Krish, 2026-09-26): the first era's label is the one the markup
-// carries, "370 BC · Writing IS INVENTED" (`firstEra`); the runtime used to
-// restore "370 BC · Writing" over it on load, as it did the closing words.
+// A seventh (Krish, 2026-09-26): each era's label names its event
+// (`eraLabels`), after his edit of the first to "Writing IS INVENTED". The
+// runtime used to restore the bare names over the markup on load.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -100,11 +100,12 @@ body = body
 const list = values => `[${values.map(value => JSON.stringify(value)).join(', ')}]`;
 const quoted = question => `“${question.replace(/^["“]|["”]$/g, '')}”`;
 body = body.replace(/(<h3 data-story-question=""[^>]*>)([^<]+)(<\/h3>)/g, (_, open, question, close) => `${open}${quoted(question)}${close}`);
-const firstEra = (() => {
+const eraLabels = ['370 BC · Writing is invented', '1675 · The engine loom arrives', '1970s · Calculators reach classrooms', '2000s · Satnav goes mainstream'];
+{
   const labels = [...new Set([...body.matchAll(/<b data-story-era="">([^<]+)<\/b>/g)].map(([, label]) => label))];
-  if (labels.length !== 1) throw new Error('Homepage adapter anchor missing or split: first era label');
-  return labels[0];
-})();
+  if (labels.length !== 1 || !labels[0].startsWith('370 BC · Writing')) throw new Error('Homepage adapter anchor missing or split: first era label');
+  body = body.replaceAll(`<b data-story-era="">${labels[0]}</b>`, `<b data-story-era="">${eraLabels[0]}</b>`);
+}
 const brainWords = (() => {
   const copies = [...body.matchAll(/<div class="route-copy"[^>]*><h2>([^<]+)<\/h2><p class="lede">([^<]+)<\/p>/g)].map(([, title, lede]) => ({ title, lede }));
   const steps = [...body.matchAll(/<article class="receipt">[\s\S]*?<ol>([\s\S]*?)<\/ol>/g)].map(([, list]) => [...list.matchAll(/<li>([^<]+)<\/li>/g)].map(([, step]) => step));
@@ -143,13 +144,14 @@ if (Object.values(brainWords).flat().some(text => /[&<>]/.test(text))) throw new
 script = cut(script, '    brain: {\n', '      caption:', `    brain: {\n      title: ${JSON.stringify(brainWords.title)},\n      lede: ${JSON.stringify(brainWords.lede)},\n`, 'route brain title and lede');
 script = script.replace(/(    brain: \{[\s\S]*?      steps: )\[[^\]]*\](,[\s\S]*?      film: )"\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/, (_, open, middle) => `${open}${list(brainWords.steps)}${middle}${JSON.stringify(heroFilm.mp4)}`);
 script = script.replace(/question: "([^"]+)"/g, (_, question) => `question: ${JSON.stringify(quoted(question))}`);
-script = cut(script, '    { era: "370 BC · Writing", ', null, `    { era: ${JSON.stringify(firstEra)}, `, 'first era label');
+for (const [index, bare] of ['370 BC · Writing', '1675 · Engine loom', '1970s · Calculator', '2000s · Satnav'].entries()) script = cut(script, `    { era: "${bare}", `, null, `    { era: ${JSON.stringify(eraLabels[index])}, `, `era label ${index + 1}`);
 for (const [pattern, expected, label] of [[/question: "“[^"“”]+”"/g, 4, 'quoted history questions'], [/film-02-loop/g, 0, 'retired route film in runtime'], [new RegExp(`title: ${JSON.stringify(brainWords.title).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g'), 1, 'route brain title']]) {
   const found = (script.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
 if (script.split(`steps: ${list(brainWords.steps)}`).length !== 2) throw new Error('Authorised correction drifted: route brain steps');
-if (script.split(`{ era: ${JSON.stringify(firstEra)}, `).length !== 2) throw new Error('Authorised correction drifted: first era label');
+for (const label of eraLabels) if (script.split(`{ era: ${JSON.stringify(label)}, `).length !== 2) throw new Error(`Authorised correction drifted: era label ${label}`);
+if ((body.match(new RegExp(`<b data-story-era="">${eraLabels[0]}</b>`, 'g')) ?? []).length !== 2) throw new Error('Authorised correction drifted: first era label in markup');
 script = cut(script, '  const selectAuthority = (phase) => {', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
 script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
 script = cut(script, '  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');

@@ -68,8 +68,9 @@ post-publication verification.
   (#217). The approved R5 prototype baseline was restored to its recorded
   bytes (#218).
 - 2026-09-26: the homepage's search title, share card and `llms.txt` carry the
-  hero headline; the returned hour reads "into"; the first era reads "Writing
-  IS INVENTED"; the verbatim 24 September originals moved from the log to
+  hero headline; the returned hour reads "into"; each history era names its
+  event ("370 BC · Writing is invented" and three to match); a twenty-viewport
+  audit fixed eleven layout defects; the verbatim 24 September originals moved from the log to
   [history/ARCHIVE.md](project-documentation/history/ARCHIVE.md) so the docs
   steward passes; Chromium alone verifies a change (Krish).
 - 2026-09-25: the history chapter was reinstated ahead of the leadership
@@ -85,8 +86,7 @@ post-publication verification.
   established by technical checks. Require fresh evidence for those claims.
 - Dependency advisories remain upgrade work, not a clean audit.
 - Waiting on Krish: the owner review of the rebuilt /ai-gtm
-  (`AI-GTM-R47-OWNER-REVIEW-001` in the feedback ledger), and whether the other
-  three eras take a label in the form of "Writing IS INVENTED".
+  (`AI-GTM-R47-OWNER-REVIEW-001` in the feedback ledger).
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.

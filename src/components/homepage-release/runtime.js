@@ -134,7 +134,7 @@ export function mountHomepageRuntime(root, { onStart }) {
   within("route", "[data-start-route]").forEach((button) => listen(button, "click", () => { onStart(button.dataset.startRoute); }));
 
   const stories = [
-    { era: "370 BC · Writing", image: asset4, alt: "An illustrative historical writing scene", question: "“If knowledge lives outside us, will memory grow weaker?”", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
+    { era: "370 BC · Writing IS INVENTED", image: asset4, alt: "An illustrative historical writing scene", question: "“If knowledge lives outside us, will memory grow weaker?”", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
     { era: "1675 · Engine loom", image: asset6, alt: "An illustrative mechanised loom scene", question: "“If the machine can do the work, what happens to the worker?”", outcome: "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." },
     { era: "1970s · Calculator", image: asset7, alt: "An illustrative classroom calculator scene", question: "“If the device does the arithmetic, will children stop learning to think?”", outcome: "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." },
     { era: "2000s · Satnav", image: asset8, alt: "An illustrative early satellite navigation scene", question: "“If the device knows the route, will we lose our sense of direction?”", outcome: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },

@@ -1582,7 +1582,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                       </button>
                     ))}
                   </div>
-                  <p className="mm-honesty-note">Read from the outside as an illustrative example of how the Mindmake brain works. None of this is advice.</p>
                   <button className="mm-text-button" type="button" onClick={() => setShowGenericChoices(true)}>Something else</button>
                 </>
               ) : (
@@ -1666,10 +1665,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                   {previousCapacity && <button type="button" onClick={restoreCapacity}>Restore {capacityShort(previousCapacity)}</button>}
                 </div>
 
-                <div className="mm-folio-film-truth">
-                  <span aria-hidden="true" />
-                  <p>Illustrative sequence. Not evidence.</p>
-                </div>
               </aside>
 
               <section className="mm-folio" aria-label="Your private starting brief">

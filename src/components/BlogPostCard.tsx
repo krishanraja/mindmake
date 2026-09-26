@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/data/blogPosts";
-import { subjectLabels as categoryLabels } from "@/lib/ideaFormat";
+import { subjectLabels as categoryLabels, writtenOn } from "@/lib/ideaFormat";
 
 export const BlogPostCard = ({ post }: { post: BlogPost }) => (
   <Link to={`/blog/${post.slug}`} className="mm-blog-card">
@@ -9,7 +9,7 @@ export const BlogPostCard = ({ post }: { post: BlogPost }) => (
       <h2>{post.title}</h2>
       <p>{post.excerpt}</p>
       <footer>
-        <small>{categoryLabels[post.category]} · {new Date(post.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })} · {post.readingTime} min read</small>
+        <small>{categoryLabels[post.category]} · {writtenOn(post.publishedAt, "short")} · {post.readingTime} min read</small>
         <strong>Read <ArrowRight aria-hidden="true" /></strong>
       </footer>
     </article>

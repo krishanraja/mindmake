@@ -10,7 +10,7 @@ import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-
 import lockedDocument from "../../prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html?raw";
 import evidencePoster from "../../prototypes/website-redesign-recovery/brain-signature/media/evidence-connects-poster.png";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
-import { sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
+import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
 import "@/styles/mindmake-brain-refinements.css";
@@ -50,10 +50,12 @@ const evidenceMessages = {
 
 type BrainItem = (typeof fixture.items)[number];
 
-// The page is five chapters after the opening, in this order. Each heading
+// The page is six chapters after the opening, in this order. Each heading
 // must appear exactly once, so a copy edit can never silently drop or double
 // a chapter the scroll build, the rail and the checks all depend on.
-const chapterTitles = ["opening-title", "you-title", "memory-title", "sharper-title", "record-title", "business-title"];
+const chapterTitles = ["opening-title", "you-title", "memory-title", "sharper-title", "record-title", "business-title", "built-title"];
+/** Where the month's steps light: this far down the screen, well clear of the action bar. */
+const READING_LINE = 0.72;
 
 function prepareMarkup() {
   let markup = `${extractLockedMain(lockedDocument)}${extractLockedBlock(lockedDocument, "truth-bar")}`;
@@ -72,6 +74,14 @@ const lockedMarkup = prepareMarkup();
 // Settled thinking and thinking still being worked out look different in the
 // graph, so the nodes read as doing different jobs before anyone clicks.
 const isSettled = (item: BrainItem) => item.standing === "accepted" || item.standing === "owned_call" || item.standing === "accepted_learning";
+
+// The inspector's label names the picked idea's standing, in the colour the
+// graph already gives it: the leader's own settled calls, or the Brain's
+// reading, which stays a reading until the leader agrees it.
+const standingLabel = (item: BrainItem) => (isSettled(item) ? "Agreed by you" : "Your Brain's reading");
+
+// Whether two ideas share a connection, in either direction.
+const linked = (a: string, b?: string) => fixture.relationships.some((relationship) => (relationship.from === a && relationship.to === b) || (relationship.to === a && relationship.from === b));
 
 // Text that changes on interaction sits in a frame sized to its longest
 // variant, so the panel never grows or shrinks as a visitor clicks around.
@@ -108,7 +118,6 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     const renderFinal = params.get("render") === "final";
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const itemById = new Map(fixture.items.map((item) => [item.id, item]));
-    const focusIds = new Set(["BI-003", "BI-007", "BI-010", "BI-018"]);
     const field = q<HTMLElement>("#meaningFieldS2");
     const svg = q<SVGSVGElement>("#relationshipFieldS2");
 
@@ -125,8 +134,21 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         node.classList.toggle("is-active", active);
         node.setAttribute("aria-pressed", active ? "true" : "false");
       });
+      const kind = q<HTMLElement>("#inspectorKindS2");
       const title = q<HTMLElement>("#inspectorTitleS2");
       const statement = q<HTMLElement>("#inspectorStatementS2");
+      if (kind) {
+        kind.textContent = standingLabel(item);
+        kind.dataset.standing = isSettled(item) ? "settled" : "working";
+      }
+      // The picked idea's own connections light, so the reasons that tie it
+      // to the rest of the Brain are the ones on show.
+      svg?.querySelectorAll<SVGLineElement>("line").forEach((line) => {
+        line.classList.toggle("is-focus", line.dataset.from === item.id || line.dataset.to === item.id);
+      });
+      field?.querySelectorAll<HTMLElement>(".meaning-node-s2").forEach((node) => {
+        node.classList.toggle("is-linked", linked(item.id, node.dataset.id));
+      });
       if (title) title.textContent = item.title;
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
     };
@@ -165,7 +187,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         line.setAttribute("y1", String(from.y));
         line.setAttribute("x2", String(to.x));
         line.setAttribute("y2", String(to.y));
-        if (focusIds.has(from.id) && focusIds.has(to.id)) line.classList.add("is-focus");
+        line.dataset.from = from.id;
+        line.dataset.to = to.id;
+        if (from.id === selectedId || to.id === selectedId) line.classList.add("is-focus");
         svg.append(line);
       });
 
@@ -181,6 +205,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         button.setAttribute("aria-label", `${item.title}. ${plainStatements[item.id] ?? item.statement}`);
         button.setAttribute("aria-pressed", item.id === selectedId ? "true" : "false");
         if (item.id === selectedId) button.classList.add("is-active");
+        if (linked(selectedId, item.id)) button.classList.add("is-linked");
         const label = document.createElement("span");
         label.textContent = item.title;
         button.append(label);
@@ -276,6 +301,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       }
       const index = q<HTMLElement>("#recordIndexS2");
       if (index) index.textContent = `${current + 1} of ${records.length}`;
+      // Each record that lands reaches all four tools: the ports light in
+      // turn, by colour and opacity only. Alternating the name restarts it.
+      if (!reducedMotion.matches && !renderFinal) root.dataset.portPulse = root.dataset.portPulse === "a" ? "b" : "a";
     };
     const nextRecord = () => { current = (current + 1) % records.length; paint(); };
     const stopTimer = () => { if (timer) window.clearInterval(timer); timer = 0; };
@@ -321,12 +349,16 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       });
       // The stepped instruments (the questions, the decision and the levers)
       // light one step at a time as each rises into view, and unlight on the
-      // way back. Only colour and opacity change, never size or position.
+      // way back. The month (data-steps="reading") lights each step as its
+      // own top reaches the reading line instead. Only colour and opacity
+      // change, never size or position.
       sequences.forEach((sequence) => {
-        const rect = sequence.getBoundingClientRect();
-        const progress = renderFinal ? 1 : sequenceProgress(rect.top, rect.height, viewportHeight);
-        sequence.style.setProperty("--seq-p", progress.toFixed(3));
         const steps = [...sequence.querySelectorAll<HTMLElement>("[data-step]")];
+        const rect = sequence.getBoundingClientRect();
+        const progress = renderFinal ? 1 : sequence.dataset.steps === "reading"
+          ? readingProgress(steps.map((step) => step.getBoundingClientRect().top), viewportHeight * READING_LINE)
+          : sequenceProgress(rect.top, rect.height, viewportHeight);
+        sequence.style.setProperty("--seq-p", progress.toFixed(3));
         stepStates(progress, steps.length).forEach((state, index) => { steps[index].dataset.stepState = state; });
       });
       links.forEach((link) => {
@@ -335,10 +367,18 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       });
     };
     const requestBuild = () => { if (!buildFrame) buildFrame = window.requestAnimationFrame(updateBuild); };
+    // An instrument's rise and a chapter re-centring over the bar's reserve
+    // are transitions that finish after the last scroll event, so the build
+    // is read again once they settle.
+    const settleBuild = (event: TransitionEvent) => {
+      if ((event.propertyName === "transform" || event.propertyName === "padding-bottom") && (event.target as HTMLElement).matches(".instrument, .chapter")) requestBuild();
+    };
     window.addEventListener("scroll", requestBuild, { passive: true });
     window.addEventListener("resize", requestBuild);
+    root.addEventListener("transitionend", settleBuild);
     cleanups.push(() => window.removeEventListener("scroll", requestBuild));
     cleanups.push(() => window.removeEventListener("resize", requestBuild));
+    cleanups.push(() => root.removeEventListener("transitionend", settleBuild));
 
     root.classList.remove("no-js");
     setEvidenceState(requestedState);

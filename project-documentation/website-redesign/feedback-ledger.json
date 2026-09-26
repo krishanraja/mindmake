@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-09-25",
+  "updatedAt": "2026-09-26",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -838,6 +838,84 @@
       "status": "open",
       "resolution": "Planned with LEAD-BRIEF-INTELLIGENCE-001.",
       "evidence": []
+    },
+    {
+      "id": "AI-BRAIN-TECHNOLOGY-001",
+      "exactFeedback": "My AI brain product is depicted on this site as being conceptual but in actual reality it's an impressive piece of technology that is very differentiated from regular AI context tools and is at the forefront. Being built out there, technically, can you figure out a way of showcasing this as an actual technology? Essentially it is a managed service which I build for them in as little as 30 days, but ideally longer, and they get to carry forward and maintain it pretty easily, with no coding skills required. My main concern is that you'll just be a blunt knife and vomit all of this information everywhere in your usual Claude way and ruin the minimalism, simplicity, and easy-to-understand nature and flow, which I don't want you to do. [...] I worry that you're just defaulting to new sections and new content instead of sharpening everything but perhaps you can show me mocks as you go [...] I want everything to have radical minimalism so make sure you don't put any weird eyebrow headlines and random stray comments around the page. [...] it's probably less impressive to list LLMs as the destination for this brain, so much as it is tasks and outcomes. [...] I'd rather promise something deliverable during a sprint rather than integrations with specific companies. [...] part of the process of the brain is deciding, with the user, what tools they chain together for themselves to amplify, automate, or speed up what they do. We will essentially build the recommendations, the integrations, and the loading of the brain into the outcome. Show them the outcomes, prove them, and then leave them with the knowledge on how to use their new tools moving forward.",
+      "source": "Krish, 26 September 2026, in the session, with answers to eight questions and reviews of four rounds of rendered captures",
+      "surface": "/ai-brain, /blog/how-an-ai-brain-works, /faq",
+      "section": "Hero, Inside, Private, the new Built chapter, the long read and two answers",
+      "device": "desktop and mobile",
+      "element": "hero lede, Inside lede and inspector label, the picked idea's connections, the living record's ports, the Built chapter and its month instrument, the long read, two answers",
+      "classification": "preference",
+      "requiredOutcome": "The Brain reads as a real, differentiated working system without breaking the page's minimalism: where it works (on the work you choose), who builds it (with you, in 30 days), what you have at the end (proven outcomes and the ability to run it) and why it is different (taste from real work, your calls kept apart, corrections carried through, owned outside any model). Jobs and outcomes, never named AI companies; never a file; no eyebrows or stray lines; sharpen before adding.",
+      "acceptanceTest": "Krish reviews the rendered desktop and mobile candidate and accepts it. Mechanically: brain-narrative.test.ts (six chapters, the month's thirty days, jobs not AI companies, 30 days only in Built, the long-read link) and the full unit suite pass, qa:line-breaks passes at 1440x900 and 390x844, and the long read and answers pass the public voice gates.",
+      "status": "accepted",
+      "resolution": "BRAIN-NARRATIVE-S5: hero sentence, standing labels and connections in Inside, four kinds of work on the living record, the Built chapter (Week 1, Weeks 2 to 4, Day 30, After), the long read and two answers. Krish chose variant A ('I like your recommendation:A') and approved ('Yes but dont suggest the brain is just a text file'), after which three lines that read as a file were rewritten to the canon's 'working system'. Chapter 04's S4 line 'It is written in plain words you can read and correct' read as a document too; it now says 'You read and correct it in plain words, without code' (Krish, 2026-09-26: 'Agreed with your recommendations').",
+      "evidence": [
+        "quality/ai-brain/approved-narrative-s5.json",
+        "src/test/brain-narrative.test.ts",
+        "quality/route-lock/approved-production.lock.json"
+      ]
+    },
+    {
+      "id": "AI-BRAIN-FIT-001",
+      "exactFeedback": "I like the mocks but the bottom call to action hovers a little bit above the bottom of the section. The content seems to have too little gap at the bottom and too much gap at the top. If I'm not mistaken, that's how it looks anyway on your screenshots. You should surely be able to see this before me.",
+      "source": "Krish, 26 September 2026, on the round 1b captures",
+      "surface": "/ai-brain and the shell action bar on every route",
+      "section": "Every chapter after the opening; the action bar",
+      "device": "desktop",
+      "element": "chapter height and bottom reserve, the chapter rail's position, the action bar's ground under the privacy card",
+      "classification": "correction",
+      "requiredOutcome": "Each chapter's content sits evenly between the fixed header and the action bar (and the privacy card while it is up), and the bar never floats above a band of page.",
+      "acceptanceTest": "Measured as the rail lands each chapter: equal gaps above and below the content at 1440x900 and 1440x700, with and without the privacy card; qa:line-breaks passes; phones unchanged.",
+      "status": "accepted",
+      "resolution": "Chapters after the opening take the height left under the shell header, land flush under it and centre above the bar and notice reserves; instruments are capped to that band; the rail centres in it. Laptop bar ground runs to the bottom edge under the privacy card. Measured before: 201px above and 43px below (or 11px under the bar) at 1440x900. After: 95/96px with the card, 122/123px without; 34/35 and 52/53 at 1440x700.",
+      "evidence": [
+        "src/styles/mindmake-brain-narrative.css",
+        "src/styles/mindmake.css",
+        "quality/ai-brain/approved-narrative-s5.json"
+      ]
+    },
+    {
+      "id": "CAVEAT-LABELS-001",
+      "exactFeedback": "Get rid of all the annoying asterisk commentary, like illustrative machinery, from the whole. So annoying.",
+      "source": "Krish, 26 September 2026, with an Android Chrome screenshot of the homepage reach chapter showing \"ILLUSTRATIVE MACHINERY\"",
+      "surface": "every public route",
+      "section": "Caveat and disclaimer labels",
+      "device": "desktop and mobile",
+      "element": "the reach chapter's film mark (homepage and /new-age-leadership), the /new-age-leadership hero film mark, the /ai-gtm team instrument label, and two lines in the brief drawer",
+      "classification": "correction",
+      "requiredOutcome": "No page narrates its own imagery or examples with caveat labels.",
+      "acceptanceTest": "No rendered public route shows \"Illustrative machinery\", \"Illustrative team\", \"Illustrative sequence\" or \"illustrative example\"; the unit suite and qa:line-breaks pass.",
+      "status": "accepted",
+      "resolution": "Removed: <p class=\"film-mark\">Illustrative machinery</p> from src/components/leadership-chapters/leadershipChapters.ts and src/pages/NewAgeLeadership.tsx; instrumentLabel \"Illustrative team\" from /ai-gtm (TeamChapter renders no label when none is given); \"Read from the outside as an illustrative example of how the Mindmake brain works. None of this is advice.\" and \"Illustrative sequence. Not evidence.\" from src/components/mindmake/LeadBrief.tsx. Kept: the private brief document's and email's \"It is not advice.\" line (a disclaimer in a document, and the email needs a Supabase deploy), and image alt text.",
+      "evidence": [
+        "src/components/leadership-chapters/leadershipChapters.ts",
+        "src/pages/NewAgeLeadership.tsx",
+        "src/components/mindmake/LeadBrief.tsx",
+        "scripts/qa/start-here-s4-production-check.mjs"
+      ]
+    },
+    {
+      "id": "AI-BRAIN-MONTH-PACE-001",
+      "exactFeedback": "Also this section builds a bit too early On scroll",
+      "source": "Krish, 26 September 2026, with a phone screenshot of /ai-brain chapter 06 on mindmake.co",
+      "surface": "/ai-brain",
+      "section": "Built (06)",
+      "device": "mobile",
+      "element": "the month instrument: its four steps and the rail of thirty days",
+      "classification": "correction",
+      "requiredOutcome": "The month builds as it is read: a step lights only once it is well inside the screen, the thirty days fill in step with the step being read, and nothing lights while it is still under the action bar. Laptops still land the chapter complete.",
+      "acceptanceTest": "Measured in the built site: each step lights as its own top reaches 72% of the viewport at 390x720, 390x844, 1440x900 and 1440x700; the build is complete at the foot of the page on a phone and when the rail lands the chapter on a laptop (1440x900, 1440x700, 1880x953), including after the chapter re-centres; it undoes on the way back; Krish reviews it on his phone.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The month is paced by its own steps (data-steps=\"reading\", readingProgress in scrollSequence.ts) at a reading line 72% down the screen, not by the instrument's top at 85%, which lit Week 1 under the action bar and completed the thirty days while the last steps were still off screen. The build is also read again when an instrument's rise or a chapter's re-centring transition settles, which had left a landed laptop chapter one step short. The questions, the decision and the levers keep their S4 timing.",
+      "evidence": [
+        "src/components/mindmake/locked/scrollSequence.ts",
+        "src/pages/AiBrainLocked.tsx",
+        "src/test/brain-narrative.test.ts",
+        "quality/ai-brain/approved-narrative-s5.json"
+      ]
     }
   ]
 }

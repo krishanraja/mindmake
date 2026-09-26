@@ -2,15 +2,18 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
-import { sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
+import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import fixture from "@/data/vnext/brain-fixture.json";
+import { blogPosts } from "@/data/blogPosts";
 
 /**
- * /ai-brain after the S4 narrative (Krish, 2026-09-25): the hero, then five
- * chapters that speak to the reader. You (the questions only they can
- * answer), Inside (what a Brain holds), Sharper (one decision), Private (the living
- * record) and Business (one call reaching the four levers). The source-check
- * and correction chapters are retired.
+ * /ai-brain after the S4 narrative (Krish, 2026-09-25) and its S5 sharpening
+ * (Krish, 2026-09-26): the hero, then six chapters that speak to the reader.
+ * You (the questions only they can answer), Inside (what a Brain holds, each
+ * idea labelled with its standing), Sharper (one decision), Private (the living
+ * record, reaching four kinds of work), Business (one call reaching the four
+ * levers) and Built (the month we build it in). The source-check and
+ * correction chapters stay retired.
  */
 
 const ROOT = resolve(__dirname, "../..");
@@ -20,18 +23,18 @@ const MARKUP = "prototypes/website-redesign-recovery/brain-signature/index-s4-na
 const page = () => new DOMParser().parseFromString(serverRender("/ai-brain"), "text/html");
 
 describe("the Brain narrative", () => {
-  it("runs the hero and five chapters in order", () => {
+  it("runs the hero and six chapters in order", () => {
     const doc = page();
     const chapters = [...doc.querySelectorAll<HTMLElement>(".mm-locked-brain .chapter[data-phase]")];
-    expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "memory", "sharper", "living-record", "business"]);
-    expect(chapters.map((chapter) => chapter.dataset.phase)).toEqual(["opening", "you", "memory", "sharper", "record", "business"]);
+    expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "memory", "sharper", "living-record", "business", "built"]);
+    expect(chapters.map((chapter) => chapter.dataset.phase)).toEqual(["opening", "you", "memory", "sharper", "record", "business", "built"]);
     expect(doc.querySelector("h1")?.textContent?.trim()).toBe("An AI brain of your own.");
   });
 
   it("points every rail link and the opening action at a real chapter", () => {
     const doc = page();
     const links = [...doc.querySelectorAll<HTMLAnchorElement>(".phase-rail a[data-phase-link]")];
-    expect(links.map((link) => link.textContent?.replace(/^\d+/, "").trim())).toEqual(["You", "Inside", "Sharper", "Private", "Business"]);
+    expect(links.map((link) => link.textContent?.replace(/^\d+/, "").trim())).toEqual(["You", "Inside", "Sharper", "Private", "Business", "Built"]);
     for (const link of links) {
       const target = doc.querySelector<HTMLElement>(link.getAttribute("href") ?? "#missing");
       expect(target?.dataset.phase, link.getAttribute("href") ?? "").toBe(link.dataset.phaseLink);
@@ -43,16 +46,19 @@ describe("the Brain narrative", () => {
   it("keeps every instrument inside a chapter the scroll build reads", () => {
     const doc = page();
     const instruments = [...doc.querySelectorAll(".mm-locked-brain .instrument")];
-    expect(instruments.length).toBe(5);
+    expect(instruments.length).toBe(6);
     for (const instrument of instruments) expect(instrument.closest(".chapter[data-phase]")).not.toBeNull();
   });
 
-  it("steps through five questions, four decision leaves and four levers", () => {
+  it("steps through five questions, four decision leaves, four levers and the month", () => {
     const doc = page();
     const count = (selector: string) => doc.querySelectorAll(`${selector} [data-step]`).length;
-    expect(count(".question-stack")).toBe(5);
-    expect(count(".decision-stack")).toBe(4);
-    expect(count(".lever-field")).toBe(4);
+    expect(count("#you .question-stack")).toBe(5);
+    expect(count("#sharper .decision-stack")).toBe(4);
+    expect(count("#business .lever-field")).toBe(4);
+    expect(count("#built .month-field")).toBe(4);
+    // Thirty days, each lighting at its own point in the month's four steps.
+    expect(doc.querySelectorAll("#built .month-days i").length).toBe(30);
     // Nothing is dimmed in the server render: without script every step reads whole.
     expect(doc.querySelectorAll("[data-step-state]").length).toBe(0);
   });
@@ -63,12 +69,33 @@ describe("the Brain narrative", () => {
     for (const id of ["meaningFieldS2", "relationshipFieldS2", "meaningInspectorS2", "recordReelS2", "pauseRecordS2", "nextRecordS2", "completeRecordS2"]) {
       expect(html, id).toContain(`id="${id}"`);
     }
-    expect(html).toContain("What this Brain holds");
+    // The inspector's label names the picked idea's standing, starting on the
+    // settled idea the page opens with.
+    expect(html).toContain('data-standing="settled">Agreed by you</span>');
+  });
+
+  it("names the work the record reaches, not AI companies, and says 30 days only where it builds", () => {
+    const doc = page();
+    const ports = [...doc.querySelectorAll("#living-record .record-ports li")].map((port) => port.textContent?.trim());
+    expect(ports).toEqual(["Board paper", "Client reply", "Next post", "Team brief"]);
+    // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
+    // integrations with named AI companies.
+    const text = doc.querySelector(".mm-locked-brain")?.textContent ?? "";
+    for (const vendor of ["ChatGPT", "OpenAI", "Claude", "Anthropic", "Copilot", "Gemini"]) expect(text, vendor).not.toContain(vendor);
+    const main = doc.querySelector(".mm-locked-brain")!;
+    const withDays = [...main.querySelectorAll<HTMLElement>(".chapter[data-phase]")].filter((chapter) => /30 days/.test(chapter.textContent ?? ""));
+    expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);
+  });
+
+  it("links the month to the long read, which exists", () => {
+    const link = page().querySelector<HTMLAnchorElement>("#built .built-link");
+    const slug = link?.getAttribute("href")?.replace(/^\/blog\//, "");
+    expect(blogPosts.map((post) => post.slug)).toContain(slug);
   });
 
   it("retires the source check, the correction and the memory promise", () => {
     const html = serverRender("/ai-brain");
-    for (const retired of ['id="proof"', 'id="correction"', "testSourceS2", "correctionMachine", "Nothing gets lost.", "One decision wakes the whole Brain.", "It remembers what mattered"]) {
+    for (const retired of ['id="proof"', 'id="correction"', "testSourceS2", "correctionMachine", "Nothing gets lost.", "One decision wakes the whole Brain.", "It remembers what mattered", "What this Brain holds", "approved source fixture", "It is written in plain words"]) {
       expect(html, retired).not.toContain(retired);
     }
   });
@@ -136,6 +163,26 @@ describe("the stepped build", () => {
     expect(sequenceProgress(start, height, viewport)).toBe(0);
     expect(sequenceProgress(start - height, height, viewport)).toBe(1);
     expect(sequenceProgress(start - height / 2, height, viewport)).toBeCloseTo(0.5);
+  });
+
+  it("paces the month by its own steps, each lit as it reaches the reading line", () => {
+    // Four steps 100px apart; the reading line at 600px.
+    const tops = (first: number) => [first, first + 100, first + 200, first + 300];
+    expect(readingProgress(tops(620), 600)).toBe(0);
+    expect(stepStates(readingProgress(tops(599), 600), 4)).toEqual(["current", "next", "next", "next"]);
+    // The third step (Day 30) is only current once its own top is past the line.
+    expect(stepStates(readingProgress(tops(401), 600), 4)).toEqual(["past", "current", "next", "next"]);
+    expect(stepStates(readingProgress(tops(399), 600), 4)).toEqual(["past", "past", "current", "next"]);
+    // The days keep pace: halfway through a step is halfway through its share.
+    expect(readingProgress(tops(350), 600)).toBeCloseTo(0.625);
+    expect(readingProgress(tops(200), 600)).toBe(1);
+    expect(readingProgress([], 600)).toBe(1);
+  });
+
+  it("marks only the month as paced by reading", () => {
+    const doc = page();
+    const paced = [...doc.querySelectorAll<HTMLElement>("[data-steps]")].filter((sequence) => sequence.dataset.steps === "reading");
+    expect(paced.map((sequence) => sequence.closest(".chapter")?.id)).toEqual(["built"]);
   });
 
   it("undoes itself on the way back", () => {

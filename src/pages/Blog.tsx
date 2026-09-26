@@ -5,7 +5,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { ideas, type IdeaKind, type IdeaSubject } from "@/lib/ideas";
-import { IDEA_SUBJECTS, kindLabels, subjectLabels } from "@/lib/ideaFormat";
+import { IDEA_SUBJECTS, kindLabels, subjectLabels, writtenOn } from "@/lib/ideaFormat";
 import "@/styles/mindmake.css";
 
 /**
@@ -24,9 +24,6 @@ const KINDS: ReadonlyArray<{ value: IdeaKind | null; label: string }> = [
   { value: "tip", label: "Quick tips" },
   { value: "read", label: "Longer reads" },
 ];
-
-const written = (date: string) =>
-  new Date(date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 const Blog = () => {
   const [briefOpen, setBriefOpen] = useState(false);
@@ -92,7 +89,7 @@ const Blog = () => {
                 <p>{idea.line}</p>
                 <footer>
                   <span>
-                    {kindLabels[idea.kind]} · {subjectLabels[idea.subject]} · {written(idea.publishedAt)}
+                    {kindLabels[idea.kind]} · {subjectLabels[idea.subject]} · {writtenOn(idea.publishedAt)}
                     {idea.readingTime ? ` · ${idea.readingTime} min read` : ""}
                   </span>
                   <strong>{idea.kind === "tip" ? "Read the answer" : "Read the idea"} <ArrowRight aria-hidden="true" /></strong>

@@ -693,6 +693,8 @@ describe("the naming law", () => {
       data: "who sees your data",
       consultant: "how this differs from a consultant",
       chatgpt: "why not just use a chatbot",
+      "where-to-use": "where you use your AI brain",
+      "keep-it-right": "how you keep your AI brain up to date",
       team: "how much of the team's time it takes",
       keep: "what you keep",
       report: "whether it is a document or something that works",

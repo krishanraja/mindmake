@@ -7,6 +7,7 @@ import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
+import { writtenOn } from "@/lib/ideaFormat";
 import "@/styles/mindmake.css";
 
 const BlogPost = () => {
@@ -83,7 +84,7 @@ const BlogPost = () => {
           <div className="mm-article-meta">
             <span>{categoryLabels[post.category]}</span>
             <span>{post.author}</span>
-            <span>{new Date(post.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
+            <span>{writtenOn(post.publishedAt)}</span>
             <span>{post.readingTime} min read</span>
             <nav aria-label="Share this idea">
               <button type="button" onClick={handleShare} aria-label="Share this idea"><Share2 aria-hidden="true" /></button>

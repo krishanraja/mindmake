@@ -1005,6 +1005,25 @@ html {
   transition: transform .2s ease;
 }
 .mm-action-bar.is-shown { transform: translateY(0); }
+/* On a laptop the privacy notice is a corner card inset from the bottom, and
+   the bar stacked on it left the page showing in a band under the bar
+   across the rest of the screen, so the bar read as hovering above the foot
+   of the page (Krish, 2026-09-26, the same failure the phone strip had). The
+   bar's own ground now runs down to the bottom edge beneath it and the card
+   sits inside that band. Paint only: the bar's box, and so the height it
+   publishes, are unchanged. */
+@media (min-width: 768px) {
+  .mm-action-bar::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: var(--mm-cookie-reserve, 0px);
+    background: inherit;
+    pointer-events: none;
+  }
+}
 /* Two slots and never three: at most one door, then the one action. They share
    the shell's measure so the action lands under the page's own right edge. */
 .mm-action-bar-inner {

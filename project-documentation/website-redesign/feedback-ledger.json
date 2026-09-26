@@ -908,8 +908,8 @@
       "classification": "correction",
       "requiredOutcome": "The month builds as it is read: a step lights only once it is well inside the screen, the thirty days fill in step with the step being read, and nothing lights while it is still under the action bar. Laptops still land the chapter complete.",
       "acceptanceTest": "Measured in the built site: each step lights as its own top reaches 72% of the viewport at 390x720, 390x844, 1440x900 and 1440x700; the build is complete at the foot of the page on a phone and when the rail lands the chapter on a laptop (1440x900, 1440x700, 1880x953), including after the chapter re-centres; it undoes on the way back; Krish reviews it on his phone.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The month is paced by its own steps (data-steps=\"reading\", readingProgress in scrollSequence.ts) at a reading line 72% down the screen, not by the instrument's top at 85%, which lit Week 1 under the action bar and completed the thirty days while the last steps were still off screen. The build is also read again when an instrument's rise or a chapter's re-centring transition settles, which had left a landed laptop chapter one step short. The questions, the decision and the levers keep their S4 timing.",
+      "status": "accepted",
+      "resolution": "The month is paced by its own steps (data-steps=\"reading\", readingProgress in scrollSequence.ts) at a reading line 72% down the screen, not by the instrument's top at 85%, which lit Week 1 under the action bar and completed the thirty days while the last steps were still off screen. The build is also read again when an instrument's rise or a chapter's re-centring transition settles, which had left a landed laptop chapter one step short. The questions, the decision and the levers keep their S4 timing. Krish reviewed it on his phone and accepted it: 'Its good' (2026-09-26).",
       "evidence": [
         "src/components/mindmake/locked/scrollSequence.ts",
         "src/pages/AiBrainLocked.tsx",

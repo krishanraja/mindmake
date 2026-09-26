@@ -2,7 +2,7 @@
 repo: krishanraja/mindmake
 product: Mindmake
 as_of: 2026-09-26
-head: d334f1e
+head: 05fe8b8
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -61,6 +61,17 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-09-26 (later still): a fix forward after main's Chromium verification
+  failed on #223. Above a phone the logo and footer had taken the homepage's
+  wider gutter instead of each page's own content edge (`qa:logo-alignment`);
+  a page's last footer link could sit under the cookie notice at the page end
+  (`qa:release-routes`), so fixed bottom chrome now keeps a reader who reaches
+  the end at the end (`src/lib/bottomReserve.ts`); and a short landscape
+  screen's cookie notice, which had published about 330px of reserve and
+  lifted the action bar off screen, now reserves nothing there and clears the
+  masthead.
+- Krish accepted the month's reading pace on `/ai-brain` from his phone
+  ("Its good"); `AI-BRAIN-MONTH-PACE-001` is accepted.
 - 2026-09-26 (later): one masthead and one footer on every page; every
   Media and Subscribe link goes to makeyourmindup.ai; the homepage history
   opener leads its chapter and the eras hold still; squashed headings and the
@@ -90,8 +101,13 @@ post-publication verification.
 - Search-console ownership, indexing, ranking and AI citation outcomes are not
   established by technical checks. Require fresh evidence for those claims.
 - Dependency advisories remain upgrade work, not a clean audit.
-- Waiting on Krish: the owner review of the rebuilt /ai-gtm
-  (`AI-GTM-R47-OWNER-REVIEW-001` in the feedback ledger).
+- The 4000+ attendance count Krish approved on 26 September 2026
+  (`04_PROOF.md`) still needs its section 6 evidence trail compiled before the
+  figure is used anywhere beyond the approved line above the brand grid.
+- Waiting on Krish: a rendered mock of the corroborated company read and one
+  name for the lead-brief deliverable, before that second release is built
+  (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback
+  ledger).
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.

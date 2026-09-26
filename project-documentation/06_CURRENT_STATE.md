@@ -45,7 +45,7 @@ Publication interest is optional and unticked; it does not subscribe anyone.
 and the brief's success step all open the publication's subscribe form.
 
 The personal-read API remains deployed, but is not a second form in this
-frontend. `/ai-gtm` serves the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his review of the rebuilt page is open as `AI-GTM-R47-OWNER-REVIEW-001`. The retained daily-news
+frontend. `/ai-gtm` serves the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his pre-merge review of the rebuilt page, `AI-GTM-R47-OWNER-REVIEW-001`, is accepted ("I approve the /ai-gtm rebuild", record `quality/ai-gtm/approved-story-r3.json`). The retained daily-news
 API is not evidence that a live board is rendered on the approved homepage.
 
 Navigation labels: Results, Thinking, Questions leaders ask, Before you start,

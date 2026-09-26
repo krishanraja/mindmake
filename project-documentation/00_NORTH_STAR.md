@@ -114,7 +114,7 @@ Both lead to **one paid proof**: pick one decision or capability, build a
 working first version, use it on real work, leave something behind that keeps
 running. Not a stretch of discovery followed by a report. The price is private
 and never appears on the site; the only public length is the 30-day shape on
-`/ai-gtm`, and there is no public diary link. The only primary action on the site
+`/ai-gtm` and `/ai-brain`, and there is no public diary link. The only primary action on the site
 is **Start here**.
 
 **CTRL** is our own product, running our own practice. It appears as evidence
@@ -281,7 +281,7 @@ The internal buyer psychology stays private. Its approved public expression is
 ambition as much as pressure, never shame.
 
 No public price. The only public duration is the owner-approved 30-day shape
-on `/ai-gtm`; scope and fee are agreed privately in writing. Recorded durations
+on `/ai-gtm` and `/ai-brain`; scope and fee are agreed privately in writing. Recorded durations
 in consented past-work evidence are facts, not new delivery promises. Do not add
 a timing promise that the approved surface does not contain.
 

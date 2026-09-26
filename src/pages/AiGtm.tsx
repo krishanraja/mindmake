@@ -282,7 +282,6 @@ export default function AiGtm() {
           onPick={setPicked}
           decisionLabel="The decision you'll face"
           decisionNote="We work through decisions like this with you in week 1."
-          instrumentLabel="Illustrative team"
         />
 
         <ProofBand heading="Result" quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} story={copy.proof.story} />

@@ -27,9 +27,10 @@ capability the business should still have when the work ends.
 
 ## Current public contract
 
-The offer is one paid proof with no public price. Its only public duration is
-the 30-day shape on `/ai-gtm` (owner decision, 24 September 2026); no other
-surface states or implies one. The private rate card and delivery envelope
+The offer is one paid proof with no public price. Its public duration is the
+30-day shape on `/ai-gtm` (owner decision, 24 September 2026) and on
+`/ai-brain` ("We build it with you in 30 days", owner decision, 26 September
+2026); no other surface states or implies one. The private rate card and delivery envelope
 below remain private and unchanged. The approved
 R3 homepage carries the practice narrative; `/new-age-leadership` is its
 companion. The two door pages carry their specific capabilities. The internal
@@ -91,6 +92,16 @@ is private to them and goes where they go. The business keeps the standards and
 decisions the leader chooses to share with the team, and gains from the
 decisions the Brain improves. Sell the Brain as the leader's growing capability,
 never as company memory.
+
+**Where it works and how we build it** (Krish, 26 September 2026). Sell the Brain
+on the jobs and outcomes it improves, never on integrations with named AI
+companies and never as self-serve software: it works wherever the leader's work
+is, and no single model or AI company holds it. During the build we decide with
+the leader which tools to chain together to amplify, automate or speed up their
+work, build the Brain into them, prove the outcomes on real work, and leave the
+leader able to run it and correct it in plain words, without code. Always
+describe it as a working system, never as a file or a document, and never as a
+managed service.
 
 ### The mechanism, and why it is defensible
 
@@ -277,8 +288,9 @@ without one.
 ## The offer
 
 Work starts with a **paid proof**. Price and scope are agreed privately in
-writing. The one public duration is the 30-day shape on `/ai-gtm` in the table
-above; do not add another public delivery-duration promise anywhere else. The
+writing. The public duration is the 30-day shape, on `/ai-gtm` in the table
+above and on `/ai-brain`; do not add another public delivery-duration promise
+anywhere else. The
 hours, capacity and continuation terms below stay private.
 
 The proof picks one important decision or capability, builds a working first
@@ -356,8 +368,8 @@ pay never argues the craft down; it argues the stakes up.
 named asset written into the agreement: equity, participation, real distribution,
 or a consented case study.
 
-**The public boundary.** No public price. Beyond the 30-day shape on `/ai-gtm`,
-no public duration. Scope and fee are agreed privately in writing before work
+**The public boundary.** No public price. Beyond the 30-day shape on `/ai-gtm`
+and `/ai-brain`, no public duration. Scope and fee are agreed privately in writing before work
 starts. The private rate card above is
 not a public promise.
 
@@ -519,9 +531,10 @@ These stay true and are safe to reuse anywhere:
 ## Proof and product
 
 **CTRL** is Mindmake's product and evidence layer at `ctrl.mindmake.co`. It shows
-that the work keeps memory, sources, checks and the human call visible. It is
-named on `/ai-brain` only, shown as the engine we run on ourselves, never linked
-and never priced. It is not a third public offer.
+that the work keeps memory, sources, checks and the human call visible. It may
+be named on `/ai-brain` only, shown as the engine we run on ourselves, never
+linked and never priced; the S5 page does not name it (Krish, 26 September
+2026). It is not a third public offer.
 
 Product footage stays clean. Do not draw over changing interfaces.
 

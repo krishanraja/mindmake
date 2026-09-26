@@ -190,7 +190,8 @@ function assess(state, label, compact) {
   fail(state.rangeViolations.length > 0, `${label}: ${state.rangeViolations.length} painted-text containment failures ${JSON.stringify(state.rangeViolations.slice(0, 3))}`);
   fail(state.targetViolations.length > 0, `${label}: undersized controls ${JSON.stringify(state.targetViolations)}`);
   fail(state.scrollViolations.length > 0, `${label}: nested overflow ${JSON.stringify(state.scrollViolations)}`);
-  fail(!state.filmTruth.includes("Illustrative sequence. Not evidence."), `${label}: film truth label missing`);
+  // Ruling (Krish, 2026-09-26): no caveat labels on any page.
+  fail(state.filmTruth !== "", `${label}: a caveat label is back on the folio`);
   fail(compact ? state.activeLeaves.length !== 1 : state.activeLeaves.length !== 4, `${label}: expected ${compact ? 1 : 4} visible leaf/leaves, saw ${state.activeLeaves.length}`);
 }
 

@@ -389,6 +389,15 @@ owns payload, privacy, retention, email and failure-path contracts.
   local Blender render after seeing the moving result and ordered its complete
   removal from the repository. r06 is not an approved visual reference and
   consumed no Higgsfield generative-video credits.
+- The AI Brain page is sharpened as BRAIN-NARRATIVE-S5, approved by Krish on
+  26 September 2026 (`quality/ai-brain/approved-narrative-s5.json`): the hero
+  says it is useful on every call, the constellation names each idea's
+  standing and lights its connections, the living record reaches four kinds
+  of work, and a sixth chapter, Built, shows the 30-day build. A long read,
+  `/blog/how-an-ai-brain-works`, carries the technical case, and `/faq` answers
+  where you use it and how you keep it up to date. The chapters centre between
+  the header and the bar, and on a laptop the bar's ground reaches the bottom
+  edge while the privacy card is up (every route).
 - The AI Brain page speaks to the reader (BRAIN-NARRATIVE-S4), approved by
   Krish on 25 September 2026 and recorded in
   `quality/route-lock/approved-production-r48.json`. The hero film,

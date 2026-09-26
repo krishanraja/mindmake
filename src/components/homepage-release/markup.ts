@@ -28,7 +28,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">
                   <h1>Build the human + AI business that augments you.</h1>
-                  <p class="hero-lede">For leaders in creative industries with high standards, <div>and the curiosity required to enter the new era.</div></p>
+                  <p class="hero-lede">For leaders in creative industries with high standards and curiosity required to drive the new era.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
                     <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
                     <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI GTM</strong><small>The pricing, positioning and org structure you'll need.</small><i>↗</i></a>
@@ -50,7 +50,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">
                   <h1>Build the human + AI business that augments you.</h1>
-                  <p class="hero-lede">For leaders in creative industries with high standards, <div>and the curiosity required to enter the new era.</div></p>
+                  <p class="hero-lede">For leaders in creative industries with high standards and curiosity required to drive the new era.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
                     <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
                     <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI GTM</strong><small>The pricing, positioning and org structure you'll need.</small><i>↗</i></a>

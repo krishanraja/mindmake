@@ -79,12 +79,12 @@ export function mountHomepageRuntime(root, { onStart }) {
 
   const routeContent = {
     brain: {
-      title: "Make your judgement reusable.",
-      lede: "Give your standards, context and past decisions a memory you can use.",
-      caption: "The next decision begins with what the last one taught you.",
-      source: "Anonymous client outcome · Research and content",
-      steps: ["The founder's standards", "A system they own", "Used on real work"],
-      result: "Research-backed publishing moved from days to under an hour, and from roughly monthly to most days.",
+      title: "Own your judgement, and amplify it.",
+      lede: "Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader.",
+      caption: null,
+      source: null,
+      steps: ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."],
+      result: null,
       film: asset6,
     },
     gtm: {
@@ -112,10 +112,13 @@ export function mountHomepageRuntime(root, { onStart }) {
       const item = routeContent[route];
       frame.querySelector(".route-copy h2").textContent = item.title;
       frame.querySelector(".lede").textContent = item.lede;
-      frame.querySelector("figcaption").textContent = item.caption;
-      frame.querySelector(".receipt header p").textContent = item.source;
+      const captionNode = frame.querySelector("figcaption");
+      if (captionNode) captionNode.textContent = item.caption;
+      const sourceNode2 = frame.querySelector(".receipt header p");
+      if (sourceNode2) sourceNode2.textContent = item.source;
       [...frame.querySelectorAll(".receipt li")].forEach((node, index) => { node.textContent = item.steps[index]; });
-      frame.querySelector("blockquote").textContent = item.result;
+      const resultNode = frame.querySelector("blockquote");
+      if (resultNode) resultNode.textContent = item.result;
       const sourceNode = frame.querySelector("video source");
       if (sourceNode.getAttribute("src") !== item.film) sourceNode.setAttribute("src", item.film);
       frame.querySelector("[data-start-route]").dataset.startRoute = route;

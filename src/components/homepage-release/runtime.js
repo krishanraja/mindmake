@@ -112,7 +112,8 @@ export function mountHomepageRuntime(root, { onStart }) {
       const item = routeContent[route];
       frame.querySelector(".route-copy h2").textContent = item.title;
       frame.querySelector(".lede").textContent = item.lede;
-      frame.querySelector("figcaption").textContent = item.caption;
+      const captionNode = frame.querySelector("figcaption");
+      if (captionNode) captionNode.textContent = item.caption;
       const sourceNode2 = frame.querySelector(".receipt header p");
       if (sourceNode2) sourceNode2.textContent = item.source;
       [...frame.querySelectorAll(".receipt li")].forEach((node, index) => { node.textContent = item.steps[index]; });

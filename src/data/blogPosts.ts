@@ -34,7 +34,7 @@ Every AI you can buy has read the public record. It writes well, answers fast an
 
 Your judgement lives somewhere else: in the draft you sent back, the candidate you passed on, the price you refused to cut. You rarely write any of it down, and when you try, it comes out as "be bold" or "keep it simple", which tells an AI almost nothing.
 
-An AI brain is where that judgement lives instead. It is a private, written record of your standards, the examples that meet them and the reasons behind them, and it works on your real work. Five design choices make it different from a longer prompt or a memory setting.
+An AI brain is where that judgement lives instead. It is a private, working system that holds your taste, your standards and the reasons behind them, and uses them on your real work. Five design choices make it different from a longer prompt or a memory setting.
 
 ## 1. It learns your taste from what you turn down
 
@@ -62,7 +62,7 @@ That keeps the effort small for you, and it keeps the Brain pointed at decisions
 
 ## 5. Models do the work, and you keep the authority
 
-Models are the replaceable part. Your Brain's standards, examples, history and permissions sit outside any one model, in files that belong to you. A model can propose a change to your Brain. Only you can accept it.
+Models are the replaceable part. Your Brain's standards, examples, history and permissions sit outside any one model, in a system that belongs to you. A model can propose a change to your Brain. Only you can accept it.
 
 So a better model makes your Brain sharper, and none of them can rewrite what you believe. When your company changes AI tools, your Brain moves with you.
 

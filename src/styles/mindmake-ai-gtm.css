@@ -1046,3 +1046,12 @@
   .gtm-step[data-active="false"] { transform: none; }
   .gtm-playbook s { animation: none; }
 }
+
+/* The team's tally keeps the right-hand edge it held beside the instrument's
+   label, now that the page carries no caveat label (Krish, 2026-09-26). Where
+   the team reads as a document the tally stays at the start, as before. */
+.gtm-team-tally { margin-left: auto; }
+.gtm-team[data-gtm-flow="true"] .gtm-team-tally { margin-left: 0; }
+@media (scripting: none), (max-height: 559px), (max-width: 900px) and (orientation: landscape), (max-width: 699px), (max-width: 899px) and (max-height: 739px) {
+  .gtm-team .gtm-team-tally { margin-left: 0; }
+}

@@ -43,7 +43,7 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
   onPick: (id: string) => void;
   decisionLabel: string;
   decisionNote: string;
-  instrumentLabel: string;
+  instrumentLabel?: string;
 }) {
   const { trackRef, stageRef, step, pinned, goTo } = usePinnedSteps<HTMLElement>(VIEWS.length);
   const view: View = pinned ? VIEWS[step] : "native";
@@ -74,7 +74,7 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
           </div>
           <div className="team-instrument">
             <div className="team-instrument-head">
-              <p className="team-instrument-label"><i aria-hidden="true" />{instrumentLabel}</p>
+              {instrumentLabel ? <p className="team-instrument-label"><i aria-hidden="true" />{instrumentLabel}</p> : null}
               <p className="gtm-team-tally" aria-live="polite">
                 <span data-view-layer="today">{copy.tally.today}</span>
                 <span data-view-layer="native">{copy.tally.native}</span>

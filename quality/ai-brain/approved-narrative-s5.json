@@ -1,0 +1,81 @@
+{
+  "artifact": "ai-brain-narrative-s5",
+  "approvedAt": "2026-09-26",
+  "approval": {
+    "by": "Krish",
+    "verbatim": [
+      "My AI brain product is depicted on this site as being conceptual but in actual reality it's an impressive piece of technology that is very differentiated from regular AI context tools and is at the forefront.",
+      "My main concern is that you'll just be a blunt knife and vomit all of this information everywhere in your usual Claude way and ruin the minimalism, simplicity, and easy-to-understand nature and flow, which I don't want you to do.",
+      "I want everything to have radical minimalism so make sure you don't put any weird eyebrow headlines and random stray comments around the page.",
+      "I like your recommendation:A",
+      "Yes but dont suggest the brain is just a text file"
+    ],
+    "reviewed": "Desktop 1440x900 and 1440x700 and phone 390x844 captures of the hero, Inside, Private and Built chapters, the long read and /faq, sent in the session in rounds 1, 1b, the fit fix and 2, with the protected Vercel preview of the branch for scrolling on a phone. Not presented through review:material, which supports only the homepage candidate."
+  },
+  "scope": "/ai-brain hero sentence, Inside lede and standing label, the picked idea's connections, the living record's four kinds of work, the new Built chapter (the month), chapter fit between the fixed header and the action bar, the site-wide action-bar ground under the privacy card on laptops, the long read /blog/how-an-ai-brain-works and two /faq answers.",
+  "decisions": [
+    "Four capabilities are stated as fact: taste learned from real work, the leader's calls kept apart from the Brain's readings, corrections carried through, and a Brain the leader owns outside any one model.",
+    "The 30-day build is public on /ai-brain ('We build it with you in 30 days'), with 'The longer we build together, the more of your judgement it carries.'",
+    "Sharpen before adding: one new chapter (Built); where the Brain works lives in chapter 04's instrument (variant A over a separate Everywhere chapter).",
+    "The page names jobs and outcomes, never AI companies or integrations with them.",
+    "The build: we choose the leader's tools together, build the Brain into them, prove the outcomes on real work and leave the leader able to run it.",
+    "The long read ships with the page; the page carries the technical credentials in the month's four lines.",
+    "CTRL is not named on the page.",
+    "The Brain is described as a working system, never a file or a document."
+  ],
+  "lockedExperience": {
+    "h1": "An AI brain of your own.",
+    "chapters": [
+      [
+        "You",
+        "The questions only you can answer."
+      ],
+      [
+        "Inside",
+        "What a Brain holds."
+      ],
+      [
+        "Sharper",
+        "Your next call gets sharper."
+      ],
+      [
+        "Private",
+        "Private to you, and yours to keep."
+      ],
+      [
+        "Business",
+        "Your business rises with you."
+      ],
+      [
+        "Built",
+        "We build it with you in 30 days."
+      ]
+    ],
+    "kept": [
+      "evidence-connects hero film and orbit",
+      "constellation",
+      "living record"
+    ]
+  },
+  "prohibitedRegressions": [
+    "the source-switch machine",
+    "the correction replay",
+    "memory as the page's promise",
+    "a public price, or any public duration other than the 30-day build",
+    "'clone' as framing",
+    "named AI companies or integrations with them as where the Brain works",
+    "the Brain described as a file or a document",
+    "'managed service' as framing",
+    "eyebrows, kickers, captions or stray lines on the page"
+  ],
+  "sources": [
+    "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+    "src/pages/AiBrainLocked.tsx",
+    "src/styles/mindmake-brain-narrative.css",
+    "src/styles/mindmake.css",
+    "src/data/blogPosts.ts",
+    "src/content/answers.json",
+    "src/test/brain-narrative.test.ts"
+  ],
+  "productionLock": "quality/route-lock/approved-production.lock.json"
+}

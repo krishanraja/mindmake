@@ -59,9 +59,10 @@ on Firefox or WebKit before merging, and never block a merge on their absence.
 Neither qa:release-routes nor the full three-engine qa:homepage-release is a
 pre-merge gate. CI runs the
 complete Chromium/Firefox/Linux and WebKit/macOS matrix on main after the merge,
-against the commit Vercel promotes. Read its result and fix forward or roll
-back. Running it locally before a merge is optional evidence, never a
-requirement, and never a reason to delay landing a change.
+against the commit Vercel promotes. Read its Chromium result and fix forward or
+roll back. Ruling (Krish, 2026-09-26): do not run, wait on or read Firefox or
+WebKit results at all, before or after a merge, unless the task itself needs
+one of those engines.
 
 Typecheck targets tsconfig.app.json; the empty root config is not a check.
 Use discoverability tests for crawler/head edits and focused proof, no-JS,

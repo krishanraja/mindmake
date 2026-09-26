@@ -474,9 +474,9 @@ body.mm-homepage-active { margin: 0; }
 }
 
 /* The returned hour's three answers each hold one line (Krish, 2026-09-26).
-   The longest, "Invest in to the AI brain you own that will compound over
-   time?", is 26.45em at this tracking; 3.66% of the list's width sets it with
-   about 3% to spare, 21.7px at 1440 and 13px on a 390px phone. A phone
+   The longest, "Invest into the AI brain you own that will compound over
+   time?", is 25.8em at this tracking; 3.66% of the list's width sets it with
+   about 6% to spare, 21.7px at 1440 and 13px on a 390px phone. A phone
    narrower than that keeps the 13px floor and balances onto two lines. */
 .mm-homepage-release .mm-home-leadership .proof-return ul { container-type: inline-size; }
 .mm-homepage-release .mm-home-leadership .proof-return li {

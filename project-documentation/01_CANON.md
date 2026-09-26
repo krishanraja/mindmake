@@ -43,7 +43,7 @@ The owner-approved public copy is locked:
 
 | Placement | Accepted copy |
 |---|---|
-| Homepage headline | Build the business that can think with you. |
+| Homepage headline | Build the human + AI business that augments your vision. |
 | Opening promise | Part people. Part agent. Led by judgement. |
 | Brain door | Build your AI brain |
 | Brain door explanation | Your judgement, running. |

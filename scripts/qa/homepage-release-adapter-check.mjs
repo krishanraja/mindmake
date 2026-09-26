@@ -14,7 +14,7 @@ try {
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.locator('main').count(), 1, 'One homepage main landmark');
     assert.equal(await page.locator('.r3-opening .site-masthead:visible').count(), 1, 'One visible masthead');
-    assert.equal(await page.locator('.hero-copy h1:visible').textContent(), 'Build the business that can think with you.');
+    assert.equal(await page.locator('.hero-copy h1:visible').textContent(), 'Build the human + AI business that augments your vision.');
     assert.equal(await page.locator('.mm-home-leadership :is(.reach-sequence, .work-scroll, .human-proof)').count(), 3, 'The three new-age leadership chapters');
     assert.equal(await page.locator('[data-component="history"], [data-component="authority"], [data-component="leadership-dividend"]').count(), 0, 'The retired R3 chapters are gone');
     const broken = await page.locator('img').evaluateAll(images => images.filter(image => image.complete && !image.naturalWidth).map(image=>image.src));

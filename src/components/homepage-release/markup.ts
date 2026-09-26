@@ -30,8 +30,8 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                   <h1>Build the business that can think with you.</h1>
                   <p class="hero-lede">Part people. Part agent. Led by judgement.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
-                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, running.</small><i>↗</i></a>
-                    <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI GTM</strong><small>Build your AI native pricing, positioning and org.</small><i>↗</i></a>
+                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
+                    <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI GTM</strong><small>The pricing, positioning and org structure you'll need.</small><i>↗</i></a>
                   </div>
                   <p class="shared-proof">Build the first working version on real work. Keep the system.</p>
                 </div>
@@ -53,8 +53,8 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                   <h1>Build the business that can think with you.</h1>
                   <p class="hero-lede">Part people. Part agent. Led by judgement.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
-                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, running.</small><i>↗</i></a>
-                    <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI GTM</strong><small>Build your AI native pricing, positioning and org.</small><i>↗</i></a>
+                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
+                    <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI GTM</strong><small>The pricing, positioning and org structure you'll need.</small><i>↗</i></a>
                   </div>
                   <p class="shared-proof">Build the first working version on real work. Keep the system.</p>
                 </div>

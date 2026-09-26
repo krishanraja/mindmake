@@ -164,7 +164,8 @@
   --mm-safe-bottom: env(safe-area-inset-bottom, 0px);
   --mm-safe-left: env(safe-area-inset-left, 0px);
   --mm-edge: max(var(--mm-gutter), var(--mm-safe-left), var(--mm-safe-right), calc((100vw - var(--mm-shell-max)) / 2));
-  --mm-header-bar: 68px;
+  /* The homepage masthead's height (R3's --masthead): 66px, 64px on a phone. */
+  --mm-header-bar: 66px;
   --mm-header-height: calc(var(--mm-header-bar) + var(--mm-safe-top));
   --mm-cookie-reserve: 0px;
   --mm-bar-reserve: 0px;
@@ -173,6 +174,9 @@
      rhythm did not set it. Keyed to the width the type is measured against
      rather than to vh, which made a short viewport quietly change the layout. */
   --mm-section: clamp(40px, 4.4vw, 72px);
+}
+@media (max-width: 700px) {
+  :root { --mm-header-bar: 64px; }
 }
 
 /* Ground-aware surface tokens.
@@ -621,23 +625,47 @@ html {
   }
 }
 
-/* Header, menu, footer */
+/* Header, menu, footer
+
+   One masthead and one footer on every page (Krish, 2026-09-26: "The logo in
+   the top left nav bar changes size depending on what page you're on, which
+   is unacceptable" and "The bottom nav bar is super inconsistent across
+   pages"). The homepage's R3 chrome is canonical, so the shell's is drawn to
+   its measure rather than to the shell container: the same bar, the same
+   gutter, the same logo size and the same control at every width. R3 sizes
+   its masthead in container units of its frame, which is the viewport on a
+   desktop and a 390px column on a phone (5.13% of 390 is the 20px gutter).
+   --mm-chrome-frame is that frame, resolved against the header, which is a
+   container for exactly this reason. The numbers below are R3's, from the
+   rules named beside them in src/components/homepage-release/, and measured
+   against / on every indexed route at 360 to 1440px they land within a pixel.
+   A change to R3's chrome needs the same change here. */
+.mm-site {
+  --mm-chrome-serif: Newsreader, "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
+  --mm-chrome-paper: #eee2cc;
+  --mm-chrome-mint: #9df0c8;
+}
 .mm-header {
   position: fixed;
   inset: 0 0 auto;
   z-index: 100;
-  border-bottom: 1px solid transparent;
+  box-sizing: border-box;
+  height: var(--mm-header-height);
   padding-top: var(--mm-safe-top);
-  transition: background .25s ease, border-color .25s ease;
+  /* .r3-opening .site-masthead */
+  border-bottom: 1px solid rgba(157, 240, 200, .18);
+  background: rgba(3, 13, 9, .78);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  container-type: inline-size;
 }
-.mm-header.is-scrolled {
-  border-color: var(--mm-hair);
-  background: rgba(10, 16, 13, .88);
-  backdrop-filter: blur(14px);
+.mm-header > * { --mm-chrome-frame: 100cqi; --mm-chrome-gutter: .044; }
+@media (max-width: 700px) {
+  .mm-header > * { --mm-chrome-frame: min(100cqi, 390px); --mm-chrome-gutter: .0513; }
 }
 .mm-nav {
   display: flex;
-  min-height: var(--mm-header-bar);
+  height: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
@@ -658,10 +686,14 @@ html {
    that does not set it. The menu control moves with it, because the chrome
    should frame the content on both sides. The locked stylesheet is generated
    from its approved prototype, so the override lives here rather than in it. */
+/* The masthead no longer reads that token. Since 2026-09-26 it takes the
+   homepage's gutter on every page, so the logo sits in one place site-wide;
+   --mm-header-inline still sets the menu overlay and the page-wide blocks. */
 .mm-header > .mm-container {
   width: 100%;
+  max-width: none;
   margin-inline: 0;
-  padding-inline: var(--mm-header-inline, var(--mm-edge));
+  padding-inline: max(calc(var(--mm-chrome-frame) * var(--mm-chrome-gutter)), var(--mm-safe-left), var(--mm-safe-right));
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 /* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
@@ -694,43 +726,75 @@ html {
 .mm-brand-icon { width: 30px; display: block; }
 .mm-brand-wordmark { width: 150px; display: block; }
 .mm-brand-icon svg, .mm-brand-wordmark svg { display: block; width: 100%; height: auto; }
-.mm-brand.is-compact .mm-brand-icon { width: 26px; }
-.mm-brand.is-compact .mm-brand-wordmark { width: 128px; }
-@media (max-width: 700px) {
-  .mm-brand-icon { width: 26px; }
-  .mm-brand-wordmark { width: 128px; }
+/* The masthead logo, as R3 draws it: .r3-opening .preview-desktop .brand and
+   its .preview-mobile twin. The mark is a square box with the icon centred
+   in it, as R3's <img> with equal width and height shows it. The wordmark's
+   gradient reads R3's fallbacks, because R3 draws it as an image, where the
+   page's tokens never reach. */
+.mm-header .mm-brand { gap: calc(var(--mm-chrome-frame) * .00625); }
+.mm-header .mm-brand-icon {
+  width: calc(var(--mm-chrome-frame) * .0203);
+  height: calc(var(--mm-chrome-frame) * .0203);
+  display: flex;
+  flex: none;
+  align-items: center;
 }
+.mm-header .mm-brand-wordmark {
+  --mm-tx: #e6ede8;
+  --mm-mint: var(--mm-mint-bright);
+  width: calc(var(--mm-chrome-frame) * .082);
+  flex: none;
+}
+@media (max-width: 700px) {
+  .mm-header .mm-brand { gap: calc(var(--mm-chrome-frame) * .02); }
+  .mm-header .mm-brand-icon {
+    width: calc(var(--mm-chrome-frame) * .059);
+    height: calc(var(--mm-chrome-frame) * .059);
+  }
+  .mm-header .mm-brand-wordmark { width: calc(var(--mm-chrome-frame) * .2334); }
+}
+/* R3's menu control (.r3-opening .menu-control): the word in Newsreader 500
+   capitals beside a three-rule mark on a desktop, and the mark alone on a
+   phone. Open, it reads "Close" beside a cross at both sizes, as R3's
+   navigation masthead does. Two classes because `.mm-site button { font:
+   inherit }` would otherwise set it in the body face. */
 .mm-menu-button {
   min-width: 44px;
   min-height: 44px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 9px;
+  gap: calc(var(--mm-chrome-frame) * .00625);
   border: 0;
-  padding: 8px 0;
+  padding: 0;
   background: transparent;
-  color: var(--mm-tx);
+  color: var(--mm-chrome-paper);
   letter-spacing: .1em;
   text-transform: uppercase;
   cursor: pointer;
   touch-action: manipulation;
 }
-/* R3's menu control: the serif, capitals, open tracking, so the homepage and
-   every shell page show the same control. Two classes because
-   `.mm-site button { font: inherit }` would otherwise set it in the body face. */
-.mm-site .mm-menu-button { font: 500 12px/1 var(--mm-serif); }
-.mm-burger { width: 20px; display: grid; gap: 4px; }
+.mm-site .mm-menu-button { font: 500 max(6px, calc(var(--mm-chrome-frame) * .0086))/1 var(--mm-chrome-serif); }
+.mm-menu-button b { font-weight: 500; }
+.mm-burger {
+  --mm-burger-step: calc(var(--mm-chrome-frame) * .0039);
+  width: calc(var(--mm-chrome-frame) * .014);
+  display: grid;
+  gap: calc(var(--mm-burger-step) - 1px);
+}
 .mm-burger i {
-  height: 1.5px;
+  height: 1px;
   display: block;
   background: currentColor;
   transition: transform .12s ease, opacity .12s ease;
 }
-.mm-menu-button[aria-expanded="true"] .mm-burger i:first-child { transform: translateY(5.5px) rotate(45deg); }
+.mm-menu-button[aria-expanded="true"] .mm-burger i:first-child { transform: translateY(var(--mm-burger-step)) rotate(45deg); }
 .mm-menu-button[aria-expanded="true"] .mm-burger i:nth-child(2) { opacity: 0; }
-.mm-menu-button[aria-expanded="true"] .mm-burger i:last-child { transform: translateY(-5.5px) rotate(-45deg); }
-@media (hover: hover) and (pointer: fine) {
-  .mm-menu-button:hover { color: var(--mm-mint); }
+.mm-menu-button[aria-expanded="true"] .mm-burger i:last-child { transform: translateY(calc(var(--mm-burger-step) * -1)) rotate(-45deg); }
+@media (max-width: 700px) {
+  .mm-menu-button[aria-expanded="false"] b { display: none; }
+  .mm-menu-button { gap: calc(var(--mm-chrome-frame) * .024); }
+  .mm-site .mm-menu-button { font-size: 11px; }
+  .mm-burger { --mm-burger-step: calc(var(--mm-chrome-frame) * .0128); width: calc(var(--mm-chrome-frame) * .0462); }
 }
 
 .mm-menu {
@@ -866,38 +930,66 @@ html {
   .mm-menu-secondary { grid-column: auto; padding-top: 0; }
 }
 
+/* The footer, as the homepage's (R3 .r3-footer .site-footer with the
+   corrections in src/components/homepage-release/integration.css). On a
+   desktop: the brand, the statement and Subscribe beside the route rail, then
+   Privacy and Terms, then the copyright. On a phone the rail is not rendered
+   (Krish, 2026-09-25: the menu is a tap away), and the footer is the brand,
+   the statement, Subscribe, the legal pair and the copyright. The outer
+   element carries the ground and the reserves for fixed chrome; the inner one
+   is R3's footer box and the container its measures are drawn in. */
 .mm-footer {
-  border-top: 1px solid var(--mm-hair);
-  background: var(--mm-ink);
+  background: #06110d;
+  color: var(--mm-chrome-paper);
   /* Both pieces of fixed chrome reserve their own measured height here, and
      they add up. They used to be two rules setting the same property, so
      whichever came second in the stylesheet won and the other's chrome sat on
      the last line of the footer whenever both were up. */
-  padding: 54px 0 calc(30px + var(--mm-safe-bottom) + var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px));
+  padding-bottom: calc(var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px));
 }
-
-.mm-footer > .mm-container {
+.mm-footer-grid {
+  box-sizing: border-box;
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: start;
+  gap: clamp(18px, 2vw, 28px) 5vw;
   width: 100%;
-  margin-inline: 0;
-  padding-inline: var(--mm-header-inline, var(--mm-edge));
+  padding: clamp(26px, 2.2vw, 34px) max(4.4vw, var(--mm-safe-left), var(--mm-safe-right)) calc(clamp(26px, 2.2vw, 34px) + var(--mm-safe-bottom));
+  border-top: 3px solid var(--mm-chrome-mint);
+  background: #06110d;
 }
-.mm-footer-grid { display: grid; gap: 26px; }
-.mm-footer-grid > p { max-width: 42ch; color: var(--mm-tx2); font-size: 15px; }
-.mm-footer nav {
+.mm-footer .mm-brand {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px 26px;
-  padding-block: 20px;
-  border-block: 1px solid var(--mm-hair);
+  width: clamp(128px, 12.5vw, 190px);
+  min-height: 32px;
+  gap: .8cqi;
+}
+.mm-footer .mm-brand-icon { width: 2.3cqi; flex: none; }
+.mm-footer .mm-brand-wordmark { --mm-tx: #e6ede8; --mm-mint: var(--mm-mint-bright); width: 9cqi; flex: none; }
+.mm-footer-statement {
+  max-width: 25ch;
+  margin: clamp(10px, .9vw, 14px) 0 0;
+  color: #aebcb3;
+  font: 400 clamp(14px, 1.15vw, 18px)/1.45 var(--mm-chrome-serif);
+}
+.mm-footer .mm-subscribe-cta {
+  width: max-content;
+  min-height: 32px;
+  margin-top: clamp(12px, 1vw, 16px);
+  padding: .7em 1em;
+  color: var(--mm-chrome-mint);
+  border-color: rgba(157, 240, 200, .45);
+  line-height: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm-footer .mm-subscribe-cta:hover { background: rgba(157, 240, 200, .08); }
 }
 .mm-footer nav a {
-  min-width: 44px;
-  min-height: 44px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  color: var(--mm-tx2);
-  font-family: var(--mm-mono);
-  font-size: 11px;
+  color: inherit;
+  font: 400 11px/1.25 var(--mm-mono);
   letter-spacing: .06em;
   text-decoration: none;
   touch-action: manipulation;
@@ -906,26 +998,57 @@ html {
 @media (hover: hover) and (pointer: fine) {
   .mm-footer nav a:hover { color: var(--mm-mint); }
 }
-/* On a phone the full footer carries no route list (Krish, 2026-09-25: the
-   menu is a tap away, and the list only pushed Contact, the legal pair and
-   the copyright down the page). Contact, Privacy and Terms sit on one row.
-   The compact four-link footer on the door pages keeps two even columns, so
-   every row stays paired and no link is stranded. */
-@media (max-width: 520px) {
-  .mm-footer:not(.is-compact) nav a.mm-footer-route { display: none; }
-  .mm-footer.is-compact nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mm-footer-routes {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  justify-content: start;
+  align-content: start;
+  gap: clamp(8px, .8vw, 14px) clamp(16px, 1.6vw, 30px);
 }
-/* The full footer carries twelve links from 25 September 2026 (Home and About
-   us joined the routes), and at 1440 a wrapping row left "Terms" alone. Even
-   columns keep every row full: four from 901px, three on a tablet. The
-   compact four-link footer on the door pages keeps its single row. */
-@media (min-width: 521px) and (max-width: 900px) {
-  .mm-footer:not(.is-compact) nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mm-footer-routes a { min-height: 32px; white-space: nowrap; }
+.mm-footer-legal {
+  grid-column: 1 / -1;
+  display: flex;
+  column-gap: 28px;
 }
-@media (min-width: 901px) {
-  .mm-footer:not(.is-compact) nav { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; }
+.mm-footer .mm-footer-legal a { min-height: 44px; color: #aebcb3; line-height: 1.2; }
+.mm-footer small {
+  grid-column: 1 / -1;
+  justify-self: start;
+  align-self: end;
+  color: #76887e;
+  font: 400 10.5px/1.2 var(--mm-mono);
+  letter-spacing: .05em;
+  text-align: left;
 }
-.mm-footer small { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .05em; }
+/* Five columns need about 1160px beside the brand. R3's rail runs off the
+   right edge below that and its last routes are cut; here the rail takes
+   three columns (three full rows of three) and, below 901px, the full width
+   under the brand, so every route stays on screen. */
+@media (min-width: 701px) and (max-width: 1180px) {
+  .mm-footer-routes { grid-template-columns: repeat(3, auto); }
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  .mm-footer-routes { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  /* R3's phone footer: a flex column in a 390px frame. */
+  .mm-footer-grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 5vw, 26px);
+    width: min(390px, 100%);
+    margin-inline: auto;
+    padding: clamp(26px, 7vw, 38px) max(5.13vw, var(--mm-safe-left), var(--mm-safe-right)) max(7vw, var(--mm-safe-bottom));
+  }
+  .mm-footer-routes { display: none; }
+  .mm-footer .mm-brand { width: clamp(128px, 36vw, 170px); gap: 2.2cqi; }
+  .mm-footer .mm-brand-icon { width: 6.4cqi; }
+  .mm-footer .mm-brand-wordmark { width: 26cqi; }
+  .mm-footer-statement { margin-top: clamp(16px, 5vw, 24px); font-size: clamp(15px, 4vw, 18px); }
+  /* The copyright on the shared left edge (Krish, 2026-09-26). */
+  .mm-footer small { margin-top: auto; align-self: flex-start; }
+}
 
 /* "Subscribe for free": the badge beside Media in the menu and the footer's
    one quiet way to stay close (Krish, 2026-09-25). Both are hairline mint, a

@@ -441,6 +441,10 @@ async function exercise(page, label, width, height) {
     fail(!page.url().includes('story=business-first&phase=result'), `${label}: result state not encoded in URL`);
     fail(await page.locator('[data-story="business-first"] .mm-fig-marks i').count() !== 14, `${label}: the business-first figure does not show 14 inputs`);
     fail(await page.locator('[data-story="business-first"] .mm-fig-marks i.is-kept').count() !== 3, `${label}: the business-first figure does not keep exactly 3`);
+    // Its own result, not its neighbour's narrowing: eleven struck, one live.
+    fail(await page.locator('[data-story="business-first"] .mm-fig-marks i.is-cut').count() !== 11, `${label}: the business-first figure does not strike exactly 11`);
+    fail(await page.locator('[data-story="business-first"] .mm-fig-live i.is-live').count() !== 1, `${label}: the business-first figure does not show one live system`);
+    fail((await page.locator('[data-story="business-first"] .mm-fig-pair').innerText()).replace(/\s+/g, '') !== '11cut1live', `${label}: the business-first figure does not state 11 cut, 1 live`);
     fail(await page.locator('[data-story="business-first"] .endpoint-labels').count() !== 0, `${label}: business-first repeats the change in backup labels`);
     fail(!await page.locator(`#title-business-first`).evaluate(element => element === document.activeElement), `${label}: focus did not enter opened story`);
     fail((await page.locator(`#title-business-first`).evaluate(element => getComputedStyle(element).outlineStyle)) !== 'none', `${label}: focused result heading shows a browser-default outline`);

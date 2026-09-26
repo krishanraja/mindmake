@@ -65,6 +65,35 @@ function Focus({ figure, at }: { figure: Extract<Figure, { shape: "focus" }>; at
   );
 }
 
+/**
+ * A set cut down, and what went live. Every tool the record counts is drawn;
+ * the stopped ones are struck rather than removed, and the live system stands
+ * apart after the arrow. Only the headline's own numbers are printed.
+ */
+function Cut({ figure, at }: { figure: Extract<Figure, { shape: "cut" }>; at: number }) {
+  const resolved = Math.min(1, at * 1.5);
+  return (
+    <div className="mm-fig mm-fig-cut">
+      <div className="mm-fig-run" aria-hidden="true">
+        <div className="mm-fig-marks">
+          {Array.from({ length: figure.from }, (_, index) => {
+            const reached = index / figure.from <= resolved;
+            return <i key={index} className={reached && index < figure.cut ? "is-cut" : "is-kept"} />;
+          })}
+        </div>
+        <span className="mm-fig-arrow">→</span>
+        <div className="mm-fig-live">
+          {Array.from({ length: figure.live }, (_, index) => <i key={index} className={resolved >= 1 ? "is-live" : ""} />)}
+        </div>
+      </div>
+      <p className="mm-fig-pair">
+        <b>{figure.cut}</b><span>cut</span>
+        <b><CountingValue value={figure.live} /></b><span>live</span>
+      </p>
+    </div>
+  );
+}
+
 /** One figure standing on its own. Two pilots signed during the work. */
 function Count({ figure }: { figure: Extract<Figure, { shape: "count" }> }) {
   return (
@@ -141,6 +170,7 @@ export function StoryFigureView({ figure }: { figure: Figure }) {
       {figure.shape === "span" && <Span figure={figure} at={at} />}
       {figure.shape === "focus" && <Focus figure={figure} at={at} />}
       {figure.shape === "count" && <Count figure={figure} />}
+      {figure.shape === "cut" && <Cut figure={figure} at={at} />}
       {figure.shape === "cadence" && <Cadence figure={figure} at={at} />}
       {figure.shape === "offer" && <Offer figure={figure} at={at} />}
     </div>

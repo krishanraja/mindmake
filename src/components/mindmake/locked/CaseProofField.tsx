@@ -67,7 +67,7 @@ function scopeCss(source: string, root: string) {
       }
       const body = input.slice(open + 1, close - 1);
       const trimmed = header.trim();
-      if (trimmed.startsWith("@media") || trimmed.startsWith("@supports") || trimmed.startsWith("@layer")) {
+      if (trimmed.startsWith("@media") || trimmed.startsWith("@supports") || trimmed.startsWith("@layer") || trimmed.startsWith("@container")) {
         output += `${trimmed}{${transform(body)}}`;
       } else if (trimmed.startsWith("@")) {
         output += `${trimmed}{${body}}`;
@@ -115,8 +115,12 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
   ${root} .region-list,${root} .region,${root} .region-hit,${root} .region .expanded{touch-action:pan-x pan-y}
   ${root} .region .expanded{overscroll-behavior:auto}
   /* The rail stops short of a full screen so the testimonials below it show
-     their first line: the page visibly goes on. */
-  ${root} .proof-shell{height:calc(100svh - 76px);min-height:560px}
+     their first line: the page visibly goes on. That is a floor, not a lid:
+     a card is never shorter than its four bands plus the smallest figure
+     plate, so on a short phone the page grows by the difference instead of
+     the figure being squeezed out through its own frame. */
+  ${root} .proof-shell{height:auto;min-height:max(560px,calc(100svh - 76px))}
+  ${root} .proof-field{height:auto;min-height:var(--card-floor,0px)}
 }`;
 }
 
@@ -152,6 +156,17 @@ function storyFigureMarkup(figure: ClientStory["figure"]) {
       <div class="mm-fig-marks" aria-hidden="true">${marks}</div>
       <p class="mm-fig-pair"><b>${figure.from}</b><span aria-hidden="true">→</span><b>${figure.to}</b></p>
       ${labels(figure.fromLabel, figure.toLabel)}
+    </div>`;
+  }
+  if (figure.shape === "cut") {
+    // Every tool the record counts, the stopped ones struck rather than gone,
+    // and the one system that went live standing apart after the arrow.
+    const kept = figure.from - figure.cut;
+    const marks = Array.from({ length: figure.from }, (_, i) => `<i class="${i < figure.cut ? "is-cut" : "is-kept"}"></i>`).join("");
+    const live = Array.from({ length: figure.live }, () => `<i class="is-live"></i>`).join("");
+    return `<div class="mm-fig mm-fig-cut" data-fig="cut" data-cut="${figure.cut}" data-kept="${kept}">
+      <div class="mm-fig-run" aria-hidden="true"><div class="mm-fig-marks">${marks}</div><span class="mm-fig-arrow">→</span><div class="mm-fig-live">${live}</div></div>
+      <p class="mm-fig-pair"><b>${figure.cut}</b><span>cut</span><b>${figure.live}</b><span>live</span></p>
     </div>`;
   }
   if (figure.shape === "cadence") {
@@ -371,6 +386,19 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
         });
         const pair = fig.querySelectorAll<HTMLElement>(".mm-fig-pair b");
         if (pair.length === 2) pair[1].style.opacity = atResult ? "1" : ".28";
+        return;
+      }
+      if (kind === "cut") {
+        const cut = Number(fig.dataset.cut || 0);
+        fig.querySelectorAll<HTMLElement>(".mm-fig-marks i").forEach((mark, index) => {
+          mark.className = atResult && index < cut ? "is-cut" : "is-kept";
+        });
+        fig.querySelectorAll<HTMLElement>(".mm-fig-live i").forEach((mark) => {
+          mark.className = atResult ? "is-live" : "";
+        });
+        fig.querySelectorAll<HTMLElement>(".mm-fig-pair b").forEach((value) => {
+          value.style.opacity = atResult ? "1" : ".28";
+        });
         return;
       }
       if (kind === "cadence") {

@@ -61,6 +61,11 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-09-26 (later): one masthead and one footer on every page; every
+  Media and Subscribe link goes to makeyourmindup.ai; the homepage history
+  opener leads its chapter and the eras hold still; squashed headings and the
+  /case-studies cards fixed on phones; the lead flow stays clear of the phone
+  keyboard.
 - 2026-09-26: the homepage's history questions became quotations, its reach,
   practice and returned-hour headings stopped over-wrapping, the returned
   hour's first answer is struck through in red by scroll, and the closing

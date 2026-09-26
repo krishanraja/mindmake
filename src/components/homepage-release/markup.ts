@@ -27,7 +27,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 </video>
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">
-                  <h1>Build the human + AI business that augments you.</h1>
+                  <h1>Build the human + AI business that augments your vision.</h1>
                   <p class="hero-lede">For leaders in creative industries with high standards and curiosity required to drive the new era.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
                     <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
@@ -49,7 +49,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 </video>
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">
-                  <h1>Build the human + AI business that augments you.</h1>
+                  <h1>Build the human + AI business that augments your vision.</h1>
                   <p class="hero-lede">For leaders in creative industries with high standards and curiosity required to drive the new era.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
                     <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, taste, standards & vision, encoded. </small><i>↗</i></a>
@@ -60,19 +60,17 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
             </div></div></section>
       <section id="history" class="r3-section r3-history r3-reveal" data-component="history"><div class="r3-variant device-desktop"><article class="device-frame device-desktop" aria-label="Desktop historical story preview">
               <section class="history-frame" data-desktop-composition="editorial" data-mobile-composition="integrated" data-desktop-copy-position="left" data-desktop-headline-scale="balanced" data-mobile-headline-scale="balanced" data-control-treatment="era" data-story-transition="dissolve" data-bridge-treatment="contrast">
-                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline">You are not the first person to wonder what a new tool might take from you.</h2><p data-optional-copy="bridgeLine">We have been asking that question for centuries.</p></div>
+                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline">We've been making new technology the enemy for thousands of years.</h2><p data-optional-copy="bridgeLine">And every time, those who embrace and leverage it change their fortunes whilst those who see it as a threat end up displaced. It's all in the mind.</p></div>
                 <figure class="story-image"><img data-story-image="" alt="An illustrative historical writing scene" src="${asset4}"><div class="image-wash"></div></figure>
-                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count="">01</span><b data-story-era="">370 BC · Writing</b></div><h3 data-story-question="" data-focus-region="question" aria-live="polite">If knowledge lives outside us, will memory grow weaker?</h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel">What changed</strong><span data-story-outcome="" aria-live="polite">Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></p></article>
+                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count="">01</span><b data-story-era="">370 BC · Writing IS INVENTED</b></div><h3 data-story-question="" data-focus-region="question" aria-live="polite">"If knowledge lives outside us, will memory grow weaker?"</h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel">What ACTUALLY HAPPENED INSTEAD</strong><span data-story-outcome="" aria-live="polite">Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></p></article>
                 <nav class="era-rail" data-focus-region="controls" aria-label="Choose a historical story"><button type="button" data-era="0" aria-current="true"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Engine loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
-                <p class="closing-hinge" data-focus-region="hinge" data-optional-copy="closingHinge">The feeling is familiar. The reach is new.</p>
               </section>
             </article></div><div class="r3-variant device-mobile"><article class="device-frame device-mobile" aria-label="Mobile historical story preview">
               <section class="history-frame" data-desktop-composition="editorial" data-mobile-composition="integrated" data-desktop-copy-position="left" data-desktop-headline-scale="balanced" data-mobile-headline-scale="balanced" data-control-treatment="era" data-story-transition="dissolve" data-bridge-treatment="contrast">
-                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline">You are not the first person to wonder what a new tool might take from you.</h2><p data-optional-copy="bridgeLine">We have been asking that question for centuries.</p></div>
+                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline">We've been making new technology the enemy for thousands of years.</h2><p data-optional-copy="bridgeLine">And every time, those who embrace and leverage it change their fortunes whilst those who see it as a threat end up displaced. It's all in the mind.</p></div>
                 <figure class="story-image"><img data-story-image="" alt="An illustrative historical writing scene" src="${asset4}"><div class="image-wash"></div></figure>
-                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count="">01</span><b data-story-era="">370 BC · Writing</b></div><h3 data-story-question="" data-focus-region="question" aria-live="polite">If knowledge lives outside us, will memory grow weaker?</h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel">What changed</strong><span data-story-outcome="" aria-live="polite">Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></p></article>
+                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count="">01</span><b data-story-era="">370 BC · Writing IS INVENTED</b></div><h3 data-story-question="" data-focus-region="question" aria-live="polite">"If knowledge lives outside us, will memory grow weaker?"</h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel">What ACTUALLY HAPPENED INSTEAD</strong><span data-story-outcome="" aria-live="polite">Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></p></article>
                 <nav class="era-rail" data-focus-region="controls" aria-label="Choose a historical story"><button type="button" data-era="0" aria-current="true"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
-                <p class="closing-hinge" data-focus-region="hinge" data-optional-copy="closingHinge">The feeling is familiar. The reach is new.</p>
               </section>
             </article></div></section>
       <div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>

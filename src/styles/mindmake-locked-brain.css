@@ -234,7 +234,7 @@
 
 .mm-locked-brain .opening-film video {
   object-position: 50% 50%;
-  filter: saturate(0.82) contrast(1.1) brightness(0.72);
+  filter: saturate(0.82) contrast(1.1) brightness(0.75);
   transform: scale(1.1) translateX(3.5%);
   transform-origin: 50% 50%;
 }
@@ -243,6 +243,10 @@
   background:
     linear-gradient(90deg, rgba(5, 12, 9, 0.98) 0%, rgba(5, 12, 9, 0.94) 27%, rgba(5, 12, 9, 0.7) 43%, rgba(5, 12, 9, 0.2) 67%, rgba(5, 12, 9, 0.52) 100%),
     linear-gradient(180deg, rgba(5, 12, 9, 0.38) 0%, rgba(5, 12, 9, 0.1) 48%, rgba(5, 12, 9, 0.7) 100%);
+  /* The film shows through a tenth more (Krish, 2026-09-26): every scrim keeps
+     its shape and loses 10% of its darkness, and the film's brightness filter
+     gives back 10% of what it took (0.72 to 0.75, 0.64 to 0.68 on a phone). */
+  opacity: 0.9;
 }
 
 .mm-locked-brain .brain-object {
@@ -269,7 +273,7 @@
 
   .mm-locked-brain .opening-film video {
     object-position: 56% 50%;
-    filter: saturate(0.78) contrast(1.08) brightness(0.64);
+    filter: saturate(0.78) contrast(1.08) brightness(0.68);
     transform: scale(1.06);
   }
 

@@ -221,6 +221,11 @@ body.mm-homepage-active { margin: 0; }
   to { opacity: 1; transform: none; }
 }
 
+/* The phone crop sits left of the approved right edge so the r07 film's mint
+   circuit (the riser at the press and the line across the glass) is on screen
+   (Krish, 2026-09-26). Desktop keeps the whole frame. */
+.mm-homepage-release .r3-opening .preview-mobile .hero-stage video { object-position: 55% center; }
+
 /* The hero doors are links to their pages now (Krish, 2026-09-25). They keep
    the approved door composition; only a link's own defaults are undone. */
 .mm-homepage-release .r3-opening .route-doors a { text-decoration: none; cursor: pointer; }

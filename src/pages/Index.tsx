@@ -8,6 +8,7 @@ import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
 import { mountLeadershipChapters } from "@/components/leadership-chapters/leadershipChapters";
 import { mountPinnedChapters } from "@/components/homepage-release/pinnedChapters";
 import { mountReturnedHour } from "@/components/homepage-release/returnedHour";
+import { mountHeroRotation } from "@/components/homepage-release/heroRotation";
 import "@/styles/mindmake.css";
 import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
@@ -49,6 +50,7 @@ export default function Index() {
     const unpin = mountPinnedChapters(root, runtime);
     const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches });
     const unstrike = mountReturnedHour(root);
+    const unrotate = mountHeroRotation(root);
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
        the adapter only owns chapter interaction. */
@@ -63,6 +65,7 @@ export default function Index() {
     return () => {
       root.removeEventListener("click", measure);
       unstrike();
+      unrotate();
       unmountChapters();
       unpin();
       runtime.destroy();

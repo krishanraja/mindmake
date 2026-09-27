@@ -5,6 +5,9 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-09-27
+
+- The homepage hero headline rotates, from Krish's brief for "five to seven more headlines" on the idea that the leader changes first and the business follows. He chose three of seven ("Agreed. Keep the current one the first one."): "Your business levels up when you do.", "Become the leader your business needs next." and "Amplify your judgement, and the business follows.", after the approved headline, each underlining its "you" or "your". The first build wrapped each line to its own measure; Krish rejected it ("every headline takes exactly the same amount of lines on mobile and desktop otherwise this will look stupid and glitchy"), so every headline is now three fixed rows at the approved size, which fits the longest row from 320 to 2560 wide (verified at eleven sizes: three lines, one height, the lede fixed). This replaces the approved five-line stack of "Build the human + AI business that augments your vision." with three lines. On "Go, and close the gap on mobile", the phone headline and lede settle above the doors. One pass, then it rests; reduced motion, no script, crawlers and screen readers get only the approved headline. `qa:homepage-release:pre-merge` failed once on "reduced-motion: [data-reach-jump=organisation] shows reach 1" in the reach chapter, which this change does not touch, and passed on the one rerun.
 ## 2026-09-26
 
 - Docs steward reconciled at `05fe8b8`: NOW.md's head moved from `d334f1e`,

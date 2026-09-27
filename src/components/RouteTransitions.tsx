@@ -103,6 +103,10 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
         navigate(to);
       }));
       running.current = transition;
+      /* A transition the browser declines (or one skipped for the next click)
+         rejects these; the navigation itself has already happened. */
+      (transition as ViewTransition & { ready?: Promise<void>; updateCallbackDone?: Promise<void> }).ready?.catch(() => {});
+      (transition as ViewTransition & { updateCallbackDone?: Promise<void> }).updateCallbackDone?.catch(() => {});
       transition.finished.finally(() => {
         rule.remove();
         document.documentElement.classList.remove("mm-route-changing");

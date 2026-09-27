@@ -24,9 +24,11 @@
    wipe. The two pages cross: the old one fades out, the new one fades in and
    rises a few pixels into place over a longer, softer ease, and the ruled line
    passes down the screen as a faint sweep. The masthead carries its own name,
-   so it holds perfectly still through the change. */
+   so it holds perfectly still through the change. The homepage's open menu
+   draws a second masthead; a name must be unique on screen or the browser
+   refuses the transition, so only the page's own carries it. */
 .mm-header,
-.mm-homepage-release .site-masthead { view-transition-name: mm-masthead; }
+.mm-homepage-release .site-masthead:not(.r3-navigation .site-masthead) { view-transition-name: mm-masthead; }
 
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {

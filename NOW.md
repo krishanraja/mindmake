@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-09-26
-head: 05fe8b8
+as_of: 2026-09-27
+head: 859f2e3
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -34,7 +34,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-09-26)
+## Where it is right now (as of 2026-09-27)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -61,6 +61,26 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-09-27: motion made smoother across the site, from Krish ("The rotation
+  animation is so blunt, needs to be much smoother. Same with the page
+  transitions and loading"). The hero headlines now cross row by row instead
+  of emptying between them; page changes crossfade over 720ms with a 10px
+  rise instead of a hard-edged wipe, the masthead held still under its own
+  view-transition name (a same-day fix after main's Chromium check failed
+  #230: the open homepage menu drew a second masthead, and a duplicate
+  transition name made Chromium refuse the navigation); and film or image
+  media that has not painted when a page mounts fades up instead of cutting
+  in, most visibly the /ai-brain film, never held back more than 2.5s
+  (`MediaArrival.tsx`). The hero rotation gained two filtering headlines,
+  "High standards deserve an AI that knows yours." and "AI can copy almost
+  anything except your taste.", and dropped "Become the leader your business
+  needs next.", from Krish's brief that the headlines should "filter out
+  people that don't self-identify with this." Separately, `qa:chrome` had
+  silently measured Chrome's own error page since the preview it assumed was
+  already running never started; it now serves the built site itself and
+  fails by name on a real load failure, and running for real for the first
+  time it caught a genuine defect, the r31 consent notice breaking into two
+  rows at 360px, now fixed.
 - 2026-09-26 (later still): a fix forward after main's Chromium verification
   failed on #223. Above a phone the logo and footer had taken the homepage's
   wider gutter instead of each page's own content edge (`qa:logo-alignment`);

@@ -2,7 +2,7 @@
 
 Status: approved-r3-live
 Working-copy status: verified-production-closeout
-Updated: 25 September 2026.
+Updated: 27 September 2026.
 
 The technical discovery and documentation closeout passed candidate CI,
 deployment and public readback. The accepted R3 material authority below is
@@ -39,7 +39,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 - The homepage hero turns its headline once through five lines and rests on the approved one (Krish, 2026-09-27): "Build the human + AI business that augments your vision.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Your business levels up when you do." and "Amplify your judgement, and the business follows." The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). The lede reads "with the high standards".
 - On a laptop, while the privacy card is up, the action bar's ground runs down to the bottom edge beneath it, so the bar never floats over a band of page (Krish, 2026-09-26).
 - No page carries caveat or disclaimer labels: no "Illustrative machinery", "Illustrative team", "Illustrative sequence. Not evidence." or "illustrative example" lines (Krish, 2026-09-26: "Get rid of all the annoying asterisk commentary, like illustrative machinery, from the whole"). Generated films and example teams remain what they are; the page simply does not narrate it. The private brief document and its email keep their one "not advice" line.
-- Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and a mint hairline sets the new page in over about 560ms. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. The component renders nothing, so hydration is unchanged.
+- Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and the two pages cross over about 720ms (Krish, 2026-09-27: the transitions were "so blunt, needs to be much smoother"): the old page fades out, the new one fades in and rises 10px into place, the masthead holds still under its own view-transition name, and the ruled line remains as a fainter sweep. Only the page's own masthead carries the name, not the menu's, because a duplicate name on screen makes Chromium refuse the transition. Media that has not painted when a page mounts fades up instead of cutting in (`MediaArrival.tsx`), most visibly the `/ai-brain` film, and nothing waits more than 2.5s. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. Both components render nothing, so hydration is unchanged.
 
 ## Non-regression contract
 

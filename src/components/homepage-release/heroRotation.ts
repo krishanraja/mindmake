@@ -1,13 +1,15 @@
 /**
- * The hero headline turns through four lines once, then rests on the first
+ * The hero headline turns through five lines once, then rests on the first
  * (Krish, 2026-09-27). Each says that the business moves when the leader
- * does, and each underlines the "you" or "your" it turns on.
+ * does, and each underlines the "you" or "your" it turns on. The second and
+ * third speak to standards and taste, early in the turn, so a reader who does
+ * not see themselves in them knows the page is not for them.
  *
  * Every headline is set in the same three fixed lines (Krish: "every headline
  * takes exactly the same amount of lines on mobile and desktop"), so the block
  * keeps one shape and nothing under it moves as they turn. The generator sets
  * the first in the markup the same way, so the page never reflows on load. The
- * type keeps the approved size wherever the longest of the twelve lines fits
+ * type keeps the approved size wherever the longest of all the rows fits
  * the column, and steps down only where it would not.
  *
  * The first line is the approved headline and stays the h1's accessible name,
@@ -19,8 +21,9 @@ type Row = string;
 /** Three rows per headline; *word* marks the underlined you or your. */
 const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
   ["Build the human + AI", "business that augments", "*your* vision."],
+  ["High standards", "deserve an AI that", "knows *yours*."],
+  ["AI can copy almost", "anything except", "*your* taste."],
   ["Your business", "levels up when", "*you* do."],
-  ["Become the leader", "*your* business", "needs next."],
   ["Amplify *your*", "judgement, and the", "business follows."],
 ];
 const FIRST_HOLD = 6500;
@@ -58,7 +61,7 @@ export function mountHeroRotation(root: HTMLElement) {
     lines[index]!.setAttribute("aria-hidden", "true");
   });
 
-  /* The approved size unless the longest of all twelve lines would overrun
+  /* The approved size unless the longest row of every headline would overrun
      the column, measured at this width on a hidden copy. */
   const fit = () => headings.forEach((heading, index) => {
     heading.style.fontSize = "";

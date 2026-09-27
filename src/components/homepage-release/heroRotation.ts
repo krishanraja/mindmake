@@ -28,7 +28,8 @@ const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
 ];
 const FIRST_HOLD = 6500;
 const HOLD = 5500;
-const LEAVE = 480;
+/* How long the outgoing line lingers over the incoming one before it is removed. */
+const CROSS = 800;
 
 const row = (words: Row) => {
   const node = document.createElement("span");
@@ -46,6 +47,7 @@ const row = (words: Row) => {
 };
 const fill = (line: HTMLElement, rows: readonly [Row, Row, Row]) => {
   const [a, b, c] = rows.map(row);
+  [a, b, c].forEach((node, index) => node.style.setProperty("--row", String(index)));
   line.replaceChildren(a, " ", b, " ", c);
 };
 
@@ -83,15 +85,26 @@ export function mountHeroRotation(root: HTMLElement) {
   let timer = 0;
   let visible = true;
   let finished = motion.matches;
+  /* The lines cross rather than take turns: the outgoing one is copied over
+     the incoming one and each lifts away row by row while the next rises in
+     beneath it, so the heading is never empty. */
+  const ghosts = new Set<HTMLElement>();
   const show = (index: number) => {
-    headings.forEach((heading) => heading.classList.add("is-leaving"));
-    timer = window.setTimeout(() => {
-      current = index;
-      lines.forEach((line) => fill(line!, LINES[index]));
-      headings.forEach((heading) => { heading.classList.remove("is-leaving"); heading.classList.add("is-turned"); });
-      if (index === 0) { finished = true; return; }
-      schedule(HOLD);
-    }, LEAVE);
+    current = index;
+    lines.forEach((line, n) => {
+      const ghost = line!.cloneNode(true) as HTMLElement;
+      ghost.classList.add("mm-hero-outgoing");
+      ghost.setAttribute("aria-hidden", "true");
+      headings[n].append(ghost);
+      ghosts.add(ghost);
+      window.setTimeout(() => { ghost.remove(); ghosts.delete(ghost); }, CROSS);
+      fill(line!, LINES[index]);
+      line!.classList.remove("is-entering");
+      void line!.offsetWidth;
+      line!.classList.add("is-entering");
+    });
+    if (index === 0) { finished = true; return; }
+    schedule(HOLD);
   };
   const schedule = (delay: number) => {
     window.clearTimeout(timer);
@@ -110,8 +123,8 @@ export function mountHeroRotation(root: HTMLElement) {
     if (!motion.matches) return;
     finished = true;
     window.clearTimeout(timer);
-    lines.forEach((line) => fill(line!, LINES[0]));
-    headings.forEach((heading) => heading.classList.remove("is-leaving"));
+    ghosts.forEach((ghost) => ghost.remove());
+    lines.forEach((line) => { fill(line!, LINES[0]); line!.classList.remove("is-entering"); });
   }, { signal: abort.signal });
   let frame = 0;
   addEventListener("resize", () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(fit); }, { passive: true, signal: abort.signal });
@@ -124,10 +137,11 @@ export function mountHeroRotation(root: HTMLElement) {
     observer?.disconnect();
     window.clearTimeout(timer);
     cancelAnimationFrame(frame);
+    ghosts.forEach((ghost) => ghost.remove());
     headings.forEach((heading, index) => {
       fill(lines[index]!, LINES[0]);
       lines[index]!.removeAttribute("aria-hidden");
-      heading.classList.remove("is-leaving", "is-turned");
+      lines[index]!.classList.remove("is-entering");
       heading.removeAttribute("aria-label");
       heading.style.fontSize = "";
     });

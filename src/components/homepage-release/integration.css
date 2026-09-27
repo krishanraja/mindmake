@@ -683,19 +683,35 @@ body.mm-homepage-active { margin: 0; }
 .mm-homepage-release .r3-opening h1 :is(.mm-hero-line, .mm-hero-row) { display: block; }
 .mm-homepage-release .r3-opening h1 .mm-hero-row { white-space: nowrap; }
 .mm-homepage-release .r3-opening h1 .mm-hero-probe { position: absolute; visibility: hidden; pointer-events: none; }
+/* The turn crosses two lines rather than swapping one: the outgoing copy sits
+   over the incoming line and each row lifts away a beat after the one above,
+   while the next line's rows rise in beneath it on the same stagger. Long,
+   soft easing both ways; only opacity and transform move, so it stays on the
+   compositor on a phone. The incoming underline draws once its rows settle. */
+.mm-homepage-release .r3-opening h1 { position: relative; }
+.mm-homepage-release .r3-opening h1 .mm-hero-outgoing { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .mm-homepage-release .r3-opening h1 .mm-hero-line { transition: opacity .42s ease, transform .48s cubic-bezier(.4, 0, .2, 1); }
-  .mm-homepage-release .r3-opening h1.is-leaving .mm-hero-line { opacity: 0; transform: translateY(-.22em); }
-  .mm-homepage-release .r3-opening h1.is-leaving .mm-hero-your { animation: mm-hero-your-undraw .3s cubic-bezier(.4, 0, .2, 1) both; }
-  .mm-homepage-release .r3-opening h1.is-turned:not(.is-leaving) .mm-hero-line { animation: mm-hero-line-in .7s cubic-bezier(.2, .7, .2, 1) both; }
-  .mm-homepage-release .r3-opening h1.is-turned .mm-hero-your { animation-delay: .55s; }
+  .mm-homepage-release .r3-opening h1 .mm-hero-outgoing .mm-hero-row {
+    animation: mm-hero-row-out .5s cubic-bezier(.25, .6, .3, 1) calc(var(--row, 0) * 45ms) both;
+  }
+  .mm-homepage-release .r3-opening h1 .mm-hero-outgoing .mm-hero-your {
+    animation: mm-hero-your-undraw .35s cubic-bezier(.25, .6, .3, 1) both;
+  }
+  .mm-homepage-release .r3-opening h1 .mm-hero-line.is-entering .mm-hero-row {
+    animation: mm-hero-row-in 1s cubic-bezier(.16, 1, .3, 1) calc(420ms + var(--row, 0) * 90ms) both;
+  }
+  .mm-homepage-release .r3-opening h1 .mm-hero-line.is-entering .mm-hero-your { animation-delay: 1.2s; animation-duration: 1s; }
 }
 @keyframes mm-hero-your-undraw {
   from { background-size: 100% .06em; background-position: 100% 100%; }
   to { background-size: 0% .06em; background-position: 100% 100%; }
 }
-@keyframes mm-hero-line-in {
-  from { opacity: 0; transform: translateY(.3em); }
+@keyframes mm-hero-row-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(-.24em); }
+}
+@keyframes mm-hero-row-in {
+  from { opacity: 0; transform: translateY(.42em); }
   to { opacity: 1; transform: none; }
 }
 /* On a phone the three-line headline left a third of the screen empty between

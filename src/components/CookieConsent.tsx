@@ -160,7 +160,7 @@ export const CookieConsent = () => {
       {/* One line. It was three on a phone, plus a button, floating over the
           reading on every screen of the visit until dismissed. */}
       <p>
-        Allow Google Analytics? <a href="/privacy">Privacy</a>
+        Google Analytics? <a href="/privacy">Privacy</a>
       </p>
       {/* One group, so a narrow row moves both answers down together rather
           than leaving Decline alone on a line of its own. */}

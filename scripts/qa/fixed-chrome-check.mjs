@@ -41,6 +41,8 @@
  *   node scripts/qa/fixed-chrome-check.mjs [--base http://127.0.0.1:4180]
  *                                          [--report]
  */
+import { spawn } from "node:child_process";
+import { resolve } from "node:path";
 import { chromium } from "playwright";
 import { asked } from "./lib/asked.mjs";
 import { serveBoard } from "./lib/board-fixture.mjs";
@@ -50,7 +52,24 @@ const flag = (name, fallback) => {
   const at = args.indexOf(`--${name}`);
   return at === -1 ? fallback : args[at + 1];
 };
+/* Without --base this serves the built site itself. It used to assume a
+   preview was already up on 4180, and when none was, every navigation failed,
+   the failure was swallowed, and the check measured Chrome's error page until
+   that page navigated away under it: "Execution context was destroyed", on
+   every run, on every commit, since the day it was written. */
+const OWN_SERVER = !args.includes("--base");
 const BASE = flag("base", "http://127.0.0.1:4180");
+const server = OWN_SERVER
+  ? spawn(process.execPath, [resolve(import.meta.dirname, "../../node_modules/vite/bin/vite.js"), "preview", "--host", "127.0.0.1", "--port", "4180", "--strictPort"], { stdio: "ignore" })
+  : null;
+process.on("exit", () => server?.kill());
+if (server) {
+  let up = false;
+  for (let tries = 0; tries < 150 && !up; tries++) {
+    try { up = (await fetch(BASE)).ok; } catch { await new Promise((done) => setTimeout(done, 100)); }
+  }
+  if (!up) { server.kill(); throw new Error(`No preview answered at ${BASE}. Run npm run build first.`); }
+}
 const PATHS = flag("paths", "/,/ai-gtm").split(",");
 const REPORT = args.includes("--report");
 
@@ -109,7 +128,12 @@ for (const [width, height] of SIZES) {
       /* A visitor who has never answered, which is the only visitor who sees
          the strip at all. */
       await context.addInitScript(() => { try { localStorage.clear(); } catch { /* blocked */ } });
-      await page.goto(BASE + asked(path), { waitUntil: "networkidle" }).catch(() => {});
+      /* A page that never goes quiet (a looping film) is fine to measure;
+         a page that did not load is not, and is a failure rather than a
+         silent reading of the browser's error page. */
+      const response = await page.goto(BASE + asked(path), { waitUntil: "networkidle" })
+        .catch((error) => { if (error.name === "TimeoutError") return null; throw error; });
+      if (response && !response.ok()) throw new Error(`${BASE}${asked(path)} answered ${response.status()}`);
       if (scale !== 1) {
         /* Every font size multiplied once, which is what a phone's text-size
            setting does. An `em` rule on a subtree is not the same thing: it
@@ -272,6 +296,7 @@ for (const [width, height] of SIZES) {
   }
 }
 await browser.close();
+server?.kill();
 
 if (REPORT) {
   for (const row of rows) {

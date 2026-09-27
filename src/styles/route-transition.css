@@ -4,7 +4,7 @@
    One duration and one easing for the line and the reveal, so the edge of the
    new page and the line are the same thing. The old page only fades and
    softens; it never moves, so nothing on screen travels but the line. */
-:root { --mm-route-time: 560ms; --mm-route-ease: cubic-bezier(.2, .7, .2, 1); }
+:root { --mm-route-time: 720ms; --mm-route-ease: cubic-bezier(.22, 1, .36, 1); }
 
 .mm-route-rule {
   position: fixed;
@@ -14,21 +14,34 @@
   width: 100%;
   height: 1px;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(157, 240, 200, 0) 0%, rgba(157, 240, 200, .85) 18%, rgba(157, 240, 200, .85) 82%, rgba(157, 240, 200, 0) 100%);
-  box-shadow: 0 0 14px 1px rgba(157, 240, 200, .28);
+  background: linear-gradient(90deg, rgba(157, 240, 200, 0) 0%, rgba(157, 240, 200, .6) 22%, rgba(157, 240, 200, .6) 78%, rgba(157, 240, 200, 0) 100%);
+  box-shadow: 0 0 18px 2px rgba(157, 240, 200, .18);
   view-transition-name: mm-route-rule;
 }
 
+/* Smoother since 2026-09-27 (Krish: the page transitions are "so blunt, needs
+   to be much smoother"). The new page no longer arrives behind a hard-edged
+   wipe. The two pages cross: the old one fades out, the new one fades in and
+   rises a few pixels into place over a longer, softer ease, and the ruled line
+   passes down the screen as a faint sweep. The masthead carries its own name,
+   so it holds perfectly still through the change. */
+.mm-header,
+.mm-homepage-release .site-masthead { view-transition-name: mm-masthead; }
+
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {
-    animation: mm-route-settle calc(var(--mm-route-time) * .6) cubic-bezier(.4, 0, 1, 1) both;
+    animation: mm-route-settle calc(var(--mm-route-time) * .62) cubic-bezier(.4, 0, .6, 1) both;
   }
   ::view-transition-new(root) {
-    animation: mm-route-set var(--mm-route-time) var(--mm-route-ease) both;
+    animation: mm-route-set var(--mm-route-time) var(--mm-route-ease) calc(var(--mm-route-time) * .12) both;
   }
+  ::view-transition-group(mm-masthead) { animation-duration: var(--mm-route-time); animation-timing-function: var(--mm-route-ease); }
+  ::view-transition-old(mm-masthead),
+  ::view-transition-new(mm-masthead) { animation: none; mix-blend-mode: normal; }
+  ::view-transition-old(mm-masthead) { display: none; }
   ::view-transition-group(mm-route-rule) { animation: none; }
   ::view-transition-new(mm-route-rule) {
-    animation: mm-route-line var(--mm-route-time) var(--mm-route-ease) both;
+    animation: mm-route-line calc(var(--mm-route-time) * 1.1) cubic-bezier(.45, 0, .2, 1) both;
   }
   ::view-transition-old(mm-route-rule) { display: none; }
 }
@@ -40,16 +53,16 @@
 }
 
 @keyframes mm-route-settle {
-  to { opacity: 0; filter: blur(2px); }
+  to { opacity: 0; }
 }
 @keyframes mm-route-set {
-  from { clip-path: inset(0 0 100% 0); }
-  to { clip-path: inset(0 0 0 0); }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
 }
 @keyframes mm-route-line {
   0% { transform: translateY(0); opacity: 0; }
-  12% { opacity: 1; }
-  80% { opacity: .9; }
+  18% { opacity: .9; }
+  75% { opacity: .6; }
   100% { transform: translateY(100vh); opacity: 0; }
 }
 
@@ -71,3 +84,10 @@
   letter-spacing: .1em;
   text-transform: uppercase;
 }
+
+/* Films and images fade up once they have something to show, instead of
+   cutting in over the ground (src/components/MediaArrival.tsx). The pending
+   state only ever applies to media that has not painted yet, and "ready"
+   returns it to its own designed opacity over the fade. */
+[data-mm-media] { transition: opacity .75s cubic-bezier(.22, 1, .36, 1); }
+[data-mm-media="pending"] { opacity: 0; }

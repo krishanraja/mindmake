@@ -672,12 +672,16 @@ body.mm-homepage-active { margin: 0; }
   to { background-size: 100% .06em; }
 }
 
-/* The hero headline's turn (heroRotation.ts, Krish, 2026-09-27). The heading
-   keeps its tallest line's height and each line sits at its foot, so nothing
-   under it moves. A line leaves by pulling its underline back and lifting
-   away; the next rises in and draws its own underline once settled. */
-.mm-homepage-release .r3-opening h1.mm-hero-rotating { display: flex; flex-direction: column; justify-content: flex-end; }
-.mm-homepage-release .r3-opening h1 .mm-hero-line { display: block; }
+/* The hero headline (Krish, 2026-09-27): three fixed lines, the same for
+   every headline it turns to (heroRotation.ts), so the block keeps one shape
+   as they rotate and nothing under it moves. The rows never wrap; the heading
+   takes the column's width, and the approved size fits the longest row from
+   320 to 1920 wide (the script steps it down only if one would overrun). A
+   line leaves by pulling its underline back and lifting away; the next rises
+   in and draws its own underline once settled. */
+.mm-homepage-release .r3-opening h1 { max-width: none; }
+.mm-homepage-release .r3-opening h1 :is(.mm-hero-line, .mm-hero-row) { display: block; }
+.mm-homepage-release .r3-opening h1 .mm-hero-row { white-space: nowrap; }
 .mm-homepage-release .r3-opening h1 .mm-hero-probe { position: absolute; visibility: hidden; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
   .mm-homepage-release .r3-opening h1 .mm-hero-line { transition: opacity .42s ease, transform .48s cubic-bezier(.4, 0, .2, 1); }
@@ -694,4 +698,3 @@ body.mm-homepage-active { margin: 0; }
   from { opacity: 0; transform: translateY(.3em); }
   to { opacity: 1; transform: none; }
 }
-.mm-homepage-release .r3-opening h1 .mm-hero-line.is-wide { text-wrap: balance; }

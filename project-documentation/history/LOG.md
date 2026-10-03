@@ -5,6 +5,11 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-03
+
+- Public contact address changed from `krish@themindmaker.ai` to `krish@mindmake.co` (#232). Ruling (Krish, 2026-10-03): the new address is the public contact address and the old one still redirects to it. The previous choice existed because `mindmake.co` had no MX record, so `hello@` and `privacy@` bounced; the constant's comment recorded that reason and the switch procedure, both now retired. Two tests that pinned the old literal were updated and the route lock regenerated for the one locked test file that changed. `CONTACT_EMAIL` in `src/lib/publicLinks.ts` remains the single owner; no numbered document named the address, so none needed editing.
+- Docs steward reconciled at `74e7ec9`: NOW.md's head moved from `859f2e3`.
+
 ## 2026-09-27
 
 - Fix forward after #230: main's Chromium browser-verification failed on 2455070 ("Core navigation raised browser errors" at all four sizes). With the homepage menu open, two mastheads are on screen, the page's and the menu's, and both carried the new `mm-masthead` view-transition name, so Chromium refused the transition ("Unexpected duplicate view-transition-name") and raised an error. Only the page's masthead carries the name now, and a declined transition's rejected promises are handled. Production was not visibly affected: the navigation still completed, without the crossfade, from the open homepage menu.

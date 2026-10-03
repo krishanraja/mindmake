@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-09-27
-head: 859f2e3
+as_of: 2026-10-03
+head: 74e7ec9
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -34,7 +34,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-09-27)
+## Where it is right now (as of 2026-10-03)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -61,6 +61,12 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-03: the public contact address changed to krish@mindmake.co (#232),
+  Krish's ruling ("krish@mindmake.co is the public contact address, replacing
+  krish@themindmaker.ai, which still redirects to it"). The old address had
+  been chosen only because mindmake.co had no MX record and mail to it
+  bounced; the domain now receives. Every contact link and the privacy notice
+  read the one `CONTACT_EMAIL` constant, so it was a one-line change.
 - 2026-09-27: motion made smoother across the site, from Krish ("The rotation
   animation is so blunt, needs to be much smoother. Same with the page
   transitions and loading"). The hero headlines now cross row by row instead

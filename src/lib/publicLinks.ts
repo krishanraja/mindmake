@@ -44,20 +44,15 @@ export const START_SUBLABEL = "Answer a few questions, keep the brief, then a fr
 /**
  * The address a visitor can actually reach a human on.
  *
- * It has to receive mail, which is the whole reason it is this one. `mindmake.co`
- * has no MX record, so `hello@mindmake.co` and `privacy@mindmake.co` bounce
- * today; `themindmaker.ai` runs Google Workspace and this mailbox is already the
- * Reply-To on every email the lead pipeline sends, so a visitor who has
- * converted has it in their inbox regardless.
+ * It has to receive mail, which is the whole reason it is this one.
+ * `krish@mindmake.co` is the published contact address (Krish, 2026-10-03) and
+ * now receives. `krish@themindmaker.ai` still redirects to it, so a visitor who
+ * converted earlier and kept the old address still reaches the same inbox.
  *
- * The privacy notice points here too, and a data-subject request that bounces is
- * worse than an address on the older domain, so correctness wins until the
- * branded aliases exist.
- *
- * To switch: create `hello@mindmake.co` and `privacy@mindmake.co`, add the MX
- * record, then change this one constant. Nothing else needs to move.
+ * The privacy notice and every contact link read this one constant, so the
+ * address stays one line in one file.
  */
-export const CONTACT_EMAIL = "krish@themindmaker.ai";
+export const CONTACT_EMAIL = "krish@mindmake.co";
 
 /**
  * The site's primary routes, in the order and wording the approved R3 homepage

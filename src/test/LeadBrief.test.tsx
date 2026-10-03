@@ -595,7 +595,7 @@ describe("Mindmake private brief journey", () => {
     /* Two alerts now: what failed, and the offer of a person underneath it.
        The first is the one this test is about. */
     expect(screen.getAllByRole("alert")[0]).toHaveTextContent(/neither hand-off was confirmed/i);
-    expect(screen.getByRole("link", { name: /email us directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:krish@themindmaker.ai"));
+    expect(screen.getByRole("link", { name: /email us directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:krish@mindmake.co"));
     expect(screen.queryByText(/email was queued|our copy was queued/i)).not.toBeInTheDocument();
   });
 

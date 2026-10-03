@@ -158,7 +158,7 @@ describe("the Krish gate", () => {
 
      The mailbox is a third exception, declared once in src/lib/publicLinks.ts
      and read by every page, so it stays one line in one file. */
-  const CONTACT_MAILBOX = /krish@themindmaker\.ai/g;
+  const CONTACT_MAILBOX = /krish@mindmake\.co/g;
 
   /** Surfaces allowed to carry the name, and the reason each one is. */
   const NAMED_SURFACES: Record<string, string> = {
@@ -206,10 +206,10 @@ describe("the Krish gate", () => {
   it("declares the contact mailbox once, and says why it is that one", () => {
     const links = read("src/lib/publicLinks.ts");
     expect(links).toContain("CONTACT_EMAIL");
-    /* mindmake.co has no MX record, so the branded aliases bounce. A privacy
-       contact that bounces is worse than one on the older domain, and the
-       comment has to keep saying so until the aliases exist. */
-    expect(links).toContain("no MX record");
+    /* krish@mindmake.co is the published contact address and now receives;
+       krish@themindmaker.ai still redirects to it (Krish, 2026-10-03). The
+       comment has to keep explaining which mailbox this is and why. */
+    expect(links).toContain("redirect");
     for (const surface of [
       "src/pages/Privacy.tsx",
       "src/pages/Terms.tsx",
@@ -629,11 +629,11 @@ describe("the naming law", () => {
     /* Three exceptions, all deliberate and all narrow, and none of them a name.
        `Mindmaker LLC` is the registered legal entity and belongs in the two
        legal pages, where the law wants the registrant named. The substack.com
-       address is where the publication is hosted. The themindmaker.ai mailbox
-       is where mail actually arrives, because mindmake.co has no MX record. */
+       address is where the publication is hosted. The contact mailbox is
+       krish@mindmake.co (Krish, 2026-10-03); krish@themindmaker.ai redirects to it. */
     const LEGAL_ENTITY = /Mindmaker LLC/g;
     const HOSTING = /mindmakerlive\.substack\.com/g;
-    const MAILBOX = /krish@themindmaker\.ai/g;
+    const MAILBOX = /krish@mindmake\.co/g;
     const LEGAL_PAGES = new Set(["src/pages/Privacy.tsx", "src/pages/Terms.tsx"]);
 
     for (const [surface, source] of readAll(PUBLIC_SURFACES)) {

@@ -212,7 +212,7 @@
     "src/test/ai-gtm-page.test.tsx": "7852455adbc988a9d6dbb1c082283a361412c89e07f1e2f2f3cc04e4f185d464",
     "src/test/ai-gtm-pinned-steps.test.tsx": "be5345155fa52f723d68572e1c54887f640b83d84b393de1c22be70ad012b2e1",
     "src/test/brain-narrative.test.ts": "e76ebc719124bef954cf73131303a9301abc2563e49b086d2f91c74aa9dddea6",
-    "src/test/brief2-public-contract.test.ts": "50516b43493e76fe2461e17527047ab36a030e3d76989639178291c22aea3290",
+    "src/test/brief2-public-contract.test.ts": "cb27f9d64a3c595c971c3ac7b21e94d58751ceb9b09540500b7a25b4e1c8e63a",
     "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
     "src/test/discoverability.test.ts": "2528d6763d36f56e2939ea53154474c9fd59ddf92aeafbefadcf5253fbacdc89",
     "src/test/homepage-leadership-chapters.test.ts": "463d83d56c25a41cf252f310dedce53e6dcd0264286b79000d69772a4c1cc90e",

@@ -93,6 +93,12 @@ export function mountHeroRotation(root: HTMLElement) {
     current = index;
     lines.forEach((line, n) => {
       const ghost = line!.cloneNode(true) as HTMLElement;
+      /* The clone carries whatever classes the line holds, including the
+         is-entering the previous turn left on it. Strip it, or the ghost's
+         rows match the higher-specificity .is-entering rule and rise in over
+         the incoming line instead of lifting away, so both headlines stack
+         for a beat before the ghost is removed. */
+      ghost.classList.remove("is-entering");
       ghost.classList.add("mm-hero-outgoing");
       ghost.setAttribute("aria-hidden", "true");
       headings[n].append(ghost);

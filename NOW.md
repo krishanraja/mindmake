@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-03
-head: 74e7ec9
+as_of: 2026-10-04
+head: 8d71663
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -34,7 +34,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-03)
+## Where it is right now (as of 2026-10-04)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -61,6 +61,15 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-04: a fix to the hero headline rotation (#233). Since the smoother
+  rotation of 27 September, every turn after the first flashed two different
+  headlines stacked for a beat. Each turn copies the current line as an
+  outgoing "ghost" that should lift away while the next headline rises in; the
+  copy carried the `is-entering` class the previous turn had left on the line,
+  so its rows matched the higher-specificity rule and ran the rise-in
+  animation instead, fading in over the incoming headline before being removed
+  mid-animation. The ghost now has that class stripped
+  (`src/components/homepage-release/heroRotation.ts`).
 - 2026-10-03: the public contact address changed to krish@mindmake.co (#232),
   Krish's ruling ("krish@mindmake.co is the public contact address, replacing
   krish@themindmaker.ai, which still redirects to it"). The old address had

@@ -5,6 +5,11 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-04
+
+- Homepage hero rotation: the outgoing headline no longer stacks over the incoming one (#233). The outgoing "ghost" is a clone of the current line, and it carried the `is-entering` class the previous turn left on the line. Its rows matched the higher-specificity `.mm-hero-line.is-entering` rule and ran the rise-in animation instead of lift-out, so on every turn after the first the outgoing copy faded in over the incoming headline and was removed mid-animation. The clone now has `is-entering` removed before it is added as `mm-hero-outgoing`. One file changed; no numbered document named the behaviour.
+- Docs steward reconciled at `8d71663`: NOW.md's head moved from `74e7ec9`.
+
 ## 2026-10-03
 
 - Public contact address changed from `krish@themindmaker.ai` to `krish@mindmake.co` (#232). Ruling (Krish, 2026-10-03): the new address is the public contact address and the old one still redirects to it. The previous choice existed because `mindmake.co` had no MX record, so `hello@` and `privacy@` bounced; the constant's comment recorded that reason and the switch procedure, both now retired. Two tests that pinned the old literal were updated and the route lock regenerated for the one locked test file that changed. `CONTACT_EMAIL` in `src/lib/publicLinks.ts` remains the single owner; no numbered document named the address, so none needed editing.

@@ -318,5 +318,8 @@ describe("the answer pages", () => {
     const robots = read("public/robots.txt");
     expect(robots).toContain("Allow: /answers");
     expect(robots).not.toMatch(/Disallow: \/answers/);
+    /* A redirecting URL must stay crawlable: blocked, Google cannot read the
+       301 and keeps the dead address in its report instead of moving on. */
+    expect(robots).not.toMatch(/Disallow: \/(testimonials|intake)\b/);
   });
 });

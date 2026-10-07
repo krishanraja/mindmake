@@ -3,8 +3,6 @@ Allow: /
 Allow: /answers
 Disallow: /api/
 Disallow: /admin/
-Disallow: /testimonials
-Disallow: /intake
 Disallow: /alumni
 Disallow: /test-email-flows.html
 

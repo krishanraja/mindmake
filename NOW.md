@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-04
-head: 8d71663
+as_of: 2026-10-08
+head: e5a614a
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -34,7 +34,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-04)
+## Where it is right now (as of 2026-10-08)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -60,6 +60,14 @@ consolidation are live. All 26 public routes and 32 metadata assets passed
 post-publication verification.
 
 ## What changed recently
+
+- 2026-10-07: robots.txt stopped blocking the two redirecting routes (#234).
+  `/testimonials` and `/intake` are 301s in `vercel.json`, but both were
+  disallowed, so Google could not read the redirect and they sat in Search
+  Console instead of consolidating onto `/case-studies` and `/?start=1`. The
+  two Disallow lines are gone (`public/robots.txt`); the route lock was
+  regenerated for that file and its discoverability test. Indexing outcomes
+  are not yet established.
 
 - 2026-10-04: a fix to the hero headline rotation (#233). Since the smoother
   rotation of 27 September, every turn after the first flashed two different

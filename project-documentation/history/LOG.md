@@ -5,6 +5,11 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-08
+
+- `/testimonials` and `/intake` removed from the robots.txt Disallow list (#234). Both are 301s in `vercel.json` (to `/case-studies` and `/?start=1`); disallowing them stopped Google reading the redirect, so they sat in Search Console instead of consolidating. Route lock regenerated for `public/robots.txt` and `src/test/discoverability.test.ts` only. No numbered document named the old rules, so none needed editing.
+- Docs steward reconciled at `e5a614a`: NOW.md's head moved from `8d71663`.
+
 ## 2026-10-04
 
 - Homepage hero rotation: the outgoing headline no longer stacks over the incoming one (#233). The outgoing "ghost" is a clone of the current line, and it carried the `is-entering` class the previous turn left on the line. Its rows matched the higher-specificity `.mm-hero-line.is-entering` rule and ran the rise-in animation instead of lift-out, so on every turn after the first the outgoing copy faded in over the incoming headline and was removed mid-animation. The clone now has `is-entering` removed before it is added as `mm-hero-outgoing`. One file changed; no numbered document named the behaviour.

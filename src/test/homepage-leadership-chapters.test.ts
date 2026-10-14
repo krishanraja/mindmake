@@ -94,8 +94,11 @@ describe("homepage leadership chapters", () => {
     const prev = root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!;
     expect(count.textContent).toBe("01");
     expect(prev.getAttribute("aria-disabled")).toBe("true");
-    /* The section opens on its contents. */
+    /* The section opens on its contents, and a disabled arrow does nothing. */
     expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    prev.click();
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    expect(root.querySelector('[data-story-link="0"]')!.getAttribute("aria-current")).toBe("true");
     /* From the contents, Next opens the story the mark is on: story one. */
     const next = root.querySelector<HTMLButtonElement>("[data-benefit-next]")!;
     next.click();

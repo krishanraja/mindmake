@@ -23,8 +23,9 @@ further down still governs the live page.
 
 Preflight, 14 October 2026:
 
-- State route: this file, with Krish's words recorded in
-  [feedback-ledger.json](feedback-ledger.json).
+- State route: this file. Krish's first reaction to each rendered result is
+  recorded word for word in [feedback-ledger.json](feedback-ledger.json); the
+  request itself lives in private planning documents and is not copied here.
 - Source layers: doctrine is the North Star, the Canon, the design contract,
   `04_PROOF.md` and `src/data/testimonials.ts` (the owner of every quotation);
   requirements are this file's contract and `CLAUDE.md`'s gates; history is

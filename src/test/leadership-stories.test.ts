@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { leadershipBenefits, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
+import { leadershipBenefits, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyTargets, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
 import { testimonials } from "@/data/testimonials";
 
 /* The AI Brain stories. Their words are claims the business stands behind, so
@@ -47,7 +47,6 @@ describe("AI Brain stories", () => {
     expect(rests).toHaveLength(leadershipStories.length);
     rests.forEach((rest, i) => {
       expect(storyScroll(rest, weights)).toEqual({ story: i, mark: i, storyShown: 1, contentsShown: 0 });
-      expect(storyScroll(rest, weights, true)).toEqual({ story: i, mark: i, storyShown: 1, contentsShown: 0 });
       if (i) expect(rest).toBeGreaterThan(rests[i - 1]);
     });
   });
@@ -56,7 +55,7 @@ describe("AI Brain stories", () => {
     const { contentsRests } = storyPlan(weights);
     expect(contentsRests).toHaveLength(leadershipStories.length);
     contentsRests.forEach((rest, i) => {
-      for (const reduced of [false, true]) expect(storyScroll(rest, weights, reduced)).toEqual({ story: i, mark: i, storyShown: 0, contentsShown: 1 });
+      expect(storyScroll(rest, weights)).toEqual({ story: i, mark: i, storyShown: 0, contentsShown: 1 });
     });
   });
 
@@ -66,28 +65,42 @@ describe("AI Brain stories", () => {
     expect(backward).toEqual(forward);
   });
 
-  it("never lets a story and the contents share the stage, and steps one story at a time", () => {
-    for (const reduced of [false, true]) {
-      let last = 0;
-      for (const p of samples) {
-        const state = storyScroll(p, weights, reduced);
-        expect(Math.min(state.storyShown, state.contentsShown)).toBe(0);
-        expect(state.story - last).toBeGreaterThanOrEqual(0);
-        expect(state.story - last).toBeLessThanOrEqual(1);
-        last = state.story;
-        if (reduced) {
-          expect([0, 1]).toContain(state.storyShown);
-          expect([0, 1]).toContain(state.contentsShown);
-        }
-      }
-      expect(last).toBe(leadershipStories.length - 1);
+  it("always shows one whole state, never a part and never both, stepping one story at a time", () => {
+    let last = 0;
+    for (const p of samples) {
+      const state = storyScroll(p, weights);
+      expect([state.storyShown, state.contentsShown].sort()).toEqual([0, 1]);
+      expect(state.mark).toBe(state.story);
+      expect(state.story - last).toBeGreaterThanOrEqual(0);
+      expect(state.story - last).toBeLessThanOrEqual(1);
+      last = state.story;
+    }
+    expect(last).toBe(leadershipStories.length - 1);
+  });
+
+  it("sends the arrows to the story before or after, and Next never moves the page back", () => {
+    const { rests, segments } = storyPlan(weights);
+    const last = leadershipStories.length - 1;
+    expect(storyTargets(0, weights)).toEqual({ prev: -1, next: 0 });
+    rests.forEach((rest, i) => expect(storyTargets(rest, weights)).toEqual({ prev: i ? i - 1 : -1, next: i < last ? i + 1 : -1 }));
+    /* The contents just after a story closes, its mark still on that story:
+       Next opens the story after it, never the one just read. */
+    segments.filter((s) => s.kind === "passage").forEach((s) => {
+      const p = (s.from + 0.4 * (s.to - s.from)) / storyPlan(weights).total;
+      expect(storyScroll(p, weights)).toMatchObject({ story: s.index, contentsShown: 1 });
+      expect(storyTargets(p, weights)).toEqual({ prev: s.index, next: s.index + 1 });
+    });
+    for (const p of samples) {
+      const { prev, next } = storyTargets(p, weights);
+      if (next >= 0) expect(rests[next]).toBeGreaterThan(p);
+      if (prev >= 0) expect(rests[prev]).toBeLessThan(p);
     }
   });
 
   it("gives a full story a longer hold than a heading and its line", () => {
     const { segments } = storyPlan(weights);
     const holds = segments.filter((s) => s.kind === "hold").map((s) => s.to - s.from);
-    leadershipStories.forEach((story, i) => expect(holds[i]).toBe(story.situation ? 1.5 : 1));
+    leadershipStories.forEach((story, i) => expect(holds[i]).toBeCloseTo(story.situation ? 1.5 : 1, 9));
   });
 
   it("server-renders every story and the contents with nothing hidden, and the travel from the same plan", () => {
@@ -98,6 +111,9 @@ describe("AI Brain stories", () => {
       expect(human).toContain(`href="#mm-story-${i + 1}"`);
     });
     expect(human.slice(0, human.indexOf('<div class="proof-return">'))).not.toContain('aria-hidden="true"><h2');
+    /* Read as a document, nothing in the contents is current; the script marks the row. */
+    expect(human).not.toContain('aria-current="true"><span class="story-number">');
+    expect(human).toContain('<div class="benefit-controls" role="group" aria-label="AI Brain stories"');
     const { rests, contentsRests, total } = storyPlan(weights);
     expect(human).toContain(`data-story-rests="${rests.map((r) => r.toFixed(5)).join(",")}"`);
     expect(human).toContain(`data-contents-rests="${contentsRests.map((r) => r.toFixed(5)).join(",")}"`);

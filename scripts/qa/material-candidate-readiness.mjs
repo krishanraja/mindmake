@@ -272,7 +272,11 @@ async function probe() {
           const frame = document.querySelector(story.frame); const active = document.querySelector(story.state);
           const heading = active?.getBoundingClientRect(); const next = document.querySelector(story.next)?.getBoundingClientRect();
           const prev = document.querySelector(story.prev)?.getBoundingClientRect();
-          const inView = (r) => r && r.top >= top - 1 && r.bottom <= innerHeight + 1 && r.width > 0;
+          /* Fixed bottom chrome (the action bar, the cookie notice) publishes
+             the height it covers; a control under it is not in view. */
+          const root = getComputedStyle(document.documentElement);
+          const covered = (parseFloat(root.getPropertyValue("--mm-bar-reserve")) || 0) + (parseFloat(root.getPropertyValue("--mm-cookie-reserve")) || 0);
+          const inView = (r) => r && r.top >= top - 1 && r.bottom <= innerHeight - covered + 1 && r.width > 0;
           return { text: active?.textContent.replace(/\s+/g, " ").trim(), sticky: frame ? getComputedStyle(frame).position : null, headingWhole: inView(heading), controls: inView(next) && inView(prev), nextDisabled: document.querySelector(story.next)?.getAttribute("aria-disabled"), prevDisabled: document.querySelector(story.prev)?.getAttribute("aria-disabled") };
         }, { story, top: await headerBottom(page) });
         states.push(s);

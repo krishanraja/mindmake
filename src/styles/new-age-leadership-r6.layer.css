@@ -767,6 +767,7 @@
 
 .story-quote {
   grid-area: quote;
+  align-self: start;
   margin: 0;
   padding-left: 18px;
   border-left: 1px solid var(--brass);
@@ -879,6 +880,12 @@
 @media (max-height: 800px) {
   .proof-track > .proof-story {
     border-bottom: var(--mm-bar-reserve, 0px) solid transparent;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 901px) {
+  .benefit-stage {
+    min-height: calc(320px - var(--mm-bar-reserve, 0px));
   }
 }
 

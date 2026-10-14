@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
+  "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,9 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
+    "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
     "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
-    "supersedes": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff"
+    "supersedes": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -251,7 +251,37 @@
         "Story one's heading about 50px at 1440x900; quote beside the plate; 'A post' held together; what happened in three short sentences ('It fits around what they do and where they get stuck.').",
         "Focus rings outside the row and heading; no row marked current in document mode; document-mode links land clear of the masthead."
       ],
-      "evidence": "A 31-size sweep on both pages finds no new issue against today's build (viewport-sweep.json); the six are identical at 1440x900 and 390x844 on both pages and move only where today puts the arrows under the bar or fold, cuts a quote, or at 320x568."
+      "evidence": "A 31-size sweep on both pages finds no new issue against today's build (viewport-sweep.json); the six are identical at 1440x900 and 390x844 on both pages and move only where today puts the arrows under the bar or fold, cuts a quote, or at 320x568.",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 7,
+        "access": 5,
+        "motion": 8,
+        "veto": [
+          "access: under reduced motion the fit and lift read sizes mid transition; arrows below the fold at 1024x700 and 1100x700, contents cut at 320x568 and 360x640"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r4."
+    },
+    {
+      "revision": "r4",
+      "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
+      "commits": [
+        "3c50c43",
+        "be8908d"
+      ],
+      "changes": [
+        "The panel carries is-measuring while the script measures, switching transitions off, so reduced motion measures as full motion does.",
+        "Where the contents cannot fit at the floor it keeps the largest type that takes no more room; row text never below 13px; the stage grows (small phones).",
+        "The contents and a full story keep 14px of air above the arrows, as the six do.",
+        "The contents no longer returns between stories; Previous on the first story goes back to it. Each story holds at least a quarter of the screen (30svh desktop, 27svh phone, 25svh short screen); travel within about a tenth of today's.",
+        "The lift is measured against the pinned panel's small-viewport foot; attributes written only when they change; no double announcement.",
+        "Copy: 'now posts most days'; 'a post' held together; balanced contents rows; story one's heading at the six's size in document mode."
+      ],
+      "synthesisChange": "Declined the in-between contents adopted in round one (the mark stepping between stories). Round three's motion and buyer judges independently found it too brief to read as a place and a lengthening of the scroll; the opening contents, its links, the counter and Previous back to the contents keep the index-led idea.",
+      "evidence": "Sweeps on both pages, 31 sizes in full motion and 18 with reduced motion, find no issue today's build does not have (viewport-sweep.json, viewport-sweep-reduced.json)."
     }
   ]
 }

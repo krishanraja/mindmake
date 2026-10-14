@@ -1,5 +1,5 @@
 $ node scripts/qa/no-js-check.mjs
-Using script-owned production preview at http://127.0.0.1:45523
+Using script-owned production preview at http://127.0.0.1:32993
 no JavaScript: 5 pages, 23 answers all present, nothing clipped away
 
 [exit 0]

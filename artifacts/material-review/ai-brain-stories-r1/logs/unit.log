@@ -1,6 +1,6 @@
 $ npx vitest run src/test/leadership-stories.test.ts src/test/homepage-leadership-chapters.test.ts src/test/copy-restraint.test.ts src/test/testimonials.test.ts
-[2m9:09:30 PM[22m [33m[1m[vite][22m[39m [33mwarning: `esbuild` option was specified by "vite:react-babel" plugin. This option is deprecated, please use `oxc` instead.[39m
-[2m9:09:30 PM[22m [33m[1m[vite][22m[39m [33mwarning: `optimizeDeps.esbuildOptions` option was specified by "vite:react-babel" plugin. This option is deprecated, please use `optimizeDeps.rolldownOptions` instead.[39m
+[2m11:30:37 PM[22m [33m[1m[vite][22m[39m [33mwarning: `esbuild` option was specified by "vite:react-babel" plugin. This option is deprecated, please use `oxc` instead.[39m
+[2m11:30:37 PM[22m [33m[1m[vite][22m[39m [33mwarning: `optimizeDeps.esbuildOptions` option was specified by "vite:react-babel" plugin. This option is deprecated, please use `optimizeDeps.rolldownOptions` instead.[39m
 [33mBoth esbuild and oxc options were set. oxc options will be used and esbuild options will be ignored.[39m The following esbuild options were set: `{ jsx: 'automatic', jsxImportSource: undefined }`
 
  RUN  v4.1.2 /home/user/mindmake
@@ -19,8 +19,8 @@ Not implemented: HTMLMediaElement's pause() method
 
  Test Files  4 passed (4)
       Tests  84 passed (84)
-   Start at  21:09:30
-   Duration  4.09s (transform 2.01s, setup 354ms, import 2.74s, tests 1.31s, environment 3.79s)
+   Start at  23:30:37
+   Duration  3.93s (transform 1.92s, setup 341ms, import 2.56s, tests 1.42s, environment 3.51s)
 
 
 [exit 0]

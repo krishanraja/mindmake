@@ -90,7 +90,9 @@ const blend = ([r, g, b, a], bg) => [r * a + bg[0] * (1 - a), g * a + bg[1] * (1
 async function probe() {
   const p = NEGATIVE ? { ...manifest.probe, commands: [], routes: manifest.probe.routes.slice(0, 1), viewports: manifest.probe.viewports, shortViewports: manifest.probe.shortViewports.slice(0, 1) } : manifest.probe;
   if (NEGATIVE) outDir = path.resolve(root, "artifacts/material-review", manifest.candidateId, `selftest-${NEGATIVE}`);
-  await rm(outDir, { recursive: true, force: true });
+  // Clear only what this probe writes; the folder also holds committed review
+  // renders, the concept trace and the self-test record.
+  for (const part of ["logs", "screenshots", "browser-report.json"]) await rm(path.resolve(outDir, part), { recursive: true, force: true });
   await mkdir(path.resolve(outDir, "logs"), { recursive: true });
   await mkdir(path.resolve(outDir, "screenshots"), { recursive: true });
 

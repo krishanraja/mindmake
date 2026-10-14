@@ -31,10 +31,10 @@ try {
     });
     assert.equal(clear, true, 'Cookie notice does not cover the benefit controls');
     await page.locator('.mm-home-leadership [data-benefit-next]').click();
-    /* The arrow moves the page to where the next story rests; the count
-       follows once the scroll lands. */
+    /* The stories open on their contents, so the first arrow moves the page
+       to where story one rests; the count follows once the scroll lands. */
     await page.waitForTimeout(1800);
-    assert.equal(await page.locator('.mm-home-leadership [data-benefit-count]').textContent(), '02');
+    assert.equal(await page.locator('.mm-home-leadership [data-benefit-count]').textContent(), '01');
     await page.locator('.mm-cookie-notice').getByRole('button', { name: 'Allow' }).click();
     await page.locator('.mm-cookie-notice').waitFor({state:'detached'});
     await page.evaluate(() => scrollTo({top:0,behavior:'instant'}));

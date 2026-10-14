@@ -703,8 +703,12 @@ async function verifyLeadershipInteraction(browser) {
   await page.locator('[data-reach-jump="boundary"]').click();
   await page.waitForTimeout(250);
   fail(await page.locator('[data-reach-panel="boundary"]').getAttribute("aria-hidden") !== "false", `${label}: work state does not restore`);
+  /* The stories open on their contents. The first arrow scrolls to where story
+     one rests, the second to story two; each opens when the page arrives. */
   await page.locator("[data-benefit-next]").click();
-  /* The arrow scrolls to where the next story rests; the story opens when the page arrives. */
+  await page.waitForTimeout(1800);
+  fail(await page.locator('[data-benefit="0"]').getAttribute("aria-hidden") !== "false", `${label}: AI Brain stories do not open`);
+  await page.locator("[data-benefit-next]").click();
   await page.waitForTimeout(1800);
   fail(await page.locator('[data-benefit="1"]').getAttribute("aria-hidden") !== "false", `${label}: AI Brain stories do not advance`);
   const motion = page.locator(".motion-toggle");

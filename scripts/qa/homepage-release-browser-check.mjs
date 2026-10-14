@@ -56,6 +56,13 @@ const measure = (page, spec, pinTop) => page.locator(spec.track).evaluate((track
     rests: track.dataset.storyRests ? track.dataset.storyRests.split(',').map(Number) : null,
     scenesStart: scrollY + frame.getBoundingClientRect().top + lead, pinTravel: frame.offsetHeight - lead - stage.offsetHeight };
 }, [spec.stage, pinTop]);
+// The stories open on their contents; a walk through them starts where
+// story one rests, so each arrow press lands on the next whole story.
+const toFirstStory = async (page, pinTop) => {
+  const g = await measure(page, chapters.benefits, pinTop);
+  await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters.benefits.at(0,g)));
+  await settle(page); await settle(page);
+};
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 try {
   for(let i=0;i<100;i++){ try { if((await fetch(origin)).ok) break; } catch {} await new Promise(r=>setTimeout(r,100)); }
@@ -181,8 +188,7 @@ try {
       await page.locator('.mm-home-leadership .work-scroll').scrollIntoViewIfNeeded();
       for (let index=2; index>=0; index--) await control(page, `[data-work-button="${index}"]`,'practice',index,'reduced-motion');
       await page.locator('.mm-home-leadership [data-benefit-track]').scrollIntoViewIfNeeded();
-      await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
-      await settle(page);
+      await toFirstStory(page, PIN_TOP['1440x900']);
       for (let index=1; index<states.benefits.length; index++) await control(page, '[data-benefit-next]','benefits',index,'reduced-motion');
       for (let index=states.benefits.length-2; index>=0; index--) await control(page, '[data-benefit-prev]','benefits',index,'reduced-motion');
       assert(await page.locator('.mm-home-leadership .work-scene').first().evaluate(node=>{ const style=getComputedStyle(node); return style.transitionProperty==='none' || style.transitionDuration.split(',').every(value=>parseFloat(value)<0.001); }),`${engine}: reduced motion drops scene transitions`);
@@ -217,8 +223,7 @@ try {
         }
         // A phone held sideways is too short to pin the practice frame: its scenes stay one after another.
         if (short.width <= 900) assert(await page.locator('.mm-home-leadership .work-scenes').evaluate(node=>getComputedStyle(node).position)!=='sticky',`${engine}/${fallback}: practice scenes flow on a short phone`);
-        await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
-        await settle(page);
+        await toFirstStory(page, shortTop);
         await control(page, '[data-benefit-next]', 'benefits', 1, fallback);
         assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${engine}/${fallback}: horizontal overflow`);
         await page.close();

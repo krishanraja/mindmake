@@ -1,0 +1,188 @@
+{
+  "kind": "CONCEPT TRACE",
+  "candidateId": "ai-brain-stories-r1",
+  "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
+  "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
+  "rounds": [
+    {
+      "round": 1,
+      "workflowRunId": "wf_51a673b7-feb",
+      "generators": [
+        {
+          "id": "G1",
+          "mandate": "text-led",
+          "governingIdea": "One reading line. Every story is set in the same four places down one left edge, in the order a leader would tell it across a table: what changed (the heading), where they were, what happened, and their own words. The reader learns the shape once, on story one, and from then on o",
+          "scene": "A print-room drying line inside the instrument room: a taut brass wire across the top of the frame, strung with freshly printed sheets of heavy cream paper in small brass clips, back-lit by the one bl",
+          "outputSha256": "5e6d69606e65ecfb5f41f4ac31f0b19d9c3a61ac552025c4b7826224482dfe24"
+        },
+        {
+          "id": "G2",
+          "mandate": "image-led",
+          "governingIdea": "The picture is the panel. Each story is one lit room that fills the whole stories column. The outcome sits on the room's dark wall above the instrument, and how it happened sits on the dark table below it, so the reader reads the story inside the scene rather than next to a pictu",
+          "scene": "A tall antique hourglass in walnut and brass on a writing desk, with most of its sand still in the upper bulb, beside the founder's own open research notebook. An adult hand has just set a single fini",
+          "outputSha256": "675595e0c205c81c00ce74d132f7d0da7b1ecfaa19a30eb79503d75885718f27"
+        },
+        {
+          "id": "G3",
+          "mandate": "sequence-led",
+          "governingIdea": "The reader's own scroll tells each story one part at a time, always in the same order: the outcome, where the leader was, what changed, then their own words. Every step is a still, whole state that reverses exactly. The room behind the story comes up into the light as it is told,",
+          "scene": "An hourglass standing in a blade of window light, its sand only just begun, while the founder's hand presses a freshly finished cream page onto a brass paper spike already deep with pages.",
+          "outputSha256": "91536c839a8c702e9bf6879b0847af92700d58440be17ab68d5d2ad9d1306f6a"
+        }
+      ],
+      "judges": [
+        {
+          "id": "judge-1",
+          "winner": "G1",
+          "setConvergent": true,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              3
+            ],
+            [
+              "A-C",
+              4
+            ],
+            [
+              "B-C",
+              3
+            ]
+          ]
+        },
+        {
+          "id": "judge-2",
+          "winner": "G2",
+          "setConvergent": true,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              5
+            ],
+            [
+              "A-C",
+              4
+            ],
+            [
+              "B-C",
+              4
+            ]
+          ]
+        }
+      ],
+      "tiebreak": {
+        "winner": "G2",
+        "setConvergent": true
+      },
+      "outcome": "Rejected before human review: all three judges found the set superficially convergent (scene as backdrop of the dark column, text in shaded bands, crossfade in one frame). One further blinded round allowed."
+    },
+    {
+      "round": 2,
+      "workflowRunId": "wf_f3cb286f-afd",
+      "generators": [
+        {
+          "id": "G4",
+          "mandate": "object-led",
+          "governingIdea": "The print on the table. We tell each story the way a leader would tell it across a desk: they put down one picture of the room where it happened and talk beside it. The picture is a physical print. It has its own edges, its own 4px cream paper border and its own cast shadow, and ",
+          "scene": "A brass heliograph, the signalling mirror once used to send sunlight over long distances, standing on a walnut window sill. A hand tilts its plain round mirror into the room's one blade of window ligh",
+          "outputSha256": "7a7f9df2021aefed38fd956a95670ef1efd60801ee60a7161df9c25b482d596a"
+        },
+        {
+          "id": "G5",
+          "mandate": "motion-led",
+          "governingIdea": "THE ROLL. The stories are leaves of one long roll, and your scroll feeds it sideways through the dark column. Scrolling down moves it right to left. Scrolling up moves it back. The roll rests while a leaf fills the window and moves only between leaves, so nobody ever reads moving",
+          "scene": "A brass pantograph, the old drawing instrument made of jointed brass arms, on a walnut drafting table. A hand, seen only from the cuff, rests lightly on the tracing point over the founder's own notebo",
+          "outputSha256": "1d4cd4cd9a191435ff914a628fb525dc2d96deb1794e729d0093353a2162603e"
+        },
+        {
+          "id": "G6",
+          "mandate": "index-led",
+          "governingIdea": "The stories are a contents you read down. The section opens on its own contents: every way in, listed by its heading word for word and numbered, in the dark column under the existing kicker. Scroll moves a mint mark down that list. The entry under the mark opens out of its own li",
+          "scene": "An engraver's pantograph mid-stroke. A hand guides the brass tracing stylus along rough pencil notes, and the linked arm cuts the same line, clean and bright, into a small copper printing plate.",
+          "outputSha256": "1ceb18e687afd4a8699002fc51fa6c8f87ffd57b914b538a2ca658d58745fc35"
+        }
+      ],
+      "judges": [
+        {
+          "id": "judge-1",
+          "winnerAcrossSix": "G4",
+          "roundTwoConvergent": false,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              7
+            ],
+            [
+              "A-C",
+              5
+            ],
+            [
+              "B-C",
+              7
+            ]
+          ]
+        },
+        {
+          "id": "judge-2",
+          "winnerAcrossSix": "G6",
+          "roundTwoConvergent": false,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              5
+            ],
+            [
+              "A-C",
+              5
+            ],
+            [
+              "B-C",
+              6
+            ]
+          ]
+        }
+      ],
+      "tiebreak": {
+        "winnerAcrossSix": "G6",
+        "roundTwoConvergent": false
+      },
+      "outcome": "G6 (index-led) selected 2 to 1, the blinded tiebreak siding with judge two. Round two not convergent."
+    }
+  ],
+  "selectedSpine": "G6 index-led: the section opens on its contents of every story; scroll opens each story out of the contents and folds it back before the next.",
+  "synthesis": {
+    "adopted": [
+      "Opacity-only passages: the story fades, the contents arrives, the mark steps one row, the next story arrives; no heading travel or scaling of live text (judge two and tiebreak).",
+      "State is a pure function of position read from the panel's computed sticky top; no lock, no hysteresis; full first and last holds; a full story holds 1.5x (round one and two lessons).",
+      "Server-rendered plan: data-story-rests and --story-units come from the same storyPlan the page reads; nothing hidden in server markup; aria-hidden and inert set on mount.",
+      "Live region announces 'Story n of N. heading' only; aria-disabled at the ends.",
+      "Per-part budgets, exact-substring quote, no em dash and no 'not X, but Y' enforced in src/test/leadership-stories.test.ts.",
+      "Scene: engraver's pantograph, recomposed square, framed with a brass hairline and an ink mat beside the words; take 0 of 4 chosen for a coherent linkage and the clearest blade of light.",
+      "Copy: round-one judges' preferred situation and 'A post like that now takes under an hour.'; quote 'I've learnt to push through basic barriers I didn't realise I could' carries the way in; straight marks to match the six.",
+      "No-JS: contents as links, then every story in order."
+    ],
+    "declined": [
+      "Counter as a contents button (an extra control; the contents rows and arrows already reach every story).",
+      "Raising the counter from 9px to 13px (it would change the six's frame; qa:type-system passes it today).",
+      "Amber on 'under an hour' (amber means what moved since yesterday; decoration risk).",
+      "A gliding mint mark between rows (the mark steps; the register under the arrows glides)."
+    ]
+  },
+  "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
+  "renderedArtifact": {
+    "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
+    "renders": "artifacts/material-review/ai-brain-stories-r1/review/"
+  },
+  "sceneProvenance": {
+    "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
+    "jobIds": [
+      "eedfcce3-4085-4edb-80fc-b6008e51d574",
+      "583ab632-0fb5-42a4-8300-3c71ebe77b43",
+      "b7c13d74-4cc3-4299-80e3-9763183f8c11",
+      "3e1d7431-84f6-4b74-8395-23408f2cc5e6"
+    ],
+    "chosen": "eedfcce3-4085-4edb-80fc-b6008e51d574",
+    "masterSha256": "3544b541ba6a7c592cf5f6bc4fbf291e571cd9453def0f1647c87ae664cdf785",
+    "credits": 2.75
+  }
+}

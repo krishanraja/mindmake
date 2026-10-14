@@ -1,0 +1,4661 @@
+{
+  "candidateId": "ai-brain-stories-r1",
+  "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
+  "capturedAt": "2026-10-14T16:16:03.258Z",
+  "origin": "http://127.0.0.1:39373",
+  "distIndexSha256": "ca36df96ae8ce4a1599855ab781d56983ef6d2f02effaed0e4a0eb837e97d628",
+  "commands": [
+    {
+      "id": "build",
+      "run": "npm run build",
+      "exit": 0,
+      "seconds": 23,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/build.log"
+    },
+    {
+      "id": "unit",
+      "run": "npx vitest run src/test/leadership-stories.test.ts src/test/homepage-leadership-chapters.test.ts src/test/copy-restraint.test.ts src/test/testimonials.test.ts",
+      "exit": 0,
+      "seconds": 6,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/unit.log"
+    },
+    {
+      "id": "line-breaks",
+      "run": "node scripts/qa/line-break-check.mjs",
+      "exit": 0,
+      "seconds": 110,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/line-breaks.log"
+    },
+    {
+      "id": "pre-merge",
+      "run": "npm run qa:homepage-release:pre-merge",
+      "exit": 0,
+      "seconds": 27,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/pre-merge.log"
+    },
+    {
+      "id": "r5-production",
+      "run": "QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs",
+      "exit": 0,
+      "seconds": 274,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/r5-production.log"
+    },
+    {
+      "id": "chrome",
+      "run": "node scripts/qa/fixed-chrome-check.mjs",
+      "exit": 0,
+      "seconds": 79,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/chrome.log"
+    },
+    {
+      "id": "logo-alignment",
+      "run": "node scripts/qa/logo-alignment-check.mjs",
+      "exit": 0,
+      "seconds": 45,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/logo-alignment.log"
+    },
+    {
+      "id": "type-system",
+      "run": "node scripts/qa/type-system-check.mjs",
+      "exit": 0,
+      "seconds": 68,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/type-system.log"
+    },
+    {
+      "id": "nojs",
+      "run": "node scripts/qa/no-js-check.mjs",
+      "exit": 0,
+      "seconds": 5,
+      "log": "artifacts/material-review/ai-brain-stories-r1/logs/nojs.log"
+    }
+  ],
+  "journeys": [
+    {
+      "route": "/",
+      "viewport": "desktop-1440x900",
+      "surface": "desktop",
+      "sections": {
+        "reach": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ],
+          "seenReverse": [
+            "What people do, and should do,changes shape.",
+            "The feeling is similar.The scale is not."
+          ],
+          "expected": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ]
+        },
+        "practice": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ],
+          "seenReverse": [
+            "It prepares the next move.",
+            "It joins the evidence.",
+            "It notices what changed."
+          ],
+          "expected": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ]
+        },
+        "contents": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        },
+        "stories": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        }
+      },
+      "pinMisses": [],
+      "overflow": [],
+      "contrast": [
+        {
+          "label": "home@desktop-1440x900 contents 01: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 01",
+          "ratio": 12.717202657471821,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: A founder who posted once a month now publishes ",
+          "ratio": 12.828428307113267,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 01: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 02",
+          "ratio": 12.838224272621815,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: Leadership updates become consistent, even when ",
+          "ratio": 12.939281202068338,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 02: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 03",
+          "ratio": 12.949161816382611,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: Work nobody owns becomes visible before it becom",
+          "ratio": 13.074103124256368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 03: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 04",
+          "ratio": 13.084086690457491,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: A change in market pricing becomes a decision, n",
+          "ratio": 13.1907957966968,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 04: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 05",
+          "ratio": 13.200868471038607,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 13.313769648710618,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 05: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 06",
+          "ratio": 13.217115876273644,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: A CRO who hates the numbers can become better at",
+          "ratio": 13.322219550839133,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 06: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: 07",
+          "ratio": 13.332392582179612,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 contents 07: Founder-led content can begin with the work, not",
+          "ratio": 13.427249128409242,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 01: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 01: A founder who posted once a month now publishes ",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
+          "ratio": 9.26027885536047,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
+          "ratio": 9.331947339718237,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 01: \"I've learnt to push through basic barriers I di",
+          "ratio": 7.437292902815106,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 01: 01 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 02: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 02: Leadership updates become consistent, even when ",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 02: \"I used to deliver inconsistently if my week was",
+          "ratio": 6.723570964912059,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 02: 02 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 03: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 03: Work nobody owns becomes visible before it becom",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 03: \"I didn't realize a business would need an intel",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 03: 03 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 04: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 04: A change in market pricing becomes a decision, n",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 04: \"I've had the same chat hundreds of times over t",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 04: 04 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 05: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 05: \"I avoid posting content and being visible, even",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 05: 05 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 06: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 06: A CRO who hates the numbers can become better at",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 06: \"I'm not bad with numbers, but I'm bad with spre",
+          "ratio": 6.685619605864718,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 06: 06 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 07: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 07: Founder-led content can begin with the work, not",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 07: \"When I do a task like creating content, it used",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@desktop-1440x900 stories 07: 07 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        }
+      ],
+      "issues": [],
+      "screenshots": [
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-contents-07.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-stories-07.jpg"
+      ],
+      "seams": [],
+      "targets": [
+        {
+          "w": 48,
+          "h": 52
+        },
+        {
+          "w": 48,
+          "h": 52
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-390x844",
+      "surface": "mobile",
+      "sections": {
+        "reach": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ],
+          "seenReverse": [
+            "What people do, and should do,changes shape.",
+            "The feeling is similar.The scale is not."
+          ],
+          "expected": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ]
+        },
+        "practice": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ],
+          "seenReverse": [
+            "It prepares the next move.",
+            "It joins the evidence.",
+            "It notices what changed."
+          ],
+          "expected": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ]
+        },
+        "contents": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        },
+        "stories": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        }
+      },
+      "pinMisses": [],
+      "overflow": [],
+      "contrast": [
+        {
+          "label": "home@mobile-390x844 contents 01: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 01",
+          "ratio": 12.578500760580457,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: A founder who posted once a month now publishes ",
+          "ratio": 12.690860163342498,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 01: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 02",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: Leadership updates become consistent, even when ",
+          "ratio": 12.828428307113267,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 02: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 03",
+          "ratio": 12.838224272621815,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: Work nobody owns becomes visible before it becom",
+          "ratio": 12.939281202068338,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 03: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 04",
+          "ratio": 12.949161816382611,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: A change in market pricing becomes a decision, n",
+          "ratio": 13.074103124256368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 04: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 05",
+          "ratio": 13.084086690457491,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 13.1907957966968,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 05: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 06",
+          "ratio": 13.092564601295122,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: A CRO who hates the numbers can become better at",
+          "ratio": 13.313769648710618,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 06: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: 07",
+          "ratio": 13.217115876273644,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 contents 07: Founder-led content can begin with the work, not",
+          "ratio": 13.322219550839133,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 01: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 01: A founder who posted once a month now publishes ",
+          "ratio": 12.577647617869953,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 01: The founder runs a research and content brand. P",
+          "ratio": 9.186767643087116,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 01: We set up an AI system that belongs to the found",
+          "ratio": 9.186767643087116,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 01: \"I've learnt to push through basic barriers I di",
+          "ratio": 7.396491281794553,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 01: 01 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 02: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 02: Leadership updates become consistent, even when ",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 02: \"I used to deliver inconsistently if my week was",
+          "ratio": 6.609023208330589,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 02: 02 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 03: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 03: Work nobody owns becomes visible before it becom",
+          "ratio": 12.577647617869953,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 03: \"I didn't realize a business would need an intel",
+          "ratio": 6.606149742720605,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 03: 03 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 04: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 04: A change in market pricing becomes a decision, n",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 04: \"I've had the same chat hundreds of times over t",
+          "ratio": 6.646494301656756,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 04: 04 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 05: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 05: \"I avoid posting content and being visible, even",
+          "ratio": 6.606149742720605,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 05: 05 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 06: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 06: A CRO who hates the numbers can become better at",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 06: \"I'm not bad with numbers, but I'm bad with spre",
+          "ratio": 6.606149742720605,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 06: 06 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 07: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 07: Founder-led content can begin with the work, not",
+          "ratio": 12.577647617869953,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 07: \"When I do a task like creating content, it used",
+          "ratio": 6.646494301656756,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "home@mobile-390x844 stories 07: 07 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        }
+      ],
+      "issues": [],
+      "screenshots": [
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-contents-07.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-stories-07.jpg"
+      ],
+      "seams": [],
+      "targets": [
+        {
+          "w": 44,
+          "h": 52
+        },
+        {
+          "w": 44,
+          "h": 52
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1440x900",
+      "surface": "desktop",
+      "sections": {
+        "reach": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ],
+          "seenReverse": [
+            "What people do, and should do,changes shape.",
+            "The feeling is similar.The scale is not."
+          ],
+          "expected": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ]
+        },
+        "practice": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ],
+          "seenReverse": [
+            "It prepares the next move.",
+            "It joins the evidence.",
+            "It notices what changed."
+          ],
+          "expected": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ]
+        },
+        "contents": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        },
+        "stories": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        }
+      },
+      "pinMisses": [],
+      "overflow": [],
+      "contrast": [
+        {
+          "label": "nal@desktop-1440x900 contents 01: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 01",
+          "ratio": 12.717202657471821,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: A founder who posted once a month now publishes ",
+          "ratio": 12.828428307113267,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 01: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 02",
+          "ratio": 12.838224272621815,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: Leadership updates become consistent, even when ",
+          "ratio": 12.939281202068338,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 02: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 03",
+          "ratio": 12.949161816382611,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: Work nobody owns becomes visible before it becom",
+          "ratio": 13.074103124256368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 03: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 04",
+          "ratio": 13.084086690457491,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: A change in market pricing becomes a decision, n",
+          "ratio": 13.1907957966968,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 04: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 05",
+          "ratio": 13.200868471038607,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 13.313769648710618,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 05: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 06",
+          "ratio": 13.217115876273644,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: A CRO who hates the numbers can become better at",
+          "ratio": 13.322219550839133,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: 07",
+          "ratio": 5.799038733854958,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 06: Founder-led content can begin with the work, not",
+          "ratio": 8.533915113204264,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 01",
+          "ratio": 5.646579453707418,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: A founder who posted once a month now publishes ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 02",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: Leadership updates become consistent, even when ",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 03",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: Work nobody owns becomes visible before it becom",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 04",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: A change in market pricing becomes a decision, n",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 05",
+          "ratio": 5.769522260890301,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 06",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: A CRO who hates the numbers can become better at",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: 07",
+          "ratio": 13.332392582179612,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 contents 07: Founder-led content can begin with the work, not",
+          "ratio": 13.427249128409242,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 01: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 01: A founder who posted once a month now publishes ",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
+          "ratio": 9.26027885536047,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
+          "ratio": 9.331947339718237,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 01: \"I've learnt to push through basic barriers I di",
+          "ratio": 7.437292902815106,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 01: 01 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 02: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 02: Leadership updates become consistent, even when ",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 02: \"I used to deliver inconsistently if my week was",
+          "ratio": 6.723570964912059,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 02: 02 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 03: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 03: Work nobody owns becomes visible before it becom",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 03: \"I didn't realize a business would need an intel",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 03: 03 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 04: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 04: A change in market pricing becomes a decision, n",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 04: \"I've had the same chat hundreds of times over t",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 04: 04 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 05: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 05: \"I avoid posting content and being visible, even",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 05: 05 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 06: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 06: A CRO who hates the numbers can become better at",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 06: \"I'm not bad with numbers, but I'm bad with spre",
+          "ratio": 6.685619605864718,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 06: 06 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 07: What your AI Brain makes possible",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 07: Founder-led content can begin with the work, not",
+          "ratio": 12.828428307113267,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 07: \"When I do a task like creating content, it used",
+          "ratio": 6.726213303383828,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@desktop-1440x900 stories 07: 07 / 07",
+          "ratio": 4.866293736317399,
+          "need": 4.5,
+          "pass": true
+        }
+      ],
+      "issues": [],
+      "screenshots": [
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-contents-07.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-stories-07.jpg"
+      ],
+      "seams": [],
+      "targets": [
+        {
+          "w": 48,
+          "h": 52
+        },
+        {
+          "w": 48,
+          "h": 52
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "mobile-390x844",
+      "surface": "mobile",
+      "sections": {
+        "reach": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ],
+          "seenReverse": [
+            "What people do, and should do,changes shape.",
+            "The feeling is similar.The scale is not."
+          ],
+          "expected": [
+            "The feeling is similar.The scale is not.",
+            "What people do, and should do,changes shape."
+          ]
+        },
+        "practice": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ],
+          "seenReverse": [
+            "It prepares the next move.",
+            "It joins the evidence.",
+            "It notices what changed."
+          ],
+          "expected": [
+            "It notices what changed.",
+            "It joins the evidence.",
+            "It prepares the next move."
+          ]
+        },
+        "contents": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        },
+        "stories": {
+          "forward": true,
+          "reverse": true,
+          "seenForward": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ],
+          "seenReverse": [
+            "Founder-led content can begin with the work, not another content calendar.",
+            "A CRO who hates the numbers can become better at using them.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "Leadership updates become consistent, even when the week was not.",
+            "A founder who posted once a month now publishes most days."
+          ],
+          "expected": [
+            "A founder who posted once a month now publishes most days.",
+            "Leadership updates become consistent, even when the week was not.",
+            "Work nobody owns becomes visible before it becomes a problem.",
+            "A change in market pricing becomes a decision, not a forgotten observation.",
+            "A CEO who hates writing can still publish ideas worth following.",
+            "A CRO who hates the numbers can become better at using them.",
+            "Founder-led content can begin with the work, not another content calendar."
+          ]
+        }
+      },
+      "pinMisses": [],
+      "overflow": [],
+      "contrast": [
+        {
+          "label": "nal@mobile-390x844 contents 01: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 01",
+          "ratio": 12.578500760580457,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: A founder who posted once a month now publishes ",
+          "ratio": 12.690860163342498,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 01: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 02",
+          "ratio": 12.700551079911365,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: Leadership updates become consistent, even when ",
+          "ratio": 12.828428307113267,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 02: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 03",
+          "ratio": 12.838224272621815,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: Work nobody owns becomes visible before it becom",
+          "ratio": 12.939281202068338,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 03: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 04",
+          "ratio": 12.949161816382611,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: A change in market pricing becomes a decision, n",
+          "ratio": 13.074103124256368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 04: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 05",
+          "ratio": 13.084086690457491,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 13.1907957966968,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 05: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 06",
+          "ratio": 13.092564601295122,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: A CRO who hates the numbers can become better at",
+          "ratio": 13.313769648710618,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: 07",
+          "ratio": 5.7706381170702095,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 06: Founder-led content can begin with the work, not",
+          "ratio": 8.482058052810954,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 01",
+          "ratio": 5.611752115579731,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: A founder who posted once a month now publishes ",
+          "ratio": 8.169493330183384,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 02",
+          "ratio": 5.6449746040603355,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: Leadership updates become consistent, even when ",
+          "ratio": 8.237893565976332,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 03",
+          "ratio": 5.678925227754953,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: Work nobody owns becomes visible before it becom",
+          "ratio": 8.294518739520223,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 04",
+          "ratio": 5.708204136552744,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: A change in market pricing becomes a decision, n",
+          "ratio": 8.360457313219987,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 05",
+          "ratio": 5.740074090286683,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: A CEO who hates writing can still publish ideas ",
+          "ratio": 8.418993781089368,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 06",
+          "ratio": 5.742070826404989,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: A CRO who hates the numbers can become better at",
+          "ratio": 8.477976332075121,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: 07",
+          "ratio": 13.217115876273644,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 contents 07: Founder-led content can begin with the work, not",
+          "ratio": 13.322219550839133,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 01: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 01: A founder who posted once a month now publishes ",
+          "ratio": 12.577647617869953,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 01: The founder runs a research and content brand. P",
+          "ratio": 9.186767643087116,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 01: We set up an AI system that belongs to the found",
+          "ratio": 9.186767643087116,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 01: \"I've learnt to push through basic barriers I di",
+          "ratio": 7.396491281794553,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 01: 01 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 02: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 02: Leadership updates become consistent, even when ",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 02: \"I used to deliver inconsistently if my week was",
+          "ratio": 6.609023208330589,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 02: 02 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 03: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 03: Work nobody owns becomes visible before it becom",
+          "ratio": 12.577647617869953,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 03: \"I didn't realize a business would need an intel",
+          "ratio": 6.606149742720605,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 03: 03 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 04: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 04: A change in market pricing becomes a decision, n",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 04: \"I've had the same chat hundreds of times over t",
+          "ratio": 6.646494301656756,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 04: 04 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 05: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 05: A CEO who hates writing can still publish ideas ",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 05: \"I avoid posting content and being visible, even",
+          "ratio": 6.606149742720605,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 05: 05 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 06: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 06: A CRO who hates the numbers can become better at",
+          "ratio": 12.690860163342498,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 06: \"I'm not bad with numbers, but I'm bad with spre",
+          "ratio": 6.606149742720605,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 06: 06 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 07: What your AI Brain makes possible",
+          "ratio": 12.464101549751575,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 07: Founder-led content can begin with the work, not",
+          "ratio": 12.577647617869953,
+          "need": 3,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 07: \"When I do a task like creating content, it used",
+          "ratio": 6.646494301656756,
+          "need": 4.5,
+          "pass": true
+        },
+        {
+          "label": "nal@mobile-390x844 stories 07: 07 / 07",
+          "ratio": 4.881601500149634,
+          "need": 4.5,
+          "pass": true
+        }
+      ],
+      "issues": [],
+      "screenshots": [
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-contents-07.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-01.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-02.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-03.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-04.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-05.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-06.jpg",
+        "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-stories-07.jpg"
+      ],
+      "seams": [],
+      "targets": [
+        {
+          "w": 44,
+          "h": 52
+        },
+        {
+          "w": 44,
+          "h": 52
+        }
+      ]
+    }
+  ],
+  "shortScreens": [
+    {
+      "route": "/",
+      "viewport": "desktop-1280x600",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1280x600-last.jpg"
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-720x450",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-720x450-last.jpg"
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1280x600",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1280x600-last.jpg"
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-720x450",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-720x450-last.jpg"
+    }
+  ],
+  "reduced": [
+    {
+      "route": "/",
+      "viewport": "desktop-1440x900",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1440x900-reduced-last.jpg"
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-390x844",
+      "surface": "mobile",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/home-mobile-390x844-reduced-last.jpg"
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1280x600",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-1280x600-reduced-last.jpg"
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-720x450",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/home-desktop-720x450-reduced-last.jpg"
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1440x900",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1440x900-reduced-last.jpg"
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "mobile-390x844",
+      "surface": "mobile",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-mobile-390x844-reduced-last.jpg"
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1280x600",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-1280x600-reduced-last.jpg"
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-720x450",
+      "surface": "desktop",
+      "states": [
+        {
+          "text": "A founder who posted once a month now publishes most days.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "true"
+        },
+        {
+          "text": "Leadership updates become consistent, even when the week was not.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Work nobody owns becomes visible before it becomes a problem.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A change in market pricing becomes a decision, not a forgotten observation.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CEO who hates writing can still publish ideas worth following.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "A CRO who hates the numbers can become better at using them.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "false",
+          "prevDisabled": "false"
+        },
+        {
+          "text": "Founder-led content can begin with the work, not another content calendar.",
+          "sticky": "sticky",
+          "headingWhole": true,
+          "controls": true,
+          "nextDisabled": "true",
+          "prevDisabled": "false"
+        }
+      ],
+      "issues": [],
+      "screenshot": "artifacts/material-review/ai-brain-stories-r1/screenshots/nal-desktop-720x450-reduced-last.jpg"
+    }
+  ],
+  "keyboard": [
+    {
+      "route": "/",
+      "onNext": true,
+      "visible": true,
+      "ring": true,
+      "label": "Next story",
+      "advanced": true
+    },
+    {
+      "route": "/new-age-leadership/",
+      "onNext": true,
+      "visible": true,
+      "ring": true,
+      "label": "Next story",
+      "advanced": true
+    }
+  ],
+  "failures": []
+}

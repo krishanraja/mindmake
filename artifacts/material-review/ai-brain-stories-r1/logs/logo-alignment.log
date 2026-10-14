@@ -1,0 +1,4 @@
+$ node scripts/qa/logo-alignment-check.mjs
+Logo alignment: 280 content edges across 14 routes and 5 widths, all on the wordmark's edge.
+
+[exit 0]

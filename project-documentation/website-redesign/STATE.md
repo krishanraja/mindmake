@@ -49,8 +49,9 @@ Preflight, 14 October 2026:
   pages, pinning and progressing both ways, whole on reduced motion and short
   screens, every gate green.
 - First surface: the stories section, "What your AI Brain makes possible".
-- Story one is `04_PROOF.md` story 5, the only verified story that is both an AI
-  Brain story and fully told in approved public wording.
+- Story one is `04_PROOF.md` story 5 (own the system), one of the three verified
+  stories `/ai-brain` already presents as AI Brain stories, chosen first because
+  it is about one leader and carries an exact quote from `testimonials.ts`.
 
 Next action: generate three independent concepts for the stories section and
 judge them, then render story one.

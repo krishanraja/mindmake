@@ -113,6 +113,12 @@ describe("homepage leadership chapters", () => {
     /* A contents row opens its story and hands it focus. */
     root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!.click();
     expect(count.textContent).toBe("01");
+    /* Previous on the first story goes back to the contents. */
+    expect(prev.getAttribute("aria-disabled")).toBe("false");
+    expect(prev.getAttribute("aria-label")).toBe("Back to the contents");
+    prev.click();
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    expect(prev.getAttribute("aria-disabled")).toBe("true");
     Object.defineProperty(window, "scrollY", { configurable: true, get: () => y });
     y = 0; window.dispatchEvent(new Event("scroll"));
     const row = root.querySelector<HTMLAnchorElement>('[data-story-link="4"]')!;

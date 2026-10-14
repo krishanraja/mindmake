@@ -53,7 +53,7 @@
     "sections": [
       { "id": "reach", "track": "[data-reach]", "state": "[data-reach-copy].is-active h2", "states": ["The feeling is similar.The scale is not.", "What people do, and should do,changes shape."] },
       { "id": "practice", "track": ".work-scroll", "state": "[data-work-scene].is-active h3", "states": ["It notices what changed.", "It joins the evidence.", "It prepares the next move."] },
-      { "id": "contents", "track": "[data-benefit-track]", "state": "[data-story-contents]:not([aria-hidden='true']) a[aria-current='true'] span:last-child", "frame": "[data-benefits]", "items": "[data-story-link]", "itemHeading": "span:last-child", "capture": true, "rests": "data-contents-rests", "text": "[data-story-contents] a span, [data-benefits] > .kicker" },
+      { "id": "contents", "track": "[data-benefit-track]", "state": "[data-story-contents]:not([aria-hidden='true']) a[aria-current='true'] span:last-child", "frame": "[data-benefits]", "states": ["A founder who posted about once a month now posts most days."], "capture": true, "rests": "data-contents-rests", "text": "[data-story-contents] a span, [data-benefits] > .kicker" },
       { "id": "stories", "track": "[data-benefit-track]", "frame": "[data-benefits]", "state": ".brain-benefit.is-active:not([aria-hidden='true']) h2", "items": "[data-benefit]", "itemHeading": "h2", "next": "[data-benefit-next]", "prev": "[data-benefit-prev]", "capture": true, "rests": "data-story-rests", "text": ".brain-benefit.is-active h2, .brain-benefit.is-active p, .brain-benefit.is-active blockquote, [data-benefits] > .kicker, .benefit-controls p" }
     ],
     "seams": "main > section, main > div > section",

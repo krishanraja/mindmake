@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { leadershipBenefits, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyTargets, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
+import { CONTENTS, leadershipBenefits, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyTargets, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
 import { testimonials } from "@/data/testimonials";
 
 /* The AI Brain stories. Their words are claims the business stands behind, so
@@ -51,12 +51,12 @@ describe("AI Brain stories", () => {
     });
   });
 
-  it("rests the contents whole with its mark on each row in turn", () => {
-    const { contentsRests } = storyPlan(weights);
-    expect(contentsRests).toHaveLength(leadershipStories.length);
-    contentsRests.forEach((rest, i) => {
-      expect(storyScroll(rest, weights)).toEqual({ story: i, mark: i, storyShown: 0, contentsShown: 1 });
-    });
+  it("rests the contents whole, with its mark on the first story, before any story opens", () => {
+    const { contentsRests, rests } = storyPlan(weights);
+    expect(contentsRests).toHaveLength(1);
+    expect(storyScroll(contentsRests[0], weights)).toEqual({ story: 0, mark: 0, storyShown: 0, contentsShown: 1 });
+    expect(contentsRests[0]).toBeLessThan(rests[0]);
+    for (const p of samples) if (p > rests[0]) expect(storyScroll(p, weights).storyShown).toBe(1);
   });
 
   it("is a pure function of position: the same place shows the same thing both ways", () => {
@@ -78,22 +78,16 @@ describe("AI Brain stories", () => {
     expect(last).toBe(leadershipStories.length - 1);
   });
 
-  it("sends the arrows to the story before or after, and Next never moves the page back", () => {
-    const { rests, segments } = storyPlan(weights);
+  it("sends the arrows to the story before or after, Previous on the first back to the contents, and Next never back", () => {
+    const { rests, contentsRests } = storyPlan(weights);
     const last = leadershipStories.length - 1;
-    expect(storyTargets(0, weights)).toEqual({ prev: -1, next: 0 });
-    rests.forEach((rest, i) => expect(storyTargets(rest, weights)).toEqual({ prev: i ? i - 1 : -1, next: i < last ? i + 1 : -1 }));
-    /* The contents just after a story closes, its mark still on that story:
-       Next opens the story after it, never the one just read. */
-    segments.filter((s) => s.kind === "passage").forEach((s) => {
-      const p = (s.from + 0.4 * (s.to - s.from)) / storyPlan(weights).total;
-      expect(storyScroll(p, weights)).toMatchObject({ story: s.index, contentsShown: 1 });
-      expect(storyTargets(p, weights)).toEqual({ prev: s.index, next: s.index + 1 });
-    });
+    expect(storyTargets(contentsRests[0], weights)).toEqual({ prev: -1, next: 0 });
+    rests.forEach((rest, i) => expect(storyTargets(rest, weights)).toEqual({ prev: i ? i - 1 : CONTENTS, next: i < last ? i + 1 : -1 }));
     for (const p of samples) {
       const { prev, next } = storyTargets(p, weights);
       if (next >= 0) expect(rests[next]).toBeGreaterThan(p);
       if (prev >= 0) expect(rests[prev]).toBeLessThan(p);
+      if (prev === CONTENTS) expect(contentsRests[0]).toBeLessThan(p);
     }
   });
 

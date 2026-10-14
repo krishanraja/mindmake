@@ -1161,8 +1161,7 @@
  * Each benefit becomes a short story about one leader: the heading, where they
  * were, what happened, and a line in their own words where they wrote one. The
  * section opens on its contents, every story by its heading, so a reader can
- * find the one that is them; scroll then opens each story in turn, and between
- * two stories the contents comes back briefly with its mark stepping on.
+ * find the one that is them; scroll then opens each story in turn.
  * leadershipChapters.ts reads which state shows from the scroll position
  * (storyScroll) and marks the others aria-hidden; this stylesheet fades from
  * one state to the next over a fixed short time, so wherever scrolling stops
@@ -1170,8 +1169,10 @@
  * have; the contents and a full story lie over it and fit themselves to it
  * (--fit). A story's scene is a framed plate beside its words.
  * ------------------------------------------------------------------------- */
+/* About today's pinned length for six: 240svh on a desktop, 220svh on a
+ * phone, 200svh on a short screen. */
 .nal-page .human-proof {
-  --story-unit: 24svh;
+  --story-unit: 28svh;
   --story-cap: 400svh;
 }
 
@@ -1179,9 +1180,15 @@
   height: calc(100svh - var(--header) + min(var(--story-units, 5) * var(--story-unit), var(--story-cap)));
 }
 
-@media (max-width: 900px), (max-height: 650px) {
+@media (max-width: 900px) {
   .nal-page .human-proof {
-    --story-unit: 22svh;
+    --story-unit: 25svh;
+  }
+}
+
+@media (max-height: 650px) {
+  .nal-page .human-proof {
+    --story-unit: 23svh;
   }
 }
 
@@ -1194,6 +1201,13 @@
 .nal-page .benefit-stage {
   overflow: clip;
   overflow-clip-margin: 6px;
+}
+
+/* The script reads sizes straight after it sets them; nothing may be mid
+ * transition while it does (reduced motion gives every element one). */
+.nal-page .proof-track > .proof-story.is-measuring,
+.nal-page .proof-track > .proof-story.is-measuring * {
+  transition: none !important;
 }
 
 .nal-page .benefit-controls > div i {
@@ -1259,10 +1273,12 @@
   padding: calc(var(--row-top) * var(--fit, 1)) 0 calc(var(--row-bottom) * var(--fit, 1));
   border-bottom: 1px solid rgba(234, 223, 200, .14);
   color: rgba(234, 223, 200, .78);
-  font: 400 calc(var(--row-font) * var(--fit, 1)) / var(--row-leading) var(--serif);
+  font: 400 max(13px, calc(var(--row-font) * var(--fit, 1))) / var(--row-leading) var(--serif);
   text-decoration: none;
+}
+
+.nal-page .story-contents a > span:last-child {
   text-wrap: balance;
-  transition: color .2s ease, box-shadow .2s ease;
 }
 
 /* A row stays a full touch target however far the contents fits down. */
@@ -1440,6 +1456,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 20px;
   }
+
+  /* Side by side, a one-line row keeps its number level with its neighbour's. */
+  .nal-page .story-contents a {
+    align-content: start;
+  }
 }
 
 /* A small phone (320x568) takes the phone's order at the short screen's size,
@@ -1490,8 +1511,7 @@
   .nal-page .brain-benefit,
   .nal-page .brain-benefit.is-active:not([aria-hidden="true"]),
   .nal-page .story-contents,
-  .nal-page .story-contents:not([aria-hidden="true"]),
-  .nal-page .story-contents a {
+  .nal-page .story-contents:not([aria-hidden="true"]) {
     transition: none;
   }
 }
@@ -1523,6 +1543,12 @@
   .nal-page .story-contents,
   .nal-page .brain-benefit.is-story {
     position: static;
+  }
+
+  /* Read as a document, a full story has no stage to fit, and its heading
+   * stands as tall as the six's. */
+  .nal-page .brain-benefit.is-story {
+    --story-heading: clamp(30px, 4.6vw, 52px);
   }
 
   .nal-page .story-contents {

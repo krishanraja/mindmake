@@ -49,13 +49,13 @@ export interface LeadershipStory {
 }
 
 /* Holds words on one line wherever they are set: "once a month" in the
-   heading, and "A post" so no line ends on the article. */
+   heading, and "a post" so no line ends on the article. */
 const keep = (words: string) => words.replaceAll(" ", "\u00a0");
 
 export const leadershipStories: readonly LeadershipStory[] = [
   {
-    heading: `A founder who posted about ${keep("once a month")} now publishes most days.`,
-    situation: "The founder runs a research and content brand. Publishing a post backed by research took days.",
+    heading: `A founder who posted about ${keep("once a month")} now posts most days.`,
+    situation: `The founder runs a research and content brand. Publishing ${keep("a post")} backed by research took days.`,
     happened: `We set up an AI system that belongs to the founder. It fits around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
     quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
@@ -66,78 +66,58 @@ export const leadershipStories: readonly LeadershipStory[] = [
 /** A full story holds the page for longer than a heading and its line. */
 export const storyWeight = (story: LeadershipStory) => (story.situation ? 1.5 : 1);
 
-/* The pinned travel, in units: the contents opens the section, then each
-   story holds the page in turn. Between two stories the contents comes back
-   briefly, its mark stepping from the story just read to the next. */
+/* The pinned travel, in units: the contents opens the section and holds the
+   page while a reader finds the story that is them; then each story holds it
+   in turn. */
 const OPENING = 1.2;
-const PASSAGE = 0.6;
 
-interface StorySegment { kind: "contents" | "hold" | "passage"; from: number; to: number; index: number }
+interface StorySegment { kind: "contents" | "hold"; from: number; to: number; index: number }
 
 export function storyPlan(weights: readonly number[]) {
   const segments: StorySegment[] = [];
   let at = 0;
   const add = (kind: StorySegment["kind"], length: number, index: number) => { segments.push({ kind, from: at, to: at + length, index }); at += length; };
   add("contents", OPENING, 0);
-  weights.forEach((weight, i) => {
-    if (i) add("passage", PASSAGE, i - 1);
-    add("hold", weight, i);
-  });
+  weights.forEach((weight, i) => add("hold", weight, i));
   const total = at;
   /* Where each story rests: the middle of its hold, as a share of the travel. */
   const rests = segments.filter((s) => s.kind === "hold").map((s) => (s.from + s.to) / 2 / total);
-  /* Where the contents rests with its mark on each row: the middle of the
-     opening for the first, and for each later row the middle of the part of
-     the passage where the mark has stepped onto it. */
-  const contentsRests = [
-    OPENING / 2 / total,
-    ...segments.filter((s) => s.kind === "passage").map((s) => (s.from + 0.6 * (s.to - s.from)) / total),
-  ];
+  /* Where the contents rests: the middle of the opening. */
+  const contentsRests = [OPENING / 2 / total];
   return { segments, total, rests, contentsRests };
 }
 
 /**
  * What the stage shows, read only from how far through the pinned travel the
- * reader is (0 to 1): one whole story, or the contents with its mark on one
- * row, never a part of either and never both. The same position always gives
- * the same state, forwards or backwards. Between two stories the open story
- * holds for the first 30% of the passage, the contents shows with its mark on
- * that story and then on the next, and the next story opens at 70%. The page
- * fades from one state to the next over a fixed short time (the stylesheet),
- * so wherever scrolling stops, what shows is whole; with reduced motion the
- * change is immediate.
+ * reader is (0 to 1): the contents, then one whole story at a time, never a
+ * part of one and never two at once. The same position always gives the same
+ * state, forwards or backwards. The page fades from one state to the next over
+ * a fixed short time (the stylesheet), so wherever scrolling stops, what shows
+ * is whole; with reduced motion the change is immediate.
  */
 export function storyScroll(progress: number, weights: readonly number[]) {
   const { segments, total } = storyPlan(weights);
   const x = clamp01(progress) * total;
   const segment = segments.find((s) => x < s.to) ?? segments[segments.length - 1];
-  const t = clamp01((x - segment.from) / (segment.to - segment.from));
   const k = segment.index;
-  const story = (i: number) => ({ story: i, mark: i, storyShown: 1, contentsShown: 0 });
-  const contents = (i: number) => ({ story: i, mark: i, storyShown: 0, contentsShown: 1 });
-  if (segment.kind === "contents") return contents(k);
-  if (segment.kind === "hold") return story(k);
-  if (t < 0.3) return story(k);
-  if (t < 0.5) return contents(k);
-  if (t < 0.7) return contents(k + 1);
-  return story(k + 1);
+  if (segment.kind === "contents") return { story: k, mark: k, storyShown: 0, contentsShown: 1 };
+  return { story: k, mark: k, storyShown: 1, contentsShown: 0 };
 }
+
+/** The arrows' target for the opening contents. */
+export const CONTENTS = -2;
 
 /**
  * Where the arrows go from a position. From an open story they open the one
- * before or after it. From the contents, Next opens the first story whose rest
- * lies ahead and Previous the last one behind, so Next never moves the page
- * back. -1 means there is nowhere to go, and the arrow is disabled.
+ * before or after it, and Previous on the first story goes back to the
+ * contents (CONTENTS). From the contents, Next opens the first story. -1 means
+ * there is nowhere to go, and the arrow is disabled.
  */
 export function storyTargets(progress: number, weights: readonly number[]) {
   const state = storyScroll(progress, weights);
   const last = weights.length - 1;
-  if (state.storyShown) return { prev: state.story > 0 ? state.story - 1 : -1, next: state.story < last ? state.story + 1 : -1 };
-  const { rests } = storyPlan(weights);
-  const p = clamp01(progress);
-  let prev = -1;
-  rests.forEach((rest, i) => { if (rest < p - 1e-6) prev = i; });
-  return { prev, next: rests.findIndex((rest) => rest > p + 1e-6) };
+  if (!state.storyShown) return { prev: -1, next: 0 };
+  return { prev: state.story > 0 ? state.story - 1 : CONTENTS, next: state.story < last ? state.story + 1 : -1 };
 }
 
 export const leadershipScenes = [
@@ -259,7 +239,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const storyPrev = root.querySelector<HTMLElement>("[data-benefit-prev]");
   const storyNext = root.querySelector<HTMLElement>("[data-benefit-next]");
   const storyWeights = benefitNodes.map((node) => Number(node.dataset.weight) || 1);
-  const storyRests = storyPlan(storyWeights).rests;
+  const storyPlanned = storyPlan(storyWeights);
   const fullStories = benefitNodes.filter((node) => node.classList.contains("is-story"));
   let benefit = -1; let shownKey = ""; let storyOpen = false; let pendingFocus = -1; let pendingUntil = 0; let storyPinTop = 0;
   /* A contents row hands focus to the story it opens. The story's heading can
@@ -275,31 +255,39 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   };
   const dropFocus = () => { pendingFocus = -1; };
   /* The contents and a full story lie over the stage, which the six size as
-     they always have. Each scales its type and spacing down only as far as it
-     must to fit the stage whole (--fit, 1 at full size), and no further than
-     stays easy to read (0.75); a story that still cannot fit there makes the
-     stage taller, which only the smallest phones need. */
+     they always have, and keep the same air above the arrows that the six
+     have. Each scales its type and spacing down only as far as it must to fit
+     (--fit, 1 at full size), and no further than stays easy to read (0.75).
+     Where it cannot fit even there, which only the smallest phones need, it
+     keeps the largest size that takes no more room and the stage grows to
+     hold it. */
   const FIT_FLOOR = 0.75;
+  const STAGE_AIR = 14;
   const fitToStage = (node: HTMLElement | null) => {
     if (!node || !storyStage) return;
     node.style.removeProperty("--fit");
-    const room = storyStage.clientHeight - 2;
+    const room = storyStage.clientHeight - STAGE_AIR;
     if (node.offsetHeight <= room) return;
+    const fits = (fit: number, height: number) => { node.style.setProperty("--fit", fit.toFixed(3)); return node.offsetHeight <= height; };
     let lo = FIT_FLOOR; let hi = 1;
-    for (let step = 0; step < 7; step += 1) {
-      const mid = (lo + hi) / 2;
-      node.style.setProperty("--fit", mid.toFixed(3));
-      if (node.offsetHeight <= room) lo = mid; else hi = mid;
+    if (!fits(FIT_FLOOR, room)) {
+      const least = node.offsetHeight;
+      for (let step = 0; step < 7; step += 1) { const mid = (lo + hi) / 2; if (fits(mid, least)) lo = mid; else hi = mid; }
+      fits(lo, least);
+      storyStage.style.minHeight = `${node.offsetHeight + STAGE_AIR}px`;
+      return;
     }
-    node.style.setProperty("--fit", lo.toFixed(3));
-    if (node.offsetHeight > room) storyStage.style.minHeight = `${node.offsetHeight}px`;
+    for (let step = 0; step < 7; step += 1) { const mid = (lo + hi) / 2; if (fits(mid, room)) lo = mid; else hi = mid; }
+    fits(lo, room);
   };
   /* Fixed chrome at the foot of the screen (the action bar on
      /new-age-leadership, the cookie notice) publishes its height. Where the
      arrows would sit under it, or below the fold, the panel lifts them: first
      into room it has spare, then by giving up the stage's empty height, never
      below what the stage holds, then by narrowing the air above its label.
-     No line of any story is lost to the lift. */
+     No line of any story is lost to the lift. The fold is the pinned panel's
+     own foot, a small-viewport height, so a phone's toolbar showing or hiding
+     does not move it. */
   const footReserve = () => {
     const style = document.documentElement.style;
     return (parseFloat(style.getPropertyValue("--mm-bar-reserve")) || 0) + (parseFloat(style.getPropertyValue("--mm-cookie-reserve")) || 0);
@@ -307,9 +295,10 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   let measuredReserve = -1;
   const overlap = () => {
     if (!benefitPanel || !benefitControls) return 0;
-    const bottom = storyPinTop + benefitControls.getBoundingClientRect().bottom - benefitPanel.getBoundingClientRect().top;
+    const panel = benefitPanel.getBoundingClientRect();
+    const bottom = benefitControls.getBoundingClientRect().bottom - panel.top;
     /* Clear of fixed chrome by a little air; against the bare fold, just on screen. */
-    return bottom - (innerHeight - measuredReserve - (measuredReserve > 0 ? 8 : 0));
+    return bottom - (benefitPanel.offsetHeight - measuredReserve - (measuredReserve > 0 ? 8 : 0));
   };
   const liftControls = () => {
     if (!storyStage || !benefitPanel) return;
@@ -318,7 +307,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     benefitPanel.style.setProperty("--story-lift", `${Math.ceil(over)}px`);
     over = overlap();
     if (over > 0) {
-      const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.offsetHeight), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + 2 : 0)));
+      const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.offsetHeight), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
       const height = storyStage.offsetHeight;
       if (height - held > 0.5) storyStage.style.minHeight = `${Math.max(held, height - over)}px`;
       over = overlap();
@@ -335,6 +324,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   let storyFlow = false;
   const measureStories = () => {
     if (!benefitPanel) return;
+    /* Sizes are read straight after they are set, so nothing may be mid
+       transition while they are (reduced motion gives every element one). */
+    benefitPanel.classList.add("is-measuring");
     const style = getComputedStyle(benefitPanel);
     storyPinTop = parseFloat(style.top) || 0;
     measuredReserve = footReserve();
@@ -344,6 +336,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     benefitPanel.style.removeProperty("padding-top");
     if (flow) [storyContents, ...fullStories].forEach((node) => node?.style.removeProperty("--fit"));
     else { [storyContents, ...fullStories].forEach(fitToStage); liftControls(); }
+    benefitPanel.classList.remove("is-measuring");
     if (flow === storyFlow) return;
     storyFlow = flow;
     shownKey = ""; benefit = -1;
@@ -354,6 +347,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     }
   };
   const setInert = (node: HTMLElement | null, hidden: boolean) => { if (!node) return; node.setAttribute("aria-hidden", String(hidden)); node.toggleAttribute("inert", hidden); };
+  const setOnce = (node: HTMLElement | null, name: string, value: string) => { if (node && node.getAttribute(name) !== value) node.setAttribute(name, value); };
   const storyProgress = () => {
     if (!benefitTrack || !benefitPanel) return 0;
     return clamp01((storyPinTop - benefitTrack.getBoundingClientRect().top) / Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight));
@@ -373,8 +367,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       storyLinks.forEach((link, i) => { if (i === state.mark) link.setAttribute("aria-current", "true"); else link.removeAttribute("aria-current"); });
     }
     const targets = storyTargets(progress, storyWeights);
-    storyPrev?.setAttribute("aria-disabled", String(targets.prev < 0));
-    storyNext?.setAttribute("aria-disabled", String(targets.next < 0));
+    setOnce(storyPrev, "aria-disabled", String(targets.prev === -1));
+    setOnce(storyPrev, "aria-label", targets.prev === CONTENTS ? "Back to the contents" : "Previous story");
+    setOnce(storyNext, "aria-disabled", String(targets.next === -1));
     const key = `${benefit}:${open}`;
     if (key === shownKey) return;
     shownKey = key;
@@ -383,13 +378,17 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (open && pendingFocus === benefit) landFocus(benefit);
     setInert(storyContents, open);
   };
+  /* Moves the page to where a story rests, or to the contents (CONTENTS). A
+     contents row also hands focus to the story's heading, which a screen
+     reader reads, so the status line stays quiet for it. */
   const chooseBenefit = (i: number, focus = false) => {
-    if (i < 0) return;
-    const next = Math.min(benefitNodes.length - 1, i);
+    if (i === -1 || !benefitTrack || !benefitPanel) return;
+    const toContents = i === CONTENTS;
+    const next = toContents ? 0 : Math.min(benefitNodes.length - 1, i);
     const status = root.querySelector("[data-benefit-status]");
-    if (status) { status.textContent = ""; requestAnimationFrame(() => { status.textContent = `Story ${next + 1} of ${benefitNodes.length}. ${benefitNodes[next].querySelector("h2")?.textContent ?? ""}`; }); }
-    if (!benefitTrack || !benefitPanel) return;
-    const top = scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * storyRests[next];
+    if (status && !focus) { status.textContent = ""; requestAnimationFrame(() => { status.textContent = toContents ? "Contents" : `Story ${next + 1} of ${benefitNodes.length}. ${benefitNodes[next].querySelector("h2")?.textContent ?? ""}`; }); }
+    const share = toContents ? storyPlanned.contentsRests[0] : storyPlanned.rests[next];
+    const top = scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share;
     if (focus) { pendingFocus = next; pendingUntil = performance.now() + 2500; }
     scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
     if (focus && storyOpen && benefit === next) landFocus(next);

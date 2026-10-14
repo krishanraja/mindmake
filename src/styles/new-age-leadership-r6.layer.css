@@ -609,10 +609,11 @@
  * have; the contents and a full story lie over it and fit themselves to it
  * (--fit). A story's scene is a framed plate beside its words.
  * ------------------------------------------------------------------------- */
-/* About today's pinned length for six: 240svh on a desktop, 220svh on a
- * phone, 200svh on a short screen. */
+/* Within about a tenth of today's pinned length for six (240svh on a
+ * desktop, 220svh on a phone, 200svh on a short screen), with each story
+ * holding at least a quarter of the screen's height. */
 .human-proof {
-  --story-unit: 28svh;
+  --story-unit: 30svh;
   --story-cap: 400svh;
 }
 
@@ -622,13 +623,13 @@
 
 @media (max-width: 900px) {
   .human-proof {
-    --story-unit: 25svh;
+    --story-unit: 27svh;
   }
 }
 
 @media (max-height: 650px) {
   .human-proof {
-    --story-unit: 23svh;
+    --story-unit: 25svh;
   }
 }
 

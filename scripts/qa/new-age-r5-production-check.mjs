@@ -72,12 +72,13 @@ const VIEWPORTS = {
    pause. The composition's widest intentional rest measured 30%. */
 const BLANK_LIMIT = 0.42;
 /* Sampling density, not a fixed step count. The shortest state on the page is
-   one AI Brain benefit, which is 40svh of scroll on a short screen; a fixed 40
+   one AI Brain story, which is 25svh of scroll on a short screen (it was 40svh
+   for each of the six benefits before the stories, October 2026); a fixed 40
    samples over a document five viewports longer than that strides straight past
    one and reports a state the page does draw as missing. So the stride is tied
-   to the viewport and the floor is only a floor. */
+   to the viewport, below the shortest state, and the floor is only a floor. */
 const MIN_STEPS = 40;
-const STRIDE_SHARE = 0.28;
+const STRIDE_SHARE = 0.2;
 
 await mkdir(output, { recursive: true });
 for (const [file, expected] of Object.entries(locked)) {

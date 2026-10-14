@@ -98,6 +98,9 @@ try {
             for(const index of indices) {
               await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(index,g)));
               await settle(page); await settle(page);
+              // The stories change state by a short timed fade (the leaving
+              // state, then the arriving one); read the words once it is whole.
+              if (chapter==='benefits') await page.waitForTimeout(450);
               const rect=await geometry(stage);
               const visibleText=words(await track.locator(spec.state).innerText());
               const matched=visibleText===expected[index];
@@ -155,6 +158,7 @@ try {
       const control = async (page, selector, chapter, index, fallback) => {
         await page.locator(selector).click();
         await arrive(page); await settle(page); await settle(page);
+        if (chapter==='benefits') await page.waitForTimeout(450);
         const visibleState = words(await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).innerText());
         const matched = visibleState===states[chapter][index];
         assert(matched,`${engine}/${fallback}: ${selector} shows ${chapter} ${index} ("${visibleState}")`);

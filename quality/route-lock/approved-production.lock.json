@@ -127,7 +127,7 @@
     "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
     "scripts/qa/full-route-continuity-check.mjs": "deebb46cf2a6f84d44fad81e1e032bc61471e96d5cecdd532e00697dacc4729d",
     "scripts/qa/homepage-release-adapter-check.mjs": "a60361e26ae9baf21b8f798b0f2bf22c2e65f2a588e25509feb733c0707d3f97",
-    "scripts/qa/homepage-release-browser-check.mjs": "8909e975fefe8b6330fecf803b9f17afec6fb1654dbd9a30807a732f21829a96",
+    "scripts/qa/homepage-release-browser-check.mjs": "da7999340ff198bdc909587dba95c6d7c8bac95ddd8d38255bae8bf2035a9faa",
     "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
     "scripts/qa/homepage-scroll-contract.mjs": "10378814b33d1a90478031875adbf811bebc71d02a808d0d81fde0bf8af944c1",
     "scripts/qa/line-break-check.mjs": "c88328c39b55665639482f78433dea8ff6d99023bfdda81e7f59be42512c566e",

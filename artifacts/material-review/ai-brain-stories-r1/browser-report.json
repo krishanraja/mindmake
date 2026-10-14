@@ -1,22 +1,22 @@
 {
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
-  "capturedAt": "2026-10-14T16:16:03.258Z",
-  "origin": "http://127.0.0.1:39373",
-  "distIndexSha256": "ca36df96ae8ce4a1599855ab781d56983ef6d2f02effaed0e4a0eb837e97d628",
+  "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
+  "capturedAt": "2026-10-14T18:03:02.273Z",
+  "origin": "http://127.0.0.1:45833",
+  "distIndexSha256": "26497cf310fd1f3756d1f9b28df6995894feb6eb8c593e40577a1ef84046ddfe",
   "commands": [
     {
       "id": "build",
       "run": "npm run build",
       "exit": 0,
-      "seconds": 23,
+      "seconds": 22,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/build.log"
     },
     {
       "id": "unit",
       "run": "npx vitest run src/test/leadership-stories.test.ts src/test/homepage-leadership-chapters.test.ts src/test/copy-restraint.test.ts src/test/testimonials.test.ts",
       "exit": 0,
-      "seconds": 6,
+      "seconds": 5,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/unit.log"
     },
     {
@@ -37,21 +37,21 @@
       "id": "r5-production",
       "run": "QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs",
       "exit": 0,
-      "seconds": 274,
+      "seconds": 273,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/r5-production.log"
     },
     {
       "id": "chrome",
       "run": "node scripts/qa/fixed-chrome-check.mjs",
       "exit": 0,
-      "seconds": 79,
+      "seconds": 78,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/chrome.log"
     },
     {
       "id": "logo-alignment",
       "run": "node scripts/qa/logo-alignment-check.mjs",
       "exit": 0,
-      "seconds": 45,
+      "seconds": 43,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/logo-alignment.log"
     },
     {
@@ -114,7 +114,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -129,10 +129,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -145,7 +145,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -160,10 +160,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -189,7 +189,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 01: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 01: A founder who posted about once a month now publ",
           "ratio": 12.828428307113267,
           "need": 4.5,
           "pass": true
@@ -202,13 +202,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 01: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 01: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -238,7 +238,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 01: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -279,7 +279,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 02: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 02: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -292,13 +292,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 02: Leadership updates become consistent, even when ",
-          "ratio": 12.939281202068338,
+          "ratio": 12.947898754342038,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 02: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -328,7 +328,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 02: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -369,7 +369,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 03: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 03: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -382,13 +382,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 03: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 03: 03",
-          "ratio": 12.949161816382611,
+          "ratio": 12.957785949138566,
           "need": 4.5,
           "pass": true
         },
@@ -418,7 +418,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 03: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -459,7 +459,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 04: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 04: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -472,13 +472,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 04: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 04: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -508,7 +508,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 04: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -549,7 +549,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 05: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 05: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -562,13 +562,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 05: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 05: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -598,7 +598,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 05: A CEO who hates writing can still publish ideas ",
-          "ratio": 13.313769648710618,
+          "ratio": 13.207030804654933,
           "need": 4.5,
           "pass": true
         },
@@ -639,7 +639,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 06: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 06: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -652,13 +652,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 06: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 06: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -688,7 +688,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 06: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -729,7 +729,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 contents 07: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 contents 07: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -742,13 +742,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 07: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 07: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -778,7 +778,7 @@
         },
         {
           "label": "home@desktop-1440x900 contents 07: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -813,7 +813,7 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 stories 01: A founder who posted once a month now publishes ",
+          "label": "home@desktop-1440x900 stories 01: A founder who posted about once a month now publ",
           "ratio": 12.828428307113267,
           "need": 3,
           "pass": true
@@ -826,13 +826,13 @@
         },
         {
           "label": "home@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
-          "ratio": 9.331947339718237,
+          "ratio": 9.39063647173125,
           "need": 4.5,
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 stories 01: \"I've learnt to push through basic barriers I di",
-          "ratio": 7.437292902815106,
+          "label": "home@desktop-1440x900 stories 01: \"It's helping me be seen by my customers.\"",
+          "ratio": 7.396491281794553,
           "need": 4.5,
           "pass": true
         },
@@ -1060,7 +1060,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -1075,10 +1075,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -1091,7 +1091,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -1106,10 +1106,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -1135,7 +1135,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 01: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 01: A founder who posted about once a month now publ",
           "ratio": 12.690860163342498,
           "need": 4.5,
           "pass": true
@@ -1225,7 +1225,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 02: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 02: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -1315,7 +1315,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 03: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 03: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -1405,7 +1405,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 04: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 04: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -1495,7 +1495,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 05: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 05: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -1585,7 +1585,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 06: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 06: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -1675,7 +1675,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 contents 07: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 contents 07: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -1759,7 +1759,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 stories 01: A founder who posted once a month now publishes ",
+          "label": "home@mobile-390x844 stories 01: A founder who posted about once a month now publ",
           "ratio": 12.577647617869953,
           "need": 3,
           "pass": true
@@ -1777,7 +1777,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 stories 01: \"I've learnt to push through basic barriers I di",
+          "label": "home@mobile-390x844 stories 01: \"It's helping me be seen by my customers.\"",
           "ratio": 7.396491281794553,
           "need": 4.5,
           "pass": true
@@ -2006,7 +2006,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2021,10 +2021,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2037,7 +2037,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2052,10 +2052,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2081,7 +2081,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 01: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 01: A founder who posted about once a month now publ",
           "ratio": 12.828428307113267,
           "need": 4.5,
           "pass": true
@@ -2094,13 +2094,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 01: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 01: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -2130,7 +2130,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 01: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -2171,7 +2171,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 02: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 02: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -2184,13 +2184,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 02: Leadership updates become consistent, even when ",
-          "ratio": 12.939281202068338,
+          "ratio": 12.947898754342038,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 02: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -2220,7 +2220,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 02: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -2261,7 +2261,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 03: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 03: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -2274,13 +2274,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 03: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 03: 03",
-          "ratio": 12.949161816382611,
+          "ratio": 12.957785949138566,
           "need": 4.5,
           "pass": true
         },
@@ -2310,7 +2310,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 03: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -2351,7 +2351,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 04: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 04: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -2364,13 +2364,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 04: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 04: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -2400,7 +2400,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 04: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -2441,7 +2441,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 05: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 05: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -2454,13 +2454,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 05: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 05: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -2490,7 +2490,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 05: A CEO who hates writing can still publish ideas ",
-          "ratio": 13.313769648710618,
+          "ratio": 13.207030804654933,
           "need": 4.5,
           "pass": true
         },
@@ -2531,7 +2531,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 06: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 06: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -2544,13 +2544,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 06: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 06: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -2580,7 +2580,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 06: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -2621,7 +2621,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 contents 07: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 contents 07: A founder who posted about once a month now publ",
           "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
@@ -2634,13 +2634,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 07: Leadership updates become consistent, even when ",
-          "ratio": 8.294518739520223,
+          "ratio": 8.29877590052757,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 07: 03",
-          "ratio": 5.708204136552744,
+          "ratio": 5.710294759633331,
           "need": 4.5,
           "pass": true
         },
@@ -2670,7 +2670,7 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 07: A CEO who hates writing can still publish ideas ",
-          "ratio": 8.477976332075121,
+          "ratio": 8.424797810572635,
           "need": 4.5,
           "pass": true
         },
@@ -2705,7 +2705,7 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 stories 01: A founder who posted once a month now publishes ",
+          "label": "nal@desktop-1440x900 stories 01: A founder who posted about once a month now publ",
           "ratio": 12.828428307113267,
           "need": 3,
           "pass": true
@@ -2718,13 +2718,13 @@
         },
         {
           "label": "nal@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
-          "ratio": 9.331947339718237,
+          "ratio": 9.39063647173125,
           "need": 4.5,
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 stories 01: \"I've learnt to push through basic barriers I di",
-          "ratio": 7.437292902815106,
+          "label": "nal@desktop-1440x900 stories 01: \"It's helping me be seen by my customers.\"",
+          "ratio": 7.396491281794553,
           "need": 4.5,
           "pass": true
         },
@@ -2952,7 +2952,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2967,10 +2967,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2983,7 +2983,7 @@
           "forward": true,
           "reverse": true,
           "seenForward": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -2998,10 +2998,10 @@
             "A change in market pricing becomes a decision, not a forgotten observation.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "Leadership updates become consistent, even when the week was not.",
-            "A founder who posted once a month now publishes most days."
+            "A founder who posted about once a month now publishes most days."
           ],
           "expected": [
-            "A founder who posted once a month now publishes most days.",
+            "A founder who posted about once a month now publishes most days.",
             "Leadership updates become consistent, even when the week was not.",
             "Work nobody owns becomes visible before it becomes a problem.",
             "A change in market pricing becomes a decision, not a forgotten observation.",
@@ -3027,7 +3027,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 01: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 01: A founder who posted about once a month now publ",
           "ratio": 12.690860163342498,
           "need": 4.5,
           "pass": true
@@ -3117,7 +3117,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 02: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 02: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -3207,7 +3207,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 03: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 03: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -3297,7 +3297,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 04: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 04: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -3387,7 +3387,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 05: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 05: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -3477,7 +3477,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 06: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 06: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -3567,7 +3567,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 contents 07: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 contents 07: A founder who posted about once a month now publ",
           "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
@@ -3651,7 +3651,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 stories 01: A founder who posted once a month now publishes ",
+          "label": "nal@mobile-390x844 stories 01: A founder who posted about once a month now publ",
           "ratio": 12.577647617869953,
           "need": 3,
           "pass": true
@@ -3669,7 +3669,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 stories 01: \"I've learnt to push through basic barriers I di",
+          "label": "nal@mobile-390x844 stories 01: \"It's helping me be seen by my customers.\"",
           "ratio": 7.396491281794553,
           "need": 4.5,
           "pass": true
@@ -3862,7 +3862,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -3927,7 +3927,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -3992,7 +3992,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4057,7 +4057,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4124,7 +4124,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4189,7 +4189,7 @@
       "surface": "mobile",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4254,7 +4254,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4319,7 +4319,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4384,7 +4384,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4449,7 +4449,7 @@
       "surface": "mobile",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4514,7 +4514,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,
@@ -4579,7 +4579,7 @@
       "surface": "desktop",
       "states": [
         {
-          "text": "A founder who posted once a month now publishes most days.",
+          "text": "A founder who posted about once a month now publishes most days.",
           "sticky": "sticky",
           "headingWhole": true,
           "controls": true,

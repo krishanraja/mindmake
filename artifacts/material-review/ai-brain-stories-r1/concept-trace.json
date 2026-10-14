@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
+  "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,8 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
-    "renders": "artifacts/material-review/ai-brain-stories-r1/review/"
+    "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
+    "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
+    "supersedes": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -184,5 +185,45 @@
     "chosen": "eedfcce3-4085-4edb-80fc-b6008e51d574",
     "masterSha256": "3544b541ba6a7c592cf5f6bc4fbf291e571cd9453def0f1647c87ae664cdf785",
     "credits": 2.75
-  }
+  },
+  "revisions": [
+    {
+      "revision": "r1",
+      "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
+      "panel": {
+        "voice": 8,
+        "truth": 8,
+        "visual": 8,
+        "buyer": 7,
+        "access": 4,
+        "motion": 7,
+        "veto": [
+          "access: with reduced motion, a contents row left focus on body"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r2."
+    },
+    {
+      "revision": "r2",
+      "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
+      "commits": [
+        "f1a9634",
+        "aede0b5"
+      ],
+      "changes": [
+        "Focus moves to the opened story heading in the same paint that opens it, before the contents goes inert.",
+        "From the contents, Next opens the marked story; from an open story it opens the next.",
+        "The r5 generator carries the 2026-09-26 no-blur .scroll-reveal correction; the generated file equals main outside the r6 layer.",
+        "A landscape phone (max-height 430px) reads the section as a document; the stage clips instead of scrolling.",
+        "Contents rows are at least 44px; the focus ring is inset and tinted; the plate figure is aria-hidden.",
+        "Copy: 'and they keep building it around what they do and where they get stuck'; the quote is the founder's whole sentence \"It's helping me be seen by my customers.\"; the heading keeps the source's hedge, 'posted about once a month'.",
+        "Story text 16px on a phone and 14px on short screens; the probe checks for a lone last word at every resting state; the story step on short screens is at least 26svh."
+      ],
+      "declined": [
+        "Story one's heading stays smaller than the six's: a full story needs room for four parts and a plate in one stage.",
+        "The quote stays stored as text, guarded by an exact-substring test, rather than importing testimonials.ts into the homepage bundle.",
+        "Pinned travel stays about 40% longer than today, bounded at 400svh."
+      ]
+    }
+  ]
 }

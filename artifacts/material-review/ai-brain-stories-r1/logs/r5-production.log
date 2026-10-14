@@ -4,7 +4,7 @@ Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
 {
   "gate": "new-age-leadership-scroll-build",
-  "at": "2026-10-14T16:12:45.834Z",
+  "at": "2026-10-14T17:59:46.887Z",
   "engines": [
     "chromium"
   ],
@@ -14,8 +14,8 @@ Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
   "observations": [
     {
       "label": "chromium-320x568",
-      "document": 9873,
-      "samples": 60,
+      "document": 10170,
+      "samples": 62,
       "worstBlankPx": 116,
       "worstBlankShare": 0.204,
       "forward": {
@@ -73,10 +73,10 @@ Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
     },
     {
       "label": "chromium-360x640",
-      "document": 10794,
-      "samples": 58,
-      "worstBlankPx": 119,
-      "worstBlankShare": 0.186,
+      "document": 11128,
+      "samples": 60,
+      "worstBlankPx": 130,
+      "worstBlankShare": 0.203,
       "forward": {
         "lens": [
           0,
@@ -309,7 +309,7 @@ Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
     },
     {
       "label": "chromium-844x390",
-      "document": 7691,
+      "document": 7653,
       "samples": 68,
       "worstBlankPx": 145,
       "worstBlankShare": 0.372,

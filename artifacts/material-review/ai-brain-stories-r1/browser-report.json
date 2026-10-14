@@ -1,9 +1,9 @@
 {
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
-  "capturedAt": "2026-10-14T18:03:02.273Z",
-  "origin": "http://127.0.0.1:45833",
-  "distIndexSha256": "26497cf310fd1f3756d1f9b28df6995894feb6eb8c593e40577a1ef84046ddfe",
+  "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
+  "capturedAt": "2026-10-14T21:19:45.906Z",
+  "origin": "http://127.0.0.1:43387",
+  "distIndexSha256": "2801f5fa95f2a2d3a5b816226a783c68c08a89b7b0693dd15e974df9ce924c05",
   "commands": [
     {
       "id": "build",
@@ -23,42 +23,42 @@
       "id": "line-breaks",
       "run": "node scripts/qa/line-break-check.mjs",
       "exit": 0,
-      "seconds": 110,
+      "seconds": 109,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/line-breaks.log"
     },
     {
       "id": "pre-merge",
       "run": "npm run qa:homepage-release:pre-merge",
       "exit": 0,
-      "seconds": 27,
+      "seconds": 46,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/pre-merge.log"
     },
     {
       "id": "r5-production",
       "run": "QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs",
       "exit": 0,
-      "seconds": 273,
+      "seconds": 266,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/r5-production.log"
     },
     {
       "id": "chrome",
       "run": "node scripts/qa/fixed-chrome-check.mjs",
       "exit": 0,
-      "seconds": 78,
+      "seconds": 77,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/chrome.log"
     },
     {
       "id": "logo-alignment",
       "run": "node scripts/qa/logo-alignment-check.mjs",
       "exit": 0,
-      "seconds": 43,
+      "seconds": 40,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/logo-alignment.log"
     },
     {
       "id": "type-system",
       "run": "node scripts/qa/type-system-check.mjs",
       "exit": 0,
-      "seconds": 68,
+      "seconds": 67,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/type-system.log"
     },
     {
@@ -820,19 +820,19 @@
         },
         {
           "label": "home@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
-          "ratio": 9.26027885536047,
+          "ratio": 9.331947339718237,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
-          "ratio": 9.39063647173125,
+          "ratio": 9.395090124091668,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 stories 01: \"It's helping me be seen by my customers.\"",
-          "ratio": 7.396491281794553,
+          "ratio": 7.567642817624867,
           "need": 4.5,
           "pass": true
         },
@@ -2712,19 +2712,19 @@
         },
         {
           "label": "nal@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
-          "ratio": 9.26027885536047,
+          "ratio": 9.331947339718237,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
-          "ratio": 9.39063647173125,
+          "ratio": 9.395090124091668,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 stories 01: \"It's helping me be seen by my customers.\"",
-          "ratio": 7.396491281794553,
+          "ratio": 7.567642817624867,
           "need": 4.5,
           "pass": true
         },

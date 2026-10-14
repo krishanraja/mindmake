@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
+  "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,9 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
+    "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
     "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
-    "supersedes": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a"
+    "supersedes": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -223,7 +223,35 @@
         "Story one's heading stays smaller than the six's: a full story needs room for four parts and a plate in one stage.",
         "The quote stays stored as text, guarded by an exact-substring test, rather than importing testimonials.ts into the homepage bundle.",
         "Pinned travel stays about 40% longer than today, bounded at 400svh."
-      ]
+      ],
+      "panel": {
+        "voice": 8,
+        "truth": 9,
+        "visual": 6,
+        "buyer": 7,
+        "access": 5,
+        "motion": 8,
+        "veto": [
+          "access: contents row 07 cut at 1024x768 on /new-age-leadership, the homepage arrows below the fold at 1024x700, the six quotes cut by the bar reserve at laptop sizes"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r3."
+    },
+    {
+      "revision": "r3",
+      "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
+      "commits": [
+        "dfe12ce"
+      ],
+      "changes": [
+        "The contents and a full story lie over the stage and fit themselves to it (--fit, floor 0.75); the six size the stage as today and it never shrinks to clip a line; at 320x568 the stage grows to hold story one.",
+        "The arrows are lifted clear of the action bar, the cookie notice or the fold by measurement: spare room first, then the stage's empty height (never below what it holds), then the air above the label.",
+        "One whole state at a time chosen by position, changed by a short timed fade (out 0.16s, then in 0.24s); immediate with reduced motion. Shorter passages and a 22svh unit on phones and short screens.",
+        "Arrows decide from position (storyTargets); disabled arrows do nothing; pinTop cached; late focus hand-offs dropped; controls are a labelled group.",
+        "Story one's heading about 50px at 1440x900; quote beside the plate; 'A post' held together; what happened in three short sentences ('It fits around what they do and where they get stuck.').",
+        "Focus rings outside the row and heading; no row marked current in document mode; document-mode links land clear of the masthead."
+      ],
+      "evidence": "A 31-size sweep on both pages finds no new issue against today's build (viewport-sweep.json); the six are identical at 1440x900 and 390x844 on both pages and move only where today puts the arrows under the bar or fold, cuts a quote, or at 320x568."
     }
   ]
 }

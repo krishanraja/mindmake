@@ -226,6 +226,7 @@ async function probe() {
         await page.screenshot({ path: file, type: "jpeg", quality: 82 });
         shots.push(file);
         if (s.text) contrast.push(...await measureContrast(page, s.text, `${where} ${s.id} ${n}`));
+        if (s.text) for (const lone of await loneWords(page, s.text)) fail(where, `lone word on the last line at ${s.id} ${n}: "${lone}"`);
       }
     }
     for (const c of contrast.filter((c) => !c.pass)) fail(where, `contrast ${c.ratio.toFixed(2)} < ${c.need} for ${c.label}`);
@@ -325,6 +326,32 @@ async function probe() {
   await writeFile(path.resolve(outDir, "browser-report.json"), `${JSON.stringify(results, null, 2)}\n`, "utf8");
   console.log(JSON.stringify({ candidateSha256: identity.sha256, failures: results.failures }, null, 2));
   if (results.failures.length) process.exitCode = 1;
+
+  /* A word alone on its last line, measured on the words as laid out (a
+     no-break space keeps its words together, as the page means it to). */
+  async function loneWords(page, selector) {
+    return page.evaluate((selector) => {
+      const found = [];
+      for (const el of document.querySelectorAll(selector)) {
+        const box = el.getBoundingClientRect();
+        if (!box.width || getComputedStyle(el).visibility === "hidden" || el.closest("[aria-hidden='true']")) continue;
+        const words = [];
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        for (let node; (node = walker.nextNode());) {
+          for (const match of node.textContent.matchAll(/[^ \t\n\r]+/g)) {
+            const range = document.createRange(); range.setStart(node, match.index); range.setEnd(node, match.index + match[0].length);
+            const rects = [...range.getClientRects()].filter((r) => r.width > 0);
+            if (rects.length) words.push({ text: match[0], top: Math.round(rects[rects.length - 1].top) });
+          }
+        }
+        if (words.length < 2) continue;
+        const lastTop = Math.max(...words.map((w) => w.top));
+        const last = words.filter((w) => Math.abs(w.top - lastTop) < 4);
+        if (last.length === 1 && !/\u00a0/.test(last[0].text)) found.push(`${last[0].text} (in "${el.textContent.trim().slice(0, 40)}")`);
+      }
+      return found;
+    }, selector);
+  }
 
   async function measureContrast(page, selector, label) {
     const nodes = await page.$$(selector);

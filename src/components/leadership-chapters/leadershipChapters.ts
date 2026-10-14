@@ -53,10 +53,10 @@ const keep = (words: string) => words.replaceAll(" ", "\u00a0");
 
 export const leadershipStories: readonly LeadershipStory[] = [
   {
-    heading: `A founder who posted ${keep("once a month")} now publishes most days.`,
+    heading: `A founder who posted about ${keep("once a month")} now publishes most days.`,
     situation: "The founder runs a research and content brand. Publishing a post backed by research took days.",
-    happened: "We set up an AI system that belongs to the founder. They build it around what they do and where they get stuck. A post like that now takes under an hour.",
-    quote: { testimonialId: "wellness-founder", text: "I've learnt to push through basic barriers I didn't realise I could" },
+    happened: "We set up an AI system that belongs to the founder, and they keep building it around what they do and where they get stuck. A post like that now takes under an hour.",
+    quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
   },
   ...leadershipBenefits.map(([heading, line]) => ({ heading, line })),
@@ -144,7 +144,7 @@ export function leadershipChaptersMarkup() {
   const contents = leadershipStories.map((story, i) => `<a href="#mm-story-${i + 1}" data-story-link="${i}"${i ? "" : ' aria-current="true"'}><span class="story-number">${String(i + 1).padStart(2, "0")}</span><span>${story.heading}</span></a>`).join("");
   const brainBenefits = leadershipStories.map((story, i) => {
     const body = story.situation
-      ? `<div class="story-body${story.scene ? " has-plate" : ""}">${story.scene ? `<figure class="story-plate"><img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" /></figure>` : ""}<p class="story-situation">${story.situation}</p><p class="story-happened">${story.happened}</p>${story.quote ? `<blockquote class="story-quote">"${story.quote.text}"</blockquote>` : ""}</div>`
+      ? `<div class="story-body${story.scene ? " has-plate" : ""}">${story.scene ? `<figure class="story-plate" aria-hidden="true"><img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" /></figure>` : ""}<p class="story-situation">${story.situation}</p><p class="story-happened">${story.happened}</p>${story.quote ? `<blockquote class="story-quote">"${story.quote.text}"</blockquote>` : ""}</div>`
       : `<p>${story.line}</p>`;
     return `<article class="brain-benefit${story.situation ? " is-story" : ""}${i ? "" : " is-active"}" id="mm-story-${i + 1}" data-benefit="${i}" data-weight="${weights[i]}"><h2 tabindex="-1">${story.heading}</h2>${body}</article>`;
   }).join("");
@@ -249,10 +249,39 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const storyNext = root.querySelector<HTMLElement>("[data-benefit-next]");
   const storyWeights = benefitNodes.map((node) => Number(node.dataset.weight) || 1);
   const storyRests = storyPlan(storyWeights).rests;
-  let benefit = -1; let shownKey = "";
+  let benefit = -1; let shownKey = ""; let storyOpen = false; let pendingFocus = -1;
+  /* A contents row hands focus to the story it opens. The story's heading can
+     only take focus once it is visible, which on some pages is a frame or two
+     after it opens, so focus is retried for a few frames rather than lost. */
+  const landFocus = (i: number, tries = 12) => {
+    const heading = benefitNodes[i]?.querySelector<HTMLElement>("h2");
+    if (!heading || pendingFocus !== i) return;
+    heading.focus({ preventScroll: true });
+    if (document.activeElement === heading) { pendingFocus = -1; return; }
+    if (tries > 0) requestAnimationFrame(() => landFocus(i, tries - 1));
+  };
+  /* A screen too short to pin the stories (a phone held sideways) reads them
+     as a document, as it reads the practice scenes: every story and the
+     contents in order, the contents links plain links. The script reads which
+     the stylesheet chose from the panel's computed position. */
+  let storyFlow = false;
+  const measureStories = () => {
+    const flow = benefitPanel ? getComputedStyle(benefitPanel).position !== "sticky" : false;
+    if (flow === storyFlow) return;
+    storyFlow = flow;
+    shownKey = ""; benefit = -1;
+    if (flow) {
+      benefitNodes.forEach((node) => setInert(node, false));
+      setInert(storyContents, false);
+      storyStage?.style.setProperty("--story-shown", "1");
+      storyStage?.style.setProperty("--contents-shown", "1");
+    }
+  };
   const setInert = (node: HTMLElement | null, hidden: boolean) => { if (!node) return; node.setAttribute("aria-hidden", String(hidden)); node.toggleAttribute("inert", hidden); };
   const paintStories = (state: ReturnType<typeof storyScroll>) => {
+    if (storyFlow) return;
     const open = state.storyShown > 0;
+    storyOpen = open;
     if (state.story !== benefit) {
       benefit = state.story;
       benefitNodes.forEach((node, i) => node.classList.toggle("is-active", i === benefit));
@@ -262,14 +291,16 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       benefitControls?.style.setProperty("--benefit-index", String(benefit));
       storyLinks.forEach((link, i) => { if (i === state.mark) link.setAttribute("aria-current", "true"); else link.removeAttribute("aria-current"); });
       storyPrev?.setAttribute("aria-disabled", String(benefit === 0));
-      storyNext?.setAttribute("aria-disabled", String(benefit === benefitNodes.length - 1));
     }
+    storyNext?.setAttribute("aria-disabled", String(open && benefit === benefitNodes.length - 1));
     storyStage?.style.setProperty("--story-shown", state.storyShown.toFixed(3));
     storyStage?.style.setProperty("--contents-shown", state.contentsShown.toFixed(3));
     const key = `${benefit}:${open}:${state.contentsShown > 0}`;
     if (key === shownKey) return;
     shownKey = key;
     benefitNodes.forEach((node, i) => setInert(node, !(open && i === benefit)));
+    /* Hand focus to the opening story before the contents that held it goes inert. */
+    if (open && pendingFocus === benefit) landFocus(benefit);
     setInert(storyContents, !(state.contentsShown > 0));
   };
   const storyProgress = () => {
@@ -284,12 +315,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (!benefitTrack || !benefitPanel) return;
     const pinTop = parseFloat(getComputedStyle(benefitPanel).top) || 0;
     const top = scrollY + benefitTrack.getBoundingClientRect().top - pinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * storyRests[next];
+    if (focus) pendingFocus = next;
     scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
-    if (focus) {
-      const heading = benefitNodes[next].querySelector<HTMLElement>("h2");
-      const land = () => { if (benefit === next && heading) heading.focus({ preventScroll: true }); };
-      if (reduced) requestAnimationFrame(land); else setTimeout(land, 900);
-    }
+    if (focus && storyOpen && benefit === next) landFocus(next);
   };
   /* Above 900px the whole practice chapter pins and its scenes change at the
      quarter points. On a phone of ordinary height the stylesheet pins the
@@ -353,9 +381,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (work && workMode === "wide") setWork(Math.round(Math.max(0, Math.min(1, -work.getBoundingClientRect().top / Math.max(1, work.offsetHeight - innerHeight))) * 2));
     if (work && workMode === "pinned") paintPinnedWork();
     if (reach && reachSticky) { const p = Math.max(0, Math.min(1, -reach.getBoundingClientRect().top / Math.max(1, reach.offsetHeight - reachSticky.offsetHeight))); reach.style.setProperty("--reach-progress", String(p)); if (performance.now() >= reachLockUntil) setReach(p < 0.48 ? "boundary" : "organisation"); }
-    if (benefitTrack && benefitPanel) paintStories(storyScroll(storyProgress(), storyWeights, reduced));
+    if (benefitTrack && benefitPanel && !storyFlow) paintStories(storyScroll(storyProgress(), storyWeights, reduced));
   };
-  addEventListener("scroll", update, { passive: true, signal }); addEventListener("resize", () => { measureWork(); update(); }, { signal });
+  addEventListener("scroll", update, { passive: true, signal }); addEventListener("resize", () => { measureWork(); measureStories(); update(); }, { signal });
   workButtons.forEach((button, i) => button.addEventListener("click", () => {
     if (workMode === "pinned") {
       const geometry = pinnedWork();
@@ -366,8 +394,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (work) scrollTo({ top: scrollY + work.getBoundingClientRect().top + (work.offsetHeight - innerHeight) * (i / 2), behavior: reduced ? "auto" : "smooth" });
   }, { signal }));
   root.querySelectorAll<HTMLElement>("[data-reach-jump]").forEach((button) => button.addEventListener("click", () => { const phase = button.dataset.reachJump || "boundary"; setReach(phase); reachLockUntil = performance.now() + 1200; if (reach && reachSticky) scrollTo({ top: scrollY + reach.getBoundingClientRect().top + (reach.offsetHeight - reachSticky.offsetHeight) * (phase === "organisation" ? 0.68 : 0.12), behavior: reduced ? "auto" : "smooth" }); }, { signal }));
-  storyPrev?.addEventListener("click", () => chooseBenefit(benefit - 1), { signal }); storyNext?.addEventListener("click", () => chooseBenefit(benefit + 1), { signal });
-  storyLinks.forEach((link, i) => link.addEventListener("click", (event) => { event.preventDefault(); chooseBenefit(i, true); }, { signal }));
+  /* From the contents, Next opens the story the mark is on; from an open story it opens the one after. */
+  storyPrev?.addEventListener("click", () => chooseBenefit(benefit - 1), { signal }); storyNext?.addEventListener("click", () => chooseBenefit(storyOpen ? benefit + 1 : benefit), { signal });
+  storyLinks.forEach((link, i) => link.addEventListener("click", (event) => { if (storyFlow) return; event.preventDefault(); chooseBenefit(i, true); }, { signal }));
 
   const videos = media ? [...root.querySelectorAll<HTMLVideoElement>(".reach-sequence video, .work-scroll video")] : [];
   if (media && "IntersectionObserver" in window) {
@@ -383,6 +412,6 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     else { const observer = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-revealed"); observer.unobserve(e.target); } }), { threshold: 0.25 }); observers.push(observer); reveals.forEach((x) => observer.observe(x)); }
   } else if (media) root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((x) => x.classList.add("is-revealed"));
 
-  setWork(0); paintStories(storyScroll(0, storyWeights, reduced)); measureWork(); update();
+  setWork(0); measureStories(); paintStories(storyScroll(0, storyWeights, reduced)); measureWork(); update();
   return () => { abort.abort(); observers.forEach((o) => o.disconnect()); videos.forEach((v) => v.pause()); };
 }

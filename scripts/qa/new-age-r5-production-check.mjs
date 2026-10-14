@@ -131,11 +131,16 @@ const PROBE = `(() => {
   const scenes = [...document.querySelectorAll("[data-work-scene]")];
   const stacked = scenes.length > 0 && getComputedStyle(scenes[0]).position !== "absolute";
   const onScreen = scenes.findIndex((n) => { const r = n.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; });
+  const storyPanel = document.querySelector("[data-benefits]");
+  const storiesStacked = Boolean(storyPanel) && getComputedStyle(storyPanel).position !== "sticky";
+  const onScreenStory = [...document.querySelectorAll("[data-benefit]")].findIndex((n) => { const r = n.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; });
   return {
     blank: Math.round((worst * innerHeight) / 59),
     lens: active("[data-lens-copy]"),
     reach: active("[data-reach-panel]"),
-    benefit: active("[data-benefit]"),
+    /* A phone held sideways reads the AI Brain stories as a document, so
+       "which one is showing" is which one the viewport is over. */
+    benefit: storiesStacked ? onScreenStory : active("[data-benefit]"),
     work: stacked ? onScreen : active("[data-work-scene]"),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   };

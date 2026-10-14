@@ -113,8 +113,9 @@
 
 
 /* styles-s3-r2.css */
-.nal-page .scroll-reveal{opacity:0;filter:blur(7px);transform:translateY(26px);transition:opacity .65s ease,filter .8s ease,transform .9s cubic-bezier(.2,.72,.2,1);will-change:opacity,filter,transform}
-.nal-page .scroll-reveal.is-revealed{opacity:1;filter:blur(0);transform:translateY(0)}
+/* No blur and no will-change (Krish, 2026-09-26): on Android Chrome the promoted, blurred layer painted a stale copy of the masthead where the heading should be. */
+.nal-page .scroll-reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .9s cubic-bezier(.2,.72,.2,1)}
+.nal-page .scroll-reveal.is-revealed{opacity:1;transform:none}
 .nal-page .work-intro h2 em{color:#146e52;text-shadow:none}
 .nal-page .motion-paused .scroll-reveal{transition:none}
 .nal-page .brain-benefits{position:relative;overflow:hidden;justify-content:flex-start}
@@ -1184,13 +1185,17 @@
 
 @media (max-height: 650px) {
   .nal-page .human-proof {
-    --story-unit: 22svh;
+    --story-unit: 26svh;
   }
 }
 
+/* overflow: clip, not hidden: a hidden overflow is still a scroll container,
+ * and moving focus into it scrolled the stage out of place. */
 .nal-page .benefit-stage {
   --story-shown: 0;
   --contents-shown: 1;
+  overflow: clip;
+  overflow-clip-margin: 6px;
 }
 
 .nal-page .benefit-controls > div i {
@@ -1233,11 +1238,13 @@
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
   align-items: baseline;
+  align-content: center;
+  min-height: 44px;
   column-gap: 12px;
   padding: 11px 0 12px;
   border-bottom: 1px solid rgba(234, 223, 200, .14);
   color: rgba(234, 223, 200, .78);
-  font: 400 clamp(17px, min(1.4vw, 2.3vh), 20px) / 1.26 var(--serif);
+  font: 400 clamp(17px, min(1.32vw, 2.2vh), 19px) / 1.26 var(--serif);
   text-decoration: none;
   text-wrap: balance;
 }
@@ -1262,9 +1269,11 @@
   color: var(--paper);
 }
 
+/* Focus is a tinted, inset ring, so it never reads as the mark's underline. */
 .nal-page .story-contents a:focus-visible {
   outline: 2px solid var(--mint);
-  outline-offset: 2px;
+  outline-offset: -3px;
+  background: rgba(159, 241, 201, .08);
 }
 
 /* A full story: its heading sits a step smaller than the six so its parts and
@@ -1352,11 +1361,11 @@
   }
 
   .nal-page .brain-benefit .story-body p {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .nal-page .story-quote {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .nal-page .story-contents a {
@@ -1391,8 +1400,8 @@
 
   .nal-page .brain-benefit .story-body p,
   .nal-page .story-quote {
-    font-size: 13.5px;
-    line-height: 1.34;
+    font-size: 14px;
+    line-height: 1.32;
   }
 
   .nal-page .story-quote {
@@ -1467,9 +1476,10 @@
   }
 }
 
-/* Without scripts nothing drives the pin, so the section reads as a document:
- * the contents, then every story in order. */
-@media (scripting: none) {
+/* Without scripts nothing drives the pin, and a phone held sideways is too
+ * short to pin it, so the section reads as a document: the contents, then
+ * every story in order. */
+@media (scripting: none), (max-height: 430px) and (orientation: landscape) {
   .nal-page .proof-track {
     height: auto;
   }

@@ -1,6 +1,6 @@
 {
   "gate": "new-age-leadership-scroll-build",
-  "at": "2026-09-26T15:30:14.807Z",
+  "at": "2026-10-14T15:32:02.016Z",
   "engines": [
     "chromium"
   ],
@@ -10,10 +10,10 @@
   "observations": [
     {
       "label": "chromium-320x568",
-      "document": 9679,
-      "samples": 59,
-      "worstBlankPx": 125,
-      "worstBlankShare": 0.22,
+      "document": 9798,
+      "samples": 60,
+      "worstBlankPx": 116,
+      "worstBlankShare": 0.204,
       "forward": {
         "lens": [
           0,
@@ -31,7 +31,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -56,7 +57,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -67,10 +69,10 @@
     },
     {
       "label": "chromium-360x640",
-      "document": 10565,
-      "samples": 57,
-      "worstBlankPx": 130,
-      "worstBlankShare": 0.203,
+      "document": 10710,
+      "samples": 58,
+      "worstBlankPx": 119,
+      "worstBlankShare": 0.186,
       "forward": {
         "lens": [
           0,
@@ -88,7 +90,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -113,7 +116,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -124,9 +128,68 @@
     },
     {
       "label": "chromium-390x844",
-      "document": 13638,
-      "samples": 56,
-      "worstBlankPx": 200,
+      "document": 14162,
+      "samples": 58,
+      "worstBlankPx": 229,
+      "worstBlankShare": 0.271,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-430x932",
+      "document": 15602,
+      "samples": 58,
+      "worstBlankPx": 221,
       "worstBlankShare": 0.237,
       "forward": {
         "lens": [
@@ -145,7 +208,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -170,64 +234,8 @@
           2,
           3,
           4,
-          5
-        ],
-        "work": [
-          0,
-          1,
-          2
-        ]
-      }
-    },
-    {
-      "label": "chromium-430x932",
-      "document": 14992,
-      "samples": 55,
-      "worstBlankPx": 205,
-      "worstBlankShare": 0.22,
-      "forward": {
-        "lens": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "reach": [
-          0,
-          1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ],
-        "work": [
-          0,
-          1,
-          2
-        ]
-      },
-      "reverse": {
-        "lens": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "reach": [
-          0,
-          1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -238,10 +246,10 @@
     },
     {
       "label": "chromium-768x1024",
-      "document": 16694,
-      "samples": 56,
-      "worstBlankPx": 312,
-      "worstBlankShare": 0.305,
+      "document": 17333,
+      "samples": 58,
+      "worstBlankPx": 278,
+      "worstBlankShare": 0.271,
       "forward": {
         "lens": [
           0,
@@ -259,7 +267,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -284,7 +293,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -295,10 +305,10 @@
     },
     {
       "label": "chromium-844x390",
-      "document": 7606,
+      "document": 7640,
       "samples": 68,
-      "worstBlankPx": 145,
-      "worstBlankShare": 0.372,
+      "worstBlankPx": 152,
+      "worstBlankShare": 0.39,
       "forward": {
         "lens": [
           0,
@@ -316,7 +326,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -341,7 +352,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -352,8 +364,8 @@
     },
     {
       "label": "chromium-1024x768",
-      "document": 13092,
-      "samples": 59,
+      "document": 13490,
+      "samples": 61,
       "worstBlankPx": 260,
       "worstBlankShare": 0.339,
       "forward": {
@@ -373,7 +385,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -398,7 +411,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -409,10 +423,10 @@
     },
     {
       "label": "chromium-1366x768",
-      "document": 13092,
-      "samples": 59,
-      "worstBlankPx": 208,
-      "worstBlankShare": 0.271,
+      "document": 13520,
+      "samples": 61,
+      "worstBlankPx": 221,
+      "worstBlankShare": 0.288,
       "forward": {
         "lens": [
           0,
@@ -430,7 +444,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -455,7 +470,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -466,10 +482,10 @@
     },
     {
       "label": "chromium-1440x900",
-      "document": 15264,
-      "samples": 58,
-      "worstBlankPx": 305,
-      "worstBlankShare": 0.339,
+      "document": 15811,
+      "samples": 61,
+      "worstBlankPx": 259,
+      "worstBlankShare": 0.288,
       "forward": {
         "lens": [
           0,
@@ -487,7 +503,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -512,7 +529,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -523,8 +541,8 @@
     },
     {
       "label": "chromium-1920x1080",
-      "document": 18225,
-      "samples": 58,
+      "document": 18937,
+      "samples": 61,
       "worstBlankPx": 366,
       "worstBlankShare": 0.339,
       "forward": {
@@ -544,7 +562,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,
@@ -569,7 +588,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ],
         "work": [
           0,

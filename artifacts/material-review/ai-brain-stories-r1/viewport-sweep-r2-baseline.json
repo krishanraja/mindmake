@@ -1,0 +1,1272 @@
+{
+ "cand": "http://127.0.0.1:4180",
+ "live": "http://127.0.0.1:4193",
+ "results": [
+  {
+   "size": "1920x1080",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 6px",
+    "six2: s2 cut top 6px",
+    "six3: s3 cut top 6px",
+    "six4: s4 cut top 6px",
+    "six5: s5 cut top 6px",
+    "six6: s6 cut top 6px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1920x1080",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 6px",
+    "six2: s2 cut top 6px",
+    "six3: s3 cut top 6px",
+    "six4: s4 cut top 6px",
+    "six5: s5 cut top 6px",
+    "six6: s6 cut top 6px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1920x800",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1920x800",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s4[S4]: s4 cut 14px",
+    "s7[S7]: s7 cut 7px"
+   ],
+   "live": [
+    "six1: s1 cut top 6px",
+    "six2: s2 cut top 6px",
+    "six3: s3 cut top 6px",
+    "six4: s4 cut top 6px",
+    "six5: s5 cut top 6px",
+    "six6: s6 cut top 6px"
+   ],
+   "six": [
+    "six1: h2 [252,221.5,72,816]->[249,221.5,72,816]; p [505.5,100.5,72,610]->[502.5,100.5,72,610]; stage [252,428,72,816]->[249,408,72,816]; next [681,52,840,48]->[658,52,840,48]; kicker [199,13,72,816]->[196,13,72,816]",
+    "six2: h2 [252,221.5,72,816]->[249,221.5,72,816]; p [505.5,134,72,610]->[502.5,134,72,610]; stage [252,428,72,816]->[249,408,72,816]; next [681,52,840,48]->[658,52,840,48]; kicker [199,13,72,816]->[196,13,72,816]",
+    "six3: h2 [252,295.5,72,816]->[249,295.5,72,816]; p [579.5,100.5,72,610]->[576.5,100.5,72,610]; stage [252,428,72,816]->[249,408,72,816]; next [681,52,840,48]->[658,52,840,48]; kicker [199,13,72,816]->[196,13,72,816]",
+    "six4: h2 [252,221.5,72,816]->[249,221.5,72,816]; p [505.5,134,72,610]->[502.5,134,72,610]; stage [252,428,72,816]->[249,408,72,816]; next [681,52,840,48]->[658,52,840,48]; kicker [199,13,72,816]->[196,13,72,816]",
+    "six5: h2 [252,221.5,72,816]->[249,221.5,72,816]; p [505.5,134,72,610]->[502.5,134,72,610]; stage [252,428,72,816]->[249,408,72,816]; next [681,52,840,48]->[658,52,840,48]; kicker [199,13,72,816]->[196,13,72,816]",
+    "six6: h2 [252,221.5,72,816]->[249,221.5,72,816]; p [505.5,167.5,72,610]->[502.5,167.5,72,610]; stage [252,428,72,816]->[249,408,72,816]; next [681,52,840,48]->[658,52,840,48]; kicker [199,13,72,816]->[196,13,72,816]"
+   ]
+  },
+  {
+   "size": "1680x1050",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 6px",
+    "six2: s2 cut top 6px",
+    "six3: s3 cut top 6px",
+    "six4: s4 cut top 6px",
+    "six5: s5 cut top 6px",
+    "six6: s6 cut top 6px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1680x1050",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 6px",
+    "six2: s2 cut top 6px",
+    "six3: s3 cut top 6px",
+    "six4: s4 cut top 6px",
+    "six5: s5 cut top 6px",
+    "six6: s6 cut top 6px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1600x900",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1600x900",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1600x789",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1600x789",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s2[S2]: s2 cut 4px",
+    "s3[S3]: s3 cut 38px",
+    "s4[S4]: s4 cut 4px",
+    "s5[S5]: s5 cut 38px",
+    "s7[S7]: s7 cut 71px, s7 under bar 5px"
+   ],
+   "live": [
+    "six1: s1 cut top 5px, arrows under bar 4px",
+    "six2: s2 cut 21px, s2 cut top 5px, arrows under bar 4px",
+    "six3: s3 cut top 5px, arrows under bar 4px",
+    "six4: s4 cut 21px, s4 cut top 5px, arrows under bar 4px",
+    "six5: s5 cut top 5px, arrows under bar 4px",
+    "six6: s6 cut 54px, s6 cut top 5px, s6 under bar 5px, arrows under bar 4px"
+   ],
+   "six": [
+    "six1: stage [247.5,425.5,70.5,659]->[247.5,402.5,70.5,659]; next [674,52,681.5,48]->[651,52,681.5,48]",
+    "six2: stage [247.5,425.5,70.5,659]->[247.5,402.5,70.5,659]; next [674,52,681.5,48]->[651,52,681.5,48]",
+    "six3: stage [247.5,425.5,70.5,659]->[247.5,402.5,70.5,659]; next [674,52,681.5,48]->[651,52,681.5,48]",
+    "six4: stage [247.5,425.5,70.5,659]->[247.5,402.5,70.5,659]; next [674,52,681.5,48]->[651,52,681.5,48]",
+    "six5: stage [247.5,425.5,70.5,659]->[247.5,402.5,70.5,659]; next [674,52,681.5,48]->[651,52,681.5,48]",
+    "six6: stage [247.5,425.5,70.5,659]->[247.5,402.5,70.5,659]; next [674,52,681.5,48]->[651,52,681.5,48]"
+   ]
+  },
+  {
+   "size": "1536x864",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1536x864",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1536x730",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1536x730",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 20px",
+    "s2[S2]: arrows under bar 20px",
+    "s3[S3]: s3 cut 31px, s3 under bar 4px, arrows under bar 20px",
+    "s4[S4]: arrows under bar 20px",
+    "s5[S5]: s5 cut 31px, s5 under bar 4px, arrows under bar 20px",
+    "s6[S6]: arrows under bar 20px",
+    "s7[S7]: s7 cut 63px, s7 under bar 36px, arrows under bar 20px",
+    "c1[C]: arrows under bar 20px",
+    "c2[C]: arrows under bar 20px",
+    "c3[C]: arrows under bar 20px",
+    "c4[C]: arrows under bar 20px",
+    "c5[C]: arrows under bar 20px",
+    "c6[C]: arrows under bar 20px",
+    "c7[C]: arrows under bar 20px"
+   ],
+   "live": [
+    "six1: s1 cut 5px, s1 cut top 5px, arrows under bar 20px",
+    "six2: s2 cut 37px, s2 cut top 5px, s2 under bar 4px, arrows under bar 20px",
+    "six3: s3 cut 5px, s3 cut top 5px, arrows under bar 20px",
+    "six4: s4 cut 37px, s4 cut top 5px, s4 under bar 4px, arrows under bar 20px",
+    "six5: s5 cut top 5px, arrows under bar 20px",
+    "six6: s6 cut 69px, s6 cut top 5px, s6 under bar 36px, arrows under bar 20px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1440x900",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1440x900",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1440x800",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1440x800",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s7[S7]: s7 cut 21px"
+   ],
+   "live": [
+    "six1: s1 cut top 5px, arrows under bar 3px",
+    "six2: s2 cut top 5px, arrows under bar 3px",
+    "six3: s3 cut top 5px, arrows under bar 3px",
+    "six4: s4 cut top 5px, arrows under bar 3px",
+    "six5: s5 cut top 5px, arrows under bar 3px",
+    "six6: s6 cut 1px, s6 cut top 5px, arrows under bar 3px"
+   ],
+   "six": [
+    "six1: stage [249,434,63.5,593.5]->[249,408,63.5,593.5]; next [684,52,608.5,48]->[658,52,608.5,48]",
+    "six2: stage [249,434,63.5,593.5]->[249,408,63.5,593.5]; next [684,52,608.5,48]->[658,52,608.5,48]",
+    "six3: stage [249,434,63.5,593.5]->[249,408,63.5,593.5]; next [684,52,608.5,48]->[658,52,608.5,48]",
+    "six4: stage [249,434,63.5,593.5]->[249,408,63.5,593.5]; next [684,52,608.5,48]->[658,52,608.5,48]",
+    "six5: stage [249,434,63.5,593.5]->[249,408,63.5,593.5]; next [684,52,608.5,48]->[658,52,608.5,48]",
+    "six6: stage [249,434,63.5,593.5]->[249,408,63.5,593.5]; next [684,52,608.5,48]->[658,52,608.5,48]"
+   ]
+  },
+  {
+   "size": "1440x789",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1440x789",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s7[S7]: s7 cut 26px"
+   ],
+   "live": [
+    "six1: s1 cut top 5px, arrows under bar 4px",
+    "six2: s2 cut top 5px, arrows under bar 4px",
+    "six3: s3 cut top 5px, arrows under bar 4px",
+    "six4: s4 cut top 5px, arrows under bar 4px",
+    "six5: s5 cut top 5px, arrows under bar 4px",
+    "six6: s6 cut 9px, s6 cut top 5px, arrows under bar 4px"
+   ],
+   "six": [
+    "six1: stage [247.5,425.5,63.5,593.5]->[247.5,402.5,63.5,593.5]; next [674,52,608.5,48]->[651,52,608.5,48]",
+    "six2: stage [247.5,425.5,63.5,593.5]->[247.5,402.5,63.5,593.5]; next [674,52,608.5,48]->[651,52,608.5,48]",
+    "six3: stage [247.5,425.5,63.5,593.5]->[247.5,402.5,63.5,593.5]; next [674,52,608.5,48]->[651,52,608.5,48]",
+    "six4: stage [247.5,425.5,63.5,593.5]->[247.5,402.5,63.5,593.5]; next [674,52,608.5,48]->[651,52,608.5,48]",
+    "six5: stage [247.5,425.5,63.5,593.5]->[247.5,402.5,63.5,593.5]; next [674,52,608.5,48]->[651,52,608.5,48]",
+    "six6: stage [247.5,425.5,63.5,593.5]->[247.5,402.5,63.5,593.5]; next [674,52,608.5,48]->[651,52,608.5,48]"
+   ]
+  },
+  {
+   "size": "1440x700",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1440x700",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 46px",
+    "s2[S2]: arrows under bar 46px",
+    "s3[S3]: s3 cut 5px, s3 under bar 4px, arrows under bar 46px",
+    "s4[S4]: arrows under bar 46px",
+    "s5[S5]: s5 cut 5px, s5 under bar 4px, arrows under bar 46px",
+    "s6[S6]: arrows under bar 46px",
+    "s7[S7]: s7 cut 35px, s7 under bar 34px, arrows under bar 46px",
+    "c1[C]: arrows under bar 46px",
+    "c2[C]: arrows under bar 46px",
+    "c3[C]: arrows under bar 46px",
+    "c4[C]: arrows under bar 46px",
+    "c5[C]: arrows under bar 46px",
+    "c6[C]: arrows under bar 46px",
+    "c7[C]: arrows under bar 46px"
+   ],
+   "live": [
+    "six1: s1 cut top 5px, arrows under bar 46px",
+    "six2: s2 cut 11px, s2 cut top 5px, s2 under bar 4px, arrows under bar 46px",
+    "six3: s3 cut top 5px, arrows under bar 46px",
+    "six4: s4 cut 11px, s4 cut top 5px, s4 under bar 4px, arrows under bar 46px",
+    "six5: s5 cut top 5px, arrows under bar 46px",
+    "six6: s6 cut 41px, s6 cut top 5px, s6 under bar 34px, arrows under bar 46px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1366x768",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1366x768",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s7[S7]: s7 cut 15px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under bar 6px",
+    "six2: s2 cut top 4px, arrows under bar 6px",
+    "six3: s3 cut top 4px, arrows under bar 6px",
+    "six4: s4 cut top 4px, arrows under bar 6px",
+    "six5: s5 cut top 4px, arrows under bar 6px",
+    "six6: s6 cut 4px, s6 cut top 4px, arrows under bar 6px"
+   ],
+   "six": [
+    "six1: stage [245,408.5,60,563]->[245,391.5,60,563]; next [654.5,52,575,48]->[637.5,52,575,48]",
+    "six2: stage [245,408.5,60,563]->[245,391.5,60,563]; next [654.5,52,575,48]->[637.5,52,575,48]",
+    "six3: stage [245,408.5,60,563]->[245,391.5,60,563]; next [654.5,52,575,48]->[637.5,52,575,48]",
+    "six4: stage [245,408.5,60,563]->[245,391.5,60,563]; next [654.5,52,575,48]->[637.5,52,575,48]",
+    "six5: stage [245,408.5,60,563]->[245,391.5,60,563]; next [654.5,52,575,48]->[637.5,52,575,48]",
+    "six6: stage [245,408.5,60,563]->[245,391.5,60,563]; next [654.5,52,575,48]->[637.5,52,575,48]"
+   ]
+  },
+  {
+   "size": "1366x657",
+   "path": "/",
+   "cand": [
+    "s1[S1]: arrows under fold 16px",
+    "s2[S2]: arrows under fold 16px",
+    "s3[S3]: arrows under fold 16px",
+    "s4[S4]: arrows under fold 16px",
+    "s5[S5]: arrows under fold 16px",
+    "s6[S6]: arrows under fold 16px",
+    "s7[S7]: arrows under fold 16px",
+    "c1[C]: arrows under fold 16px",
+    "c2[C]: arrows under fold 16px",
+    "c3[C]: arrows under fold 16px",
+    "c4[C]: arrows under fold 16px",
+    "c5[C]: arrows under fold 16px",
+    "c6[C]: arrows under fold 16px",
+    "c7[C]: arrows under fold 16px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under fold 16px",
+    "six2: s2 cut top 4px, arrows under fold 16px",
+    "six3: s3 cut top 4px, arrows under fold 16px",
+    "six4: s4 cut top 4px, arrows under fold 16px",
+    "six5: s5 cut top 4px, arrows under fold 16px",
+    "six6: s6 cut top 4px, arrows under fold 16px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1366x657",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 83px",
+    "s2[S2]: arrows under bar 83px",
+    "s3[S3]: s3 under bar 20px, arrows under bar 83px",
+    "s4[S4]: arrows under bar 83px",
+    "s5[S5]: s5 under bar 20px, arrows under bar 83px",
+    "s6[S6]: arrows under bar 83px",
+    "s7[S7]: s7 cut 12px, s7 under bar 49px, arrows under bar 83px",
+    "c1[C]: contents under bar 2px, arrows under bar 83px",
+    "c2[C]: contents under bar 2px, arrows under bar 83px",
+    "c3[C]: contents under bar 2px, arrows under bar 83px",
+    "c4[C]: contents under bar 2px, arrows under bar 83px",
+    "c5[C]: contents under bar 2px, arrows under bar 83px",
+    "c6[C]: contents under bar 2px, arrows under bar 83px",
+    "c7[C]: contents under bar 2px, arrows under bar 83px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under bar 83px",
+    "six2: s2 cut top 4px, s2 under bar 20px, arrows under bar 83px",
+    "six3: s3 cut top 4px, arrows under bar 83px",
+    "six4: s4 cut top 4px, s4 under bar 20px, arrows under bar 83px",
+    "six5: s5 cut top 4px, arrows under bar 83px",
+    "six6: s6 cut 18px, s6 cut top 4px, s6 under bar 49px, arrows under bar 83px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1280x800",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1280x800",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: h2 [262,225.5,56.5,527.5]->[249,225.5,56.5,527.5]; p [519.5,79.5,56.5,527.5]->[506.5,79.5,56.5,527.5]; stage [262,408,56.5,527.5]->[249,408,56.5,527.5]; next [671,52,535.5,48]->[658,52,535.5,48]; kicker [209,13,56.5,527.5]->[196,13,56.5,527.5]",
+    "six2: h2 [262,225.5,56.5,527.5]->[249,225.5,56.5,527.5]; p [519.5,106.5,56.5,527.5]->[506.5,106.5,56.5,527.5]; stage [262,408,56.5,527.5]->[249,408,56.5,527.5]; next [671,52,535.5,48]->[658,52,535.5,48]; kicker [209,13,56.5,527.5]->[196,13,56.5,527.5]",
+    "six3: h2 [262,225.5,56.5,527.5]->[249,225.5,56.5,527.5]; p [519.5,79.5,56.5,527.5]->[506.5,79.5,56.5,527.5]; stage [262,408,56.5,527.5]->[249,408,56.5,527.5]; next [671,52,535.5,48]->[658,52,535.5,48]; kicker [209,13,56.5,527.5]->[196,13,56.5,527.5]",
+    "six4: h2 [262,225.5,56.5,527.5]->[249,225.5,56.5,527.5]; p [519.5,106.5,56.5,527.5]->[506.5,106.5,56.5,527.5]; stage [262,408,56.5,527.5]->[249,408,56.5,527.5]; next [671,52,535.5,48]->[658,52,535.5,48]; kicker [209,13,56.5,527.5]->[196,13,56.5,527.5]",
+    "six5: h2 [262,169,56.5,527.5]->[249,169,56.5,527.5]; p [463,79.5,56.5,527.5]->[450,79.5,56.5,527.5]; stage [262,408,56.5,527.5]->[249,408,56.5,527.5]; next [671,52,535.5,48]->[658,52,535.5,48]; kicker [209,13,56.5,527.5]->[196,13,56.5,527.5]",
+    "six6: h2 [262,225.5,56.5,527.5]->[249,225.5,56.5,527.5]; p [519.5,133,56.5,527.5]->[506.5,133,56.5,527.5]; stage [262,408,56.5,527.5]->[249,408,56.5,527.5]; next [671,52,535.5,48]->[658,52,535.5,48]; kicker [209,13,56.5,527.5]->[196,13,56.5,527.5]"
+   ]
+  },
+  {
+   "size": "1280x720",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: stage [238.5,390,56.5,527.5]->[238.5,404.5,56.5,527.5]; next [629.5,52,535.5,48]->[644,52,535.5,48]",
+    "six2: stage [238.5,390,56.5,527.5]->[238.5,404.5,56.5,527.5]; next [629.5,52,535.5,48]->[644,52,535.5,48]",
+    "six3: stage [238.5,390,56.5,527.5]->[238.5,404.5,56.5,527.5]; next [629.5,52,535.5,48]->[644,52,535.5,48]",
+    "six4: stage [238.5,390,56.5,527.5]->[238.5,404.5,56.5,527.5]; next [629.5,52,535.5,48]->[644,52,535.5,48]",
+    "six5: stage [238.5,390,56.5,527.5]->[238.5,404.5,56.5,527.5]; next [629.5,52,535.5,48]->[644,52,535.5,48]",
+    "six6: stage [238.5,390,56.5,527.5]->[238.5,404.5,56.5,527.5]; next [629.5,52,535.5,48]->[644,52,535.5,48]"
+   ]
+  },
+  {
+   "size": "1280x720",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 29px",
+    "s2[S2]: arrows under bar 29px",
+    "s3[S3]: arrows under bar 29px",
+    "s4[S4]: arrows under bar 29px",
+    "s5[S5]: arrows under bar 29px",
+    "s6[S6]: arrows under bar 29px",
+    "s7[S7]: arrows under bar 29px",
+    "c1[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px",
+    "c2[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px",
+    "c3[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px",
+    "c4[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px",
+    "c5[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px",
+    "c6[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px",
+    "c7[C]: contents cut 8px, row 7 outside stage 14px, arrows under bar 29px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under bar 29px",
+    "six2: s2 cut top 4px, arrows under bar 29px",
+    "six3: s3 cut top 4px, arrows under bar 29px",
+    "six4: s4 cut top 4px, arrows under bar 29px",
+    "six5: s5 cut top 4px, arrows under bar 29px",
+    "six6: s6 cut top 4px, arrows under bar 29px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1280x600",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s5 cut top 4px"
+   ],
+   "six": [
+    "six6: heading \"A CRO who hates the numbers can become better at using them.\"->\"Founder-led content can begin with the work, not another content calendar.\"; p [343,37.5,56.5,527.5]->[343,56.5,56.5,527.5]"
+   ]
+  },
+  {
+   "size": "1280x600",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px, arrows under bar 21px",
+    "six2: s2 cut top 3px, arrows under bar 21px",
+    "six3: s3 cut top 3px, arrows under bar 21px",
+    "six4: s4 cut top 3px, arrows under bar 21px",
+    "six5: s5 cut top 3px, arrows under bar 21px",
+    "six6: s5 cut top 3px, arrows under bar 21px"
+   ],
+   "six": [
+    "six1: stage [181,320,56.5,527.5]->[181,253,56.5,527.5]; next [502,52,535.5,48]->[435,52,535.5,48]",
+    "six2: stage [181,320,56.5,527.5]->[181,253,56.5,527.5]; next [502,52,535.5,48]->[435,52,535.5,48]",
+    "six3: stage [181,320,56.5,527.5]->[181,253,56.5,527.5]; next [502,52,535.5,48]->[435,52,535.5,48]",
+    "six4: stage [181,320,56.5,527.5]->[181,253,56.5,527.5]; next [502,52,535.5,48]->[435,52,535.5,48]",
+    "six5: stage [181,320,56.5,527.5]->[181,253,56.5,527.5]; next [502,52,535.5,48]->[435,52,535.5,48]",
+    "six6: heading \"A CRO who hates the numbers can become better at using them.\"->\"Founder-led content can begin with the work, not another content calendar.\"; h2 [181,74,56.5,527.5]->[181,111,56.5,527.5]; h2Lines 2->3; p [268,37.5,56.5,527.5]->[305,56.5,56.5,527.5]; stage [181,320,56.5,527.5]->[181,253,56.5,527.5]; next [502,52,535.5,48]->[435,52,535.5,48]"
+   ]
+  },
+  {
+   "size": "1180x820",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,73.5,52,486]->[492,73.5,52,486]; stage [267.5,418,52,486]->[251.5,468.5,52,486]; next [686.5,52,490,48]->[721.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six2: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,98,52,486]->[492,98,52,486]; stage [267.5,418,52,486]->[251.5,468.5,52,486]; next [686.5,52,490,48]->[721.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six3: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,73.5,52,486]->[492,73.5,52,486]; stage [267.5,418,52,486]->[251.5,468.5,52,486]; next [686.5,52,490,48]->[721.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six4: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,98,52,486]->[492,98,52,486]; stage [267.5,418,52,486]->[251.5,468.5,52,486]; next [686.5,52,490,48]->[721.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six5: h2 [267.5,155.5,52,486]->[251.5,155.5,52,486]; p [456,73.5,52,486]->[440,73.5,52,486]; stage [267.5,418,52,486]->[251.5,468.5,52,486]; next [686.5,52,490,48]->[721.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six6: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,122.5,52,486]->[492,122.5,52,486]; stage [267.5,418,52,486]->[251.5,468.5,52,486]; next [686.5,52,490,48]->[721.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]"
+   ]
+  },
+  {
+   "size": "1180x820",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 1px",
+    "s2[S2]: arrows under bar 1px",
+    "s3[S3]: arrows under bar 1px",
+    "s4[S4]: arrows under bar 1px",
+    "s5[S5]: arrows under bar 1px",
+    "s6[S6]: arrows under bar 1px",
+    "s7[S7]: arrows under bar 1px",
+    "c1[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px",
+    "c2[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px",
+    "c3[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px",
+    "c4[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px",
+    "c5[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px",
+    "c6[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px",
+    "c7[C]: contents cut 13px, row 7 outside stage 19px, arrows under bar 1px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,73.5,52,486]->[492,73.5,52,486]; stage [267.5,418,52,486]->[251.5,450,52,486]; next [686.5,52,490,48]->[702.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six2: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,98,52,486]->[492,98,52,486]; stage [267.5,418,52,486]->[251.5,450,52,486]; next [686.5,52,490,48]->[702.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six3: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,73.5,52,486]->[492,73.5,52,486]; stage [267.5,418,52,486]->[251.5,450,52,486]; next [686.5,52,490,48]->[702.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six4: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,98,52,486]->[492,98,52,486]; stage [267.5,418,52,486]->[251.5,450,52,486]; next [686.5,52,490,48]->[702.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six5: h2 [267.5,155.5,52,486]->[251.5,155.5,52,486]; p [456,73.5,52,486]->[440,73.5,52,486]; stage [267.5,418,52,486]->[251.5,450,52,486]; next [686.5,52,490,48]->[702.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]",
+    "six6: h2 [267.5,207.5,52,486]->[251.5,207.5,52,486]; p [508,122.5,52,486]->[492,122.5,52,486]; stage [267.5,418,52,486]->[251.5,450,52,486]; next [686.5,52,490,48]->[702.5,52,490,48]; kicker [213.5,13,52,486]->[197.5,13,52,486]"
+   ]
+  },
+  {
+   "size": "1100x700",
+   "path": "/",
+   "cand": [
+    "s1[S1]: arrows under fold 58px",
+    "s2[S2]: arrows under fold 58px",
+    "s3[S3]: arrows under fold 58px",
+    "s4[S4]: arrows under fold 58px",
+    "s5[S5]: arrows under fold 58px",
+    "s6[S6]: arrows under fold 58px",
+    "s7[S7]: arrows under fold 58px",
+    "c1[C]: contents under fold 5px, arrows under fold 58px",
+    "c2[C]: contents under fold 5px, arrows under fold 58px",
+    "c3[C]: contents under fold 5px, arrows under fold 58px",
+    "c4[C]: contents under fold 5px, arrows under fold 58px",
+    "c5[C]: contents under fold 5px, arrows under fold 58px",
+    "c6[C]: contents under fold 5px, arrows under fold 58px",
+    "c7[C]: contents under fold 5px, arrows under fold 58px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: stage [236,390,48.5,453]->[236,468.5,48.5,453]; next [627,52,453.5,48]->[705.5,52,453.5,48]",
+    "six2: stage [236,390,48.5,453]->[236,468.5,48.5,453]; next [627,52,453.5,48]->[705.5,52,453.5,48]",
+    "six3: stage [236,390,48.5,453]->[236,468.5,48.5,453]; next [627,52,453.5,48]->[705.5,52,453.5,48]",
+    "six4: stage [236,390,48.5,453]->[236,468.5,48.5,453]; next [627,52,453.5,48]->[705.5,52,453.5,48]",
+    "six5: stage [236,390,48.5,453]->[236,468.5,48.5,453]; next [627,52,453.5,48]->[705.5,52,453.5,48]",
+    "six6: stage [236,390,48.5,453]->[236,468.5,48.5,453]; next [627,52,453.5,48]->[705.5,52,453.5,48]"
+   ]
+  },
+  {
+   "size": "1100x700",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 46px",
+    "s2[S2]: arrows under bar 46px",
+    "s3[S3]: arrows under bar 46px",
+    "s4[S4]: arrows under bar 46px",
+    "s5[S5]: arrows under bar 46px",
+    "s6[S6]: arrows under bar 46px",
+    "s7[S7]: arrows under bar 46px",
+    "c1[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c2[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c3[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c4[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c5[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c6[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c7[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under bar 46px",
+    "six2: s2 cut top 4px, arrows under bar 46px",
+    "six3: s3 cut top 4px, arrows under bar 46px",
+    "six4: s4 cut top 4px, arrows under bar 46px",
+    "six5: s5 cut top 4px, arrows under bar 46px",
+    "six6: s6 cut top 4px, arrows under bar 46px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1024x768",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,72.5,45,422]->[455.5,72.5,45,422]; stage [253.5,391.5,45,422]->[245,468.5,45,422]; next [646,52,419,48]->[714.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six2: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,96.5,45,422]->[455.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,468.5,45,422]; next [646,52,419,48]->[714.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six3: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,96.5,45,422]->[455.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,468.5,45,422]; next [646,52,419,48]->[714.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six4: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,96.5,45,422]->[455.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,468.5,45,422]; next [646,52,419,48]->[714.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six5: h2 [253.5,135,45,422]->[245,135,45,422]; p [419,96.5,45,422]->[410.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,468.5,45,422]; next [646,52,419,48]->[714.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six6: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,120.5,45,422]->[455.5,120.5,45,422]; stage [253.5,391.5,45,422]->[245,468.5,45,422]; next [646,52,419,48]->[714.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]"
+   ]
+  },
+  {
+   "size": "1024x768",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "c1[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px",
+    "c2[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px",
+    "c3[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px",
+    "c4[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px",
+    "c5[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px",
+    "c6[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px",
+    "c7[C]: contents cut 71px, contents under bar 13px, row 6 outside stage 10px, row 7 outside stage 77px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,72.5,45,422]->[455.5,72.5,45,422]; stage [253.5,391.5,45,422]->[245,391.5,45,422]; next [646,52,419,48]->[637.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six2: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,96.5,45,422]->[455.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,391.5,45,422]; next [646,52,419,48]->[637.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six3: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,96.5,45,422]->[455.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,391.5,45,422]; next [646,52,419,48]->[637.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six4: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,96.5,45,422]->[455.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,391.5,45,422]; next [646,52,419,48]->[637.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six5: h2 [253.5,135,45,422]->[245,135,45,422]; p [419,96.5,45,422]->[410.5,96.5,45,422]; stage [253.5,391.5,45,422]->[245,391.5,45,422]; next [646,52,419,48]->[637.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]",
+    "six6: h2 [253.5,180,45,422]->[245,180,45,422]; p [464.5,120.5,45,422]->[455.5,120.5,45,422]; stage [253.5,391.5,45,422]->[245,391.5,45,422]; next [646,52,419,48]->[637.5,52,419,48]; kicker [202,13,45,422]->[193.5,13,45,422]"
+   ]
+  },
+  {
+   "size": "1024x700",
+   "path": "/",
+   "cand": [
+    "s1[S1]: arrows under fold 58px",
+    "s2[S2]: arrows under fold 58px",
+    "s3[S3]: arrows under fold 58px",
+    "s4[S4]: arrows under fold 58px",
+    "s5[S5]: arrows under fold 58px",
+    "s6[S6]: arrows under fold 58px",
+    "s7[S7]: arrows under fold 58px",
+    "c1[C]: contents under fold 5px, arrows under fold 58px",
+    "c2[C]: contents under fold 5px, arrows under fold 58px",
+    "c3[C]: contents under fold 5px, arrows under fold 58px",
+    "c4[C]: contents under fold 5px, arrows under fold 58px",
+    "c5[C]: contents under fold 5px, arrows under fold 58px",
+    "c6[C]: contents under fold 5px, arrows under fold 58px",
+    "c7[C]: contents under fold 5px, arrows under fold 58px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px",
+    "six2: s2 cut top 4px",
+    "six3: s3 cut top 4px",
+    "six4: s4 cut top 4px",
+    "six5: s5 cut top 4px",
+    "six6: s6 cut top 4px"
+   ],
+   "six": [
+    "six1: stage [236,390,45,422]->[236,468.5,45,422]; next [627,52,419,48]->[705.5,52,419,48]",
+    "six2: stage [236,390,45,422]->[236,468.5,45,422]; next [627,52,419,48]->[705.5,52,419,48]",
+    "six3: stage [236,390,45,422]->[236,468.5,45,422]; next [627,52,419,48]->[705.5,52,419,48]",
+    "six4: stage [236,390,45,422]->[236,468.5,45,422]; next [627,52,419,48]->[705.5,52,419,48]",
+    "six5: stage [236,390,45,422]->[236,468.5,45,422]; next [627,52,419,48]->[705.5,52,419,48]",
+    "six6: stage [236,390,45,422]->[236,468.5,45,422]; next [627,52,419,48]->[705.5,52,419,48]"
+   ]
+  },
+  {
+   "size": "1024x700",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 46px",
+    "s2[S2]: arrows under bar 46px",
+    "s3[S3]: arrows under bar 46px",
+    "s4[S4]: arrows under bar 46px",
+    "s5[S5]: arrows under bar 46px",
+    "s6[S6]: arrows under bar 46px",
+    "s7[S7]: arrows under bar 46px",
+    "c1[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c2[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c3[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c4[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c5[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c6[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c7[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under bar 46px",
+    "six2: s2 cut top 4px, arrows under bar 46px",
+    "six3: s3 cut top 4px, arrows under bar 46px",
+    "six4: s4 cut top 4px, arrows under bar 46px",
+    "six5: s5 cut top 4px, arrows under bar 46px",
+    "six6: s6 cut top 4px, arrows under bar 46px"
+   ],
+   "six": []
+  },
+  {
+   "size": "1024x660",
+   "path": "/",
+   "cand": [
+    "s1[S1]: arrows under fold 92px",
+    "s2[S2]: arrows under fold 92px",
+    "s3[S3]: arrows under fold 92px",
+    "s4[S4]: arrows under fold 92px",
+    "s5[S5]: arrows under fold 92px",
+    "s6[S6]: arrows under fold 92px",
+    "s7[S7]: arrows under fold 92px",
+    "c1[C]: contents under fold 39px, arrows under fold 92px",
+    "c2[C]: contents under fold 39px, arrows under fold 92px",
+    "c3[C]: contents under fold 39px, arrows under fold 92px",
+    "c4[C]: contents under fold 39px, arrows under fold 92px",
+    "c5[C]: contents under fold 39px, arrows under fold 92px",
+    "c6[C]: contents under fold 39px, arrows under fold 92px",
+    "c7[C]: contents under fold 39px, arrows under fold 92px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under fold 14px",
+    "six2: s2 cut top 4px, arrows under fold 14px",
+    "six3: s3 cut top 4px, arrows under fold 14px",
+    "six4: s4 cut top 4px, arrows under fold 14px",
+    "six5: s5 cut top 4px, arrows under fold 14px",
+    "six6: s6 cut top 4px, arrows under fold 14px"
+   ],
+   "six": [
+    "six1: stage [231,390,45,422]->[231,468.5,45,422]; next [622,52,419,48]->[700.5,52,419,48]",
+    "six2: stage [231,390,45,422]->[231,468.5,45,422]; next [622,52,419,48]->[700.5,52,419,48]",
+    "six3: stage [231,390,45,422]->[231,468.5,45,422]; next [622,52,419,48]->[700.5,52,419,48]",
+    "six4: stage [231,390,45,422]->[231,468.5,45,422]; next [622,52,419,48]->[700.5,52,419,48]",
+    "six5: stage [231,390,45,422]->[231,468.5,45,422]; next [622,52,419,48]->[700.5,52,419,48]",
+    "six6: stage [231,390,45,422]->[231,468.5,45,422]; next [622,52,419,48]->[700.5,52,419,48]"
+   ]
+  },
+  {
+   "size": "1024x660",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 81px",
+    "s2[S2]: arrows under bar 81px",
+    "s3[S3]: arrows under bar 81px",
+    "s4[S4]: arrows under bar 81px",
+    "s5[S5]: arrows under bar 81px",
+    "s6[S6]: arrows under bar 81px",
+    "s7[S7]: arrows under bar 81px",
+    "c1[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px",
+    "c2[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px",
+    "c3[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px",
+    "c4[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px",
+    "c5[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px",
+    "c6[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px",
+    "c7[C]: contents cut 73px, contents under bar 106px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 81px"
+   ],
+   "live": [
+    "six1: s1 cut top 4px, arrows under bar 81px",
+    "six2: s2 cut top 4px, arrows under bar 81px",
+    "six3: s3 cut top 4px, arrows under bar 81px",
+    "six4: s4 cut top 4px, arrows under bar 81px",
+    "six5: s5 cut top 4px, arrows under bar 81px",
+    "six6: s6 cut top 4px, arrows under bar 81px"
+   ],
+   "six": []
+  },
+  {
+   "size": "960x700",
+   "path": "/",
+   "cand": [
+    "s1[S1]: arrows under fold 58px",
+    "s2[S2]: arrows under fold 58px",
+    "s3[S3]: arrows under fold 58px",
+    "s4[S4]: arrows under fold 58px",
+    "s5[S5]: arrows under fold 58px",
+    "s6[S6]: arrows under fold 58px",
+    "s7[S7]: arrows under fold 58px",
+    "c1[C]: contents under fold 5px, arrows under fold 58px",
+    "c2[C]: contents under fold 5px, arrows under fold 58px",
+    "c3[C]: contents under fold 5px, arrows under fold 58px",
+    "c4[C]: contents under fold 5px, arrows under fold 58px",
+    "c5[C]: contents under fold 5px, arrows under fold 58px",
+    "c6[C]: contents under fold 5px, arrows under fold 58px",
+    "c7[C]: contents under fold 5px, arrows under fold 58px"
+   ],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": [
+    "six1: stage [236,390,42,395.5]->[236,468.5,42,395.5]; next [627,52,390,48]->[705.5,52,390,48]",
+    "six2: stage [236,390,42,395.5]->[236,468.5,42,395.5]; next [627,52,390,48]->[705.5,52,390,48]",
+    "six3: stage [236,390,42,395.5]->[236,468.5,42,395.5]; next [627,52,390,48]->[705.5,52,390,48]",
+    "six4: stage [236,390,42,395.5]->[236,468.5,42,395.5]; next [627,52,390,48]->[705.5,52,390,48]",
+    "six5: stage [236,390,42,395.5]->[236,468.5,42,395.5]; next [627,52,390,48]->[705.5,52,390,48]",
+    "six6: stage [236,390,42,395.5]->[236,468.5,42,395.5]; next [627,52,390,48]->[705.5,52,390,48]"
+   ]
+  },
+  {
+   "size": "960x700",
+   "path": "/new-age-leadership/",
+   "cand": [
+    "s1[S1]: arrows under bar 46px",
+    "s2[S2]: arrows under bar 46px",
+    "s3[S3]: arrows under bar 46px",
+    "s4[S4]: arrows under bar 46px",
+    "s5[S5]: arrows under bar 46px",
+    "s6[S6]: arrows under bar 46px",
+    "s7[S7]: arrows under bar 46px",
+    "c1[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c2[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c3[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c4[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c5[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c6[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px",
+    "c7[C]: contents cut 73px, contents under bar 72px, row 6 outside stage 12px, row 7 outside stage 79px, arrows under bar 46px"
+   ],
+   "live": [
+    "six1: s1 cut top 3px, arrows under bar 46px",
+    "six2: s2 cut top 3px, arrows under bar 46px",
+    "six3: s3 cut top 3px, arrows under bar 46px",
+    "six4: s4 cut top 3px, arrows under bar 46px",
+    "six5: s5 cut top 3px, arrows under bar 46px",
+    "six6: s6 cut top 3px, arrows under bar 46px"
+   ],
+   "six": []
+  },
+  {
+   "size": "820x1180",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "820x1180",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "768x1024",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "768x1024",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 5px",
+    "six2: s2 cut top 5px",
+    "six3: s3 cut top 5px",
+    "six4: s4 cut top 5px",
+    "six5: s5 cut top 5px",
+    "six6: s6 cut top 5px"
+   ],
+   "six": []
+  },
+  {
+   "size": "720x450",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 2px",
+    "six2: s2 cut top 2px",
+    "six3: s3 cut top 2px",
+    "six4: s4 cut top 2px",
+    "six5: s5 cut top 2px",
+    "six6: s5 cut top 2px"
+   ],
+   "six": [
+    "six6: heading \"A CRO who hates the numbers can become better at using them.\"->\"Founder-led content can begin with the work, not another content calendar.\"; p [202,34,31.5,610]->[202,51,31.5,610]"
+   ]
+  },
+  {
+   "size": "720x450",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 2px, arrows under bar 20px",
+    "six2: s2 cut top 2px, arrows under bar 20px",
+    "six3: s3 cut top 2px, arrows under bar 20px",
+    "six4: s4 cut top 2px, arrows under bar 20px",
+    "six5: s5 cut top 2px, arrows under bar 20px",
+    "six6: s5 cut top 2px, arrows under bar 20px"
+   ],
+   "six": [
+    "six1: h2 [134.5,56.5,31.5,656.5]->[116.5,56.5,31.5,656.5]; p [202,34,31.5,610]->[184,34,31.5,610]; stage [134.5,200,31.5,656.5]->[116.5,181,31.5,656.5]; next [351,52,640.5,48]->[308,52,640.5,48]; kicker [97.5,13,31.5,656.5]->[79.5,13,31.5,656.5]",
+    "six2: h2 [134.5,56.5,31.5,656.5]->[116.5,56.5,31.5,656.5]; p [202,34,31.5,610]->[184,34,31.5,610]; stage [134.5,200,31.5,656.5]->[116.5,181,31.5,656.5]; next [351,52,640.5,48]->[308,52,640.5,48]; kicker [97.5,13,31.5,656.5]->[79.5,13,31.5,656.5]",
+    "six3: h2 [134.5,56.5,31.5,656.5]->[116.5,56.5,31.5,656.5]; p [202,34,31.5,610]->[184,34,31.5,610]; stage [134.5,200,31.5,656.5]->[116.5,181,31.5,656.5]; next [351,52,640.5,48]->[308,52,640.5,48]; kicker [97.5,13,31.5,656.5]->[79.5,13,31.5,656.5]",
+    "six4: h2 [134.5,56.5,31.5,656.5]->[116.5,56.5,31.5,656.5]; p [202,34,31.5,610]->[184,34,31.5,610]; stage [134.5,200,31.5,656.5]->[116.5,181,31.5,656.5]; next [351,52,640.5,48]->[308,52,640.5,48]; kicker [97.5,13,31.5,656.5]->[79.5,13,31.5,656.5]",
+    "six5: h2 [134.5,56.5,31.5,656.5]->[116.5,56.5,31.5,656.5]; p [202,34,31.5,610]->[184,34,31.5,610]; stage [134.5,200,31.5,656.5]->[116.5,181,31.5,656.5]; next [351,52,640.5,48]->[308,52,640.5,48]; kicker [97.5,13,31.5,656.5]->[79.5,13,31.5,656.5]",
+    "six6: heading \"A CRO who hates the numbers can become better at using them.\"->\"Founder-led content can begin with the work, not another content calendar.\"; h2 [134.5,56.5,31.5,656.5]->[116.5,56.5,31.5,656.5]; p [202,34,31.5,610]->[184,51,31.5,610]; stage [134.5,200,31.5,656.5]->[116.5,181,31.5,656.5]; next [351,52,640.5,48]->[308,52,640.5,48]; kicker [97.5,13,31.5,656.5]->[79.5,13,31.5,656.5]"
+   ]
+  },
+  {
+   "size": "430x932",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": []
+  },
+  {
+   "size": "430x932",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": []
+  },
+  {
+   "size": "412x915",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": [
+    "six1: stage [187,390,21,370]->[187,399.5,21,370]; next [688.5,52,347,44]->[693,52,347,44]",
+    "six2: stage [187,390,21,370]->[187,399.5,21,370]; next [688.5,52,347,44]->[693,52,347,44]",
+    "six3: stage [187,390,21,370]->[187,399.5,21,370]; next [688.5,52,347,44]->[693,52,347,44]",
+    "six4: stage [187,390,21,370]->[187,399.5,21,370]; next [688.5,52,347,44]->[693,52,347,44]",
+    "six5: stage [187,390,21,370]->[187,399.5,21,370]; next [688.5,52,347,44]->[693,52,347,44]",
+    "six6: stage [187,390,21,370]->[187,399.5,21,370]; next [688.5,52,347,44]->[693,52,347,44]"
+   ]
+  },
+  {
+   "size": "412x915",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": [
+    "six1: stage [187,390,20,372]->[187,399.5,20,372]; next [688.5,52,348,44]->[693,52,348,44]",
+    "six2: stage [187,390,20,372]->[187,399.5,20,372]; next [688.5,52,348,44]->[693,52,348,44]",
+    "six3: stage [187,390,20,372]->[187,399.5,20,372]; next [688.5,52,348,44]->[693,52,348,44]",
+    "six4: stage [187,390,20,372]->[187,399.5,20,372]; next [688.5,52,348,44]->[693,52,348,44]",
+    "six5: stage [187,390,20,372]->[187,399.5,20,372]; next [688.5,52,348,44]->[693,52,348,44]",
+    "six6: stage [187,390,20,372]->[187,399.5,20,372]; next [688.5,52,348,44]->[693,52,348,44]"
+   ]
+  },
+  {
+   "size": "390x844",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": []
+  },
+  {
+   "size": "390x844",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": []
+  },
+  {
+   "size": "375x667",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": []
+  },
+  {
+   "size": "375x667",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px, arrows under bar 10px",
+    "six2: s2 cut top 3px, arrows under bar 10px",
+    "six3: s3 cut top 3px, arrows under bar 10px",
+    "six4: s4 cut top 3px, arrows under bar 10px",
+    "six5: s5 cut top 3px, arrows under bar 10px",
+    "six6: s6 cut top 3px, arrows under bar 10px"
+   ],
+   "six": [
+    "six1: next [558,52,311,44]->[548,52,311,44]",
+    "six2: next [558,52,311,44]->[548,52,311,44]",
+    "six3: next [558,52,311,44]->[548,52,311,44]",
+    "six4: next [558,52,311,44]->[548,52,311,44]",
+    "six5: next [558,52,311,44]->[548,52,311,44]",
+    "six6: next [558,52,311,44]->[548,52,311,44]"
+   ]
+  },
+  {
+   "size": "360x800",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": []
+  },
+  {
+   "size": "360x800",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s6 cut top 3px"
+   ],
+   "six": [
+    "six1: next [628,52,296,44]->[594.5,52,296,44]",
+    "six2: next [628,52,296,44]->[594.5,52,296,44]",
+    "six3: next [628,52,296,44]->[594.5,52,296,44]",
+    "six4: next [628,52,296,44]->[594.5,52,296,44]",
+    "six5: next [628,52,296,44]->[594.5,52,296,44]",
+    "six6: next [628,52,296,44]->[594.5,52,296,44]"
+   ]
+  },
+  {
+   "size": "320x568",
+   "path": "/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s5 cut top 3px"
+   ],
+   "six": [
+    "six1: stage [145,231.5,16.5,287]->[145,318,16.5,287]; next [427,52,259.5,44]->[470,52,259.5,44]",
+    "six2: stage [145,231.5,16.5,287]->[145,318,16.5,287]; next [427,52,259.5,44]->[470,52,259.5,44]",
+    "six3: stage [145,231.5,16.5,287]->[145,318,16.5,287]; next [427,52,259.5,44]->[470,52,259.5,44]",
+    "six4: stage [145,231.5,16.5,287]->[145,318,16.5,287]; next [427,52,259.5,44]->[470,52,259.5,44]",
+    "six5: stage [145,231.5,16.5,287]->[145,318,16.5,287]; next [427,52,259.5,44]->[470,52,259.5,44]",
+    "six6: heading \"A CRO who hates the numbers can become better at using them.\"->\"Founder-led content can begin with the work, not another content calendar.\"; h2 [145,88.5,16.5,287]->[145,118.5,16.5,287]; h2Lines 3->4; p [245,68.5,16.5,287]->[274.5,102.5,16.5,287]; stage [145,231.5,16.5,287]->[145,318,16.5,287]; next [427,52,259.5,44]->[470,52,259.5,44]"
+   ]
+  },
+  {
+   "size": "320x568",
+   "path": "/new-age-leadership/",
+   "cand": [],
+   "live": [
+    "six1: s1 cut top 3px",
+    "six2: s2 cut top 3px",
+    "six3: s3 cut top 3px",
+    "six4: s4 cut top 3px",
+    "six5: s5 cut top 3px",
+    "six6: s5 cut top 3px"
+   ],
+   "six": [
+    "six1: h2 [145,118.5,20,280]->[122.5,118.5,20,280]; p [274.5,51,20,280]->[251.5,51,20,280]; stage [145,231.5,20,280]->[122.5,308.5,20,280]; next [427,52,256,44]->[432,52,256,44]; kicker [104,13,20,280]->[81,13,20,280]",
+    "six2: h2 [145,88.5,20,280]->[122.5,88.5,20,280]; p [245,85.5,20,280]->[222,85.5,20,280]; stage [145,231.5,20,280]->[122.5,308.5,20,280]; next [427,52,256,44]->[432,52,256,44]; kicker [104,13,20,280]->[81,13,20,280]",
+    "six3: h2 [145,118.5,20,280]->[122.5,118.5,20,280]; p [274.5,68.5,20,280]->[251.5,68.5,20,280]; stage [145,231.5,20,280]->[122.5,308.5,20,280]; next [427,52,256,44]->[432,52,256,44]; kicker [104,13,20,280]->[81,13,20,280]",
+    "six4: h2 [145,118.5,20,280]->[122.5,118.5,20,280]; p [274.5,85.5,20,280]->[251.5,85.5,20,280]; stage [145,231.5,20,280]->[122.5,308.5,20,280]; next [427,52,256,44]->[432,52,256,44]; kicker [104,13,20,280]->[81,13,20,280]",
+    "six5: h2 [145,88.5,20,280]->[122.5,88.5,20,280]; p [245,68.5,20,280]->[222,68.5,20,280]; stage [145,231.5,20,280]->[122.5,308.5,20,280]; next [427,52,256,44]->[432,52,256,44]; kicker [104,13,20,280]->[81,13,20,280]",
+    "six6: heading \"A CRO who hates the numbers can become better at using them.\"->\"Founder-led content can begin with the work, not another content calendar.\"; h2 [145,88.5,20,280]->[122.5,118.5,20,280]; h2Lines 3->4; p [245,68.5,20,280]->[251.5,102.5,20,280]; stage [145,231.5,20,280]->[122.5,308.5,20,280]; next [427,52,256,44]->[432,52,256,44]; kicker [104,13,20,280]->[81,13,20,280]"
+   ]
+  }
+ ]
+}

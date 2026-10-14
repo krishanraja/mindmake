@@ -14,7 +14,7 @@ const SIX_ONLY = process.env.SIX_ONLY === "1";
 const browser = await chromium.launch();
 
 const open = async (origin, path, { w, h, mobile }) => {
-  const context = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
+  const context = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile, reducedMotion: process.env.REDUCED === "1" ? "reduce" : "no-preference" });
   await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); localStorage.setItem("mm-cookie-consent", "declined"); } catch {} });
   const page = await context.newPage();
   const errors = [];

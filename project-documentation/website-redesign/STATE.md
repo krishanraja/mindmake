@@ -11,6 +11,49 @@ unchanged. Current operational identity and evidence limits remain in
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
 
+## In progress: three agreed sharpenings (October 2026)
+
+Krish agreed three changes on 11 October 2026 and asked for them one at a time,
+each shown rendered at 1440x900 and 390x844 and approved before the next starts:
+the AI Brain benefits become short illustrated stories (first), the hero lede
+names who the site is for (second), and the free AI brief names one thing AI
+could carry in the reader's own week (third). Nothing below changes the approved
+surface until Krish approves its rendered result; the non-regression contract
+further down still governs the live page.
+
+Preflight, 14 October 2026:
+
+- State route: this file, with Krish's words recorded in
+  [feedback-ledger.json](feedback-ledger.json).
+- Source layers: doctrine is the North Star, the Canon, the design contract,
+  `04_PROOF.md` and `src/data/testimonials.ts` (the owner of every quotation);
+  requirements are this file's contract and `CLAUDE.md`'s gates; history is
+  `history/LOG.md` and the route-lock manifests; external evidence is Krish's own
+  account and notes, not yet seen; `04_PROOF_RECORDS.md` is internal context and
+  never public wording.
+- Product truth: the Canon's business sentence. The reader of these sections is a
+  leader who can move a decision.
+- Non-goals: the headline, films, history, org chart, practice and closing
+  chapters, masthead, footer, both door pages, every FAQ answer, the three action
+  names, type, palette, motion and route labels stay exactly as they are. No new
+  eyebrows, claims, prices or durations. Nothing is deployed for review.
+- Surface dependencies: `src/components/leadership-chapters/leadershipChapters.ts`
+  feeds `/` (the generator inlines the call) and `/new-age-leadership`; its styles
+  are `src/styles/new-age-leadership-r6.layer.css`, compiled into the generated
+  `new-age-leadership-r5.css`, plus the homepage's `integration.css`; the scroll
+  contract, browser check, r5 production check and restart contract assume six
+  benefit states.
+- Vertical slice: one story (heading, situation, what happened, an exact quote
+  from `testimonials.ts`, a generated scene) inside the live section on both
+  pages, pinning and progressing both ways, whole on reduced motion and short
+  screens, every gate green.
+- First surface: the stories section, "What your AI Brain makes possible".
+- Story one is `04_PROOF.md` story 5, the only verified story that is both an AI
+  Brain story and fully told in approved public wording.
+
+Next action: generate three independent concepts for the stories section and
+judge them, then render story one.
+
 ## Approved source and scope
 
 Krish approved R3 on 24 September 2026 and authorised publication after end-to-end verification. The approved R3 is live at `https://mindmake.co`. Its exact copy, imagery, composition and controls remain locked; the authorised behaviour addition is native scroll-pinned history and leadership-dividend progression.

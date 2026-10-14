@@ -239,7 +239,7 @@ async function probe() {
       const { context, page, issues } = await open(viewport, reduced ? { reducedMotion: "reduce" } : {});
       await page.goto(origin + route.path, { waitUntil: "networkidle" });
       await settle(page);
-      await page.evaluate((sel) => { const t = document.querySelector(sel); scrollTo({ top: scrollY + t.getBoundingClientRect().top + 4, behavior: "instant" }); }, story.track);
+      await page.evaluate(toFirstState, story);
       await page.waitForTimeout(500);
       const count = await page.evaluate((sel) => document.querySelectorAll(sel).length, story.items);
       const states = [];
@@ -274,7 +274,7 @@ async function probe() {
     const { context, page } = await open(viewport);
     await page.goto(origin + route.path, { waitUntil: "networkidle" });
     await settle(page);
-    await page.evaluate((sel) => { const t = document.querySelector(sel); scrollTo({ top: scrollY + t.getBoundingClientRect().top + 4, behavior: "instant" }); }, story.track);
+    await page.evaluate(toFirstState, story);
     await page.waitForTimeout(400);
     try { await page.focus(story.prev, { timeout: 3000 }); } catch { fail(where, "previous control cannot take focus"); }
     await page.keyboard.press("Tab");
@@ -435,6 +435,17 @@ async function receipts() {
   const failed = checks.filter((c) => c.status !== "pass").map((c) => c.id);
   console.log(JSON.stringify({ candidateSha256: identity.sha256, failedChecks: failed, failedObservations: observations.filter((o) => o.status !== "pass").map((o) => o.id) }, null, 2));
   if (failed.length || observations.some((o) => o.status !== "pass")) process.exitCode = 1;
+}
+
+/* Where the first state rests: the track's own plan when it publishes one
+   (data-story-rests), otherwise just inside the start of the pinned track. */
+function toFirstState(story) {
+  const track = document.querySelector(story.track);
+  const frame = document.querySelector(story.frame);
+  const pin = frame ? parseFloat(getComputedStyle(frame).top) || 0 : 0;
+  const rests = track.dataset.storyRests ? track.dataset.storyRests.split(",").map(Number) : null;
+  const travel = frame ? track.offsetHeight - frame.offsetHeight : 0;
+  scrollTo({ top: scrollY + track.getBoundingClientRect().top - pin + (rests ? rests[0] * travel : pin + 4), behavior: "instant" });
 }
 
 function p(routePath) { return manifest.probe.routes.find((r) => r.path === routePath)?.name ?? routePath; }

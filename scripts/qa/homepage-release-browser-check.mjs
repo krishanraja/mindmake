@@ -38,8 +38,10 @@ const chapters = {
   // and each state rests where leadershipChapters.ts's rail stops send it.
   practicePhone: { track: '.mm-home-leadership .work-scroll', stage: '.work-scenes', state: '.work-scene.is-active h3',
     at: (i, g) => g.scenesStart - g.pinTop + [0.06, 0.5, 0.94][i] * g.pinTravel },
+  // Each story rests where the track's own plan says (data-story-rests,
+  // rendered from the same pure function the page reads its state from).
   benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
-    at: (i, g) => g.start + Math.max(10, Math.min(i * g.travel / 5, g.travel - g.pinTop - 20)) },
+    at: (i, g) => g.start - g.pinTop + g.rests[i] * g.travel },
 };
 const words = text => text.replace(/\s+/g, ' ').trim();
 const specFor = (chapter, width) => chapter === 'practice' && width <= 900 ? chapters.practicePhone : chapters[chapter];
@@ -51,6 +53,7 @@ const measure = (page, spec, pinTop) => page.locator(spec.track).evaluate((track
   const lead = intro ? intro.offsetTop + intro.offsetHeight : 0;
   const frame = stage.parentElement;
   return { start: scrollY + box.top, height: box.height, travel: box.height - stage.getBoundingClientRect().height, viewportHeight: innerHeight, pinTop,
+    rests: track.dataset.storyRests ? track.dataset.storyRests.split(',').map(Number) : null,
     scenesStart: scrollY + frame.getBoundingClientRect().top + lead, pinTravel: frame.offsetHeight - lead - stage.offsetHeight };
 }, [spec.stage, pinTop]);
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
@@ -139,9 +142,12 @@ try {
         await page.close();
         console.log(`Completed ${label}`);
       }
+      // A control moves the page; the state follows once the page arrives, so
+      // read it after the scroll has come to rest (or 4s, whichever is first).
+      const arrive = page => page.evaluate(()=>new Promise(resolve=>{ let last=-1, still=0, frames=0; const tick=()=>{ frames+=1; still = scrollY===last ? still+1 : 0; last=scrollY; if(still>=6||frames>240) resolve(); else requestAnimationFrame(tick); }; requestAnimationFrame(tick); }));
       const control = async (page, selector, chapter, index, fallback) => {
         await page.locator(selector).click();
-        await settle(page); await settle(page);
+        await arrive(page); await settle(page); await settle(page);
         const visibleState = words(await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).innerText());
         const matched = visibleState===states[chapter][index];
         assert(matched,`${engine}/${fallback}: ${selector} shows ${chapter} ${index} ("${visibleState}")`);

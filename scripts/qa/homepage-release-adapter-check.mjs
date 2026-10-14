@@ -31,7 +31,9 @@ try {
     });
     assert.equal(clear, true, 'Cookie notice does not cover the benefit controls');
     await page.locator('.mm-home-leadership [data-benefit-next]').click();
-    await page.waitForTimeout(1300);
+    /* The arrow moves the page to where the next story rests; the count
+       follows once the scroll lands. */
+    await page.waitForTimeout(1800);
     assert.equal(await page.locator('.mm-home-leadership [data-benefit-count]').textContent(), '02');
     await page.locator('.mm-cookie-notice').getByRole('button', { name: 'Allow' }).click();
     await page.locator('.mm-cookie-notice').waitFor({state:'detached'});

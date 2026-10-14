@@ -581,7 +581,7 @@ body.mm-homepage-active { margin: 0; }
    1366x768, 1440x900, 1280x720 and 1920x1080. */
 @media (min-width: 901px) {
   .mm-homepage-release .nal-page.mm-home-leadership .benefit-stage { flex-shrink: 0; }
-  .mm-homepage-release .nal-page.mm-home-leadership .brain-benefit h2 { font-size: clamp(48px, min(5vw, 9.4vh), 84px); }
+  .mm-homepage-release .nal-page.mm-home-leadership .brain-benefit:not(.is-story) h2 { font-size: clamp(48px, min(5vw, 9.4vh), 84px); }
 }
 
 /* On a phone the era rail shows dates only, and nothing marked the current

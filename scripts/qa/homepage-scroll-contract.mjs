@@ -25,7 +25,10 @@ export const APPROVED_SCROLL_STATES = {
     'It joins the evidence.',
     'It prepares the next move.',
   ],
+  // The AI Brain stories (October 2026): story one, then the six in their
+  // one-line form until their stories are sourced.
   benefits: [
+    'A founder who posted once a month now publishes most days.',
     'Leadership updates become consistent, even when the week was not.',
     'Work nobody owns becomes visible before it becomes a problem.',
     'A change in market pricing becomes a decision, not a forgotten observation.',

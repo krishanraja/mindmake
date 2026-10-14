@@ -594,3 +594,346 @@
   font: 10px var(--mono);
   letter-spacing: .1em;
 }
+
+/* ---------------------------------------------------------------------------
+ * 9. What the AI Brain makes possible, told as stories (October 2026).
+ *
+ * Each benefit becomes a short story about one leader: the heading, where they
+ * were, what happened, and a line in their own words where they wrote one. The
+ * section opens on its contents, every story by its heading, so a reader can
+ * find the one that is them; scroll opens each story out of the contents and
+ * folds it back before the next. leadershipChapters.ts sets --story-shown and
+ * --contents-shown from the scroll position (storyScroll), so the same place
+ * on the page always shows the same thing. A story's scene is a framed plate
+ * beside its words, never under them, and a story without one keeps today's
+ * composition exactly.
+ * ------------------------------------------------------------------------- */
+.human-proof {
+  --story-unit: 26svh;
+  --story-cap: 400svh;
+}
+
+.proof-track {
+  height: calc(100svh - var(--header) + min(var(--story-units, 5) * var(--story-unit), var(--story-cap)));
+}
+
+@media (max-width: 900px) {
+  .human-proof {
+    --story-unit: 24svh;
+  }
+}
+
+@media (max-height: 650px) {
+  .human-proof {
+    --story-unit: 22svh;
+  }
+}
+
+.benefit-stage {
+  --story-shown: 0;
+  --contents-shown: 1;
+}
+
+.benefit-controls > div i {
+  width: calc(100% / var(--story-count, 6));
+}
+
+.brain-benefit.is-active {
+  animation: none;
+  opacity: var(--story-shown);
+  transform: translateY(calc((1 - var(--story-shown)) * 12px));
+}
+
+.brain-benefit[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.brain-benefit h2:focus {
+  outline: none;
+}
+
+.brain-benefit h2:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 6px;
+}
+
+/* The contents: every story by its heading, numbered, one ruled row each. */
+.story-contents {
+  grid-area: 1 / 1;
+  align-self: start;
+  display: grid;
+  border-top: 1px solid rgba(234, 223, 200, .14);
+  opacity: var(--contents-shown);
+}
+
+.story-contents[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.story-contents a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 12px;
+  padding: 11px 0 12px;
+  border-bottom: 1px solid rgba(234, 223, 200, .14);
+  color: rgba(234, 223, 200, .78);
+  font: 400 clamp(17px, min(1.4vw, 2.3vh), 20px) / 1.26 var(--serif);
+  text-decoration: none;
+  text-wrap: balance;
+}
+
+.story-contents .story-number {
+  font: 400 13px / 1 var(--mono);
+  letter-spacing: .08em;
+  color: rgba(234, 223, 200, .62);
+}
+
+.story-contents a[aria-current="true"] {
+  color: var(--paper);
+  box-shadow: inset 0 -2px 0 var(--mint);
+}
+
+.story-contents a[aria-current="true"] .story-number {
+  color: var(--mint);
+}
+
+.story-contents a:hover,
+.story-contents a:focus-visible {
+  color: var(--paper);
+}
+
+.story-contents a:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+/* A full story: its heading sits a step smaller than the six so its parts and
+ * its plate fit the same stage. */
+.brain-benefit.is-story h2 {
+  font-size: clamp(28px, min(2.8vw, 4.8vh), 42px);
+  line-height: 1.04;
+}
+
+.story-body {
+  --plate: clamp(180px, min(18vw, 29vh), 270px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "sit" "hap" "quote";
+  row-gap: clamp(12px, 1.8vh, 18px);
+  margin-top: clamp(18px, 3vh, 30px);
+}
+
+.story-body.has-plate {
+  grid-template-columns: var(--plate) minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "plate sit" "plate hap" "quote quote";
+  column-gap: clamp(18px, 1.8vw, 28px);
+}
+
+.story-plate {
+  grid-area: plate;
+  align-self: start;
+  margin: 0;
+  padding: 5px;
+  border: 1px solid var(--brass);
+  background: #08100d;
+}
+
+.story-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.brain-benefit .story-body p {
+  max-width: 34em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: 400 clamp(15px, min(1.18vw, 2vh), 17px) / 1.42 var(--serif);
+  color: rgba(234, 223, 200, .82);
+}
+
+.story-situation {
+  grid-area: sit;
+}
+
+.story-happened {
+  grid-area: hap;
+}
+
+.story-quote {
+  grid-area: quote;
+  margin: 0;
+  padding-left: 18px;
+  border-left: 1px solid var(--brass);
+  font: 400 clamp(16px, min(1.32vw, 2.3vh), 20px) / 1.34 var(--serif);
+  color: rgba(234, 223, 200, .72);
+  text-wrap: balance;
+}
+
+@media (max-width: 620px) {
+  .brain-benefit.is-story h2 {
+    font-size: clamp(26px, 7.4vw, 34px);
+  }
+
+  .story-body {
+    --plate: 38vw;
+    margin-top: 14px;
+    row-gap: 10px;
+  }
+
+  .story-body.has-plate {
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "plate sit" "hap hap" "quote quote";
+  }
+
+  .brain-benefit .story-body p {
+    font-size: 15px;
+  }
+
+  .story-quote {
+    font-size: 16px;
+  }
+
+  .story-contents a {
+    font-size: 15.5px;
+    padding: 7px 0 8px;
+  }
+}
+
+/* Short screens keep the pin and the controls; the story and the contents
+ * tighten so each stays whole in the smaller stage. */
+@media (max-height: 650px) {
+  .story-contents a {
+    font-size: 13.5px;
+    line-height: 1.22;
+    padding: 5px 0 6px;
+  }
+
+  .brain-benefit.is-story h2 {
+    font-size: clamp(22px, 4.6vh, 30px);
+  }
+
+  .story-body {
+    --plate: min(150px, 30vh);
+    margin-top: 10px;
+  }
+
+  .story-body.has-plate {
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "plate sit" "plate hap" "plate quote";
+    row-gap: 8px;
+  }
+
+  .brain-benefit .story-body p,
+  .story-quote {
+    font-size: 13.5px;
+    line-height: 1.34;
+  }
+
+  .story-quote {
+    padding-left: 12px;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 621px) {
+  .story-contents {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 20px;
+  }
+}
+
+/* A small phone (320x568) takes the phone's order at the short screen's size,
+ * and the contents gives its numbers less room so each heading takes fewer
+ * lines. */
+@media (max-height: 650px) and (max-width: 620px) {
+  .story-contents a {
+    grid-template-columns: 22px minmax(0, 1fr);
+    column-gap: 8px;
+    font-size: 13px;
+    line-height: 1.2;
+    padding: 4px 0 5px;
+  }
+
+  .story-contents .story-number {
+    letter-spacing: 0;
+  }
+
+  .story-body {
+    --plate: 28vw;
+  }
+
+  .story-body.has-plate {
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "plate sit" "hap hap" "quote quote";
+  }
+}
+
+/* The action bar on /new-age-leadership covers the bottom of a short screen;
+ * the pinned panel gives up that much height so the arrows stay above it. The
+ * homepage has no bar, so its reserve is nothing. */
+@media (max-height: 800px) {
+  .proof-track > .proof-story {
+    border-bottom: var(--mm-bar-reserve, 0px) solid transparent;
+  }
+}
+
+@media (max-height: 650px) and (max-width: 900px) {
+  .benefit-stage {
+    min-height: calc(100svh - 250px - var(--mm-bar-reserve, 0px));
+  }
+
+  /* With the bar showing, the panel's own top and bottom air shrinks by up
+   * to 4vh each so the stage keeps room for the tallest story. */
+  .proof-track > .proof-story {
+    padding-top: calc(7vh - min(var(--mm-bar-reserve, 0px), 4vh));
+    padding-bottom: calc(7vh - min(var(--mm-bar-reserve, 0px), 4vh));
+  }
+}
+
+@media (max-height: 650px) and (max-width: 620px) {
+  .brain-benefit.is-story h2 {
+    font-size: 24px;
+  }
+}
+
+/* Without scripts nothing drives the pin, so the section reads as a document:
+ * the contents, then every story in order. */
+@media (scripting: none) {
+  .proof-track {
+    height: auto;
+  }
+
+  .proof-track > .proof-story {
+    position: static;
+    height: auto;
+  }
+
+  .benefit-stage {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .story-contents {
+    margin-bottom: 40px;
+    opacity: 1;
+  }
+
+  .brain-benefit,
+  .brain-benefit.is-active {
+    margin-bottom: 56px;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .benefit-controls {
+    display: none;
+  }
+}

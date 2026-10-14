@@ -230,6 +230,9 @@ for (const engineName of asked) {
        the state changes. A phone used to hide it and draw a fixed word. */
     fail(!opening.motionShown || !/motion/iu.test(opening.motionLabel || ""), `${label}: the film control has no readable label (${opening.motionLabel})`);
 
+    /* Every AI Brain story the page carries, read from the page itself. */
+    const stories = await page.evaluate(() => document.querySelectorAll("[data-benefit]").length);
+    fail(stories < 7, `${label}: only ${stories} AI Brain stories on the page`);
     const forward = await sweep(page, height, "forward");
     const reverse = await sweep(page, height, "reverse");
 
@@ -237,7 +240,7 @@ for (const engineName of asked) {
     for (const [pass, result] of [["forward", forward], ["reverse", reverse]]) {
       fail(result.seen.lens.size !== 4, `${label}: ${pass} scroll reached ${result.seen.lens.size}/4 history states`);
       fail(result.seen.reach.size !== 2, `${label}: ${pass} scroll reached ${result.seen.reach.size}/2 reach states`);
-      fail(result.seen.benefit.size !== 6, `${label}: ${pass} scroll reached ${result.seen.benefit.size}/6 AI Brain benefits`);
+      fail(result.seen.benefit.size !== stories, `${label}: ${pass} scroll reached ${result.seen.benefit.size}/${stories} AI Brain stories`);
       fail(result.seen.work.size !== 3, `${label}: ${pass} scroll reached ${result.seen.work.size}/3 working scenes`);
       fail(result.worstBlank > height * BLANK_LIMIT, `${label}: ${pass} pass shows ${result.worstBlank}px of nothing at y=${result.worstBlankAt} (limit ${Math.round(height * BLANK_LIMIT)}px)`);
       fail(result.overflow > 1, `${label}: ${pass} pass has horizontal overflow ${result.overflow}px`);

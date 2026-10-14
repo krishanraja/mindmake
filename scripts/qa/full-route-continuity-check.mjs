@@ -704,7 +704,9 @@ async function verifyLeadershipInteraction(browser) {
   await page.waitForTimeout(250);
   fail(await page.locator('[data-reach-panel="boundary"]').getAttribute("aria-hidden") !== "false", `${label}: work state does not restore`);
   await page.locator("[data-benefit-next]").click();
-  fail(await page.locator('[data-benefit="1"]').getAttribute("aria-hidden") !== "false", `${label}: AI Brain benefits do not advance`);
+  /* The arrow scrolls to where the next story rests; the story opens when the page arrives. */
+  await page.waitForTimeout(1800);
+  fail(await page.locator('[data-benefit="1"]').getAttribute("aria-hidden") !== "false", `${label}: AI Brain stories do not advance`);
   const motion = page.locator(".motion-toggle");
   await motion.click();
   fail(await motion.getAttribute("aria-pressed") !== "true", `${label}: motion cannot be paused`);

@@ -75,21 +75,35 @@ describe("homepage leadership chapters", () => {
     videos.forEach((video) => expect(video).toContain('aria-hidden="true"'));
   });
 
-  it("moves between benefits from its controls and stops listening once unmounted", () => {
-    vi.stubGlobal("scrollTo", vi.fn());
+  /* The arrows move the page to where the next story rests; what shows is
+     read from where the page then is, so the count follows the scroll. */
+  it("moves between stories from its controls and stops listening once unmounted", () => {
+    let y = 0;
+    vi.stubGlobal("scrollTo", vi.fn((options: ScrollToOptions) => { y = options.top ?? 0; window.dispatchEvent(new Event("scroll")); }));
+    Object.defineProperty(window, "scrollY", { configurable: true, get: () => y });
     const root = document.createElement("div");
     root.innerHTML = leadershipChaptersMarkup();
     document.body.append(root);
+    const track = root.querySelector<HTMLElement>("[data-benefit-track]")!;
+    Object.defineProperty(track, "offsetHeight", { configurable: true, value: 4000 });
+    track.getBoundingClientRect = () => ({ top: -y, bottom: 4000 - y, left: 0, right: 0, width: 0, height: 4000, x: 0, y: -y, toJSON: () => ({}) });
     const unmount = mountLeadershipChapters(root, { reduced: true, media: true });
     const count = root.querySelector("[data-benefit-count]")!;
+    const prev = root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!;
     expect(count.textContent).toBe("01");
+    expect(prev.getAttribute("aria-disabled")).toBe("true");
+    /* The section opens on its contents. */
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
     root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
     expect(count.textContent).toBe("02");
     expect(root.querySelectorAll(".brain-benefit.is-active")).toHaveLength(1);
     expect(root.querySelector('[data-benefit="1"]')!.getAttribute("aria-hidden")).toBe("false");
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("true");
+    expect(prev.getAttribute("aria-disabled")).toBe("false");
     unmount();
     root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
     expect(count.textContent).toBe("02");
+    Reflect.deleteProperty(window, "scrollY");
   });
 
   /* The phone's practice sequence (r46): a mint line sweeps each scene in as

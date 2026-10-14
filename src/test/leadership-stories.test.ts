@@ -52,6 +52,14 @@ describe("AI Brain stories", () => {
     });
   });
 
+  it("rests the contents whole with its mark on each row in turn", () => {
+    const { contentsRests } = storyPlan(weights);
+    expect(contentsRests).toHaveLength(leadershipStories.length);
+    contentsRests.forEach((rest, i) => {
+      for (const reduced of [false, true]) expect(storyScroll(rest, weights, reduced)).toEqual({ story: i, mark: i, storyShown: 0, contentsShown: 1 });
+    });
+  });
+
   it("is a pure function of position: the same place shows the same thing both ways", () => {
     const forward = samples.map((p) => storyScroll(p, weights));
     const backward = [...samples].reverse().map((p) => storyScroll(p, weights)).reverse();
@@ -90,8 +98,9 @@ describe("AI Brain stories", () => {
       expect(human).toContain(`href="#mm-story-${i + 1}"`);
     });
     expect(human.slice(0, human.indexOf('<div class="proof-return">'))).not.toContain('aria-hidden="true"><h2');
-    const { rests, total } = storyPlan(weights);
+    const { rests, contentsRests, total } = storyPlan(weights);
     expect(human).toContain(`data-story-rests="${rests.map((r) => r.toFixed(5)).join(",")}"`);
+    expect(human).toContain(`data-contents-rests="${contentsRests.map((r) => r.toFixed(5)).join(",")}"`);
     expect(human).toContain(`--story-units: ${total.toFixed(2)}`);
     expect(human).toContain(`/ ${String(leadershipStories.length).padStart(2, "0")}`);
   });

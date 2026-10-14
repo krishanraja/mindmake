@@ -150,8 +150,13 @@ async function probe() {
 
     const seen = Object.fromEntries(p.sections.map((s) => [s.id, { forward: [], reverse: [] }]));
     const pinMisses = []; const overflow = []; const shots = []; const contrast = []; const captured = new Set();
-    const step = Math.max(40, Math.round(viewport.h * 0.08));
-    const positions = []; for (let y = 0; y <= meta.height - viewport.h + step; y += step) positions.push(Math.min(y, meta.height - viewport.h));
+    /* Fine steps through every declared track, so no state shorter than a
+       coarse stride is skipped; coarse steps elsewhere. */
+    const coarse = Math.max(40, Math.round(viewport.h * 0.08));
+    const tracks = await page.evaluate((sels) => sels.map((sel) => { const r = document.querySelector(sel)?.getBoundingClientRect(); return r ? [r.top + scrollY - innerHeight, r.bottom + scrollY] : null; }).filter(Boolean), [...new Set(p.sections.map((s) => s.track))]);
+    const positions = [];
+    for (let y = 0; y <= meta.height - viewport.h; y += tracks.some(([a, b]) => y >= a && y <= b) ? 16 : coarse) positions.push(y);
+    positions.push(meta.height - viewport.h);
     for (const direction of ["forward", "reverse"]) {
       for (const y of direction === "forward" ? positions : [...positions].reverse()) {
         await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), y);
@@ -191,8 +196,9 @@ async function probe() {
         for (const s of p.sections) {
           const list = seen[s.id][direction]; const value = state.states[s.id];
           if (value && list[list.length - 1] !== value) list.push(value);
-          /* Capture each state once, the first time its frame is wholly on screen. */
-          if (direction === "forward" && s.capture && value && state.whole[s.id] && !captured.has(`${s.id}:${value}`)) {
+          /* Without published rests, capture each state once, the first time
+             its frame is wholly on screen. */
+          if (direction === "forward" && s.capture && !s.rests && value && state.whole[s.id] && !captured.has(`${s.id}:${value}`)) {
             captured.add(`${s.id}:${value}`);
             await page.waitForTimeout(700);
             const n = String(list.length).padStart(2, "0");
@@ -204,6 +210,25 @@ async function probe() {
         }
       }
     }
+    /* Where a track publishes where each state rests whole, every state is
+       captured and its contrast measured there, not mid-change. */
+    for (const s of p.sections.filter((x) => x.capture && x.rests)) {
+      const rests = await page.evaluate(({ track, attr }) => (document.querySelector(track)?.getAttribute(attr) ?? "").split(",").filter(Boolean).map(Number), { track: s.track, attr: s.rests });
+      for (const [i, rest] of rests.entries()) {
+        await page.evaluate(({ s, rest }) => {
+          const track = document.querySelector(s.track); const frame = document.querySelector(s.frame);
+          const pin = parseFloat(getComputedStyle(frame).top) || 0;
+          scrollTo({ top: scrollY + track.getBoundingClientRect().top - pin + rest * (track.offsetHeight - frame.offsetHeight), behavior: "instant" });
+        }, { s, rest });
+        await page.waitForTimeout(700);
+        const n = String(i + 1).padStart(2, "0");
+        const file = path.resolve(outDir, "screenshots", `${route.name}-${viewport.name}-${s.id}-${n}.jpg`);
+        await page.screenshot({ path: file, type: "jpeg", quality: 82 });
+        shots.push(file);
+        if (s.text) contrast.push(...await measureContrast(page, s.text, `${where} ${s.id} ${n}`));
+      }
+    }
+    for (const c of contrast.filter((c) => !c.pass)) fail(where, `contrast ${c.ratio.toFixed(2)} < ${c.need} for ${c.label}`);
     const journey = { route: route.path, viewport: viewport.name, surface: viewport.surface, sections: {}, pinMisses, overflow, contrast, issues: [...issues], screenshots: shots.map(rel) };
     for (const s of p.sections) {
       const f = seen[s.id].forward; const r = seen[s.id].reverse; const want = meta.expected[s.id] ?? s.states;
@@ -215,7 +240,6 @@ async function probe() {
     }
     if (pinMisses.length) fail(where, `${pinMisses.length} pin geometry misses, first ${JSON.stringify(pinMisses[0])}`);
     if (overflow.length) fail(where, `horizontal overflow at ${overflow.length} positions`);
-    for (const c of contrast.filter((c) => !c.pass)) fail(where, `contrast ${c.ratio.toFixed(2)} < ${c.need} for ${c.label}`);
     if (issues.length) fail(where, `console/network: ${issues.slice(0, 3).join(" | ")}`);
 
     const seams = await page.evaluate((sel) => { const list = [...document.querySelectorAll(sel)].map((n) => { const r = n.getBoundingClientRect(); return { top: r.top + scrollY, bottom: r.bottom + scrollY, name: n.className || n.id }; }); const bad = []; for (let i = 1; i < list.length; i += 1) if (list[i].top < list[i - 1].bottom - 1) bad.push([list[i - 1].name, list[i].name]); return bad; }, p.seams);

@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-09-26",
+  "updatedAt": "2026-10-15",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -916,6 +916,21 @@
         "src/test/brain-narrative.test.ts",
         "quality/ai-brain/approved-narrative-s5.json"
       ]
+    },
+    {
+      "id": "POSITIONING-DOORS-NARRATIVE-001",
+      "exactFeedback": "Ultimately, AI GTM should be simpler a narrative: Build your AI revenue engine, and AI Brain should be Unlock and create the idea you've been sitting on. GTM as an acronym can go, but AI Brain is a great catchy title. Free AI brief gravitates around this and the new strategic positioning and stories.",
+      "source": "Krish, 15 October 2026, in the session building the AI Brain stories section (work order 02, Change 2)",
+      "surface": "site-wide: /, /ai-brain, /ai-gtm, /new-age-leadership and the free AI brief",
+      "section": "the two doors and the free AI brief",
+      "device": "all",
+      "element": "the AI GTM door's name and narrative, the AI Brain door's narrative, and what the free AI brief is framed around",
+      "classification": "constraint",
+      "requiredOutcome": "The AI GTM door reads as one plain narrative, Build your AI revenue engine, and the acronym GTM leaves public copy. The AI Brain door keeps its name and carries the narrative Unlock and create the idea you've been sitting on. The free AI brief is framed around these two narratives, the new strategic positioning and the stories. The owner documents (00_NORTH_STAR.md, 01_CANON.md) record the change before any public copy does.",
+      "acceptanceTest": "Krish approves the rendered pages and the brief at 1440x900 and 390x844; both narratives appear exactly as he wrote them; the built site's public text carries no GTM outside unedited quotes.",
+      "status": "open",
+      "resolution": "Recorded, not yet built. It reshapes Change 1 and Change 3 of work order 02. What happens to the /ai-gtm address is decided with Krish when the rename is built.",
+      "evidence": []
     }
   ]
 }

@@ -108,6 +108,9 @@ describe("AI Brain stories", () => {
       expect(human).toContain(`href="#mm-story-${i + 1}"`);
     });
     expect(human.slice(0, human.indexOf('<div class="proof-return">'))).not.toContain('aria-hidden="true"><h2');
+    /* No contents row can break a line after an article. */
+    const nav = human.slice(human.indexOf('<nav class="story-contents"'), human.indexOf("</nav>"));
+    expect(nav).not.toMatch(/\b(a|an|the) /i);
     /* Read as a document, nothing in the contents is current; the script marks the row. */
     expect(human).not.toContain('aria-current="true"><span class="story-number">');
     expect(human).toContain('<div class="benefit-controls" role="group" aria-label="AI Brain benefits"');

@@ -38,8 +38,10 @@ Preflight, 14 October 2026:
   chapters, masthead, footer, both door pages, every FAQ answer, the three action
   names, type, palette, motion and route labels stay exactly as they are. No new
   eyebrows, no claims beyond `04_PROOF.md`, and no offer prices or delivery
-  durations; a client's recorded outcome placed outside `/case-studies` (story
-  one's "under an hour") needs Krish's scoped approval with the rendered result.
+  durations. Story one places a client's recorded outcomes outside
+  `/case-studies` for the first time (posting about once a month to most days,
+  a post from days to under an hour, and the founder's line), which
+  `04_PROOF.md` says needs Krish's scoped approval with the rendered result.
   Nothing is deployed for review.
 - Surface dependencies: `src/components/leadership-chapters/leadershipChapters.ts`
   feeds `/` (the generator inlines the call) and `/new-age-leadership`; its styles
@@ -55,8 +57,12 @@ Preflight, 14 October 2026:
 - Story one is `04_PROOF.md` story 5 (own the system): one leader, a
   founder-owned system, and an exact quote in `testimonials.ts`.
 
-Next action: generate three independent concepts for the stories section and
-judge them, then render story one.
+Next action: Krish reviews the rendered stories section, story one and the
+six, on `/` and `/new-age-leadership` at 1440x900 and 390x844; his first
+reaction is recorded word for word in the ledger, then the panel's scores and
+the concept trace (`artifacts/material-review/ai-brain-stories-r1/`) are shown
+and he gives or withholds scoped approval for story one's outcomes. The next
+story starts only after that.
 
 ## Approved source and scope
 

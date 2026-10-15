@@ -56,7 +56,7 @@ export const leadershipStories: readonly LeadershipStory[] = [
   {
     heading: `A founder who posted about ${keep("once a month")} now posts most days.`,
     situation: `The founder runs ${keep("a research")} and content brand. Publishing ${keep("a post")} backed by research took days.`,
-    happened: `We set up an AI system that belongs to the founder. It fits around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
+    happened: `We set up an AI system that the founder owns. It fits around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
     quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
   },
@@ -133,7 +133,9 @@ export function leadershipChaptersMarkup() {
   const weights = leadershipStories.map(storyWeight);
   const plan = storyPlan(weights);
   const count = String(leadershipStories.length).padStart(2, "0");
-  const contents = leadershipStories.map((story, i) => `<a href="#mm-story-${i + 1}" data-story-link="${i}"><span class="story-number">${String(i + 1).padStart(2, "0")}</span><span>${story.heading}</span></a>`).join("");
+  /* In the contents an article is held to its noun, so no row's line ends on one. */
+  const held = (heading: string) => heading.replace(/\b(a|an|the|A|An|The) /g, "$1\u00a0");
+  const contents = leadershipStories.map((story, i) => `<a href="#mm-story-${i + 1}" data-story-link="${i}"><span class="story-number">${String(i + 1).padStart(2, "0")}</span><span>${held(story.heading)}</span></a>`).join("");
   const brainBenefits = leadershipStories.map((story, i) => {
     const body = story.situation
       ? `<div class="story-body${story.scene ? " has-plate" : ""}">${story.scene ? `<figure class="story-plate" aria-hidden="true"><img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" /></figure>` : ""}<p class="story-situation">${story.situation}</p><p class="story-happened">${story.happened}</p>${story.quote ? `<blockquote class="story-quote">"${story.quote.text}"</blockquote>` : ""}</div>`
@@ -243,6 +245,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const storyPlanned = storyPlan(storyWeights);
   const fullStories = benefitNodes.filter((node) => node.classList.contains("is-story"));
   let benefit = -1; let shownKey = ""; let storyOpen = false; let pendingFocus = -1; let pendingUntil = 0; let storyPinTop = 0;
+  let settleFocus = false; let settleTimer = 0;
   /* A contents row hands focus to the story it opens. The story's heading can
      only take focus once it is visible, which is after the previous state has
      faded, so focus is retried for a few frames rather than lost. A reader who
@@ -304,7 +307,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
      they keep a little air above fixed chrome. */
   const liftControls = () => {
     if (!storyStage || !benefitPanel) return;
-    if (overlap(0) <= 0) return;
+    if (overlap(0) <= 2) return;
     const air = measuredReserve > 0 ? 8 : 0;
     let over = overlap(air);
     benefitPanel.style.setProperty("--story-lift", `${Math.ceil(over)}px`);
@@ -328,7 +331,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const ROW_TOUCH = 44;
   const ROW_TOUCH_LEAST = 32;
   const tightenRows = (over: number) => {
-    if (!storyContents || over <= 0 || !matchMedia("(pointer: coarse)").matches) return false;
+    if (!storyContents || over <= 0 || overlap(0) <= 2 || !matchMedia("(pointer: coarse)").matches) return false;
     const rows = storyLinks.length || 1;
     const row = Math.max(ROW_TOUCH_LEAST, ROW_TOUCH - Math.ceil(over / rows));
     if (row >= ROW_TOUCH) return false;
@@ -389,6 +392,12 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     const state = storyScroll(progress, storyWeights);
     const open = state.storyShown > 0;
     storyOpen = open;
+    /* With the contents open no story is current: the count dims, its rule
+       empties, and a screen reader is not told a position the page is not in. */
+    if (benefitControls && benefitControls.hasAttribute("data-at-contents") === open) {
+      benefitControls.toggleAttribute("data-at-contents", !open);
+      benefitControls.querySelector("p")?.setAttribute("aria-hidden", String(!open));
+    }
     if (state.story !== benefit) {
       benefit = state.story;
       benefitNodes.forEach((node, i) => node.classList.toggle("is-active", i === benefit));
@@ -406,8 +415,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     shownKey = key;
     benefitNodes.forEach((node, i) => setInert(node, !(open && i === benefit)));
     /* A reader who scrolls on from a focused contents row keeps their place:
-       focus goes to the story that opens rather than falling to the page. */
-    if (open && storyContents?.contains(document.activeElement)) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; }
+       once the scrolling settles, focus goes to the story it settled on rather
+       than staying lost on the page. A row's own hand-off is never replaced. */
+    if (open && storyContents?.contains(document.activeElement) && !(pendingFocus >= 0 && performance.now() < pendingUntil)) settleFocus = true;
     /* Hand focus to the opening story before the contents that held it goes inert. */
     if (open && pendingFocus === benefit) landFocus(benefit);
     setInert(storyContents, open);
@@ -423,8 +433,11 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (status && !focus) { status.textContent = ""; requestAnimationFrame(() => { status.textContent = toContents ? "Contents" : `Benefit ${next + 1} of ${benefitNodes.length}. ${benefitNodes[next].querySelector("h2")?.textContent ?? ""}`; }); }
     const share = toContents ? storyPlanned.contentsRests[0] : storyPlanned.rests[next];
     const top = scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share;
-    if (focus) { pendingFocus = next; pendingUntil = performance.now() + 2500; }
-    scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    if (focus) { pendingFocus = next; pendingUntil = performance.now() + 2500; settleFocus = false; }
+    /* A contents row goes straight to its story: the pinned stage fades once
+       from the contents to it, and its heading takes focus. An arrow's single
+       step glides. */
+    scrollTo({ top, behavior: focus ? "instant" : reduced ? "auto" : "smooth" });
     if (focus && storyOpen && benefit === next) landFocus(next);
   };
   /* Above 900px the whole practice chapter pins and its scenes change at the
@@ -489,7 +502,16 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (work && workMode === "wide") setWork(Math.round(Math.max(0, Math.min(1, -work.getBoundingClientRect().top / Math.max(1, work.offsetHeight - innerHeight))) * 2));
     if (work && workMode === "pinned") paintPinnedWork();
     if (reach && reachSticky) { const p = Math.max(0, Math.min(1, -reach.getBoundingClientRect().top / Math.max(1, reach.offsetHeight - reachSticky.offsetHeight))); reach.style.setProperty("--reach-progress", String(p)); if (performance.now() >= reachLockUntil) setReach(p < 0.48 ? "boundary" : "organisation"); }
-    if (benefitTrack && benefitPanel && !storyFlow) paintStories(storyProgress());
+    if (benefitTrack && benefitPanel && !storyFlow) {
+      paintStories(storyProgress());
+      if (settleFocus) {
+        clearTimeout(settleTimer);
+        settleTimer = window.setTimeout(() => {
+          settleFocus = false;
+          if (storyOpen && !storyFlow && document.activeElement === document.body) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; landFocus(benefit); }
+        }, 160);
+      }
+    }
   };
   addEventListener("scroll", update, { passive: true, signal }); addEventListener("resize", () => { measureWork(); measureStories(); update(); }, { signal });
   workButtons.forEach((button, i) => button.addEventListener("click", () => {
@@ -520,13 +542,31 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     chooseBenefit(target);
   }, { signal });
   arrow(storyPrev, "prev"); arrow(storyNext, "next");
-  const dropAim = () => { aimedUntil = 0; dropFocus(); };
+  /* Scrolling by hand ends a run of arrow presses; a tap on an arrow itself does not. */
+  const dropAim = (event: Event) => { if (event.target instanceof Element && event.target.closest(".benefit-controls")) return; aimedUntil = 0; dropFocus(); };
   addEventListener("wheel", dropAim, { passive: true, signal }); addEventListener("touchstart", dropAim, { passive: true, signal }); addEventListener("keydown", dropFocus, { signal });
   /* Keyboard focus that enters the section before it has pinned would sit at
      the foot of the screen, where the action bar can cover it. The page moves
      to where the state focus belongs to rests, pinned, with the arrows clear. */
   benefitPanel?.addEventListener("focusin", (event) => {
-    if (storyFlow || !benefitTrack || !(event.target instanceof HTMLElement) || !event.target.matches(":focus-visible")) return;
+    if (!benefitTrack || !(event.target instanceof HTMLElement) || !event.target.matches(":focus-visible")) return;
+    /* Read as a document, the browser leaves a focused row that is inside the
+       window where it is, even under the masthead or the action bar; move it
+       clear of both. */
+    if (storyFlow) {
+      /* After the browser's own scroll to the focused row, which follows this event. */
+      const target = event.target;
+      requestAnimationFrame(() => {
+        if (document.activeElement !== target) return;
+        const box = target.getBoundingClientRect();
+        /* The masthead's own bottom edge: fixed or sticky headers at the top of the window. */
+        const top = Math.max(0, ...[...document.querySelectorAll("header")].filter((h) => { const style = getComputedStyle(h); const r = h.getBoundingClientRect(); return (style.position === "fixed" || style.position === "sticky") && r.top <= 1 && r.height > 0; }).map((h) => h.getBoundingClientRect().bottom)) + 8;
+        const bottom = innerHeight - footReserve() - 8;
+        const by = box.top < top ? box.top - top : box.bottom > bottom ? box.bottom - bottom : 0;
+        if (by) scrollBy({ top: by, behavior: "instant" });
+      });
+      return;
+    }
     if (Math.abs(benefitPanel.getBoundingClientRect().top - storyPinTop) <= 1) return;
     const state = storyScroll(storyProgress(), storyWeights);
     const share = state.storyShown ? storyPlanned.rests[state.story] : storyPlanned.contentsRests[0];
@@ -560,5 +600,5 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   /* The type the contents and a full story fit with is the page's own, so fit
      again once it has loaded. */
   void document.fonts?.ready.then(() => { if (!signal.aborted) { measureStories(true); update(); } });
-  return () => { abort.abort(); observers.forEach((o) => o.disconnect()); videos.forEach((v) => v.pause()); };
+  return () => { abort.abort(); clearTimeout(settleTimer); observers.forEach((o) => o.disconnect()); videos.forEach((v) => v.pause()); };
 }

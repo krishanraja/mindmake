@@ -58,6 +58,7 @@ const NEGATIVES = {
   controls: { css: "[data-benefit-next], [data-benefit-prev] { display: none !important; }", expect: /controls not in view|touch target/ },
   overflow: { css: "[data-benefit].is-active h2 { margin-left: 70vw !important; white-space: nowrap !important; }", expect: /overflow/ },
   focus: { css: ".benefit-controls { margin-top: 100vh !important; }", expect: /focus hidden/ },
+  handoff: { css: ".brain-benefit h2 { visibility: hidden !important; }", expect: /did not take focus/ },
 };
 const NEGATIVE = process.env.MM_READINESS_NEGATIVE ?? "";
 const NEGATIVE_CSS = NEGATIVES[NEGATIVE]?.css ?? "";
@@ -323,32 +324,36 @@ async function probe() {
     await context.close();
   }
 
-  /* Tab through the section from the last control before it, as a keyboard
-     reader arriving from above does, with and without the cookie notice: no
-     focused control may sit wholly under fixed chrome (the action bar, the
-     cookie notice) or off the screen (WCAG 2.2, 2.4.11). */
-  for (const route of p.routes) for (const viewport of [...p.viewports, ...p.shortViewports]) for (const cookie of [false, true]) {
-    const where = `${route.name}@${viewport.name}${cookie ? " with cookie notice" : ""} keyboard`;
+  /* Tab through the section from the last control before it, and Shift+Tab
+     from the first control after it, as keyboard readers arriving from above
+     and below do, with and without the cookie notice, and on phones held
+     sideways, where the section reads as a document: no focused control may
+     sit wholly under fixed chrome (the masthead, the action bar, the cookie
+     notice) or off the screen (WCAG 2.2, 2.4.11). */
+  const sideways = [{ name: "landscape-740x360", w: 740, h: 360, mobile: true }, { name: "landscape-844x390", w: 844, h: 390, mobile: true }];
+  for (const route of p.routes) for (const viewport of [...p.viewports, ...p.shortViewports, ...(NEGATIVE ? [] : sideways)]) for (const cookie of [false, true]) for (const back of [false, true]) {
+    const where = `${route.name}@${viewport.name}${cookie ? " with cookie notice" : ""}${back ? " from below" : ""} keyboard`;
     const context = await browser.newContext({ viewport: { width: viewport.w, height: viewport.h }, isMobile: Boolean(viewport.mobile), hasTouch: Boolean(viewport.mobile) });
     if (!cookie) await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); localStorage.setItem("mm-cookie-consent", "declined"); } catch {} });
     if (NEGATIVE_CSS) await context.addInitScript((css) => { addEventListener("DOMContentLoaded", () => { const style = document.createElement("style"); style.textContent = css; document.head.append(style); }); }, NEGATIVE_CSS);
     const page = await context.newPage();
     await page.goto(origin + route.path, { waitUntil: "networkidle" });
     await settle(page);
-    await page.evaluate((frame) => {
+    await page.evaluate(({ frame, back }) => {
       const panel = document.querySelector(frame);
-      const all = [...document.querySelectorAll("a[href], button, [tabindex]:not([tabindex='-1'])")].filter((n) => !n.closest("[inert]") && n.getClientRects().length);
-      all.filter((n) => panel && n.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING && !panel.contains(n)).pop()?.focus();
-    }, story.frame);
+      const all = [...document.querySelectorAll("a[href], button, [tabindex]:not([tabindex='-1'])")].filter((n) => !n.closest("[inert]") && n.getClientRects().length && !(panel && panel.contains(n)));
+      const start = back ? all.find((n) => panel && panel.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING) : all.filter((n) => panel && n.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING).pop();
+      start?.focus();
+    }, { frame: story.frame, back });
     const stops = [];
     for (let i = 0; i < 16; i += 1) {
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(back ? "Shift+Tab" : "Tab");
       await page.waitForTimeout(700);
       const stop = await page.evaluate((frame) => {
         const el = document.activeElement; const panel = document.querySelector(frame);
         if (!el || !panel?.contains(el)) return null;
         const box = el.getBoundingClientRect();
-        const chrome = [...document.querySelectorAll(".mm-action-bar.is-shown, .mm-cookie-notice")].filter((n) => getComputedStyle(n).display !== "none" && getComputedStyle(n).visibility !== "hidden").map((n) => n.getBoundingClientRect());
+        const chrome = [...document.querySelectorAll(".mm-action-bar.is-shown, .mm-cookie-notice, header.site-masthead, header.mm-header")].filter((n) => { const s = getComputedStyle(n); return s.display !== "none" && s.visibility !== "hidden" && (s.position === "fixed" || s.position === "sticky"); }).map((n) => n.getBoundingClientRect());
         const covered = chrome.some((c) => box.top >= c.top - 0.5 && box.bottom <= c.bottom + 0.5 && box.left >= c.left - 0.5 && box.right <= c.right + 0.5);
         const off = box.bottom > innerHeight + 0.5 || box.top < -0.5;
         return { name: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 40), hidden: covered ? "under fixed chrome" : off ? "off the screen" : "" };
@@ -358,7 +363,39 @@ async function probe() {
       if (stop.hidden) fail(where, `focus hidden ${stop.hidden}: "${stop.name}"`);
     }
     if (!stops.length) fail(where, "Tab never reached the section");
-    results.keyboard.push({ route: route.path, viewport: viewport.name, cookie, tabStops: stops });
+    results.keyboard.push({ route: route.path, viewport: viewport.name, cookie, direction: back ? "from below" : "from above", tabStops: stops });
+    await context.close();
+  }
+
+  /* Each contents row, chosen from the keyboard with motion on, opens its
+     story and gives that story's heading focus, on a desktop and a phone. */
+  const contentsSection = p.sections.find((s) => s.id === "contents");
+  for (const route of p.routes) for (const viewport of p.viewports) {
+    const where = `${route.name}@${viewport.name} contents rows keyboard`;
+    const { context, page } = await open(viewport);
+    await page.goto(origin + route.path, { waitUntil: "networkidle" });
+    await settle(page);
+    const rows = await page.evaluate(() => document.querySelectorAll("[data-story-link]").length);
+    const landed = [];
+    for (let i = 0; i < rows; i += 1) {
+      await page.evaluate(({ track, frame, attr }) => {
+        const t = document.querySelector(track); const f = document.querySelector(frame);
+        const pin = parseFloat(getComputedStyle(f).top) || 0; const rest = Number((t.getAttribute(attr) || "0").split(",")[0]);
+        scrollTo({ top: scrollY + t.getBoundingClientRect().top - pin + rest * (t.offsetHeight - f.offsetHeight), behavior: "instant" });
+      }, { track: contentsSection?.track ?? story.track, frame: story.frame, attr: contentsSection?.rests ?? "data-contents-rests" });
+      await page.waitForTimeout(700);
+      await page.focus(`[data-story-link="${i}"]`);
+      await page.keyboard.press("Enter");
+      await page.waitForTimeout(1200);
+      const on = await page.evaluate((i) => {
+        const el = document.activeElement; const want = document.querySelector(`[data-benefit="${i}"] h2`);
+        const box = el?.getBoundingClientRect();
+        return { ok: el === want, visible: Boolean(box && box.width && box.top >= 0 && box.bottom <= innerHeight), at: el?.tagName + (el?.closest("[data-benefit]")?.getAttribute("data-benefit") ?? "") };
+      }, i);
+      landed.push(on.at);
+      if (!on.ok || !on.visible) fail(where, `row ${i + 1}: the story's heading did not take focus (focus on ${on.at})`);
+    }
+    results.keyboard.push({ route: route.path, viewport: viewport.name, contentsRows: landed });
     await context.close();
   }
 

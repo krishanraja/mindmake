@@ -1169,11 +1169,12 @@
  * have; the contents and a full story lie over it and fit themselves to it
  * (--fit). A story's scene is a framed plate beside its words.
  * ------------------------------------------------------------------------- */
-/* Within about a tenth of today's pinned length for six (240svh on a
- * desktop, 220svh on a phone, 200svh on a short screen), with each story
- * holding at least a quarter of the screen's height. */
+/* Nine units (the contents, story one's two, the six) come to within about a
+ * twentieth of today's pinned length for six: 252svh against 240svh on a
+ * desktop, 225svh against 220svh on a phone, 207svh against 200-210svh on a
+ * short screen. */
 .nal-page .human-proof {
-  --story-unit: 30svh;
+  --story-unit: 28svh;
   --story-cap: 400svh;
 }
 
@@ -1183,13 +1184,13 @@
 
 @media (max-width: 900px) {
   .nal-page .human-proof {
-    --story-unit: 27svh;
+    --story-unit: 25svh;
   }
 }
 
 @media (max-height: 650px) {
   .nal-page .human-proof {
-    --story-unit: 25svh;
+    --story-unit: 23svh;
   }
 }
 
@@ -1213,6 +1214,16 @@
 
 .nal-page .benefit-controls > div i {
   width: calc(100% / var(--story-count, 6));
+}
+
+/* With the contents open no story is current: the count dims and the rule
+ * under the arrows is empty. */
+.nal-page .benefit-controls[data-at-contents] > p {
+  opacity: .45;
+}
+
+.nal-page .benefit-controls[data-at-contents] > div i {
+  opacity: 0;
 }
 
 /* One state at a time: the leaving one fades first, then the arriving one, so
@@ -1432,10 +1443,10 @@
   }
 
   .nal-page .brain-benefit.is-story {
-    --story-heading: clamp(22px, 4.6vh, 30px);
-    --story-text: 14px;
-    --story-quote: 14px;
-    --plate: min(150px, 30vh);
+    --story-heading: clamp(24px, 6.4vh, 40px);
+    --story-text: 15px;
+    --story-quote: 15px;
+    --plate: min(190px, 32vh);
   }
 
   .nal-page .story-body {

@@ -336,6 +336,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       const style = getComputedStyle(node);
       if (style.display === "none" || style.visibility === "hidden" || style.position !== "fixed") continue;
       const c = node.getBoundingClientRect();
+      if (c.right <= next.left || c.left >= next.right) continue;
       spans = spans.flatMap(([a, b]): [number, number][] => [[a, Math.min(b, c.top)], [Math.max(a, c.bottom), b]]).filter(([a, b]) => b - a > 0);
     }
     return spans.reduce((sum, [a, b]) => sum + b - a, 0);
@@ -352,6 +353,26 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (row >= ROW_TOUCH) return false;
     storyContents.style.setProperty("--row-touch", `${row}px`);
     return true;
+  };
+  /* Where the lift still cannot clear the chrome (a short laptop under both
+     the action bar and the cookie notice), the six scale down together, only
+     as far as the stage must shrink and never below 0.75, as the contents and
+     story one do; those then fit the smaller stage. Dismissing the notice
+     measures again at full size. */
+  const BENEFIT_FIT_FLOOR = 0.75;
+  const squeezeBenefits = (over: number) => {
+    if (!storyStage || !benefitPanel || over <= 0) return over;
+    const six = benefitNodes.filter((node) => !node.classList.contains("is-story"));
+    const target = storyStage.offsetHeight - over;
+    const fits = (fit: number) => { benefitPanel.style.setProperty("--benefit-fit", fit.toFixed(3)); return Math.max(0, ...six.map((node) => node.getBoundingClientRect().height)) <= target; };
+    let lo = BENEFIT_FIT_FLOOR; let hi = 1;
+    if (fits(lo)) {
+      for (let step = 0; step < 7; step += 1) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
+      fits(lo);
+    }
+    storyStage.style.minHeight = `${Math.max(target, ...six.map((node) => node.getBoundingClientRect().height))}px`;
+    [storyContents, ...fullStories].forEach(fitToStage);
+    return overlap(measuredReserve > 0 ? 8 : 0);
   };
   /* A screen too short to pin the stories (a phone held sideways) reads them
      as a document, as it reads the practice scenes: every story and the
@@ -379,6 +400,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       storyStage?.style.removeProperty("min-height");
       benefitPanel.style.removeProperty("--story-lift");
       benefitPanel.style.removeProperty("padding-top");
+      benefitPanel.style.removeProperty("--benefit-fit");
     };
     reset();
     storyContents?.style.removeProperty("--row-touch");
@@ -386,7 +408,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     else {
       [storyContents, ...fullStories].forEach(fitToStage);
       const unlifted = arrowsSeen();
-      if (tightenRows(liftControls() ?? 0)) { reset(); [storyContents, ...fullStories].forEach(fitToStage); liftControls(); }
+      let over = liftControls() ?? 0;
+      if (tightenRows(over)) { reset(); [storyContents, ...fullStories].forEach(fitToStage); over = liftControls() ?? 0; }
+      squeezeBenefits(over);
       /* A lift that cannot clear the chrome must never leave the arrows less
          visible than they were: keep whichever shows more of them. */
       if (arrowsSeen() + 0.5 < unlifted) { reset(); storyContents?.style.removeProperty("--row-touch"); [storyContents, ...fullStories].forEach(fitToStage); }

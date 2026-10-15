@@ -964,6 +964,13 @@
   min-height: 0;
 }
 
+/* Where even that cannot clear the chrome (a short laptop under both the
+ * action bar and the cookie notice), the six scale down together, only as far
+ * as the stage must shrink and never below 0.75 (squeezeBenefits). */
+.proof-track > .proof-story[data-story-pinned] .brain-benefit:not(.is-story) {
+  zoom: var(--benefit-fit, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .brain-benefit,
   .brain-benefit.is-active:not([aria-hidden="true"]),

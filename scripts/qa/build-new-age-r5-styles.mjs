@@ -51,7 +51,23 @@ const scope = (css) => {
   return ast.toString();
 };
 
-const ast = scope(source);
+/* Owner corrections to the locked prototype layers, applied after scoping so
+ * a regeneration reproduces them instead of silently dropping them.
+ * 2026-09-26 (Krish): the practice heading reveals without blur; on Android
+ * Chrome the promoted, blurred layer painted a stale copy of the masthead
+ * where the heading should be. This was first hand-edited into the generated
+ * file (643c08d); it lives here now. */
+const corrections = [
+  [
+    ".nal-page .scroll-reveal{opacity:0;filter:blur(7px);transform:translateY(26px);transition:opacity .65s ease,filter .8s ease,transform .9s cubic-bezier(.2,.72,.2,1);will-change:opacity,filter,transform}\n.nal-page .scroll-reveal.is-revealed{opacity:1;filter:blur(0);transform:translateY(0)}",
+    "/* No blur and no will-change (Krish, 2026-09-26): on Android Chrome the promoted, blurred layer painted a stale copy of the masthead where the heading should be. */\n.nal-page .scroll-reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .9s cubic-bezier(.2,.72,.2,1)}\n.nal-page .scroll-reveal.is-revealed{opacity:1;transform:none}",
+  ],
+];
+const corrected = corrections.reduce((css, [from, to]) => {
+  if (!css.includes(from)) throw new Error(`an owner correction no longer matches its source rule: ${from.slice(0, 60)}`);
+  return css.replace(from, to);
+}, scope(source));
+const ast = corrected;
 
 const banner = `/* Generated from the owner-approved NEW-AGE-LEADERSHIP-R5 prototype.\n * Do not hand-edit. Run npm run build:new-age-r5-styles after an authorised baseline change.\n * The .nal-page scope prevents this material surface from leaking into other routes. */\n`;
 const integration = `\n/* Production integration corrections. The application already owns the same\n * local font families, and its reset assigns heading colours directly.\n * The prototype declared overflow-x:hidden on body, where the viewport is the\n * scrollport. Scoped onto .nal-page that div becomes the scrollport itself, so\n * every position:sticky inside it pinned to a container that never scrolls and\n * the three pinned sequences scrolled away, leaving empty paper behind them.\n * overflow-x:clip clips the same overflow without creating a scroll container. */\n.nal-page{--serif:"Newsreader Variable",Newsreader,Georgia,serif;--sans:"Archivo Variable",Archivo,Arial,sans-serif;--mono:"IBM Plex Mono",Plex,"Courier New",monospace}\n.nal-page{overflow-x:clip}\n.nal-page h1,.nal-page h2,.nal-page h3{color:inherit}\n.nal-page button,.nal-page input[type=range],.nal-page a.hero-action,.nal-page .reach-copy details a{min-height:44px}\n.nal-page .reach-copy details a{display:inline-flex;align-items:center}\n@media(max-height:650px) and (max-width:900px) and (orientation:landscape){.nal-page .lens-era-nav{grid-template-columns:repeat(4,44px)}.nal-page .lens-era-nav button{width:44px;min-height:44px}}\n`;

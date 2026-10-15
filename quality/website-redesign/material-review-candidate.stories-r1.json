@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "ai-brain-stories-r1",
+  "status": "candidate",
+  "profile": "quality/website-redesign/experience-quality.profile.json",
+  "artifact": {
+    "kind": "integrated-production-candidate",
+    "root": "src/components/leadership-chapters",
+    "entry": "src/components/leadership-chapters/leadershipChapters.ts",
+    "route": "/",
+    "integrationModel": "single-dom-single-scroll-context",
+    "files": [
+      "src/components/leadership-chapters/leadershipChapters.ts",
+      "src/styles/new-age-leadership-r6.layer.css",
+      "src/styles/new-age-leadership-r5.css",
+      "src/components/homepage-release/integration.css",
+      "src/assets/stories/briefing-tray-r01-800.webp",
+      "src/assets/stories/founder-pantograph-r01-800.webp",
+      "src/assets/stories/index-drawer-r01-800.webp",
+      "src/assets/stories/orrery-alignment-r01-800.webp",
+      "src/assets/stories/pricing-balance-r01-800.webp",
+      "src/assets/stories/prism-light-r01-800.webp",
+      "src/assets/stories/proofing-press-r01-800.webp",
+      "src/assets/stories/punched-cards-r01-800.webp",
+      "src/assets/stories/shared-folio-r01-800.webp",
+      "src/assets/stories/stencil-correction-r01-800.webp",
+      "src/assets/stories/updates-seal-r01-800.webp",
+      "src/assets/stories/voice-pipe-r01-800.webp",
+      "src/assets/stories/window-telescope-r01-800.webp",
+      "src/assets/stories/workbench-gears-r01-800.webp",
+      "src/test/leadership-stories.test.ts",
+      "src/test/homepage-leadership-chapters.test.ts"
+    ],
+    "nonRuntimeFiles": [
+      "src/test/leadership-stories.test.ts",
+      "src/test/homepage-leadership-chapters.test.ts"
+    ]
+  },
+  "requirements": {
+    "surfaces": ["desktop", "mobile"],
+    "singleDomScrollContext": true,
+    "noEmbeddedFrames": true,
+    "continuousForwardAndReverse": true,
+    "scrollDrivenSections": ["reach", "practice", "stories", "contents"]
+  },
+  "evidence": {
+    "readiness": "artifacts/material-review/ai-brain-stories-r1/readiness-receipt.json",
+    "continuity": "artifacts/material-review/ai-brain-stories-r1/continuity-receipt.json",
+    "specialist": "artifacts/material-review/ai-brain-stories-r1/specialist-receipt.json"
+  },
+  "feedback": {
+    "ledger": "project-documentation/website-redesign/feedback-ledger.json",
+    "applicableIds": ["HOMEPAGE-NAL-CHAPTERS-001", "LEADERSHIP-BENEFITS-CLIPPED-001", "PRACTICE-PHONE-SWEEP-001"]
+  },
+  "classification": "The AI Brain benefits as fourteen true stories, each with its own scene: the section opens on its contents, and scroll opens each story out of it in turn. On a small phone the contents sits just above the pinned panel. One source serves / and /new-age-leadership. Krish approved the rendered fourteen on 2026-10-15 (\"ship all fourteen now, move the contents on small phones\").",
+  "probe": {
+    "routes": [{ "name": "home", "path": "/" }, { "name": "nal", "path": "/new-age-leadership/" }],
+    "viewports": [
+      { "name": "desktop-1440x900", "surface": "desktop", "w": 1440, "h": 900 },
+      { "name": "mobile-390x844", "surface": "mobile", "w": 390, "h": 844, "mobile": true }
+    ],
+    "shortViewports": [
+      { "name": "desktop-1280x600", "surface": "desktop", "w": 1280, "h": 600, "short": true },
+      { "name": "desktop-720x450", "surface": "desktop", "w": 720, "h": 450, "short": true }
+    ],
+    "sections": [
+      { "id": "reach", "track": "[data-reach]", "state": "[data-reach-copy].is-active h2", "states": ["The feeling is similar.The scale is not.", "What people do, and should do,changes shape."] },
+      { "id": "practice", "track": ".work-scroll", "state": "[data-work-scene].is-active h3", "states": ["It notices what changed.", "It joins the evidence.", "It prepares the next move."] },
+      { "id": "contents", "track": "[data-benefit-track]", "state": "[data-story-contents]:not([aria-hidden='true']) a:first-child span:last-child", "frame": "[data-benefits]", "states": ["A founder who posted about once a month now posts most days."], "capture": true, "rests": "data-contents-rests", "text": "[data-story-contents] a span, [data-benefits] > .kicker" },
+      { "id": "stories", "track": "[data-benefit-track]", "frame": "[data-benefits]", "state": ".brain-benefit.is-active:not([aria-hidden='true']) h2", "items": "[data-benefit]", "itemHeading": "h2", "next": "[data-benefit-next]", "prev": "[data-benefit-prev]", "capture": true, "rests": "data-story-rests", "text": ".brain-benefit.is-active h2, .brain-benefit.is-active p, .brain-benefit.is-active blockquote, [data-benefits] > .kicker, .benefit-controls p" }
+    ],
+    "seams": "main > section, main > div > section",
+    "commands": [
+      { "id": "build", "run": "npm run build" },
+      { "id": "unit", "run": "npx vitest run src/test/leadership-stories.test.ts src/test/homepage-leadership-chapters.test.ts src/test/copy-restraint.test.ts src/test/testimonials.test.ts" },
+      { "id": "line-breaks", "run": "node scripts/qa/line-break-check.mjs" },
+      { "id": "pre-merge", "run": "npm run qa:homepage-release:pre-merge" },
+      { "id": "r5-production", "run": "QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs" },
+      { "id": "chrome", "run": "node scripts/qa/fixed-chrome-check.mjs" },
+      { "id": "logo-alignment", "run": "node scripts/qa/logo-alignment-check.mjs" },
+      { "id": "type-system", "run": "node scripts/qa/type-system-check.mjs" },
+      { "id": "nojs", "run": "node scripts/qa/no-js-check.mjs" }
+    ]
+  }
+}

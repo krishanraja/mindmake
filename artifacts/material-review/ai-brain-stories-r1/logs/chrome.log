@@ -1,0 +1,4 @@
+$ node scripts/qa/fixed-chrome-check.mjs
+fixed chrome clean: 8 sizes x 2 pages x 2 text scales, the strip flush and the bar stacked on it, nothing broken, nothing covered
+
+[exit 0]

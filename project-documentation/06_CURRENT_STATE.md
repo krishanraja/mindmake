@@ -15,7 +15,7 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 
 The approved R3 homepage carries: opening, the R3 history chapter (four pinned
 eras), the three new-age leadership chapters (reach in both its states,
-practice, and the AI Brain benefits beside the returned hour), AI Brain/AI GTM
+practice, and the fourteen AI Brain stories beside the returned hour), AI Brain/AI GTM
 routes and footer. Every chapter pins by scroll in both directions, releases
 naturally and keeps direct controls on reduced-motion and short screens. The new-age-leadership route is a separate
 approved companion that shares their source.

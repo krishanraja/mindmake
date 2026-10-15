@@ -72,12 +72,14 @@ const VIEWPORTS = {
    pause. The composition's widest intentional rest measured 30%. */
 const BLANK_LIMIT = 0.42;
 /* Sampling density, not a fixed step count. The shortest state on the page is
-   one AI Brain benefit, which is 40svh of scroll on a short screen; a fixed 40
-   samples over a document five viewports longer than that strides straight past
-   one and reports a state the page does draw as missing. So the stride is tied
-   to the viewport and the floor is only a floor. */
+   one AI Brain story: fourteen stories and the contents meet the travel's
+   400svh cap, so each story holds about 27svh of scroll (it was 40svh for each
+   of the six benefits before the stories, October 2026); a fixed 40 samples
+   over a document five viewports longer than that strides straight past one
+   and reports a state the page does draw as missing. So the stride is tied to
+   the viewport, below the shortest state, and the floor is only a floor. */
 const MIN_STEPS = 40;
-const STRIDE_SHARE = 0.28;
+const STRIDE_SHARE = 0.2;
 
 await mkdir(output, { recursive: true });
 for (const [file, expected] of Object.entries(locked)) {
@@ -131,11 +133,16 @@ const PROBE = `(() => {
   const scenes = [...document.querySelectorAll("[data-work-scene]")];
   const stacked = scenes.length > 0 && getComputedStyle(scenes[0]).position !== "absolute";
   const onScreen = scenes.findIndex((n) => { const r = n.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; });
+  const storyPanel = document.querySelector("[data-benefits]");
+  const storiesStacked = Boolean(storyPanel) && getComputedStyle(storyPanel).position !== "sticky";
+  const onScreenStory = [...document.querySelectorAll("[data-benefit]")].findIndex((n) => { const r = n.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; });
   return {
     blank: Math.round((worst * innerHeight) / 59),
     lens: active("[data-lens-copy]"),
     reach: active("[data-reach-panel]"),
-    benefit: active("[data-benefit]"),
+    /* A phone held sideways reads the AI Brain stories as a document, so
+       "which one is showing" is which one the viewport is over. */
+    benefit: storiesStacked ? onScreenStory : active("[data-benefit]"),
     work: stacked ? onScreen : active("[data-work-scene]"),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   };
@@ -230,6 +237,9 @@ for (const engineName of asked) {
        the state changes. A phone used to hide it and draw a fixed word. */
     fail(!opening.motionShown || !/motion/iu.test(opening.motionLabel || ""), `${label}: the film control has no readable label (${opening.motionLabel})`);
 
+    /* Every AI Brain story the page carries, read from the page itself. */
+    const stories = await page.evaluate(() => document.querySelectorAll("[data-benefit]").length);
+    fail(stories !== 14, `${label}: ${stories} AI Brain stories on the page, not the fourteen`);
     const forward = await sweep(page, height, "forward");
     const reverse = await sweep(page, height, "reverse");
 
@@ -237,7 +247,7 @@ for (const engineName of asked) {
     for (const [pass, result] of [["forward", forward], ["reverse", reverse]]) {
       fail(result.seen.lens.size !== 4, `${label}: ${pass} scroll reached ${result.seen.lens.size}/4 history states`);
       fail(result.seen.reach.size !== 2, `${label}: ${pass} scroll reached ${result.seen.reach.size}/2 reach states`);
-      fail(result.seen.benefit.size !== 6, `${label}: ${pass} scroll reached ${result.seen.benefit.size}/6 AI Brain benefits`);
+      fail(result.seen.benefit.size !== stories, `${label}: ${pass} scroll reached ${result.seen.benefit.size}/${stories} AI Brain stories`);
       fail(result.seen.work.size !== 3, `${label}: ${pass} scroll reached ${result.seen.work.size}/3 working scenes`);
       fail(result.worstBlank > height * BLANK_LIMIT, `${label}: ${pass} pass shows ${result.worstBlank}px of nothing at y=${result.worstBlankAt} (limit ${Math.round(height * BLANK_LIMIT)}px)`);
       fail(result.overflow > 1, `${label}: ${pass} pass has horizontal overflow ${result.overflow}px`);

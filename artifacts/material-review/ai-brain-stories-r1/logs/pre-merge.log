@@ -1,0 +1,31 @@
+$ npm run qa:homepage-release:pre-merge
+
+> vite_react_shadcn_ts@0.0.0 qa:homepage-release:pre-merge
+> node scripts/qa/build-homepage-release.mjs --check && node scripts/qa/scroll-build-evidence-selftest.mjs && node scripts/qa/homepage-release-browser-check.mjs --built --pre-merge
+
+{"status":"PASS","mode":"check","assets":9,"sourceSha256":"476f62dc8e60fb4688aae46ea8ff2c13bcca23f0fddaed445aefe116606c4310"}
+SCROLL BUILD EVIDENCE TESTS PASSED: 24 cases
+Testing chromium-1440
+Verified chromium-1440/history: forward, reverse, exits and screenshot
+Verified chromium-1440/reach: forward, reverse, exits and screenshot
+Verified chromium-1440/practice: forward, reverse, exits and screenshot
+Verified chromium-1440/benefits: forward, reverse, exits and screenshot
+Checking chromium-1440: real lead entry
+Completed chromium-1440
+Testing chromium-390
+Verified chromium-390/history: forward, reverse, exits and screenshot
+Verified chromium-390/reach: forward, reverse, exits and screenshot
+Verified chromium-390/practice: forward, reverse, exits and screenshot
+Verified chromium-390/benefits: forward, reverse, exits and screenshot
+Checking chromium-390: real lead entry
+Completed chromium-390
+Checking chromium: reduced motion and direct controls
+Checking chromium: short-1280x600
+Checking chromium: short-720x450
+{
+  "cases": 8,
+  "screenshots": 8,
+  "failures": []
+}
+
+[exit 0]

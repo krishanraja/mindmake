@@ -2,7 +2,7 @@
 
 Status: approved-r3-live
 Working-copy status: verified-production-closeout
-Updated: 27 September 2026.
+Updated: 15 October 2026.
 
 The technical discovery and documentation closeout passed candidate CI,
 deployment and public readback. The accepted R3 material authority below is
@@ -10,6 +10,42 @@ unchanged. Current operational identity and evidence limits remain in
 06_CURRENT_STATE.md; do not relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## In progress: three agreed sharpenings (October 2026)
+
+Krish agreed three changes on 11 October 2026 and asked for them one at a time,
+each shown rendered at 1440x900 and 390x844 and approved before the next starts:
+the AI Brain benefits become short illustrated stories (first, done), the hero
+lede names who the site is for (second), and the free AI brief names one thing
+AI could carry in the reader's own week (third). His reactions are recorded word
+for word in [feedback-ledger.json](feedback-ledger.json); the request itself
+lives in private planning documents and is not copied here.
+
+- The stories (done). "What your AI Brain makes possible" on `/` and
+  `/new-age-leadership` is fourteen true stories, each a heading, where the
+  leader was, what happened, an exact quote only where `testimonials.ts` has
+  one, and its own instrument-room scene (`src/assets/stories/`). Krish:
+  "I like them all"; "ship all fourteen now, move the contents on small phones"
+  (15 October 2026, `AI-BRAIN-STORIES-TRUE-001`). Proof rules are in
+  `04_PROOF.md`, "The AI Brain stories". One source,
+  `src/components/leadership-chapters/leadershipChapters.ts`, serves both pages;
+  its styles are `src/styles/new-age-leadership-r6.layer.css`, compiled into the
+  generated `new-age-leadership-r5.css`. The section opens on its contents and
+  scroll opens each story in turn; on a phone too short to hold the contents
+  and the arrows together (375x667, 360x640, 320x568, and 360x800 under the
+  action bar) the contents sits just above the pin and the stories pin alone.
+  A window too short for either (a laptop zoomed to 150%, a phone held
+  sideways, no scripts) reads the section as a document.
+- Positioning (open, `POSITIONING-DOORS-NARRATIVE-001`): Krish wants the front
+  door as simple as "An AI brain layer basically turns your AI tool from a 30K
+  intern into a 200K chief of staff", AI GTM to read "Build your AI revenue
+  engine" with the acronym out of public copy, and AI Brain to carry "Unlock
+  and create the idea you've been sitting on". The free AI brief follows the
+  new positioning and stories.
+
+Next action: render front-door options built on Krish's intern-to-chief-of-staff
+line on `/` at 1440x900 and 390x844 and show him cold; on his pick, the North
+Star and Canon change first, then the generator.
 
 ## Approved source and scope
 
@@ -43,7 +79,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 
 ## Non-regression contract
 
-1. Between the opening and the route, the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41). History retains four reversible states: Writing, the engine loom, the calculator and satnav, pinned by scroll. The reach chapter retains both states, "The feeling is similar. The scale is not." and then "What people do, and should do, changes shape.", by scroll. Practice retains Notice, Connect and Prepare. The AI Brain benefits retain all six beside The returned hour. R3's authority and leadership-dividend chapters are retired from `/`.
+1. Between the opening and the route, the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41). History retains four reversible states: Writing, the engine loom, the calculator and satnav, pinned by scroll. The reach chapter retains both states, "The feeling is similar. The scale is not." and then "What people do, and should do, changes shape.", by scroll. Practice retains Notice, Connect and Prepare. The AI Brain stories retain all fourteen beside The returned hour. R3's authority and leadership-dividend chapters are retired from `/`.
 2. Native sticky tracks release before and after each chapter. No wheel/touch cancellation. The history chapter falls back to natural flow and its era controls under reduced motion or insufficient height. The leadership chapters keep their pins under reduced motion and drop transitions and films, as on `/new-age-leadership`. Below 900px, on a screen at least 480px tall, the practice scenes pin under their introduction and build by the signal sweep (r46): a mint line crosses the frame left to right and uncovers the next scene, and the rail's fill and stops follow it, both ways; each stop is a direct control. A phone held sideways, or a page without scripts, keeps the scenes one after another. Every state stays reachable from its direct controls on reduced-motion and short screens.
 3. Scroll proof observes visible text, actual forward/reverse input, every ordered state, pin geometry and both exits. A screenshot, state attribute or entrance reveal alone is not proof.
 4. Preserve the selected masthead/content alignment: the chapters pin under the homepage's fixed masthead and take its gutter. Device-specific compositions remain distinct. No clipping, collisions, hidden actions, blank substitute panels or fixed-nav/cookie overlap.

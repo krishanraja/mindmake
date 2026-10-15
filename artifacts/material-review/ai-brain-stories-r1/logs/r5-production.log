@@ -1,0 +1,614 @@
+$ QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs
+Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+{
+  "gate": "new-age-leadership-scroll-build",
+  "at": "2026-10-15T11:19:08.315Z",
+  "engines": [
+    "chromium"
+  ],
+  "blankLimitShare": 0.42,
+  "minSteps": 40,
+  "strideShare": 0.2,
+  "observations": [
+    {
+      "label": "chromium-320x568",
+      "document": 9418,
+      "samples": 79,
+      "worstBlankPx": 116,
+      "worstBlankShare": 0.204,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-360x640",
+      "document": 10281,
+      "samples": 77,
+      "worstBlankPx": 130,
+      "worstBlankShare": 0.203,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-390x844",
+      "document": 13539,
+      "samples": 77,
+      "worstBlankPx": 200,
+      "worstBlankShare": 0.237,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-430x932",
+      "document": 14915,
+      "samples": 77,
+      "worstBlankPx": 221,
+      "worstBlankShare": 0.237,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-768x1024",
+      "document": 16577,
+      "samples": 77,
+      "worstBlankPx": 312,
+      "worstBlankShare": 0.305,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-844x390",
+      "document": 7656,
+      "samples": 95,
+      "worstBlankPx": 145,
+      "worstBlankShare": 0.372,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-1024x768",
+      "document": 12939,
+      "samples": 81,
+      "worstBlankPx": 273,
+      "worstBlankShare": 0.355,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-1366x768",
+      "document": 12970,
+      "samples": 81,
+      "worstBlankPx": 208,
+      "worstBlankShare": 0.271,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-1440x900",
+      "document": 15165,
+      "samples": 81,
+      "worstBlankPx": 305,
+      "worstBlankShare": 0.339,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "chromium-1920x1080",
+      "document": 18163,
+      "samples": 81,
+      "worstBlankPx": 366,
+      "worstBlankShare": 0.339,
+      "forward": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      },
+      "reverse": {
+        "lens": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "reach": [
+          0,
+          1
+        ],
+        "benefit": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "label": "negative-control-unpinned",
+      "historyStatesReached": 4,
+      "worstBlankPx": 717
+    }
+  ],
+  "failures": []
+}
+
+[exit 0]

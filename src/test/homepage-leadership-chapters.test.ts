@@ -75,21 +75,78 @@ describe("homepage leadership chapters", () => {
     videos.forEach((video) => expect(video).toContain('aria-hidden="true"'));
   });
 
-  it("moves between benefits from its controls and stops listening once unmounted", () => {
+  /* The arrows move the page to where the next story rests; what shows is
+     read from where the page then is, so the count follows the scroll. */
+  it("moves between stories from its controls and stops listening once unmounted", () => {
+    let y = 0;
+    vi.stubGlobal("scrollTo", vi.fn((options: ScrollToOptions) => { y = options.top ?? 0; window.dispatchEvent(new Event("scroll")); }));
+    Object.defineProperty(window, "scrollY", { configurable: true, get: () => y });
+    const root = document.createElement("div");
+    root.innerHTML = leadershipChaptersMarkup();
+    document.body.append(root);
+    const track = root.querySelector<HTMLElement>("[data-benefit-track]")!;
+    Object.defineProperty(track, "offsetHeight", { configurable: true, value: 4000 });
+    track.getBoundingClientRect = () => ({ top: -y, bottom: 4000 - y, left: 0, right: 0, width: 0, height: 4000, x: 0, y: -y, toJSON: () => ({}) });
+    /* jsdom loads no stylesheet; the panel pins as it does on a real screen. */
+    root.querySelector<HTMLElement>("[data-benefits]")!.style.position = "sticky";
+    const unmount = mountLeadershipChapters(root, { reduced: true, media: true });
+    const count = root.querySelector("[data-benefit-count]")!;
+    const prev = root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!;
+    expect(count.textContent).toBe("01");
+    expect(prev.getAttribute("aria-disabled")).toBe("true");
+    /* The section opens on its contents, and a disabled arrow does nothing. */
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    prev.click();
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    expect(root.querySelector("[data-story-contents] [aria-current]")).toBeNull();
+    /* From the contents, Next opens the story the mark is on: story one. */
+    const next = root.querySelector<HTMLButtonElement>("[data-benefit-next]")!;
+    next.click();
+    expect(count.textContent).toBe("01");
+    expect(root.querySelector('[data-benefit="0"]')!.getAttribute("aria-hidden")).toBe("false");
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("true");
+    next.click();
+    expect(count.textContent).toBe("02");
+    expect(root.querySelectorAll(".brain-benefit.is-active")).toHaveLength(1);
+    expect(root.querySelector('[data-benefit="1"]')!.getAttribute("aria-hidden")).toBe("false");
+    expect(prev.getAttribute("aria-disabled")).toBe("false");
+    /* A contents row opens its story and hands it focus. */
+    root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!.click();
+    expect(count.textContent).toBe("01");
+    /* Previous on the first story goes back to the contents. */
+    expect(prev.getAttribute("aria-disabled")).toBe("false");
+    expect(prev.getAttribute("aria-label")).toBe("Back to the contents");
+    prev.click();
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    expect(prev.getAttribute("aria-disabled")).toBe("true");
+    Object.defineProperty(window, "scrollY", { configurable: true, get: () => y });
+    y = 0; window.dispatchEvent(new Event("scroll"));
+    const row = root.querySelector<HTMLAnchorElement>('[data-story-link="4"]')!;
+    row.focus();
+    row.click();
+    expect(count.textContent).toBe("05");
+    expect(document.activeElement).toBe(root.querySelector('[data-benefit="4"] h2'));
+    unmount();
+    root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
+    expect(count.textContent).toBe("05");
+    Reflect.deleteProperty(window, "scrollY");
+  });
+
+  /* A phone held sideways is too short to pin the stories; they read as a
+     document, every story and the contents open, the contents rows plain links. */
+  it("reads the stories as a document where the panel does not pin", () => {
     vi.stubGlobal("scrollTo", vi.fn());
     const root = document.createElement("div");
     root.innerHTML = leadershipChaptersMarkup();
     document.body.append(root);
-    const unmount = mountLeadershipChapters(root, { reduced: true, media: true });
-    const count = root.querySelector("[data-benefit-count]")!;
-    expect(count.textContent).toBe("01");
-    root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
-    expect(count.textContent).toBe("02");
-    expect(root.querySelectorAll(".brain-benefit.is-active")).toHaveLength(1);
-    expect(root.querySelector('[data-benefit="1"]')!.getAttribute("aria-hidden")).toBe("false");
+    const unmount = mountLeadershipChapters(root, { reduced: false, media: true });
+    root.querySelectorAll("[data-benefit]").forEach((node) => expect(node.getAttribute("aria-hidden")).toBe("false"));
+    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
+    const row = root.querySelector<HTMLAnchorElement>('[data-story-link="2"]')!;
+    const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+    row.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
     unmount();
-    root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
-    expect(count.textContent).toBe("02");
   });
 
   /* The phone's practice sequence (r46): a mint line sweeps each scene in as

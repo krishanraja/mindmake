@@ -25,13 +25,24 @@ export const APPROVED_SCROLL_STATES = {
     'It joins the evidence.',
     'It prepares the next move.',
   ],
+  // The AI Brain stories (October 2026): fourteen true stories, each a
+  // heading, a situation, what happened and a scene (Krish, 2026-10-15: "ship
+  // all fourteen now").
   benefits: [
+    'A founder who posted about once a month now posts most days.',
     'Leadership updates become consistent, even when the week was not.',
+    'A CEO who read many newsletters every morning now gets one briefing.',
     'Work nobody owns becomes visible before it becomes a problem.',
     'A change in market pricing becomes a decision, not a forgotten observation.',
+    'A head of operations is hands-on again, with systems they built.',
     'A CEO who hates writing can still publish ideas worth following.',
+    'A leader who only heard from inside now sees what is changing outside.',
     'A CRO who hates the numbers can become better at using them.',
     'Founder-led content can begin with the work, not another content calendar.',
+    'Someone new to AI now builds their own dashboard by saying what they need.',
+    'Teams working on the same account stop asking each other the same questions.',
+    "One person corrected it once, and everyone's AI got better that day.",
+    "A team's account plans now serve the division's goals and the CEO's vision.",
   ],
 };
 

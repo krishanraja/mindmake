@@ -149,6 +149,30 @@ A data company changed how it sold as AI changed the web. The work led to a paid
 >
 > CRO, data-infrastructure company (`data-infra-cro`)
 
+## The AI Brain stories, exactly 14
+
+The section "What your AI Brain makes possible", on `/` and
+`/new-age-leadership`, tells fourteen true client stories in Mindmake's words.
+Their words live only in
+[leadershipChapters.ts](../src/components/leadership-chapters/leadershipChapters.ts);
+this file does not keep a second copy.
+
+- Source: Krish's own account of each engagement (feedback ledger
+  `AI-BRAIN-STORIES-TRUE-001`). Every leader stays anonymous at role level, and
+  no client, colleague, account, brand or figure from private notes appears.
+- Quotes: two stories quote a client, each an exact substring of
+  `src/data/testimonials.ts`: the founder story (story 5 above,
+  `wellness-founder`) and the head of operations story (`scaleup-ops`).
+- Figures: the founder story carries story 5's recorded outcomes. The
+  dashboard story's "at least five times faster than AI alone" is Krish's own
+  figure from that engagement.
+- Approval: Krish approved the rendered fourteen on 15 October 2026 ("I like
+  them all"; "ship all fourteen now"). That is the scoped approval the
+  placement rule below asks for to place story 5's outcomes outside
+  `/case-studies`.
+- No caveat, eyebrow, asterisk or label marks any of them as anything other
+  than true (Krish, 15 October 2026).
+
 ## Steph Darmanin, consent-gated named proof
 
 Steph Darmanin is a separate client from the anonymous executive coaching practice above. Her use is approved. The production gate is the checked-in `consent: "recorded"` value and `publishableTestimonials` filter in `src/data/testimonials.ts`, not a live Legacy Ascend lookup. Missing recorded consent excludes the named client entry. Legacy Ascend is historical consent provenance; a withdrawal or unresolved permission requires removing publication eligibility before any further release. Do not claim a runtime consent service exists.
@@ -195,7 +219,8 @@ quote collection. The previous nine-reference prose is preserved, unchanged, in
 
 The approved R3 homepage controls its proof placement. No additional logo strip,
 result cards, founder block or testimonial deck is required by this file. Results
-remain on `/case-studies`; other placements require their scoped approval. Steph
+remain on `/case-studies`; other placements require their scoped approval,
+which the AI Brain stories carry (above). Steph
 excerpts stay consent-gated and never form an unapproved new section.
 
 ## Guardrails

@@ -1,0 +1,406 @@
+{
+  "kind": "CONCEPT TRACE",
+  "candidateId": "ai-brain-stories-r1",
+  "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
+  "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
+  "rounds": [
+    {
+      "round": 1,
+      "workflowRunId": "wf_51a673b7-feb",
+      "generators": [
+        {
+          "id": "G1",
+          "mandate": "text-led",
+          "governingIdea": "One reading line. Every story is set in the same four places down one left edge, in the order a leader would tell it across a table: what changed (the heading), where they were, what happened, and their own words. The reader learns the shape once, on story one, and from then on o",
+          "scene": "A print-room drying line inside the instrument room: a taut brass wire across the top of the frame, strung with freshly printed sheets of heavy cream paper in small brass clips, back-lit by the one bl",
+          "outputSha256": "5e6d69606e65ecfb5f41f4ac31f0b19d9c3a61ac552025c4b7826224482dfe24"
+        },
+        {
+          "id": "G2",
+          "mandate": "image-led",
+          "governingIdea": "The picture is the panel. Each story is one lit room that fills the whole stories column. The outcome sits on the room's dark wall above the instrument, and how it happened sits on the dark table below it, so the reader reads the story inside the scene rather than next to a pictu",
+          "scene": "A tall antique hourglass in walnut and brass on a writing desk, with most of its sand still in the upper bulb, beside the founder's own open research notebook. An adult hand has just set a single fini",
+          "outputSha256": "675595e0c205c81c00ce74d132f7d0da7b1ecfaa19a30eb79503d75885718f27"
+        },
+        {
+          "id": "G3",
+          "mandate": "sequence-led",
+          "governingIdea": "The reader's own scroll tells each story one part at a time, always in the same order: the outcome, where the leader was, what changed, then their own words. Every step is a still, whole state that reverses exactly. The room behind the story comes up into the light as it is told,",
+          "scene": "An hourglass standing in a blade of window light, its sand only just begun, while the founder's hand presses a freshly finished cream page onto a brass paper spike already deep with pages.",
+          "outputSha256": "91536c839a8c702e9bf6879b0847af92700d58440be17ab68d5d2ad9d1306f6a"
+        }
+      ],
+      "judges": [
+        {
+          "id": "judge-1",
+          "winner": "G1",
+          "setConvergent": true,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              3
+            ],
+            [
+              "A-C",
+              4
+            ],
+            [
+              "B-C",
+              3
+            ]
+          ]
+        },
+        {
+          "id": "judge-2",
+          "winner": "G2",
+          "setConvergent": true,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              5
+            ],
+            [
+              "A-C",
+              4
+            ],
+            [
+              "B-C",
+              4
+            ]
+          ]
+        }
+      ],
+      "tiebreak": {
+        "winner": "G2",
+        "setConvergent": true
+      },
+      "outcome": "Rejected before human review: all three judges found the set superficially convergent (scene as backdrop of the dark column, text in shaded bands, crossfade in one frame). One further blinded round allowed."
+    },
+    {
+      "round": 2,
+      "workflowRunId": "wf_f3cb286f-afd",
+      "generators": [
+        {
+          "id": "G4",
+          "mandate": "object-led",
+          "governingIdea": "The print on the table. We tell each story the way a leader would tell it across a desk: they put down one picture of the room where it happened and talk beside it. The picture is a physical print. It has its own edges, its own 4px cream paper border and its own cast shadow, and ",
+          "scene": "A brass heliograph, the signalling mirror once used to send sunlight over long distances, standing on a walnut window sill. A hand tilts its plain round mirror into the room's one blade of window ligh",
+          "outputSha256": "7a7f9df2021aefed38fd956a95670ef1efd60801ee60a7161df9c25b482d596a"
+        },
+        {
+          "id": "G5",
+          "mandate": "motion-led",
+          "governingIdea": "THE ROLL. The stories are leaves of one long roll, and your scroll feeds it sideways through the dark column. Scrolling down moves it right to left. Scrolling up moves it back. The roll rests while a leaf fills the window and moves only between leaves, so nobody ever reads moving",
+          "scene": "A brass pantograph, the old drawing instrument made of jointed brass arms, on a walnut drafting table. A hand, seen only from the cuff, rests lightly on the tracing point over the founder's own notebo",
+          "outputSha256": "1d4cd4cd9a191435ff914a628fb525dc2d96deb1794e729d0093353a2162603e"
+        },
+        {
+          "id": "G6",
+          "mandate": "index-led",
+          "governingIdea": "The stories are a contents you read down. The section opens on its own contents: every way in, listed by its heading word for word and numbered, in the dark column under the existing kicker. Scroll moves a mint mark down that list. The entry under the mark opens out of its own li",
+          "scene": "An engraver's pantograph mid-stroke. A hand guides the brass tracing stylus along rough pencil notes, and the linked arm cuts the same line, clean and bright, into a small copper printing plate.",
+          "outputSha256": "1ceb18e687afd4a8699002fc51fa6c8f87ffd57b914b538a2ca658d58745fc35"
+        }
+      ],
+      "judges": [
+        {
+          "id": "judge-1",
+          "winnerAcrossSix": "G4",
+          "roundTwoConvergent": false,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              7
+            ],
+            [
+              "A-C",
+              5
+            ],
+            [
+              "B-C",
+              7
+            ]
+          ]
+        },
+        {
+          "id": "judge-2",
+          "winnerAcrossSix": "G6",
+          "roundTwoConvergent": false,
+          "pairwiseDistance": [
+            [
+              "A-B",
+              5
+            ],
+            [
+              "A-C",
+              5
+            ],
+            [
+              "B-C",
+              6
+            ]
+          ]
+        }
+      ],
+      "tiebreak": {
+        "winnerAcrossSix": "G6",
+        "roundTwoConvergent": false
+      },
+      "outcome": "G6 (index-led) selected 2 to 1, the blinded tiebreak siding with judge two. Round two not convergent."
+    }
+  ],
+  "selectedSpine": "G6 index-led: the section opens on its contents of every story; scroll opens each story out of the contents and folds it back before the next.",
+  "synthesis": {
+    "adopted": [
+      "Opacity-only passages: the story fades, the contents arrives, the mark steps one row, the next story arrives; no heading travel or scaling of live text (judge two and tiebreak).",
+      "State is a pure function of position read from the panel's computed sticky top; no lock, no hysteresis; full first and last holds; a full story holds 1.5x (round one and two lessons).",
+      "Server-rendered plan: data-story-rests and --story-units come from the same storyPlan the page reads; nothing hidden in server markup; aria-hidden and inert set on mount.",
+      "Live region announces 'Story n of N. heading' only; aria-disabled at the ends.",
+      "Per-part budgets, exact-substring quote, no em dash and no 'not X, but Y' enforced in src/test/leadership-stories.test.ts.",
+      "Scene: engraver's pantograph, recomposed square, framed with a brass hairline and an ink mat beside the words; take 0 of 4 chosen for a coherent linkage and the clearest blade of light.",
+      "Copy: round-one judges' preferred situation and 'A post like that now takes under an hour.'; quote 'I've learnt to push through basic barriers I didn't realise I could' carries the way in; straight marks to match the six.",
+      "No-JS: contents as links, then every story in order."
+    ],
+    "declined": [
+      "Counter as a contents button (an extra control; the contents rows and arrows already reach every story).",
+      "Raising the counter from 9px to 13px (it would change the six's frame; qa:type-system passes it today).",
+      "Amber on 'under an hour' (amber means what moved since yesterday; decoration risk).",
+      "A gliding mint mark between rows (the mark steps; the register under the arrows glides)."
+    ]
+  },
+  "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
+  "renderedArtifact": {
+    "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
+    "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
+    "supersedes": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc"
+  },
+  "sceneProvenance": {
+    "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
+    "jobIds": [
+      "eedfcce3-4085-4edb-80fc-b6008e51d574",
+      "583ab632-0fb5-42a4-8300-3c71ebe77b43",
+      "b7c13d74-4cc3-4299-80e3-9763183f8c11",
+      "3e1d7431-84f6-4b74-8395-23408f2cc5e6"
+    ],
+    "chosen": "eedfcce3-4085-4edb-80fc-b6008e51d574",
+    "masterSha256": "3544b541ba6a7c592cf5f6bc4fbf291e571cd9453def0f1647c87ae664cdf785",
+    "credits": 2.75
+  },
+  "revisions": [
+    {
+      "revision": "r1",
+      "candidateSha256": "7aad8c03052ba17b495b9515e0a2d36eb68c2c945d834f04de330ade1d72ba2a",
+      "panel": {
+        "voice": 8,
+        "truth": 8,
+        "visual": 8,
+        "buyer": 7,
+        "access": 4,
+        "motion": 7,
+        "veto": [
+          "access: with reduced motion, a contents row left focus on body"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r2."
+    },
+    {
+      "revision": "r2",
+      "candidateSha256": "3af8fb8aac1fd09827b01f156f93fa8c01eb03ab08ff473cc8d8946155ad2bff",
+      "commits": [
+        "f1a9634",
+        "aede0b5"
+      ],
+      "changes": [
+        "Focus moves to the opened story heading in the same paint that opens it, before the contents goes inert.",
+        "From the contents, Next opens the marked story; from an open story it opens the next.",
+        "The r5 generator carries the 2026-09-26 no-blur .scroll-reveal correction; the generated file equals main outside the r6 layer.",
+        "A landscape phone (max-height 430px) reads the section as a document; the stage clips instead of scrolling.",
+        "Contents rows are at least 44px; the focus ring is inset and tinted; the plate figure is aria-hidden.",
+        "Copy: 'and they keep building it around what they do and where they get stuck'; the quote is the founder's whole sentence \"It's helping me be seen by my customers.\"; the heading keeps the source's hedge, 'posted about once a month'.",
+        "Story text 16px on a phone and 14px on short screens; the probe checks for a lone last word at every resting state; the story step on short screens is at least 26svh."
+      ],
+      "declined": [
+        "Story one's heading stays smaller than the six's: a full story needs room for four parts and a plate in one stage.",
+        "The quote stays stored as text, guarded by an exact-substring test, rather than importing testimonials.ts into the homepage bundle.",
+        "Pinned travel stays about 40% longer than today, bounded at 400svh."
+      ],
+      "panel": {
+        "voice": 8,
+        "truth": 9,
+        "visual": 6,
+        "buyer": 7,
+        "access": 5,
+        "motion": 8,
+        "veto": [
+          "access: contents row 07 cut at 1024x768 on /new-age-leadership, the homepage arrows below the fold at 1024x700, the six quotes cut by the bar reserve at laptop sizes"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r3."
+    },
+    {
+      "revision": "r3",
+      "candidateSha256": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed",
+      "commits": [
+        "dfe12ce"
+      ],
+      "changes": [
+        "The contents and a full story lie over the stage and fit themselves to it (--fit, floor 0.75); the six size the stage as today and it never shrinks to clip a line; at 320x568 the stage grows to hold story one.",
+        "The arrows are lifted clear of the action bar, the cookie notice or the fold by measurement: spare room first, then the stage's empty height (never below what it holds), then the air above the label.",
+        "One whole state at a time chosen by position, changed by a short timed fade (out 0.16s, then in 0.24s); immediate with reduced motion. Shorter passages and a 22svh unit on phones and short screens.",
+        "Arrows decide from position (storyTargets); disabled arrows do nothing; pinTop cached; late focus hand-offs dropped; controls are a labelled group.",
+        "Story one's heading about 50px at 1440x900; quote beside the plate; 'A post' held together; what happened in three short sentences ('It fits around what they do and where they get stuck.').",
+        "Focus rings outside the row and heading; no row marked current in document mode; document-mode links land clear of the masthead."
+      ],
+      "evidence": "A 31-size sweep on both pages finds no new issue against today's build (viewport-sweep.json); the six are identical at 1440x900 and 390x844 on both pages and move only where today puts the arrows under the bar or fold, cuts a quote, or at 320x568.",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 7,
+        "access": 5,
+        "motion": 8,
+        "veto": [
+          "access: under reduced motion the fit and lift read sizes mid transition; arrows below the fold at 1024x700 and 1100x700, contents cut at 320x568 and 360x640"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r4."
+    },
+    {
+      "revision": "r4",
+      "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
+      "commits": [
+        "3c50c43",
+        "be8908d"
+      ],
+      "changes": [
+        "The panel carries is-measuring while the script measures, switching transitions off, so reduced motion measures as full motion does.",
+        "Where the contents cannot fit at the floor it keeps the largest type that takes no more room; row text never below 13px; the stage grows (small phones).",
+        "The contents and a full story keep 14px of air above the arrows, as the six do.",
+        "The contents no longer returns between stories; Previous on the first story goes back to it. Each story holds at least a quarter of the screen (30svh desktop, 27svh phone, 25svh short screen); travel within about a tenth of today's.",
+        "The lift is measured against the pinned panel's small-viewport foot; attributes written only when they change; no double announcement.",
+        "Copy: 'now posts most days'; 'a post' held together; balanced contents rows; story one's heading at the six's size in document mode."
+      ],
+      "synthesisChange": "Declined the in-between contents adopted in round one (the mark stepping between stories). Round three's motion and buyer judges independently found it too brief to read as a place and a lengthening of the scroll; the opening contents, its links, the counter and Previous back to the contents keep the index-led idea.",
+      "evidence": "Sweeps on both pages, 31 sizes in full motion and 18 with reduced motion, find no issue today's build does not have (viewport-sweep.json, viewport-sweep-reduced.json).",
+      "panel": {
+        "voice": 9,
+        "truth": 8,
+        "visual": 8,
+        "buyer": 7,
+        "access": 5,
+        "motion": 8,
+        "veto": [
+          "access: Tabbing into the section before it pinned left the arrows wholly under the action bar on /new-age-leadership (WCAG 2.2, 2.4.11)"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r5."
+    },
+    {
+      "revision": "r5",
+      "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
+      "commits": [
+        "b32c70a"
+      ],
+      "changes": [
+        "Keyboard focus entering the section before it pins moves the page at once to the focused state's rest, pinned, arrows clear; the probe gains a Tab check with a planted negative control.",
+        "On a small touch screen under both the action bar and the cookie notice, contents rows give up height (not below 32px) so the arrows clear.",
+        "The lift starts only on a real overlap; a resize that changes no input skips re-measuring; quick arrow presses each count; focus moves to the opening story if the contents goes inert under it.",
+        "Story one holds twice a one-line story; slightly larger words beside a smaller plate; about 45px heading on an upright tablet; the six's heading size as a document; 'a research' held together.",
+        "No current mark in the contents; the controls keep main's 'benefit' wording until the six are sourced; the quote test also guards the testimonial's publishability and role."
+      ],
+      "evidence": "Tab journeys on both pages at six sizes, with and without motion and the cookie notice: no hidden focus stop. Sweeps (31 sizes full motion, 19 reduced) find no issue today's build does not have; the six are identical at 1440x900 and 390x844.",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 8,
+        "access": 4,
+        "motion": 7,
+        "veto": [
+          "access: with motion on, contents rows 02-07 lost focus to the page (r5 keep-your-place hand-off replaced the row hand-off)"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r6."
+    },
+    {
+      "revision": "r6",
+      "candidateSha256": "1d0ed2004255355f6b81f8902a0af8fa7094d3ccf34c5713ce628ef3628834ef",
+      "commits": [
+        "2b73db4",
+        "033d3aa"
+      ],
+      "changes": [
+        "Contents rows jump straight to their story and hand focus to its heading; keep-your-place waits for scrolling to settle and never replaces a row hand-off.",
+        "Document-mode focus kept clear of the masthead and the action bar; probe Tab journeys both ways and sideways; a full-motion contents-row focus check with a planted negative control.",
+        "Rows tighten only where chrome really covers the arrows; the lift ignores overlaps under 2px; taps on arrows no longer end a run.",
+        "Count dims and its rule empties with the contents open; articles held to their nouns in the contents; story one larger on short laptops; 'an AI system that the founder owns'.",
+        "Travel 252/225/207svh against today's 240/220/200-210; STATE.md names all of story one's outcomes for scoped approval and the real next action."
+      ],
+      "evidence": "Contents rows 01-07 by Enter with motion on land focus on their heading on both pages at 1440x900 and 390x844; Tab and Shift+Tab journeys in document mode keep focus clear of chrome without the cookie notice.",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 8,
+        "access": 5,
+        "motion": 9,
+        "veto": [
+          "access: first visit at short laptop sizes on /new-age-leadership, the lift put the arrows wholly under the bar"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r7."
+    },
+    {
+      "revision": "r7",
+      "candidateSha256": "6f58ae472adbf733a41a1796d69c5424e156b672939ea521f0dc2d624cd9f51d",
+      "commits": [
+        "fdddcc0"
+      ],
+      "changes": [
+        "A lift is kept only where it leaves more of the arrows visible; re-measure after chrome settles; probe hidden-focus test measures visible area and adds a 1366x657 laptop.",
+        "Keyboard jump held against an in-flight smooth scroll; focus on a heading moves with a paging reader; top cookie notice counted in document-mode clearance.",
+        "'the founder' and 'It fits' held together; disabled arrows dim; count hidden with the contents open; contents landmark labelled."
+      ],
+      "evidence": "Tab journeys on both pages at ten sizes, with and without motion and the cookie notice: no hidden focus stop (today's build: 20 at the laptop sizes with the notice). Without the notice, r7 equals r6 at every lift size.",
+      "outcome": "Blocked by the readiness probe before the panel (1366x657 on /new-age-leadership with the cookie notice and the bar: Next under fixed chrome from below); the failed run is kept in commit 0d2c57d; revised as r8."
+    },
+    {
+      "revision": "r8",
+      "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
+      "commits": [
+        "239dcf3"
+      ],
+      "changes": [
+        "Where the lift still cannot clear the chrome, the six scale down together (zoom), only as far as the stage must shrink and never below 0.75; the contents and story one then fit the smaller stage.",
+        "The arrows' visible-area measure counts only chrome that overlaps them sideways."
+      ],
+      "evidence": "Tab and Shift+Tab journeys on both pages at 16 sizes, with and without the cookie notice: no hidden focus stop; at 1366x657 under both chrome layers the six sit at 0.90 and the section shows whole above the bar. Viewport sweep at 31 sizes without the notice: no text cut and no arrows under the bar or fold (r7 had the arrows 3px under the bar at 1366x657).",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 8,
+        "access": 5,
+        "motion": 5,
+        "veto": [
+          "access: at 911x438 (a 1366x657 laptop at 150% zoom) on /new-age-leadership, Shift+Tab from below met both arrows wholly under the action bar",
+          "motion: after a reader used the contents, leaving the section by Home, End, paging or the wheel was undone once"
+        ]
+      },
+      "outcome": "Blocked by the accessibility and motion vetoes before human review; revised as r9."
+    },
+    {
+      "revision": "r9",
+      "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
+      "commits": [
+        "856e00f"
+      ],
+      "changes": [
+        "The keep-your-place hand-off happens only while the panel is pinned, and focus the script moves itself never triggers the pre-pin jump.",
+        "Where the pinned panel could not show its arrows clear of the action bar even with every state at its floor, the section reads as a document; decided from the window and the bar's own height alone.",
+        "The probe adds the 911x438 laptop to its Tab journeys and a Home/End release check with a planted pull-back as its negative control."
+      ],
+      "evidence": "The motion judge's release reproductions (Home, End, PageUp, wheel down and up from a focused row or heading) all stay where the reader went on both pages, motion and reduced. Tab and Shift+Tab across 911x431-465 and 960x440 on both pages, with and without the notice: no hidden or partly covered stop. The 31-size sweep and 16-size Tab journeys are identical to r8."
+    }
+  ]
+}

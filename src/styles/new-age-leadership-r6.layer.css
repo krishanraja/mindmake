@@ -594,3 +594,516 @@
   font: 10px var(--mono);
   letter-spacing: .1em;
 }
+
+/* ---------------------------------------------------------------------------
+ * 9. What the AI Brain makes possible, told as stories (October 2026).
+ *
+ * Each benefit becomes a short story about one leader: the heading, where they
+ * were, what happened, and a line in their own words where they wrote one. The
+ * section opens on its contents, every story by its heading, so a reader can
+ * find the one that is them; scroll then opens each story in turn.
+ * leadershipChapters.ts reads which state shows from the scroll position
+ * (storyScroll) and marks the others aria-hidden; this stylesheet fades from
+ * one state to the next over a fixed short time, so wherever scrolling stops
+ * the stage shows one whole state. The stage keeps the size the stylesheet
+ * gives it; the contents and each story lie over it and fit themselves to it
+ * (--fit). A story's scene is a framed plate beside its words.
+ * ------------------------------------------------------------------------- */
+/* Twenty-two units (the contents, then fourteen stories at one and a half
+ * each) meet the cap, so the pinned travel is 400svh wherever the section
+ * pins: about 27svh of scroll for each story. */
+.human-proof {
+  --story-unit: 28svh;
+  --story-cap: 400svh;
+}
+
+.proof-track {
+  height: calc(100svh - var(--header) + min(var(--story-units, 5) * var(--story-unit), var(--story-cap)));
+}
+
+@media (max-width: 900px) {
+  .human-proof {
+    --story-unit: 25svh;
+  }
+}
+
+@media (max-height: 650px) {
+  .human-proof {
+    --story-unit: 23svh;
+  }
+}
+
+/* Clip, never hide: a hidden overflow is still a scroll container, and moving
+ * focus into it scrolled the panel or the stage out of place. */
+.proof-track > .proof-story {
+  overflow: clip;
+}
+
+.benefit-stage {
+  overflow: clip;
+  overflow-clip-margin: 6px;
+}
+
+/* The script reads sizes straight after it sets them; nothing may be mid
+ * transition while it does (reduced motion gives every element one). */
+.proof-track > .proof-story.is-measuring,
+.proof-track > .proof-story.is-measuring * {
+  transition: none !important;
+}
+
+.benefit-controls > div i {
+  width: calc(100% / var(--story-count, 6));
+}
+
+/* With the contents open no story is current: the count is not shown, the
+ * rule under the arrows is empty, and an arrow with nowhere to go dims. */
+.benefit-controls[data-at-contents] > p {
+  visibility: hidden;
+}
+
+.benefit-controls > button[aria-disabled="true"] {
+  opacity: .35;
+}
+
+.benefit-controls[data-at-contents] > div i {
+  opacity: 0;
+}
+
+/* One state at a time: the leaving one fades first, then the arriving one, so
+ * two sets of words never share the stage. */
+.brain-benefit,
+.story-contents {
+  transition: opacity .16s ease-in, visibility 0s linear .16s;
+}
+
+.brain-benefit,
+.brain-benefit.is-active {
+  animation: none;
+  transform: none;
+}
+
+.brain-benefit.is-active:not([aria-hidden="true"]),
+.story-contents:not([aria-hidden="true"]) {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .24s ease-out .16s, visibility 0s linear .16s;
+}
+
+.brain-benefit[aria-hidden="true"],
+.story-contents[aria-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.brain-benefit h2:focus {
+  outline: none;
+}
+
+.brain-benefit h2:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+/* The contents: every story by its heading, numbered, one ruled row each. */
+.story-contents {
+  --row-font: clamp(17px, min(1.32vw, 2.2vh), 19px);
+  --row-leading: 1.26;
+  --row-top: 11px;
+  --row-bottom: 12px;
+  --number-column: 34px;
+  --number-gap: 12px;
+  position: absolute;
+  inset: 0 0 auto;
+  display: grid;
+  border-top: 1px solid rgba(234, 223, 200, .14);
+}
+
+.story-contents a {
+  display: grid;
+  grid-template-columns: var(--number-column) minmax(0, 1fr);
+  align-items: baseline;
+  align-content: center;
+  min-height: calc(44px * var(--fit, 1));
+  column-gap: var(--number-gap);
+  padding: calc(var(--row-top) * var(--fit, 1)) 0 calc(var(--row-bottom) * var(--fit, 1));
+  border-bottom: 1px solid rgba(234, 223, 200, .14);
+  color: rgba(234, 223, 200, .78);
+  font: 400 max(13px, calc(var(--row-font) * var(--fit, 1))) / var(--row-leading) var(--serif);
+  text-decoration: none;
+}
+
+.story-contents a > span:last-child {
+  text-wrap: balance;
+}
+
+/* A row stays a full touch target however far the contents fits down; only
+ * under both the action bar and the cookie notice on a small phone does it
+ * give up some height, never below 32px (leadershipChapters.ts). */
+@media (pointer: coarse) {
+  .story-contents a {
+    min-height: var(--row-touch, 44px);
+  }
+}
+
+.story-contents .story-number {
+  font: 400 13px / 1 var(--mono);
+  letter-spacing: .08em;
+  color: rgba(234, 223, 200, .62);
+}
+
+.story-contents a:hover,
+.story-contents a:focus-visible {
+  color: var(--paper);
+}
+
+/* Focus is a tinted ring just outside the row, inside the stage's clip
+ * margin, so it never covers a number or reads as the mark's underline. */
+.story-contents a:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+  background: rgba(159, 241, 201, .08);
+}
+
+/* A story: its heading sits a step below the section's one-line size so its
+ * parts and its plate fit the stage, and shrinks further only where a screen
+ * has no room (--fit). Its words sit beside the plate, the quote last, under
+ * what happened. Read as a document (no pin), its heading takes the full size. */
+.brain-benefit.is-story {
+  --story-heading: clamp(30px, min(3.5vw, 5.6vh), 52px);
+  --story-text: clamp(16px, min(1.3vw, 2.2vh), 19px);
+  --story-quote: clamp(17px, min(1.45vw, 2.5vh), 22px);
+  --plate: clamp(170px, min(16vw, 26vh), 240px);
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.proof-track > .proof-story[data-story-pinned] .brain-benefit.is-story h2 {
+  font-size: max(20px, calc(var(--story-heading) * var(--fit, 1)));
+  line-height: 1.04;
+}
+
+/* A tablet held upright gives the panel the screen's full width. */
+@media (min-width: 621px) and (max-width: 900px) {
+  .brain-benefit.is-story {
+    --story-heading: clamp(34px, 5.4vw, 48px);
+    --plate: clamp(200px, 28vw, 260px);
+  }
+}
+
+.story-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "sit" "hap" "quote";
+  row-gap: calc(clamp(12px, 1.8vh, 18px) * var(--fit, 1));
+  margin-top: calc(clamp(18px, 3vh, 30px) * var(--fit, 1));
+}
+
+.story-body.has-plate {
+  grid-template-columns: max(96px, calc(var(--plate) * var(--fit, 1))) minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas: "plate sit" "plate hap" "plate quote";
+  column-gap: clamp(18px, 1.8vw, 28px);
+}
+
+.story-plate {
+  grid-area: plate;
+  align-self: start;
+  margin: 0;
+  padding: 5px;
+  border: 1px solid var(--brass);
+  background: #08100d;
+}
+
+.story-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.brain-benefit .story-body p {
+  max-width: 34em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: 400 max(13px, calc(var(--story-text) * var(--fit, 1))) / 1.42 var(--serif);
+  color: rgba(234, 223, 200, .82);
+}
+
+.story-situation {
+  grid-area: sit;
+}
+
+.story-happened {
+  grid-area: hap;
+}
+
+.story-quote {
+  grid-area: quote;
+  align-self: start;
+  margin: 0;
+  padding-left: 18px;
+  border-left: 1px solid var(--brass);
+  font: 400 max(14px, calc(var(--story-quote) * var(--fit, 1))) / 1.34 var(--serif);
+  color: rgba(234, 223, 200, .72);
+  text-wrap: balance;
+}
+
+@media (max-width: 620px) {
+  .brain-benefit.is-story {
+    --story-heading: clamp(28px, 8.4vw, 38px);
+    --story-text: 16px;
+    --story-quote: 17px;
+    --plate: 38vw;
+  }
+
+  .story-body {
+    margin-top: calc(14px * var(--fit, 1));
+    row-gap: calc(10px * var(--fit, 1));
+  }
+
+  .story-body.has-plate {
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "plate sit" "hap hap" "quote quote";
+  }
+
+  .story-contents {
+    --row-font: 15.5px;
+    --row-top: 7px;
+    --row-bottom: 8px;
+  }
+}
+
+/* Short screens keep the pin and the controls; the story and the contents
+ * tighten so each stays whole in the smaller stage. */
+@media (max-height: 650px) {
+  .story-contents {
+    --row-font: 13.5px;
+    --row-leading: 1.22;
+    --row-top: 5px;
+    --row-bottom: 6px;
+  }
+
+  .brain-benefit.is-story {
+    --story-heading: clamp(24px, 6.4vh, 40px);
+    --story-text: 15px;
+    --story-quote: 15px;
+    --plate: min(190px, 32vh);
+  }
+
+  .story-body {
+    margin-top: calc(10px * var(--fit, 1));
+    row-gap: calc(8px * var(--fit, 1));
+  }
+
+  .brain-benefit .story-body p,
+  .story-quote {
+    line-height: 1.32;
+  }
+
+  .story-quote {
+    padding-left: 12px;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 621px) {
+  .story-contents {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 20px;
+  }
+
+  /* Side by side, a one-line row keeps its number level with its neighbour's. */
+  .story-contents a {
+    align-content: start;
+  }
+}
+
+/* A small phone (320x568) takes the phone's order at the short screen's size,
+ * and the contents gives its numbers less room so each heading takes fewer
+ * lines. */
+@media (max-height: 650px) and (max-width: 620px) {
+  .story-contents {
+    --row-font: 13px;
+    --row-leading: 1.2;
+    --row-top: 4px;
+    --row-bottom: 5px;
+    --number-column: 22px;
+    --number-gap: 8px;
+  }
+
+  .story-contents .story-number {
+    letter-spacing: 0;
+  }
+
+  .brain-benefit.is-story {
+    --story-heading: 24px;
+    --plate: 28vw;
+  }
+
+  .story-body.has-plate {
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "plate sit" "hap hap" "quote quote";
+  }
+}
+
+/* The stage keeps the size of what it holds; it never shrinks to clip a line
+ * (the homepage has kept it so above 900px since the 1536x730 fix). Where
+ * the action bar or the cookie notice would cover the arrows, the script
+ * lifts them with the spacer below, which takes only room the panel has
+ * spare and gives way before anything else, then by the stage's empty height
+ * and the air above the label (leadershipChapters.ts, liftControls). */
+.benefit-stage {
+  flex-shrink: 0;
+}
+
+.proof-track > .proof-story::after {
+  content: "";
+  flex: 0 1000 var(--story-lift, 0px);
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brain-benefit,
+  .brain-benefit.is-active:not([aria-hidden="true"]),
+  .story-contents,
+  .story-contents:not([aria-hidden="true"]) {
+    transition: none;
+  }
+}
+
+/* Without scripts nothing drives the pin, and a phone held sideways is too
+ * short to pin it, so the section reads as a document: the contents, then
+ * every story in order. A contents link lands its story clear of the
+ * masthead. */
+@media (scripting: none), (max-height: 430px) and (orientation: landscape) {
+  .proof-track {
+    height: auto;
+  }
+
+  .proof-track > .proof-story {
+    position: static;
+    height: auto;
+  }
+
+  .proof-track > .proof-story::after {
+    content: none;
+  }
+
+  .benefit-stage {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .story-contents,
+  .brain-benefit.is-story {
+    position: static;
+  }
+
+  .story-contents {
+    margin-bottom: 40px;
+  }
+
+  .story-contents,
+  .brain-benefit {
+    scroll-margin-top: calc(var(--header) + 16px);
+  }
+
+  .story-contents,
+  .brain-benefit,
+  .brain-benefit.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    transition: none;
+  }
+
+  .brain-benefit {
+    margin-bottom: 56px;
+  }
+
+  .benefit-controls {
+    display: none;
+  }
+}
+
+/* The same document, chosen by the script where a pinned panel would leave
+ * the arrows wholly under fixed chrome even at its floors
+ * (leadershipChapters.ts, measureStories). */
+.proof-track[data-story-document] {
+  height: auto;
+}
+
+.proof-track[data-story-document] > .proof-story {
+  position: static;
+  height: auto;
+}
+
+.proof-track[data-story-document] > .proof-story::after {
+  content: none;
+}
+
+.proof-track[data-story-document] .benefit-stage {
+  display: block;
+  min-height: 0;
+  overflow: visible;
+}
+
+.proof-track[data-story-document] .story-contents,
+.proof-track[data-story-document] .brain-benefit.is-story {
+  position: static;
+}
+
+.proof-track[data-story-document] .story-contents {
+  margin-bottom: 40px;
+}
+
+.proof-track[data-story-document] .story-contents,
+.proof-track[data-story-document] .brain-benefit {
+  scroll-margin-top: calc(var(--header) + 16px);
+}
+
+.proof-track[data-story-document] .story-contents,
+.proof-track[data-story-document] .brain-benefit,
+.proof-track[data-story-document] .brain-benefit.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: none;
+}
+
+.proof-track[data-story-document] .brain-benefit {
+  margin-bottom: 56px;
+}
+
+.proof-track[data-story-document] .benefit-controls {
+  display: none;
+}
+
+/* On a small phone the contents sits just above the pinned panel, with the
+ * section's label, as a plain list, and the panel pins the stories alone
+ * (Krish, 2026-10-15: "move the contents on small phones";
+ * leadershipChapters.ts, setContentsOutside). It shares the panel's ground, so
+ * the two read as one section. */
+.story-contents-outside {
+  padding: 56px var(--edge) 4px;
+  background: #10241b;
+  scroll-margin-top: var(--header);
+}
+
+.story-contents-outside .story-contents,
+.story-contents-outside .story-contents:not([aria-hidden="true"]) {
+  position: static;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: none;
+}
+
+.story-contents-outside .story-contents a {
+  scroll-margin-top: calc(var(--header) + 16px);
+  scroll-margin-bottom: calc(var(--mm-bar-reserve, 0px) + 16px);
+}

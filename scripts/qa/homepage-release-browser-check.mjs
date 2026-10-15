@@ -38,8 +38,10 @@ const chapters = {
   // and each state rests where leadershipChapters.ts's rail stops send it.
   practicePhone: { track: '.mm-home-leadership .work-scroll', stage: '.work-scenes', state: '.work-scene.is-active h3',
     at: (i, g) => g.scenesStart - g.pinTop + [0.06, 0.5, 0.94][i] * g.pinTravel },
+  // Each story rests where the track's own plan says (data-story-rests,
+  // rendered from the same pure function the page reads its state from).
   benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
-    at: (i, g) => g.start + Math.max(10, Math.min(i * g.travel / 5, g.travel - g.pinTop - 20)) },
+    at: (i, g) => g.start - g.pinTop + g.rests[i] * g.travel },
 };
 const words = text => text.replace(/\s+/g, ' ').trim();
 const specFor = (chapter, width) => chapter === 'practice' && width <= 900 ? chapters.practicePhone : chapters[chapter];
@@ -51,8 +53,16 @@ const measure = (page, spec, pinTop) => page.locator(spec.track).evaluate((track
   const lead = intro ? intro.offsetTop + intro.offsetHeight : 0;
   const frame = stage.parentElement;
   return { start: scrollY + box.top, height: box.height, travel: box.height - stage.getBoundingClientRect().height, viewportHeight: innerHeight, pinTop,
+    rests: track.dataset.storyRests ? track.dataset.storyRests.split(',').map(Number) : null,
     scenesStart: scrollY + frame.getBoundingClientRect().top + lead, pinTravel: frame.offsetHeight - lead - stage.offsetHeight };
 }, [spec.stage, pinTop]);
+// The stories open on their contents; a walk through them starts where
+// story one rests, so each arrow press lands on the next whole story.
+const toFirstStory = async (page, pinTop) => {
+  const g = await measure(page, chapters.benefits, pinTop);
+  await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters.benefits.at(0,g)));
+  await settle(page); await settle(page);
+};
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 try {
   for(let i=0;i<100;i++){ try { if((await fetch(origin)).ok) break; } catch {} await new Promise(r=>setTimeout(r,100)); }
@@ -88,6 +98,9 @@ try {
             for(const index of indices) {
               await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(index,g)));
               await settle(page); await settle(page);
+              // The stories change state by a short timed fade (the leaving
+              // state, then the arriving one); read the words once it is whole.
+              if (chapter==='benefits') await page.waitForTimeout(450);
               const rect=await geometry(stage);
               const visibleText=words(await track.locator(spec.state).innerText());
               const matched=visibleText===expected[index];
@@ -139,9 +152,13 @@ try {
         await page.close();
         console.log(`Completed ${label}`);
       }
+      // A control moves the page; the state follows once the page arrives, so
+      // read it after the scroll has come to rest (or 4s, whichever is first).
+      const arrive = page => page.evaluate(()=>new Promise(resolve=>{ let last=-1, still=0, frames=0; const tick=()=>{ frames+=1; still = scrollY===last ? still+1 : 0; last=scrollY; if(still>=6||frames>240) resolve(); else requestAnimationFrame(tick); }; requestAnimationFrame(tick); }));
       const control = async (page, selector, chapter, index, fallback) => {
         await page.locator(selector).click();
-        await settle(page); await settle(page);
+        await arrive(page); await settle(page); await settle(page);
+        if (chapter==='benefits') await page.waitForTimeout(450);
         const visibleState = words(await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).innerText());
         const matched = visibleState===states[chapter][index];
         assert(matched,`${engine}/${fallback}: ${selector} shows ${chapter} ${index} ("${visibleState}")`);
@@ -175,8 +192,7 @@ try {
       await page.locator('.mm-home-leadership .work-scroll').scrollIntoViewIfNeeded();
       for (let index=2; index>=0; index--) await control(page, `[data-work-button="${index}"]`,'practice',index,'reduced-motion');
       await page.locator('.mm-home-leadership [data-benefit-track]').scrollIntoViewIfNeeded();
-      await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
-      await settle(page);
+      await toFirstStory(page, PIN_TOP['1440x900']);
       for (let index=1; index<states.benefits.length; index++) await control(page, '[data-benefit-next]','benefits',index,'reduced-motion');
       for (let index=states.benefits.length-2; index>=0; index--) await control(page, '[data-benefit-prev]','benefits',index,'reduced-motion');
       assert(await page.locator('.mm-home-leadership .work-scene').first().evaluate(node=>{ const style=getComputedStyle(node); return style.transitionProperty==='none' || style.transitionDuration.split(',').every(value=>parseFloat(value)<0.001); }),`${engine}: reduced motion drops scene transitions`);
@@ -211,8 +227,7 @@ try {
         }
         // A phone held sideways is too short to pin the practice frame: its scenes stay one after another.
         if (short.width <= 900) assert(await page.locator('.mm-home-leadership .work-scenes').evaluate(node=>getComputedStyle(node).position)!=='sticky',`${engine}/${fallback}: practice scenes flow on a short phone`);
-        await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
-        await settle(page);
+        await toFirstStory(page, shortTop);
         await control(page, '[data-benefit-next]', 'benefits', 1, fallback);
         assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${engine}/${fallback}: horizontal overflow`);
         await page.close();

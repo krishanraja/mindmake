@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CONTENTS, leadershipBenefits, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyTargets, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
+import { CONTENTS, keptHeadings, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyTargets, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
 import { publishableTestimonials } from "@/data/testimonials";
 
 /* The AI Brain stories. Their words are claims the business stands behind, so
@@ -8,9 +8,13 @@ describe("AI Brain stories", () => {
   const weights = leadershipStories.map(storyWeight);
   const samples = Array.from({ length: 2001 }, (_, i) => i / 2000);
 
-  it("keeps the six approved headings and their lines word for word, in order", () => {
-    const six = leadershipStories.filter((story) => story.line);
-    expect(six.map((story) => [story.heading, story.line])).toEqual(leadershipBenefits.map(([heading, line]) => [heading, line]));
+  it("keeps the six approved headings word for word, in order, each now a full story", () => {
+    const kept = leadershipStories.filter((story) => (keptHeadings as readonly string[]).includes(story.heading));
+    expect(kept.map((story) => story.heading)).toEqual([...keptHeadings]);
+    for (const story of leadershipStories) {
+      expect(story.situation, story.heading).toBeTruthy();
+      expect(story.line).toBeUndefined();
+    }
   });
 
   it("quotes only exact, unedited substrings of a publishable testimonial, and names its leader by that testimonial's role", () => {
@@ -32,10 +36,10 @@ describe("AI Brain stories", () => {
         expect(part).not.toMatch(/[—–]/);
         expect(part).not.toMatch(/\bnot\b[^.]*,\s*but\b/i);
       }
-      /* Budgets that keep every story whole on a 720x450 screen. */
-      expect(story.heading.length).toBeLessThanOrEqual(70);
-      expect(story.situation!.length).toBeLessThanOrEqual(130);
-      expect(story.happened!.length).toBeLessThanOrEqual(180);
+      /* Budgets that keep every story short enough to read in one hold. */
+      expect(story.heading.length).toBeLessThanOrEqual(80);
+      expect(story.situation!.length).toBeLessThanOrEqual(150);
+      expect(story.happened!.length).toBeLessThanOrEqual(210);
       expect((story.quote?.text ?? "").length).toBeLessThanOrEqual(110);
     }
   });
@@ -94,10 +98,10 @@ describe("AI Brain stories", () => {
     }
   });
 
-  it("gives a full story a longer hold than a heading and its line", () => {
+  it("gives every story the same hold, long enough to read it", () => {
     const { segments } = storyPlan(weights);
     const holds = segments.filter((s) => s.kind === "hold").map((s) => s.to - s.from);
-    leadershipStories.forEach((story, i) => expect(holds[i]).toBeCloseTo(story.situation ? 2 : 1, 9));
+    leadershipStories.forEach((_, i) => expect(holds[i]).toBeCloseTo(1.5, 9));
   });
 
   it("server-renders every story and the contents with nothing hidden, and the travel from the same plan", () => {

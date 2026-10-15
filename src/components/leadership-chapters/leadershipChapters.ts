@@ -7,6 +7,15 @@ import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-
 import communicationsFilm from "@/assets/films/sep2026/communications-compose-loop-r01-20s-720p-web-sealed.mp4";
 import readyFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
 import founderPlate from "@/assets/stories/founder-pantograph-r01-800.webp";
+import updatesPlate from "@/assets/stories/updates-seal-r01-800.webp";
+import briefingPlate from "@/assets/stories/briefing-tray-r01-800.webp";
+import drawerPlate from "@/assets/stories/index-drawer-r01-800.webp";
+import pricingPlate from "@/assets/stories/pricing-balance-r01-800.webp";
+import workbenchPlate from "@/assets/stories/workbench-gears-r01-800.webp";
+import pressPlate from "@/assets/stories/proofing-press-r01-800.webp";
+import telescopePlate from "@/assets/stories/window-telescope-r01-800.webp";
+import cardsPlate from "@/assets/stories/punched-cards-r01-800.webp";
+import prismPlate from "@/assets/stories/prism-light-r01-800.webp";
 
 /**
  * The three new-age leadership chapters: the organisation changing shape,
@@ -19,23 +28,25 @@ import founderPlate from "@/assets/stories/founder-pantograph-r01-800.webp";
  */
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-export const leadershipBenefits = [
-  ["Leadership updates become consistent, even when the week was not.", "\"I used to deliver inconsistently if my week was inconsistent. Now, my system knows that risk and helps me deliver regardless.\""],
-  ["Work nobody owns becomes visible before it becomes a problem.", "\"I didn't realize a business would need an intelligence synthesist as a job. AI doesn't just take work off a person's plate, it reinvents roles entirely to create outcomes that just did not occur before.\""],
-  ["A change in market pricing becomes a decision, not a forgotten observation.", "\"I've had the same chat hundreds of times over the years with my leadership team about pricing. Now, that repetition is a signal for action, instead of more talking.\""],
-  ["A CEO who hates writing can still publish ideas worth following.", "\"I avoid posting content and being visible, even though a modern day CEO really should. My AI brain helps me get better at the things I avoided or felt bottlenecked by so I can just ship it.\""],
-  ["A CRO who hates the numbers can become better at using them.", "\"I'm not bad with numbers, but I'm bad with spreadsheets. Now, I can play to my strengths while reliably creating AI agents myself that handle what I hated.\""],
-  ["Founder-led content can begin with the work, not another content calendar.", "\"When I do a task like creating content, it used to just go to the PR agency. Now, my AI brain suggests repurposing it for all sorts of things like internal updates, product vision boards. It actually keeps my overall vision much more consistent.\""],
+/* The six headings the section carried as one-liners, kept word for word as
+   the headings of six of the stories below (src/test/leadership-stories.test.ts). */
+export const keptHeadings = [
+  "Leadership updates become consistent, even when the week was not.",
+  "Work nobody owns becomes visible before it becomes a problem.",
+  "A change in market pricing becomes a decision, not a forgotten observation.",
+  "A CEO who hates writing can still publish ideas worth following.",
+  "A CRO who hates the numbers can become better at using them.",
+  "Founder-led content can begin with the work, not another content calendar.",
 ] as const;
 
 /**
  * What the AI Brain makes possible, told as short stories: one leader, one way
- * in. A story has a heading in the form the six above already use, where the
- * leader was, what happened, and, only where the person wrote it, one line in
- * their own words. Every fact traces to project-documentation/04_PROOF.md, and
- * a quoted line is an exact substring of its testimonial in
- * src/data/testimonials.ts, never edited (src/test/leadership-stories.test.ts).
- * The six keep their one-line form until the stories behind them are sourced.
+ * in. A story has a heading, where the leader was, what happened, and, only
+ * where the person wrote it, one line in their own words. Each is a true
+ * client story told in our words (Krish, 15 October 2026, feedback ledger
+ * AI-BRAIN-STORIES-TRUE-001); a quoted line is an exact substring of its
+ * testimonial in src/data/testimonials.ts, never edited
+ * (src/test/leadership-stories.test.ts).
  */
 export interface LeadershipStory {
   heading: string;
@@ -60,12 +71,66 @@ export const leadershipStories: readonly LeadershipStory[] = [
     quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
   },
-  ...leadershipBenefits.map(([heading, line]) => ({ heading, line })),
+  {
+    heading: keptHeadings[0],
+    situation: `The leader's updates used to depend on how their week had gone. ${keep("A patchy")} week meant patchy updates.`,
+    happened: `Their AI brain knows that risk. It helps them get each update out, whatever the week has been like. The updates now stay steady.`,
+    scene: updatesPlate,
+  },
+  {
+    heading: `A CEO who read many newsletters every morning now gets one briefing.`,
+    situation: `The chief executive subscribed to many newsletters. His morning briefing meant checking them one by one, by hand.`,
+    happened: `We built him an AI brain that reads them for him. Now one briefing is waiting for him each morning.`,
+    scene: briefingPlate,
+  },
+  {
+    heading: keptHeadings[1],
+    situation: `The leader kept waiting on everyone else. They had not realised the business needed someone whose job is to pull together what the business knows.`,
+    happened: `Working with AI took work off someone's plate, and it created that job as well. The business started getting results it had never had before.`,
+    scene: drawerPlate,
+  },
+  {
+    heading: keptHeadings[2],
+    situation: `The leader and their leadership team kept coming back to pricing. Over the years they had the same conversation hundreds of times.`,
+    happened: `Now they treat that repetition as ${keep("a signal")} to act. When pricing comes up again, the conversation ends in ${keep("a decision.")}`,
+    scene: pricingPlate,
+  },
+  {
+    heading: `A head of operations is hands-on again, with systems they built.`,
+    situation: `The leader is head of operations at ${keep("a scale-up,")} ${keep("a fast-growing")} company. They manage people and wanted to be hands-on again.`,
+    happened: `In ${keep("a session")} with us, they built two real, working systems. Their week felt calmer almost at once.`,
+    quote: { testimonialId: "scaleup-ops", text: "I actually built two workflows in the session that I now use every day." },
+    scene: workbenchPlate,
+  },
+  {
+    heading: keptHeadings[3],
+    situation: `The CEO avoided posting and being seen. They knew ${keep("a modern")} chief executive should be visible.`,
+    happened: `Their AI brain helps them get better at the things they avoided or felt held up by. Now they can just publish.`,
+    scene: pressPlate,
+  },
+  {
+    heading: `A leader who only heard from inside now sees what is changing outside.`,
+    situation: `The leader only had company data and their own people to go on. They had never thought of AI as ${keep("a way")} to learn what was happening outside.`,
+    happened: `What we built brings them research on their company, their market and current events, only when it could change ${keep("a decision.")} It gives them an edge over competitors and brings them closer to customers.`,
+    scene: telescopePlate,
+  },
+  {
+    heading: keptHeadings[4],
+    situation: `The chief revenue officer is in charge of the money the company brings in. They were fine with numbers but bad with spreadsheets.`,
+    happened: `Now they play to their strengths. They reliably build their own AI agents, helpers that handle the work they hated.`,
+    scene: cardsPlate,
+  },
+  {
+    heading: keptHeadings[5],
+    situation: `The founder's content used to go straight to their PR agency, the outside firm that handles their publicity.`,
+    happened: `Now their AI brain suggests how to reuse ${keep("a piece")} of their work. It can become an update inside the company or go on ${keep("a board")} that shows their vision for the product. Their overall vision is much more consistent.`,
+    scene: prismPlate,
+  },
 ];
 
-/** A full story holds the page for twice as long as a heading and its line,
-    so a reader paging with Space or PageDown rarely steps over it. */
-export const storyWeight = (story: LeadershipStory) => (story.situation ? 2 : 1);
+/** A full story holds the page for one and a half units, long enough to read
+    it, so a reader paging with Space or PageDown rarely steps over one. */
+export const storyWeight = (story: LeadershipStory) => (story.situation ? 1.5 : 1);
 
 /* The pinned travel, in units: the contents opens the section and holds the
    page while a reader finds the story that is them; then each story holds it

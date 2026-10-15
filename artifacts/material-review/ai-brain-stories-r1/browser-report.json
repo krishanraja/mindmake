@@ -1,15 +1,15 @@
 {
   "candidateId": "ai-brain-stories-r1",
   "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
-  "capturedAt": "2026-10-15T10:50:11.066Z",
-  "origin": "http://127.0.0.1:38127",
+  "capturedAt": "2026-10-15T11:22:22.691Z",
+  "origin": "http://127.0.0.1:43605",
   "distIndexSha256": "0305f2902f3b9c67f6b8839aa251de93537a531f21dc23a4ee64a7a7412ff774",
   "commands": [
     {
       "id": "build",
       "run": "npm run build",
       "exit": 0,
-      "seconds": 25,
+      "seconds": 22,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/build.log"
     },
     {
@@ -44,21 +44,21 @@
       "id": "chrome",
       "run": "node scripts/qa/fixed-chrome-check.mjs",
       "exit": 0,
-      "seconds": 77,
+      "seconds": 79,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/chrome.log"
     },
     {
       "id": "logo-alignment",
       "run": "node scripts/qa/logo-alignment-check.mjs",
       "exit": 0,
-      "seconds": 40,
+      "seconds": 41,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/logo-alignment.log"
     },
     {
       "id": "type-system",
       "run": "node scripts/qa/type-system-check.mjs",
       "exit": 0,
-      "seconds": 67,
+      "seconds": 68,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/type-system.log"
     },
     {
@@ -5255,10 +5255,5 @@
       ]
     }
   ],
-  "failures": [
-    {
-      "where": "nal@mobile-390x844 contents rows keyboard",
-      "message": "End from a story's heading was pulled back into the section (scrollY 12695 of 12762)"
-    }
-  ]
+  "failures": []
 }

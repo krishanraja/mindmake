@@ -179,7 +179,7 @@ computing gzip size...
 [2mdist/[22m[2massets/[22m[36mindex-CwF9ORQL.js                                                         [39m[1m[2m  117.69 kB[22m[1m[22m[2m │ gzip:  36.25 kB[22m
 [2mdist/[22m[2massets/[22m[36mclient-Bjx0brmW.js                                                        [39m[1m[2m  171.36 kB[22m[1m[22m[2m │ gzip:  44.30 kB[22m
 [2mdist/[22m[2massets/[22m[36mindex-DhPETb9I.js                                                         [39m[1m[2m  397.45 kB[22m[1m[22m[2m │ gzip: 126.97 kB[22m
-[32m✓ built in 7.97s[39m
+[32m✓ built in 6.42s[39m
 
 > vite_react_shadcn_ts@0.0.0 build:ssr
 > vite build --ssr src/entry-server.tsx --outDir dist-ssr
@@ -234,7 +234,7 @@ rendering chunks...
 [2mdist-ssr/[22m[2massets/[22m[36mclient-DADJ66tM.js    [39m[1m[2m  0.46 kB[22m[1m[22m
 [2mdist-ssr/[22m[2massets/[22m[36mNotFound-BHTx2WvM.js  [39m[1m[2m  2.08 kB[22m[1m[22m
 [2mdist-ssr/[22m[36mentry-server.js              [39m[1m[33m707.63 kB[39m[22m
-[32m✓ built in 2.24s[39m
+[32m✓ built in 2.10s[39m
 Sitemap generated: 11 pages + 12 blog posts + 9 answers across 1 domains (32 total URLs)
 Generated llms.txt from indexed pages and their approved metadata.
 Prerendered 32 indexed pages (11 pages + 12 articles + 9 answers)

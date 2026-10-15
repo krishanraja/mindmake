@@ -1,15 +1,15 @@
 {
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
-  "capturedAt": "2026-10-14T23:42:08.463Z",
-  "origin": "http://127.0.0.1:37231",
-  "distIndexSha256": "ff65ceea348d7ae725af8437b61472ed2d1cc63a53439788bfdcbe148b9749d8",
+  "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
+  "capturedAt": "2026-10-15T02:14:47.539Z",
+  "origin": "http://127.0.0.1:37523",
+  "distIndexSha256": "527189b4338281370f56db26833b12ed7aec0d4dffaf5f5b0bb9fda7141582c0",
   "commands": [
     {
       "id": "build",
       "run": "npm run build",
       "exit": 0,
-      "seconds": 21,
+      "seconds": 22,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/build.log"
     },
     {
@@ -30,14 +30,14 @@
       "id": "pre-merge",
       "run": "npm run qa:homepage-release:pre-merge",
       "exit": 0,
-      "seconds": 45,
+      "seconds": 46,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/pre-merge.log"
     },
     {
       "id": "r5-production",
       "run": "QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs",
       "exit": 0,
-      "seconds": 347,
+      "seconds": 354,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/r5-production.log"
     },
     {
@@ -65,7 +65,7 @@
       "id": "nojs",
       "run": "node scripts/qa/no-js-check.mjs",
       "exit": 0,
-      "seconds": 4,
+      "seconds": 5,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/nojs.log"
     }
   ],
@@ -166,13 +166,13 @@
         },
         {
           "label": "home@desktop-1440x900 contents 01: 01",
-          "ratio": 12.717202657471821,
+          "ratio": 5.646579453707418,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 contents 01: A founder who posted about once a month now post",
-          "ratio": 12.828428307113267,
+          "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
         },
@@ -261,20 +261,20 @@
           "pass": true
         },
         {
-          "label": "home@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
-          "ratio": 9.331947339718237,
+          "label": "home@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
+          "ratio": 9.320302299838687,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
-          "ratio": 9.395090124091668,
+          "ratio": 9.39063647173125,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@desktop-1440x900 stories 01: \"It's helping me be seen by my customers.\"",
-          "ratio": 7.567642817624867,
+          "ratio": 7.527824602053742,
           "need": 4.5,
           "pass": true
         },
@@ -548,13 +548,13 @@
         },
         {
           "label": "home@mobile-390x844 contents 01: 01",
-          "ratio": 12.578500760580457,
+          "ratio": 5.611752115579731,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "home@mobile-390x844 contents 01: A founder who posted about once a month now post",
-          "ratio": 12.690860163342498,
+          "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
         },
@@ -643,7 +643,7 @@
           "pass": true
         },
         {
-          "label": "home@mobile-390x844 stories 01: The founder runs a research and content brand. P",
+          "label": "home@mobile-390x844 stories 01: The founder runs a research and content brand. P",
           "ratio": 9.186767643087116,
           "need": 4.5,
           "pass": true
@@ -930,13 +930,13 @@
         },
         {
           "label": "nal@desktop-1440x900 contents 01: 01",
-          "ratio": 12.717202657471821,
+          "ratio": 5.646579453707418,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 contents 01: A founder who posted about once a month now post",
-          "ratio": 12.828428307113267,
+          "ratio": 8.237893565976332,
           "need": 4.5,
           "pass": true
         },
@@ -1025,20 +1025,20 @@
           "pass": true
         },
         {
-          "label": "nal@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
-          "ratio": 9.331947339718237,
+          "label": "nal@desktop-1440x900 stories 01: The founder runs a research and content brand. P",
+          "ratio": 9.320302299838687,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 stories 01: We set up an AI system that belongs to the found",
-          "ratio": 9.395090124091668,
+          "ratio": 9.39063647173125,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@desktop-1440x900 stories 01: \"It's helping me be seen by my customers.\"",
-          "ratio": 7.567642817624867,
+          "ratio": 7.527824602053742,
           "need": 4.5,
           "pass": true
         },
@@ -1312,13 +1312,13 @@
         },
         {
           "label": "nal@mobile-390x844 contents 01: 01",
-          "ratio": 12.578500760580457,
+          "ratio": 5.611752115579731,
           "need": 4.5,
           "pass": true
         },
         {
           "label": "nal@mobile-390x844 contents 01: A founder who posted about once a month now post",
-          "ratio": 12.690860163342498,
+          "ratio": 8.169493330183384,
           "need": 4.5,
           "pass": true
         },
@@ -1407,7 +1407,7 @@
           "pass": true
         },
         {
-          "label": "nal@mobile-390x844 stories 01: The founder runs a research and content brand. P",
+          "label": "nal@mobile-390x844 stories 01: The founder runs a research and content brand. P",
           "ratio": 9.186767643087116,
           "need": 4.5,
           "pass": true
@@ -2389,7 +2389,7 @@
       "onNext": true,
       "visible": true,
       "ring": true,
-      "label": "Next story",
+      "label": "Next benefit",
       "advanced": true
     },
     {
@@ -2397,8 +2397,696 @@
       "onNext": true,
       "visible": true,
       "ring": true,
-      "label": "Next story",
+      "label": "Next benefit",
       "advanced": true
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1440x900",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1440x900",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-390x844",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-390x844",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1280x600",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1280x600",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-720x450",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-720x450",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1440x900",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1440x900",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "mobile-390x844",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "mobile-390x844",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1280x600",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-1280x600",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-720x450",
+      "cookie": false,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
+    },
+    {
+      "route": "/new-age-leadership/",
+      "viewport": "desktop-720x450",
+      "cookie": true,
+      "tabStops": [
+        {
+          "name": "01A founder who posted about once a mont",
+          "hidden": ""
+        },
+        {
+          "name": "02Leadership updates become consistent, ",
+          "hidden": ""
+        },
+        {
+          "name": "03Work nobody owns becomes visible befor",
+          "hidden": ""
+        },
+        {
+          "name": "04A change in market pricing becomes a d",
+          "hidden": ""
+        },
+        {
+          "name": "05A CEO who hates writing can still publ",
+          "hidden": ""
+        },
+        {
+          "name": "06A CRO who hates the numbers can become",
+          "hidden": ""
+        },
+        {
+          "name": "07Founder-led content can begin with the",
+          "hidden": ""
+        },
+        {
+          "name": "Previous benefit",
+          "hidden": ""
+        },
+        {
+          "name": "Next benefit",
+          "hidden": ""
+        }
+      ]
     }
   ],
   "failures": []

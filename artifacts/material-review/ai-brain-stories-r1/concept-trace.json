@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
+  "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,9 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91",
+    "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
     "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
-    "supersedes": "4f6e80ffbaf7c7c266c133987965e6690be0ce16afbca1535eb91368f373d3ed"
+    "supersedes": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -281,7 +281,34 @@
         "Copy: 'now posts most days'; 'a post' held together; balanced contents rows; story one's heading at the six's size in document mode."
       ],
       "synthesisChange": "Declined the in-between contents adopted in round one (the mark stepping between stories). Round three's motion and buyer judges independently found it too brief to read as a place and a lengthening of the scroll; the opening contents, its links, the counter and Previous back to the contents keep the index-led idea.",
-      "evidence": "Sweeps on both pages, 31 sizes in full motion and 18 with reduced motion, find no issue today's build does not have (viewport-sweep.json, viewport-sweep-reduced.json)."
+      "evidence": "Sweeps on both pages, 31 sizes in full motion and 18 with reduced motion, find no issue today's build does not have (viewport-sweep.json, viewport-sweep-reduced.json).",
+      "panel": {
+        "voice": 9,
+        "truth": 8,
+        "visual": 8,
+        "buyer": 7,
+        "access": 5,
+        "motion": 8,
+        "veto": [
+          "access: Tabbing into the section before it pinned left the arrows wholly under the action bar on /new-age-leadership (WCAG 2.2, 2.4.11)"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r5."
+    },
+    {
+      "revision": "r5",
+      "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
+      "commits": [
+        "b32c70a"
+      ],
+      "changes": [
+        "Keyboard focus entering the section before it pins moves the page at once to the focused state's rest, pinned, arrows clear; the probe gains a Tab check with a planted negative control.",
+        "On a small touch screen under both the action bar and the cookie notice, contents rows give up height (not below 32px) so the arrows clear.",
+        "The lift starts only on a real overlap; a resize that changes no input skips re-measuring; quick arrow presses each count; focus moves to the opening story if the contents goes inert under it.",
+        "Story one holds twice a one-line story; slightly larger words beside a smaller plate; about 45px heading on an upright tablet; the six's heading size as a document; 'a research' held together.",
+        "No current mark in the contents; the controls keep main's 'benefit' wording until the six are sourced; the quote test also guards the testimonial's publishability and role."
+      ],
+      "evidence": "Tab journeys on both pages at six sizes, with and without motion and the cookie notice: no hidden focus stop. Sweeps (31 sizes full motion, 19 reduced) find no issue today's build does not have; the six are identical at 1440x900 and 390x844."
     }
   ]
 }

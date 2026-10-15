@@ -1,6 +1,6 @@
 {
   "gate": "new-age-leadership-scroll-build",
-  "at": "2026-10-14T23:39:02.100Z",
+  "at": "2026-10-15T02:11:39.553Z",
   "engines": [
     "chromium"
   ],
@@ -10,7 +10,7 @@
   "observations": [
     {
       "label": "chromium-320x568",
-      "document": 9478,
+      "document": 9520,
       "samples": 80,
       "worstBlankPx": 116,
       "worstBlankShare": 0.204,
@@ -69,8 +69,8 @@
     },
     {
       "label": "chromium-360x640",
-      "document": 10349,
-      "samples": 77,
+      "document": 10397,
+      "samples": 78,
       "worstBlankPx": 130,
       "worstBlankShare": 0.203,
       "forward": {
@@ -128,10 +128,10 @@
     },
     {
       "label": "chromium-390x844",
-      "document": 13623,
-      "samples": 77,
-      "worstBlankPx": 229,
-      "worstBlankShare": 0.271,
+      "document": 13691,
+      "samples": 78,
+      "worstBlankPx": 200,
+      "worstBlankShare": 0.237,
       "forward": {
         "lens": [
           0,
@@ -187,10 +187,10 @@
     },
     {
       "label": "chromium-430x932",
-      "document": 15007,
+      "document": 15082,
       "samples": 77,
-      "worstBlankPx": 237,
-      "worstBlankShare": 0.254,
+      "worstBlankPx": 221,
+      "worstBlankShare": 0.237,
       "forward": {
         "lens": [
           0,
@@ -246,7 +246,7 @@
     },
     {
       "label": "chromium-768x1024",
-      "document": 16678,
+      "document": 16761,
       "samples": 78,
       "worstBlankPx": 312,
       "worstBlankShare": 0.305,
@@ -305,7 +305,7 @@
     },
     {
       "label": "chromium-844x390",
-      "document": 7701,
+      "document": 7648,
       "samples": 95,
       "worstBlankPx": 145,
       "worstBlankShare": 0.372,
@@ -364,8 +364,8 @@
     },
     {
       "label": "chromium-1024x768",
-      "document": 13008,
-      "samples": 81,
+      "document": 13077,
+      "samples": 82,
       "worstBlankPx": 273,
       "worstBlankShare": 0.355,
       "forward": {
@@ -423,10 +423,10 @@
     },
     {
       "label": "chromium-1366x768",
-      "document": 13039,
-      "samples": 81,
-      "worstBlankPx": 221,
-      "worstBlankShare": 0.288,
+      "document": 13108,
+      "samples": 82,
+      "worstBlankPx": 208,
+      "worstBlankShare": 0.271,
       "forward": {
         "lens": [
           0,
@@ -482,8 +482,8 @@
     },
     {
       "label": "chromium-1440x900",
-      "document": 15246,
-      "samples": 81,
+      "document": 15327,
+      "samples": 82,
       "worstBlankPx": 305,
       "worstBlankShare": 0.339,
       "forward": {
@@ -541,7 +541,7 @@
     },
     {
       "label": "chromium-1920x1080",
-      "document": 18260,
+      "document": 18357,
       "samples": 81,
       "worstBlankPx": 366,
       "worstBlankShare": 0.339,

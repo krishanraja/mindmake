@@ -1,15 +1,15 @@
 {
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "6f58ae472adbf733a41a1796d69c5424e156b672939ea521f0dc2d624cd9f51d",
-  "capturedAt": "2026-10-15T07:25:41.717Z",
-  "origin": "http://127.0.0.1:36167",
-  "distIndexSha256": "adc76ef1a6773ff4e0d232cd13c3183c6e25c6a06dd8415196e138cc68c1390d",
+  "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
+  "capturedAt": "2026-10-15T08:31:49.774Z",
+  "origin": "http://127.0.0.1:35041",
+  "distIndexSha256": "b34ee7d6430e5777651f2ffcb7cc5867c63b1e67a866ba70b4c53e7e26ecf9d1",
   "commands": [
     {
       "id": "build",
       "run": "npm run build",
       "exit": 0,
-      "seconds": 25,
+      "seconds": 23,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/build.log"
     },
     {
@@ -30,28 +30,28 @@
       "id": "pre-merge",
       "run": "npm run qa:homepage-release:pre-merge",
       "exit": 0,
-      "seconds": 48,
+      "seconds": 47,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/pre-merge.log"
     },
     {
       "id": "r5-production",
       "run": "QA_ENGINES=chromium node scripts/qa/new-age-r5-production-check.mjs",
       "exit": 0,
-      "seconds": 354,
+      "seconds": 358,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/r5-production.log"
     },
     {
       "id": "chrome",
       "run": "node scripts/qa/fixed-chrome-check.mjs",
       "exit": 0,
-      "seconds": 77,
+      "seconds": 78,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/chrome.log"
     },
     {
       "id": "logo-alignment",
       "run": "node scripts/qa/logo-alignment-check.mjs",
       "exit": 0,
-      "seconds": 40,
+      "seconds": 42,
       "log": "artifacts/material-review/ai-brain-stories-r1/logs/logo-alignment.log"
     },
     {
@@ -4238,37 +4238,37 @@
       "tabStops": [
         {
           "name": "01A founder who posted about once a mont",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "02Leadership updates become consistent, ",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "03Work nobody owns becomes visible befor",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "04A change in market pricing becomes a d",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "05A CEO who hates writing can still publ",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "06A CRO who hates the numbers can become",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "07Founder-led content can begin with the",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
@@ -4309,37 +4309,37 @@
       "tabStops": [
         {
           "name": "01A founder who posted about once a mont",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "02Leadership updates become consistent, ",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "03Work nobody owns becomes visible befor",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "04A change in market pricing becomes a d",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "05A CEO who hates writing can still publ",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "06A CRO who hates the numbers can become",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
           "name": "07Founder-led content can begin with the",
-          "seen": 45,
+          "seen": 44,
           "hidden": ""
         },
         {
@@ -4759,12 +4759,12 @@
         },
         {
           "name": "Previous benefit",
-          "seen": 49,
+          "seen": 52,
           "hidden": ""
         },
         {
           "name": "Next benefit",
-          "seen": 49,
+          "seen": 52,
           "hidden": ""
         }
       ]
@@ -4777,12 +4777,12 @@
       "tabStops": [
         {
           "name": "Next benefit",
-          "seen": 49,
+          "seen": 52,
           "hidden": ""
         },
         {
           "name": "Previous benefit",
-          "seen": 49,
+          "seen": 52,
           "hidden": ""
         }
       ]
@@ -4795,47 +4795,47 @@
       "tabStops": [
         {
           "name": "01A founder who posted about once a mont",
-          "seen": 45,
+          "seen": 43,
           "hidden": ""
         },
         {
           "name": "02Leadership updates become consistent, ",
-          "seen": 45,
+          "seen": 43,
           "hidden": ""
         },
         {
           "name": "03Work nobody owns becomes visible befor",
-          "seen": 45,
+          "seen": 43,
           "hidden": ""
         },
         {
           "name": "04A change in market pricing becomes a d",
-          "seen": 67,
+          "seen": 43,
           "hidden": ""
         },
         {
           "name": "05A CEO who hates writing can still publ",
-          "seen": 45,
+          "seen": 43,
           "hidden": ""
         },
         {
           "name": "06A CRO who hates the numbers can become",
-          "seen": 45,
+          "seen": 43,
           "hidden": ""
         },
         {
           "name": "07Founder-led content can begin with the",
-          "seen": 11,
+          "seen": 43,
           "hidden": ""
         },
         {
-          "name": "Back to the contents",
-          "seen": 17,
+          "name": "Previous benefit",
+          "seen": 52,
           "hidden": ""
         },
         {
           "name": "Next benefit",
-          "seen": 17,
+          "seen": 52,
           "hidden": ""
         }
       ]
@@ -4848,12 +4848,12 @@
       "tabStops": [
         {
           "name": "Next benefit",
-          "seen": 0,
-          "hidden": "under fixed chrome"
+          "seen": 52,
+          "hidden": ""
         },
         {
           "name": "Previous benefit",
-          "seen": 17,
+          "seen": 52,
           "hidden": ""
         }
       ]
@@ -4911,10 +4911,5 @@
       ]
     }
   ],
-  "failures": [
-    {
-      "where": "nal@laptop-1366x657 with cookie notice from below keyboard",
-      "message": "focus hidden under fixed chrome: \"Next benefit\""
-    }
-  ]
+  "failures": []
 }

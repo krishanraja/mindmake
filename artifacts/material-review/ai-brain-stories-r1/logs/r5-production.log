@@ -4,7 +4,7 @@ Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
 {
   "gate": "new-age-leadership-scroll-build",
-  "at": "2026-10-15T07:22:30.468Z",
+  "at": "2026-10-15T08:28:35.032Z",
   "engines": [
     "chromium"
   ],

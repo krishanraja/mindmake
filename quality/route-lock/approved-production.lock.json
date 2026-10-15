@@ -165,7 +165,7 @@
     "src/components/homepage-release/pinnedChapters.ts": "f43ed66dbe6b52f8b5b7dae1ead9ddd8c75406b09af8aec3ab9c41620417d698",
     "src/components/homepage-release/runtime.d.ts": "c1aff6ae788422b2bf77c0dfb3f035f07c54b951295b7054f523dbb48545383c",
     "src/components/homepage-release/runtime.js": "756f0721a0d8cbcb486f916ca8bf1ef3db1b820d9af64a6ea14eb51f1b0e6de1",
-    "src/components/leadership-chapters/leadershipChapters.ts": "6acd1bf2b181f6701f85258611cccbd63c1f6b57f653e9c8b6ac34c20f368d11",
+    "src/components/leadership-chapters/leadershipChapters.ts": "89e0399b7fedce281de417ef5587557c39a599d2e94046717fa76d09ed877910",
     "src/components/mindmake/LeadBrief.tsx": "8b1895c032e65a529d64fa17c33b816e33cf7429c1968d36807c851d16ce905e",
     "src/components/mindmake/MindmakeShell.tsx": "127accffe5f347fa810fdd8feea457acf051bb90133aa2d046c1513201c63a9a",
     "src/components/mindmake/PairingBridge.tsx": "488ee1e5372215bdacffd5fcc23f4ce10750ea69cd8086d3bc81735678ad9d65",

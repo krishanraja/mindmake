@@ -16,6 +16,10 @@ import pressPlate from "@/assets/stories/proofing-press-r01-800.webp";
 import telescopePlate from "@/assets/stories/window-telescope-r01-800.webp";
 import cardsPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import prismPlate from "@/assets/stories/prism-light-r01-800.webp";
+import voicePlate from "@/assets/stories/voice-pipe-r01-800.webp";
+import folioPlate from "@/assets/stories/shared-folio-r01-800.webp";
+import stencilPlate from "@/assets/stories/stencil-correction-r01-800.webp";
+import orreryPlate from "@/assets/stories/orrery-alignment-r01-800.webp";
 
 /**
  * The three new-age leadership chapters: the organisation changing shape,
@@ -125,6 +129,30 @@ export const leadershipStories: readonly LeadershipStory[] = [
     situation: `The founder's content used to go straight to their PR agency, the outside firm that handles their publicity.`,
     happened: `Now their AI brain suggests how to reuse ${keep("a piece")} of their work. It can become an update inside the company or go on ${keep("a board")} that shows their vision for the product. Their overall vision is much more consistent.`,
     scene: prismPlate,
+  },
+  {
+    heading: `Someone new to AI now builds their own dashboard by saying what they need.`,
+    situation: `A member of the team was new to AI. They needed ${keep("a dashboard")} for the accounts they look after.`,
+    happened: `Their AI brain guided them as they built it, with the right data underneath and the company's own voice. They talked it into being, at least five times faster than AI alone, and far more accurately.`,
+    scene: voicePlate,
+  },
+  {
+    heading: `Teams working on the same account stop asking each other the same questions.`,
+    situation: `Different teams worked on the same accounts. The same questions kept going back and forth between them.`,
+    happened: `Each person's AI brain now knows what the other teams already know about an account, including who already looks after it. The repeated questions stopped.`,
+    scene: folioPlate,
+  },
+  {
+    heading: `One person corrected it once, and everyone's AI got better that day.`,
+    situation: `One person kept being told something by their AI that had stopped being true.`,
+    happened: `They corrected it once. That same day, the fix reached everyone it applied to, and only them, so every AI brain it touched got better.`,
+    scene: stencilPlate,
+  },
+  {
+    heading: `A team's account plans now serve the division's goals and the CEO's vision.`,
+    situation: `A team looked after ${keep("a few")} large accounts. Their plans, the division's goals and the chief executive's direction sat in different places.`,
+    happened: `Each person's AI brain now works with the division's and the CEO's. It maps each account's health and its contacts by seniority, and tells the CEO when someone senior needs them to step in.`,
+    scene: orreryPlate,
   },
 ];
 
@@ -339,6 +367,11 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
      keeps the largest size that takes no more room and the stage grows to
      hold it. */
   const FIT_FLOOR = 0.75;
+  /* The contents' rows can close up further: their type never goes below
+     13px (the stylesheet's floor), so a lower fit only narrows the space
+     between rows, which a long contents on a phone needs. */
+  const CONTENTS_FIT_FLOOR = 0.4;
+  const floorFor = (node: HTMLElement | null) => (node === storyContents ? CONTENTS_FIT_FLOOR : FIT_FLOOR);
   const STAGE_AIR = 14;
   const fitToStage = (node: HTMLElement | null) => {
     if (!node || !storyStage) return;
@@ -346,8 +379,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     const room = storyStage.clientHeight - STAGE_AIR;
     if (node.offsetHeight <= room) return;
     const fits = (fit: number, height: number) => { node.style.setProperty("--fit", fit.toFixed(3)); return node.offsetHeight <= height; };
-    let lo = FIT_FLOOR; let hi = 1;
-    if (!fits(FIT_FLOOR, room)) {
+    const floor = floorFor(node);
+    let lo = floor; let hi = 1;
+    if (!fits(floor, room)) {
       const least = node.offsetHeight;
       for (let step = 0; step < 7; step += 1) { const mid = (lo + hi) / 2; if (fits(mid, least)) lo = mid; else hi = mid; }
       fits(lo, least);
@@ -471,7 +505,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     /* Every state at its floor, read with the stage overfull so the panel's
        auto margins (which bottom-align its contents) take no room. */
     benefitPanel.style.setProperty("--benefit-fit", String(BENEFIT_FIT_FLOOR));
-    [storyContents, ...fullStories].forEach((node) => node?.style.setProperty("--fit", String(FIT_FLOOR)));
+    [storyContents, ...fullStories].forEach((node) => node?.style.setProperty("--fit", String(floorFor(node))));
     const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.getBoundingClientRect().height), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
     storyStage.style.minHeight = "10000px";
     const panel = benefitPanel.getBoundingClientRect();

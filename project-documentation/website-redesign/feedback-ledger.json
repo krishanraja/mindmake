@@ -931,6 +931,21 @@
       "status": "open",
       "resolution": "Recorded, not yet built. It reshapes Change 1 and Change 3 of work order 02. What happens to the /ai-gtm address is decided with Krish when the rename is built.",
       "evidence": []
+    },
+    {
+      "id": "AI-BRAIN-STORIES-TRUE-001",
+      "exactFeedback": "they are all true stories, just paraphrased, I want them looking and feeling like real stories - and dont become a priest and add stupid caveat eyebrows and asterisks everywhere.",
+      "source": "Krish, 15 October 2026, answering whether the seven ways in were narratives or client stories, in the session building the AI Brain stories section",
+      "surface": "/ and /new-age-leadership",
+      "section": "What your AI Brain makes possible",
+      "device": "all",
+      "element": "every story in the section: the six existing headings and their lines, and the ways in not yet told",
+      "classification": "constraint",
+      "requiredOutcome": "Each story reads as a real story about one leader: a heading, where they were, what happened, and their own words only where an exact line exists in src/data/testimonials.ts. Krish's account is the source for the stories behind the six headings and the ways in; each is told in Mindmake's voice from what he has said, with no name, number or brand that is in no source. No caveat, eyebrow, asterisk or label marks any story as anything other than true.",
+      "acceptanceTest": "Krish approves the rendered section at 1440x900 and 390x844 on both pages; the page carries no caveat, eyebrow or asterisk on any story; every line in quotation marks is an exact substring of src/data/testimonials.ts.",
+      "status": "open",
+      "resolution": "Recorded. Story one is built and in review; the other stories are drafted after it, built once Krish has seen story one rendered.",
+      "evidence": []
     }
   ]
 }

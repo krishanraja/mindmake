@@ -49,13 +49,13 @@ export interface LeadershipStory {
 }
 
 /* Holds words on one line wherever they are set: "once a month" in the
-   heading, and "a post" so no line ends on the article. */
+   heading, and an article with its noun so no line ends on "a". */
 const keep = (words: string) => words.replaceAll(" ", "\u00a0");
 
 export const leadershipStories: readonly LeadershipStory[] = [
   {
     heading: `A founder who posted about ${keep("once a month")} now posts most days.`,
-    situation: `The founder runs a research and content brand. Publishing ${keep("a post")} backed by research took days.`,
+    situation: `The founder runs ${keep("a research")} and content brand. Publishing ${keep("a post")} backed by research took days.`,
     happened: `We set up an AI system that belongs to the founder. It fits around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
     quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
@@ -63,13 +63,14 @@ export const leadershipStories: readonly LeadershipStory[] = [
   ...leadershipBenefits.map(([heading, line]) => ({ heading, line })),
 ];
 
-/** A full story holds the page for longer than a heading and its line. */
-export const storyWeight = (story: LeadershipStory) => (story.situation ? 1.5 : 1);
+/** A full story holds the page for twice as long as a heading and its line,
+    so a reader paging with Space or PageDown rarely steps over it. */
+export const storyWeight = (story: LeadershipStory) => (story.situation ? 2 : 1);
 
 /* The pinned travel, in units: the contents opens the section and holds the
    page while a reader finds the story that is them; then each story holds it
    in turn. */
-const OPENING = 1.2;
+const OPENING = 1;
 
 interface StorySegment { kind: "contents" | "hold"; from: number; to: number; index: number }
 
@@ -142,7 +143,7 @@ export function leadershipChaptersMarkup() {
   const scenes = leadershipScenes.map((s, i) => `<article class="work-scene${i ? "" : " is-active"}" data-work-scene="${i}"><video muted loop playsinline preload="${i ? "none" : "metadata"}" aria-hidden="true" poster="${esc(s[1])}"><source src="${esc(s[0])}" type="video/mp4" /></video><div class="work-wash"></div><div><small>0${i + 1}</small><h3>${s[2]}</h3><p>${s[3]}</p></div></article>`).join("");
   return `<section class="reach-sequence" data-reach aria-labelledby="reach-title"><div class="reach-sticky"><video muted loop playsinline preload="metadata" aria-hidden="true" poster="${esc(readyPoster)}"><source src="${esc(readyFilm)}" type="video/mp4" /></video><div class="reach-wash" aria-hidden="true"></div><div class="reach-copy"><p class="kicker"><span></span>the hybrid-species business</p><div class="reach-copy-state is-active" data-reach-copy="boundary"><h2 id="reach-title">The feeling is similar.<br /><em style="font-style: normal">The scale is not.</em></h2><p>AI isn't just a single-use tool - it can carry work that used to look like human thinking, but we miss the mark with how we use it.</p></div><div class="reach-copy-state" data-reach-copy="organisation" aria-hidden="true"><h2>What people do, and should do,<br /><em style="font-style: normal">changes shape.</em></h2><p>People hold judgement, have higher standards and take more accountability than ever. The AI Brain connects, iterates and executes.</p></div><details><summary>Sources</summary><div><a href="https://classics.mit.edu/Plato/phaedrus.html">Plato, Phaedrus</a><a href="https://live-www.nationalarchives.gov.uk/explore-the-collection/stories/the-proclamation-of-ned-ludd/">The National Archives, Luddite protests</a><a href="https://eric.ed.gov/?id=EJ336469">Hembree and Dessart, 79-study calculator review</a><a href="https://doi.org/10.1038/s41598-020-62877-0">GPS use and spatial memory</a></div></details></div><div class="reach-stage"><div class="capability-instrument is-active" data-reach-panel="boundary" aria-label="The changing division of work"><div class="capability-head"><p><span>01</span>AI carries</p><i aria-hidden="true"></i><p><span>02</span>You keep</p></div><div class="capability-window"><div class="capability-reel reel-ai">${reels(["Gather","Connect","Compare","Monitor","Model","Reconcile","Prepare","Retrieve","Route","Update"])}</div><div class="capability-core" aria-hidden="true"><i></i><b></b></div><div class="capability-reel reel-human">${reels(["Intent","Taste","Judgement","Method","Relationships","Context","Accountability","Exceptions","Ethics","Decision"])}</div></div></div><div class="hybrid-organisation" data-reach-panel="organisation" aria-hidden="true"><p class="instrument-label"><span></span>New-age leadership</p><div class="organisation-grid" aria-label="A hybrid organisation made from people, an AI Brain and shared roles"><article class="org-cell org-leader"><small>Human</small><strong>Leader</strong><span>Direction · judgement</span></article><article class="org-cell org-chief"><small>Human</small><strong>Chief of Staff</strong><span>Trust · context</span></article><article class="org-cell org-brain"><small>System</small><strong>AI Brain</strong><span>Memory · links</span></article><article class="org-cell org-signals"><small>Agent</small><strong>Market signals</strong><span>Watches change</span></article><article class="org-cell org-marketing"><small>Hybrid</small><strong>Marketing</strong><span>Person leads</span></article><article class="org-cell org-research"><small>Hybrid</small><strong>Research</strong><span>People listen</span></article><article class="org-cell org-sales"><small>Agent</small><strong>Sales research</strong><span>People build trust</span></article><article class="org-cell org-brief"><small>New role</small><strong>Executive brief</strong><span>One view</span></article><div class="organisation-lines" aria-hidden="true"><i></i><i></i><i></i></div></div></div></div><nav class="reach-progress" aria-label="Sequence stages"><i aria-hidden="true"></i><button type="button" data-reach-jump="boundary" aria-current="step">Work</button><button type="button" data-reach-jump="organisation">Organisation</button></nav></div></section>
   <section class="work-scroll" aria-label="How the hybrid system works"><div class="work-sticky"><div class="work-intro"><p class="kicker"><span></span>What this feels like in practice</p><h2 class="scroll-reveal" data-reveal>When built right,<br /><em style="font-style: normal">AI is our biggest level-up.</em></h2></div><div class="work-scenes">${scenes}</div><nav class="work-nav" aria-label="Working stages"><button class="is-active" data-work-button="0" aria-current="step">Notice</button><button data-work-button="1">Connect</button><button data-work-button="2">Prepare</button></nav></div></section>
-  <section class="human-proof" aria-labelledby="proof-title"><div class="proof-track" data-benefit-track data-story-rests="${plan.rests.map((r) => r.toFixed(5)).join(",")}" data-contents-rests="${plan.contentsRests.map((r) => r.toFixed(5)).join(",")}" style="--story-units: ${plan.total.toFixed(2)}"><div class="proof-story brain-benefits" data-benefits><p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p><div class="benefit-stage" data-story-stage><nav class="story-contents" aria-label="Stories" data-story-contents>${contents}</nav>${brainBenefits}</div><div class="benefit-controls" role="group" aria-label="AI Brain stories" style="--story-count: ${leadershipStories.length}"><button type="button" data-benefit-prev aria-label="Previous story" aria-disabled="true">←</button><p><span data-benefit-count>01</span> / ${count}</p><div aria-hidden="true"><i></i></div><button type="button" data-benefit-next aria-label="Next story">→</button></div><p class="sr-status" data-benefit-status aria-live="polite"></p></div></div><div class="proof-return"><p class="kicker dark"><span></span>The returned hour</p><h2>What will you do with the hours you save on a task?</h2><ul><li>Clock off work earlier?</li><li>Invest the time into the part of your job only you can do?</li><li>Invest into the AI brain you own that will compound over time?</li></ul></div></section>`;
+  <section class="human-proof" aria-labelledby="proof-title"><div class="proof-track" data-benefit-track data-story-rests="${plan.rests.map((r) => r.toFixed(5)).join(",")}" data-contents-rests="${plan.contentsRests.map((r) => r.toFixed(5)).join(",")}" style="--story-units: ${plan.total.toFixed(2)}"><div class="proof-story brain-benefits" data-benefits><p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p><div class="benefit-stage" data-story-stage><nav class="story-contents" aria-label="Contents" data-story-contents>${contents}</nav>${brainBenefits}</div><div class="benefit-controls" role="group" aria-label="AI Brain benefits" style="--story-count: ${leadershipStories.length}"><button type="button" data-benefit-prev aria-label="Previous benefit" aria-disabled="true">←</button><p><span data-benefit-count>01</span> / ${count}</p><div aria-hidden="true"><i></i></div><button type="button" data-benefit-next aria-label="Next benefit">→</button></div><p class="sr-status" data-benefit-status aria-live="polite"></p></div></div><div class="proof-return"><p class="kicker dark"><span></span>The returned hour</p><h2>What will you do with the hours you save on a task?</h2><ul><li>Clock off work earlier?</li><li>Invest the time into the part of your job only you can do?</li><li>Invest into the AI brain you own that will compound over time?</li></ul></div></section>`;
 }
 
 export interface LeadershipChaptersOptions {
@@ -293,49 +294,81 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     return (parseFloat(style.getPropertyValue("--mm-bar-reserve")) || 0) + (parseFloat(style.getPropertyValue("--mm-cookie-reserve")) || 0);
   };
   let measuredReserve = -1;
-  const overlap = () => {
+  const overlap = (air: number) => {
     if (!benefitPanel || !benefitControls) return 0;
     const panel = benefitPanel.getBoundingClientRect();
     const bottom = benefitControls.getBoundingClientRect().bottom - panel.top;
-    /* Clear of fixed chrome by a little air; against the bare fold, just on screen. */
-    return bottom - (benefitPanel.offsetHeight - measuredReserve - (measuredReserve > 0 ? 8 : 0));
+    return bottom - (benefitPanel.offsetHeight - measuredReserve - air);
   };
+  /* Only arrows the chrome or the fold really covers are lifted; once lifted,
+     they keep a little air above fixed chrome. */
   const liftControls = () => {
     if (!storyStage || !benefitPanel) return;
-    let over = overlap();
-    if (over <= 0) return;
+    if (overlap(0) <= 0) return;
+    const air = measuredReserve > 0 ? 8 : 0;
+    let over = overlap(air);
     benefitPanel.style.setProperty("--story-lift", `${Math.ceil(over)}px`);
-    over = overlap();
+    over = overlap(air);
     if (over > 0) {
       const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.offsetHeight), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
       const height = storyStage.offsetHeight;
       if (height - held > 0.5) storyStage.style.minHeight = `${Math.max(held, height - over)}px`;
-      over = overlap();
+      over = overlap(air);
     }
     if (over > 0) {
       const top = parseFloat(getComputedStyle(benefitPanel).paddingTop) || 0;
       if (top - 20 > 0.5) benefitPanel.style.paddingTop = `${Math.max(20, top - over)}px`;
+      over = overlap(air);
     }
+    return over;
+  };
+  /* The last resort, for a small touch screen under both the action bar and
+     the cookie notice: the contents rows give up some of their 44px touch
+     height, never below 32px, and the fit and the lift run again. */
+  const ROW_TOUCH = 44;
+  const ROW_TOUCH_LEAST = 32;
+  const tightenRows = (over: number) => {
+    if (!storyContents || over <= 0 || !matchMedia("(pointer: coarse)").matches) return false;
+    const rows = storyLinks.length || 1;
+    const row = Math.max(ROW_TOUCH_LEAST, ROW_TOUCH - Math.ceil(over / rows));
+    if (row >= ROW_TOUCH) return false;
+    storyContents.style.setProperty("--row-touch", `${row}px`);
+    return true;
   };
   /* A screen too short to pin the stories (a phone held sideways) reads them
      as a document, as it reads the practice scenes: every story and the
      contents in order, the contents links plain links. The script reads which
      the stylesheet chose from the panel's computed position. */
   let storyFlow = false;
-  const measureStories = () => {
+  let measuredFor = "";
+  const measureStories = (force = false) => {
     if (!benefitPanel) return;
+    const style = getComputedStyle(benefitPanel);
+    const flow = style.position !== "sticky";
+    /* A phone's address bar showing or hiding fires a resize that changes
+       nothing the fit or the lift depend on; only measure when one of them
+       has changed. */
+    const inputs = `${flow}:${benefitPanel.clientWidth}:${benefitPanel.offsetHeight}:${footReserve()}:${style.top}`;
+    if (!force && inputs === measuredFor) return;
+    measuredFor = inputs;
     /* Sizes are read straight after they are set, so nothing may be mid
        transition while they are (reduced motion gives every element one). */
     benefitPanel.classList.add("is-measuring");
-    const style = getComputedStyle(benefitPanel);
     storyPinTop = parseFloat(style.top) || 0;
     measuredReserve = footReserve();
-    const flow = style.position !== "sticky";
-    storyStage?.style.removeProperty("min-height");
-    benefitPanel.style.removeProperty("--story-lift");
-    benefitPanel.style.removeProperty("padding-top");
+    benefitPanel.toggleAttribute("data-story-pinned", !flow);
+    const reset = () => {
+      storyStage?.style.removeProperty("min-height");
+      benefitPanel.style.removeProperty("--story-lift");
+      benefitPanel.style.removeProperty("padding-top");
+    };
+    reset();
+    storyContents?.style.removeProperty("--row-touch");
     if (flow) [storyContents, ...fullStories].forEach((node) => node?.style.removeProperty("--fit"));
-    else { [storyContents, ...fullStories].forEach(fitToStage); liftControls(); }
+    else {
+      [storyContents, ...fullStories].forEach(fitToStage);
+      if (tightenRows(liftControls() ?? 0)) { reset(); [storyContents, ...fullStories].forEach(fitToStage); liftControls(); }
+    }
     benefitPanel.classList.remove("is-measuring");
     if (flow === storyFlow) return;
     storyFlow = flow;
@@ -343,7 +376,6 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (flow) {
       benefitNodes.forEach((node) => setInert(node, false));
       setInert(storyContents, false);
-      storyLinks.forEach((link) => link.removeAttribute("aria-current"));
     }
   };
   const setInert = (node: HTMLElement | null, hidden: boolean) => { if (!node) return; node.setAttribute("aria-hidden", String(hidden)); node.toggleAttribute("inert", hidden); };
@@ -364,16 +396,18 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       if (count) count.textContent = String(benefit + 1).padStart(2, "0");
       /* The rule under the arrows reads these. */
       benefitControls?.style.setProperty("--benefit-index", String(benefit));
-      storyLinks.forEach((link, i) => { if (i === state.mark) link.setAttribute("aria-current", "true"); else link.removeAttribute("aria-current"); });
     }
     const targets = storyTargets(progress, storyWeights);
     setOnce(storyPrev, "aria-disabled", String(targets.prev === -1));
-    setOnce(storyPrev, "aria-label", targets.prev === CONTENTS ? "Back to the contents" : "Previous story");
+    setOnce(storyPrev, "aria-label", targets.prev === CONTENTS ? "Back to the contents" : "Previous benefit");
     setOnce(storyNext, "aria-disabled", String(targets.next === -1));
     const key = `${benefit}:${open}`;
     if (key === shownKey) return;
     shownKey = key;
     benefitNodes.forEach((node, i) => setInert(node, !(open && i === benefit)));
+    /* A reader who scrolls on from a focused contents row keeps their place:
+       focus goes to the story that opens rather than falling to the page. */
+    if (open && storyContents?.contains(document.activeElement)) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; }
     /* Hand focus to the opening story before the contents that held it goes inert. */
     if (open && pendingFocus === benefit) landFocus(benefit);
     setInert(storyContents, open);
@@ -386,7 +420,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     const toContents = i === CONTENTS;
     const next = toContents ? 0 : Math.min(benefitNodes.length - 1, i);
     const status = root.querySelector("[data-benefit-status]");
-    if (status && !focus) { status.textContent = ""; requestAnimationFrame(() => { status.textContent = toContents ? "Contents" : `Story ${next + 1} of ${benefitNodes.length}. ${benefitNodes[next].querySelector("h2")?.textContent ?? ""}`; }); }
+    if (status && !focus) { status.textContent = ""; requestAnimationFrame(() => { status.textContent = toContents ? "Contents" : `Benefit ${next + 1} of ${benefitNodes.length}. ${benefitNodes[next].querySelector("h2")?.textContent ?? ""}`; }); }
     const share = toContents ? storyPlanned.contentsRests[0] : storyPlanned.rests[next];
     const top = scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share;
     if (focus) { pendingFocus = next; pendingUntil = performance.now() + 2500; }
@@ -468,13 +502,37 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (work) scrollTo({ top: scrollY + work.getBoundingClientRect().top + (work.offsetHeight - innerHeight) * (i / 2), behavior: reduced ? "auto" : "smooth" });
   }, { signal }));
   root.querySelectorAll<HTMLElement>("[data-reach-jump]").forEach((button) => button.addEventListener("click", () => { const phase = button.dataset.reachJump || "boundary"; setReach(phase); reachLockUntil = performance.now() + 1200; if (reach && reachSticky) scrollTo({ top: scrollY + reach.getBoundingClientRect().top + (reach.offsetHeight - reachSticky.offsetHeight) * (phase === "organisation" ? 0.68 : 0.12), behavior: reduced ? "auto" : "smooth" }); }, { signal }));
-  /* The arrows go where the position says (storyTargets), and a disabled arrow does nothing. */
+  /* The arrows go where the position says (storyTargets), and a disabled arrow
+     does nothing. Pressed again while the page is still moving to the last
+     one's target, an arrow steps on from that target, so quick presses are
+     each counted. */
+  let aimed = -1; let aimedUntil = 0;
   const arrow = (button: HTMLElement | null, which: "prev" | "next") => button?.addEventListener("click", () => {
     if (button.getAttribute("aria-disabled") === "true" || storyFlow) return;
-    chooseBenefit(storyTargets(storyProgress(), storyWeights)[which]);
+    const last = benefitNodes.length - 1;
+    let target: number;
+    if (performance.now() < aimedUntil) {
+      if (which === "next") target = aimed === CONTENTS ? 0 : aimed < last ? aimed + 1 : -1;
+      else target = aimed === CONTENTS ? -1 : aimed > 0 ? aimed - 1 : CONTENTS;
+    } else target = storyTargets(storyProgress(), storyWeights)[which];
+    if (target === -1) return;
+    aimed = target; aimedUntil = reduced ? 0 : performance.now() + 900;
+    chooseBenefit(target);
   }, { signal });
   arrow(storyPrev, "prev"); arrow(storyNext, "next");
-  addEventListener("wheel", dropFocus, { passive: true, signal }); addEventListener("touchstart", dropFocus, { passive: true, signal }); addEventListener("keydown", dropFocus, { signal });
+  const dropAim = () => { aimedUntil = 0; dropFocus(); };
+  addEventListener("wheel", dropAim, { passive: true, signal }); addEventListener("touchstart", dropAim, { passive: true, signal }); addEventListener("keydown", dropFocus, { signal });
+  /* Keyboard focus that enters the section before it has pinned would sit at
+     the foot of the screen, where the action bar can cover it. The page moves
+     to where the state focus belongs to rests, pinned, with the arrows clear. */
+  benefitPanel?.addEventListener("focusin", (event) => {
+    if (storyFlow || !benefitTrack || !(event.target instanceof HTMLElement) || !event.target.matches(":focus-visible")) return;
+    if (Math.abs(benefitPanel.getBoundingClientRect().top - storyPinTop) <= 1) return;
+    const state = storyScroll(storyProgress(), storyWeights);
+    const share = state.storyShown ? storyPlanned.rests[state.story] : storyPlanned.contentsRests[0];
+    /* At once, whatever the page's own scroll behaviour, so focus lands where the reader can see it. */
+    scrollTo({ top: scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share, behavior: "instant" });
+  }, { signal });
   storyLinks.forEach((link, i) => link.addEventListener("click", (event) => { if (storyFlow) return; event.preventDefault(); chooseBenefit(i, true); }, { signal }));
 
   const videos = media ? [...root.querySelectorAll<HTMLVideoElement>(".reach-sequence video, .work-scroll video")] : [];
@@ -501,6 +559,6 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   }
   /* The type the contents and a full story fit with is the page's own, so fit
      again once it has loaded. */
-  void document.fonts?.ready.then(() => { if (!signal.aborted) { measureStories(); update(); } });
+  void document.fonts?.ready.then(() => { if (!signal.aborted) { measureStories(true); update(); } });
   return () => { abort.abort(); observers.forEach((o) => o.disconnect()); videos.forEach((v) => v.pause()); };
 }

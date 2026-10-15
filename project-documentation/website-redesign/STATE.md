@@ -23,7 +23,7 @@ further down still governs the live page.
 
 Preflight, 14 October 2026:
 
-- State route: this file. Krish's first reaction to each rendered result is
+- State route: this file. Krish's first reaction to each rendered result will be
   recorded word for word in [feedback-ledger.json](feedback-ledger.json); the
   request itself lives in private planning documents and is not copied here.
 - Source layers: doctrine is the North Star, the Canon, the design contract,
@@ -37,7 +37,10 @@ Preflight, 14 October 2026:
 - Non-goals: the headline, films, history, org chart, practice and closing
   chapters, masthead, footer, both door pages, every FAQ answer, the three action
   names, type, palette, motion and route labels stay exactly as they are. No new
-  eyebrows, claims, prices or durations. Nothing is deployed for review.
+  eyebrows, no claims beyond `04_PROOF.md`, and no offer prices or delivery
+  durations; a client's recorded outcome placed outside `/case-studies` (story
+  one's "under an hour") needs Krish's scoped approval with the rendered result.
+  Nothing is deployed for review.
 - Surface dependencies: `src/components/leadership-chapters/leadershipChapters.ts`
   feeds `/` (the generator inlines the call) and `/new-age-leadership`; its styles
   are `src/styles/new-age-leadership-r6.layer.css`, compiled into the generated
@@ -49,9 +52,8 @@ Preflight, 14 October 2026:
   pages, pinning and progressing both ways, whole on reduced motion and short
   screens, every gate green.
 - First surface: the stories section, "What your AI Brain makes possible".
-- Story one is `04_PROOF.md` story 5 (own the system), one of the three verified
-  stories `/ai-brain` already presents as AI Brain stories, chosen first because
-  it is about one leader and carries an exact quote from `testimonials.ts`.
+- Story one is `04_PROOF.md` story 5 (own the system): one leader, a
+  founder-owned system, and an exact quote in `testimonials.ts`.
 
 Next action: generate three independent concepts for the stories section and
 judge them, then render story one.

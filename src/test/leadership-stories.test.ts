@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CONTENTS, leadershipBenefits, leadershipChaptersMarkup, leadershipStories, storyPlan, storyScroll, storyTargets, storyWeight } from "@/components/leadership-chapters/leadershipChapters";
-import { testimonials } from "@/data/testimonials";
+import { publishableTestimonials } from "@/data/testimonials";
 
 /* The AI Brain stories. Their words are claims the business stands behind, so
    the rules that keep them true are tested, not remembered. */
@@ -13,11 +13,14 @@ describe("AI Brain stories", () => {
     expect(six.map((story) => [story.heading, story.line])).toEqual(leadershipBenefits.map(([heading, line]) => [heading, line]));
   });
 
-  it("quotes only exact, unedited substrings of a testimonial on record", () => {
+  it("quotes only exact, unedited substrings of a publishable testimonial, and names its leader by that testimonial's role", () => {
     for (const story of leadershipStories.filter((s) => s.quote)) {
-      const source = testimonials.find((t) => t.id === story.quote!.testimonialId);
+      const source = publishableTestimonials.find((t) => t.id === story.quote!.testimonialId);
       expect(source, story.quote!.testimonialId).toBeDefined();
       expect(source!.full).toContain(story.quote!.text);
+      /* The role's sector words, as the story sets them (an article held to its noun). */
+      const sector = source!.role.split(",").slice(1).join(",").trim();
+      expect(story.situation!.replaceAll("\u00a0", " ")).toContain(sector);
     }
   });
 
@@ -51,7 +54,7 @@ describe("AI Brain stories", () => {
     });
   });
 
-  it("rests the contents whole, with its mark on the first story, before any story opens", () => {
+  it("rests the contents whole before any story opens", () => {
     const { contentsRests, rests } = storyPlan(weights);
     expect(contentsRests).toHaveLength(1);
     expect(storyScroll(contentsRests[0], weights)).toEqual({ story: 0, mark: 0, storyShown: 0, contentsShown: 1 });
@@ -94,7 +97,7 @@ describe("AI Brain stories", () => {
   it("gives a full story a longer hold than a heading and its line", () => {
     const { segments } = storyPlan(weights);
     const holds = segments.filter((s) => s.kind === "hold").map((s) => s.to - s.from);
-    leadershipStories.forEach((story, i) => expect(holds[i]).toBeCloseTo(story.situation ? 1.5 : 1, 9));
+    leadershipStories.forEach((story, i) => expect(holds[i]).toBeCloseTo(story.situation ? 2 : 1, 9));
   });
 
   it("server-renders every story and the contents with nothing hidden, and the travel from the same plan", () => {
@@ -107,7 +110,7 @@ describe("AI Brain stories", () => {
     expect(human.slice(0, human.indexOf('<div class="proof-return">'))).not.toContain('aria-hidden="true"><h2');
     /* Read as a document, nothing in the contents is current; the script marks the row. */
     expect(human).not.toContain('aria-current="true"><span class="story-number">');
-    expect(human).toContain('<div class="benefit-controls" role="group" aria-label="AI Brain stories"');
+    expect(human).toContain('<div class="benefit-controls" role="group" aria-label="AI Brain benefits"');
     const { rests, contentsRests, total } = storyPlan(weights);
     expect(human).toContain(`data-story-rests="${rests.map((r) => r.toFixed(5)).join(",")}"`);
     expect(human).toContain(`data-contents-rests="${contentsRests.map((r) => r.toFixed(5)).join(",")}"`);

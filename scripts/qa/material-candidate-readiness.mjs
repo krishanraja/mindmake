@@ -57,6 +57,7 @@ const NEGATIVES = {
   contrast: { css: "[data-benefit].is-active h2, [data-benefit].is-active p { color: rgba(240, 232, 214, 0.22) !important; }", expect: /contrast/ },
   controls: { css: "[data-benefit-next], [data-benefit-prev] { display: none !important; }", expect: /controls not in view|touch target/ },
   overflow: { css: "[data-benefit].is-active h2 { margin-left: 70vw !important; white-space: nowrap !important; }", expect: /overflow/ },
+  focus: { css: ".benefit-controls { margin-top: 100vh !important; }", expect: /focus hidden/ },
 };
 const NEGATIVE = process.env.MM_READINESS_NEGATIVE ?? "";
 const NEGATIVE_CSS = NEGATIVES[NEGATIVE]?.css ?? "";
@@ -319,6 +320,45 @@ async function probe() {
     if (!focus.onNext || !focus.visible || !focus.ring) fail(where, `focus not visible on next control ${JSON.stringify(focus)}`);
     if (!focus.label) fail(where, "next control has no accessible name");
     if (!entry.advanced) fail(where, "Enter on next did not advance the story");
+    await context.close();
+  }
+
+  /* Tab through the section from the last control before it, as a keyboard
+     reader arriving from above does, with and without the cookie notice: no
+     focused control may sit wholly under fixed chrome (the action bar, the
+     cookie notice) or off the screen (WCAG 2.2, 2.4.11). */
+  for (const route of p.routes) for (const viewport of [...p.viewports, ...p.shortViewports]) for (const cookie of [false, true]) {
+    const where = `${route.name}@${viewport.name}${cookie ? " with cookie notice" : ""} keyboard`;
+    const context = await browser.newContext({ viewport: { width: viewport.w, height: viewport.h }, isMobile: Boolean(viewport.mobile), hasTouch: Boolean(viewport.mobile) });
+    if (!cookie) await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); localStorage.setItem("mm-cookie-consent", "declined"); } catch {} });
+    if (NEGATIVE_CSS) await context.addInitScript((css) => { addEventListener("DOMContentLoaded", () => { const style = document.createElement("style"); style.textContent = css; document.head.append(style); }); }, NEGATIVE_CSS);
+    const page = await context.newPage();
+    await page.goto(origin + route.path, { waitUntil: "networkidle" });
+    await settle(page);
+    await page.evaluate((frame) => {
+      const panel = document.querySelector(frame);
+      const all = [...document.querySelectorAll("a[href], button, [tabindex]:not([tabindex='-1'])")].filter((n) => !n.closest("[inert]") && n.getClientRects().length);
+      all.filter((n) => panel && n.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING && !panel.contains(n)).pop()?.focus();
+    }, story.frame);
+    const stops = [];
+    for (let i = 0; i < 16; i += 1) {
+      await page.keyboard.press("Tab");
+      await page.waitForTimeout(700);
+      const stop = await page.evaluate((frame) => {
+        const el = document.activeElement; const panel = document.querySelector(frame);
+        if (!el || !panel?.contains(el)) return null;
+        const box = el.getBoundingClientRect();
+        const chrome = [...document.querySelectorAll(".mm-action-bar.is-shown, .mm-cookie-notice")].filter((n) => getComputedStyle(n).display !== "none" && getComputedStyle(n).visibility !== "hidden").map((n) => n.getBoundingClientRect());
+        const covered = chrome.some((c) => box.top >= c.top - 0.5 && box.bottom <= c.bottom + 0.5 && box.left >= c.left - 0.5 && box.right <= c.right + 0.5);
+        const off = box.bottom > innerHeight + 0.5 || box.top < -0.5;
+        return { name: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 40), hidden: covered ? "under fixed chrome" : off ? "off the screen" : "" };
+      }, story.frame);
+      if (!stop) { if (stops.length) break; continue; }
+      stops.push(stop);
+      if (stop.hidden) fail(where, `focus hidden ${stop.hidden}: "${stop.name}"`);
+    }
+    if (!stops.length) fail(where, "Tab never reached the section");
+    results.keyboard.push({ route: route.path, viewport: viewport.name, cookie, tabStops: stops });
     await context.close();
   }
 

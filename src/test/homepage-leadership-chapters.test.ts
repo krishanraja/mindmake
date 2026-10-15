@@ -98,7 +98,7 @@ describe("homepage leadership chapters", () => {
     expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
     prev.click();
     expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
-    expect(root.querySelector('[data-story-link="0"]')!.getAttribute("aria-current")).toBe("true");
+    expect(root.querySelector("[data-story-contents] [aria-current]")).toBeNull();
     /* From the contents, Next opens the story the mark is on: story one. */
     const next = root.querySelector<HTMLButtonElement>("[data-benefit-next]")!;
     next.click();

@@ -121,10 +121,12 @@ describe("/ai-gtm on the server", () => {
     expect(body).toContain('href="/case-studies#story=market-moves"');
   });
 
-  it("names go-to-market in full before it says GTM", () => {
+  /* The acronym GTM leaves public copy (Krish, 2026-10-15); the page says
+     go-to-market in full. */
+  it("names go-to-market in full and never says GTM", () => {
     const flat = text(body);
     expect(flat.indexOf("go-to-market")).toBeGreaterThan(-1);
-    expect(flat.indexOf("go-to-market")).toBeLessThan(flat.indexOf("GTM"));
+    expect(flat).not.toContain("GTM");
   });
 
   it("loads its films on demand only", () => {

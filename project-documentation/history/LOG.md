@@ -5,6 +5,10 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-15
+
+- The AI Brain benefits became fourteen true stories, the first of the three sharpenings Krish agreed on 11 October. The six one-line benefits kept their words as six of the headings; ten stories came first ("build all ten stories and show me"; "I like them all"), then four more from his current client work in his own framing, added after the ten. Each has its own instrument-room scene, generated with his approval ("I approve the image generation"). Two quote a client exactly (`wellness-founder`, `scaleup-ops`). Released on "ship all fourteen now, move the contents on small phones": with fourteen rows the contents and the arrows no longer fitted one pinned panel on the smallest phones, which read the section as a document, so there the contents now sits just above the pin and the stories pin alone. Along the way the readiness probe found arrows hidden under the cookie notice and action bar on short laptops; a laptop zoomed to 150% now reads the section as a document, decided from the window alone so the mode never changes under a reader. The six's one-line code and styles were removed with no change to any rendered state.
+
 ## 2026-10-08
 
 - `/testimonials` and `/intake` removed from the robots.txt Disallow list (#234). Both are 301s in `vercel.json` (to `/case-studies` and `/?start=1`); disallowing them stopped Google reading the redirect, so they sat in Search Console instead of consolidating. Route lock regenerated for `public/robots.txt` and `src/test/discoverability.test.ts` only. No numbered document named the old rules, so none needed editing.

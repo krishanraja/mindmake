@@ -11,10 +11,7 @@ describe("AI Brain stories", () => {
   it("keeps the six approved headings word for word, in order, each now a full story", () => {
     const kept = leadershipStories.filter((story) => (keptHeadings as readonly string[]).includes(story.heading));
     expect(kept.map((story) => story.heading)).toEqual([...keptHeadings]);
-    for (const story of leadershipStories) {
-      expect(story.situation, story.heading).toBeTruthy();
-      expect(story.line).toBeUndefined();
-    }
+    for (const story of leadershipStories) expect(story.situation, story.heading).toBeTruthy();
   });
 
   it("quotes only exact, unedited substrings of a publishable testimonial, and names its leader by that testimonial's role", () => {
@@ -64,6 +61,16 @@ describe("AI Brain stories", () => {
     expect(storyScroll(contentsRests[0], weights)).toEqual({ story: 0, mark: 0, storyShown: 0, contentsShown: 1 });
     expect(contentsRests[0]).toBeLessThan(rests[0]);
     for (const p of samples) if (p > rests[0]) expect(storyScroll(p, weights).storyShown).toBe(1);
+  });
+
+  it("with the contents above the panel (a small phone), pins the stories alone from the first, and Previous on the first still goes back to the contents", () => {
+    const { rests, total, contentsRests } = storyPlan(weights, 0);
+    expect(total).toBeCloseTo(storyPlan(weights).total - 1);
+    expect(contentsRests).toEqual([0]);
+    for (const p of samples) expect(storyScroll(p, weights, 0).storyShown).toBe(1);
+    expect(storyScroll(0, weights, 0).story).toBe(0);
+    rests.forEach((rest, i) => expect(storyScroll(rest, weights, 0)).toEqual({ story: i, mark: i, storyShown: 1, contentsShown: 0 }));
+    expect(storyTargets(rests[0], weights, 0)).toEqual({ prev: CONTENTS, next: 1 });
   });
 
   it("is a pure function of position: the same place shows the same thing both ways", () => {

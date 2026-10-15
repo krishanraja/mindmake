@@ -72,11 +72,12 @@ const VIEWPORTS = {
    pause. The composition's widest intentional rest measured 30%. */
 const BLANK_LIMIT = 0.42;
 /* Sampling density, not a fixed step count. The shortest state on the page is
-   one AI Brain story, which is 23svh of scroll on a short screen (it was 40svh
-   for each of the six benefits before the stories, October 2026); a fixed 40
-   samples over a document five viewports longer than that strides straight past
-   one and reports a state the page does draw as missing. So the stride is tied
-   to the viewport, below the shortest state, and the floor is only a floor. */
+   one AI Brain story: fourteen stories and the contents meet the travel's
+   400svh cap, so each story holds about 27svh of scroll (it was 40svh for each
+   of the six benefits before the stories, October 2026); a fixed 40 samples
+   over a document five viewports longer than that strides straight past one
+   and reports a state the page does draw as missing. So the stride is tied to
+   the viewport, below the shortest state, and the floor is only a floor. */
 const MIN_STEPS = 40;
 const STRIDE_SHARE = 0.2;
 
@@ -238,7 +239,7 @@ for (const engineName of asked) {
 
     /* Every AI Brain story the page carries, read from the page itself. */
     const stories = await page.evaluate(() => document.querySelectorAll("[data-benefit]").length);
-    fail(stories < 7, `${label}: only ${stories} AI Brain stories on the page`);
+    fail(stories !== 14, `${label}: ${stories} AI Brain stories on the page, not the fourteen`);
     const forward = await sweep(page, height, "forward");
     const reverse = await sweep(page, height, "reverse");
 

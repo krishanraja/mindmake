@@ -54,10 +54,8 @@ export const keptHeadings = [
  */
 export interface LeadershipStory {
   heading: string;
-  /** The one-line form the six carry today. */
-  line?: string;
-  situation?: string;
-  happened?: string;
+  situation: string;
+  happened: string;
   quote?: { testimonialId: string; text: string };
   /** A generated scene from the instrument room: mood, never evidence. */
   scene?: string;
@@ -156,28 +154,29 @@ export const leadershipStories: readonly LeadershipStory[] = [
   },
 ];
 
-/** A full story holds the page for one and a half units, long enough to read
-    it, so a reader paging with Space or PageDown rarely steps over one. */
-export const storyWeight = (story: LeadershipStory) => (story.situation ? 1.5 : 1);
+/** A story holds the page for one and a half units, long enough to read it,
+    so a reader paging with Space or PageDown rarely steps over one. */
+export const storyWeight = () => 1.5;
 
 /* The pinned travel, in units: the contents opens the section and holds the
    page while a reader finds the story that is them; then each story holds it
-   in turn. */
+   in turn. Where the contents sits above the pinned panel instead (a small
+   phone), the opening has no length and the travel is the stories alone. */
 const OPENING = 1;
 
 interface StorySegment { kind: "contents" | "hold"; from: number; to: number; index: number }
 
-export function storyPlan(weights: readonly number[]) {
+export function storyPlan(weights: readonly number[], opening = OPENING) {
   const segments: StorySegment[] = [];
   let at = 0;
   const add = (kind: StorySegment["kind"], length: number, index: number) => { segments.push({ kind, from: at, to: at + length, index }); at += length; };
-  add("contents", OPENING, 0);
+  add("contents", opening, 0);
   weights.forEach((weight, i) => add("hold", weight, i));
   const total = at;
   /* Where each story rests: the middle of its hold, as a share of the travel. */
   const rests = segments.filter((s) => s.kind === "hold").map((s) => (s.from + s.to) / 2 / total);
   /* Where the contents rests: the middle of the opening. */
-  const contentsRests = [OPENING / 2 / total];
+  const contentsRests = [opening / 2 / total];
   return { segments, total, rests, contentsRests };
 }
 
@@ -189,8 +188,8 @@ export function storyPlan(weights: readonly number[]) {
  * a fixed short time (the stylesheet), so wherever scrolling stops, what shows
  * is whole; with reduced motion the change is immediate.
  */
-export function storyScroll(progress: number, weights: readonly number[]) {
-  const { segments, total } = storyPlan(weights);
+export function storyScroll(progress: number, weights: readonly number[], opening = OPENING) {
+  const { segments, total } = storyPlan(weights, opening);
   const x = clamp01(progress) * total;
   const segment = segments.find((s) => x < s.to) ?? segments[segments.length - 1];
   const k = segment.index;
@@ -207,8 +206,8 @@ export const CONTENTS = -2;
  * contents (CONTENTS). From the contents, Next opens the first story. -1 means
  * there is nowhere to go, and the arrow is disabled.
  */
-export function storyTargets(progress: number, weights: readonly number[]) {
-  const state = storyScroll(progress, weights);
+export function storyTargets(progress: number, weights: readonly number[], opening = OPENING) {
+  const state = storyScroll(progress, weights, opening);
   const last = weights.length - 1;
   if (!state.storyShown) return { prev: -1, next: 0 };
   return { prev: state.story > 0 ? state.story - 1 : CONTENTS, next: state.story < last ? state.story + 1 : -1 };
@@ -230,10 +229,8 @@ export function leadershipChaptersMarkup() {
   const held = (heading: string) => heading.replace(/\b(a|an|the|A|An|The) /g, "$1\u00a0");
   const contents = leadershipStories.map((story, i) => `<a href="#mm-story-${i + 1}" data-story-link="${i}"><span class="story-number">${String(i + 1).padStart(2, "0")}</span><span>${held(story.heading)}</span></a>`).join("");
   const brainBenefits = leadershipStories.map((story, i) => {
-    const body = story.situation
-      ? `<div class="story-body${story.scene ? " has-plate" : ""}">${story.scene ? `<figure class="story-plate" aria-hidden="true"><img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" /></figure>` : ""}<p class="story-situation">${story.situation}</p><p class="story-happened">${story.happened}</p>${story.quote ? `<blockquote class="story-quote">"${story.quote.text}"</blockquote>` : ""}</div>`
-      : `<p>${story.line}</p>`;
-    return `<article class="brain-benefit${story.situation ? " is-story" : ""}" id="mm-story-${i + 1}" data-benefit="${i}" data-weight="${weights[i]}"><h2 tabindex="-1">${story.heading}</h2>${body}</article>`;
+    const body = `<div class="story-body${story.scene ? " has-plate" : ""}">${story.scene ? `<figure class="story-plate" aria-hidden="true"><img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" /></figure>` : ""}<p class="story-situation">${story.situation}</p><p class="story-happened">${story.happened}</p>${story.quote ? `<blockquote class="story-quote">"${story.quote.text}"</blockquote>` : ""}</div>`;
+    return `<article class="brain-benefit is-story" id="mm-story-${i + 1}" data-benefit="${i}" data-weight="${weights[i]}"><h2 tabindex="-1">${story.heading}</h2>${body}</article>`;
   }).join("");
   const scenes = leadershipScenes.map((s, i) => `<article class="work-scene${i ? "" : " is-active"}" data-work-scene="${i}"><video muted loop playsinline preload="${i ? "none" : "metadata"}" aria-hidden="true" poster="${esc(s[1])}"><source src="${esc(s[0])}" type="video/mp4" /></video><div class="work-wash"></div><div><small>0${i + 1}</small><h3>${s[2]}</h3><p>${s[3]}</p></div></article>`).join("");
   return `<section class="reach-sequence" data-reach aria-labelledby="reach-title"><div class="reach-sticky"><video muted loop playsinline preload="metadata" aria-hidden="true" poster="${esc(readyPoster)}"><source src="${esc(readyFilm)}" type="video/mp4" /></video><div class="reach-wash" aria-hidden="true"></div><div class="reach-copy"><p class="kicker"><span></span>the hybrid-species business</p><div class="reach-copy-state is-active" data-reach-copy="boundary"><h2 id="reach-title">The feeling is similar.<br /><em style="font-style: normal">The scale is not.</em></h2><p>AI isn't just a single-use tool - it can carry work that used to look like human thinking, but we miss the mark with how we use it.</p></div><div class="reach-copy-state" data-reach-copy="organisation" aria-hidden="true"><h2>What people do, and should do,<br /><em style="font-style: normal">changes shape.</em></h2><p>People hold judgement, have higher standards and take more accountability than ever. The AI Brain connects, iterates and executes.</p></div><details><summary>Sources</summary><div><a href="https://classics.mit.edu/Plato/phaedrus.html">Plato, Phaedrus</a><a href="https://live-www.nationalarchives.gov.uk/explore-the-collection/stories/the-proclamation-of-ned-ludd/">The National Archives, Luddite protests</a><a href="https://eric.ed.gov/?id=EJ336469">Hembree and Dessart, 79-study calculator review</a><a href="https://doi.org/10.1038/s41598-020-62877-0">GPS use and spatial memory</a></div></details></div><div class="reach-stage"><div class="capability-instrument is-active" data-reach-panel="boundary" aria-label="The changing division of work"><div class="capability-head"><p><span>01</span>AI carries</p><i aria-hidden="true"></i><p><span>02</span>You keep</p></div><div class="capability-window"><div class="capability-reel reel-ai">${reels(["Gather","Connect","Compare","Monitor","Model","Reconcile","Prepare","Retrieve","Route","Update"])}</div><div class="capability-core" aria-hidden="true"><i></i><b></b></div><div class="capability-reel reel-human">${reels(["Intent","Taste","Judgement","Method","Relationships","Context","Accountability","Exceptions","Ethics","Decision"])}</div></div></div><div class="hybrid-organisation" data-reach-panel="organisation" aria-hidden="true"><p class="instrument-label"><span></span>New-age leadership</p><div class="organisation-grid" aria-label="A hybrid organisation made from people, an AI Brain and shared roles"><article class="org-cell org-leader"><small>Human</small><strong>Leader</strong><span>Direction · judgement</span></article><article class="org-cell org-chief"><small>Human</small><strong>Chief of Staff</strong><span>Trust · context</span></article><article class="org-cell org-brain"><small>System</small><strong>AI Brain</strong><span>Memory · links</span></article><article class="org-cell org-signals"><small>Agent</small><strong>Market signals</strong><span>Watches change</span></article><article class="org-cell org-marketing"><small>Hybrid</small><strong>Marketing</strong><span>Person leads</span></article><article class="org-cell org-research"><small>Hybrid</small><strong>Research</strong><span>People listen</span></article><article class="org-cell org-sales"><small>Agent</small><strong>Sales research</strong><span>People build trust</span></article><article class="org-cell org-brief"><small>New role</small><strong>Executive brief</strong><span>One view</span></article><div class="organisation-lines" aria-hidden="true"><i></i><i></i><i></i></div></div></div></div><nav class="reach-progress" aria-label="Sequence stages"><i aria-hidden="true"></i><button type="button" data-reach-jump="boundary" aria-current="step">Work</button><button type="button" data-reach-jump="organisation">Organisation</button></nav></div></section>
@@ -335,8 +332,12 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const storyPrev = root.querySelector<HTMLElement>("[data-benefit-prev]");
   const storyNext = root.querySelector<HTMLElement>("[data-benefit-next]");
   const storyWeights = benefitNodes.map((node) => Number(node.dataset.weight) || 1);
-  const storyPlanned = storyPlan(storyWeights);
-  const fullStories = benefitNodes.filter((node) => node.classList.contains("is-story"));
+  let opening = OPENING;
+  let storyPlanned = storyPlan(storyWeights, opening);
+  /* Whether the contents sits above the pinned panel (setContentsOutside). */
+  let contentsOutside = false;
+  /* What the stage holds: the contents, unless it sits above the panel, and every story. */
+  const stageNodes = () => (contentsOutside ? benefitNodes : [storyContents, ...benefitNodes]);
   let benefit = -1; let shownKey = ""; let storyOpen = false; let pendingFocus = -1; let pendingUntil = 0; let storyPinTop = 0;
   let settleFocus = false; let settleTimer = 0; let jumpedUntil = 0;
   /* Focus the script moves itself is not a reader arriving by keyboard, so
@@ -359,13 +360,12 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (tries > 0) requestAnimationFrame(() => landFocus(i, tries - 1));
   };
   const dropFocus = () => { pendingFocus = -1; };
-  /* The contents and a full story lie over the stage, which the six size as
-     they always have, and keep the same air above the arrows that the six
-     have. Each scales its type and spacing down only as far as it must to fit
-     (--fit, 1 at full size), and no further than stays easy to read (0.75).
-     Where it cannot fit even there, which only the smallest phones need, it
-     keeps the largest size that takes no more room and the stage grows to
-     hold it. */
+  /* The contents and each story lie over the stage, which the stylesheet
+     sizes, and keep the same air above the arrows. Each scales its type and
+     spacing down only as far as it must to fit (--fit, 1 at full size), and
+     no further than stays easy to read (0.75). Where it cannot fit even
+     there, it keeps the largest size that takes no more room and the stage
+     grows to hold it. */
   const FIT_FLOOR = 0.75;
   /* The contents' rows can close up further: their type never goes below
      13px (the stylesheet's floor), so a lower fit only narrows the space
@@ -420,7 +420,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     benefitPanel.style.setProperty("--story-lift", `${Math.ceil(over)}px`);
     over = overlap(air);
     if (over > 0) {
-      const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.offsetHeight), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
+      const held = Math.max(0, ...stageNodes().map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
       const height = storyStage.offsetHeight;
       if (height - held > 0.5) storyStage.style.minHeight = `${Math.max(held, height - over)}px`;
       over = overlap(air);
@@ -454,7 +454,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const ROW_TOUCH = 44;
   const ROW_TOUCH_LEAST = 32;
   const tightenRows = (over: number) => {
-    if (!storyContents || over <= 0 || overlap(0) <= 2 || !matchMedia("(pointer: coarse)").matches) return false;
+    if (!storyContents || contentsOutside || over <= 0 || overlap(0) <= 2 || !matchMedia("(pointer: coarse)").matches) return false;
     const rows = storyLinks.length || 1;
     const row = Math.max(ROW_TOUCH_LEAST, ROW_TOUCH - Math.ceil(over / rows));
     if (row >= ROW_TOUCH) return false;
@@ -462,24 +462,13 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     return true;
   };
   /* Where the lift still cannot clear the chrome (a short laptop under both
-     the action bar and the cookie notice), the six scale down together, only
-     as far as the stage must shrink and never below 0.75, as the contents and
-     story one do; those then fit the smaller stage. Dismissing the notice
-     measures again at full size. */
-  const BENEFIT_FIT_FLOOR = 0.75;
-  const squeezeBenefits = (over: number) => {
-    if (!storyStage || !benefitPanel || over <= 0) return over;
-    const six = benefitNodes.filter((node) => !node.classList.contains("is-story"));
-    const target = storyStage.offsetHeight - over;
-    const fits = (fit: number) => { benefitPanel.style.setProperty("--benefit-fit", fit.toFixed(3)); return Math.max(0, ...six.map((node) => node.getBoundingClientRect().height)) <= target; };
-    let lo = BENEFIT_FIT_FLOOR; let hi = 1;
-    if (fits(lo)) {
-      for (let step = 0; step < 7; step += 1) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
-      fits(lo);
-    }
-    storyStage.style.minHeight = `${Math.max(target, ...six.map((node) => node.getBoundingClientRect().height))}px`;
-    [storyContents, ...fullStories].forEach(fitToStage);
-    return overlap(measuredReserve > 0 ? 8 : 0);
+     the action bar and the cookie notice), the stage gives up the rest, and
+     the contents and every story fit down to it, never below their floors.
+     Dismissing the notice measures again at full size. */
+  const shrinkStage = (over: number) => {
+    if (!storyStage || over <= 0) return;
+    storyStage.style.minHeight = `${Math.max(0, storyStage.offsetHeight - over)}px`;
+    stageNodes().forEach(fitToStage);
   };
   /* A screen too short to pin the stories (a phone held sideways) reads them
      as a document, as it reads the practice scenes: every story and the
@@ -500,13 +489,12 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     benefitPanel.setAttribute("data-story-pinned", "");
     ["--story-lift", "padding-top"].forEach((name) => benefitPanel.style.removeProperty(name));
     /* On a touch screen the contents rows may give up height down to 32px. */
-    if (matchMedia("(pointer: coarse)").matches) storyContents?.style.setProperty("--row-touch", `${ROW_TOUCH_LEAST}px`);
+    if (!contentsOutside && matchMedia("(pointer: coarse)").matches) storyContents?.style.setProperty("--row-touch", `${ROW_TOUCH_LEAST}px`);
     else storyContents?.style.removeProperty("--row-touch");
     /* Every state at its floor, read with the stage overfull so the panel's
        auto margins (which bottom-align its contents) take no room. */
-    benefitPanel.style.setProperty("--benefit-fit", String(BENEFIT_FIT_FLOOR));
-    [storyContents, ...fullStories].forEach((node) => node?.style.setProperty("--fit", String(floorFor(node))));
-    const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.getBoundingClientRect().height), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
+    stageNodes().forEach((node) => node?.style.setProperty("--fit", String(floorFor(node))));
+    const held = Math.max(0, ...stageNodes().map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
     storyStage.style.minHeight = "10000px";
     const panel = benefitPanel.getBoundingClientRect();
     const stage = storyStage.getBoundingClientRect();
@@ -517,19 +505,64 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     const barHeight = bar && getComputedStyle(bar).display !== "none" ? bar.getBoundingClientRect().height : 0;
     const room = benefitPanel.offsetHeight - (barHeight ? barHeight + 8 : 0);
     storyStage.style.removeProperty("min-height");
-    benefitPanel.style.removeProperty("--benefit-fit");
     storyContents?.style.removeProperty("--row-touch");
-    [storyContents, ...fullStories].forEach((node) => node?.style.removeProperty("--fit"));
+    [storyContents, ...benefitNodes].forEach((node) => node?.style.removeProperty("--fit"));
     benefitPanel.classList.remove("is-measuring");
     return need > room + 0.5;
+  };
+  /* On a small phone the contents and fourteen stories' arrows cannot share
+     the pinned panel, so the contents moves out of it, with the section's
+     label, to sit just above it as a plain list (Krish, 2026-10-15: "move the
+     contents on small phones"). The panel then pins the stories alone, from
+     the first. Only in one column: beside the returned hour there is no
+     "above". Decided with the document mode below, from the window alone. */
+  const storyKicker = benefitPanel?.querySelector<HTMLElement>(":scope > .kicker") ?? null;
+  let outside: HTMLElement | null = null;
+  const setContentsOutside = (on: boolean) => {
+    if (on === contentsOutside || !benefitTrack || !benefitPanel || !storyStage || !storyContents) return;
+    const focused = document.activeElement;
+    if (on) {
+      outside = document.createElement("div");
+      outside.className = "story-contents-outside";
+      if (storyKicker) outside.append(storyKicker);
+      outside.append(storyContents);
+      benefitTrack.before(outside);
+    } else {
+      if (storyKicker) benefitPanel.prepend(storyKicker);
+      storyStage.prepend(storyContents);
+      outside?.remove();
+      outside = null;
+    }
+    contentsOutside = on;
+    opening = on ? 0 : OPENING;
+    storyPlanned = storyPlan(storyWeights, opening);
+    benefitTrack.style.setProperty("--story-units", storyPlanned.total.toFixed(2));
+    benefitTrack.dataset.storyRests = storyPlanned.rests.map((r) => r.toFixed(5)).join(",");
+    benefitTrack.dataset.contentsRests = storyPlanned.contentsRests.map((r) => r.toFixed(5)).join(",");
+    ["--fit", "--row-touch"].forEach((name) => storyContents.style.removeProperty(name));
+    setInert(storyContents, false);
+    shownKey = ""; benefit = -1;
+    /* Moving a focused row drops its focus; give it back. */
+    if (focused instanceof HTMLElement && storyContents.contains(focused) && document.activeElement !== focused) focusQuietly(focused);
+  };
+  const oneColumn = () => {
+    const section = benefitTrack?.parentElement;
+    return Boolean(section) && getComputedStyle(section as HTMLElement).gridTemplateColumns.trim().split(/\s+/).length === 1;
   };
   const measureStories = (force = false) => {
     if (!benefitPanel || !benefitTrack) return;
     const windowKey = `${document.documentElement.clientWidth}:${document.documentElement.clientHeight}`;
     if (windowKey !== documentFor) {
       documentFor = windowKey;
+      setContentsOutside(false);
       benefitTrack.removeAttribute("data-story-document");
-      if (getComputedStyle(benefitPanel).position === "sticky" && pinCannotHold()) benefitTrack.setAttribute("data-story-document", "");
+      if (getComputedStyle(benefitPanel).position === "sticky" && pinCannotHold()) {
+        if (oneColumn()) setContentsOutside(true);
+        if (!contentsOutside || pinCannotHold()) {
+          setContentsOutside(false);
+          benefitTrack.setAttribute("data-story-document", "");
+        }
+      }
       force = true;
     }
     const style = getComputedStyle(benefitPanel);
@@ -550,20 +583,19 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       storyStage?.style.removeProperty("min-height");
       benefitPanel.style.removeProperty("--story-lift");
       benefitPanel.style.removeProperty("padding-top");
-      benefitPanel.style.removeProperty("--benefit-fit");
     };
     reset();
     storyContents?.style.removeProperty("--row-touch");
-    if (flow) [storyContents, ...fullStories].forEach((node) => node?.style.removeProperty("--fit"));
+    if (flow) [storyContents, ...benefitNodes].forEach((node) => node?.style.removeProperty("--fit"));
     else {
-      [storyContents, ...fullStories].forEach(fitToStage);
+      stageNodes().forEach(fitToStage);
       const unlifted = arrowsSeen();
       let over = liftControls() ?? 0;
-      if (tightenRows(over)) { reset(); [storyContents, ...fullStories].forEach(fitToStage); over = liftControls() ?? 0; }
-      squeezeBenefits(over);
+      if (tightenRows(over)) { reset(); stageNodes().forEach(fitToStage); over = liftControls() ?? 0; }
+      shrinkStage(over);
       /* A lift that cannot clear the chrome must never leave the arrows less
          visible than they were: keep whichever shows more of them. */
-      if (arrowsSeen() + 0.5 < unlifted) { reset(); storyContents?.style.removeProperty("--row-touch"); [storyContents, ...fullStories].forEach(fitToStage); }
+      if (arrowsSeen() + 0.5 < unlifted) { reset(); storyContents?.style.removeProperty("--row-touch"); stageNodes().forEach(fitToStage); }
     }
     benefitPanel.classList.remove("is-measuring");
     if (flow === storyFlow) return;
@@ -583,7 +615,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   };
   const paintStories = (progress: number) => {
     if (storyFlow) return;
-    const state = storyScroll(progress, storyWeights);
+    const state = storyScroll(progress, storyWeights, opening);
     const open = state.storyShown > 0;
     storyOpen = open;
     /* With the contents open no story is current: the count dims, its rule
@@ -600,7 +632,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       /* The rule under the arrows reads these. */
       benefitControls?.style.setProperty("--benefit-index", String(benefit));
     }
-    const targets = storyTargets(progress, storyWeights);
+    const targets = storyTargets(progress, storyWeights, opening);
     setOnce(storyPrev, "aria-disabled", String(targets.prev === -1));
     setOnce(storyPrev, "aria-label", targets.prev === CONTENTS ? "Back to the contents" : "Previous benefit");
     setOnce(storyNext, "aria-disabled", String(targets.next === -1));
@@ -611,11 +643,11 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     /* A reader who scrolls on from a focused contents row keeps their place:
        once the scrolling settles, focus goes to the story it settled on rather
        than staying lost on the page. A row's own hand-off is never replaced. */
-    const focusLeaving = storyContents?.contains(document.activeElement) || benefitNodes.some((node, i) => !(open && i === benefit) && node.contains(document.activeElement));
+    const focusLeaving = (!contentsOutside && storyContents?.contains(document.activeElement)) || benefitNodes.some((node, i) => !(open && i === benefit) && node.contains(document.activeElement));
     if (focusLeaving && !(pendingFocus >= 0 && performance.now() < pendingUntil) && performance.now() > jumpedUntil) settleFocus = true;
     /* Hand focus to the opening story before the contents that held it goes inert. */
     if (open && pendingFocus === benefit) landFocus(benefit);
-    setInert(storyContents, open);
+    setInert(storyContents, open && !contentsOutside);
   };
   /* Moves the page to where a story rests, or to the contents (CONTENTS). A
      contents row also hands focus to the story's heading, which a screen
@@ -626,6 +658,12 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     const next = toContents ? 0 : Math.min(benefitNodes.length - 1, i);
     const status = root.querySelector("[data-benefit-status]");
     if (status && !focus) { status.textContent = ""; requestAnimationFrame(() => { status.textContent = toContents ? "Contents" : `Benefit ${next + 1} of ${benefitNodes.length}. ${benefitNodes[next].querySelector("h2")?.textContent ?? ""}`; }); }
+    /* The contents above the panel is a place on the page: go to it, and to its first row. */
+    if (toContents && contentsOutside && outside) {
+      outside.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" });
+      focusQuietly(storyLinks[0]);
+      return;
+    }
     const share = toContents ? storyPlanned.contentsRests[0] : storyPlanned.rests[next];
     const top = scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share;
     if (focus) { pendingFocus = next; pendingUntil = performance.now() + 2500; settleFocus = false; }
@@ -735,7 +773,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (performance.now() < aimedUntil) {
       if (which === "next") target = aimed === CONTENTS ? 0 : aimed < last ? aimed + 1 : -1;
       else target = aimed === CONTENTS ? -1 : aimed > 0 ? aimed - 1 : CONTENTS;
-    } else target = storyTargets(storyProgress(), storyWeights)[which];
+    } else target = storyTargets(storyProgress(), storyWeights, opening)[which];
     if (target === -1) return;
     aimed = target; aimedUntil = reduced ? 0 : performance.now() + 900;
     chooseBenefit(target);
@@ -767,7 +805,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       return;
     }
     if (storyPinned()) return;
-    const state = storyScroll(storyProgress(), storyWeights);
+    const state = storyScroll(storyProgress(), storyWeights, opening);
     const share = state.storyShown ? storyPlanned.rests[state.story] : storyPlanned.contentsRests[0];
     /* At once, whatever the page's own scroll behaviour, so focus lands where
        the reader can see it; held for a few frames against a smooth scroll

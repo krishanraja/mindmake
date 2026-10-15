@@ -14,7 +14,20 @@
       "src/styles/new-age-leadership-r6.layer.css",
       "src/styles/new-age-leadership-r5.css",
       "src/components/homepage-release/integration.css",
+      "src/assets/stories/briefing-tray-r01-800.webp",
       "src/assets/stories/founder-pantograph-r01-800.webp",
+      "src/assets/stories/index-drawer-r01-800.webp",
+      "src/assets/stories/orrery-alignment-r01-800.webp",
+      "src/assets/stories/pricing-balance-r01-800.webp",
+      "src/assets/stories/prism-light-r01-800.webp",
+      "src/assets/stories/proofing-press-r01-800.webp",
+      "src/assets/stories/punched-cards-r01-800.webp",
+      "src/assets/stories/shared-folio-r01-800.webp",
+      "src/assets/stories/stencil-correction-r01-800.webp",
+      "src/assets/stories/updates-seal-r01-800.webp",
+      "src/assets/stories/voice-pipe-r01-800.webp",
+      "src/assets/stories/window-telescope-r01-800.webp",
+      "src/assets/stories/workbench-gears-r01-800.webp",
       "src/test/leadership-stories.test.ts",
       "src/test/homepage-leadership-chapters.test.ts"
     ],
@@ -39,7 +52,7 @@
     "ledger": "project-documentation/website-redesign/feedback-ledger.json",
     "applicableIds": ["HOMEPAGE-NAL-CHAPTERS-001", "LEADERSHIP-BENEFITS-CLIPPED-001", "PRACTICE-PHONE-SWEEP-001"]
   },
-  "classification": "The AI Brain benefits as short stories: the section opens on its contents, and scroll opens each story out of it in turn. Story one is 04_PROOF.md story 5 with its scene; the six keep their one-line form. One source serves / and /new-age-leadership. A pre-approval candidate on a branch; nothing is merged or deployed.",
+  "classification": "The AI Brain benefits as fourteen true stories, each with its own scene: the section opens on its contents, and scroll opens each story out of it in turn. On a small phone the contents sits just above the pinned panel. One source serves / and /new-age-leadership. Krish approved the rendered fourteen on 2026-10-15 (\"ship all fourteen now, move the contents on small phones\").",
   "probe": {
     "routes": [{ "name": "home", "path": "/" }, { "name": "nal", "path": "/new-age-leadership/" }],
     "viewports": [

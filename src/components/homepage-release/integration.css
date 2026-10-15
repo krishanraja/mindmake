@@ -575,13 +575,11 @@ body.mm-homepage-active { margin: 0; }
 .mm-homepage-release .r3-route .preview-desktop button.back { font-size: max(11px, .75cqi); }
 .mm-homepage-release .r3-route .preview-desktop .route-copy button.primary { font-size: max(15px, 1cqi); min-height: max(44px, 4.4cqi); }
 
-/* Wide, short desktops (1536x730): the benefit heading sized by width alone
-   ran to four lines and squeezed the quote into the slider controls. The
-   heading also yields to height, and the stage keeps its size. Unchanged at
-   1366x768, 1440x900, 1280x720 and 1920x1080. */
+/* Wide, short desktops (1536x730): the stage keeps its size rather than
+   squeezing its words into the controls. Unchanged at 1366x768, 1440x900,
+   1280x720 and 1920x1080. */
 @media (min-width: 901px) {
   .mm-homepage-release .nal-page.mm-home-leadership .benefit-stage { flex-shrink: 0; }
-  .mm-homepage-release .nal-page.mm-home-leadership .brain-benefit:not(.is-story) h2 { font-size: clamp(48px, min(5vw, 9.4vh), 84px); }
 }
 
 /* On a phone the era rail shows dates only, and nothing marked the current

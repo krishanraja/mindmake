@@ -605,14 +605,13 @@
  * leadershipChapters.ts reads which state shows from the scroll position
  * (storyScroll) and marks the others aria-hidden; this stylesheet fades from
  * one state to the next over a fixed short time, so wherever scrolling stops
- * the stage shows one whole state. The six size the stage as they always
- * have; the contents and a full story lie over it and fit themselves to it
+ * the stage shows one whole state. The stage keeps the size the stylesheet
+ * gives it; the contents and each story lie over it and fit themselves to it
  * (--fit). A story's scene is a framed plate beside its words.
  * ------------------------------------------------------------------------- */
-/* Nine units (the contents, story one's two, the six) come to within about a
- * twentieth of today's pinned length for six: 252svh against 240svh on a
- * desktop, 225svh against 220svh on a phone, 207svh against 200-210svh on a
- * short screen. */
+/* Twenty-two units (the contents, then fourteen stories at one and a half
+ * each) meet the cap, so the pinned travel is 400svh wherever the section
+ * pins: about 27svh of scroll for each story. */
 .human-proof {
   --story-unit: 28svh;
   --story-cap: 400svh;
@@ -765,10 +764,10 @@
   background: rgba(159, 241, 201, .08);
 }
 
-/* A full story: its heading sits a step below the six's so its parts and its
- * plate fit the same stage, and shrinks further only where a screen has no
- * room (--fit). Its words sit beside the plate, the quote last, under what
- * happened. Read as a document (no pin), its heading takes the six's size. */
+/* A story: its heading sits a step below the section's one-line size so its
+ * parts and its plate fit the stage, and shrinks further only where a screen
+ * has no room (--fit). Its words sit beside the plate, the quote last, under
+ * what happened. Read as a document (no pin), its heading takes the full size. */
 .brain-benefit.is-story {
   --story-heading: clamp(30px, min(3.5vw, 5.6vh), 52px);
   --story-text: clamp(16px, min(1.3vw, 2.2vh), 19px);
@@ -964,13 +963,6 @@
   min-height: 0;
 }
 
-/* Where even that cannot clear the chrome (a short laptop under both the
- * action bar and the cookie notice), the six scale down together, only as far
- * as the stage must shrink and never below 0.75 (squeezeBenefits). */
-.proof-track > .proof-story[data-story-pinned] .brain-benefit:not(.is-story) {
-  zoom: var(--benefit-fit, 1);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .brain-benefit,
   .brain-benefit.is-active:not([aria-hidden="true"]),
@@ -1089,4 +1081,29 @@
 
 .proof-track[data-story-document] .benefit-controls {
   display: none;
+}
+
+/* On a small phone the contents sits just above the pinned panel, with the
+ * section's label, as a plain list, and the panel pins the stories alone
+ * (Krish, 2026-10-15: "move the contents on small phones";
+ * leadershipChapters.ts, setContentsOutside). It shares the panel's ground, so
+ * the two read as one section. */
+.story-contents-outside {
+  padding: 56px var(--edge) 4px;
+  background: #10241b;
+  scroll-margin-top: var(--header);
+}
+
+.story-contents-outside .story-contents,
+.story-contents-outside .story-contents:not([aria-hidden="true"]) {
+  position: static;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: none;
+}
+
+.story-contents-outside .story-contents a {
+  scroll-margin-top: calc(var(--header) + 16px);
+  scroll-margin-bottom: calc(var(--mm-bar-reserve, 0px) + 16px);
 }

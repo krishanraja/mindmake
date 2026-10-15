@@ -421,9 +421,12 @@ async function probe() {
       await page.waitForTimeout(1200);
       await page.keyboard.press(key);
       await page.waitForTimeout(1800);
-      const at = await page.evaluate(() => ({ y: scrollY, max: document.documentElement.scrollHeight - innerHeight }));
-      const left = key === "Home" ? at.y <= 2 : at.y >= at.max - 2;
-      if (!left) fail(where, `${key} from a story's heading was pulled back into the section (scrollY ${Math.round(at.y)} of ${Math.round(at.max)})`);
+      /* Left means the section is off the screen on the side the key went:
+         below it after Home, above it after End. Not the page's last pixel,
+         which moves when the action bar slides in and the footer makes room. */
+      const at = await page.evaluate((track) => { const box = document.querySelector(track).getBoundingClientRect(); return { top: box.top, bottom: box.bottom, h: innerHeight, y: scrollY }; }, contentsSection?.track ?? story.track);
+      const left = key === "Home" ? at.top >= at.h : at.bottom <= 0;
+      if (!left) fail(where, `${key} from a story's heading was pulled back into the section (section at ${Math.round(at.top)} to ${Math.round(at.bottom)} in a ${at.h}px window, scrollY ${Math.round(at.y)})`);
     }
     await context.close();
   }

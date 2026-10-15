@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-08
-head: e5a614a
+as_of: 2026-10-15
+head: 6d7fb98
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -18,7 +18,7 @@ never_publish: [the private price and the internal rate card, the cash floor and
 
 Mindmake is a principal-led AI and commercial strategy practice. Two doors,
 Build your AI brain and Build your AI revenue engine, lead to one privately
-scoped paid proof. The headline turns through five lines and rests on
+scoped paid proof. The headline turns through five lines and opens on
 **Promote your AI from intern to chief of staff.**
 
 This repository is the site at https://mindmake.co and `project-documentation/`,
@@ -35,7 +35,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-08)
+## Where it is right now (as of 2026-10-15)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -47,7 +47,7 @@ Keep the accepted composition, copy, imagery, controls and responsive choices.
 Between the opening and the route, the homepage carries the R3 history
 chapter (four pinned eras, from writing to satnav) and then the three new-age
 leadership chapters (r41): the reach chapter in both its states, the system in
-practice, and what the AI Brain makes possible with the returned hour. They
+practice, and the fourteen true AI Brain stories beside the returned hour. They
 share one source with /new-age-leadership and pin by scroll in both directions.
 Generate the adapter from the immutable R3 source, never reconstruct it from
 older components.
@@ -62,6 +62,34 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-15: the front door was rebuilt around Krish's pitch line, "An AI
+  brain layer basically turns your AI tool from a 30K intern into a 200K chief
+  of staff" (#235 to #238). The first options showed only the first frame of a
+  headline that rotates, and Krish caught it: "the headlines are rotating, are
+  they not? In which case we need to have the right headlines on rotation, with
+  the most impactful first." The rotation now leads with "Promote your AI from
+  intern to chief of staff." (his pick on the rendered result), the second door
+  is "Build your AI revenue engine" ("Build your AI revenue" in the phone
+  menus, which also removed a broken homepage menu layout at 540 to 700px), and
+  the brain door reads "Unlock and create the idea you've been sitting on."
+  Asked "How do I know you're not just going to completely regress
+  everything?", the change was declared word for word first and every page was
+  compared, words, tags and pixels, against the live site
+  (`artifacts/front-door-r1/`). Painting two new share images repainted all 32
+  with small rendering differences; the other 30 were restored unchanged. The
+  production readback found one "GTM" left in public copy on /ai-brain, removed
+  the same day.
+- 2026-10-14 to 2026-10-15: the AI Brain benefits became fourteen true stories
+  (#236), the first of three sharpenings Krish agreed on 11 October. Ten came
+  first ("I like them all"), then four from his current client work in his own
+  framing; each has its own generated scene, and two quote a client exactly.
+  Seven candidate rounds each failed a panel veto or the new readiness probe
+  (`qa:material-candidate-readiness`) before release. The probe found arrows
+  hidden under the cookie notice and action bar on short laptops; on the
+  smallest phones the contents now sits above the pin because fourteen rows no
+  longer fitted one panel, and a laptop zoomed to 150% reads the section as a
+  document. Krish's ruling that the stories are true is in the feedback ledger
+  (`AI-BRAIN-STORIES-TRUE-001`).
 - 2026-10-07: robots.txt stopped blocking the two redirecting routes (#234).
   `/testimonials` and `/intake` are 301s in `vercel.json`, but both were
   disallowed, so Google could not read the redirect and they sat in Search
@@ -116,27 +144,6 @@ post-publication verification.
   masthead.
 - Krish accepted the month's reading pace on `/ai-brain` from his phone
   ("Its good"); `AI-BRAIN-MONTH-PACE-001` is accepted.
-- 2026-09-26 (later): one masthead and one footer on every page; every
-  Media and Subscribe link goes to makeyourmindup.ai; the homepage history
-  opener leads its chapter and the eras hold still; squashed headings and the
-  /case-studies cards fixed on phones; the lead flow stays clear of the phone
-  keyboard.
-- 2026-09-26: the homepage's history questions became quotations, its reach,
-  practice and returned-hour headings stopped over-wrapping, the returned
-  hour's first answer is struck through in red by scroll, and the closing
-  chapter carries "Own your judgement, and amplify it." over the hero's film
-  (#217). The approved R5 prototype baseline was restored to its recorded
-  bytes (#218).
-- 2026-09-26: the homepage's search title, share card and `llms.txt` carry the
-  hero headline; the returned hour reads "into"; each history era names its
-  event ("370 BC · Writing is invented" and three to match); a twenty-viewport
-  audit fixed eleven layout defects; the verbatim 24 September originals moved from the log to
-  [history/ARCHIVE.md](project-documentation/history/ARCHIVE.md) so the docs
-  steward passes; Chromium alone verifies a change (Krish).
-- 2026-09-25: the history chapter was reinstated ahead of the leadership
-  chapters (r41); menus, labels and the About page changed (r47); /ai-gtm was
-  rebuilt (r47) and /ai-brain took BRAIN-NARRATIVE-S4 (r48); one type system
-  runs across the site; the hero plays the Archive Engine r07 loop.
 
 ## What is next and what is waiting on Krish
 
@@ -148,6 +155,10 @@ post-publication verification.
 - The 4000+ attendance count Krish approved on 26 September 2026
   (`04_PROOF.md`) still needs its section 6 evidence trail compiled before the
   figure is used anywhere beyond the approved line above the brand grid.
+- Next: the free AI brief that names one thing AI could carry in the reader's
+  own week (change 3), shown rendered before it is built; the hero lede that
+  names who the site is for (change 1) follows it
+  ([STATE.md](project-documentation/website-redesign/STATE.md)).
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback

@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
+  "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,9 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
+    "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
     "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
-    "supersedes": "6f58ae472adbf733a41a1796d69c5424e156b672939ea521f0dc2d624cd9f51d"
+    "supersedes": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -374,7 +374,33 @@
         "Where the lift still cannot clear the chrome, the six scale down together (zoom), only as far as the stage must shrink and never below 0.75; the contents and story one then fit the smaller stage.",
         "The arrows' visible-area measure counts only chrome that overlaps them sideways."
       ],
-      "evidence": "Tab and Shift+Tab journeys on both pages at 16 sizes, with and without the cookie notice: no hidden focus stop; at 1366x657 under both chrome layers the six sit at 0.90 and the section shows whole above the bar. Viewport sweep at 31 sizes without the notice: no text cut and no arrows under the bar or fold (r7 had the arrows 3px under the bar at 1366x657)."
+      "evidence": "Tab and Shift+Tab journeys on both pages at 16 sizes, with and without the cookie notice: no hidden focus stop; at 1366x657 under both chrome layers the six sit at 0.90 and the section shows whole above the bar. Viewport sweep at 31 sizes without the notice: no text cut and no arrows under the bar or fold (r7 had the arrows 3px under the bar at 1366x657).",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 8,
+        "access": 5,
+        "motion": 5,
+        "veto": [
+          "access: at 911x438 (a 1366x657 laptop at 150% zoom) on /new-age-leadership, Shift+Tab from below met both arrows wholly under the action bar",
+          "motion: after a reader used the contents, leaving the section by Home, End, paging or the wheel was undone once"
+        ]
+      },
+      "outcome": "Blocked by the accessibility and motion vetoes before human review; revised as r9."
+    },
+    {
+      "revision": "r9",
+      "candidateSha256": "8c0cfe1c1c3221e01d07f3d39abb52ca84c2cd93f5dbe3b56f1cae6cf1526fe1",
+      "commits": [
+        "856e00f"
+      ],
+      "changes": [
+        "The keep-your-place hand-off happens only while the panel is pinned, and focus the script moves itself never triggers the pre-pin jump.",
+        "Where the pinned panel could not show its arrows clear of the action bar even with every state at its floor, the section reads as a document; decided from the window and the bar's own height alone.",
+        "The probe adds the 911x438 laptop to its Tab journeys and a Home/End release check with a planted pull-back as its negative control."
+      ],
+      "evidence": "The motion judge's release reproductions (Home, End, PageUp, wheel down and up from a focused row or heading) all stay where the reader went on both pages, motion and reduced. Tab and Shift+Tab across 911x431-465 and 960x440 on both pages, with and without the notice: no hidden or partly covered stop. The 31-size sweep and 16-size Tab journeys are identical to r8."
     }
   ]
 }

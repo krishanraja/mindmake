@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "6f58ae472adbf733a41a1796d69c5424e156b672939ea521f0dc2d624cd9f51d",
+  "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,9 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "6f58ae472adbf733a41a1796d69c5424e156b672939ea521f0dc2d624cd9f51d",
+    "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
     "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
-    "supersedes": "1d0ed2004255355f6b81f8902a0af8fa7094d3ccf34c5713ce628ef3628834ef"
+    "supersedes": "6f58ae472adbf733a41a1796d69c5424e156b672939ea521f0dc2d624cd9f51d"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -361,7 +361,20 @@
         "Keyboard jump held against an in-flight smooth scroll; focus on a heading moves with a paging reader; top cookie notice counted in document-mode clearance.",
         "'the founder' and 'It fits' held together; disabled arrows dim; count hidden with the contents open; contents landmark labelled."
       ],
-      "evidence": "Tab journeys on both pages at ten sizes, with and without motion and the cookie notice: no hidden focus stop (today's build: 20 at the laptop sizes with the notice). Without the notice, r7 equals r6 at every lift size."
+      "evidence": "Tab journeys on both pages at ten sizes, with and without motion and the cookie notice: no hidden focus stop (today's build: 20 at the laptop sizes with the notice). Without the notice, r7 equals r6 at every lift size.",
+      "outcome": "Blocked by the readiness probe before the panel (1366x657 on /new-age-leadership with the cookie notice and the bar: Next under fixed chrome from below); the failed run is kept in commit 0d2c57d; revised as r8."
+    },
+    {
+      "revision": "r8",
+      "candidateSha256": "b002d37037072ac4e530ca22316c1693021cc37daa1c88685d23428d9af5d2fc",
+      "commits": [
+        "239dcf3"
+      ],
+      "changes": [
+        "Where the lift still cannot clear the chrome, the six scale down together (zoom), only as far as the stage must shrink and never below 0.75; the contents and story one then fit the smaller stage.",
+        "The arrows' visible-area measure counts only chrome that overlaps them sideways."
+      ],
+      "evidence": "Tab and Shift+Tab journeys on both pages at 16 sizes, with and without the cookie notice: no hidden focus stop; at 1366x657 under both chrome layers the six sit at 0.90 and the section shows whole above the bar. Viewport sweep at 31 sizes without the notice: no text cut and no arrows under the bar or fold (r7 had the arrows 3px under the bar at 1366x657)."
     }
   ]
 }

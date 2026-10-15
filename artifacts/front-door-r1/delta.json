@@ -57,6 +57,15 @@
       "old": "Your judgement, taste, standards & vision, encoded.",
       "new": "Unlock and create the idea you've been sitting on.",
       "where": "the homepage's AI brain door; also every route that serves the homepage or its default head (/start, /sprint, /teardown, /decision, /handover, /capital and the page head of other unprerendered routes)"
+    },
+    {
+      "id": "ai-brain-acronym",
+      "pages": [
+        "/ai-brain"
+      ],
+      "old": "Those calls are your go-to-market (GTM): how the business reaches customers and gets paid.",
+      "new": "Those calls are your go-to-market: how the business reaches customers and gets paid.",
+      "where": "/ai-brain's Business chapter (and /operator, /tool, which redirect there); the last GTM in public copy, found by the production readback"
     }
   ],
   "meta": [
@@ -98,6 +107,11 @@
       "r": 3,
       "what": "Krish's choices: the first headline is 'Promote your AI from intern to chief of staff.' (\"I'd say \\\"Promote your AI is better.\\\"\"), and the phone menus read 'Build your AI revenue'.",
       "why": "His review of the rendered front door, 15 October 2026."
+    },
+    {
+      "r": 4,
+      "what": "The last 'GTM' in public copy leaves /ai-brain's Business chapter.",
+      "why": "Krish, 15 October 2026: \"GTM as an acronym can go\". Found by the production readback of PR #237; it was live before that release and is not a regression of it."
     }
   ],
   "knock_on": [

@@ -1251,23 +1251,18 @@
   letter-spacing: -.01em;
 }
 
-.finder-line {
-  padding: 0 18px;
-  color: rgba(234, 223, 200, .7);
-  font: 400 15px / 1.4 var(--serif);
+/* What changed: one line, the same on the card and in the whole story. */
+.finder-outcome {
+  position: relative;
+  padding: 0 18px 0 42px;
+  color: var(--mint);
+  font: 400 clamp(16px, 1.25vw, 18px) / 1.38 var(--serif);
 }
 
-.finder-card.is-result .finder-line {
-  font: 400 12px / 1.4 var(--mono);
-  letter-spacing: .04em;
-}
-
-.finder-tag {
-  padding: 0 18px;
-  color: #d3ad6c;
-  font: 11px / 1 var(--mono);
-  letter-spacing: .14em;
-  text-transform: uppercase;
+.finder-outcome::before {
+  content: "→" / "";
+  position: absolute;
+  left: 18px;
 }
 
 /* Before and after, in the record's words. */
@@ -1314,40 +1309,13 @@
   color: rgba(157, 240, 200, .66);
 }
 
-.finder-count {
-  display: grid;
-  gap: 6px;
-  color: var(--paper);
-  font: 400 16px / 1.3 var(--serif);
-}
-
-.finder-count b {
-  display: block;
-  color: var(--mint);
-  font: 400 clamp(76px, 7vw, 112px) / .86 var(--serif);
-  letter-spacing: -.04em;
-}
-
-.finder-count i {
-  color: rgba(234, 223, 200, .56);
-  font: normal 12px / 1.4 var(--mono);
-  letter-spacing: .04em;
-}
-
-.finder-count.is-pair {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.finder-count.is-pair > span:first-child b {
-  color: rgba(234, 223, 200, .5);
-  text-decoration: line-through;
-  text-decoration-color: rgba(178, 138, 72, .8);
-  text-decoration-thickness: 2px;
-}
-
 .finder-card .finder-full {
   padding: 18px;
+}
+
+/* Opened in place, the card already shows its scene above. */
+.finder-card .finder-full-media {
+  display: none;
 }
 
 .finder-nav {
@@ -1355,6 +1323,10 @@
   align-items: center;
   gap: 16px;
   margin-top: 16px;
+}
+
+.finder-nav[hidden] {
+  display: none;
 }
 
 .finder-nav button {
@@ -1427,15 +1399,6 @@
   margin-bottom: 18px;
 }
 
-.finder-sheet .finder-tag,
-.finder-card .finder-full .finder-tag {
-  margin: 0;
-  padding: 0;
-  color: #d3ad6c;
-  font: 11px / 1 var(--mono);
-  letter-spacing: .14em;
-}
-
 .finder-sheet h3,
 .finder-card .finder-full h3 {
   margin: 0 44px 0 0;
@@ -1449,6 +1412,18 @@
   margin: 0;
   color: rgba(234, 223, 200, .86);
   font: 400 clamp(17px, 1.3vw, 19px) / 1.5 var(--serif);
+}
+
+.finder-sheet p.finder-outcome,
+.finder-card .finder-full p.finder-outcome {
+  padding: 0 0 0 26px;
+  color: var(--mint);
+  font: 400 clamp(19px, 1.5vw, 22px) / 1.36 var(--serif);
+}
+
+.finder-sheet p.finder-outcome::before,
+.finder-card .finder-full p.finder-outcome::before {
+  left: 0;
 }
 
 .finder-sheet blockquote,
@@ -1609,6 +1584,17 @@
   }
 }
 
+/* Wide enough for a situation's three stories side by side, nothing to page. */
+@media (min-width: 1280px) {
+  .finder-card {
+    flex-basis: calc((100% - 28px) / 3);
+  }
+
+  .finder-heading {
+    font-size: clamp(22px, 1.75vw, 27px);
+  }
+}
+
 @media (max-width: 620px) {
   .story-finder {
     padding-block: 40px 36px;
@@ -1646,10 +1632,6 @@
     gap: 14px;
     padding: 18px;
   }
-
-  .finder-count b {
-    font-size: 72px;
-  }
 }
 
 /* A short phone keeps the scene but gives the words more of the card. */
@@ -1679,10 +1661,6 @@
 
   .finder-now {
     font-size: 21px;
-  }
-
-  .finder-count b {
-    font-size: 56px;
   }
 }
 

@@ -33,23 +33,27 @@ import { mountStoryFinder, storyFinderMarkup } from "./storyFinder";
  */
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-/* The six headings the section carried as one-liners, kept word for word as
-   the headings of six of the stories below (src/test/leadership-stories.test.ts). */
+/* Four of the six headings the section carried as one-liners, kept word for
+   word as the headings of four stories below (src/test/leadership-stories.test.ts).
+   "Work nobody owns" and "Founder-led content" left with their stories on
+   15 October 2026: their outcomes said nothing a stranger could use (feedback
+   ledger AI-BRAIN-STORIES-OUTCOMES-001). */
 export const keptHeadings = [
   "Leadership updates become consistent, even when the week was not.",
-  "Work nobody owns becomes visible before it becomes a problem.",
   "A change in market pricing becomes a decision, not a forgotten observation.",
   "A CEO who hates writing can still publish ideas worth following.",
   "A CRO who hates the numbers can become better at using them.",
-  "Founder-led content can begin with the work, not another content calendar.",
 ] as const;
 
 /**
- * What the AI Brain makes possible, told as short stories: one leader, one way
- * in. A story has a heading, where the leader was, what happened, and, only
- * where the person wrote it, one line in their own words. Each is a true
- * client story told in our words (Krish, 15 October 2026, feedback ledger
- * AI-BRAIN-STORIES-TRUE-001); a quoted line is an exact substring of its
+ * What the AI Brain makes possible, told as short stories: one client, one
+ * card. A story has a heading, where the leader was, what happened, and the
+ * outcome it led to; only where the person wrote it, one line in their own
+ * words. Each is a true client story told in our words (Krish, 15 October
+ * 2026, feedback ledger AI-BRAIN-STORIES-TRUE-001). Where the client's result
+ * is on the record, `record` names it in src/data/rebuildProof.ts, the outcome
+ * uses only that result's public words, and the quote is that same client's
+ * (AI-BRAIN-STORIES-OUTCOMES-001). A quoted line is an exact substring of its
  * testimonial in src/data/testimonials.ts, never edited
  * (src/test/leadership-stories.test.ts).
  */
@@ -57,9 +61,15 @@ export interface LeadershipStory {
   heading: string;
   situation: string;
   happened: string;
+  /** What changed, in one line a stranger understands. */
+  outcome: string;
+  /** The client's result on the record, by its id in clientStories. */
+  record?: string;
   quote?: { testimonialId: string; text: string };
   /** A generated scene from the instrument room: mood, never evidence. */
   scene?: string;
+  /** Where a story has no scene: where it started and where it ended, in the record's public words. */
+  figure?: { was: string; now: string };
 }
 
 /* Holds words on one line wherever they are set: "once a month" in the
@@ -67,91 +77,130 @@ export interface LeadershipStory {
 const keep = (words: string) => words.replaceAll(" ", "\u00a0");
 
 export const leadershipStories: readonly LeadershipStory[] = [
+  /* Getting your ideas out */
   {
     heading: `A founder who posted about ${keep("once a month")} now posts most days.`,
     situation: `The founder runs ${keep("a research")} and content brand. Publishing ${keep("a post")} backed by research took days.`,
-    happened: `We set up an AI system that ${keep("the founder")} owns. ${keep("It fits")} around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
+    happened: `We set up an AI system that ${keep("the founder")} owns. ${keep("It fits")} around what they do and where they get stuck.`,
+    outcome: `${keep("A post")} backed by research now takes under an hour.`,
+    record: "own-system",
     quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
   },
   {
+    heading: keptHeadings[2],
+    situation: `The CEO of an executive coaching practice avoided posting and being seen. They knew ${keep("a modern")} chief executive should be visible.`,
+    happened: `Their AI brain helps them get better at the things they avoided or felt held up by. Now they can just publish.`,
+    outcome: `Five videos went out in the first week.`,
+    record: "hand-back",
+    quote: { testimonialId: "coaching-founder", text: "He uses his incredible knowledge of AI and tech to help me with really human problems." },
+    scene: pressPlate,
+  },
+  {
     heading: keptHeadings[0],
     situation: `The leader's updates used to depend on how their week had gone. ${keep("A patchy")} week meant patchy updates.`,
-    happened: `Their AI brain knows that risk. It helps them get each update out, whatever the week has been like. The updates now stay steady.`,
+    happened: `Their AI brain knows that risk. It helps them get each update out, whatever the week has been like.`,
+    outcome: `${keep("A patchy")} week no longer means patchy updates.`,
     scene: updatesPlate,
   },
+  /* Seeing what is changing */
   {
     heading: `A CEO who read many newsletters every morning now gets one briefing.`,
     situation: `The chief executive subscribed to many newsletters. His morning briefing meant checking them one by one, by hand.`,
-    happened: `We built him an AI brain that reads them for him. Now one briefing is waiting for him each morning.`,
+    happened: `We built him an AI brain that reads them for him.`,
+    outcome: `One briefing is waiting for him each morning.`,
     scene: briefingPlate,
-  },
-  {
-    heading: keptHeadings[1],
-    situation: `The leader kept waiting on everyone else. They had not realised the business needed someone whose job is to pull together what the business knows.`,
-    happened: `Working with AI took work off someone's plate, and it created that job as well. The business started getting results it had never had before.`,
-    scene: drawerPlate,
-  },
-  {
-    heading: keptHeadings[2],
-    situation: `The leader and their leadership team kept coming back to pricing. Over the years they had the same conversation hundreds of times.`,
-    happened: `Now they treat that repetition as ${keep("a signal")} to act. When pricing comes up again, the conversation ends in ${keep("a decision.")}`,
-    scene: pricingPlate,
-  },
-  {
-    heading: `A head of operations is hands-on again, with systems they built.`,
-    situation: `The leader is head of operations at ${keep("a scale-up,")} ${keep("a fast-growing")} company. They manage people and wanted to be hands-on again.`,
-    happened: `In ${keep("a session")} with us, they built two real, working systems. Their week felt calmer almost at once.`,
-    quote: { testimonialId: "scaleup-ops", text: "I actually built two workflows in the session that I now use every day." },
-    scene: workbenchPlate,
-  },
-  {
-    heading: keptHeadings[3],
-    situation: `The CEO avoided posting and being seen. They knew ${keep("a modern")} chief executive should be visible.`,
-    happened: `Their AI brain helps them get better at the things they avoided or felt held up by. Now they can just publish.`,
-    scene: pressPlate,
   },
   {
     heading: `A leader who only heard from inside now sees what is changing outside.`,
     situation: `The leader only had company data and their own people to go on. They had never thought of AI as ${keep("a way")} to learn what was happening outside.`,
-    happened: `What we built brings them research on their company, their market and current events, only when it could change ${keep("a decision.")} It gives them an edge over competitors and brings them closer to customers.`,
+    happened: `What we built brings them research on their company, their market and current events, only when it could change ${keep("a decision.")}`,
+    outcome: `It gives them an edge over competitors and brings them closer to customers.`,
     scene: telescopePlate,
   },
   {
-    heading: keptHeadings[4],
-    situation: `The chief revenue officer is in charge of the money the company brings in. They were fine with numbers but bad with spreadsheets.`,
-    happened: `Now they play to their strengths. They reliably build their own AI agents, helpers that handle the work they hated.`,
-    scene: cardsPlate,
+    heading: keptHeadings[1],
+    situation: `The founder of an adtech firm and their leadership team kept coming back to pricing. They had the same conversation hundreds of times.`,
+    happened: `Now they treat that repetition as ${keep("a signal")} to act. When pricing comes up again, the conversation ends in ${keep("a decision.")}`,
+    outcome: `The price was clear within 30 days, and the first two customers signed up to trial it.`,
+    record: "simple-product",
+    quote: { testimonialId: "martech-founder", text: "We had a brilliant product nobody could buy, because nobody could explain it." },
+    scene: pricingPlate,
   },
+  /* Getting hands-on again */
   {
-    heading: keptHeadings[5],
-    situation: `The founder's content used to go straight to their PR agency, the outside firm that handles their publicity.`,
-    happened: `Now their AI brain suggests how to reuse ${keep("a piece")} of their work. It can become an update inside the company or go on ${keep("a board")} that shows their vision for the product. Their overall vision is much more consistent.`,
-    scene: prismPlate,
+    heading: `A head of operations is hands-on again, with systems they built.`,
+    situation: `The leader is head of operations at ${keep("a scale-up,")} ${keep("a fast-growing")} company. They manage people and wanted to be hands-on again.`,
+    happened: `In ${keep("a session")} with us, they built two real, working systems.`,
+    outcome: `Their week felt calmer almost at once.`,
+    quote: { testimonialId: "scaleup-ops", text: "I actually built two workflows in the session that I now use every day." },
+    scene: workbenchPlate,
   },
   {
     heading: `Someone new to AI now builds their own dashboard by saying what they need.`,
     situation: `A member of the team was new to AI. They needed ${keep("a dashboard")} for the accounts they look after.`,
-    happened: `Their AI brain guided them as they built it, with the right data underneath and the company's own voice. They talked it into being, at least five times faster than AI alone, and far more accurately.`,
+    happened: `Their AI brain guided them as they built it, with the right data underneath and the company's own voice.`,
+    outcome: `They talked it into being, at least five times faster than AI alone, and far more accurately.`,
     scene: voicePlate,
   },
   {
+    heading: keptHeadings[3],
+    situation: `The chief revenue officer at ${keep("a data-infrastructure")} company was fine with numbers but bad with spreadsheets.`,
+    happened: `Now they play to their strengths. They reliably build their own AI agents, helpers that handle the work they hated.`,
+    outcome: `The company changed how it sells, and that led to ${keep("a paid")} trial with ${keep("a major")} US publisher.`,
+    record: "market-moves",
+    quote: { testimonialId: "data-infra-cro", text: "We set up an AI-native go-to-market system that made us rethink who we hire and what they do." },
+    scene: cardsPlate,
+  },
+  /* Keeping your team in step */
+  {
     heading: `Teams working on the same account stop asking each other the same questions.`,
     situation: `Different teams worked on the same accounts. The same questions kept going back and forth between them.`,
-    happened: `Each person's AI brain now knows what the other teams already know about an account, including who already looks after it. The repeated questions stopped.`,
+    happened: `Each person's AI brain now knows what the other teams already know about an account, including who already looks after it.`,
+    outcome: `The repeated questions stopped.`,
     scene: folioPlate,
   },
   {
     heading: `One person corrected it once, and everyone's AI got better that day.`,
     situation: `One person kept being told something by their AI that had stopped being true.`,
-    happened: `They corrected it once. That same day, the fix reached everyone it applied to, and only them, so every AI brain it touched got better.`,
+    happened: `They corrected it once.`,
+    outcome: `That same day, the fix reached everyone it applied to, and only them.`,
     scene: stencilPlate,
   },
   {
     heading: `A team's account plans now serve the division's goals and the CEO's vision.`,
     situation: `A team looked after ${keep("a few")} large accounts. Their plans, the division's goals and the chief executive's direction sat in different places.`,
-    happened: `Each person's AI brain now works with the division's and the CEO's. It maps each account's health and its contacts by seniority, and tells the CEO when someone senior needs them to step in.`,
+    happened: `Each person's AI brain now works with the division's and the CEO's. It maps each account's health and its contacts by seniority.`,
+    outcome: `It tells the CEO when someone senior needs them to step in.`,
     scene: orreryPlate,
+  },
+  /* Making the big AI calls: three results on the record, told as stories in
+     their public words only (04_PROOF.md, the eight stories). */
+  {
+    heading: `Two quarters of argument over build or partner ended in one day.`,
+    situation: `The chief revenue officer of ${keep("a media")} company had spent two quarters refereeing one argument: build it themselves, or partner.`,
+    happened: `We worked it through with the room in one day. The answer was to partner now, and look at building again in twelve months, once the data is stronger.`,
+    outcome: `The partner agreement was signed the following month.`,
+    record: "day-one",
+    quote: { testimonialId: "media-cro", text: "He doesn't want to loiter." },
+    scene: prismPlate,
+  },
+  {
+    heading: `A publisher weighing up fourteen AI suppliers made three decisions.`,
+    situation: `A top-10 US digital publisher had fourteen AI suppliers competing for its business.`,
+    happened: `It started with hands-on AI sessions. From there, the fourteen became three decisions.`,
+    outcome: `Its own team built the chosen work, with no new hires.`,
+    record: "team-decides",
+    quote: { testimonialId: "publisher-ops", text: "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability." },
+    scene: drawerPlate,
+  },
+  {
+    heading: `A broadcaster stopped eleven of its fourteen AI tools and kept its budget.`,
+    situation: `A legacy broadcast business had fourteen AI tools on the go.`,
+    happened: `We tied every AI choice back to the business. Eleven of the fourteen tools stopped, and the budget stayed.`,
+    outcome: `Its first working system went live inside 90 days.`,
+    record: "business-first",
+    figure: { was: "Fourteen AI tools on the go", now: "Eleven stopped, and one working system live" },
   },
 ];
 

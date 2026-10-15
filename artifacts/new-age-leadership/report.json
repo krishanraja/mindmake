@@ -1,6 +1,6 @@
 {
   "gate": "new-age-leadership-scroll-build",
-  "at": "2026-10-15T02:11:39.553Z",
+  "at": "2026-10-15T04:21:55.152Z",
   "engines": [
     "chromium"
   ],
@@ -10,8 +10,8 @@
   "observations": [
     {
       "label": "chromium-320x568",
-      "document": 9520,
-      "samples": 80,
+      "document": 9418,
+      "samples": 79,
       "worstBlankPx": 116,
       "worstBlankShare": 0.204,
       "forward": {
@@ -69,8 +69,8 @@
     },
     {
       "label": "chromium-360x640",
-      "document": 10397,
-      "samples": 78,
+      "document": 10281,
+      "samples": 77,
       "worstBlankPx": 130,
       "worstBlankShare": 0.203,
       "forward": {
@@ -128,8 +128,8 @@
     },
     {
       "label": "chromium-390x844",
-      "document": 13691,
-      "samples": 78,
+      "document": 13539,
+      "samples": 77,
       "worstBlankPx": 200,
       "worstBlankShare": 0.237,
       "forward": {
@@ -187,7 +187,7 @@
     },
     {
       "label": "chromium-430x932",
-      "document": 15082,
+      "document": 14915,
       "samples": 77,
       "worstBlankPx": 221,
       "worstBlankShare": 0.237,
@@ -246,8 +246,8 @@
     },
     {
       "label": "chromium-768x1024",
-      "document": 16761,
-      "samples": 78,
+      "document": 16577,
+      "samples": 77,
       "worstBlankPx": 312,
       "worstBlankShare": 0.305,
       "forward": {
@@ -305,7 +305,7 @@
     },
     {
       "label": "chromium-844x390",
-      "document": 7648,
+      "document": 7656,
       "samples": 95,
       "worstBlankPx": 145,
       "worstBlankShare": 0.372,
@@ -364,8 +364,8 @@
     },
     {
       "label": "chromium-1024x768",
-      "document": 13077,
-      "samples": 82,
+      "document": 12939,
+      "samples": 81,
       "worstBlankPx": 273,
       "worstBlankShare": 0.355,
       "forward": {
@@ -423,8 +423,8 @@
     },
     {
       "label": "chromium-1366x768",
-      "document": 13108,
-      "samples": 82,
+      "document": 12970,
+      "samples": 81,
       "worstBlankPx": 208,
       "worstBlankShare": 0.271,
       "forward": {
@@ -482,8 +482,8 @@
     },
     {
       "label": "chromium-1440x900",
-      "document": 15327,
-      "samples": 82,
+      "document": 15165,
+      "samples": 81,
       "worstBlankPx": 305,
       "worstBlankShare": 0.339,
       "forward": {
@@ -541,7 +541,7 @@
     },
     {
       "label": "chromium-1920x1080",
-      "document": 18357,
+      "document": 18163,
       "samples": 81,
       "worstBlankPx": 366,
       "worstBlankShare": 0.339,

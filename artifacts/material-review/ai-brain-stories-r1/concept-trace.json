@@ -1,7 +1,7 @@
 {
   "kind": "CONCEPT TRACE",
   "candidateId": "ai-brain-stories-r1",
-  "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
+  "candidateSha256": "1d0ed2004255355f6b81f8902a0af8fa7094d3ccf34c5713ce628ef3628834ef",
   "briefNote": "Generators and judges received the same brief, sha256 of the round-one brief and round-two lessons below; the brief text is not reproduced here because parts of it come from private planning documents.",
   "rounds": [
     {
@@ -170,9 +170,9 @@
   },
   "feasibility": "Measured on the built site: at 1440x900 and 390x844 the six keep today's heading tops, heights, stage bottom and controls on both pages; story one and the contents fit their stage at 1440x900, 390x844, 1280x600, 720x450, 1536x730 and 320x568; on /new-age-leadership the arrows clear the action bar at every size.",
   "renderedArtifact": {
-    "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
+    "candidateSha256": "1d0ed2004255355f6b81f8902a0af8fa7094d3ccf34c5713ce628ef3628834ef",
     "renders": "artifacts/material-review/ai-brain-stories-r1/review/",
-    "supersedes": "d583d5803bf53f896370d9186b40cf436a41dfbcbd4b6d033a164d859e752c91"
+    "supersedes": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943"
   },
   "sceneProvenance": {
     "model": "gpt_image_2_5 via Higgsfield, high quality, 2048px square",
@@ -308,7 +308,35 @@
         "Story one holds twice a one-line story; slightly larger words beside a smaller plate; about 45px heading on an upright tablet; the six's heading size as a document; 'a research' held together.",
         "No current mark in the contents; the controls keep main's 'benefit' wording until the six are sourced; the quote test also guards the testimonial's publishability and role."
       ],
-      "evidence": "Tab journeys on both pages at six sizes, with and without motion and the cookie notice: no hidden focus stop. Sweeps (31 sizes full motion, 19 reduced) find no issue today's build does not have; the six are identical at 1440x900 and 390x844."
+      "evidence": "Tab journeys on both pages at six sizes, with and without motion and the cookie notice: no hidden focus stop. Sweeps (31 sizes full motion, 19 reduced) find no issue today's build does not have; the six are identical at 1440x900 and 390x844.",
+      "panel": {
+        "voice": 9,
+        "truth": 9,
+        "visual": 8,
+        "buyer": 8,
+        "access": 4,
+        "motion": 7,
+        "veto": [
+          "access: with motion on, contents rows 02-07 lost focus to the page (r5 keep-your-place hand-off replaced the row hand-off)"
+        ]
+      },
+      "outcome": "Blocked by the accessibility veto before human review; revised as r6."
+    },
+    {
+      "revision": "r6",
+      "candidateSha256": "1d0ed2004255355f6b81f8902a0af8fa7094d3ccf34c5713ce628ef3628834ef",
+      "commits": [
+        "2b73db4",
+        "033d3aa"
+      ],
+      "changes": [
+        "Contents rows jump straight to their story and hand focus to its heading; keep-your-place waits for scrolling to settle and never replaces a row hand-off.",
+        "Document-mode focus kept clear of the masthead and the action bar; probe Tab journeys both ways and sideways; a full-motion contents-row focus check with a planted negative control.",
+        "Rows tighten only where chrome really covers the arrows; the lift ignores overlaps under 2px; taps on arrows no longer end a run.",
+        "Count dims and its rule empties with the contents open; articles held to their nouns in the contents; story one larger on short laptops; 'an AI system that the founder owns'.",
+        "Travel 252/225/207svh against today's 240/220/200-210; STATE.md names all of story one's outcomes for scoped approval and the real next action."
+      ],
+      "evidence": "Contents rows 01-07 by Enter with motion on land focus on their heading on both pages at 1440x900 and 390x844; Tab and Shift+Tab journeys in document mode keep focus clear of chrome without the cookie notice."
     }
   ]
 }

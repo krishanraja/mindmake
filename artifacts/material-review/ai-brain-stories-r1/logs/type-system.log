@@ -1,7 +1,7 @@
 $ node scripts/qa/type-system-check.mjs
 {
   "status": "PASS",
-  "textNodes": 4766,
+  "textNodes": 4758,
   "routes": 33,
   "failures": []
 }

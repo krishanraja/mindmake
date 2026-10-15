@@ -1,0 +1,55 @@
+{
+  "candidate": "claude/modest-ride-oa5lbx at c5bd50b (revision 3), built locally, served by scripts/qa/serve-dist.mjs",
+  "baseline": "main 2027c7a, built locally; checked against the live site",
+  "pages": 46,
+  "sizes": [
+    "1440x900",
+    "390x844"
+  ],
+  "page_size_pairs": 92,
+  "faithful_baseline": {
+    "what": "live site vs local build of main, 32 indexed pages x 2 sizes, nothing allowed",
+    "text_failures": 0,
+    "meta_failures": 0,
+    "pixel_screens_differing": 6,
+    "note": "the pixel differences are settle timing on /ai-brain and text antialiasing on three article pages; same code on both sides"
+  },
+  "noise_control": {
+    "what": "two captures of the same local main, nothing allowed",
+    "summary": {
+      "pages_x_sizes": 92,
+      "text_failures": 1,
+      "meta_failures": 1,
+      "pixel_failures": 2,
+      "missing": 0
+    },
+    "pages": [
+      "/builder-economy (an outside page the site proxies)",
+      "/signal at 390x844 (one pixel of height)"
+    ]
+  },
+  "result": {
+    "words": "every page equals the baseline with the declared replacements applied, except /signal at 1440x900, which redirects to the separate makeyourmindup.ai site and returned the capture proxy's 'upstream request failed' page this run (it loaded in full in the baseline and the previous candidate run)",
+    "metadata": "same, with the same /signal exception",
+    "declared_replacements_applied": {
+      "route-back": 28,
+      "door-name": 242,
+      "headline": 56,
+      "brain-door": 28,
+      "pairing-brain-title": 6,
+      "pairing-brain-body": 6,
+      "label": 8,
+      "pairing-gtm-title": 2
+    },
+    "pixels_outside_declared_elements": {
+      "on the renamed label's own row (desktop footer, /ai-gtm closing card)": 48,
+      "/ai-brain closing card grows 24px (and /operator, /tool, which redirect to it), so everything below it moves": 9,
+      "noise, also in the control (/builder-economy, /signal at 390)": 7,
+      "/signal at 1440, the external redirect that failed to load this run": 7,
+      "unexplained": 0
+    },
+    "menus": "Both menus, 14 widths from 320 to 1440: every item on one line; 'Build your AI revenue' at 767px and below, the full name from 768px. With the full name forced back, the same check fails at 390 and 600.",
+    "rotation": "All five headlines at 1440x900, 390x844 and 320x568: every row on one line, type size and heading height identical to live (72px/197px, 39.975px/110px, 32.8px/91px)."
+  },
+  "full_report": "comparison-report.json"
+}

@@ -40,16 +40,19 @@ buyer archetype is not public positioning.
 
 ## The two doors
 
-The owner-approved public copy is locked:
+The owner-approved public copy is locked. The homepage headline turns through
+five lines once, then rests on the first, which is also the page's h1 and title
+(Krish, 15 October 2026: "the most impactful first"; `heroRotation.ts`).
 
 | Placement | Accepted copy |
 |---|---|
-| Homepage headline | Build the human + AI business that augments your vision. |
+| Homepage headline (first, and the h1) | Promote your AI from intern to chief of staff. |
+| Homepage headlines 2 to 5 | High standards deserve an AI that knows yours. / AI can copy almost anything except your taste. / Amplify your judgement, and the business follows. / Build the human + AI business that augments your vision. |
 | Opening promise | Part people. Part agent. Led by judgement. |
 | Brain door | Build your AI brain |
-| Brain door explanation | Your judgement, running. |
-| GTM door | Build your AI GTM |
-| GTM door explanation | Build your AI native pricing, positioning and org. |
+| Brain door explanation | Unlock and create the idea you've been sitting on. |
+| Revenue engine door | Build your AI revenue engine |
+| Revenue engine door explanation | The pricing, positioning and org structure you'll need. |
 | Shared proof | Build the first working version on real work. Keep the system. |
 | Brain headline | Own your judgement, and amplify it. |
 | Brain promise | Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader. |
@@ -59,7 +62,7 @@ The owner-approved public copy is locked:
 | GTM promise | AI is changing what customers pay for, how they choose and who does the work. We rebuild your go-to-market around it, then test it with real buyers. |
 | GTM kicker | One go-to-market move in 30 days |
 | GTM 30 days | Week 1: we map all four. Weeks 2 to 4: we build the move worth most and test it with real buyers. Day 30: you keep it. |
-| Route back control | AI Brain or AI GTM |
+| Route back control | AI brain or AI revenue engine |
 | Proof receipt | What stays with you |
 
 Public route labels: **Results**, **Thinking**, **Questions leaders ask**,

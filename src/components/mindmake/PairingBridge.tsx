@@ -26,16 +26,16 @@ import "@/styles/mindmake-pairing.css";
 const PAIRS = {
   brain: {
     here: "AI brain",
-    there: "AI GTM",
-    title: "An AI brain gives your GTM something to run on.",
-    body: "AI GTM turns an AI market shift into one tested commercial move. It moves faster when the judgement behind it is already written down.",
+    there: "AI revenue engine",
+    title: "An AI brain gives your revenue engine something to run on.",
+    body: "An AI revenue engine turns an AI market shift into one tested commercial move. It moves faster when the judgement behind it is already written down.",
     to: "/ai-gtm",
-    label: "Build your AI GTM",
+    label: "Build your AI revenue engine",
   },
   gtm: {
-    here: "AI GTM",
+    here: "AI revenue engine",
     there: "AI brain",
-    title: "Your GTM runs better on an AI brain.",
+    title: "Your revenue engine runs better on an AI brain.",
     body: "An AI brain gives your standards, context and past decisions a memory you can use, so each pricing, positioning and org call starts from what you already know.",
     to: "/ai-brain",
     label: "Build your AI brain",

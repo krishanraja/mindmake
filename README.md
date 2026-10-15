@@ -1,10 +1,11 @@
 # Mindmake website
 
-**Build the human + AI business that augments your vision.**
+**Promote your AI from intern to chief of staff.**
 
 Live: [mindmake.co](https://mindmake.co). A principal-led AI and commercial
-strategy practice. Build your AI brain: **Your judgement, running.** Build your
-AI GTM: **Build your AI native pricing, positioning and org.** Both lead to one
+strategy practice. Build your AI brain: **Unlock and create the idea you've
+been sitting on.** Build your AI revenue engine: **The pricing, positioning and
+org structure you'll need.** Both lead to one
 paid proof, privately scoped and priced. No public diary or duration promise.
 
 ## Start here

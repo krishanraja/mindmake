@@ -63,10 +63,13 @@ export const CONTACT_EMAIL = "krish@mindmake.co";
  * what they see from /. src/test/primary-routes-parity.test.ts holds the two
  * together.
  */
-export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string }> = [
+export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string; short?: string }> = [
   { label: "Home", href: "/" },
   { label: "Build your AI brain", href: "/ai-brain" },
-  { label: "Build your AI GTM", href: "/ai-gtm" },
+  /* On a phone the menu reads "Build your AI revenue", matching "Build your
+     AI brain" (Krish, 2026-10-15): the rest of the label hides at 767px and
+     below, where the full name no longer fits one line. */
+  { label: "Build your AI revenue engine", short: "Build your AI revenue", href: "/ai-gtm" },
   /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
      page's own title matches its label, so the click lands where it said. */
   { label: "Success stories", href: "/case-studies" },

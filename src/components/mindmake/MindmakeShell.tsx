@@ -22,7 +22,7 @@ interface MindmakeShellProps {
  * the menu and the footer carry the whole site.
  */
 const ACTION_BAR_DOORS: Record<string, ActionBarDoor> = {
-  "/ai-brain": { to: "/ai-gtm", label: "Build your AI GTM" },
+  "/ai-brain": { to: "/ai-gtm", label: "Build your AI revenue engine" },
   "/ai-gtm": { to: "/ai-brain", label: "Build your AI brain" },
 };
 
@@ -167,7 +167,7 @@ export function MindmakeShell({
             in, then the legal pair. The start action stays a button because
             off the homepage it opens the brief dialog in place. */}
         <nav className="mm-menu-routes" aria-label="Main navigation">
-          {PRIMARY_ROUTES.map(({ label, href, external, badge }) => external ? (
+          {PRIMARY_ROUTES.map(({ label, href, external, badge, short }) => external ? (
             <a
               key={href}
               href={href}
@@ -180,7 +180,7 @@ export function MindmakeShell({
               {label}
             </a>
           ) : (
-            <Link key={href} to={href}>{label}</Link>
+            <Link key={href} to={href}>{short && label.startsWith(short) ? <span>{short}<span className="mm-route-tail">{label.slice(short.length)}</span></span> : label}</Link>
           ))}
         </nav>
         <button className="mm-menu-start" type="button" onClick={startFromMenu}>

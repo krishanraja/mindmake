@@ -1862,3 +1862,9 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   .mm-pending .mm-first, .mm-pending .mm-menu-button { opacity: 1; }
   .mm-arrived .mm-first, .mm-arrived .mm-menu-button { animation: none; }
 }
+
+/* The phone menu's short label (publicLinks.ts, short): the rest of the name
+   hides wherever the full name would not fit one line. */
+@media (max-width: 767px) {
+  .mm-menu-routes .mm-route-tail { display: none; }
+}

@@ -89,7 +89,7 @@ export default function Index() {
   return (
     <>
       <SEO
-        title="Build the human + AI business that augments your vision."
+        title="Promote your AI from intern to chief of staff."
         description="Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake."
         canonical="/"
       />

@@ -53,7 +53,7 @@ const dossier = {
 const entries = [
   { name: "home", path: "/?start=1", door: /Build your AI brain/ },
   { name: "brain", path: "/ai-brain?start=brain" },
-  { name: "about", path: "/about?start=1", door: /Build your AI GTM/ },
+  { name: "about", path: "/about?start=1", door: /Build your AI revenue engine/ },
 ];
 
 const viewports = [

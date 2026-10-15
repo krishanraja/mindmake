@@ -928,9 +928,9 @@
       "classification": "constraint",
       "requiredOutcome": "The AI GTM door reads as one plain narrative, Build your AI revenue engine, and the acronym GTM leaves public copy. The AI Brain door keeps its name and carries the narrative Unlock and create the idea you've been sitting on. The free AI brief is framed around these two narratives, the new strategic positioning and the stories. The owner documents (00_NORTH_STAR.md, 01_CANON.md) record the change before any public copy does.",
       "acceptanceTest": "Krish approves the rendered pages and the brief at 1440x900 and 390x844; both narratives appear exactly as he wrote them; the built site's public text carries no GTM outside unedited quotes.",
-      "status": "open",
-      "resolution": "Recorded, not yet built. It reshapes Change 1 and Change 3 of work order 02. What happens to the /ai-gtm address is decided with Krish when the rename is built.",
-      "evidence": []
+      "status": "accepted",
+      "resolution": "Krish, 15 October 2026, verbatim, on the first front-door options: \"the headlines are rotating, are they not? In which case we need to have the right headlines on rotation, with the most impactful first.\" and \"How do I know you're not just going to completely regress everything?\". On the rendered rotation, doors and menu, with the comparison against the live site: \"I'd say \\\"Promote your AI is better.\\\"\", \"I'd say, \\\"On phone maybe it's AI revenue, which matches AI brain.\\\"\" and \"Yes I approve the release.\". The rotation leads with Promote your AI from intern to chief of staff.; the second door is Build your AI revenue engine everywhere a visitor reads it on the site, Build your AI revenue in the phone menus; the brain door reads Unlock and create the idea you've been sitting on. The /ai-gtm address and the brief emails are unchanged for now. Every other word and pixel is held to the live site by artifacts/front-door-r1/delta.json and the comparison beside it. The free AI brief (Change 3) is still to follow.",
+      "evidence": ["src/components/homepage-release/heroRotation.ts", "scripts/qa/build-homepage-release.mjs", "src/lib/publicLinks.ts", "src/test/hero-rotation.test.ts", "src/test/primary-routes-parity.test.ts", "artifacts/front-door-r1/delta.json", "artifacts/front-door-r1/summary.json"]
     },
     {
       "id": "AI-BRAIN-STORIES-TRUE-001",

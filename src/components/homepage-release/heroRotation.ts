@@ -1,9 +1,9 @@
 /**
  * The hero headline turns through five lines once, then rests on the first
- * (Krish, 2026-09-27). Each says that the business moves when the leader
- * does, and each underlines the "you" or "your" it turns on. The second and
- * third speak to standards and taste, early in the turn, so a reader who does
- * not see themselves in them knows the page is not for them.
+ * (Krish, 2026-09-27), and each underlines the "you" or "your" it turns on.
+ * The first says what an AI brain does for a leader (Krish, 2026-10-15). The
+ * second and third speak to standards and taste, early in the turn, so a
+ * reader who does not see themselves in them knows the page is not for them.
  *
  * Every headline is set in the same three fixed lines (Krish: "every headline
  * takes exactly the same amount of lines on mobile and desktop"), so the block
@@ -18,13 +18,15 @@
  * off screen or the tab is hidden.
  */
 type Row = string;
-/** Three rows per headline; *word* marks the underlined you or your. */
-const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
-  ["Build the human + AI", "business that augments", "*your* vision."],
+/** Three rows per headline; *word* marks the underlined you or your. The most
+    impactful leads (Krish, 2026-10-15): what an AI brain does for a leader, in
+    the terms a chief executive grasped at once. R3's headline turns last. */
+export const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
+  ["Promote *your* AI", "from intern to", "chief of staff."],
   ["High standards", "deserve an AI that", "knows *yours*."],
   ["AI can copy almost", "anything except", "*your* taste."],
-  ["Your business", "levels up when", "*you* do."],
   ["Amplify *your*", "judgement, and the", "business follows."],
+  ["Build the human + AI", "business that augments", "*your* vision."],
 ];
 const FIRST_HOLD = 6500;
 const HOLD = 5500;

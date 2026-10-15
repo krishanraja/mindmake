@@ -59,9 +59,12 @@ const NEGATIVES = {
   overflow: { css: "[data-benefit].is-active h2 { margin-left: 70vw !important; white-space: nowrap !important; }", expect: /overflow/ },
   focus: { css: ".benefit-controls { margin-top: 100vh !important; }", expect: /focus hidden/ },
   handoff: { css: ".brain-benefit h2 { visibility: hidden !important; }", expect: /did not take focus/ },
+  /* A page that pulls the reader back into the section after Home or End. */
+  release: { js: "addEventListener('keydown', (e) => { if (e.key === 'Home' || e.key === 'End') setTimeout(() => { const t = document.querySelector('[data-benefit-track]'); if (t) scrollTo({ top: scrollY + t.getBoundingClientRect().top, behavior: 'instant' }); }, 900); }, true);", expect: /pulled back/ },
 };
 const NEGATIVE = process.env.MM_READINESS_NEGATIVE ?? "";
 const NEGATIVE_CSS = NEGATIVES[NEGATIVE]?.css ?? "";
+const NEGATIVE_JS = NEGATIVES[NEGATIVE]?.js ?? "";
 
 function run(command, logPath) {
   return new Promise((resolve) => {
@@ -121,6 +124,7 @@ async function probe() {
     const context = await browser.newContext({ viewport: { width: viewport.w, height: viewport.h }, isMobile: Boolean(viewport.mobile), hasTouch: Boolean(viewport.mobile), deviceScaleFactor: 1, ...extraContext });
     await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); localStorage.setItem("mm-cookie-consent", "declined"); } catch {} });
     if (NEGATIVE_CSS) await context.addInitScript((css) => { addEventListener("DOMContentLoaded", () => { const style = document.createElement("style"); style.textContent = css; document.head.append(style); }); }, NEGATIVE_CSS);
+    if (NEGATIVE_JS) await context.addInitScript({ content: NEGATIVE_JS });
     const page = await context.newPage();
     const issues = [];
     page.on("console", (m) => { if (m.type() === "error") issues.push(`console: ${m.text()}`); });
@@ -332,7 +336,9 @@ async function probe() {
      notice) or off the screen (WCAG 2.2, 2.4.11). */
   /* Also a common short laptop, where the cookie notice and the action bar
      together leave the least room above them. */
-  const sideways = [{ name: "landscape-740x360", w: 740, h: 360, mobile: true }, { name: "landscape-844x390", w: 844, h: 390, mobile: true }, { name: "laptop-1366x657", w: 1366, h: 657 }];
+  /* And that laptop zoomed to 150% (911x438), where the pinned panel cannot
+     show its arrows above the action bar and the section reads as a document. */
+  const sideways = [{ name: "landscape-740x360", w: 740, h: 360, mobile: true }, { name: "landscape-844x390", w: 844, h: 390, mobile: true }, { name: "laptop-1366x657", w: 1366, h: 657 }, { name: "laptop-150pc-911x438", w: 911, h: 438 }];
   for (const route of p.routes) for (const viewport of [...p.viewports, ...p.shortViewports, ...(NEGATIVE ? [] : sideways)]) for (const cookie of [false, true]) for (const back of [false, true]) {
     const where = `${route.name}@${viewport.name}${cookie ? " with cookie notice" : ""}${back ? " from below" : ""} keyboard`;
     const context = await browser.newContext({ viewport: { width: viewport.w, height: viewport.h }, isMobile: Boolean(viewport.mobile), hasTouch: Boolean(viewport.mobile) });
@@ -401,6 +407,24 @@ async function probe() {
       if (!on.ok || !on.visible) fail(where, `row ${i + 1}: the story's heading did not take focus (focus on ${on.at})`);
     }
     results.keyboard.push({ route: route.path, viewport: viewport.name, contentsRows: landed });
+    /* A reader who used the contents and then leaves the section by Home or
+       End stays where they went: the page is never pulled back into it. */
+    for (const key of ["Home", "End"]) {
+      await page.evaluate(({ track, frame, attr }) => {
+        const t = document.querySelector(track); const f = document.querySelector(frame);
+        const pin = parseFloat(getComputedStyle(f).top) || 0; const rest = Number((t.getAttribute(attr) || "0").split(",")[0]);
+        scrollTo({ top: scrollY + t.getBoundingClientRect().top - pin + rest * (t.offsetHeight - f.offsetHeight), behavior: "instant" });
+      }, { track: contentsSection?.track ?? story.track, frame: story.frame, attr: contentsSection?.rests ?? "data-contents-rests" });
+      await page.waitForTimeout(700);
+      await page.focus('[data-story-link="0"]');
+      await page.keyboard.press("Enter");
+      await page.waitForTimeout(1200);
+      await page.keyboard.press(key);
+      await page.waitForTimeout(1800);
+      const at = await page.evaluate(() => ({ y: scrollY, max: document.documentElement.scrollHeight - innerHeight }));
+      const left = key === "Home" ? at.y <= 2 : at.y >= at.max - 2;
+      if (!left) fail(where, `${key} from a story's heading was pulled back into the section (scrollY ${Math.round(at.y)} of ${Math.round(at.max)})`);
+    }
     await context.close();
   }
 

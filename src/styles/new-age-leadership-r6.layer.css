@@ -1036,3 +1036,57 @@
     display: none;
   }
 }
+
+/* The same document, chosen by the script where a pinned panel would leave
+ * the arrows wholly under fixed chrome even at its floors
+ * (leadershipChapters.ts, measureStories). */
+.proof-track[data-story-document] {
+  height: auto;
+}
+
+.proof-track[data-story-document] > .proof-story {
+  position: static;
+  height: auto;
+}
+
+.proof-track[data-story-document] > .proof-story::after {
+  content: none;
+}
+
+.proof-track[data-story-document] .benefit-stage {
+  display: block;
+  min-height: 0;
+  overflow: visible;
+}
+
+.proof-track[data-story-document] .story-contents,
+.proof-track[data-story-document] .brain-benefit.is-story {
+  position: static;
+}
+
+.proof-track[data-story-document] .story-contents {
+  margin-bottom: 40px;
+}
+
+.proof-track[data-story-document] .story-contents,
+.proof-track[data-story-document] .brain-benefit {
+  scroll-margin-top: calc(var(--header) + 16px);
+}
+
+.proof-track[data-story-document] .story-contents,
+.proof-track[data-story-document] .brain-benefit,
+.proof-track[data-story-document] .brain-benefit.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: none;
+}
+
+.proof-track[data-story-document] .brain-benefit {
+  margin-bottom: 56px;
+}
+
+.proof-track[data-story-document] .benefit-controls {
+  display: none;
+}

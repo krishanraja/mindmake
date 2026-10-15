@@ -246,6 +246,14 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const fullStories = benefitNodes.filter((node) => node.classList.contains("is-story"));
   let benefit = -1; let shownKey = ""; let storyOpen = false; let pendingFocus = -1; let pendingUntil = 0; let storyPinTop = 0;
   let settleFocus = false; let settleTimer = 0; let jumpedUntil = 0;
+  /* Focus the script moves itself is not a reader arriving by keyboard, so
+     the focusin handler below leaves the page where it is. */
+  let ownFocus = false;
+  const focusQuietly = (node: HTMLElement | null | undefined) => {
+    if (!node) return;
+    ownFocus = true;
+    try { node.focus({ preventScroll: true }); } finally { ownFocus = false; }
+  };
   /* A contents row hands focus to the story it opens. The story's heading can
      only take focus once it is visible, which is after the previous state has
      faded, so focus is retried for a few frames rather than lost. A reader who
@@ -253,7 +261,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const landFocus = (i: number, tries = 40) => {
     const heading = benefitNodes[i]?.querySelector<HTMLElement>("h2");
     if (!heading || pendingFocus !== i || performance.now() > pendingUntil) return;
-    heading.focus({ preventScroll: true });
+    focusQuietly(heading);
     if (document.activeElement === heading) { pendingFocus = -1; return; }
     if (tries > 0) requestAnimationFrame(() => landFocus(i, tries - 1));
   };
@@ -377,11 +385,54 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   /* A screen too short to pin the stories (a phone held sideways) reads them
      as a document, as it reads the practice scenes: every story and the
      contents in order, the contents links plain links. The script reads which
-     the stylesheet chose from the panel's computed position. */
+     the stylesheet chose from the panel's computed position. So does a window
+     where the pinned panel could not show its arrows clear of the action bar
+     even at every floor (a short laptop zoomed to 150%): there the script
+     sets data-story-document on the track. That is decided from the window
+     and the bar's own height alone, never from whether the bar or the cookie
+     notice happens to be showing, so the section never changes mode under a
+     reader. */
   let storyFlow = false;
   let measuredFor = "";
+  let documentFor = "";
+  const pinCannotHold = () => {
+    if (!benefitPanel || !storyStage || !benefitControls) return false;
+    benefitPanel.classList.add("is-measuring");
+    benefitPanel.setAttribute("data-story-pinned", "");
+    ["--story-lift", "padding-top"].forEach((name) => benefitPanel.style.removeProperty(name));
+    /* On a touch screen the contents rows may give up height down to 32px. */
+    if (matchMedia("(pointer: coarse)").matches) storyContents?.style.setProperty("--row-touch", `${ROW_TOUCH_LEAST}px`);
+    else storyContents?.style.removeProperty("--row-touch");
+    /* Every state at its floor, read with the stage overfull so the panel's
+       auto margins (which bottom-align its contents) take no room. */
+    benefitPanel.style.setProperty("--benefit-fit", String(BENEFIT_FIT_FLOOR));
+    [storyContents, ...fullStories].forEach((node) => node?.style.setProperty("--fit", String(FIT_FLOOR)));
+    const held = Math.max(0, ...benefitNodes.filter((node) => !node.classList.contains("is-story")).map((node) => node.getBoundingClientRect().height), ...[storyContents, ...fullStories].map((node) => (node ? node.offsetHeight + STAGE_AIR : 0)));
+    storyStage.style.minHeight = "10000px";
+    const panel = benefitPanel.getBoundingClientRect();
+    const stage = storyStage.getBoundingClientRect();
+    const controls = benefitControls.getBoundingClientRect();
+    const paddingTop = parseFloat(getComputedStyle(benefitPanel).paddingTop) || 0;
+    const need = Math.min(paddingTop, 20) + (stage.top - panel.top - paddingTop) + held + (controls.bottom - stage.bottom);
+    const bar = document.querySelector<HTMLElement>(".mm-action-bar");
+    const barHeight = bar && getComputedStyle(bar).display !== "none" ? bar.getBoundingClientRect().height : 0;
+    const room = benefitPanel.offsetHeight - (barHeight ? barHeight + 8 : 0);
+    storyStage.style.removeProperty("min-height");
+    benefitPanel.style.removeProperty("--benefit-fit");
+    storyContents?.style.removeProperty("--row-touch");
+    [storyContents, ...fullStories].forEach((node) => node?.style.removeProperty("--fit"));
+    benefitPanel.classList.remove("is-measuring");
+    return need > room + 0.5;
+  };
   const measureStories = (force = false) => {
-    if (!benefitPanel) return;
+    if (!benefitPanel || !benefitTrack) return;
+    const windowKey = `${document.documentElement.clientWidth}:${document.documentElement.clientHeight}`;
+    if (windowKey !== documentFor) {
+      documentFor = windowKey;
+      benefitTrack.removeAttribute("data-story-document");
+      if (getComputedStyle(benefitPanel).position === "sticky" && pinCannotHold()) benefitTrack.setAttribute("data-story-document", "");
+      force = true;
+    }
     const style = getComputedStyle(benefitPanel);
     const flow = style.position !== "sticky";
     /* A phone's address bar showing or hiding fires a resize that changes
@@ -426,6 +477,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   };
   const setInert = (node: HTMLElement | null, hidden: boolean) => { if (!node) return; node.setAttribute("aria-hidden", String(hidden)); node.toggleAttribute("inert", hidden); };
   const setOnce = (node: HTMLElement | null, name: string, value: string) => { if (node && node.getAttribute(name) !== value) node.setAttribute(name, value); };
+  const storyPinned = () => Boolean(benefitPanel) && Math.abs((benefitPanel?.getBoundingClientRect().top ?? 0) - storyPinTop) <= 1;
   const storyProgress = () => {
     if (!benefitTrack || !benefitPanel) return 0;
     return clamp01((storyPinTop - benefitTrack.getBoundingClientRect().top) / Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight));
@@ -552,8 +604,10 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
         clearTimeout(settleTimer);
         settleTimer = window.setTimeout(() => {
           settleFocus = false;
-          if (!storyFlow && document.activeElement === document.body) {
-            if (storyOpen) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; landFocus(benefit); } else storyLinks[0]?.focus({ preventScroll: true });
+          /* Only where the page settled inside the pinned travel: a reader who
+             scrolled or paged out of the section has left it. */
+          if (!storyFlow && document.activeElement === document.body && storyPinned()) {
+            if (storyOpen) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; landFocus(benefit); } else focusQuietly(storyLinks[0]);
           }
         }, 160);
       }
@@ -595,7 +649,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
      the foot of the screen, where the action bar can cover it. The page moves
      to where the state focus belongs to rests, pinned, with the arrows clear. */
   benefitPanel?.addEventListener("focusin", (event) => {
-    if (!benefitTrack || !(event.target instanceof HTMLElement) || !event.target.matches(":focus-visible")) return;
+    if (ownFocus || !benefitTrack || !(event.target instanceof HTMLElement) || !event.target.matches(":focus-visible")) return;
     /* Read as a document, the browser leaves a focused row that is inside the
        window where it is, even under the masthead or the action bar; move it
        clear of both. */
@@ -613,7 +667,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
       });
       return;
     }
-    if (Math.abs(benefitPanel.getBoundingClientRect().top - storyPinTop) <= 1) return;
+    if (storyPinned()) return;
     const state = storyScroll(storyProgress(), storyWeights);
     const share = state.storyShown ? storyPlanned.rests[state.story] : storyPlanned.contentsRests[0];
     /* At once, whatever the page's own scroll behaviour, so focus lands where

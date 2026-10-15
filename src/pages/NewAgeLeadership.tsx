@@ -36,7 +36,9 @@ function pageMarkup() {
   <section class="finale" id="finale" aria-labelledby="finale-title"><video muted loop playsinline preload="none" poster="${esc(readyPoster)}"><source src="${esc(readyFilm)}" type="video/mp4" /></video><div class="finale-wash"></div><div class="finale-copy"><p class="kicker"><span></span>The human boundary</p><h2 id="finale-title">Let the work move.<br />Keep the understanding<br /><em>with you.</em></h2><p>A hybrid organisation does not ask you to think less. It helps you act on more of what you know.</p><a href="#top">Return to the beginning <span aria-hidden="true">↑</span></a></div></section>`;
 }
 
-function useExperience(rootRef: React.RefObject<HTMLDivElement>) {
+function useExperience(rootRef: React.RefObject<HTMLDivElement>, onStart: () => void) {
+  const startRef = useRef(onStart);
+  startRef.current = onStart;
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -76,7 +78,7 @@ function useExperience(rootRef: React.RefObject<HTMLDivElement>) {
        their source and behaviour with the homepage. */
     const update = () => { if (lens && performance.now() >= lensLockUntil) setLens(Math.round(Math.max(0, Math.min(1, -lens.getBoundingClientRect().top / Math.max(1, lens.offsetHeight - innerHeight))) * 3)); };
     addEventListener("scroll", update, { passive: true, signal: abort.signal }); addEventListener("resize", update, { signal: abort.signal });
-    const unmountChapters = mountLeadershipChapters(root, { reduced });
+    const unmountChapters = mountLeadershipChapters(root, { reduced, onStart: () => startRef.current() });
     setLens(0); update();
     return () => { unmountChapters(); abort.abort(); observers.forEach((o) => o.disconnect()); videos.forEach((v) => v.pause()); };
   }, [rootRef]);
@@ -86,7 +88,7 @@ export default function NewAgeLeadership() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [briefOpen, setBriefOpen] = useState(false);
   const html = useMemo(pageMarkup, []);
-  useExperience(rootRef);
+  useExperience(rootRef, () => setBriefOpen(true));
   /* One shell for every route. This page used to carry its own masthead and a
      hand-copied duplicate of the site footer, which is how it ended up with a
      header no other page had, no navigation menu, and a footer that had to be

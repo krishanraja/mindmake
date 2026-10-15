@@ -48,7 +48,7 @@ export default function Index() {
     });
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
     const unpin = mountPinnedChapters(root, runtime);
-    const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches });
+    const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches, onStart: (door) => startRef.current(door) });
     const unstrike = mountReturnedHour(root);
     const unrotate = mountHeroRotation(root);
     /* The generated markup's own links: the hero doors go to their pages and

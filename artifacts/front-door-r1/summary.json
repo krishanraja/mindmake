@@ -1,5 +1,5 @@
 {
-  "candidate": "claude/modest-ride-oa5lbx, built locally, served by scripts/qa/serve-dist.mjs",
+  "candidate": "claude/modest-ride-oa5lbx at c5bd50b (revision 3), built locally, served by scripts/qa/serve-dist.mjs",
   "baseline": "main 2027c7a, built locally; checked against the live site",
   "pages": 46,
   "sizes": [
@@ -29,8 +29,8 @@
     ]
   },
   "result": {
-    "words": "every page equals the baseline with the declared replacements applied, except /builder-economy (noise)",
-    "metadata": "same, except /builder-economy (noise)",
+    "words": "every page equals the baseline with the declared replacements applied, except /signal at 1440x900, which redirects to the separate makeyourmindup.ai site and returned the capture proxy's 'upstream request failed' page this run (it loaded in full in the baseline and the previous candidate run)",
+    "metadata": "same, with the same /signal exception",
     "declared_replacements_applied": {
       "route-back": 28,
       "door-name": 242,
@@ -42,12 +42,14 @@
       "pairing-gtm-title": 2
     },
     "pixels_outside_declared_elements": {
-      "desktop footer link row, tied to the renamed link's row in every screenshot": 44,
-      "/ai-brain closing card grows 24px (and /operator, /tool, which render it), so everything below it moves": 9,
-      "/ai-gtm closing card label and footer row": 4,
-      "noise, also in the control": 8,
+      "on the renamed label's own row (desktop footer, /ai-gtm closing card)": 48,
+      "/ai-brain closing card grows 24px (and /operator, /tool, which redirect to it), so everything below it moves": 9,
+      "noise, also in the control (/builder-economy, /signal at 390)": 7,
+      "/signal at 1440, the external redirect that failed to load this run": 7,
       "unexplained": 0
-    }
+    },
+    "menus": "Both menus, 14 widths from 320 to 1440: every item on one line; 'Build your AI revenue' at 767px and below, the full name from 768px. With the full name forced back, the same check fails at 390 and 600.",
+    "rotation": "All five headlines at 1440x900, 390x844 and 320x568: every row on one line, type size and heading height identical to live (72px/197px, 39.975px/110px, 32.8px/91px)."
   },
   "full_report": "comparison-report.json"
 }

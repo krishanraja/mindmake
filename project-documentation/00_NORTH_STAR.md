@@ -103,9 +103,10 @@ as the fear of falling behind.
 
 - **Build your AI brain.** Your taste, standards and judgement, running as a
   system you own.
-- **Build your AI GTM.** An AI-native go-to-market (GTM: how a business gets
-  its product to customers and gets paid for it) across the four levers:
-  product, price, positioning or people.
+- **Build your AI revenue engine.** An AI-native go-to-market (how a business
+  gets its product to customers and gets paid for it) across the four levers:
+  product, price, positioning or people. The acronym GTM stays internal and
+  out of public copy (Krish, 15 October 2026).
 
 They are not two products. Either can be the way in, and either can lead to the
 other when the work calls for it.
@@ -269,8 +270,10 @@ honest move is to say so rather than guess.
 ## Current positioning and placement
 
 Edge is the payoff; judgement is the mechanism. Use edge sparingly, never as
-a boast. The approved homepage promise is **Build the business that can think
-with you.** Its opening line is **Part people. Part agent. Led by judgement.**
+a boast. The homepage opens on **Turn your 30K AI intern into a 200K chief of
+staff.**, the simplest form of what an AI brain does for a leader (Krish, 15
+October 2026). Its
+opening line is **Part people. Part agent. Led by judgement.**
 
 The homepage contains the approved history, work/organisation and leadership
 dividend chapters. `/new-age-leadership` remains a companion, not a reason to

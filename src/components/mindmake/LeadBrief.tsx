@@ -91,7 +91,7 @@ type CompanyReadState = "idle" | "reading" | "ready" | "failed";
  */
 const DOOR_CHOICES: ReadonlyArray<{ route: BriefRoute; label: string; line: string }> = [
   { route: "brain", label: "Build your AI brain", line: "An AI that knows your standards, your context and the decisions you have already made." },
-  { route: "gtm", label: "Build your AI GTM", line: "One part of how you sell, rebuilt: what you offer, what you charge, how you stand out, who sells." },
+  { route: "gtm", label: "Build your AI revenue engine", line: "One part of how you sell, rebuilt: what you offer, what you charge, how you stand out, who sells." },
 ];
 
 /* The dialog's tone arc: the question in the dark, the read on paper, the
@@ -1055,7 +1055,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setStep(handoffEnabled ? "contact" : "success");
   };
 
-  const previewDoorLabel = door === "brain" ? "AI Brain" : door === "gtm" ? "AI GTM" : "Mindmake";
+  const previewDoorLabel = door === "brain" ? "AI Brain" : door === "gtm" ? "AI revenue engine" : "Mindmake";
   const previewDivision = DIVISIONS.find((entry) => entry.id === (collected?.division ?? division))?.label ?? "Leader";
   const previewStartingPoint = `${previewDoorLabel} · ${pressure.replace(/[.]+$/, "")}.`;
   const previewLeaves = [

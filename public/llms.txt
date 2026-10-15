@@ -1,13 +1,13 @@
 # Mindmake
 
-> Build the human + AI business that augments your vision.
+> Turn your 30K AI intern into a 200K chief of staff.
 
 Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.
 
 ## Pages
 
 - [Build your AI brain](https://mindmake.co/ai-brain): Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you.
-- [Build your AI GTM](https://mindmake.co/ai-gtm): Make your pricing, positioning and team AI-native, then test it with real buyers.
+- [Build your AI revenue engine](https://mindmake.co/ai-gtm): Make your pricing, positioning and team AI-native, then test it with real buyers.
 - [Success stories](https://mindmake.co/case-studies): Eight verified stories about the work Mindmake helped customers change and what happened next.
 - [Build the business that can think with you](https://mindmake.co/new-age-leadership): Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.
 - [Ideas you can use](https://mindmake.co/blog): Quick AI tips and longer reads for leaders making business decisions as AI changes their market, newest first.

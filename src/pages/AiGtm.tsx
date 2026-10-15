@@ -230,7 +230,7 @@ export default function AiGtm() {
 
   return (
     <MindmakeShell onStart={() => openBrief("gtm")} siteClassName="mm-route-gtm">
-      <SEO title="Build your AI GTM" description="Make your pricing, positioning and team AI-native, then test it with real buyers." canonical="/ai-gtm" />
+      <SEO title="Build your AI revenue engine" description="Make your pricing, positioning and team AI-native, then test it with real buyers." canonical="/ai-gtm" />
       <div ref={rootRef} className="mm-gtm" data-mode={mode}>
         <Opening
           lead={OPENING.lead}

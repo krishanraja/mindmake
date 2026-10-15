@@ -1021,7 +1021,7 @@ describe("the door", () => {
     render(<LeadBrief open onClose={() => undefined} />);
     expect(screen.getByRole("heading", { name: "Which one are you here for?" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Build your AI brain/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Build your AI GTM/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Build your AI revenue engine/ })).toBeInTheDocument();
   });
 
   it("does not ask when the door is already known", () => {

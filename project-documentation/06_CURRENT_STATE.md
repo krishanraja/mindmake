@@ -28,7 +28,7 @@ manifests are frozen evidence, not current instructions. Preserve the determinis
 
 ## Visitor journey
 
-The homepage's AI Brain and AI GTM doors link to `/ai-brain` and `/ai-gtm`;
+The homepage's AI brain and AI revenue engine doors link to `/ai-brain` and `/ai-gtm`;
 each page ends by pointing to the other beside the brief. Every brief button
 opens the same company-first LeadBrief: work email,
 name and business role, corroborated company read, problem, returned-time
@@ -339,7 +339,7 @@ owns payload, privacy, retention, email and failure-path contracts.
 - The menu and the About page, from Krish's request on 25 September 2026,
   carried by the generated lock `quality/route-lock/approved-production.lock.json`
   (numbered records stopped at r48) and that day's history log entry.
-  - Every menu and footer reads Home, Build your AI brain, Build your AI GTM,
+  - Every menu and footer reads Home, Build your AI brain, Build your AI revenue engine,
     Success stories, Ideas you can use, Quick AI tips, Questions we get asked,
     About us and Media. The four renamed pages carry their label as their
     title and headline, so the click lands where it said.

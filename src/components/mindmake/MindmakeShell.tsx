@@ -22,7 +22,7 @@ interface MindmakeShellProps {
  * the menu and the footer carry the whole site.
  */
 const ACTION_BAR_DOORS: Record<string, ActionBarDoor> = {
-  "/ai-brain": { to: "/ai-gtm", label: "Build your AI GTM" },
+  "/ai-brain": { to: "/ai-gtm", label: "Build your AI revenue engine" },
   "/ai-gtm": { to: "/ai-brain", label: "Build your AI brain" },
 };
 

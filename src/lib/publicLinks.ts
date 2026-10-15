@@ -66,7 +66,7 @@ export const CONTACT_EMAIL = "krish@mindmake.co";
 export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string }> = [
   { label: "Home", href: "/" },
   { label: "Build your AI brain", href: "/ai-brain" },
-  { label: "Build your AI GTM", href: "/ai-gtm" },
+  { label: "Build your AI revenue engine", href: "/ai-gtm" },
   /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
      page's own title matches its label, so the click lands where it said. */
   { label: "Success stories", href: "/case-studies" },

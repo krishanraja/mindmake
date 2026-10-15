@@ -570,7 +570,7 @@ describe("the conversion contract", () => {
     expect(shell).toContain("PRIMARY_ROUTES.map");
     for (const item of [
       "Build your AI brain",
-      "Build your AI GTM",
+      "Build your AI revenue engine",
       "Home",
       "Success stories",
       "Ideas you can use",

@@ -57,7 +57,7 @@ interface CloseBlockProps {
 /** The two doors, by the names the canon gives them. */
 const DOORS: ReadonlyArray<{ route: BriefRoute; label: string }> = [
   { route: "brain", label: "Build your AI brain" },
-  { route: "gtm", label: "Build your AI GTM" },
+  { route: "gtm", label: "Build your AI revenue engine" },
 ];
 
 export function CloseBlock({ claim, body, onStart, ground, instrument, panelId, fork }: CloseBlockProps) {

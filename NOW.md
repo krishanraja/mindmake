@@ -17,8 +17,9 @@ never_publish: [the private price and the internal rate card, the cash floor and
 ## What it is
 
 Mindmake is a principal-led AI and commercial strategy practice. Two doors,
-Build your AI brain and Build your AI GTM, lead to one privately scoped paid
-proof. The approved headline is **Build the human + AI business that augments your vision.**
+Build your AI brain and Build your AI revenue engine, lead to one privately
+scoped paid proof. The headline turns through five lines and rests on **Turn
+your 30K AI intern into a 200K chief of staff.**
 
 This repository is the site at https://mindmake.co and `project-documentation/`,
 the numbered canon for the business. Numbered documents own business truth;

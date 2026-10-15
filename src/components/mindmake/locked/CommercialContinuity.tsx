@@ -49,7 +49,7 @@ const MEDIA: Record<CommercialContinuityContext, CommercialMedia> = {
     poster: evidencePoster,
   },
   gtm: {
-    name: "AI GTM",
+    name: "AI revenue engine",
     title: "The whole growth engine.",
     film: growthFilm,
     poster: growthPoster,

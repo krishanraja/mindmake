@@ -1,0 +1,22 @@
+{
+  "baseline": "main 2027c7a739a7c11c11c800c0c999a9cf6b07c56b (production dpl_Fxdm7kGx8Zx48oK2rx2AwK2xtQDL)",
+  "rule": "Every word, tag and pixel on every page stays as it is, except where an entry below says otherwise. The candidate's words must equal the baseline's with these replacements applied, in this order; any other difference fails.",
+  "text": [
+    { "id": "route-back", "pages": "all", "old": "AI Brain or AI GTM", "new": "AI brain or AI revenue engine", "where": "the homepage's route-back control" },
+    { "id": "pairing-brain-title", "pages": "all", "old": "An AI brain gives your GTM something to run on.", "new": "An AI brain gives your revenue engine something to run on.", "where": "/ai-brain, the card that points to the other service" },
+    { "id": "pairing-brain-body", "pages": "all", "old": "AI GTM turns an AI market shift into one tested commercial move.", "new": "An AI revenue engine turns an AI market shift into one tested commercial move.", "where": "/ai-brain, the same card" },
+    { "id": "pairing-gtm-title", "pages": "all", "old": "Your GTM runs better on an AI brain.", "new": "Your revenue engine runs better on an AI brain.", "where": "/ai-gtm, the card that points to the other service" },
+    { "id": "door-name", "pages": "all", "old": "Build your AI GTM", "new": "Build your AI revenue engine", "where": "the homepage door, every page's menu, the brief, closing links, the /ai-gtm title" },
+    { "id": "label", "pages": "all", "old": "AI GTM", "new": "AI revenue engine", "where": "every remaining label: the /ai-gtm page's names, the brief's preview" },
+    { "id": "headline", "pages": ["/"], "old": "Build the human + AI business that augments your vision.", "new": "Turn your 30K AI intern into a 200K chief of staff.", "where": "the homepage h1, the first of the five rotating headlines, the page title" },
+    { "id": "brain-door", "pages": ["/"], "old": "Your judgement, taste, standards & vision, encoded.", "new": "Unlock and create the idea you've been sitting on.", "where": "the homepage's AI brain door" }
+  ],
+  "meta": [
+    { "pages": ["/", "/ai-gtm"], "key": "og:image|twitter:image", "pattern": "https://mindmake\\.co/social/(home|ai-gtm)\\.jpg(\\?v=[0-9a-f]+)?", "why": "the two share images are repainted with the new words, so their version changes" }
+  ],
+  "rotation": {
+    "before": ["Build the human + AI business that augments your vision.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Your business levels up when you do.", "Amplify your judgement, and the business follows."],
+    "after": ["Turn your 30K AI intern into a 200K chief of staff.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows.", "Build the human + AI business that augments your vision."]
+  },
+  "unchanged_by_decision": ["The /ai-gtm address", "The hero lede", "The brief emails (submit-mindmake-brief)"]
+}

@@ -81,7 +81,7 @@ try {
         await page.evaluate(()=>document.fonts.ready);
         await page.waitForSelector('.mm-home-leadership .reach-sequence',{timeout:60000});
         console.log(`Testing ${label}`);
-        assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Build the human + AI business that augments your vision.',`${label}: approved opening`);
+        assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Turn your 30K AI intern into a 200K chief of staff.',`${label}: approved opening`);
         // Negative control: the scrapped R3 chapters must not survive anywhere in the page.
         for (const retired of ['authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
         assert(await page.locator('.mm-home-leadership').evaluate(node=>{ const history=node.previousElementSibling; return history?.matches('[data-chapter="history"]') && !!history.querySelector('[data-component="history"]') && history.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'; }),`${label}: opening, history, the leadership chapters, then the route`);

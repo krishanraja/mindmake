@@ -146,7 +146,7 @@ async function prepare(page) {
    offer of a person is otherwise dressed from), the homepage's drawer and
    /ai-brain's drawer. */
 const entries = [
-  { name: "card", path: "/case-studies?start=1", door: /Build your AI GTM/ },
+  { name: "card", path: "/case-studies?start=1", door: /Build your AI revenue engine/ },
   { name: "home", path: "/?start=brain" },
   { name: "brain", path: "/ai-brain?start=brain" },
 ];

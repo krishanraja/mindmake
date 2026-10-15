@@ -13,9 +13,9 @@ export const site = "https://mindmake.co";
 export const staticPages = [
   {
     path: "/",
-    title: "Turn your 30K AI intern into a 200K chief of staff.",
+    title: "Promote your AI from intern to chief of staff.",
     description: "Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.",
-    headline: "Turn your 30K AI intern into a 200K chief of staff.",
+    headline: "Promote your AI from intern to chief of staff.",
     claim: "Part people. Part agent. Led by judgement.",
     still: "film-02",
   },

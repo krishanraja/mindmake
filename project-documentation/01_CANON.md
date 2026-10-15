@@ -46,7 +46,7 @@ five lines once, then rests on the first, which is also the page's h1 and title
 
 | Placement | Accepted copy |
 |---|---|
-| Homepage headline (first, and the h1) | Turn your 30K AI intern into a 200K chief of staff. |
+| Homepage headline (first, and the h1) | Promote your AI from intern to chief of staff. |
 | Homepage headlines 2 to 5 | High standards deserve an AI that knows yours. / AI can copy almost anything except your taste. / Amplify your judgement, and the business follows. / Build the human + AI business that augments your vision. |
 | Opening promise | Part people. Part agent. Led by judgement. |
 | Brain door | Build your AI brain |

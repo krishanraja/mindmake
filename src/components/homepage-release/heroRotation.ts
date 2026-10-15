@@ -22,7 +22,7 @@ type Row = string;
     impactful leads (Krish, 2026-10-15): what an AI brain does for a leader, in
     the terms a chief executive grasped at once. R3's headline turns last. */
 export const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
-  ["Turn *your* 30K AI", "intern into a 200K", "chief of staff."],
+  ["Promote *your* AI", "from intern to", "chief of staff."],
   ["High standards", "deserve an AI that", "knows *yours*."],
   ["AI can copy almost", "anything except", "*your* taste."],
   ["Amplify *your*", "judgement, and the", "business follows."],

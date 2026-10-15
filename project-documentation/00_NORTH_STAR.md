@@ -270,7 +270,7 @@ honest move is to say so rather than guess.
 ## Current positioning and placement
 
 Edge is the payoff; judgement is the mechanism. Use edge sparingly, never as
-a boast. The homepage opens on **Turn your 30K AI intern into a 200K chief of
+a boast. The homepage opens on **Promote your AI from intern to chief of
 staff.**, the simplest form of what an AI brain does for a leader (Krish, 15
 October 2026). Its
 opening line is **Part people. Part agent. Led by judgement.**

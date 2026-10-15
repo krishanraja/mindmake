@@ -339,7 +339,7 @@ owns payload, privacy, retention, email and failure-path contracts.
 - The menu and the About page, from Krish's request on 25 September 2026,
   carried by the generated lock `quality/route-lock/approved-production.lock.json`
   (numbered records stopped at r48) and that day's history log entry.
-  - Every menu and footer reads Home, Build your AI brain, Build your AI revenue engine,
+  - Every menu and footer reads Home, Build your AI brain, Build your AI revenue engine (Build your AI revenue in a phone menu),
     Success stories, Ideas you can use, Quick AI tips, Questions we get asked,
     About us and Media. The four renamed pages carry their label as their
     title and headline, so the click lands where it said.

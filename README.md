@@ -1,6 +1,6 @@
 # Mindmake website
 
-**Turn your 30K AI intern into a 200K chief of staff.**
+**Promote your AI from intern to chief of staff.**
 
 Live: [mindmake.co](https://mindmake.co). A principal-led AI and commercial
 strategy practice. Build your AI brain: **Unlock and create the idea you've

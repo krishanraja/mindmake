@@ -36,18 +36,19 @@ lives in private planning documents and is not copied here.
   action bar) the contents sits just above the pin and the stories pin alone.
   A window too short for either (a laptop zoomed to 150%, a phone held
   sideways, no scripts) reads the section as a document.
-- The front door (built on a branch, `POSITIONING-DOORS-NARRATIVE-001`): the
-  headline rotation leads with "Turn your 30K AI intern into a 200K chief of
+- The front door (approved 15 October 2026, `POSITIONING-DOORS-NARRATIVE-001`):
+  the headline rotation leads with "Promote your AI from intern to chief of
   staff." (Krish: "the right headlines on rotation, with the most impactful
   first"), the second door is "Build your AI revenue engine" with the acronym
-  out of public copy, and the brain door reads "Unlock and create the idea
+  out of public copy ("Build your AI revenue" in the phone menus, matching
+  "Build your AI brain"), and the brain door reads "Unlock and create the idea
   you've been sitting on". The /ai-gtm address, the lede and the brief emails
-  are unchanged. Every other word and pixel on the site is held to the live
-  site by the declared change list in `artifacts/front-door-r1/delta.json`.
-  The free AI brief follows the new positioning and stories.
+  are unchanged. Every other word and pixel was held to the live site by the
+  declared change list and comparison in `artifacts/front-door-r1/`.
 
-Next action: Krish reviews the rendered rotation, doors and menu, with the
-regression report, and the change merges only on his yes.
+Next action: the free AI brief (Change 3), built around the new positioning and
+the stories, shown to Krish rendered before it is built; the lede that names
+who the site is for (Change 1) follows it.
 
 ## Approved source and scope
 
@@ -74,7 +75,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 - Every Media link, and the old `/signal` and `/builder-economy` redirects, land on the publication's own site, https://makeyourmindup.ai (Krish, 2026-09-26; `PUBLICATION_URL`). Subscribing appears in three places: a hairline badge beside Media in both menus, a footer button, and the brief's success step; every "Subscribe for free" link goes to https://makeyourmindup.ai too (Krish, 2026-09-26: "Every single subscribe link should go to makeyourmindup.ai"; `SUBSCRIBE_URL` is `PUBLICATION_URL`). There is no band, pop-up or modal. It never outweighs the brief's filled mint.
 - No word or link sits alone on a new line at 1440x900 or 390x844 on any page (`qa:line-breaks`; the rule is in `03_DESIGN_CONTRACT.md`).
 - Every page carries the homepage's masthead and footer, identical within 1px at 360, 390, 412, 768, 1024 and 1440 (Krish, 2026-09-26: "The logo in the top left nav bar changes size depending on what page you're on, which is unacceptable"; "the bottom nav bar is super inconsistent across pages"). The footer is the brand, "Keep your edge as AI changes the market.", Subscribe, the route rail on wider screens, Privacy and Terms as two separate 44px links, and "© 2026 Mindmake." on the left edge. On phones it fills the width on the masthead's gutter; there is no Contact link (the address is on /about, /privacy and /terms).
-- The homepage hero turns its headline once through five lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"): "Turn your 30K AI intern into a 200K chief of staff.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision." A unit test holds the first to the generated h1 (`src/test/hero-rotation.test.ts`). The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). The lede reads "with the high standards".
+- The homepage hero turns its headline once through five lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"): "Promote your AI from intern to chief of staff.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision." A unit test holds the first to the generated h1 (`src/test/hero-rotation.test.ts`). The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). The lede reads "with the high standards".
 - On a laptop, while the privacy card is up, the action bar's ground runs down to the bottom edge beneath it, so the bar never floats over a band of page (Krish, 2026-09-26).
 - No page carries caveat or disclaimer labels: no "Illustrative machinery", "Illustrative team", "Illustrative sequence. Not evidence." or "illustrative example" lines (Krish, 2026-09-26: "Get rid of all the annoying asterisk commentary, like illustrative machinery, from the whole"). Generated films and example teams remain what they are; the page simply does not narrate it. The private brief document and its email keep their one "not advice" line.
 - Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and the two pages cross over about 720ms (Krish, 2026-09-27: the transitions were "so blunt, needs to be much smoother"): the old page fades out, the new one fades in and rises 10px into place, the masthead holds still under its own view-transition name, and the ruled line remains as a fainter sweep. Only the page's own masthead carries the name, not the menu's, because a duplicate name on screen makes Chromium refuse the transition. Media that has not painted when a page mounts fades up instead of cutting in (`MediaArrival.tsx`), most visibly the `/ai-brain` film, and nothing waits more than 2.5s. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. Both components render nothing, so hydration is unchanged.

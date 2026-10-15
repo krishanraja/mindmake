@@ -48,7 +48,7 @@
       "id": "headline",
       "pages": "all",
       "old": "Build the human + AI business that augments your vision.",
-      "new": "Turn your 30K AI intern into a 200K chief of staff.",
+      "new": "Promote your AI from intern to chief of staff.",
       "where": "the homepage h1, the first of the five rotating headlines, the page title; also every route that serves the homepage or its default head (/start, /sprint, /teardown, /decision, /handover, /capital and the page head of other unprerendered routes)"
     },
     {
@@ -76,7 +76,7 @@
       "Amplify your judgement, and the business follows."
     ],
     "after": [
-      "Turn your 30K AI intern into a 200K chief of staff.",
+      "Promote your AI from intern to chief of staff.",
       "High standards deserve an AI that knows yours.",
       "AI can copy almost anything except your taste.",
       "Amplify your judgement, and the business follows.",
@@ -93,6 +93,11 @@
       "r": 2,
       "what": "The headline and brain-door entries apply wherever the homepage or its default head is served, not only on /; the share-image entry names og:image:secure_url and applies wherever the home or /ai-gtm image is used.",
       "why": "The first comparison found the same declared old-to-new text on routes that serve the homepage (/start, /sprint, /teardown, /decision, /handover, /capital) and in the default page head of unprerendered routes, plus the secure_url copy of the share image. No entry's old or new text changed."
+    },
+    {
+      "r": 3,
+      "what": "Krish's choices: the first headline is 'Promote your AI from intern to chief of staff.' (\"I'd say \\\"Promote your AI is better.\\\"\"), and the phone menus read 'Build your AI revenue'.",
+      "why": "His review of the rendered front door, 15 October 2026."
     }
   ],
   "knock_on": [
@@ -125,6 +130,13 @@
     {
       "page": "/signal at 390x844",
       "why": "Differs by one pixel of height between two captures of unchanged main too."
+    }
+  ],
+  "visible_only": [
+    {
+      "id": "phone-menu-label",
+      "what": "In both menus, at 767px and below, the revenue engine item shows 'Build your AI revenue' (the words ' engine' are in the page but hidden there), matching 'Build your AI brain'. From 768px it shows the full 'Build your AI revenue engine'.",
+      "why": "Krish, 2026-10-15: \"On phone maybe it's AI revenue, which matches AI brain.\" It also removes a broken layout the full name caused in the homepage menu at 540 to 700px."
     }
   ]
 }

@@ -721,3 +721,10 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-opening .preview-mobile .hero-copy > h1 { margin-top: auto; }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors { margin-top: clamp(32px, 8svh, 72px); }
 }
+
+/* The phone menu reads "Build your AI revenue", matching "Build your AI
+   brain" (Krish, 2026-10-15). Below 768px the menu's type grows with the
+   screen and the full name breaks across lines; the rest of it hides there. */
+@media (max-width: 767px) {
+  .mm-homepage-release .r3-navigation .primary-routes .mm-route-tail { display: none; }
+}

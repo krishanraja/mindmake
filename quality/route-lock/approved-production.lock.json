@@ -220,7 +220,7 @@
     "src/test/homepage-leadership-chapters.test.ts": "d49e17061c3ceb2e72a556d9b0fa88080dec7b6181cf43ae4d3ff73d1f2e73d6",
     "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
     "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3",
-    "src/test/leadership-stories.test.ts": "ff7463aa383863543801332dbf6cfde9d676a9d343c6c6dbe1f2cad03e2af0bd",
+    "src/test/leadership-stories.test.ts": "dffc7631ff5d55226d05c44875ecf8b40118378bbf165081442b0b5aad2f6ffb",
     "src/test/mindmake-brief-backend-core.test.ts": "4abd13b98aac8ebd07fc72b9a22a766220eead7351206a031c21b39acaf82494",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
     "src/test/seo-prerender.test.tsx": "3f576c9068c2cd71963491a66db5a8e74921268294190bfc27afbada27ea4898",

@@ -1216,10 +1216,14 @@
   width: calc(100% / var(--story-count, 6));
 }
 
-/* With the contents open no story is current: the count dims and the rule
- * under the arrows is empty. */
+/* With the contents open no story is current: the count is not shown, the
+ * rule under the arrows is empty, and an arrow with nowhere to go dims. */
 .nal-page .benefit-controls[data-at-contents] > p {
-  opacity: .45;
+  visibility: hidden;
+}
+
+.nal-page .benefit-controls > button[aria-disabled="true"] {
+  opacity: .35;
 }
 
 .nal-page .benefit-controls[data-at-contents] > div i {

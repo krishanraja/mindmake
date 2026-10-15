@@ -56,7 +56,7 @@ export const leadershipStories: readonly LeadershipStory[] = [
   {
     heading: `A founder who posted about ${keep("once a month")} now posts most days.`,
     situation: `The founder runs ${keep("a research")} and content brand. Publishing ${keep("a post")} backed by research took days.`,
-    happened: `We set up an AI system that the founder owns. It fits around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
+    happened: `We set up an AI system that ${keep("the founder")} owns. ${keep("It fits")} around what they do and where they get stuck. ${keep("A post")} like that now takes under an hour.`,
     quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
     scene: founderPlate,
   },
@@ -145,7 +145,7 @@ export function leadershipChaptersMarkup() {
   const scenes = leadershipScenes.map((s, i) => `<article class="work-scene${i ? "" : " is-active"}" data-work-scene="${i}"><video muted loop playsinline preload="${i ? "none" : "metadata"}" aria-hidden="true" poster="${esc(s[1])}"><source src="${esc(s[0])}" type="video/mp4" /></video><div class="work-wash"></div><div><small>0${i + 1}</small><h3>${s[2]}</h3><p>${s[3]}</p></div></article>`).join("");
   return `<section class="reach-sequence" data-reach aria-labelledby="reach-title"><div class="reach-sticky"><video muted loop playsinline preload="metadata" aria-hidden="true" poster="${esc(readyPoster)}"><source src="${esc(readyFilm)}" type="video/mp4" /></video><div class="reach-wash" aria-hidden="true"></div><div class="reach-copy"><p class="kicker"><span></span>the hybrid-species business</p><div class="reach-copy-state is-active" data-reach-copy="boundary"><h2 id="reach-title">The feeling is similar.<br /><em style="font-style: normal">The scale is not.</em></h2><p>AI isn't just a single-use tool - it can carry work that used to look like human thinking, but we miss the mark with how we use it.</p></div><div class="reach-copy-state" data-reach-copy="organisation" aria-hidden="true"><h2>What people do, and should do,<br /><em style="font-style: normal">changes shape.</em></h2><p>People hold judgement, have higher standards and take more accountability than ever. The AI Brain connects, iterates and executes.</p></div><details><summary>Sources</summary><div><a href="https://classics.mit.edu/Plato/phaedrus.html">Plato, Phaedrus</a><a href="https://live-www.nationalarchives.gov.uk/explore-the-collection/stories/the-proclamation-of-ned-ludd/">The National Archives, Luddite protests</a><a href="https://eric.ed.gov/?id=EJ336469">Hembree and Dessart, 79-study calculator review</a><a href="https://doi.org/10.1038/s41598-020-62877-0">GPS use and spatial memory</a></div></details></div><div class="reach-stage"><div class="capability-instrument is-active" data-reach-panel="boundary" aria-label="The changing division of work"><div class="capability-head"><p><span>01</span>AI carries</p><i aria-hidden="true"></i><p><span>02</span>You keep</p></div><div class="capability-window"><div class="capability-reel reel-ai">${reels(["Gather","Connect","Compare","Monitor","Model","Reconcile","Prepare","Retrieve","Route","Update"])}</div><div class="capability-core" aria-hidden="true"><i></i><b></b></div><div class="capability-reel reel-human">${reels(["Intent","Taste","Judgement","Method","Relationships","Context","Accountability","Exceptions","Ethics","Decision"])}</div></div></div><div class="hybrid-organisation" data-reach-panel="organisation" aria-hidden="true"><p class="instrument-label"><span></span>New-age leadership</p><div class="organisation-grid" aria-label="A hybrid organisation made from people, an AI Brain and shared roles"><article class="org-cell org-leader"><small>Human</small><strong>Leader</strong><span>Direction · judgement</span></article><article class="org-cell org-chief"><small>Human</small><strong>Chief of Staff</strong><span>Trust · context</span></article><article class="org-cell org-brain"><small>System</small><strong>AI Brain</strong><span>Memory · links</span></article><article class="org-cell org-signals"><small>Agent</small><strong>Market signals</strong><span>Watches change</span></article><article class="org-cell org-marketing"><small>Hybrid</small><strong>Marketing</strong><span>Person leads</span></article><article class="org-cell org-research"><small>Hybrid</small><strong>Research</strong><span>People listen</span></article><article class="org-cell org-sales"><small>Agent</small><strong>Sales research</strong><span>People build trust</span></article><article class="org-cell org-brief"><small>New role</small><strong>Executive brief</strong><span>One view</span></article><div class="organisation-lines" aria-hidden="true"><i></i><i></i><i></i></div></div></div></div><nav class="reach-progress" aria-label="Sequence stages"><i aria-hidden="true"></i><button type="button" data-reach-jump="boundary" aria-current="step">Work</button><button type="button" data-reach-jump="organisation">Organisation</button></nav></div></section>
   <section class="work-scroll" aria-label="How the hybrid system works"><div class="work-sticky"><div class="work-intro"><p class="kicker"><span></span>What this feels like in practice</p><h2 class="scroll-reveal" data-reveal>When built right,<br /><em style="font-style: normal">AI is our biggest level-up.</em></h2></div><div class="work-scenes">${scenes}</div><nav class="work-nav" aria-label="Working stages"><button class="is-active" data-work-button="0" aria-current="step">Notice</button><button data-work-button="1">Connect</button><button data-work-button="2">Prepare</button></nav></div></section>
-  <section class="human-proof" aria-labelledby="proof-title"><div class="proof-track" data-benefit-track data-story-rests="${plan.rests.map((r) => r.toFixed(5)).join(",")}" data-contents-rests="${plan.contentsRests.map((r) => r.toFixed(5)).join(",")}" style="--story-units: ${plan.total.toFixed(2)}"><div class="proof-story brain-benefits" data-benefits><p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p><div class="benefit-stage" data-story-stage><nav class="story-contents" aria-label="Contents" data-story-contents>${contents}</nav>${brainBenefits}</div><div class="benefit-controls" role="group" aria-label="AI Brain benefits" style="--story-count: ${leadershipStories.length}"><button type="button" data-benefit-prev aria-label="Previous benefit" aria-disabled="true">←</button><p><span data-benefit-count>01</span> / ${count}</p><div aria-hidden="true"><i></i></div><button type="button" data-benefit-next aria-label="Next benefit">→</button></div><p class="sr-status" data-benefit-status aria-live="polite"></p></div></div><div class="proof-return"><p class="kicker dark"><span></span>The returned hour</p><h2>What will you do with the hours you save on a task?</h2><ul><li>Clock off work earlier?</li><li>Invest the time into the part of your job only you can do?</li><li>Invest into the AI brain you own that will compound over time?</li></ul></div></section>`;
+  <section class="human-proof" aria-labelledby="proof-title"><div class="proof-track" data-benefit-track data-story-rests="${plan.rests.map((r) => r.toFixed(5)).join(",")}" data-contents-rests="${plan.contentsRests.map((r) => r.toFixed(5)).join(",")}" style="--story-units: ${plan.total.toFixed(2)}"><div class="proof-story brain-benefits" data-benefits><p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p><div class="benefit-stage" data-story-stage><nav class="story-contents" aria-label="AI Brain benefits: contents" data-story-contents>${contents}</nav>${brainBenefits}</div><div class="benefit-controls" role="group" aria-label="AI Brain benefits" style="--story-count: ${leadershipStories.length}"><button type="button" data-benefit-prev aria-label="Previous benefit" aria-disabled="true">←</button><p><span data-benefit-count>01</span> / ${count}</p><div aria-hidden="true"><i></i></div><button type="button" data-benefit-next aria-label="Next benefit">→</button></div><p class="sr-status" data-benefit-status aria-live="polite"></p></div></div><div class="proof-return"><p class="kicker dark"><span></span>The returned hour</p><h2>What will you do with the hours you save on a task?</h2><ul><li>Clock off work earlier?</li><li>Invest the time into the part of your job only you can do?</li><li>Invest into the AI brain you own that will compound over time?</li></ul></div></section>`;
 }
 
 export interface LeadershipChaptersOptions {
@@ -245,7 +245,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   const storyPlanned = storyPlan(storyWeights);
   const fullStories = benefitNodes.filter((node) => node.classList.contains("is-story"));
   let benefit = -1; let shownKey = ""; let storyOpen = false; let pendingFocus = -1; let pendingUntil = 0; let storyPinTop = 0;
-  let settleFocus = false; let settleTimer = 0;
+  let settleFocus = false; let settleTimer = 0; let jumpedUntil = 0;
   /* A contents row hands focus to the story it opens. The story's heading can
      only take focus once it is visible, which is after the previous state has
      faded, so focus is retried for a few frames rather than lost. A reader who
@@ -325,6 +325,21 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     }
     return over;
   };
+  /* How many pixels of the arrows' height show while the panel is pinned,
+     outside the window's edges and every piece of fixed chrome. */
+  const arrowsSeen = () => {
+    if (!benefitPanel || !storyNext) return 0;
+    const next = storyNext.getBoundingClientRect();
+    const top = storyPinTop + next.top - benefitPanel.getBoundingClientRect().top;
+    let spans: [number, number][] = [[Math.max(0, top), Math.min(innerHeight, top + next.height)]];
+    for (const node of document.querySelectorAll<HTMLElement>(".mm-action-bar.is-shown, .mm-cookie-notice")) {
+      const style = getComputedStyle(node);
+      if (style.display === "none" || style.visibility === "hidden" || style.position !== "fixed") continue;
+      const c = node.getBoundingClientRect();
+      spans = spans.flatMap(([a, b]): [number, number][] => [[a, Math.min(b, c.top)], [Math.max(a, c.bottom), b]]).filter(([a, b]) => b - a > 0);
+    }
+    return spans.reduce((sum, [a, b]) => sum + b - a, 0);
+  };
   /* The last resort, for a small touch screen under both the action bar and
      the cookie notice: the contents rows give up some of their 44px touch
      height, never below 32px, and the fit and the lift run again. */
@@ -370,7 +385,11 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (flow) [storyContents, ...fullStories].forEach((node) => node?.style.removeProperty("--fit"));
     else {
       [storyContents, ...fullStories].forEach(fitToStage);
+      const unlifted = arrowsSeen();
       if (tightenRows(liftControls() ?? 0)) { reset(); [storyContents, ...fullStories].forEach(fitToStage); liftControls(); }
+      /* A lift that cannot clear the chrome must never leave the arrows less
+         visible than they were: keep whichever shows more of them. */
+      if (arrowsSeen() + 0.5 < unlifted) { reset(); storyContents?.style.removeProperty("--row-touch"); [storyContents, ...fullStories].forEach(fitToStage); }
     }
     benefitPanel.classList.remove("is-measuring");
     if (flow === storyFlow) return;
@@ -417,7 +436,8 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     /* A reader who scrolls on from a focused contents row keeps their place:
        once the scrolling settles, focus goes to the story it settled on rather
        than staying lost on the page. A row's own hand-off is never replaced. */
-    if (open && storyContents?.contains(document.activeElement) && !(pendingFocus >= 0 && performance.now() < pendingUntil)) settleFocus = true;
+    const focusLeaving = storyContents?.contains(document.activeElement) || benefitNodes.some((node, i) => !(open && i === benefit) && node.contains(document.activeElement));
+    if (focusLeaving && !(pendingFocus >= 0 && performance.now() < pendingUntil) && performance.now() > jumpedUntil) settleFocus = true;
     /* Hand focus to the opening story before the contents that held it goes inert. */
     if (open && pendingFocus === benefit) landFocus(benefit);
     setInert(storyContents, open);
@@ -508,7 +528,9 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
         clearTimeout(settleTimer);
         settleTimer = window.setTimeout(() => {
           settleFocus = false;
-          if (storyOpen && !storyFlow && document.activeElement === document.body) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; landFocus(benefit); }
+          if (!storyFlow && document.activeElement === document.body) {
+            if (storyOpen) { pendingFocus = benefit; pendingUntil = performance.now() + 2500; landFocus(benefit); } else storyLinks[0]?.focus({ preventScroll: true });
+          }
         }, 160);
       }
     }
@@ -560,7 +582,7 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
         if (document.activeElement !== target) return;
         const box = target.getBoundingClientRect();
         /* The masthead's own bottom edge: fixed or sticky headers at the top of the window. */
-        const top = Math.max(0, ...[...document.querySelectorAll("header")].filter((h) => { const style = getComputedStyle(h); const r = h.getBoundingClientRect(); return (style.position === "fixed" || style.position === "sticky") && r.top <= 1 && r.height > 0; }).map((h) => h.getBoundingClientRect().bottom)) + 8;
+        const top = Math.max(0, ...[...document.querySelectorAll<HTMLElement>("header, .mm-cookie-notice")].filter((h) => { const style = getComputedStyle(h); const r = h.getBoundingClientRect(); return (style.position === "fixed" || style.position === "sticky") && style.display !== "none" && r.top <= 80 && r.bottom < innerHeight / 2 && r.height > 0; }).map((h) => h.getBoundingClientRect().bottom)) + 8;
         const bottom = innerHeight - footReserve() - 8;
         const by = box.top < top ? box.top - top : box.bottom > bottom ? box.bottom - bottom : 0;
         if (by) scrollBy({ top: by, behavior: "instant" });
@@ -570,8 +592,14 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (Math.abs(benefitPanel.getBoundingClientRect().top - storyPinTop) <= 1) return;
     const state = storyScroll(storyProgress(), storyWeights);
     const share = state.storyShown ? storyPlanned.rests[state.story] : storyPlanned.contentsRests[0];
-    /* At once, whatever the page's own scroll behaviour, so focus lands where the reader can see it. */
-    scrollTo({ top: scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share, behavior: "instant" });
+    /* At once, whatever the page's own scroll behaviour, so focus lands where
+       the reader can see it; held for a few frames against a smooth scroll
+       already under way, which would otherwise carry the page on. */
+    const target = scrollY + benefitTrack.getBoundingClientRect().top - storyPinTop + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * share;
+    jumpedUntil = performance.now() + 600;
+    let frames = 12;
+    const hold = () => { if (Math.abs(scrollY - target) > 1) scrollTo({ top: target, behavior: "instant" }); if ((frames -= 1) > 0) requestAnimationFrame(hold); };
+    hold();
   }, { signal });
   storyLinks.forEach((link, i) => link.addEventListener("click", (event) => { if (storyFlow) return; event.preventDefault(); chooseBenefit(i, true); }, { signal }));
 
@@ -593,7 +621,14 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
   /* The action bar and the cookie notice publish their height on the root
      element when they show or hide, which a scroll does not always follow. */
   if ("MutationObserver" in window) {
-    const reserveObserver = new MutationObserver(() => { if (footReserve() !== measuredReserve) { measureStories(); update(); } });
+    /* They slide in and out, so measure again once they have settled. */
+    let settledTimer = 0;
+    const reserveObserver = new MutationObserver(() => {
+      if (footReserve() === measuredReserve) return;
+      measureStories(); update();
+      clearTimeout(settledTimer);
+      settledTimer = window.setTimeout(() => { if (!signal.aborted) { measureStories(true); update(); } }, 700);
+    });
     reserveObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
     observers.push(reserveObserver);
   }

@@ -330,7 +330,9 @@ async function probe() {
      sideways, where the section reads as a document: no focused control may
      sit wholly under fixed chrome (the masthead, the action bar, the cookie
      notice) or off the screen (WCAG 2.2, 2.4.11). */
-  const sideways = [{ name: "landscape-740x360", w: 740, h: 360, mobile: true }, { name: "landscape-844x390", w: 844, h: 390, mobile: true }];
+  /* Also a common short laptop, where the cookie notice and the action bar
+     together leave the least room above them. */
+  const sideways = [{ name: "landscape-740x360", w: 740, h: 360, mobile: true }, { name: "landscape-844x390", w: 844, h: 390, mobile: true }, { name: "laptop-1366x657", w: 1366, h: 657 }];
   for (const route of p.routes) for (const viewport of [...p.viewports, ...p.shortViewports, ...(NEGATIVE ? [] : sideways)]) for (const cookie of [false, true]) for (const back of [false, true]) {
     const where = `${route.name}@${viewport.name}${cookie ? " with cookie notice" : ""}${back ? " from below" : ""} keyboard`;
     const context = await browser.newContext({ viewport: { width: viewport.w, height: viewport.h }, isMobile: Boolean(viewport.mobile), hasTouch: Boolean(viewport.mobile) });
@@ -352,11 +354,14 @@ async function probe() {
       const stop = await page.evaluate((frame) => {
         const el = document.activeElement; const panel = document.querySelector(frame);
         if (!el || !panel?.contains(el)) return null;
+        /* What of the control a reader can see: its height inside the window,
+           less every band of fixed chrome across it. Hidden means none. */
         const box = el.getBoundingClientRect();
-        const chrome = [...document.querySelectorAll(".mm-action-bar.is-shown, .mm-cookie-notice, header.site-masthead, header.mm-header")].filter((n) => { const s = getComputedStyle(n); return s.display !== "none" && s.visibility !== "hidden" && (s.position === "fixed" || s.position === "sticky"); }).map((n) => n.getBoundingClientRect());
-        const covered = chrome.some((c) => box.top >= c.top - 0.5 && box.bottom <= c.bottom + 0.5 && box.left >= c.left - 0.5 && box.right <= c.right + 0.5);
-        const off = box.bottom > innerHeight + 0.5 || box.top < -0.5;
-        return { name: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 40), hidden: covered ? "under fixed chrome" : off ? "off the screen" : "" };
+        const chrome = [...document.querySelectorAll(".mm-action-bar.is-shown, .mm-cookie-notice, header.site-masthead, header.mm-header")].filter((n) => { const s = getComputedStyle(n); return s.display !== "none" && s.visibility !== "hidden" && (s.position === "fixed" || s.position === "sticky"); }).map((n) => n.getBoundingClientRect()).filter((c) => c.left <= box.left + 0.5 && c.right >= box.right - 0.5);
+        let spans = [[Math.max(0, box.top), Math.min(innerHeight, box.bottom)]].filter(([a, b]) => b > a);
+        for (const c of chrome) spans = spans.flatMap(([a, b]) => [[a, Math.min(b, c.top)], [Math.max(a, c.bottom), b]]).filter(([a, b]) => b - a > 0.5);
+        const onScreen = Math.max(0, Math.min(innerHeight, box.bottom) - Math.max(0, box.top));
+        return { name: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 40), seen: Math.round(spans.reduce((t, [a, b]) => t + b - a, 0)), hidden: spans.length ? "" : onScreen > 0.5 ? "under fixed chrome" : "off the screen" };
       }, story.frame);
       if (!stop) { if (stops.length) break; continue; }
       stops.push(stop);

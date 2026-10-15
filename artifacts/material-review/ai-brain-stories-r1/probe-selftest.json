@@ -1,6 +1,6 @@
 {
-  "candidateSha256": "d4d1eab380949f6c65a56bdac9ef22d1bc4699b9c629957088f7c1c2291a3943",
-  "ranAt": "2026-10-15T02:48:08.357Z",
+  "candidateSha256": "1d0ed2004255355f6b81f8902a0af8fa7094d3ccf34c5713ce628ef3628834ef",
+  "ranAt": "2026-10-15T05:13:30.234Z",
   "outcomes": [
     {
       "control": "contrast",
@@ -19,6 +19,11 @@
     },
     {
       "control": "focus",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "control": "handoff",
       "exit": 1,
       "caught": true
     }

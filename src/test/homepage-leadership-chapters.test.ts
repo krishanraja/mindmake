@@ -75,78 +75,63 @@ describe("homepage leadership chapters", () => {
     videos.forEach((video) => expect(video).toContain('aria-hidden="true"'));
   });
 
-  /* The arrows move the page to where the next story rests; what shows is
-     read from where the page then is, so the count follows the scroll. */
-  it("moves between stories from its controls and stops listening once unmounted", () => {
-    let y = 0;
-    vi.stubGlobal("scrollTo", vi.fn((options: ScrollToOptions) => { y = options.top ?? 0; window.dispatchEvent(new Event("scroll")); }));
-    Object.defineProperty(window, "scrollY", { configurable: true, get: () => y });
-    const root = document.createElement("div");
-    root.innerHTML = leadershipChaptersMarkup();
-    document.body.append(root);
-    const track = root.querySelector<HTMLElement>("[data-benefit-track]")!;
-    Object.defineProperty(track, "offsetHeight", { configurable: true, value: 4000 });
-    track.getBoundingClientRect = () => ({ top: -y, bottom: 4000 - y, left: 0, right: 0, width: 0, height: 4000, x: 0, y: -y, toJSON: () => ({}) });
-    /* jsdom loads no stylesheet; the panel pins as it does on a real screen. */
-    root.querySelector<HTMLElement>("[data-benefits]")!.style.position = "sticky";
-    const unmount = mountLeadershipChapters(root, { reduced: true, media: true });
-    const count = root.querySelector("[data-benefit-count]")!;
-    const prev = root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!;
-    expect(count.textContent).toBe("01");
-    expect(prev.getAttribute("aria-disabled")).toBe("true");
-    /* The section opens on its contents, and a disabled arrow does nothing. */
-    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
-    prev.click();
-    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
-    expect(root.querySelector("[data-story-contents] [aria-current]")).toBeNull();
-    /* From the contents, Next opens the story the mark is on: story one. */
-    const next = root.querySelector<HTMLButtonElement>("[data-benefit-next]")!;
-    next.click();
-    expect(count.textContent).toBe("01");
-    expect(root.querySelector('[data-benefit="0"]')!.getAttribute("aria-hidden")).toBe("false");
-    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("true");
-    next.click();
-    expect(count.textContent).toBe("02");
-    expect(root.querySelectorAll(".brain-benefit.is-active")).toHaveLength(1);
-    expect(root.querySelector('[data-benefit="1"]')!.getAttribute("aria-hidden")).toBe("false");
-    expect(prev.getAttribute("aria-disabled")).toBe("false");
-    /* A contents row opens its story and hands it focus. */
-    root.querySelector<HTMLButtonElement>("[data-benefit-prev]")!.click();
-    expect(count.textContent).toBe("01");
-    /* Previous on the first story goes back to the contents. */
-    expect(prev.getAttribute("aria-disabled")).toBe("false");
-    expect(prev.getAttribute("aria-label")).toBe("Back to the contents");
-    prev.click();
-    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
-    expect(prev.getAttribute("aria-disabled")).toBe("true");
-    Object.defineProperty(window, "scrollY", { configurable: true, get: () => y });
-    y = 0; window.dispatchEvent(new Event("scroll"));
-    const row = root.querySelector<HTMLAnchorElement>('[data-story-link="4"]')!;
-    row.focus();
-    row.click();
-    expect(count.textContent).toBe("05");
-    expect(document.activeElement).toBe(root.querySelector('[data-benefit="4"] h2'));
-    unmount();
-    root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
-    expect(count.textContent).toBe("05");
-    Reflect.deleteProperty(window, "scrollY");
-  });
-
-  /* A phone held sideways is too short to pin the stories; they read as a
-     document, every story and the contents open, the contents rows plain links. */
-  it("reads the stories as a document where the panel does not pin", () => {
+  /* What the AI Brain makes possible (15 October 2026): the reader picks a
+     situation, opens a story whole, and starts the brief at that story's door. */
+  it("finds a story by situation, opens it whole, starts the brief at its door, and stops listening once unmounted", () => {
     vi.stubGlobal("scrollTo", vi.fn());
     const root = document.createElement("div");
     root.innerHTML = leadershipChaptersMarkup();
     document.body.append(root);
-    const unmount = mountLeadershipChapters(root, { reduced: false, media: true });
-    root.querySelectorAll("[data-benefit]").forEach((node) => expect(node.getAttribute("aria-hidden")).toBe("false"));
-    expect(root.querySelector("[data-story-contents]")!.getAttribute("aria-hidden")).toBe("false");
-    const row = root.querySelector<HTMLAnchorElement>('[data-story-link="2"]')!;
+    const sheet = root.querySelector<HTMLDialogElement>("[data-finder-sheet]")!;
+    sheet.showModal = vi.fn(function (this: HTMLDialogElement) { this.setAttribute("open", ""); });
+    sheet.close = vi.fn(function (this: HTMLDialogElement) { this.removeAttribute("open"); this.dispatchEvent(new Event("close")); });
+    Object.defineProperty(sheet, "open", { configurable: true, get() { return this.hasAttribute("open"); } });
+    const onStart = vi.fn();
+    const unmount = mountLeadershipChapters(root, { reduced: true, media: true, onStart });
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-finder-tab]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-finder-panel]")];
+    const selected = () => tabs.map((tab) => tab.getAttribute("aria-selected"));
+    expect(selected()).toEqual(["true", "false", "false", "false", "false"]);
+    expect(panels.map((panel) => panel.hidden)).toEqual([false, true, true, true, true]);
+    /* Arrow keys move between situations and wrap; Home and End go to the ends. */
+    tabs[0].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
+    expect(selected()[4]).toBe("true");
+    expect(document.activeElement).toBe(tabs[4]);
+    tabs[4].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
+    expect(selected()[0]).toBe("true");
+    tabs[4].click();
+    expect(panels.map((panel) => panel.hidden)).toEqual([true, true, true, true, false]);
+    /* A card opens as a sheet holding the whole story and its result on the record. */
+    const summary = panels[4].querySelector<HTMLElement>("summary")!;
+    summary.click();
+    expect(sheet.showModal).toHaveBeenCalledTimes(1);
+    const body = root.querySelector<HTMLElement>("[data-finder-sheet-body]")!;
+    expect(body.querySelector("h3")!.textContent).toMatch(/^Two quarters of argument/);
+    expect(body.querySelector(".finder-outcome")!.textContent).toMatch(/partner agreement was signed/);
+    expect(body.querySelector(".finder-proof")!.getAttribute("href")).toBe("/case-studies#story=day-one");
+    expect(document.activeElement).toBe(root.querySelector("[data-finder-close]"));
+    /* The brief opens at the story's door, and the sheet closes first. */
+    const start = body.querySelector<HTMLAnchorElement>("[data-finder-start]")!;
     const event = new MouseEvent("click", { bubbles: true, cancelable: true });
-    row.dispatchEvent(event);
-    expect(event.defaultPrevented).toBe(false);
+    start.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(true);
+    expect(onStart).toHaveBeenCalledWith("gtm");
+    expect(sheet.hasAttribute("open")).toBe(false);
+    expect(document.activeElement).toBe(summary);
     unmount();
+    tabs[1].click();
+    expect(panels[1].hidden).toBe(true);
+    expect(root.querySelector("[data-story-finder]")!.classList.contains("is-live")).toBe(false);
+  });
+
+  /* Without a script every situation and every card is on the page, each card
+     opening in place, and the start link is an ordinary link to the brief. */
+  it("reads every situation and card in place without a script", () => {
+    const root = document.createElement("div");
+    root.innerHTML = leadershipChaptersMarkup();
+    expect(root.querySelectorAll("[data-finder-panel][hidden]")).toHaveLength(0);
+    expect(root.querySelectorAll("details[data-finder-card] .finder-full")).toHaveLength(15);
+    root.querySelectorAll<HTMLAnchorElement>("[data-finder-start]").forEach((link) => expect(link.getAttribute("href")).toMatch(/^\/\?start=(brain|gtm)$/));
   });
 
   /* The phone's practice sequence (r46): a mint line sweeps each scene in as

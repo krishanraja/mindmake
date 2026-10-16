@@ -149,27 +149,49 @@ A data company changed how it sold as AI changed the web. The work led to a paid
 >
 > CRO, data-infrastructure company (`data-infra-cro`)
 
-## The AI Brain stories, exactly 14
+## The AI Brain stories
 
 The section "What your AI Brain makes possible", on `/` and
-`/new-age-leadership`, tells fourteen true client stories in Mindmake's words.
-Their words live only in
+`/new-age-leadership`, tells fifteen true client stories in Mindmake's words,
+one client to a card, in five situations of three. Each card is a story and
+the outcome it led to. Their words live only in
 [leadershipChapters.ts](../src/components/leadership-chapters/leadershipChapters.ts);
 this file does not keep a second copy.
 
 - Source: Krish's own account of each engagement (feedback ledger
   `AI-BRAIN-STORIES-TRUE-001`). Every leader stays anonymous at role level, and
   no client, colleague, account, brand or figure from private notes appears.
-- Quotes: two stories quote a client, each an exact substring of
-  `src/data/testimonials.ts`: the founder story (story 5 above,
-  `wellness-founder`) and the head of operations story (`scaleup-ops`).
-- Figures: the founder story carries story 5's recorded outcomes. The
-  dashboard story's "at least five times faster than AI alone" is Krish's own
-  figure from that engagement.
-- Approval: Krish approved the rendered fourteen on 15 October 2026 ("I like
-  them all"; "ship all fourteen now"). That is the scoped approval the
-  placement rule below asks for to place story 5's outcomes outside
-  `/case-studies`.
+- Joined to a result on the record (`AI-BRAIN-STORIES-OUTCOMES-001`). Where a
+  story is a client whose result is one of the eight above, the card names the
+  result (`record`), its outcome line uses only that result's public words
+  here, its quote is that same client's, and it links to the full story on
+  `/case-studies`. A test fails if a quote and a record are different clients.
+  - Story 5 above, `own-system`: the founder who now posts most days
+    (`wellness-founder`).
+  - Story 4 above, `hand-back`: the CEO who hates writing (`coaching-founder`).
+    Krish confirmed the pairing on 15 October 2026.
+  - Story 3 above, `simple-product`: pricing becomes a decision
+    (`martech-founder`). Krish confirmed it on 15 October 2026. "The first two
+    customers signed up to trial it" is the public "first two pilots".
+  - Story 8 above, `market-moves`: the CRO who hates the numbers
+    (`data-infra-cro`). Krish confirmed it on 15 October 2026. "A paid trial
+    with a major US publisher" is the public "paid test".
+  - Stories 1, 6 and 7 above (`day-one`, `team-decides`, `business-first`),
+    retold as stories in their public words; the broadcaster carries no quote,
+    because no whole sentence of it fits the card.
+- Other quotes: the head of operations story quotes `scaleup-ops`. Every quote
+  is an exact substring of `src/data/testimonials.ts`.
+- Figures: the dashboard story's "at least five times faster than AI alone" is
+  Krish's own figure from that engagement; every other figure is a public one
+  above.
+- Cut from the section on 16 October 2026, because a stranger could not use
+  them: the separate success-story cards and their label, story 2 above
+  ("Expertise became an offer people could buy", a plan with nothing sold; it
+  stays on `/case-studies`), and the stories "Work nobody owns" and
+  "Founder-led content".
+- Approval: Krish approved the rendered section on 16 October 2026: "Approved,
+  ship it". That is the scoped approval the placement rule below asks for to
+  place these results' outcomes outside `/case-studies`.
 - No caveat, eyebrow, asterisk or label marks any of them as anything other
   than true (Krish, 15 October 2026).
 

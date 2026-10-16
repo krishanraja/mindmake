@@ -47,8 +47,11 @@ Keep the accepted composition, copy, imagery, controls and responsive choices.
 Between the opening and the route, the homepage carries the R3 history
 chapter (four pinned eras, from writing to satnav) and then the three new-age
 leadership chapters (r41): the reach chapter in both its states, the system in
-practice, and the fourteen true AI Brain stories beside the returned hour. They
-share one source with /new-age-leadership and pin by scroll in both directions.
+practice, and the AI Brain stories, then the returned hour. They share one
+source with /new-age-leadership. History, reach and practice pin by scroll in
+both directions; the stories are a chooser that never pins: fifteen true
+stories, one client to a card, in five situations of three, each card a story
+and the outcome it led to, the whole story a tap away.
 Generate the adapter from the immutable R3 source, never reconstruct it from
 older components.
 
@@ -62,6 +65,17 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-16: the AI Brain stories became a chooser (#239). On a phone Krish
+  saw "an endless list of stuff, which overwhelms me" and asked for "a much
+  more intelligent way of showcasing what can be done and has been done". The
+  section now asks "Where would you start?", offers five situations and shows
+  three stories for each, one at a time on a phone; nothing pins. On the first
+  preview he asked to "cull things that are meaningless" and to map each story
+  to its outcome, so every card is now one client: the story and the outcome it
+  led to, with the client's own words and the full story on `/case-studies`
+  where the result is on the record. Fifteen stories in all; two whose outcome
+  said nothing a stranger could use, and the separate success-story cards, were
+  cut. His ruling: "Approved, ship it."
 - 2026-10-15: the front door was rebuilt around Krish's pitch line, "An AI
   brain layer basically turns your AI tool from a 30K intern into a 200K chief
   of staff" (#235 to #238). The first options showed only the first frame of a

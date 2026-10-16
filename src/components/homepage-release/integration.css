@@ -462,8 +462,8 @@ body.mm-homepage-active { margin: 0; }
     font-size: clamp(28px, 3.3vw, 64px);
     text-wrap: balance;
   }
-  /* The returned hour's panel pins, so on a short laptop the question gives up
-     a little height rather than the list running under the fold. */
+  /* On a short laptop the returned hour's question gives up a little height
+     rather than the list running under the fold. */
   .mm-homepage-release .mm-home-leadership .proof-return h2 { font-size: clamp(38px, min(5.4vw, 10.5vh), 90px); }
 }
 /* Below 900px the introduction takes the full width less the gutters, about
@@ -574,13 +574,6 @@ body.mm-homepage-active { margin: 0; }
    and the button a full touch target; 1440 moves by under a pixel. */
 .mm-homepage-release .r3-route .preview-desktop button.back { font-size: max(11px, .75cqi); }
 .mm-homepage-release .r3-route .preview-desktop .route-copy button.primary { font-size: max(15px, 1cqi); min-height: max(44px, 4.4cqi); }
-
-/* Wide, short desktops (1536x730): the stage keeps its size rather than
-   squeezing its words into the controls. Unchanged at 1366x768, 1440x900,
-   1280x720 and 1920x1080. */
-@media (min-width: 901px) {
-  .mm-homepage-release .nal-page.mm-home-leadership .benefit-stage { flex-shrink: 0; }
-}
 
 /* On a phone the era rail shows dates only, and nothing marked the current
    one. It takes the mint and an underline, so colour is not the only cue. */

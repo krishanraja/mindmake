@@ -12,9 +12,11 @@ scripts/qa/build-homepage-release.mjs. Never hand-edit generated output or
 reconstruct it from old components. Between the opening and the route the
 homepage carries the R3 history chapter (four pinned eras) and then the three
 new-age leadership chapters from src/components/leadership-chapters/, shared
-with /new-age-leadership, reach in both its states (r41). They must pin,
-progress both ways and release naturally, and stay whole on reduced-motion and
-short screens.
+with /new-age-leadership, reach in both its states (r41). History, reach and
+practice must pin, progress both ways and release naturally, and stay whole on
+reduced-motion and short screens. The AI Brain stories are a chooser that never
+pins: five situations, three stories each, the whole story in a sheet (Krish,
+2026-10-16: "Approved, ship it").
 
 Exact approved copy/placement overrides conflicting older blanket rules.
 Material changes need scoped approval and the material-review gate. Do not add

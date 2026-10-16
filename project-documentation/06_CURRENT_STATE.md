@@ -15,10 +15,13 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 
 The approved R3 homepage carries: opening, the R3 history chapter (four pinned
 eras), the three new-age leadership chapters (reach in both its states,
-practice, and the fourteen AI Brain stories beside the returned hour), AI Brain/AI GTM
-routes and footer. Every chapter pins by scroll in both directions, releases
-naturally and keeps direct controls on reduced-motion and short screens. The new-age-leadership route is a separate
-approved companion that shares their source.
+practice, and the AI Brain stories followed by the returned hour), the two door
+routes and footer. History, reach and practice pin by scroll in both
+directions, release naturally and keep direct controls on reduced-motion and
+short screens. The AI Brain stories are a chooser that never pins: fifteen
+cards in five situations of three, each a story and its outcome (16 October
+2026). The new-age-leadership route is a separate approved companion that
+shares their source.
 
 [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md) owns the receipt.
 The active source lock is `quality/route-lock/approved-production.lock.json`,

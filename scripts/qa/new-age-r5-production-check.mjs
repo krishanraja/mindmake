@@ -71,13 +71,12 @@ const VIEWPORTS = {
 /* Above this share of the viewport, a run of nothing is a fault rather than a
    pause. The composition's widest intentional rest measured 30%. */
 const BLANK_LIMIT = 0.42;
-/* Sampling density, not a fixed step count. The shortest state on the page is
-   one AI Brain story: fourteen stories and the contents meet the travel's
-   400svh cap, so each story holds about 27svh of scroll (it was 40svh for each
-   of the six benefits before the stories, October 2026); a fixed 40 samples
-   over a document five viewports longer than that strides straight past one
-   and reports a state the page does draw as missing. So the stride is tied to
-   the viewport, below the shortest state, and the floor is only a floor. */
+/* Sampling density, not a fixed step count. A fixed 40 samples over a document
+   several viewports long strides straight past a short state and reports a
+   state the page does draw as missing. So the stride is tied to the viewport,
+   below the shortest state, and the floor is only a floor. (The AI Brain
+   stories, once the shortest pinned states, became a chooser that never pins
+   on 16 October 2026; they are checked below rather than swept.) */
 const MIN_STEPS = 40;
 const STRIDE_SHARE = 0.2;
 
@@ -133,16 +132,10 @@ const PROBE = `(() => {
   const scenes = [...document.querySelectorAll("[data-work-scene]")];
   const stacked = scenes.length > 0 && getComputedStyle(scenes[0]).position !== "absolute";
   const onScreen = scenes.findIndex((n) => { const r = n.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; });
-  const storyPanel = document.querySelector("[data-benefits]");
-  const storiesStacked = Boolean(storyPanel) && getComputedStyle(storyPanel).position !== "sticky";
-  const onScreenStory = [...document.querySelectorAll("[data-benefit]")].findIndex((n) => { const r = n.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; });
   return {
     blank: Math.round((worst * innerHeight) / 59),
     lens: active("[data-lens-copy]"),
     reach: active("[data-reach-panel]"),
-    /* A phone held sideways reads the AI Brain stories as a document, so
-       "which one is showing" is which one the viewport is over. */
-    benefit: storiesStacked ? onScreenStory : active("[data-benefit]"),
     work: stacked ? onScreen : active("[data-work-scene]"),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   };
@@ -151,7 +144,7 @@ const PROBE = `(() => {
 async function sweep(page, height, direction) {
   const doc = await page.evaluate(() => document.documentElement.scrollHeight);
   const steps = Math.max(MIN_STEPS, Math.ceil((doc - height) / (height * STRIDE_SHARE)) + 1);
-  const seen = { lens: new Set(), reach: new Set(), benefit: new Set(), work: new Set() };
+  const seen = { lens: new Set(), reach: new Set(), work: new Set() };
   let worstBlank = 0;
   let worstBlankAt = 0;
   let overflow = 0;
@@ -237,9 +230,24 @@ for (const engineName of asked) {
        the state changes. A phone used to hide it and draw a fixed word. */
     fail(!opening.motionShown || !/motion/iu.test(opening.motionLabel || ""), `${label}: the film control has no readable label (${opening.motionLabel})`);
 
-    /* Every AI Brain story the page carries, read from the page itself. */
-    const stories = await page.evaluate(() => document.querySelectorAll("[data-benefit]").length);
-    fail(stories !== 14, `${label}: ${stories} AI Brain stories on the page, not the fourteen`);
+    /* The AI Brain stories: a chooser of five situations, three stories to
+       each, that never pins (Krish, 16 October 2026: "Approved, ship it"). */
+    const finder = await page.evaluate(() => {
+      const root = document.querySelector(".nal-page [data-story-finder]");
+      if (!root) return null;
+      const chain = [];
+      for (let node = root; node && node !== document.body; node = node.parentElement) chain.push(getComputedStyle(node).position);
+      return {
+        live: root.classList.contains("is-live"),
+        tabs: root.querySelectorAll("[data-finder-tab]").length,
+        cards: root.querySelectorAll(".finder-card").length,
+        shownPanels: [...root.querySelectorAll("[data-finder-panel]")].filter((panel) => !panel.hidden && getComputedStyle(panel).display !== "none").length,
+        pinned: chain.some((position) => position === "sticky" || position === "fixed"),
+      };
+    });
+    fail(!finder, `${label}: the AI Brain stories are missing`);
+    fail(finder && (!finder.live || finder.tabs !== 5 || finder.cards !== 15 || finder.shownPanels !== 1), `${label}: the AI Brain stories are not five situations of fifteen stories, one shown (${JSON.stringify(finder)})`);
+    fail(finder?.pinned, `${label}: the AI Brain stories pin`);
     const forward = await sweep(page, height, "forward");
     const reverse = await sweep(page, height, "reverse");
 
@@ -247,7 +255,6 @@ for (const engineName of asked) {
     for (const [pass, result] of [["forward", forward], ["reverse", reverse]]) {
       fail(result.seen.lens.size !== 4, `${label}: ${pass} scroll reached ${result.seen.lens.size}/4 history states`);
       fail(result.seen.reach.size !== 2, `${label}: ${pass} scroll reached ${result.seen.reach.size}/2 reach states`);
-      fail(result.seen.benefit.size !== stories, `${label}: ${pass} scroll reached ${result.seen.benefit.size}/${stories} AI Brain stories`);
       fail(result.seen.work.size !== 3, `${label}: ${pass} scroll reached ${result.seen.work.size}/3 working scenes`);
       fail(result.worstBlank > height * BLANK_LIMIT, `${label}: ${pass} pass shows ${result.worstBlank}px of nothing at y=${result.worstBlankAt} (limit ${Math.round(height * BLANK_LIMIT)}px)`);
       fail(result.overflow > 1, `${label}: ${pass} pass has horizontal overflow ${result.overflow}px`);
@@ -285,7 +292,7 @@ const control = await chromium.launch({ headless: true, ...(process.env.PLAYWRIG
 const controlPage = await control.newPage({ viewport: { width: 1440, height: 900 } });
 await controlPage.goto(`${origin}/new-age-leadership`, { waitUntil: "domcontentloaded" });
 await controlPage.locator("#hero-title").waitFor();
-await controlPage.addStyleTag({ content: ".nal-page .lens-sticky,.nal-page .reach-sticky,.nal-page .work-sticky,.nal-page .proof-track>.proof-story{position:static!important}" });
+await controlPage.addStyleTag({ content: ".nal-page .lens-sticky,.nal-page .reach-sticky,.nal-page .work-sticky{position:static!important}" });
 await controlPage.waitForTimeout(300);
 const broken = await sweep(controlPage, 900, "forward");
 const controlCaught = broken.seen.lens.size !== 4 || broken.worstBlank > 900 * BLANK_LIMIT;

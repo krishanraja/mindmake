@@ -703,14 +703,16 @@ async function verifyLeadershipInteraction(browser) {
   await page.locator('[data-reach-jump="boundary"]').click();
   await page.waitForTimeout(250);
   fail(await page.locator('[data-reach-panel="boundary"]').getAttribute("aria-hidden") !== "false", `${label}: work state does not restore`);
-  /* The stories open on their contents. The first arrow scrolls to where story
-     one rests, the second to story two; each opens when the page arrives. */
-  await page.locator("[data-benefit-next]").click();
-  await page.waitForTimeout(1800);
-  fail(await page.locator('[data-benefit="0"]').getAttribute("aria-hidden") !== "false", `${label}: AI Brain stories do not open`);
-  await page.locator("[data-benefit-next]").click();
-  await page.waitForTimeout(1800);
-  fail(await page.locator('[data-benefit="1"]').getAttribute("aria-hidden") !== "false", `${label}: AI Brain stories do not advance`);
+  /* The stories are a chooser (16 October 2026): a situation shows its own
+     stories, and a story opens whole in a sheet. */
+  await page.locator('[data-finder-tab="team"]').click();
+  await page.waitForTimeout(250);
+  fail(await page.locator('[data-finder-panel="team"]').evaluate((node) => node.hidden) !== false, `${label}: AI Brain stories do not change situation`);
+  await page.locator('[data-finder-panel="team"] summary').first().click();
+  await page.waitForTimeout(250);
+  fail(!(await page.locator("[data-finder-sheet]").evaluate((node) => node.open)), `${label}: an AI Brain story does not open`);
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(250);
   const motion = page.locator(".motion-toggle");
   await motion.click();
   fail(await motion.getAttribute("aria-pressed") !== "true", `${label}: motion cannot be paused`);

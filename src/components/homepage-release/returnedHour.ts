@@ -6,10 +6,9 @@
  *
  * Native scrolling owns the line. Its length is read from where the answer
  * is, so it draws going down and undraws going back up, and nothing
- * intercepts wheel, touch or keys. On a desktop the panel pins beside the
- * benefits, which holds the answer still while the page moves on; the line
- * follows where the answer would be without the pin, so it keeps drawing
- * through the first part of the pinned travel. The line starts once the
+ * intercepts wheel, touch or keys. The panel no longer pins: it follows the
+ * stories (16 October 2026), so the sticky allowance below reads zero and
+ * stays only for a layout that pins it again. The line starts once the
  * answer is 72% of the way down the screen and completes 36% of a screen
  * later. Reduced motion shows it struck; without script the stylesheet
  * strikes it.

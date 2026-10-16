@@ -200,9 +200,9 @@ const currentDocumentationRequirements = [
   ["state", "the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41)"],
   ["state", "History retains four reversible states"],
   ["state", "The reach chapter retains both states"],
-  // October 2026 (Krish, 2026-10-15: "ship all fourteen now"): the six
-  // one-line benefits became fourteen true stories.
-  ["state", "The AI Brain stories retain all fourteen beside The returned hour"],
+  // 16 October 2026 (Krish: "Approved, ship it"): the fourteen pinned stories
+  // became a chooser of fifteen, one client to a card, that never pins.
+  ["state", "The AI Brain stories are fifteen cards in five situations, a chooser that never pins, followed by The returned hour"],
   ["state", "No wheel/touch cancellation"],
   ["state", "Every state stays reachable from its direct controls on reduced-motion and short screens"],
   ["state", "Only Krish may approve a material surface or accept an MMF exception"],
@@ -226,6 +226,7 @@ const obsoleteCurrentClaims = [
   "Leadership dividend retains five stages",
   "opens on \"The organisation changes shape.\" alone",
   "The AI Brain benefits retain all six beside The returned hour",
+  "The AI Brain stories retain all fourteen beside The returned hour",
 ];
 function validateCurrentDocumentation(documents) {
   const issues = [];

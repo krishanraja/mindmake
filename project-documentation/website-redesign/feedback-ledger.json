@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-10-15",
+  "updatedAt": "2026-10-16",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -971,8 +971,8 @@
       "classification": "correction",
       "requiredOutcome": "A reader finds the story that is them in one choice, sees that it worked for someone, and can ask what it would do in their own week. The section is no taller than a phone screen, nothing is force-scrolled, and the stories and the results on the record are one set rather than two.",
       "acceptanceTest": "Krish approves the rendered section at 390x844 and 1440x900 on the preview; on a phone the section is no taller than the screen; every story is reachable in one choice and one swipe or tap.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Prototype on draft PR krishanraja/mindmake#239: one question, \"Where would you start?\", five situations, the stories that fit each one card at a time, the whole story in a sheet, and the free AI brief at the card's door. Nothing pins. His first reaction is AI-BRAIN-STORIES-OUTCOMES-001.",
+      "status": "accepted",
+      "resolution": "Released in PR krishanraja/mindmake#239: one question, \"Where would you start?\", five situations, the stories that fit each one card at a time, the whole story in a sheet, and the free AI brief at the card's door. Nothing pins. His first reaction is AI-BRAIN-STORIES-OUTCOMES-001. Krish on the rendered preview, 16 October 2026, verbatim: \"Approved, ship it\".",
       "evidence": [
         "src/components/leadership-chapters/storyFinder.ts",
         "src/test/homepage-leadership-chapters.test.ts"
@@ -989,8 +989,8 @@
       "classification": "correction",
       "requiredOutcome": "One card is one client: the story and the outcome it led to, in words a stranger understands. Where the client's result is on the record, the outcome uses only that result's public words, the quote is that same client's, and the card links to it. Results and stories a stranger cannot use are cut from the section; the results stay on /case-studies.",
       "acceptanceTest": "Krish approves the rendered section; every card carries one outcome line; no card carries an insider headline; a test fails if a story is joined to a result whose voice is not the story's quote.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Fifteen cards, five situations of three. Joined to their record: the founder posting most days (own-system), the CEO who hates writing (hand-back), pricing becomes a decision (simple-product) and the CRO who hates the numbers (market-moves); the head of operations keeps its client's quote. Three results that readers understood are retold as stories in their public words (day-one, team-decides, business-first). Cut from the section: the success story cards and label, \"Expertise became an offer people could buy\" (a plan, nothing sold), and the stories \"Work nobody owns\" and \"Founder-led content\", whose outcomes said nothing a stranger could use.",
+      "status": "accepted",
+      "resolution": "Fifteen cards, five situations of three. Joined to their record: the founder posting most days (own-system), the CEO who hates writing (hand-back), pricing becomes a decision (simple-product) and the CRO who hates the numbers (market-moves); the head of operations keeps its client's quote. Three results that readers understood are retold as stories in their public words (day-one, team-decides, business-first). Cut from the section: the success story cards and label, \"Expertise became an offer people could buy\" (a plan, nothing sold), and the stories \"Work nobody owns\" and \"Founder-led content\", whose outcomes said nothing a stranger could use. Krish on the rendered preview, 16 October 2026, verbatim: \"Approved, ship it\".",
       "evidence": [
         "src/components/leadership-chapters/leadershipChapters.ts",
         "src/components/leadership-chapters/storyFinder.ts",

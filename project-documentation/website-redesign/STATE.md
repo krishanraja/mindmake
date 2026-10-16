@@ -22,20 +22,24 @@ for word in [feedback-ledger.json](feedback-ledger.json); the request itself
 lives in private planning documents and is not copied here.
 
 - The stories (done). "What your AI Brain makes possible" on `/` and
-  `/new-age-leadership` is fourteen true stories, each a heading, where the
-  leader was, what happened, an exact quote only where `testimonials.ts` has
-  one, and its own instrument-room scene (`src/assets/stories/`). Krish:
-  "I like them all"; "ship all fourteen now, move the contents on small phones"
-  (15 October 2026, `AI-BRAIN-STORIES-TRUE-001`). Proof rules are in
-  `04_PROOF.md`, "The AI Brain stories". One source,
-  `src/components/leadership-chapters/leadershipChapters.ts`, serves both pages;
-  its styles are `src/styles/new-age-leadership-r6.layer.css`, compiled into the
-  generated `new-age-leadership-r5.css`. The section opens on its contents and
-  scroll opens each story in turn; on a phone too short to hold the contents
-  and the arrows together (375x667, 360x640, 320x568, and 360x800 under the
-  action bar) the contents sits just above the pin and the stories pin alone.
-  A window too short for either (a laptop zoomed to 150%, a phone held
-  sideways, no scripts) reads the section as a document.
+  `/new-age-leadership` asks "Where would you start?" and offers five
+  situations: getting your ideas out, seeing what is changing, getting
+  hands-on again (the AI brain door), keeping your team in step and making the
+  big AI calls (the AI revenue engine door). Each shows three true stories, one
+  client to a card: the heading, its outcome on the card, and in a sheet where
+  the leader was, what happened, the client's exact words where
+  `testimonials.ts` has them, the full story on `/case-studies` where the
+  result is on the record, and the free AI brief at that door. Krish asked for
+  it on 15 October ("an endless list of stuff, which overwhelms me",
+  `AI-BRAIN-STORIES-FINDER-001`), had the stories joined to their outcomes and
+  the meaningless cut (`AI-BRAIN-STORIES-OUTCOMES-001`) and approved it on
+  16 October: "Approved, ship it". Proof rules are in `04_PROOF.md`, "The AI
+  Brain stories". One source serves both pages:
+  `src/components/leadership-chapters/leadershipChapters.ts` holds the
+  stories, `storyFinder.ts` the chooser; the styles are section 10 of
+  `src/styles/new-age-leadership-r6.layer.css`, compiled into the generated
+  `new-age-leadership-r5.css`. Nothing pins; on a phone the section is no
+  taller than the screen, and without scripts every story is on the page.
 - The front door (approved 15 October 2026, `POSITIONING-DOORS-NARRATIVE-001`):
   the headline rotation leads with "Promote your AI from intern to chief of
   staff." (Krish: "the right headlines on rotation, with the most impactful
@@ -82,8 +86,8 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 
 ## Non-regression contract
 
-1. Between the opening and the route, the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41). History retains four reversible states: Writing, the engine loom, the calculator and satnav, pinned by scroll. The reach chapter retains both states, "The feeling is similar. The scale is not." and then "What people do, and should do, changes shape.", by scroll. Practice retains Notice, Connect and Prepare. The AI Brain stories retain all fourteen beside The returned hour. R3's authority and leadership-dividend chapters are retired from `/`.
-2. Native sticky tracks release before and after each chapter. No wheel/touch cancellation. The history chapter falls back to natural flow and its era controls under reduced motion or insufficient height. The leadership chapters keep their pins under reduced motion and drop transitions and films, as on `/new-age-leadership`. Below 900px, on a screen at least 480px tall, the practice scenes pin under their introduction and build by the signal sweep (r46): a mint line crosses the frame left to right and uncovers the next scene, and the rail's fill and stops follow it, both ways; each stop is a direct control. A phone held sideways, or a page without scripts, keeps the scenes one after another. Every state stays reachable from its direct controls on reduced-motion and short screens.
+1. Between the opening and the route, the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41). History retains four reversible states: Writing, the engine loom, the calculator and satnav, pinned by scroll. The reach chapter retains both states, "The feeling is similar. The scale is not." and then "What people do, and should do, changes shape.", by scroll. Practice retains Notice, Connect and Prepare. The AI Brain stories are fifteen cards in five situations, a chooser that never pins, followed by The returned hour. R3's authority and leadership-dividend chapters are retired from `/`.
+2. Native sticky tracks release before and after each chapter. No wheel/touch cancellation. The history chapter falls back to natural flow and its era controls under reduced motion or insufficient height. The pinned leadership chapters keep their pins under reduced motion and drop transitions and films, as on `/new-age-leadership`. Below 900px, on a screen at least 480px tall, the practice scenes pin under their introduction and build by the signal sweep (r46): a mint line crosses the frame left to right and uncovers the next scene, and the rail's fill and stops follow it, both ways; each stop is a direct control. A phone held sideways, or a page without scripts, keeps the scenes one after another. Every state stays reachable from its direct controls on reduced-motion and short screens.
 3. Scroll proof observes visible text, actual forward/reverse input, every ordered state, pin geometry and both exits. A screenshot, state attribute or entrance reveal alone is not proof.
 4. Preserve the selected masthead/content alignment: the chapters pin under the homepage's fixed masthead and take its gutter. Device-specific compositions remain distinct. No clipping, collisions, hidden actions, blank substitute panels or fixed-nav/cookie overlap.
 5. Menu and LeadBrief retain visible focus entry, Escape/Back recovery, a visible restored opener and no stale inert background. Route transitions retain hydration and lifecycle cleanup. Hidden states must not remain keyboard-reachable or falsely current.

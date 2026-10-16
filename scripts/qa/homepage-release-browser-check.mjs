@@ -38,10 +38,6 @@ const chapters = {
   // and each state rests where leadershipChapters.ts's rail stops send it.
   practicePhone: { track: '.mm-home-leadership .work-scroll', stage: '.work-scenes', state: '.work-scene.is-active h3',
     at: (i, g) => g.scenesStart - g.pinTop + [0.06, 0.5, 0.94][i] * g.pinTravel },
-  // Each story rests where the track's own plan says (data-story-rests,
-  // rendered from the same pure function the page reads its state from).
-  benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
-    at: (i, g) => g.start - g.pinTop + g.rests[i] * g.travel },
 };
 const words = text => text.replace(/\s+/g, ' ').trim();
 const specFor = (chapter, width) => chapter === 'practice' && width <= 900 ? chapters.practicePhone : chapters[chapter];
@@ -53,15 +49,55 @@ const measure = (page, spec, pinTop) => page.locator(spec.track).evaluate((track
   const lead = intro ? intro.offsetTop + intro.offsetHeight : 0;
   const frame = stage.parentElement;
   return { start: scrollY + box.top, height: box.height, travel: box.height - stage.getBoundingClientRect().height, viewportHeight: innerHeight, pinTop,
-    rests: track.dataset.storyRests ? track.dataset.storyRests.split(',').map(Number) : null,
     scenesStart: scrollY + frame.getBoundingClientRect().top + lead, pinTravel: frame.offsetHeight - lead - stage.offsetHeight };
 }, [spec.stage, pinTop]);
-// The stories open on their contents; a walk through them starts where
-// story one rests, so each arrow press lands on the next whole story.
-const toFirstStory = async (page, pinTop) => {
-  const g = await measure(page, chapters.benefits, pinTop);
-  await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters.benefits.at(0,g)));
+// The AI Brain stories (16 October 2026, Krish: "Approved, ship it") are a
+// chooser, not a pinned sequence: five situations, three stories to each, the
+// whole story in a sheet. It must never pin, every situation must show its
+// own three stories, and a story must open whole and close again.
+const FINDER = '.mm-home-leadership [data-story-finder]';
+const finderChecks = async (page, label, { phone = false, headerTop = 0 } = {}) => {
+  const finder = page.locator(FINDER);
+  await finder.scrollIntoViewIfNeeded();
   await settle(page); await settle(page);
+  assert(await finder.evaluate(node => node.classList.contains('is-live')), `${label}/stories: the chooser is live`);
+  const tabs = finder.locator('[data-finder-tab]');
+  assert(await tabs.count() === 5, `${label}/stories: five situations`);
+  assert(await finder.locator('.finder-card').count() === 15, `${label}/stories: fifteen stories`);
+  /* It never pins: the section moves with the page. */
+  const before = await finder.evaluate(node => node.getBoundingClientRect().top);
+  await page.evaluate(() => scrollBy({ top: 200, behavior: 'instant' }));
+  await settle(page);
+  const after = await finder.evaluate(node => node.getBoundingClientRect().top);
+  assert(Math.abs((before - after) - 200) < 3, `${label}/stories: moves with the page, never pinned (${before} to ${after})`);
+  await page.evaluate(() => scrollBy({ top: -200, behavior: 'instant' }));
+  await settle(page);
+  if (phone) {
+    const height = await finder.evaluate(node => node.getBoundingClientRect().height);
+    const room = await page.evaluate(top => innerHeight - top, headerTop);
+    assert(height <= room + 2, `${label}/stories: no taller than the screen under the masthead (${Math.round(height)} of ${Math.round(room)})`);
+  }
+  for (let i = 0; i < 5; i++) {
+    await tabs.nth(i).click();
+    await settle(page);
+    const shown = await finder.evaluate(node => [...node.querySelectorAll('[data-finder-panel]')].map(panel => !panel.hidden && getComputedStyle(panel).display !== 'none'));
+    assert(shown.filter(Boolean).length === 1 && shown[i], `${label}/stories: situation ${i + 1} alone is shown`);
+    assert(await tabs.nth(i).getAttribute('aria-selected') === 'true', `${label}/stories: situation ${i + 1} is the selected tab`);
+    assert(await finder.locator('[data-finder-panel]:visible .finder-card').count() === 3, `${label}/stories: situation ${i + 1} holds three stories`);
+  }
+  /* A story opens whole in the sheet and closes again. */
+  await tabs.nth(0).click();
+  await settle(page);
+  const heading = words(await finder.locator('[data-finder-panel]:visible .finder-heading').first().innerText());
+  await finder.locator('[data-finder-panel]:visible summary').first().click();
+  const sheet = finder.locator('[data-finder-sheet]');
+  await page.waitForFunction(selector => document.querySelector(selector)?.open, `${FINDER} [data-finder-sheet]`);
+  assert(words(await sheet.locator('h3').innerText()) === heading, `${label}/stories: the sheet opens the story chosen`);
+  assert(await sheet.locator('.finder-outcome').count() === 1, `${label}/stories: the sheet carries the outcome`);
+  assert(await sheet.locator('[data-finder-start]').count() === 1, `${label}/stories: the sheet ends in the free AI brief`);
+  await page.keyboard.press('Escape');
+  await settle(page);
+  assert(!(await sheet.evaluate(node => node.open)), `${label}/stories: the sheet closes`);
 };
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 try {
@@ -98,9 +134,6 @@ try {
             for(const index of indices) {
               await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(index,g)));
               await settle(page); await settle(page);
-              // The stories change state by a short timed fade (the leaving
-              // state, then the arriving one); read the words once it is whole.
-              if (chapter==='benefits') await page.waitForTimeout(450);
               const rect=await geometry(stage);
               const visibleText=words(await track.locator(spec.state).innerText());
               const matched=visibleText===expected[index];
@@ -139,7 +172,11 @@ try {
           assert(words(await page.locator('.mm-home-leadership .work-scene.is-active h3').innerText())===states.practice[2],`${label}: the rail's last stop reaches the last scene`);
           assert(await page.locator('.mm-home-leadership .work-scroll').evaluate(node=>parseFloat(getComputedStyle(node).getPropertyValue('--work-fill')))===1,`${label}: the rail is full at the last scene`);
         }
-        // The returned hour stays in the page after the benefits.
+        await finderChecks(page, label, { phone: viewport.width <= 900, headerTop: PIN_TOP[size] });
+        await page.locator(FINDER).screenshot({path:path.join(evidence,`${label}-stories.png`)});
+        screenshots.push(`${label}-stories.png`);
+        console.log(`Verified ${label}/stories: never pinned, five situations, a story opens whole`);
+        // The returned hour stays in the page after the stories.
         assert(words(await page.locator('.mm-home-leadership .proof-return h2').innerText())==='What will you do with the hours you save on a task?',`${label}: the returned hour`);
         // Full real homepage CTA to the existing lead journey, not a prototype stub.
         console.log(`Checking ${label}: real lead entry`);
@@ -158,7 +195,6 @@ try {
       const control = async (page, selector, chapter, index, fallback) => {
         await page.locator(selector).click();
         await arrive(page); await settle(page); await settle(page);
-        if (chapter==='benefits') await page.waitForTimeout(450);
         const visibleState = words(await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).innerText());
         const matched = visibleState===states[chapter][index];
         assert(matched,`${engine}/${fallback}: ${selector} shows ${chapter} ${index} ("${visibleState}")`);
@@ -191,10 +227,15 @@ try {
       await control(page, '[data-reach-jump="boundary"]','reach',0,'reduced-motion');
       await page.locator('.mm-home-leadership .work-scroll').scrollIntoViewIfNeeded();
       for (let index=2; index>=0; index--) await control(page, `[data-work-button="${index}"]`,'practice',index,'reduced-motion');
-      await page.locator('.mm-home-leadership [data-benefit-track]').scrollIntoViewIfNeeded();
-      await toFirstStory(page, PIN_TOP['1440x900']);
-      for (let index=1; index<states.benefits.length; index++) await control(page, '[data-benefit-next]','benefits',index,'reduced-motion');
-      for (let index=states.benefits.length-2; index>=0; index--) await control(page, '[data-benefit-prev]','benefits',index,'reduced-motion');
+      /* The stories' situations are tabs: the keyboard moves between them. */
+      await page.locator(`${FINDER} [data-finder-tab]`).first().focus();
+      for (let index=1; index<5; index++) {
+        await page.keyboard.press('ArrowRight');
+        const selected = await page.locator(`${FINDER} [data-finder-tab][aria-selected="true"]`).evaluate(node=>[...node.parentElement.children].indexOf(node));
+        const focused = await page.evaluate(()=>document.activeElement?.getAttribute('aria-selected')==='true');
+        assert(selected===index && focused,`${engine}: reduced-motion situation ${index + 1} by keyboard`);
+        fallbackTransitions.push({engine,chapter:'stories',fallback:'reduced-motion',control:'ArrowRight',visibleState:`situation ${index + 1}`,matched:selected===index && focused});
+      }
       assert(await page.locator('.mm-home-leadership .work-scene').first().evaluate(node=>{ const style=getComputedStyle(node); return style.transitionProperty==='none' || style.transitionDuration.split(',').every(value=>parseFloat(value)<0.001); }),`${engine}: reduced motion drops scene transitions`);
       assert(await page.locator('video').evaluateAll(videos=>videos.every(video=>video.paused)),`${engine}: reduced-motion videos paused`);
       await page.close();
@@ -215,7 +256,7 @@ try {
         await page.locator('[data-era="3"]:visible').click();
         await settle(page);
         assert(words(await page.locator('[data-story-question]:visible').innerText())===states.history[3],`${engine}/${fallback}: history manual choice`);
-        for (const chapter of short.width > 900 ? ['reach','practice','benefits'] : ['reach','benefits']) {
+        for (const chapter of short.width > 900 ? ['reach','practice'] : ['reach']) {
           const spec = specFor(chapter, short.width);
           const g = await measure(page, spec, shortTop);
           await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(1,g)));
@@ -227,8 +268,7 @@ try {
         }
         // A phone held sideways is too short to pin the practice frame: its scenes stay one after another.
         if (short.width <= 900) assert(await page.locator('.mm-home-leadership .work-scenes').evaluate(node=>getComputedStyle(node).position)!=='sticky',`${engine}/${fallback}: practice scenes flow on a short phone`);
-        await toFirstStory(page, shortTop);
-        await control(page, '[data-benefit-next]', 'benefits', 1, fallback);
+        await finderChecks(page, `${engine}/${fallback}`);
         assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${engine}/${fallback}: horizontal overflow`);
         await page.close();
       }
@@ -236,7 +276,7 @@ try {
   }
 } catch(error){ failures.push(error.stack); }
 finally { server?.kill(); }
-const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/leadership-chapters/leadershipChapters.ts','src/styles/new-age-leadership-r5.css','src/components/homepage-release/pinnedChapters.ts','src/components/homepage-release/pinnedChapters.css'];
+const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/leadership-chapters/leadershipChapters.ts','src/components/leadership-chapters/storyFinder.ts','src/styles/new-age-leadership-r5.css','src/components/homepage-release/pinnedChapters.ts','src/components/homepage-release/pinnedChapters.css'];
 const hashes={};
 for(const file of sourceFiles) hashes[file]=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex');
 const report={at:new Date().toISOString(),origin,built:process.argv.includes('--built'),hashes,cases,screenshots,fallbackTransitions,failures};

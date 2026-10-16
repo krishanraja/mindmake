@@ -104,7 +104,7 @@ const ANCHORS = {
        its left edge. */
     ".mm-home-leadership .reach-copy > .kicker",
     ".mm-home-leadership .work-intro > .kicker",
-    ".mm-home-leadership .proof-story > .kicker",
+    ".mm-home-leadership .story-finder > .kicker",
     ".r3-footer .site-footer > :first-child",
   ],
   /* The R5 hero's deck is inset against the film on purpose and its action is

@@ -253,4 +253,5 @@ excerpts stay consent-gated and never form an unapproved new section.
 - Do not invent names, numbers, brands or outcomes.
 - Keep approved quotation text verbatim.
 - Public framing around quotes must use short, common words.
-- No public count of leaders helped until the evidence trail is compiled and approved.
+- No count of leaders helped beyond the one approved 4000+ line above the brand
+  grid until its evidence trail is compiled.

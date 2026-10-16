@@ -16,13 +16,19 @@ never_publish: [the private price and the internal rate card, the cash floor and
 
 ## What it is
 
-Mindmake is a principal-led AI and commercial strategy practice. Two doors,
-Build your AI brain and Build your AI revenue engine, lead to one privately
-scoped paid proof. The headline turns through five lines and opens on
-**Promote your AI from intern to chief of staff.**
+Mindmake is a small AI and commercial strategy practice run by Krish Raja. It
+builds a leader their own AI brain: a working system that holds their taste,
+standards, judgement and memory. Two doors, Build your AI brain and Build your
+AI revenue engine, lead to one privately scoped paid proof. The headline turns
+through five lines and opens on **Promote your AI from intern to chief of
+staff.** The way in is **Get your free AI brief**. The publication, **Make Your
+Mind Up** at https://makeyourmindup.ai, is for readers not ready yet. CTRL, the
+product the work runs on, is in a private pilot with leaders. The whole account
+is "Mindmake in one page" in
+[00_NORTH_STAR.md](project-documentation/00_NORTH_STAR.md).
 
 This repository is the site at https://mindmake.co and `project-documentation/`,
-the numbered canon for the business. Numbered documents own business truth;
+the numbered canon and the one source of truth for the business. Numbered documents own business truth;
 [CLAUDE.md](CLAUDE.md) and [AGENTS.md](AGENTS.md) own how work is done here.
 
 ## Who it is for and why it matters for Mindmake
@@ -65,6 +71,16 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-16: the documentation became the one plain account of Mindmake, for
+  people and for the growth engine. 00 opens with "Mindmake in one page"; 01
+  gained "What the growth engine may say" (three asks, who they reach, what may
+  and may never be said, Krish approves every send); 02 now names the
+  publication as Make Your Mind Up at makeyourmindup.ai, its old two-channel
+  contract archived verbatim; llms.txt carries the plain summary and both ways
+  in; the stale "Start here", Substack, navigation, "GTM" and "chief of staff"
+  rules were corrected. Krish: "ensure the project documentation is 11/10 as to
+  how This product works ... The goal is to get an autonomous growth engine to
+  feed off of this, too." The Drive folder now routes every agent here.
 - 2026-10-16: the AI Brain stories became a chooser (#239). On a phone Krish
   saw "an endless list of stuff, which overwhelms me" and asked for "a much
   more intelligent way of showcasing what can be done and has been done". The
@@ -111,53 +127,7 @@ post-publication verification.
   two Disallow lines are gone (`public/robots.txt`); the route lock was
   regenerated for that file and its discoverability test. Indexing outcomes
   are not yet established.
-
-- 2026-10-04: a fix to the hero headline rotation (#233). Since the smoother
-  rotation of 27 September, every turn after the first flashed two different
-  headlines stacked for a beat. Each turn copies the current line as an
-  outgoing "ghost" that should lift away while the next headline rises in; the
-  copy carried the `is-entering` class the previous turn had left on the line,
-  so its rows matched the higher-specificity rule and ran the rise-in
-  animation instead, fading in over the incoming headline before being removed
-  mid-animation. The ghost now has that class stripped
-  (`src/components/homepage-release/heroRotation.ts`).
-- 2026-10-03: the public contact address changed to krish@mindmake.co (#232),
-  Krish's ruling ("krish@mindmake.co is the public contact address, replacing
-  krish@themindmaker.ai, which still redirects to it"). The old address had
-  been chosen only because mindmake.co had no MX record and mail to it
-  bounced; the domain now receives. Every contact link and the privacy notice
-  read the one `CONTACT_EMAIL` constant, so it was a one-line change.
-- 2026-09-27: motion made smoother across the site, from Krish ("The rotation
-  animation is so blunt, needs to be much smoother. Same with the page
-  transitions and loading"). The hero headlines now cross row by row instead
-  of emptying between them; page changes crossfade over 720ms with a 10px
-  rise instead of a hard-edged wipe, the masthead held still under its own
-  view-transition name (a same-day fix after main's Chromium check failed
-  #230: the open homepage menu drew a second masthead, and a duplicate
-  transition name made Chromium refuse the navigation); and film or image
-  media that has not painted when a page mounts fades up instead of cutting
-  in, most visibly the /ai-brain film, never held back more than 2.5s
-  (`MediaArrival.tsx`). The hero rotation gained two filtering headlines,
-  "High standards deserve an AI that knows yours." and "AI can copy almost
-  anything except your taste.", and dropped "Become the leader your business
-  needs next.", from Krish's brief that the headlines should "filter out
-  people that don't self-identify with this." Separately, `qa:chrome` had
-  silently measured Chrome's own error page since the preview it assumed was
-  already running never started; it now serves the built site itself and
-  fails by name on a real load failure, and running for real for the first
-  time it caught a genuine defect, the r31 consent notice breaking into two
-  rows at 360px, now fixed.
-- 2026-09-26 (later still): a fix forward after main's Chromium verification
-  failed on #223. Above a phone the logo and footer had taken the homepage's
-  wider gutter instead of each page's own content edge (`qa:logo-alignment`);
-  a page's last footer link could sit under the cookie notice at the page end
-  (`qa:release-routes`), so fixed bottom chrome now keeps a reader who reaches
-  the end at the end (`src/lib/bottomReserve.ts`); and a short landscape
-  screen's cookie notice, which had published about 330px of reserve and
-  lifted the action bar off screen, now reserves nothing there and clears the
-  masthead.
-- Krish accepted the month's reading pace on `/ai-brain` from his phone
-  ("Its good"); `AI-BRAIN-MONTH-PACE-001` is accepted.
+- Older entries are in [history/LOG.md](project-documentation/history/LOG.md).
 
 ## What is next and what is waiting on Krish
 
@@ -169,6 +139,9 @@ post-publication verification.
 - The 4000+ attendance count Krish approved on 26 September 2026
   (`04_PROOF.md`) still needs its section 6 evidence trail compiled before the
   figure is used anywhere beyond the approved line above the brand grid.
+- In play: the CTRL pilot with leaders, by invitation from Krish only, and the
+  first outreach drafts (a post, a note to his network, a Make Your Mind Up
+  sign-off), each waiting for his yes to that exact send.
 - Next: the free AI brief that names one thing AI could carry in the reader's
   own week (change 3), shown rendered before it is built; the hero lede that
   names who the site is for (change 1) follows it

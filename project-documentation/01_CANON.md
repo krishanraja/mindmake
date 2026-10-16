@@ -1,6 +1,6 @@
 # 01. Canon
 
-*Current authority reviewed 24 September 2026 against the owner-approved R3 release. Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Current authority reviewed 16 October 2026 against the live site. Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.
@@ -65,9 +65,13 @@ five lines once, then rests on the first, which is also the page's h1 and title
 | Route back control | AI brain or AI revenue engine |
 | Proof receipt | What stays with you |
 
-Public route labels: **Results**, **Thinking**, **Questions leaders ask**,
-**Before you start**, **Media**, **Start here**. Footer positioning:
-**Keep your edge as AI changes the market.**
+Public route labels, in menu order: **Home**, **Build your AI brain**,
+**Build your AI revenue engine** ("Build your AI revenue" in the phone menus),
+**Success stories**, **Ideas you can use**, **Questions we get asked**,
+**About us** and **Media**, with a **Subscribe for free** badge beside Media.
+The one action is **Get your free AI brief** (`PRIMARY_ROUTES` and
+`START_LABEL` in `src/lib/publicLinks.ts`). Footer positioning: **Keep your edge
+as AI changes the market.**
 
 The four underlying GTM levers remain **product, price, positioning and people**.
 This approved shorter door sentence is not permission to remove product from
@@ -389,12 +393,12 @@ line. The GTM door sits on the positioning and pricing project line, where
 workshop-format engagements are already reported at $50,000 to $100,000 and
 above. Both labels are internal and never appear in copy.
 
-**Revisit trigger.** Ten `Start here` briefs, or three sent proposals, whichever
+**Revisit trigger.** Ten free AI briefs, or three sent proposals, whichever
 comes first. That is the trigger to re-examine the card. The collapse above it is
 a separate, later move that only happens once five proofs have been paid for and
 have produced door-shaped stories.
 
-**Assumptions to watch.** Ten `Start here` briefs with no mention of displacing a
+**Assumptions to watch.** Ten free AI briefs with no mention of displacing a
 coach, consultant or positioning project: revisit the card downward or re-anchor.
 The first three builder briefs balking at $25,000: revisit the altitude rule
 rather than the craft.
@@ -403,8 +407,8 @@ rather than the craft.
 
 ## The conversion path
 
-There is no public diary link or "Book a fit call" CTA. **Start here** is the
-primary action. The two adjacent door choices are one routing decision.
+There is no public diary link or "Book a fit call" CTA. **Get your free AI
+brief** is the primary action. The two adjacent door choices are one routing decision.
 
 The approved homepage and both doors use the same company-first `LeadBrief`:
 
@@ -537,7 +541,9 @@ These stay true and are safe to reuse anywhere:
 that the work keeps memory, sources, checks and the human call visible. It may
 be named on `/ai-brain` only, shown as the engine we run on ourselves, never
 linked and never priced; the S5 page does not name it (Krish, 26 September
-2026). It is not a third public offer.
+2026). It is not a third public offer. Since 16 October 2026 CTRL is in a
+private pilot with leaders: Krish invites them himself, and no page, form or
+post offers it.
 
 Product footage stays clean. Do not draw over changing interfaces.
 
@@ -581,8 +587,8 @@ One list, so it does not have to be repeated:
 - Offer labels on case studies.
 - The removed private amount, or the removed 22 percent result.
 - An uncapped quote from a reference whose consent record is missing.
-- A public count of leaders helped, until the evidence trail is compiled and
-  approved.
+- A count of leaders helped anywhere beyond the one approved 4000+ line above
+  the brand grid, until its evidence trail is compiled (`04_PROOF.md`).
 - Em dashes, or unexplained business and technical terms, in public copy.
 - New duplicative eyebrows or control-explaining captions; accepted R3 labels stay locked.
 - A conversational or self-correcting voice in the company read.
@@ -602,13 +608,15 @@ Never: em dashes; the word "thesis" in public copy (use idea, view or plan);
 shaming anyone as a beginner; implying we have all the answers; fear as the whole
 argument; generic AI claims; consultant filler; technology theatre.
 
-"GTM" is the one abbreviation the doors are allowed to use, and it is expanded
-the first time it appears on a page: how a business gets its product to customers
-and gets paid for it.
+"GTM" stays out of public copy (Krish, 15 October 2026); it survives only in
+internal names such as the `/ai-gtm` path. Public copy says "go-to-market" and
+explains it the first time it appears: how a business gets its product to
+customers and gets paid for it.
 
 Avoid as public framing: "AI literacy", "AI fluency", "prompt engineering",
-"leveraging AI", "AI-powered", "future of work", "chief of staff",
-"productivity", "assistant".
+"leveraging AI", "AI-powered", "future of work", "productivity", "assistant".
+"Chief of staff" is allowed in the approved headline, *Promote your AI from
+intern to chief of staff.* (Krish, 15 October 2026).
 
 The site speaks as **we**, in the practice voice. The founder may appear in
 approved biography, proof framing and verbatim quotes. Those permissions do
@@ -635,10 +643,11 @@ judgement as AI changes the market."
 
 These are real and unfinished. None of them blocks the website.
 
-1. Compile the evidence trail for the "leaders helped" figure and approve public
-   phrasing. Candidate trail: 30-plus keynotes, 1,600-plus Lightning Lesson
-   signups, cohort and advisory corrections. Until approved, public copy says
-   "leaders" with no count.
+1. Compile the evidence trail for the 4000+ figure. Krish approved the count
+   for the one line above the brand grid on 26 September 2026 (`04_PROOF.md`).
+   Candidate trail: 30-plus keynotes, 1,600-plus Lightning Lesson signups,
+   cohort and advisory corrections. Until it is compiled, every other surface
+   and every post says "leaders" with no count.
 2. Mint one Brain-shaped story and one GTM-shaped story, each with recorded
    consent before it renders.
 3. Complete current-source research before publishing any new AI GTM market
@@ -646,6 +655,79 @@ These are real and unfinished. None of them blocks the website.
 4. The floor and the multi-month card above are the current working numbers and
    should be used. They are not yet proven against enough real deals to be
    settled, which is what the revisit trigger is for.
+5. The About page says "One person runs it", while the practice speaks as "we"
+   (`00_NORTH_STAR.md`, The voice). Both are live. Until Krish rules, a post in
+   his own name may say "I"; anything in Mindmake's name says "we".
+6. The public answer to "Will you email me forever?" opens "Two emails, ever".
+   That is true for one brief; `05_LEAD_DELIVERY_SPEC.md` says it is not an
+   enforced lifetime cap across separate requests. Until Krish rules, outreach
+   says "your results and one follow-up", never "ever".
+
+---
+
+## What the growth engine may say
+
+For any person or agent writing outreach, posts, replies, bios or emails for
+Mindmake. Read "Mindmake in one page" in `00_NORTH_STAR.md` first, then this,
+then `04_PROOF.md`. This section governs messages about Mindmake; the site's own
+copy is governed by the rest of this file.
+
+**Three asks, and who each one is for.**
+
+1. **Get your free AI brief**, at `https://mindmake.co/?start=1`. The main ask,
+   for a leader who can make the decision and has a live problem. Describe it as
+   the site does: answer a few questions, keep the brief, then a free
+   consultation.
+2. **Subscribe to Make Your Mind Up**, at `https://makeyourmindup.ai`, with the
+   Subscribe free button on its home page. For a reader who is curious but not
+   ready to start. It is free.
+3. **A CTRL pilot conversation.** For a leader Krish already knows who wants to
+   try the system for themselves. Only Krish offers it, person to person. Never
+   a link, a price, a form or a public promise about it.
+
+One ask per message. A message that carries all three carries none.
+
+**Who it reaches.** Krish's own network, people introduced by someone who knows
+him, readers and subscribers, and people who heard him speak. Bought, scraped or
+rented lists, cold sequences and automated connection requests are not part of
+this plan; adding them is Krish's decision.
+
+**What it may say.** Only what is already true in public:
+
+- the words live on mindmake.co today, and the locked copy in this file;
+- the proof in `04_PROOF.md`, with every quote word for word and in its own
+  family (attendance is never a client, a career reference is never an outcome);
+- the plain account in `00_NORTH_STAR.md`.
+
+Anything else is a new claim, and a new claim waits for Krish.
+
+**What it never says.**
+
+- Anything in the `never_publish` list in `NOW.md`. That includes the price and
+  every internal figure, availability, a start date, the buyer archetype and the
+  internal sales wedge.
+- A client's name outside the consented proof set, or anything from
+  `04_PROOF_RECORDS.md`.
+- A number without its source. The 4000+ count stays on its one approved line
+  until its evidence trail is compiled (Open commercial work, item 1).
+- A count that changes, such as agents, workflows, subscribers or clients,
+  unless it was read from the live source that day.
+- "Mindmaker" outside a verbatim quote, "GTM", the framing words under Voice
+  above, an em dash, or fear as the whole argument.
+- Krish's name in anything written as Mindmake. The practice speaks as "we";
+  his name belongs to posts and notes in his own name, the About page, the
+  framing of proof and verbatim quotes (`src/test/brief2-public-contract.test.ts`
+  holds the site to this).
+
+**Voice.** The house rules under Voice above and in `00_NORTH_STAR.md`: British
+English, plain enough for a twelve-year-old, short sentences, kind about people
+and sharp about ideas. Anything in Krish's name sounds like Krish, and nothing
+invents an experience he did not have.
+
+**Approval.** A draft is not a send. Every post, email, message, comment or
+scheduled item waits for Krish's yes to that exact action, recipient or account
+and wording, just before it happens. Approving a draft does not approve sending
+it.
 
 ---
 

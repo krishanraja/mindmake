@@ -12,6 +12,13 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 - Recoverable preceding release: dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8, mindmake-bh0d8hczk-krish-rajas-projects.vercel.app.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
+- Latest application release: PR #239, the AI Brain stories as a chooser, merge
+  `f395cc4`, production deployment dpl_D2w2JX9zwjb176NEGK3Y76hdRvut. Read back
+  on 16 October 2026: `/` and `/new-age-leadership` serve fifteen story cards in
+  five situations and no pinned story track; the Chromium release browser check
+  against https://mindmake.co and the line-break check on both pages passed;
+  main's post-merge route lock and Chromium verification passed. The
+  26-route and 32-asset receipt below is still the 24 September one.
 
 The approved R3 homepage carries: opening, the R3 history chapter (four pinned
 eras), the three new-age leadership chapters (reach in both its states,
@@ -45,14 +52,17 @@ his walk on his phone.
 The delivered brief stays on screen and downloads as self-contained HTML.
 Publication interest is optional and unticked; it does not subscribe anyone.
 "Subscribe for free" does: a badge beside Media in both menus, a footer button
-and the brief's success step all open the publication's subscribe form.
+and the brief's success step all open the home page of Make Your Mind Up,
+https://makeyourmindup.ai, where its own Subscribe free button is.
 
 The personal-read API remains deployed, but is not a second form in this
 frontend. `/ai-gtm` serves the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his pre-merge review of the rebuilt page, `AI-GTM-R47-OWNER-REVIEW-001`, is accepted ("I approve the /ai-gtm rebuild", record `quality/ai-gtm/approved-story-r3.json`). The retained daily-news
 API is not evidence that a live board is rendered on the approved homepage.
 
-Navigation labels: Results, Thinking, Questions leaders ask, Before you start,
-Media and Start here. Canonical non-root routes omit trailing slashes.
+Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
+Success stories, Ideas you can use, Questions we get asked, About us and Media,
+and the one action, Get your free AI brief (`PRIMARY_ROUTES` in
+`src/lib/publicLinks.ts`). Canonical non-root routes omit trailing slashes.
 www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to mindmake.co
 preserving path/query. Public readback verified all 26 initial and hydrated route
 heads and 32 metadata assets at 16:20 UTC; the separate redirect check covered

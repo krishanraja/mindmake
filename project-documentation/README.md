@@ -1,5 +1,23 @@
 # Mindmake documentation
 
+This folder is the one source of truth for what Mindmake is, who it helps and
+what may be said about it. A copy anywhere else, in Drive, a deck or an agent's
+memory, is older than this and loses to it.
+
+## Read in this order
+
+- **Anyone, first:** [00_NORTH_STAR.md](00_NORTH_STAR.md), "Mindmake in one
+  page". The whole business in two minutes, all of it safe to say in public.
+- **Writing outreach, posts, bios or emails:** then
+  [01_CANON.md](01_CANON.md), "What the growth engine may say", then
+  [04_PROOF.md](04_PROOF.md) for what each story and quote may be used for.
+  Krish approves every send and every post.
+- **Checking what is live:** [06_CURRENT_STATE.md](06_CURRENT_STATE.md), read
+  against the site itself.
+- **Changing the site:** [CLAUDE.md](../CLAUDE.md),
+  [AGENTS.md](../AGENTS.md) and
+  [website-redesign/STATE.md](website-redesign/STATE.md).
+
 Current guides describe the live business, accepted system and verified state.
 Superseded instructions and old measurements belong only in
 [history/LOG.md](history/LOG.md). Git and immutable QA artifacts retain evidence;
@@ -9,9 +27,9 @@ historical passages are not current authority.
 
 | File | Owns |
 |---|---|
-| [00_NORTH_STAR.md](00_NORTH_STAR.md) | Purpose, values, naming and positioning |
-| [01_CANON.md](01_CANON.md) | Accepted copy, offer, buyers, private commercial terms |
-| [02_PUBLICATION.md](02_PUBLICATION.md) | Publication channels and gates |
+| [00_NORTH_STAR.md](00_NORTH_STAR.md) | Mindmake in one page, purpose, values, naming and positioning |
+| [01_CANON.md](01_CANON.md) | Accepted copy, offer, buyers, private commercial terms, what the growth engine may say |
+| [02_PUBLICATION.md](02_PUBLICATION.md) | The publication, Make Your Mind Up, and how the site connects to it |
 | [03_DESIGN_CONTRACT.md](03_DESIGN_CONTRACT.md) | Current design/motion/accessibility contract |
 | [04_PROOF.md](04_PROOF.md) | Proof permissions and consent |
 | [04_PROOF_RECORDS.md](04_PROOF_RECORDS.md) | Internal engagement evidence, never public copy |

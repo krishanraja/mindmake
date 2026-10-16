@@ -622,14 +622,14 @@ describe("the conversion contract", () => {
 
 describe("the naming law", () => {
   /* A business with two names has none. Mindmake is the only name for the
-     business, and the publication runs exactly two channels. Everything else
-     that has ever looked like a brand name here is dead. */
+     business, and its publication is Make Your Mind Up. Everything else that
+     has ever looked like a brand name here is dead. */
 
   it("uses no earlier name for the business", () => {
     /* Three exceptions, all deliberate and all narrow, and none of them a name.
        `Mindmaker LLC` is the registered legal entity and belongs in the two
        legal pages, where the law wants the registrant named. The substack.com
-       address is where the publication is hosted. The contact mailbox is
+       address is where the publication was hosted. The contact mailbox is
        krish@mindmake.co (Krish, 2026-10-03); krish@themindmaker.ai redirects to it. */
     const LEGAL_ENTITY = /Mindmaker LLC/g;
     const HOSTING = /mindmakerlive\.substack\.com/g;
@@ -644,10 +644,17 @@ describe("the naming law", () => {
     }
   });
 
-  it("names the publication's two channels and no others", () => {
-    const canon = read("project-documentation/00_NORTH_STAR.md");
-    expect(canon).toContain("The Money of AI");
-    expect(canon).toContain("Built with AI");
+  it("names the publication and the one address every Media link uses", () => {
+    /* The publication is Make Your Mind Up at makeyourmindup.ai (Krish,
+       2026-09-26). Its channels belong to its own project, so the canon names
+       the publication and its address and treats any channel list as a dated
+       reading, never the old two-channel rule. */
+    for (const doc of ["project-documentation/00_NORTH_STAR.md", "project-documentation/02_PUBLICATION.md"]) {
+      expect(read(doc)).toContain("Make Your Mind Up");
+      expect(read(doc)).toContain("makeyourmindup.ai");
+      expect(`${doc} keeps the old two-channel rule: ${/exactly two\s+channels/.test(read(doc))}`)
+        .toBe(`${doc} keeps the old two-channel rule: false`);
+    }
     /* The channel that was renamed. Its old form must not survive anywhere a
        reader or a model would take it as current. */
     for (const doc of ["project-documentation/00_NORTH_STAR.md", "project-documentation/02_PUBLICATION.md"]) {
@@ -981,6 +988,12 @@ describe("the crawler surfaces stay in step", () => {
   it("keeps the generated llms.txt in agreement with its generator", () => {
     const generated = execFileSync(process.execPath, ["scripts/generate-llms.mjs", "--stdout"], { cwd: ROOT, encoding: "utf8" });
     expect(read("public/llms.txt").replaceAll("\r\n", "\n")).toBe(generated.replaceAll("\r\n", "\n"));
+    /* An agent reading the file cold learns what Mindmake is and both ways in:
+       the free brief and the publication (00_NORTH_STAR.md, "Mindmake in one
+       page"). */
+    expect(generated).toContain("## What Mindmake is");
+    expect(generated).toContain("https://mindmake.co/?start=1");
+    expect(generated).toContain("https://makeyourmindup.ai");
     for (const page of staticPages) expect(generated).toContain(page.description);
   });
 

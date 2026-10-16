@@ -64,7 +64,9 @@ for (const finding of contract.verifiedOpenFindings) {
 // /answers itself redirects to /blog since 2026-09-25 (Krish); the answer pages stay.
 const requiredRoutes = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/:slug", "/answers/:slug", "/faq", "/contact", "/privacy", "/terms"];
 for (const route of requiredRoutes) requireCondition(contract.routeContinuity.mustPreserve.includes(route), `route continuity is missing ${route}`);
-requireCondition(contract.routeContinuity.publicationUrl === "https://mindmakerlive.substack.com", "publication URL changed");
+// The publication moved to makeyourmindup.ai (Krish, 2026-09-26); every Media
+// and Subscribe link goes there (PUBLICATION_URL in src/lib/publicLinks.ts).
+requireCondition(contract.routeContinuity.publicationUrl === "https://makeyourmindup.ai", "publication URL changed");
 requireCondition(contract.requiredViewports.length === 14, "the required viewport matrix must contain fourteen named sizes");
 requireCondition(contract.requiredViewports.includes("1538x636"), "the required viewport matrix must retain the observed short-desktop 1538x636 size");
 requireCondition(contract.requiredViewports.includes("1108x574"), "the required viewport matrix must retain the observed compact-desktop 1108x574 size");

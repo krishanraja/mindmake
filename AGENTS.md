@@ -11,7 +11,7 @@ that every statement is fresh. Chronology lives only in
 
 ## Approved website release and future revisions
 
-Before touching the homepage, AI Brain, AI GTM, Start here journey, proof, case studies
+Before touching the homepage, AI Brain, AI GTM, free AI brief journey, proof, case studies
 or their shared visual system, read `project-documentation/website-redesign/STATE.md`
 and `quality/website-redesign/continuity-contract.v1.json` completely. They are the
 single resumable state and feedback contract for the active multi-session redesign.

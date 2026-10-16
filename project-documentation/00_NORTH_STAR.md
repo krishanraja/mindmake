@@ -1,10 +1,83 @@
 # 00. North star
 
-*Current authority reviewed 24 September 2026 against the owner-approved R3 release. Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Current authority reviewed 16 October 2026 against the live site. Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
 Mindmake's behalf without asking anyone. Everything after it is detail.
+
+This repository is the one source of truth for what Mindmake is. Copies kept
+anywhere else, in Drive, in a deck or in another agent's memory, are older than
+this and lose to it.
+
+---
+
+## Mindmake in one page
+
+The whole business in the plainest words, for a person or an agent with two
+minutes. Every line here is already public on mindmake.co, so it is safe to
+repeat. Checked against the live site on 16 October 2026.
+
+**What it is.** Mindmake is a small AI and commercial strategy practice run by
+Krish Raja. It builds a leader their own **AI brain**: a working system that
+holds their taste, standards, judgement and memory, so the AI they already use
+stops being generic and starts working the way they do.
+
+**The line for a stranger.** *Promote your AI from intern to chief of staff.*
+
+**The problem it solves.** Every AI tool a leader can buy has read the internet
+and knows nothing about them. So they get faster at drafting and no better at
+deciding, and the work drifts to tools and advisers while their own
+understanding stands still.
+
+**Who it helps.** A founder, principal, investor or senior commercial leader who
+can make a decision on their own, and whose decisions are big enough to matter.
+Typical businesses: internet, software, media, data, content, coaching and
+advisory. It is not for someone who cannot move the decision, or who wants AI
+training, a certificate or a list of tasks to automate.
+
+**What they get.** Two doors, one way of working.
+
+- **Build your AI brain** (`/ai-brain`): the leader's own judgement, running as
+  a system they own.
+- **Build your AI revenue engine** (`/ai-gtm`): their pricing, positioning and
+  team rebuilt for AI, then tested with real buyers.
+
+Either door leads to **one paid proof**: one decision or capability, built as a
+working first version, used on real work, and kept by the leader when the work
+ends. The public shape is 30 days, stated on the two door pages only. The price
+is agreed privately and never published.
+
+**How to start.** **Get your free AI brief** at
+[mindmake.co/?start=1](https://mindmake.co/?start=1). The leader gives a work
+email, name and role, answers a few questions about their business and keeps
+the brief it produces; then Mindmake gets in touch about a free consultation.
+Apart from a code that confirms the address, it sends the results and one
+follow-up two weeks later, nothing more.
+
+**The proof.** Fifteen true client stories on the homepage and
+`/new-age-leadership`, eight verified results on `/case-studies`, and the
+permissions for each in `04_PROOF.md`.
+
+**Ways in, and what extends the work.**
+
+- **The free AI brief**, above. The main way in.
+- **Make Your Mind Up**, Mindmake's free publication at
+  [makeyourmindup.ai](https://makeyourmindup.ai): what's coming in AI, before
+  it's obvious, three times a week by email. For readers who are curious but not
+  ready to start. They subscribe with the **Subscribe free** button on its home
+  page; every Media and Subscribe link on mindmake.co goes there. Its channels
+  and formats belong to its own project.
+- **CTRL**, at `ctrl.mindmake.co`, is the product the work runs on and the
+  system the leader keeps. It is in a private pilot with leaders, by invitation
+  from Krish (16 October 2026). It is never linked or priced on mindmake.co.
+- **Krish's own network**: people he has worked with, introductions and talks.
+
+**What is live today.** `06_CURRENT_STATE.md`, read against the site itself.
+
+**How it grows.** Any person or agent writing outreach, posts or emails reads
+this page, then "What the growth engine may say" in `01_CANON.md`, then
+`04_PROOF.md`. Krish approves every send and every post.
 
 ---
 
@@ -116,11 +189,12 @@ working first version, use it on real work, leave something behind that keeps
 running. Not a stretch of discovery followed by a report. The price is private
 and never appears on the site; the only public length is the 30-day shape on
 `/ai-gtm` and `/ai-brain`, and there is no public diary link. The only primary action on the site
-is **Start here**.
+is **Get your free AI brief**.
 
 **CTRL** is our own product, running our own practice. It appears as evidence
 that we do this ourselves. It is never a third thing to buy, never linked, never
-priced.
+priced. Since 16 October 2026 it is also in a private pilot with leaders,
+offered only by Krish, person to person.
 
 ---
 
@@ -160,8 +234,9 @@ the claim. A mono speaks data and labels, and only those. If you are unsure
 which face to use, you are unsure what the line is doing.
 
 **The motion.** Ambient films establish the setting; scroll builds explain a
-sequence; controls respond promptly. The approved R3 history and leadership
-dividend chapters pin and progress reversibly with native scroll. Their static
+sequence; controls respond promptly. The approved R3 history chapter and the
+reach and practice chapters pin and progress reversibly with native scroll; the
+AI Brain stories are a chooser that never pins. Their static
 content remains available without script, with reduced motion, or where the
 viewport cannot fit the instrument. Approved staged reveals must never make
 reading depend on animation. `03_DESIGN_CONTRACT.md` owns the exact guarantees.
@@ -210,14 +285,15 @@ This one is absolute, because a business with two names has none.
 - The site is **mindmake.co**. `themindmaker.ai` and `www` variants redirect to
   it and are infrastructure, never names.
 - The product is **CTRL**, at `ctrl.mindmake.co`.
-- The publication is **Mindmake's publication**, and it runs exactly two
-  channels: **The Money of AI** and **Built with AI**. No third channel, no
-  other channel name, no earlier name.
+- The publication is **Make Your Mind Up**, at `makeyourmindup.ai` (its own
+  masthead writes it makeyourmindup). Every Media and Subscribe link on the site
+  goes to its home page (Krish, 26 September 2026). Its channels and formats
+  belong to its own project, not to this repository.
 - **Mindmaker LLC** is the registered legal entity. It appears only in the
   privacy notice and the terms, where the law wants the registrant named. It is
   not a brand and never appears anywhere else.
-- `mindmakerlive.substack.com` is where the publication is hosted today. It is a
-  hosting address, not a name. Nothing in copy calls the publication by it.
+- `mindmakerlive.substack.com` was the publication's earlier hosting address.
+  It is not a name and nothing links to it.
 
 One exception, and only one: **a verbatim quote is never edited.** A reference
 who said "Mindmaker" in 2019 still says it, because changing someone's words to
@@ -275,9 +351,10 @@ staff.**, the simplest form of what an AI brain does for a leader (Krish, 15
 October 2026). Its
 opening line is **Part people. Part agent. Led by judgement.**
 
-The homepage contains the approved history, work/organisation and leadership
-dividend chapters. `/new-age-leadership` remains a companion, not a reason to
-remove those chapters. The two doors carry their specific capabilities.
+The homepage contains the approved history chapter, the three new-age
+leadership chapters and the AI Brain stories. `/new-age-leadership` remains a
+companion, not a reason to remove those chapters. The two doors carry their
+specific capabilities.
 
 The internal buyer psychology stays private. Its approved public expression is
 *Nobody in your organisation needs to know where you started.* Write for
@@ -300,7 +377,8 @@ eyebrows, explanatory control captions or decorative instructions.
 | You want | Read |
 |---|---|
 | The commercial truth: offer, pricing posture, buyers, objections, the conversion path | `01_CANON.md` |
-| The publication: two channels, formats, gates | `02_PUBLICATION.md` |
+| What outreach, posts and emails may say, and who approves them | `01_CANON.md`, "What the growth engine may say" |
+| The publication, Make Your Mind Up, and how it connects to the site | `02_PUBLICATION.md` |
 | Binding design and motion rules, and the acceptance checklist | `03_DESIGN_CONTRACT.md` |
 | What we are allowed to claim, and which proof is which | `04_PROOF.md` |
 | Exactly what a lead receives and when | `05_LEAD_DELIVERY_SPEC.md` |

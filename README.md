@@ -2,15 +2,24 @@
 
 **Promote your AI from intern to chief of staff.**
 
-Live: [mindmake.co](https://mindmake.co). A principal-led AI and commercial
-strategy practice. Build your AI brain: **Unlock and create the idea you've
-been sitting on.** Build your AI revenue engine: **The pricing, positioning and
-org structure you'll need.** Both lead to one
-paid proof, privately scoped and priced. No public diary or duration promise.
+Live: [mindmake.co](https://mindmake.co). Mindmake is a small AI and
+commercial strategy practice run by Krish Raja. It builds a leader their own AI
+brain: a working system that holds their taste, standards, judgement and
+memory. Build your AI brain: **Unlock and create the idea you've been sitting
+on.** Build your AI revenue engine: **The pricing, positioning and org
+structure you'll need.** Both lead to one paid proof, privately scoped and
+priced; the only public length is the 30-day shape on the two door pages.
 
-## Start here
+The way in is **Get your free AI brief** (`/?start=1`). For readers not ready
+yet, the publication is **Make Your Mind Up** at
+[makeyourmindup.ai](https://makeyourmindup.ai). CTRL, the product the work runs
+on, is a separate project in a private pilot with leaders.
 
-Read [NOW.md](NOW.md), then the [documentation index](project-documentation/README.md).
+## Read first
+
+The whole business in two minutes is "Mindmake in one page" in
+[00_NORTH_STAR.md](project-documentation/00_NORTH_STAR.md). Then read
+[NOW.md](NOW.md) and the [documentation index](project-documentation/README.md).
 [06_CURRENT_STATE.md](project-documentation/06_CURRENT_STATE.md) alone owns live
 identities and verification status. Superseded narratives live in the single
 [history ledger](project-documentation/history/LOG.md), not current guides.
@@ -23,7 +32,7 @@ and use its deterministic production adapter.
 
 | Route | Purpose |
 |---|---|
-| / | Approved R3 narrative, four history states, five leadership-dividend states and two doors |
+| / | Approved R3 opening, four history eras, the reach and practice chapters, the AI Brain stories (fifteen, chosen by situation), the returned hour and two doors |
 | /ai-brain | Approved judgement-and-memory instrument |
 | /ai-gtm | Approved market-change instrument |
 | /new-age-leadership | Approved people/AI companion narrative |

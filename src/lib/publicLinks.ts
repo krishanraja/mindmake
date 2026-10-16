@@ -1,10 +1,10 @@
 /**
  * The two outbound links the site uses in more than one place.
  *
- * PUBLICATION_URL is Mindmake's publication, and every "Media" link lands on
- * it: makeyourmindup.ai (Krish, 2026-09-26). The publication runs exactly two
- * channels, The Money of AI and Built with AI. Nothing on the site or in
- * generated copy calls it anything else.
+ * PUBLICATION_URL is Mindmake's publication, Make Your Mind Up, and every
+ * "Media" link lands on it: makeyourmindup.ai (Krish, 2026-09-26). Its channels
+ * and formats belong to its own project (project-documentation/02_PUBLICATION.md),
+ * so nothing here names them.
  */
 export const PUBLICATION_URL = "https://makeyourmindup.ai";
 

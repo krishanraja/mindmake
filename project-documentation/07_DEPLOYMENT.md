@@ -14,7 +14,8 @@ VITE_ values are build-time; changing them requires a rebuild.
 
 www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to the apex,
 preserving path/query. Canonical non-root paths omit trailing slashes.
-Publication: https://mindmakerlive.substack.com. CTRL is a separate project;
+Publication: Make Your Mind Up, https://makeyourmindup.ai, a separate project
+with its own hosting. CTRL is a separate project;
 its hosts/functions are not this website's deployment scope.
 
 Browser settings: VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY,

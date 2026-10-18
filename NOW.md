@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-16
-head: 791392b
+as_of: 2026-10-18
+head: 159aeaf
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -41,7 +41,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-16)
+## Where it is right now (as of 2026-10-18)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -71,6 +71,17 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-18: the North Star was set and every session was anchored to it.
+  `00_NORTH_STAR.md` gained a Horizon: by March 2027 Mindmake is the first name
+  a PE or VC backed media, adtech or data leader hears when they ask who can
+  build an AI that knows them, and twelve leaders run one they would vouch for
+  out loud. CLAUDE.md and AGENTS.md now tell each session to read it first, say
+  which part the task moves and close by noting what moved. Krish's ruling:
+  "North Star timeframes assume agents do the work, not humans." The same day
+  superseded branches (older documentation reconciliations, two dated steward
+  branches, an abandoned canon sync) were merged as history only (#241),
+  because they predate the 16 October rewrite; the current canon and the
+  accepted site were kept byte for byte. No site code or copy changed.
 - 2026-10-16: the documentation became the one plain account of Mindmake, for
   people and for the growth engine. 00 opens with "Mindmake in one page"; 01
   gained "What the growth engine may say" (three asks, who they reach, what may
@@ -156,6 +167,8 @@ Do not ask the owner to reapprove settled selections or quietly choose new ones.
 
 ## Read next
 
+0. [North Star](project-documentation/00_NORTH_STAR.md): the Horizon every
+   session works toward; only Krish changes it.
 1. [Documentation index](project-documentation/README.md): numbered commercial,
    design, proof, lead and deployment owners. Private fields stay private.
 2. [Accepted release state](project-documentation/website-redesign/STATE.md):

@@ -14,7 +14,7 @@ this and lose to it.
 
 ## Horizon
 
-> By September 2027, Mindmake is the first name a PE or VC backed media, adtech or data leader hears when they ask who can build an AI that knows them, and twelve leaders run one they would vouch for out loud.
+> By March 2027, Mindmake is the first name a PE or VC backed media, adtech or data leader hears when they ask who can build an AI that knows them, and twelve leaders run one they would vouch for out loud.
 
 Set by Krish on 18 October 2026, and not reached yet. Everything below serves it, every session in this repository works toward it, and only Krish changes it.
 

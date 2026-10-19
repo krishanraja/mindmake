@@ -168,7 +168,15 @@ describe("what the crawlers are told", () => {
     for (const page of staticPages) {
       const row = rows.find(row => row.querySelector("loc")?.textContent === `https://mindmake.co${page.path}`);
       expect(row, page.path).toBeDefined();
-      expect(row?.querySelector("lastmod"), page.path).toBeNull();
+      expect(row?.querySelector("lastmod")?.textContent ?? null, page.path).toBe(page.lastmod ?? null);
+    }
+    /* A static page is dated only by the revision it shows the reader. */
+    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    for (const [path, file] of [["/terms", "src/pages/Terms.tsx"], ["/privacy", "src/pages/Privacy.tsx"]] as const) {
+      const shown = read(file).match(/Last updated: (\d{1,2}) (\w+) (\d{4})/);
+      expect(shown, file).not.toBeNull();
+      const iso = `${shown![3]}-${String(MONTHS.indexOf(shown![2]) + 1).padStart(2, "0")}-${shown![1].padStart(2, "0")}`;
+      expect(staticPages.find(page => page.path === path)?.lastmod, path).toBe(iso);
     }
     for (const post of blogPosts) {
       const row = rows.find(row => row.querySelector("loc")?.textContent === `https://mindmake.co/blog/${post.slug}`);

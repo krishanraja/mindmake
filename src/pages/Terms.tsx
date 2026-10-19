@@ -8,7 +8,7 @@ import { CONTACT_EMAIL } from "@/lib/publicLinks";
 const sections = [
   {
     title: "1. Using this website",
-    body: <><p>Mindmake is the public brand of Mindmaker LLC. By using this website, you agree to use it lawfully and not damage, copy or disrupt it.</p><p>The public starting brief is an early view based on limited information. It is not a promise, a full diagnosis or professional legal, financial or tax advice.</p></>,
+    body: <><p>Mindmake is the public brand of Mindmaker LLC, a United States company, and Mindmaker Ltd, a United Kingdom company. By using this website, you agree to use it lawfully and not damage, copy or disrupt it.</p><p>The public starting brief is an early view based on limited information. It is not a promise, a full diagnosis or professional legal, financial or tax advice.</p></>,
   },
   {
     title: "2. Paid work",
@@ -44,7 +44,7 @@ const sections = [
   },
   {
     title: "10. Contact",
-    body: <><p>Questions can be sent to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p><p>Mindmaker LLC<br />Mindmake<br />mindmake.co</p></>,
+    body: <><p>Questions can be sent to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p><p>Mindmaker LLC (United States)<br />Mindmaker Ltd (United Kingdom)<br />Mindmake<br />mindmake.co</p></>,
   },
 ] as const;
 
@@ -58,7 +58,7 @@ export default function Terms() {
         <header className="mm-container mm-legal-hero">
           <h1>Terms and conditions.</h1>
           <p>The short version is simple: use the site lawfully, and agree the details of paid work in writing before it starts.</p>
-          <small>Last updated: 26 August 2026</small>
+          <small>Last updated: 19 October 2026</small>
         </header>
         <div className="mm-container mm-legal-sections">
           {sections.map((section) => <section key={section.title}><h2>{section.title}</h2><div>{section.body}</div></section>)}

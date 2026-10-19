@@ -9,7 +9,7 @@ import { AnalyticsChoiceReset } from "@/components/CookieConsent";
 const sections = [
   {
     title: "1. Who we are",
-    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p></>,
+    body: <><p>Mindmake is the public brand of Mindmaker LLC, a United States company, and Mindmaker Ltd, a United Kingdom company. Mindmaker LLC and Mindmaker Ltd are responsible for the personal information described in this policy. You can contact us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p></>,
   },
   {
     title: "2. What we collect",
@@ -59,7 +59,7 @@ export default function Privacy() {
         <header className="mm-container mm-legal-hero">
           <h1>Privacy policy.</h1>
           <p>This page explains what Mindmake collects, why it is needed and the choices you have.</p>
-          <small>Last updated: 25 September 2026</small>
+          <small>Last updated: 19 October 2026</small>
         </header>
         <div className="mm-container mm-legal-sections">
           {sections.map((section) => <section key={section.title}><h2>{section.title}</h2><div>{section.body}</div></section>)}

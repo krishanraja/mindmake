@@ -6,6 +6,8 @@ export interface IndexedPage {
   headline?: string;
   claim?: string;
   still: string;
+  /** ISO date of the revision the page itself shows, for the sitemap. */
+  lastmod?: string;
   ogType?: string;
   keywords?: string;
   jsonLd?: Record<string, unknown>;

@@ -295,9 +295,11 @@ This one is absolute, because a business with two names has none.
   masthead writes it makeyourmindup). Every Media and Subscribe link on the site
   goes to its home page (Krish, 26 September 2026). Its channels and formats
   belong to its own project, not to this repository.
-- **Mindmaker LLC** is the registered legal entity. It appears only in the
-  privacy notice and the terms, where the law wants the registrant named. It is
-  not a brand and never appears anywhere else.
+- **Mindmaker LLC** (United States) and **Mindmaker Ltd** (United Kingdom) are
+  the registered legal entities. They appear only in the privacy notice, the
+  terms and the one footer note line, "Mindmake is a Mindmaker LLC company.
+  Mindmaker Ltd in the UK." (Krish, 19 October 2026). They are not a brand and
+  appear nowhere else.
 - `mindmakerlive.substack.com` was the publication's earlier hosting address.
   It is not a name and nothing links to it.
 

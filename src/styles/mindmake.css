@@ -1030,6 +1030,9 @@ html {
   letter-spacing: .05em;
   text-align: left;
 }
+/* The registered companies beside the copyright, in its own style. Each
+   sentence holds together, so a phone breaks between them (Krish, 2026-10-19). */
+.mm-entity-note > span { white-space: nowrap; }
 /* Five columns need about 1160px beside the brand. R3's rail runs off the
    right edge below that and its last routes are cut; here the rail takes
    three columns (three full rows of three) and, below 901px, the full width

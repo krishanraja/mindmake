@@ -412,6 +412,9 @@ body.mm-homepage-active { margin: 0; }
 .mm-homepage-release .r3-footer .footer-routes a,
 .mm-homepage-release .r3-footer .legal a { font-size: 11px; }
 .mm-homepage-release .r3-footer .site-footer small { font-size: 10.5px; letter-spacing: .05em; }
+/* The registered companies beside the copyright, as the shell footer sets
+   them: each sentence holds together (Krish, 2026-10-19). */
+.mm-homepage-release .r3-footer .mm-entity-note > span { white-space: nowrap; }
 @media (min-width: 701px) {
   .mm-homepage-release .r3-footer .preview-desktop .footer-routes a { font-size: 11px; }
 }

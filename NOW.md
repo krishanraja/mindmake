@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-18
-head: 159aeaf
+as_of: 2026-10-19
+head: abba812
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -41,7 +41,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-18)
+## Where it is right now (as of 2026-10-19)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -71,6 +71,18 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-19: the site now names the two registered companies (#242, #243).
+  Krish: "I actually have Mindmaker LTD in the UK and Mindmaker LLC in the
+  USA." `/terms` and `/privacy` say Mindmake is the public brand of Mindmaker
+  LLC (United States) and Mindmaker Ltd (United Kingdom), and every footer
+  carries "Mindmake is a Mindmaker LLC company. Mindmaker Ltd in the UK."
+  The first request stopped short of the footer because the North Star kept the
+  legal entity to the two legal pages and only Krish changes it; he authorised
+  the change in the next request, so the naming law now allows both entities in
+  the privacy notice, the terms and that one footer line only. The sitemap
+  gives a static page a `lastmod` only where the page shows its own dated
+  revision, so `/terms` and `/privacy` carry 2026-10-19. Production readback of
+  the footer is not recorded here; see 06_CURRENT_STATE.md.
 - 2026-10-18: the North Star was set and every session was anchored to it.
   `00_NORTH_STAR.md` gained a Horizon: by March 2027 Mindmake is the first name
   a PE or VC backed media, adtech or data leader hears when they ask who can
@@ -131,13 +143,6 @@ post-publication verification.
   longer fitted one panel, and a laptop zoomed to 150% reads the section as a
   document. Krish's ruling that the stories are true is in the feedback ledger
   (`AI-BRAIN-STORIES-TRUE-001`).
-- 2026-10-07: robots.txt stopped blocking the two redirecting routes (#234).
-  `/testimonials` and `/intake` are 301s in `vercel.json`, but both were
-  disallowed, so Google could not read the redirect and they sat in Search
-  Console instead of consolidating onto `/case-studies` and `/?start=1`. The
-  two Disallow lines are gone (`public/robots.txt`); the route lock was
-  regenerated for that file and its discoverability test. Indexing outcomes
-  are not yet established.
 - Older entries are in [history/LOG.md](project-documentation/history/LOG.md).
 
 ## What is next and what is waiting on Krish

@@ -712,8 +712,10 @@ Anything else is a new claim, and a new claim waits for Krish.
   until its evidence trail is compiled (Open commercial work, item 1).
 - A count that changes, such as agents, workflows, subscribers or clients,
   unless it was read from the live source that day.
-- "Mindmaker" outside a verbatim quote, "GTM", the framing words under Voice
-  above, an em dash, or fear as the whole argument.
+- "Mindmaker" outside a verbatim quote or the registered entity names where
+  `00_NORTH_STAR.md` allows them (the privacy notice, the terms and the one
+  footer note line), "GTM", the framing words under Voice above, an em dash,
+  or fear as the whole argument.
 - Krish's name in anything written as Mindmake. The practice speaks as "we";
   his name belongs to posts and notes in his own name, the About page, the
   framing of proof and verbatim quotes (`src/test/brief2-public-contract.test.ts`

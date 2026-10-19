@@ -230,7 +230,12 @@ export function MindmakeShell({
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
           </nav>
-          <small>© {new Date().getFullYear()} Mindmake.</small>
+          {/* The registered companies, named once on every page beside the
+              copyright (owner ruling, 2026-10-19). Each sentence holds together, so a
+              narrow screen breaks between them and never inside one. */}
+          <small>© {new Date().getFullYear()} Mindmake.{" "}
+            <span className="mm-entity-note"><span>Mindmake is a Mindmaker LLC company.</span> <span>Mindmaker Ltd in the UK.</span></span>
+          </small>
         </div>
       </footer>
 

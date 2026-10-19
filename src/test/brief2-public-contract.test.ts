@@ -627,11 +627,12 @@ describe("the naming law", () => {
 
   it("uses no earlier name for the business", () => {
     /* Three exceptions, all deliberate and all narrow, and none of them a name.
-       `Mindmaker LLC` is the registered legal entity and belongs in the two
-       legal pages, where the law wants the registrant named. The substack.com
+       `Mindmaker LLC` (United States) and `Mindmaker Ltd` (United Kingdom) are
+       the registered legal entities and belong in the two legal pages, where
+       the law wants the registrants named (Krish, 2026-10-19). The substack.com
        address is where the publication was hosted. The contact mailbox is
        krish@mindmake.co (Krish, 2026-10-03); krish@themindmaker.ai redirects to it. */
-    const LEGAL_ENTITY = /Mindmaker LLC/g;
+    const LEGAL_ENTITY = /Mindmaker (LLC|Ltd)/g;
     const HOSTING = /mindmakerlive\.substack\.com/g;
     const MAILBOX = /krish@mindmake\.co/g;
     const LEGAL_PAGES = new Set(["src/pages/Privacy.tsx", "src/pages/Terms.tsx"]);

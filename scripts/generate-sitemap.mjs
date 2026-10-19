@@ -26,6 +26,8 @@ const DOMAINS = [
 // Static routes with their change frequency and priority
 // One indexed route list, shared with prerender. No fabricated lastmod for
 // static pages: a build date is not evidence of a significant content change.
+// A page carries `lastmod` only where it shows its own dated revision, as the
+// legal pages do with their visible "Last updated" line.
 const staticRoutes = staticPages;
 const escapeXml = value => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;");
 
@@ -39,7 +41,8 @@ async function generateSitemap() {
     // Static pages
     for (const route of staticRoutes) {
       urls.push(`  <url>
-    <loc>${escapeXml(domain + route.path)}</loc>
+    <loc>${escapeXml(domain + route.path)}</loc>${route.lastmod ? `
+    <lastmod>${escapeXml(route.lastmod)}</lastmod>` : ""}
   </url>`);
     }
 

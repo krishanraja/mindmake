@@ -1,0 +1,107 @@
+# Answer hub, weekly brief.
+#
+# Opens one GitHub issue a week, "Answer hub brief: week of <date>", with the
+# publishing checklist and the next three open questions from the committed
+# backlog, project-documentation/answer-backlog.json. It writes no page, calls
+# no model and spends nothing: a person (or a session they start) picks a
+# question, writes the markdown file and opens the change. Cadence, sourcing
+# and the quality bar live in 01_CANON.md under "The answer pages".
+#
+# Cron is UTC. 20:37 UTC on Sunday is 06:37 on Monday in Brisbane. The week is
+# named by that Monday. Re-running in the same week finds the issue it already
+# opened and does nothing.
+
+name: Answer hub weekly brief
+
+on:
+  schedule:
+    - cron: "37 20 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: answers-weekly
+  cancel-in-progress: false
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Open this week's brief
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const path = require("path");
+
+            // The Monday of this week in Brisbane (UTC+10, no daylight saving).
+            const local = new Date(Date.now() + 10 * 60 * 60 * 1000);
+            const back = (local.getUTCDay() + 6) % 7;
+            const monday = new Date(Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate() - back));
+            const week = monday.toISOString().slice(0, 10);
+            const title = `Answer hub brief: week of ${week}`;
+
+            const existing = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: "all", per_page: 100,
+              since: new Date(monday.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+            });
+            if (existing.some((issue) => issue.title === title)) {
+              core.notice(`"${title}" already exists; nothing to do.`);
+              return;
+            }
+
+            // What is published, read from the files themselves.
+            const dir = "src/content/answers";
+            const published = fs.readdirSync(dir).filter((file) => file.endsWith(".md")).map((file) => {
+              const text = fs.readFileSync(path.join(dir, file), "utf8");
+              const date = (text.match(/^published_at:\s*"?(\d{4}-\d{2}-\d{2})"?\s*$/m) || [])[1] || "unknown";
+              return { slug: file.replace(/\.md$/, ""), date };
+            }).sort((a, b) => b.date.localeCompare(a.date));
+            const slugs = new Set(published.map((page) => page.slug));
+
+            const backlog = JSON.parse(fs.readFileSync("project-documentation/answer-backlog.json", "utf8"));
+            const open = backlog.candidates.filter((item) => item.status === "open" && !slugs.has(item.slug));
+            const offered = open.slice(0, 3);
+
+            const candidateLines = offered.length
+              ? offered.map((item, index) => [
+                  `${index + 1}. **${item.query}**`,
+                  `   For: ${item.audience} (${item.sector}).`,
+                  `   Ground it in: ${item.grounding.join("; ")}.`,
+                  item.note ? `   Note: ${item.note}` : null,
+                ].filter(Boolean).join("\n")).join("\n")
+              : "The backlog has no open questions. Add some to `project-documentation/answer-backlog.json` from real buyer conversations.";
+
+            const latest = published[0];
+            const body = [
+              `One answer page this week, or a deliberate skip. ${published.length} pages are live; the newest is \`${latest.slug}\` (${latest.date}).`,
+              "",
+              "## Candidates",
+              "",
+              candidateLines,
+              "",
+              `${open.length} open in the backlog. A better question heard from a real buyer this week beats all of them.`,
+              "",
+              "## Checklist",
+              "",
+              "- [ ] Pick one question. Write it as the buyer says it, as `target_query`.",
+              "- [ ] Ground every sentence in what is already public: `00_NORTH_STAR.md`, `01_CANON.md`, `04_PROOF.md`. No price, no duration, no count, no client result outside `/case-studies`, nothing from `never_publish` in `NOW.md`.",
+              "- [ ] Write `src/content/answers/<slug>.md` with every front matter field. `published_at` is the day it is written. An adtech-led page carries `lead: false`.",
+              "- [ ] House voice: British English, practice \"we\", plain words, no em dash, no \"GTM\", no founder name.",
+              "- [ ] Paint its plate: `node scripts/social-plates.mjs --route=/answers/<slug>`.",
+              "- [ ] Regenerate: `node scripts/generate-sitemap.mjs --public-only && node scripts/generate-llms.mjs --public-only && node scripts/generate-answers-feed.mjs --public-only`, then `npm run qa:approved-routes:update` (the sitemap and llms.txt are locked) and say why in the commit.",
+              "- [ ] Run the required gates in `CLAUDE.md`, Verification. `src/test/answer-hub.test.ts` checks the fields, lengths, slugs, sitemap, feed and llms files.",
+              "- [ ] Krish reads the page before it merges: a new public claim waits for him (`01_CANON.md`).",
+              "- [ ] Set the candidate's `status` to `published` with its `slug` in the backlog, in the same change.",
+              "",
+              "This issue was opened by `.github/workflows/answers-weekly.yml`. It spends nothing and writes nothing else.",
+            ].join("\n");
+
+            const issue = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body });
+            core.notice(`Opened ${issue.data.html_url}`);

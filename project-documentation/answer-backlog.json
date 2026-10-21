@@ -1,0 +1,110 @@
+{
+  "about": "Questions waiting to become answer pages under /answers/:slug, in priority order. The weekly workflow (.github/workflows/answers-weekly.yml) offers the first three open candidates in its issue. A candidate is a question a PE or VC backed media, adtech or data leader asks, in their words; it is never a claim. Cadence, sourcing and the quality bar live in 01_CANON.md under 'The answer pages'. Set status to published and add the slug when the page merges.",
+  "candidates": [
+    {
+      "query": "who can build an AI that knows me and how I make decisions",
+      "audience": "Founder or senior commercial leader",
+      "sector": "media, adtech, data",
+      "grounding": ["00_NORTH_STAR.md: Mindmake in one page", "01_CANON.md: What an AI brain is"],
+      "status": "published",
+      "slug": "ai-that-knows-how-you-decide-who-can-build-it"
+    },
+    {
+      "query": "where should a private equity backed media company start with AI",
+      "audience": "CEO or CRO of an investor-owned media business",
+      "sector": "media",
+      "grounding": ["00_NORTH_STAR.md: What we believe", "01_CANON.md: The GTM proposition"],
+      "status": "published",
+      "slug": "pe-backed-media-business-where-to-start-with-ai"
+    },
+    {
+      "query": "how does a data company stay valuable when AI can do the analysis",
+      "audience": "CEO or CRO of a data company",
+      "sector": "data",
+      "grounding": ["01_CANON.md: The GTM proposition", "00_NORTH_STAR.md: What we sell"],
+      "status": "published",
+      "slug": "data-company-value-when-ai-can-do-the-analysis"
+    },
+    {
+      "query": "how do I know if an AI project is actually working before we spend more",
+      "audience": "Leader of a PE or VC backed business",
+      "sector": "media, adtech, data",
+      "grounding": ["00_NORTH_STAR.md: What good looks like"],
+      "status": "published",
+      "slug": "how-to-know-an-ai-project-is-working-before-you-spend-more"
+    },
+    {
+      "query": "how do I get AI to write and decide to my standards instead of the average",
+      "audience": "Founder or principal",
+      "sector": "media, adtech, data",
+      "grounding": ["01_CANON.md: What an AI brain is", "00_NORTH_STAR.md: The one sentence"],
+      "status": "open"
+    },
+    {
+      "query": "what should a media company board ask management about AI",
+      "audience": "Chair, investor director or CEO of a media business",
+      "sector": "media",
+      "grounding": ["00_NORTH_STAR.md: How to decide, when this file does not say", "00_NORTH_STAR.md: What good looks like"],
+      "status": "open"
+    },
+    {
+      "query": "how should an adtech company price when AI lowers the cost of targeting",
+      "audience": "CEO or CRO of an adtech company",
+      "sector": "adtech",
+      "grounding": ["01_CANON.md: The GTM proposition"],
+      "status": "open",
+      "note": "An adtech page is marked lead: false (Krish, 2026-09-25: the adtech answer is never the first thing a visitor reads)."
+    },
+    {
+      "query": "how can a leader get good at AI without their team knowing they are starting from scratch",
+      "audience": "Senior leader new to using AI themselves",
+      "sector": "media, adtech, data",
+      "grounding": ["00_NORTH_STAR.md: Current positioning and placement (the approved public line only)"],
+      "status": "open"
+    },
+    {
+      "query": "what changes for a sales team when buyers research with AI before they call",
+      "audience": "CRO or head of sales",
+      "sector": "media, adtech, data",
+      "grounding": ["01_CANON.md: The GTM proposition", "01_CANON.md: The two doors"],
+      "status": "open"
+    },
+    {
+      "query": "should a publisher license its archive to AI companies",
+      "audience": "CEO or chief commercial officer of a publisher",
+      "sector": "media",
+      "grounding": ["01_CANON.md: The GTM proposition"],
+      "status": "open"
+    },
+    {
+      "query": "how do private equity operating partners judge an AI plan in a portfolio company",
+      "audience": "Operating partner or portfolio CEO",
+      "sector": "media, adtech, data",
+      "grounding": ["00_NORTH_STAR.md: What good looks like", "00_NORTH_STAR.md: What we believe"],
+      "status": "open"
+    },
+    {
+      "query": "should an adtech or data company build its own AI model or partner",
+      "audience": "CEO or CTO of an adtech or data company",
+      "sector": "adtech, data",
+      "grounding": ["01_CANON.md: The mechanism, and why it is defensible"],
+      "status": "open",
+      "note": "If the page is adtech-led, mark it lead: false."
+    },
+    {
+      "query": "how do I keep my own judgement sharp when AI drafts most of my work",
+      "audience": "Founder or senior leader",
+      "sector": "media, adtech, data",
+      "grounding": ["00_NORTH_STAR.md: Why this exists", "01_CANON.md: The working-understanding hinge"],
+      "status": "open"
+    },
+    {
+      "query": "what does an AI-native go-to-market look like for a data company",
+      "audience": "CRO of a data company",
+      "sector": "data",
+      "grounding": ["01_CANON.md: The GTM proposition"],
+      "status": "open",
+      "note": "Public copy says go-to-market and explains it; never GTM."
+    }
+  ]
+}

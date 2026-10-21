@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-GB">
+  <id>https://mindmake.co/answers/feed.xml</id>
+  <title>Mindmake answers</title>
+  <subtitle>One page per question leaders ask about AI and their business, newest first.</subtitle>
+  <link rel="self" type="application/atom+xml" href="https://mindmake.co/answers/feed.xml"/>
+  <link rel="alternate" type="text/html" href="https://mindmake.co/blog"/>
+  <updated>2026-10-21T00:00:00Z</updated>
+  <author><name>Mindmake</name><uri>https://mindmake.co/</uri></author>
+  <icon>https://mindmake.co/favicon-192x192.png</icon>
+  <logo>https://mindmake.co/mindmake-logo-512.png</logo>
+  <entry>
+    <id>https://mindmake.co/answers/ai-that-knows-how-you-decide-who-can-build-it</id>
+    <title>Who can build an AI that knows how you decide?</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/ai-that-knows-how-you-decide-who-can-build-it"/>
+    <published>2026-10-21T00:00:00Z</published>
+    <updated>2026-10-21T00:00:00Z</updated>
+    <category term="leadership"/>
+    <summary type="text">Mindmake builds this for leaders: an AI brain, a working system that holds a leader's taste, standards, judgement and memory and uses them on their real work. Whoever builds it, the test is the same: it runs on your own decisions, it stays private to you, and you can direct and correct it in plain words without the builder in the room.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; Who can build an AI that knows me and how I make decisions?&lt;/p&gt;
+&lt;p&gt;Mindmake builds this for leaders: an AI brain, a working system that holds a leader's taste, standards, judgement and memory and uses them on their real work. Whoever builds it, the test is the same: it runs on your own decisions, it stays private to you, and you can direct and correct it in plain words without the builder in the room.&lt;/p&gt;
+&lt;p&gt;Every AI tool a leader can buy has read the internet. It knows the market, the jargon and the average answer. It knows nothing about the leader using it: which deals they walk away from, which numbers they distrust, which people they call first. So the leader gets faster at drafting and no better at deciding.&lt;/p&gt;
+&lt;p&gt;That gap is what people mean when they ask for an AI that knows them. It is a fair thing to want, and a hard thing to buy off a shelf.&lt;/p&gt;
+&lt;h2&gt;What it has to hold&lt;/h2&gt;
+&lt;p&gt;An AI that knows how you decide needs more than your files. It needs five things, kept in a form it can use on the next piece of work:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Your taste.&lt;/strong&gt; What good looks like to you, in writing, in a deal, in a hire.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Your standards.&lt;/strong&gt; The lines you will not cross and the checks you always run.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Your judgement.&lt;/strong&gt; How you made past calls and why, including the ones you got wrong.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Your memory.&lt;/strong&gt; The people, the history and the context you carry in your head.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Your trusted sources.&lt;/strong&gt; Where you look first, and which sources you have learned to ignore.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Most of this already exists in emails, board papers, notes and past decisions. The work is drawing it out, checking it with you, and building it into the tools you already use.&lt;/p&gt;
+&lt;h2&gt;How to judge who can build it&lt;/h2&gt;
+&lt;p&gt;Plenty of people will offer to build you a custom AI. Five questions separate a working system from a demonstration:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Does it run on your real work?&lt;/strong&gt; A system tested on examples you made up for the purpose will fail on the first real decision.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Is it yours?&lt;/strong&gt; It should be private to you, in your own accounts, and go with you if you move on.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Can you correct it in plain words?&lt;/strong&gt; If every correction needs the builder, you have hired a dependency.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Does it get sharper as you use it?&lt;/strong&gt; Each correction should make the next answer better, which means corrections have to be kept.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Will the builder tell you where it breaks?&lt;/strong&gt; Honest builders show you the limits before you find them.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;What Mindmake does&lt;/h2&gt;
+&lt;p&gt;Mindmake is a small AI and commercial strategy practice. It builds a leader their own AI brain, so the AI they already use stops being generic and starts working the way they do. The work starts with one paid proof: one decision or capability, built as a working first version, used on real work, and kept by the leader when the work ends.&lt;/p&gt;
+&lt;p&gt;There are two ways in. &lt;a href=&quot;/ai-brain&quot;&gt;Build your AI brain&lt;/a&gt; starts with the leader&amp;#x27;s own judgement. &lt;a href=&quot;/ai-gtm&quot;&gt;Build your AI revenue engine&lt;/a&gt; starts with the business&amp;#x27;s pricing, positioning, product and people.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/case-studies&quot;&gt;Success stories&lt;/a&gt; holds the verified client stories, in the clients&amp;#x27; own words.&lt;/p&gt;
+&lt;p&gt;The test for any of it is the one in the answer above: does it run on your decisions, is it yours, and would you vouch for it out loud.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Every AI a leader buys already knows the market. None of them know the leader. Mindmake builds the one that does.&lt;/li&gt;&lt;li&gt;An AI brain belongs to the leader. It is private to them and goes where they go.&lt;/li&gt;&lt;li&gt;A system is working when the leader who owns it will stand behind it out loud.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Can I give the AI tool I already use more background instead?&lt;/h3&gt;&lt;p&gt;More background helps for one conversation. What it rarely does is keep your standards, your past decisions and your corrections in a form that carries into the next piece of work, so the same mistakes come back. An AI brain is built to keep them.&lt;/p&gt;
+&lt;h3&gt;Is an AI brain a piece of software I buy?&lt;/h3&gt;&lt;p&gt;It is built with you. Together we decide which tools to chain together around your work, build your standards and decisions into them, prove it on real work, and leave you able to run and correct it without code. No single model or AI company holds it.&lt;/p&gt;
+&lt;h3&gt;How do I start?&lt;/h3&gt;&lt;p&gt;Get your free AI brief at mindmake.co/?start=1. You answer a few questions about your business, keep the brief it produces, and then talk it through in a free consultation.&lt;/p&gt;
+&lt;h3&gt;What does it cost?&lt;/h3&gt;&lt;p&gt;The scope and fee are agreed privately after the brief. Mindmake does not publish a price.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/data-company-value-when-ai-can-do-the-analysis</id>
+    <title>What is a data company worth when AI can do the analysis?</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/data-company-value-when-ai-can-do-the-analysis"/>
+    <published>2026-10-21T00:00:00Z</published>
+    <updated>2026-10-21T00:00:00Z</updated>
+    <category term="strategy"/>
+    <summary type="text">A data company keeps its value by selling what a buyer's AI cannot make for itself: data with clear rights and a known source, a place inside the customer's decisions, and the judgement to say what the numbers mean for that customer. When analysis gets cheap, the price has to follow the decision the data improves rather than the report, and the way the company sells has to change with it.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How does a data company stay valuable when AI can do the analysis?&lt;/p&gt;
+&lt;p&gt;A data company keeps its value by selling what a buyer's AI cannot make for itself: data with clear rights and a known source, a place inside the customer's decisions, and the judgement to say what the numbers mean for that customer. When analysis gets cheap, the price has to follow the decision the data improves rather than the report, and the way the company sells has to change with it.&lt;/p&gt;
+&lt;p&gt;For years a data company could sell the analysis. A buyer paid for the dashboard, the report or the benchmark, because turning raw data into an answer took skilled people and time.&lt;/p&gt;
+&lt;p&gt;That part is getting cheap. A buyer&amp;#x27;s own AI can now read a dataset and produce a passable report in minutes. Some of what a data company used to charge for, the buyer can now make for itself.&lt;/p&gt;
+&lt;h2&gt;What still holds its value&lt;/h2&gt;
+&lt;p&gt;Three things are hard for a buyer&amp;#x27;s AI to copy.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Rights and a known source.&lt;/strong&gt; Data that is exclusive, licensed cleanly and kept current is worth more as AI spreads, because every model needs inputs it can trust. A buyer cannot prompt their way to data they have no right to.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A place in the decision.&lt;/strong&gt; A data product that sits inside how a customer decides, in their planning, their pricing or their buying, is hard to remove. One that produces a report someone reads once a month is easy to replace.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Judgement about what it means.&lt;/strong&gt; Knowing which number matters for this customer, this quarter, is still scarce. Data companies that can say &amp;quot;here is what this means for you&amp;quot; keep a seat in the room.&lt;/p&gt;
+&lt;h2&gt;Change the price and the pitch&lt;/h2&gt;
+&lt;p&gt;If the analysis is cheap, pricing by report or by seat starts to look strange to buyers. The price has to follow something the buyer values: access to rights they cannot get elsewhere, or the decision the data improves.&lt;/p&gt;
+&lt;p&gt;The pitch changes too. Sellers who used to show what the data says now have to show what decision it changed and what happened next. That often means a different buyer inside the customer, and a different team to sell to them.&lt;/p&gt;
+&lt;h2&gt;Where to start&lt;/h2&gt;
+&lt;p&gt;Pick one product line and ask four questions about it. What do we make that a buyer&amp;#x27;s AI cannot? What should it cost now? How do we explain why it matters? Who in our team should sell it, and with what help from AI? The answers rarely leave all four levers where they were.&lt;/p&gt;
+&lt;h2&gt;Where Mindmake fits&lt;/h2&gt;
+&lt;p&gt;Mindmake is a small AI and commercial strategy practice. &lt;a href=&quot;/ai-gtm&quot;&gt;Build your AI revenue engine&lt;/a&gt; rebuilds a business&amp;#x27;s pricing, positioning, product and people for AI, then tests the change with real buyers. The work starts with one paid proof, scoped and priced privately. The verified client stories are on &lt;a href=&quot;/case-studies&quot;&gt;Success stories&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;When anyone's AI can produce the analysis, the value moves to three places: the rights to the data, the place in the decision, and the judgement about what it means.&lt;/li&gt;&lt;li&gt;Product, price, positioning and people are the four levers of a go-to-market rebuild, and a data company usually has to move more than one of them at once.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Is our data still a moat?&lt;/h3&gt;&lt;p&gt;Partly. Data that is exclusive, cleanly licensed and kept fresh is hard to copy. Data anyone can gather, or that a buyer's AI can estimate well enough, is not a moat however large it is.&lt;/p&gt;
+&lt;h3&gt;Should we sell our data to AI companies?&lt;/h3&gt;&lt;p&gt;It can be a real line of revenue, and it can also train a competitor. Decide which data you would sell, on what terms and at what price before a buyer asks, so the deal fits a plan you already have.&lt;/p&gt;
+&lt;h3&gt;What changes for the sales team?&lt;/h3&gt;&lt;p&gt;They sell the decision the data improves and the proof that it improved. That usually means new questions when they first meet a buyer, new proof in the pitch, and often a different person to sell to.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/how-to-know-an-ai-project-is-working-before-you-spend-more</id>
+    <title>How do you know an AI project is working before you spend more?</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/how-to-know-an-ai-project-is-working-before-you-spend-more"/>
+    <published>2026-10-21T00:00:00Z</published>
+    <updated>2026-10-21T00:00:00Z</updated>
+    <category term="implementation"/>
+    <summary type="text">An AI project is working when it runs on real work, the people using it can direct and correct it without the builder, and the leader who owns the result would say out loud that it is useful. Usage charts and hours saved are early signals; the test that matters is whether a decision got better, and whether that would survive the builder leaving.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How do I know if an AI project is actually working before we spend more?&lt;/p&gt;
+&lt;p&gt;An AI project is working when it runs on real work, the people using it can direct and correct it without the builder, and the leader who owns the result would say out loud that it is useful. Usage charts and hours saved are early signals; the test that matters is whether a decision got better, and whether that would survive the builder leaving.&lt;/p&gt;
+&lt;p&gt;Most AI projects report good numbers early. More people log in, more tasks run through the tool, and someone estimates the hours saved. Then the money is approved for the next phase, and a year later it is hard to say what changed.&lt;/p&gt;
+&lt;p&gt;The early numbers were not wrong. They were measuring use, and use is easy to grow. What a leader needs to know is whether the business is making better decisions, and whether it could keep doing so on its own.&lt;/p&gt;
+&lt;h2&gt;Why adoption numbers mislead&lt;/h2&gt;
+&lt;p&gt;Usage rises for many reasons: a launch email, a mandate from the top, a novelty that wears off. Time saved is usually an estimate made by the people with a stake in the project. Neither tells you whether the work got better or what the saved time was spent on.&lt;/p&gt;
+&lt;p&gt;Both can look healthy while every important decision is made exactly as before.&lt;/p&gt;
+&lt;h2&gt;Four checks&lt;/h2&gt;
+&lt;p&gt;Before you spend more, ask four questions about the project.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Does it run on real work?&lt;/strong&gt; Demonstrations use tidy examples. Real work is messy, late and full of exceptions. A project that has only seen tidy examples has not been tested.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Can the people using it correct it?&lt;/strong&gt; If a wrong answer needs the builder to fix it, the project depends on the builder. Good systems let users correct them in plain words and keep the correction.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Would it survive the builder leaving?&lt;/strong&gt; Imagine the team that built it leaves next week. If the system would quietly stop being used, you have bought a service.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Will the owner of the result vouch for it?&lt;/strong&gt; Ask the person accountable for the outcome whether they would recommend it to a peer, out loud. Hesitation is data.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;A project that passes all four is worth scaling. One that fails two or more needs fixing before it gets more money.&lt;/p&gt;
+&lt;h2&gt;Make the first version small enough to prove&lt;/h2&gt;
+&lt;p&gt;The easiest way to pass these checks is to start small. Pick one decision or capability, build a working first version, use it on real work and keep what works. A small system that a leader will vouch for teaches you more than a large one nobody owns.&lt;/p&gt;
+&lt;h2&gt;Where Mindmake fits&lt;/h2&gt;
+&lt;p&gt;Mindmake is a small AI and commercial strategy practice, and this is how its work is built. Each piece of work starts with one paid proof: one decision or capability, built as a working first version, used on real work and kept by the leader when the work ends. It can start from the leader&amp;#x27;s own judgement, with &lt;a href=&quot;/ai-brain&quot;&gt;Build your AI brain&lt;/a&gt;, or from the business&amp;#x27;s pricing, positioning, product and people, with &lt;a href=&quot;/ai-gtm&quot;&gt;Build your AI revenue engine&lt;/a&gt;. The verified client stories are on &lt;a href=&quot;/case-studies&quot;&gt;Success stories&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;A proof counts as working when the client will stand behind it.&lt;/li&gt;&lt;li&gt;When the work ends, something is running that was not running before, it is used on real work, and the leader can direct it without us.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;What should we measure first?&lt;/h3&gt;&lt;p&gt;Three things: which real decisions or pieces of work it touched, what the people using it had to correct, and whether the owner of the result would use it again tomorrow.&lt;/p&gt;
+&lt;h3&gt;When should we stop an AI project?&lt;/h3&gt;&lt;p&gt;When nobody who owns a result will vouch for it, or when it only works while the builder is in the room. Either one means you are paying for a demonstration.&lt;/p&gt;
+&lt;h3&gt;Is the test different for a business backed by private equity or venture capital?&lt;/h3&gt;&lt;p&gt;The test is the same and the clock is shorter. Investors judge a business on what it can prove, so a working first version used on real work is worth more than a plan for a bigger one.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/pe-backed-media-business-where-to-start-with-ai</id>
+    <title>Where should a PE-backed media business start with AI?</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/pe-backed-media-business-where-to-start-with-ai"/>
+    <published>2026-10-21T00:00:00Z</published>
+    <updated>2026-10-21T00:00:00Z</updated>
+    <category term="strategy"/>
+    <summary type="text">An investor-backed media business should start with one decision that changes the value of the company, such as how a product is priced, packaged or positioned, and build a working first version of the AI around that decision on real work. Its owners judge it on what it can prove while they hold it, so one better call on product, price, positioning or people is worth more than a tool that saves a few hours in one team.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; Where should a private equity backed media company start with AI?&lt;/p&gt;
+&lt;p&gt;An investor-backed media business should start with one decision that changes the value of the company, such as how a product is priced, packaged or positioned, and build a working first version of the AI around that decision on real work. Its owners judge it on what it can prove while they hold it, so one better call on product, price, positioning or people is worth more than a tool that saves a few hours in one team.&lt;/p&gt;
+&lt;p&gt;A media business owned by private equity or venture investors runs on a clock. Its owners plan to hold it for a period and sell it for more, so every big project is asked the same question: will this make the company worth more while we own it?&lt;/p&gt;
+&lt;p&gt;AI makes that question harder, because there are so many places to use it. Newsrooms can draft faster, sales teams can research faster, and every department can produce a list of uses. The list is rarely the problem. The order is.&lt;/p&gt;
+&lt;h2&gt;Why the list of uses is the wrong place to start&lt;/h2&gt;
+&lt;p&gt;A list of AI uses by department spreads effort thinly. Each team saves some time, nobody can say what the time was spent on, and the board sees cost without a story. A year later the business has more tools and the same strategy.&lt;/p&gt;
+&lt;p&gt;The businesses that get value start from the other end. They ask which decision, if it were made better, would change what the company is worth. Then they build AI around that one decision first.&lt;/p&gt;
+&lt;h2&gt;The four levers&lt;/h2&gt;
+&lt;p&gt;For most media businesses that decision sits on one of four levers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Product.&lt;/strong&gt; What you make and for whom, now that AI can make a passable version of much of it.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Price.&lt;/strong&gt; What buyers will pay for, when the cost of making content keeps falling.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Positioning.&lt;/strong&gt; Why an advertiser, a subscriber or a partner should choose you over a cheaper machine-made option.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;People.&lt;/strong&gt; Which work your team should keep, and which work AI should carry.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A media business has assets AI cannot copy: relationships with an audience, rights to an archive, a brand people trust and editors with judgement. The strongest first projects make one of those assets worth more.&lt;/p&gt;
+&lt;h2&gt;Build one working version and prove it&lt;/h2&gt;
+&lt;p&gt;Pick the decision. Build a working first version of the system that supports it, using the tools you already have where you can. Use it on real work, with the leaders who own the result, and judge it by whether they would stand behind it.&lt;/p&gt;
+&lt;p&gt;That gives the board something to test rather than a plan to trust, and it gives the leadership team a capability they keep.&lt;/p&gt;
+&lt;h2&gt;Where Mindmake fits&lt;/h2&gt;
+&lt;p&gt;Mindmake is a small AI and commercial strategy practice. &lt;a href=&quot;/ai-gtm&quot;&gt;Build your AI revenue engine&lt;/a&gt; rebuilds a business&amp;#x27;s pricing, positioning, product and people for AI, then tests the change with real buyers. &lt;a href=&quot;/ai-brain&quot;&gt;Build your AI brain&lt;/a&gt; builds a leader their own AI that holds their standards and judgement. Either way the work starts with one paid proof, scoped and priced privately, and the verified client stories are on &lt;a href=&quot;/case-studies&quot;&gt;Success stories&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;AI creates value at three levels: help with the task, bring what matters, and extend what the leader can do. The third is the one worth paying for.&lt;/li&gt;&lt;li&gt;Time saved is the setup. The payoff is whose time comes back and what it is spent on.&lt;/li&gt;&lt;li&gt;Advice leaves when the adviser does. A working system stays and gets better.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Should we start with tools for making content faster?&lt;/h3&gt;&lt;p&gt;Only if the cost of making content is the thing that moves the value of the business. For many media owners the bigger question is what their audience, archive and brand are worth to buyers now that AI makes content cheap.&lt;/p&gt;
+&lt;h3&gt;How do we bring the board with us?&lt;/h3&gt;&lt;p&gt;Show them one working result on real work. A board can test a working first version; a strategy deck it can only take on trust.&lt;/p&gt;
+&lt;h3&gt;Do we need to hire an AI team first?&lt;/h3&gt;&lt;p&gt;Usually not. A first version can be built with the leaders who own the decision and the tools the business already pays for. Hiring makes more sense once you know which capability is worth keeping.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/ai-system-learns-from-corrections</id>
+    <title>An AI system gets better at your work when every correction is kept with its reason</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/ai-system-learns-from-corrections"/>
+    <published>2026-09-24T00:00:00Z</published>
+    <updated>2026-09-24T00:00:00Z</updated>
+    <category term="implementation"/>
+    <summary type="text">An AI system gets better at a particular business's work when each correction is recorded with its reason and kept alongside the earlier view, so the next answer starts from the corrected position. Correcting an AI in the middle of a conversation fixes that one answer and is lost when the conversation ends. A kept record of corrections turns everyday edits into lasting improvements that people can see, check and reverse.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How do I make an AI system learn from our corrections over time?&lt;/p&gt;
+&lt;p&gt;An AI system gets better at a particular business's work when each correction is recorded with its reason and kept alongside the earlier view, so the next answer starts from the corrected position. Correcting an AI in the middle of a conversation fixes that one answer and is lost when the conversation ends. A kept record of corrections turns everyday edits into lasting improvements that people can see, check and reverse.&lt;/p&gt;
+&lt;p&gt;Anyone who uses AI at work spends a lot of time correcting it. The tone is off, a figure is wrong, it recommends something the business stopped doing last year. Each correction takes a minute. Then the next conversation starts and the same mistake comes back.&lt;/p&gt;
+&lt;p&gt;The corrections are some of the most valuable information a business produces about its own judgement, and most of it is thrown away.&lt;/p&gt;
+&lt;h2&gt;Why corrections disappear&lt;/h2&gt;
+&lt;p&gt;General AI assistants treat each conversation as separate. What you correct in one conversation does not reliably carry into the next, and even where memory features exist, they tend to store facts about you rather than the reasoning behind a decision.&lt;/p&gt;
+&lt;p&gt;So the same senior person corrects the same kinds of error again and again. The system does not improve at the work; the person gets better at compensating for it.&lt;/p&gt;
+&lt;h2&gt;Keep the correction and its reason&lt;/h2&gt;
+&lt;p&gt;The fix is to treat each meaningful correction as a record in its own right. It holds the earlier view, the new view and the reason for the change.&lt;/p&gt;
+&lt;p&gt;For example: before, all consequential work needed a person to release it. Now, people release work that reaches the outside world, and reversible internal drafts can stay delegated. The reason: review of everything had become a rubber stamp, and the risk sits in what customers see.&lt;/p&gt;
+&lt;p&gt;A system that reads that record before answering will not repeat the old view, and it can explain why.&lt;/p&gt;
+&lt;h2&gt;Keep the old view visible&lt;/h2&gt;
+&lt;p&gt;It is tempting to overwrite the old answer. Keeping it has two benefits. It shows how the business&amp;#x27;s thinking has moved, which is itself useful knowledge. And it makes the change reversible: if the new view turns out to be wrong, the team can see exactly what it replaced.&lt;/p&gt;
+&lt;h2&gt;What changes over time&lt;/h2&gt;
+&lt;p&gt;After a few months of kept corrections, the system starts from a very different place. Its first drafts reflect the standards the team has actually applied. Senior people spend less time correcting and more time on new decisions.&lt;/p&gt;
+&lt;p&gt;The improvement is also visible. Anyone can look at the record and see what the system has learned, from whom and why. That is what makes it trustworthy enough to rely on.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;In an AI brain, the old view stays visible and the better one becomes the new standard.&lt;/li&gt;&lt;li&gt;A correction without a reason teaches the system what to say once. A correction with a reason teaches it how to decide.&lt;/li&gt;&lt;li&gt;Mindmake keeps every change of mind in the client's own record, so the business can see how its thinking has moved.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Is this the same as fine-tuning a model?&lt;/h3&gt;&lt;p&gt;No. Fine-tuning changes the model itself, which is slow, costly and hard to inspect. A correction record sits beside the model and is read before each answer, so it can be seen, edited and reversed by a person.&lt;/p&gt;
+&lt;h3&gt;Why keep the earlier view?&lt;/h3&gt;&lt;p&gt;Because the reason something changed is part of the judgement. Keeping the earlier view shows what was believed, what changed and why, which stops the same mistake being made again by someone who never saw it.&lt;/p&gt;
+&lt;h3&gt;Who makes the corrections?&lt;/h3&gt;&lt;p&gt;The people whose judgement the system is meant to carry. Usually a leader and a few senior colleagues, correcting real outputs as part of their normal work.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/what-humans-should-decide-when-ai-does-the-work</id>
+    <title>People should decide what reaches the outside world, what cannot be undone and what sets the standard</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/what-humans-should-decide-when-ai-does-the-work"/>
+    <published>2026-09-21T00:00:00Z</published>
+    <updated>2026-09-21T00:00:00Z</updated>
+    <category term="leadership"/>
+    <summary type="text">When AI can do most of the work, people should still decide three kinds of thing: what reaches the outside world, what cannot easily be undone and what sets the standard everything else is measured against. Reversible internal drafts, analysis and preparation can be delegated to AI, with a person checking the result. Drawing the line this way keeps accountability where it belongs while letting AI carry most of the effort.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; What decisions should humans still make when AI can do most of the work?&lt;/p&gt;
+&lt;p&gt;When AI can do most of the work, people should still decide three kinds of thing: what reaches the outside world, what cannot easily be undone and what sets the standard everything else is measured against. Reversible internal drafts, analysis and preparation can be delegated to AI, with a person checking the result. Drawing the line this way keeps accountability where it belongs while letting AI carry most of the effort.&lt;/p&gt;
+&lt;p&gt;As AI takes on more of the work, most teams reach for a simple safety rule: a human in the loop, everywhere. In practice that rule decays quickly. The volume of AI output grows, the person in the loop starts approving by habit, and the review becomes a formality that nobody would defend if something went wrong.&lt;/p&gt;
+&lt;p&gt;A better approach is to decide clearly which decisions stay with people, and let AI carry the rest.&lt;/p&gt;
+&lt;h2&gt;Three tests for what stays human&lt;/h2&gt;
+&lt;p&gt;Reach. If the work will be seen or relied on by someone outside the business, such as a customer, a partner or a regulator, a person releases it. The business is accountable for what it says to the world, and accountability needs a name attached.&lt;/p&gt;
+&lt;p&gt;Reversibility. If a mistake can be undone cheaply, delegation is safe. If it cannot, such as a signed contract, a published price or a dismissal, a person decides.&lt;/p&gt;
+&lt;p&gt;Standard-setting. Some decisions define what good looks like for everything that follows: the pricing principle, the brand voice, the hiring bar. These are judgement calls about direction, and they belong to the people who will answer for the direction.&lt;/p&gt;
+&lt;h2&gt;What can be delegated&lt;/h2&gt;
+&lt;p&gt;Most work falls outside those three tests. Internal drafts, research, analysis, preparation, first versions and summaries are reversible and stay inside the business. AI can do this work at speed, with people sampling the results and correcting patterns rather than approving each item.&lt;/p&gt;
+&lt;p&gt;This is where most of the time savings are. The effort moves to AI; the accountability stays with people.&lt;/p&gt;
+&lt;h2&gt;Let the line move, and record why&lt;/h2&gt;
+&lt;p&gt;The line is a working rule, and it should change as evidence arrives. A team might start with every customer email released by a person, then find that a certain kind of reply is always right, and delegate it.&lt;/p&gt;
+&lt;p&gt;The important thing is to record each change and its reason. Without that record the line drifts quietly, and six months later nobody knows why AI is now sending something that used to need a signature. With it, the team can see how its own rules evolved and correct them if the evidence changes.&lt;/p&gt;
+&lt;h2&gt;The result&lt;/h2&gt;
+&lt;p&gt;Drawn this way, the line gives people fewer things to approve and more reason to approve them carefully. That is what oversight was supposed to mean in the first place.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake's working rule is that people release work that reaches the outside world, and reversible internal drafts can stay delegated.&lt;/li&gt;&lt;li&gt;A person reviewing everything ends up reviewing nothing carefully. A clear line lets them review the things that matter.&lt;/li&gt;&lt;li&gt;When the line moves, the reason is recorded, so the team can see why the rule changed.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Does a person need to check every AI output?&lt;/h3&gt;&lt;p&gt;No. Checking everything turns review into a rubber stamp. Check what reaches customers, what cannot be undone and what defines the standard. Sample the rest.&lt;/p&gt;
+&lt;h3&gt;What counts as reaching the outside world?&lt;/h3&gt;&lt;p&gt;Anything a customer, partner, investor or regulator will see or rely on. Emails sent, prices quoted, contracts signed, public posts and published figures.&lt;/p&gt;
+&lt;h3&gt;Will the line move over time?&lt;/h3&gt;&lt;p&gt;Yes, and it should. As a team gains evidence that a kind of work is reliable, it can move that work to the delegated side. Record the change and the reason, so the next person understands it.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/keep-company-judgement-when-senior-people-leave</id>
+    <title>Keep a company's judgement when senior people leave by recording its decisions and the reasons behind them</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/keep-company-judgement-when-senior-people-leave"/>
+    <published>2026-09-18T00:00:00Z</published>
+    <updated>2026-09-18T00:00:00Z</updated>
+    <category term="leadership"/>
+    <summary type="text">A company keeps its judgement when senior people leave by recording how they decide while they are still there: the decisions they made, the reasons, the standards they applied and the exceptions they allowed. Handover documents capture tasks and contacts, and they rarely capture why the person said no to the plan everyone else liked. Held in a structured record that people and AI systems can both read, that judgement stays with the business.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How do I stop my company's knowledge and judgement leaving when senior people leave?&lt;/p&gt;
+&lt;p&gt;A company keeps its judgement when senior people leave by recording how they decide while they are still there: the decisions they made, the reasons, the standards they applied and the exceptions they allowed. Handover documents capture tasks and contacts, and they rarely capture why the person said no to the plan everyone else liked. Held in a structured record that people and AI systems can both read, that judgement stays with the business.&lt;/p&gt;
+&lt;p&gt;When a senior person leaves, the handover usually goes well on paper. Their tasks are listed, their contacts are introduced and their files are moved. Six months later the business makes a decision they would have stopped, and nobody can say why it feels wrong until it has already gone wrong.&lt;/p&gt;
+&lt;p&gt;What left was their judgement: how they decided, not what they did.&lt;/p&gt;
+&lt;h2&gt;Why handover documents miss it&lt;/h2&gt;
+&lt;p&gt;Handover documents answer the question &amp;quot;what does this person do?&amp;quot; They are written at the end, often in a hurry, by someone who is already thinking about their next role. They list responsibilities, open work and useful contacts.&lt;/p&gt;
+&lt;p&gt;They rarely answer &amp;quot;how does this person decide?&amp;quot; That knowledge is hard to write on demand. It lives in reactions: the pricing request they always refused, the supplier they never trusted, the kind of hire that looked good and failed. Asked directly, most experts struggle to list it. Shown a real decision, they know immediately.&lt;/p&gt;
+&lt;h2&gt;Record decisions as they happen&lt;/h2&gt;
+&lt;p&gt;The practical fix is to record decisions as they happen, with their reasons, while the person is still making them. Each entry needs four things: the situation, what was decided, why, and what would have changed the answer.&lt;/p&gt;
+&lt;p&gt;Over a few months, patterns appear. The same standard shows up in five different decisions. An exception gets made twice for the same reason. That is judgement becoming visible, and it can now be taught.&lt;/p&gt;
+&lt;h2&gt;Make it usable by people and AI&lt;/h2&gt;
+&lt;p&gt;A record like this is useful to a new hire, who can read how similar calls were made before. It is also useful to an AI system, which can draw on the record when drafting a recommendation and name the past decision it relied on.&lt;/p&gt;
+&lt;p&gt;That second use matters more each year. Teams increasingly start their work with AI. If the AI starts from the public average, the business gets average work. If it starts from the business&amp;#x27;s own record of judgement, the departed expert&amp;#x27;s reasoning is still part of every draft.&lt;/p&gt;
+&lt;h2&gt;Keep it owned by the business&lt;/h2&gt;
+&lt;p&gt;The record should sit in the business&amp;#x27;s own accounts, readable by people and exportable. If it lives inside a vendor&amp;#x27;s system, the business ends up renting back its own memory.&lt;/p&gt;
+&lt;p&gt;This shared record is different from a leader&amp;#x27;s own AI brain, which is private and stays theirs wherever they go. What the business keeps is what they chose to hand to the team.&lt;/p&gt;
+&lt;p&gt;Start with one person and one recurring decision. Record the next five times it is made and the reasons behind each one. That small record is worth more at their leaving party than any handover document.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;A leader's own AI brain stays theirs. The standards and decisions they share with the team stay in the business's own accounts when people move on.&lt;/li&gt;&lt;li&gt;The most expensive thing a senior person takes with them is the reason they said no.&lt;/li&gt;&lt;li&gt;A decision recorded with its reason can be reused, checked and corrected. A decision recorded without it can only be copied.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Is this the same as a knowledge base?&lt;/h3&gt;&lt;p&gt;A knowledge base stores documents and answers to known questions. A record of judgement stores decisions and the reasoning behind them, so it can help with questions nobody has asked yet.&lt;/p&gt;
+&lt;h3&gt;When should a business start?&lt;/h3&gt;&lt;p&gt;Well before anyone hands in their notice. The best time is while the person is still making decisions every week, because the reasons are fresh and they can correct the record themselves.&lt;/p&gt;
+&lt;h3&gt;Does the person have to write it all down?&lt;/h3&gt;&lt;p&gt;No. Most of it can be drawn from what already exists, such as emails, board papers and meeting notes, then checked by the person in a short review. Their time goes into correcting, which is quicker than writing.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/expertise-more-valuable-as-ai-improves</id>
+    <title>Expertise becomes more valuable as AI improves, because judgement is the part AI cannot supply</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/expertise-more-valuable-as-ai-improves"/>
+    <published>2026-09-15T00:00:00Z</published>
+    <updated>2026-09-15T00:00:00Z</updated>
+    <category term="leadership"/>
+    <summary type="text">Expertise becomes more valuable as AI improves because AI makes competent output cheap and plentiful, which moves the value to the judgement that decides which output is right for this situation. An expert knows what good looks like, which obvious answer is wrong here and what the organisation has already learned the hard way. AI can produce the options; people with judgement choose, and the businesses that capture that judgement will compound it.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; Will AI make expertise less valuable in the future economy?&lt;/p&gt;
+&lt;p&gt;Expertise becomes more valuable as AI improves because AI makes competent output cheap and plentiful, which moves the value to the judgement that decides which output is right for this situation. An expert knows what good looks like, which obvious answer is wrong here and what the organisation has already learned the hard way. AI can produce the options; people with judgement choose, and the businesses that capture that judgement will compound it.&lt;/p&gt;
+&lt;p&gt;Every wave of automation has prompted the same fear: that the skilled people become unnecessary. AI sharpens the fear because it produces work that looks expert. A strategy memo, a pricing analysis and a hiring plan all arrive in seconds, fluent and plausible.&lt;/p&gt;
+&lt;p&gt;Fluent and plausible is exactly the problem. The work looks finished before anyone has decided whether it is right.&lt;/p&gt;
+&lt;h2&gt;Competent output is becoming cheap&lt;/h2&gt;
+&lt;p&gt;For most knowledge work, the first draft used to be the expensive part. It took time, and the time sat with skilled people. AI has pushed the cost of a competent first draft close to zero, and it will keep falling.&lt;/p&gt;
+&lt;p&gt;When something becomes cheap, value moves to whatever remains scarce. In this case that is the ability to look at ten competent options and know which one fits this business, this customer and this moment, and which one will fail for reasons nobody put in the brief.&lt;/p&gt;
+&lt;h2&gt;What judgement actually consists of&lt;/h2&gt;
+&lt;p&gt;Judgement is often described as instinct, which makes it sound unteachable. In practice it is made of things that can be named.&lt;/p&gt;
+&lt;p&gt;Standards: the quality bar a person applies without being asked. Memory: what was tried before, what happened and why. Exceptions: the cases where the usual rule is wrong. Taste: the sense of what a particular customer will find credible, or insulting.&lt;/p&gt;
+&lt;p&gt;AI has read about all of these in general. It has none of them for your business unless somebody gives them to it.&lt;/p&gt;
+&lt;h2&gt;Why the experts gain the most&lt;/h2&gt;
+&lt;p&gt;The people who benefit most from AI are the ones who can tell good output from bad quickly. A senior person with clear standards can review ten AI drafts in the time it used to take to write one, and pick the right one. A person without those standards gets ten plausible drafts and no way to choose.&lt;/p&gt;
+&lt;p&gt;So AI raises the value of expertise twice. It removes the slow parts of expert work, and it increases the volume of output that needs expert judgement to sort.&lt;/p&gt;
+&lt;h2&gt;The risk for businesses&lt;/h2&gt;
+&lt;p&gt;The danger is that judgement stays in a few senior heads while everything around it speeds up. Those people become the bottleneck, then they leave, and the judgement leaves with them.&lt;/p&gt;
+&lt;p&gt;The businesses that do well in the next economy will write their judgement down: the standards, the decisions and the reasons. That record can be taught to new people, used by AI systems and corrected when it turns out to be wrong. It compounds. A leader&amp;#x27;s own AI brain stays theirs, and the standards they share with the team stay with the business.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake's work starts from the judgement a leader already has and builds systems that carry it further.&lt;/li&gt;&lt;li&gt;When competent output costs almost nothing, the scarce skill is deciding which output to trust.&lt;/li&gt;&lt;li&gt;Judgement that is written down can be taught, checked and improved. Judgement that stays in one head leaves when that person does.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Does this mean junior roles disappear?&lt;/h3&gt;&lt;p&gt;The work junior people did to learn changes shape. Drafting from scratch matters less; reviewing, comparing and explaining why one option beats another matters more. That is still how judgement is learned, and it can be learned faster.&lt;/p&gt;
+&lt;h3&gt;What is the difference between expertise and judgement?&lt;/h3&gt;&lt;p&gt;Expertise is knowing the field. Judgement is knowing what matters in this particular case, for this particular business, right now. AI has read the field. It has not lived your case.&lt;/p&gt;
+&lt;h3&gt;How does a business protect its judgement?&lt;/h3&gt;&lt;p&gt;By writing it down in a form people and systems can use. The standards, the past decisions and the reasons behind them. Kept in the business's own accounts, it stays an asset rather than a dependency.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/ai-brain-vs-general-assistant-leadership-team</id>
+    <title>An AI brain starts from what your business already knows. A general assistant starts from zero every time</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/ai-brain-vs-general-assistant-leadership-team"/>
+    <published>2026-09-12T00:00:00Z</published>
+    <updated>2026-09-12T00:00:00Z</updated>
+    <category term="ai-literacy"/>
+    <summary type="text">An AI brain is a private, structured record of how a leader and their team decide: the standards they hold, the decisions already made, the reasons behind them and the corrections since. A general assistant is trained on the public record and forgets the conversation when it ends, so every question starts from the average view of businesses like yours. The practical difference is where each piece of work begins, and an AI brain means it begins from what you already know.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; What does an AI brain do for a leadership team that a general AI assistant cannot?&lt;/p&gt;
+&lt;p&gt;An AI brain is a private, structured record of how a leader and their team decide: the standards they hold, the decisions already made, the reasons behind them and the corrections since. A general assistant is trained on the public record and forgets the conversation when it ends, so every question starts from the average view of businesses like yours. The practical difference is where each piece of work begins, and an AI brain means it begins from what you already know.&lt;/p&gt;
+&lt;p&gt;Every leadership team now has access to the same general assistants. They write well, summarise fast and answer almost anything. Ask two rival companies&amp;#x27; teams the same question about pricing and they will get much the same answer, because both assistants learned from the same public material.&lt;/p&gt;
+&lt;p&gt;That is the ceiling of a general assistant for a leader. It knows what has been written about businesses like yours. It knows nothing about yours.&lt;/p&gt;
+&lt;h2&gt;What a general assistant carries into a decision&lt;/h2&gt;
+&lt;p&gt;A general assistant arrives at every question with three things: the public record it was trained on, whatever you paste into the conversation, and a talent for making the result sound confident. When the conversation ends, what it learned about you goes with it.&lt;/p&gt;
+&lt;p&gt;So every piece of work starts at the same place. Somebody explains the business again, pastes the context again and corrects the same generic assumptions again. The explaining is the hidden cost, and it falls on the most senior people, because they are the ones who know what the assistant is missing.&lt;/p&gt;
+&lt;h2&gt;What an AI brain carries instead&lt;/h2&gt;
+&lt;p&gt;An AI brain is a structured record of how a particular leader and team decide. It holds the standards they apply, the decisions already made, the reasons behind them and the corrections made since. When it is asked something, it reads from that record first.&lt;/p&gt;
+&lt;p&gt;Three things change as a result.&lt;/p&gt;
+&lt;p&gt;Work starts further on. A pricing question starts from the last three pricing decisions and the rule that has held across all of them. The first draft already reflects what the team would say.&lt;/p&gt;
+&lt;p&gt;Answers can be checked. Because the brain draws on a named standard or past decision, a person can follow the reasoning back to its source and disagree with it. A recommendation you can argue with is one you can safely take into a room.&lt;/p&gt;
+&lt;p&gt;Changes of mind are kept. When the team decides differently, the earlier view stays visible and the reason for the change is recorded. The next decision benefits from the correction instead of repeating the old view.&lt;/p&gt;
+&lt;h2&gt;Why this matters more as models improve&lt;/h2&gt;
+&lt;p&gt;The leading models are getting better and more alike at the same time. When every team can rent the same intelligence, the intelligence stops being an advantage. What stays scarce is the record of how your team judges things, and that record only exists if somebody builds it.&lt;/p&gt;
+&lt;p&gt;A general assistant makes everyone faster at producing average work. An AI brain makes a specific team faster at producing its own work, to its own standard.&lt;/p&gt;
+&lt;h2&gt;Where to start&lt;/h2&gt;
+&lt;p&gt;Pick one decision that comes back every month and costs senior time each time: a pricing exception, a hiring call, a partner request. Write down the last few times it was decided and why. That is the first page of the brain, and it is enough to see the difference on the next occurrence.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake builds AI brains that hold a leader's own standards, decisions and context. The brain belongs to the leader.&lt;/li&gt;&lt;li&gt;Every answer from an AI brain can be traced back to the standard or decision it drew on, so a person can check it and disagree with it.&lt;/li&gt;&lt;li&gt;When a leader changes their mind, the brain keeps the earlier view and records why it changed.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Is an AI brain a different model?&lt;/h3&gt;&lt;p&gt;No. It usually runs on the same leading models a general assistant uses. The difference is the record it reads from before it answers, and that record belongs to the leader.&lt;/p&gt;
+&lt;h3&gt;What goes into it first?&lt;/h3&gt;&lt;p&gt;The decisions a team has already made and the reasons behind them. Pricing exceptions, hiring calls, the plans that were stopped and why. Most of it exists already in documents, notes and meeting records.&lt;/p&gt;
+&lt;h3&gt;Who can see it?&lt;/h3&gt;&lt;p&gt;The leader decides. It is private by default, it belongs to the leader, and the company benefits from the decisions it improves.&lt;/p&gt;
+&lt;h3&gt;How long before it is useful?&lt;/h3&gt;&lt;p&gt;It is useful on the first real decision it is given, because even a small record of past reasoning beats none. It gets more useful with every decision and correction added afterwards.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/adtech-compete-ai-targeting-models-defensibility-audit</id>
+    <title>Adtech can't compete on the model any more. Here's what is left to defend</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/adtech-compete-ai-targeting-models-defensibility-audit"/>
+    <published>2026-09-08T00:00:00Z</published>
+    <updated>2026-09-08T00:00:00Z</updated>
+    <category term="strategy"/>
+    <summary type="text">Adtech companies never competed on the model, they competed on who controlled the data, the distribution and the workflow around it. Once AI can build a targeting model from a laptop, that fiction ends, and Mindmake's position is that PE-backed adtech leaders need a line-by-line audit of the three things AI still cannot take: proprietary signal, embedded distribution, and workflow lock-in, not another trend piece explaining that disruption is coming.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How do adtech companies compete once AI can build targeting models without them?&lt;/p&gt;
+&lt;p&gt;Adtech companies never competed on the model, they competed on who controlled the data, the distribution and the workflow around it. Once AI can build a targeting model from a laptop, that fiction ends, and Mindmake's position is that PE-backed adtech leaders need a line-by-line audit of the three things AI still cannot take: proprietary signal, embedded distribution, and workflow lock-in, not another trend piece explaining that disruption is coming.&lt;/p&gt;
+&lt;p&gt;The panic was always aimed at the wrong target. Adtech leaders have spent two years worrying about someone building a better model. Nobody is going to build a better model. Foundation labs already did that, and they gave it away for free, wrapped inside an API call. The model was never the moat. It was the story adtech told itself so it didn&amp;#x27;t have to answer the harder question: what exactly are we selling once the model is a commodity.&lt;/p&gt;
+&lt;p&gt;Here&amp;#x27;s what nobody selling into this market wants to say plainly, so it gets said here. If the pitch deck lists &amp;#x27;proprietary AI&amp;#x27; or &amp;#x27;proprietary targeting model&amp;#x27; as a top-three differentiator, that line is already worth zero. Landbase and the AI-native entrants prove the point just by existing, they built targeting infrastructure without the twenty years of adtech incumbency everyone assumed was required. That&amp;#x27;s not a threat to react to. That&amp;#x27;s a fact to price in.&lt;/p&gt;
+&lt;h2&gt;What was actually the moat, and why nobody said so out loud&lt;/h2&gt;
+&lt;p&gt;Three things sat underneath every adtech company&amp;#x27;s model and did the real work, and none of them show up on a model comparison chart.&lt;/p&gt;
+&lt;p&gt;Proprietary signal means data nobody else can get. Clickstream that only exists because of a placement position, conversion data that only flows because of an exclusive integration, first-party behavioural history that took years of exclusive relationships to accumulate. This is defensible because it&amp;#x27;s structurally hard to replicate, not because it&amp;#x27;s technically hard to model.&lt;/p&gt;
+&lt;p&gt;Embedded distribution: the media buyer who has run budget through the platform for six years and whose team is trained on it, the publisher relationship that took a decade of trust to build, the ad server integration baked into a client&amp;#x27;s stack in a way that costs real engineering hours to rip out. This is defensible because switching costs money and time, not because the algorithm is clever.&lt;/p&gt;
+&lt;p&gt;Workflow lock-in: the reporting cadence a CFO relies on, the compliance sign-off process built around a specific platform, the internal team whose whole job is operating this tool and who will fight to keep their jobs relevant. This is defensible because organisations resist change more than they resist bad ROI.&lt;/p&gt;
+&lt;p&gt;AI collapses the first category fastest. It touches the second more slowly. It barely touches the third at all. That ordering is the whole strategy.&lt;/p&gt;
+&lt;h2&gt;The checklist a PE-backed adtech operator actually needs&lt;/h2&gt;
+&lt;p&gt;Digiday and AdExchanger will tell an operator that the industry is shifting. McKinsey will tell them AI-native entrants are a structural risk. None of them tell a leader with a fund on the cap table and a hold period on the clock what to do with that information on a Monday morning. This is that list.&lt;/p&gt;
+&lt;p&gt;One. Pull the data room and find every line where &amp;#x27;proprietary model&amp;#x27; or &amp;#x27;proprietary algorithm&amp;#x27; is listed as an asset. Reclassify it. It&amp;#x27;s a cost centre now, not a differentiator, and the diligence team on the next raise or exit will find this faster than the leadership team wants them to.&lt;/p&gt;
+&lt;p&gt;Two. List every data source feeding the model and mark which ones are contractually exclusive versus commercially available. If a competitor could buy the same data from the same broker, that data point isn&amp;#x27;t a moat, it&amp;#x27;s an input cost.&lt;/p&gt;
+&lt;p&gt;Three. Count the actual switching cost for the three largest clients, in weeks of integration work and dollars of migration spend, not in relationship warmth. If a client could move to an AI-native platform inside a quarter with under $50k of rework, distribution isn&amp;#x27;t defending revenue, inertia is, and inertia is not a pricing strategy for a hold period.&lt;/p&gt;
+&lt;p&gt;Four. Separate the product roadmap into &amp;#x27;model improvement&amp;#x27; and &amp;#x27;workflow improvement&amp;#x27; line items. If more than a third of engineering spend over the last four quarters went into the first bucket, that spend bought a shrinking asset. Redirect it.&lt;/p&gt;
+&lt;p&gt;Five. Ask what the platform does that a client&amp;#x27;s own AI team, given API access and three months, could not replicate. If the honest answer is &amp;#x27;not much,&amp;#x27; the business is a distribution and trust business wearing an AI company&amp;#x27;s clothes, and that&amp;#x27;s fine, but it needs to be sold, staffed, and priced as one.&lt;/p&gt;
+&lt;h2&gt;The uncomfortable part for the boards running this audit&lt;/h2&gt;
+&lt;p&gt;A marketplace that earns on placement has a structural reason to keep telling operators the model is the asset worth investing in. A platform vendor selling the next model upgrade has a structural reason to frame this as a technology race rather than a distribution and workflow question. That&amp;#x27;s not an accusation, it&amp;#x27;s just how those revenue lines are built, and it means the operator reading their coverage needs to run their own audit rather than take the trend piece at face value.&lt;/p&gt;
+&lt;p&gt;The adtech companies that hold value through this shift will be the ones who stop competing on model quality entirely and start pricing their exclusivity, their switching costs, and their embedded workflows explicitly, as separate line items, in the next board deck. The ones who keep defending the model are defending the one part of the stack that was never actually theirs to defend.&lt;/p&gt;
+&lt;h2&gt;What&amp;#x27;s still missing from this picture&lt;/h2&gt;
+&lt;p&gt;Nobody has published hold-period data yet on how fast AI-native entrants actually convert adtech clients once the switching cost is real rather than theoretical. That number doesn&amp;#x27;t exist publicly. Anyone claiming to have it is guessing.&lt;/p&gt;
+&lt;p&gt;The operator move is to run the five-line audit before the next raise, not after a competitor&amp;#x27;s term sheet forces the question.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake's framework separates adtech defensibility into three checkable assets: proprietary signal, embedded distribution, workflow lock-in, and treats the model itself as a commodity line item, not a moat&lt;/li&gt;&lt;li&gt;Mindmake runs this as a one-decision proof: pick the single line of the P&amp;amp;L most exposed to model commoditisation, build the audit, hand it to the leadership team with a call on what to cut, keep, or re-price&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Is proprietary AI still a valid selling point for an adtech company?&lt;/h3&gt;&lt;p&gt;Not on its own. If the model can be replicated from commercially available data and a foundation API, it's an input cost, not a differentiator. The differentiator is what data, distribution or workflow around it can't be replicated.&lt;/p&gt;
+&lt;h3&gt;What should an adtech company actually put in its next fundraising deck instead of 'proprietary model'?&lt;/h3&gt;&lt;p&gt;Exclusive data contracts by name, measured client switching cost in dollars and weeks, and the share of revenue tied to workflows a client's own AI team couldn't rebuild in a quarter.&lt;/p&gt;
+&lt;h3&gt;How fast are AI-native platforms like Landbase actually taking share from incumbent adtech?&lt;/h3&gt;&lt;p&gt;No reliable public figure exists yet. Treat any specific number here as unverified until an operator sees it in their own client churn data.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/ai-decision-tool-trustworthy-leadership-team</id>
+    <title>An AI decision tool earns trust by holding your judgement, not by passing an audit</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/ai-decision-tool-trustworthy-leadership-team"/>
+    <published>2026-09-05T00:00:00Z</published>
+    <updated>2026-09-05T00:00:00Z</updated>
+    <category term="leadership"/>
+    <summary type="text">An AI decision tool is trustworthy enough for a leadership team when it can show which of that team's own standards and past decisions shaped an answer, and when a person can follow that trail back and argue with it. Governance checks such as documented testing, audit logs and a named human owner tell you the tool was built carefully, and they say nothing about whether its advice fits this business. The test that separates the two is a replay: the tool is given a decision the team has already made, with the outcome hidden, and its reasoning is compared with the reasoning the team actually used.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How do I evaluate whether an AI decision tool is trustworthy enough for my leadership team?&lt;/p&gt;
+&lt;p&gt;An AI decision tool is trustworthy enough for a leadership team when it can show which of that team's own standards and past decisions shaped an answer, and when a person can follow that trail back and argue with it. Governance checks such as documented testing, audit logs and a named human owner tell you the tool was built carefully, and they say nothing about whether its advice fits this business. The test that separates the two is a replay: the tool is given a decision the team has already made, with the outcome hidden, and its reasoning is compared with the reasoning the team actually used.&lt;/p&gt;
+&lt;p&gt;The stake in this question is not whether an AI tool is safe. It is whose judgement ends up in the decision, and whether anybody in the room can tell.&lt;/p&gt;
+&lt;h2&gt;The received answer is written for the wrong reader&lt;/h2&gt;
+&lt;p&gt;Asked in public, this question comes back as governance. A risk framework. Documented testing. An audit trail. A named human in the loop. A register of what the system may and may not decide, reviewed quarterly. The standards bodies, the research groups and the large vendors all answer it that way, and their answers are careful, useful and worth reading.&lt;/p&gt;
+&lt;p&gt;They are also written for a reader who is not the leader. A framework exists to satisfy a regulator, an insurer or a board committee, and the question it answers is whether this tool was built responsibly and whether that can be shown later. A leader in a decision meeting is asking something else entirely: if I take this recommendation into the room and defend it, will it hold.&lt;/p&gt;
+&lt;p&gt;Those two questions can have opposite answers on the same tool.&lt;/p&gt;
+&lt;h2&gt;Fully audited, and still generic&lt;/h2&gt;
+&lt;p&gt;A model trained on the public record knows what has been written down. Two rival companies asking it the same pricing question get much the same answer, drawn from the same body of published thinking, delivered with the same composure. The audit trail records that the system behaved identically in both cases, which is exactly the property that makes it worthless as an edge.&lt;/p&gt;
+&lt;p&gt;Consistency is a governance virtue and a commercial problem. The compliance file says the tool is well behaved. It does not say the tool knows anything about you.&lt;/p&gt;
+&lt;p&gt;This is where the usual answer runs out. Nothing in a risk register asks whether the system has ever met your business. Nothing in an audit log distinguishes a recommendation built from your standards from one built from the internet&amp;#x27;s average opinion about companies that look vaguely like yours. Both leave the same clean trace.&lt;/p&gt;
+&lt;h2&gt;Trust is a question about memory&lt;/h2&gt;
+&lt;p&gt;A leadership team can check a person&amp;#x27;s advice because they know where that person&amp;#x27;s judgement comes from: what they have seen, what they got wrong last time, what they will never agree to. Trust in a colleague is built out of a shared record.&lt;/p&gt;
+&lt;p&gt;The same test works on a tool, and almost nothing on the market passes it. A trustworthy decision tool holds the team&amp;#x27;s own record of judgement: the decisions already made, the reasons behind them, the standards nobody writes down because everybody senior already knows them, the constraints that killed three plans before this one. And when it answers, it can name which part of that record it drew on, so a person can follow the trail back and disagree with it.&lt;/p&gt;
+&lt;p&gt;That last part is the whole thing. A recommendation you cannot argue with is not advice, it is an instruction from a machine that has never been in the building.&lt;/p&gt;
+&lt;h2&gt;The replay&lt;/h2&gt;
+&lt;p&gt;The cheapest way to see it is a replay, and it needs no procurement process.&lt;/p&gt;
+&lt;p&gt;Take a decision the team made long enough ago that the outcome is known. Give the tool only what the team knew at the time, with the outcome held back. Then read what it says against what the team did.&lt;/p&gt;
+&lt;p&gt;Three things can happen, and each one is informative.&lt;/p&gt;
+&lt;p&gt;It produces the textbook answer, the one the team considered and rejected for reasons it never learned. That is a tool with no memory of you, however well documented it is.&lt;/p&gt;
+&lt;p&gt;It reaches the same conclusion the team reached, by reasoning the team never used. That is agreement by luck, and luck does not repeat when the question gets harder.&lt;/p&gt;
+&lt;p&gt;It disagrees, names the standard or the past decision it is disagreeing with, and says what would change its mind. That is a tool worth keeping, and it is the only one of the three a leadership team can safely take into a room.&lt;/p&gt;
+&lt;h2&gt;Whoever holds the record holds the leverage&lt;/h2&gt;
+&lt;p&gt;There is a second half to this, and it is the part that decides who benefits in five years.&lt;/p&gt;
+&lt;p&gt;A tool that holds a team&amp;#x27;s judgement is only trustworthy if the record stays with the team: inside their own accounts, exportable, readable by a person, and still theirs when the contract ends. A vendor holding it means renting your own memory back, at a price set by somebody who knows exactly how much you would lose by leaving.&lt;/p&gt;
+&lt;p&gt;Governance frameworks have almost nothing to say here, because ownership of learned context is not a safety property and nobody has been asked to certify it. It is a commercial one, and it is the question a leadership team will wish it had asked first.&lt;/p&gt;
+&lt;h2&gt;The verdict&lt;/h2&gt;
+&lt;p&gt;The frameworks will keep improving, and they will keep answering the question they were written for. They are the floor.&lt;/p&gt;
+&lt;p&gt;The teams that get a real edge out of AI are the ones that stop asking whether a tool is safe enough to allow in the room, and start asking whether it knows enough about them to be worth arguing with. Governance decides admission. Memory decides whether it deserves a seat at the table, and the tools that hold a leader&amp;#x27;s own judgement are the ones that will still be there when the current wave of assistants has been swapped out twice.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake builds AI systems that hold a leader's own standards, decisions and context, inside the client's own accounts, so what the system learns stays with the client.&lt;/li&gt;&lt;li&gt;A tool that cannot name which of your past decisions shaped an answer cannot be checked by the person whose judgement is on the line.&lt;/li&gt;&lt;li&gt;Trust sits in the pairing of a tool and a team, so the same tool can be trustworthy for one leadership team and close to useless for another.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Is a governance framework enough on its own?&lt;/h3&gt;&lt;p&gt;It is enough for the questions a regulator, an insurer or a board committee will ask, and being able to answer those is worth having. It says nothing about whether a recommendation fits the business it was made for, because nothing in a risk framework asks what this leadership team has already decided.&lt;/p&gt;
+&lt;h3&gt;What counts as a record of a leadership team's judgement?&lt;/h3&gt;&lt;p&gt;Decisions the team has already made, the reasons behind them, the standards they hold and the constraints they work inside, written down in a form a system can read. Most of it exists already, scattered through board papers, pricing exceptions, memos and the arguments that ended a plan early.&lt;/p&gt;
+&lt;h3&gt;What if the tool cannot show where an answer came from?&lt;/h3&gt;&lt;p&gt;Then the only way to check it is to already know the answer, which removes the reason for having it. A tool that cannot be checked is one the most senior person in the room has to take on faith, and faith is not a control.&lt;/p&gt;
+&lt;h3&gt;Does this apply to the general assistants a team already uses?&lt;/h3&gt;&lt;p&gt;Yes, and it is where the gap shows first. A general assistant is trained on the public record and knows nothing about the last three decisions this team made, which makes it a fast writer and an average adviser.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget</id>
+    <title>An AI center of excellence without an engineering budget is a governance function, not a team</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget"/>
+    <published>2026-09-01T00:00:00Z</published>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <category term="implementation"/>
+    <summary type="text">Mindmake's position: a Center of Excellence without an engineering budget is not a shrunk version of the enterprise model, it is a different function entirely, one leader with standards and a decision system instead of a team with a build backlog. Every framework from Microsoft, Oracle and Tredence assumes headcount you do not have. Mindmake builds the alternative, an AI brain that carries the judgement a CoE was supposed to centralise, without hiring anyone to centralise it.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How to build an AI center of excellence without a dedicated engineering budget?&lt;/p&gt;
+&lt;p&gt;Mindmake's position: a Center of Excellence without an engineering budget is not a shrunk version of the enterprise model, it is a different function entirely, one leader with standards and a decision system instead of a team with a build backlog. Every framework from Microsoft, Oracle and Tredence assumes headcount you do not have. Mindmake builds the alternative, an AI brain that carries the judgement a CoE was supposed to centralise, without hiring anyone to centralise it.&lt;/p&gt;
+&lt;p&gt;The instinct to wait until there&amp;#x27;s budget for a real team is the mistake. A Center of Excellence was never supposed to be a headcount line. It was supposed to be the place where an organisation&amp;#x27;s judgement about AI lives, so every team doesn&amp;#x27;t relearn the same lessons and repeat the same mistakes. Somewhere along the way, the enterprise vendors turned that into a staffing plan.&lt;/p&gt;
+&lt;p&gt;Open the frameworks from Microsoft, Oracle or Tredence and the assumption is buried in the first paragraph: a CoE has a lead, a group of engineers, a platform team, and a roadmap for building internal tools. That&amp;#x27;s a fine model if a company already has forty engineers and a mandate to hire ten more. It is useless to the leader who has none of that and isn&amp;#x27;t getting it this year. The frameworks don&amp;#x27;t fail because they&amp;#x27;re wrong. They fail because they answer a question nobody in this position actually asked.&lt;/p&gt;
+&lt;h2&gt;What a CoE actually does, stripped of the org chart&lt;/h2&gt;
+&lt;p&gt;Strip out the headcount and a Center of Excellence has exactly three jobs: decide what good AI use looks like here, catch the bad uses before they cause damage, and make sure what one team learns doesn&amp;#x27;t die with that team. None of those three jobs require an engineer. They require someone with standards, and a place for those standards to live where people actually check them before acting.&lt;/p&gt;
+&lt;p&gt;Most failed CoE attempts at this scale don&amp;#x27;t fail because nobody had standards. They fail because the standards lived in one person&amp;#x27;s head, got shared in a Slack message once, and were forgotten within a quarter. The governance function existed for exactly as long as someone remembered to enforce it manually.&lt;/p&gt;
+&lt;h2&gt;The received wisdom says wait for budget. That&amp;#x27;s backwards.&lt;/h2&gt;
+&lt;p&gt;The standard advice, repeated across every enterprise CoE guide, is to secure executive sponsorship and headcount before doing anything structural. That advice is written for a company that was always going to get the budget eventually. It is bad advice for a leader who is the budget. If the plan for AI governance depends on a hire that isn&amp;#x27;t coming, the plan is not a plan, it&amp;#x27;s a wish with a Gantt chart.&lt;/p&gt;
+&lt;p&gt;The actual sequence runs the other way. Build the judgement first, as something that runs without a team, and let it prove itself before anyone argues about headcount. A CoE that only works once it&amp;#x27;s staffed is not a CoE. It&amp;#x27;s a proposal.&lt;/p&gt;
+&lt;h2&gt;The operating model for one person with standards and no build team&lt;/h2&gt;
+&lt;p&gt;This is the part the enterprise frameworks skip because it doesn&amp;#x27;t fit their pricing model. The alternative is not a lighter version of the corporate CoE. It&amp;#x27;s a different shape entirely.&lt;/p&gt;
+&lt;p&gt;One person, or a small leadership group, owns the standards. Not a charter document, an actual working system: what counts as an acceptable AI-assisted decision here, what gets flagged for review, what the org has already tried and rejected. That system needs to be running, not written. A PDF that says &amp;quot;use good judgement&amp;quot; is not governance. A system that a team can query before they act, that answers with the standard already applied, is.&lt;/p&gt;
+&lt;p&gt;That&amp;#x27;s the exact gap Mindmake&amp;#x27;s AI brain product is built to fill. It&amp;#x27;s not a chatbot that knows the market. It&amp;#x27;s the leader&amp;#x27;s own standards, judgement and pattern recognition, running as something the rest of the organisation can actually use without that leader personally reviewing every decision. The CoE function without the CoE staff.&lt;/p&gt;
+&lt;h2&gt;Why the enterprise frameworks can&amp;#x27;t say this&lt;/h2&gt;
+&lt;p&gt;Microsoft&amp;#x27;s Cloud Adoption Framework, Oracle&amp;#x27;s AI CoE guidance, and Tredence&amp;#x27;s operating model all sell into companies that already have platform teams and are deciding how to organise them. That&amp;#x27;s a legitimate business. It is not this business. A vendor whose CoE guide assumes a build team is not going to recommend against building a team, that would be recommending against its own audience.&lt;/p&gt;
+&lt;p&gt;The honest version of that structure is simple: a framework written for staffed teams will always assume staffing is the answer, because staffing is what the framework is for. That&amp;#x27;s not a conspiracy, it&amp;#x27;s just what happens when the guide and the buyer are the same shape.&lt;/p&gt;
+&lt;h2&gt;What this looks like in the first ninety days&lt;/h2&gt;
+&lt;p&gt;No hiring plan, no platform selection, no six-month rollout. The sequence is: name the three or four decisions where bad AI use would actually hurt (a client-facing output, a pricing call, a hiring screen), write down what &amp;quot;good&amp;quot; looks like for each one in enough detail that someone else could apply it, and put that standard somewhere it gets checked before the decision gets made, not after. That third step is where most attempts quietly die, because &amp;quot;somewhere it gets checked&amp;quot; usually means a person who gets busy and stops checking.&lt;/p&gt;
+&lt;p&gt;The fix isn&amp;#x27;t more discipline from that person. It&amp;#x27;s removing the dependency on them remembering. A running system that holds the standard and gets consulted does not get busy and does not forget.&lt;/p&gt;
+&lt;h2&gt;The gap worth naming honestly&lt;/h2&gt;
+&lt;p&gt;There&amp;#x27;s no published benchmark for how many single-leader CoEs succeed against how many staffed ones, because nobody&amp;#x27;s built that dataset and anyone who claims otherwise is guessing. What is checkable is the assumption embedded in every framework currently cited for this question: engineering budget as a precondition. That assumption is either true for the reader, or it isn&amp;#x27;t. For the leader asking this question, it almost certainly isn&amp;#x27;t, and no amount of enterprise framework detail changes that starting condition.&lt;/p&gt;
+&lt;p&gt;A Center of Excellence built without an engineering budget is not a failure mode of the real thing. It&amp;#x27;s the actual answer for the actual population of leaders asking this question, and the frameworks that ignore that population are answering someone else&amp;#x27;s problem.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake's build your AI brain product exists specifically to carry a leader's standards and judgement as a running system, which is the function a CoE is meant to perform without needing a build team to do it.&lt;/li&gt;&lt;li&gt;Mindmake's CTRL product runs the practice itself, which is the same model being proposed here: standards encoded and running, not a committee reviewing other people's work.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;Can one person run an AI Center of Excellence alone?&lt;/h3&gt;&lt;p&gt;Yes, if the function is treated as governance and standards rather than a build team. The three real jobs, deciding what good use looks like, catching bad use early, and retaining what's learned, don't require engineers, they require a system that holds the standard and gets checked before decisions get made.&lt;/p&gt;
+&lt;h3&gt;What's the difference between a CoE and an AI governance policy document?&lt;/h3&gt;&lt;p&gt;A policy document is written once and gets forgotten. A CoE, even a one-person one, has to be a running function that gets consulted before decisions happen, not a reference that people are supposed to remember to check.&lt;/p&gt;
+&lt;h3&gt;When does an AI CoE actually need dedicated engineers?&lt;/h3&gt;&lt;p&gt;When the standards need to be enforced automatically across large volumes of output, or when the organisation is building its own AI tools rather than governing the use of existing ones. Most leaders asking this question are doing the latter.&lt;/p&gt;
+&lt;h3&gt;What should the first thing a leader builds be, if not a team?&lt;/h3&gt;&lt;p&gt;A running system that encodes what good AI-assisted decisions look like in the two or three areas where a bad call actually costs something, and that gets checked before, not after, the decision is made.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing</id>
+    <title>Total addressable revenue for AI products in publishing: calculate it from your P&amp;L, not a market report</title>
+    <link rel="alternate" type="text/html" href="https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing"/>
+    <published>2026-08-26T00:00:00Z</published>
+    <updated>2026-08-26T00:00:00Z</updated>
+    <category term="strategy"/>
+    <summary type="text">The total addressable revenue for an AI product in publishing is not a slice of a category-wide TAM figure from a research firm. It is built from a publisher's own revenue lines: subscriber base, churn, ARPU, ad yield per session, and licensing rates, run through the specific mechanic the AI product changes. Mindmake builds that calculation from a publisher's actual P&amp;L rather than an industry multiple.</summary>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Answers:&lt;/strong&gt; How do I calculate the total addressable revenue opportunity for AI products in publishing?&lt;/p&gt;
+&lt;p&gt;The total addressable revenue for an AI product in publishing is not a slice of a category-wide TAM figure from a research firm. It is built from a publisher's own revenue lines: subscriber base, churn, ARPU, ad yield per session, and licensing rates, run through the specific mechanic the AI product changes. Mindmake builds that calculation from a publisher's actual P&amp;amp;L rather than an industry multiple.&lt;/p&gt;
+&lt;p&gt;That number does not exist as a market-wide figure. It exists as an equation, and the inputs are sitting in the publisher&amp;#x27;s own finance system right now.&lt;/p&gt;
+&lt;h2&gt;Why can&amp;#x27;t a market report answer this?&lt;/h2&gt;
+&lt;p&gt;Grandview, Market.us and Mordor Intelligence sell TAM/SAM/SOM reports. Their business model is the report, sold to anyone in the category, so the number has to work for every publisher at once. That means it is built from public company disclosures, analyst multiples and category growth rates, none of which touch a specific title&amp;#x27;s subscriber file, churn curve or ad yield. A report that has to be true for the New York Times and a 40,000-subscriber vertical trade title at the same time cannot be true for either one specifically.&lt;/p&gt;
+&lt;p&gt;Reuters and the macro AI-revenue coverage answer a different question: how big is AI spend across the economy. That is a real number and a useless one for this purpose. A publisher does not capture a share of &amp;quot;global AI revenue.&amp;quot; A publisher captures revenue through subscription retention, ad yield, licensing deals and cost lines it can actually move. The addressable opportunity lives in those four places, not in a category multiple.&lt;/p&gt;
+&lt;h2&gt;What does the calculation look like on real revenue lines?&lt;/h2&gt;
+&lt;p&gt;Start with what the AI product actually changes, not what it is. An AI product in publishing does one of four things to the P&amp;amp;L:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It reduces churn.&lt;/strong&gt; If a recommendation or personalisation layer takes monthly churn from 5% to 4.2% across 100,000 subscribers, that is roughly 800 retained subscribers a month. The annual revenue effect can be checked directly against ARPU and churn cohort data. No market report has that cohort.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It lifts ad yield per session.&lt;/strong&gt; An AI layer that increases session depth or dwell time moves RPM (revenue per thousand impressions), not category share. Apply the measured RPM change across monthly sessions, then subtract the product&amp;#x27;s running cost. This is arithmetic against the publisher&amp;#x27;s own ad stack, not an assumption about how fast &amp;quot;AI in media&amp;quot; is growing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It opens a new licensing line.&lt;/strong&gt; Content licensing to AI labs and platforms is a real, negotiated revenue line for publishers now, priced per-deal, not per-category. The addressable number here is the publisher&amp;#x27;s licensable corpus (archive depth, update frequency, exclusivity) multiplied by what comparable deals in its own tier have actually closed for, which is a number a publisher&amp;#x27;s own commercial team holds, not one an industry report can estimate.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It cuts a cost line that funds reinvestment.&lt;/strong&gt; An AI product that reduces editorial production cost or customer service cost does not add revenue, it frees margin. That freed margin is addressable capital for the next product bet, and it shows up on the P&amp;amp;L this quarter, not on a five-year TAM curve.&lt;/p&gt;
+&lt;p&gt;Add the four together, net of what the product costs to run, and that is the addressable revenue opportunity. It is a number specific to one publisher&amp;#x27;s subscriber base, ad stack, licensing tier and cost structure. It will not match the number for the publisher next door, and it should not.&lt;/p&gt;
+&lt;h2&gt;Where does the independent media commentary fit?&lt;/h2&gt;
+&lt;p&gt;The independent media commentary (Media and the Machine, PPC Land, Alien Club) is closer to this than the research firms; it tracks deal terms, licensing structures and platform mechanics in useful detail. Where it stops short is turning that tracking into a calculation a specific publisher can run against its own numbers. It documents the market. It does not build the arithmetic.&lt;/p&gt;
+&lt;h2&gt;What does a publisher need before running this calculation?&lt;/h2&gt;
+&lt;p&gt;Four numbers, pulled from finance and ad ops, not from a research report: current churn rate and subscriber count, blended RPM and monthly sessions, the value of the last two or three licensing deals closed in-tier, and the fully loaded cost of running the AI product being sized. Without these four, any number produced is a category guess wearing a publisher&amp;#x27;s logo. With them, the calculation takes an afternoon.&lt;/p&gt;
+&lt;h2&gt;A category number was never going to be the answer&lt;/h2&gt;
+&lt;p&gt;A TAM report tells a publisher what the category is worth. It cannot tell a publisher what its own subscriber base, ad stack and licensing book are worth once a specific AI product touches them, because that number was never in the report&amp;#x27;s data to begin with. The publishers who size this correctly will be the ones who stopped asking research firms for a category number and started asking their own finance team for four numbers instead.&lt;/p&gt;
+&lt;h2&gt;Where we stand on this&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;Mindmake's method builds AI product sizing from a client's own revenue lines (subscriber base, churn, ARPU, ad yield, licensing rate) rather than a percentage of an industry-wide TAM figure.&lt;/li&gt;&lt;li&gt;Mindmake's paid proof format sizes one decision or capability against a client's real numbers before anything is built, not against a market report.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;The questions that follow&lt;/h2&gt;
+&lt;h3&gt;What inputs do I need before I can size an AI product's revenue opportunity?&lt;/h3&gt;&lt;p&gt;Current subscriber count and churn rate, blended ad RPM and monthly sessions, the value of recent licensing deals in your tier, and the fully loaded cost of running the product. All four sit in finance and ad ops, not in a market report.&lt;/p&gt;
+&lt;h3&gt;Is a TAM/SAM/SOM report useless for this decision?&lt;/h3&gt;&lt;p&gt;A TAM/SAM/SOM report answers how big the category is. It cannot tell you what your specific subscriber base, ad stack or licensing book is worth, because it was never built from your data.&lt;/p&gt;
+&lt;h3&gt;How does content licensing to AI labs factor into this number?&lt;/h3&gt;&lt;p&gt;As a negotiated revenue line, priced per deal against your archive depth and exclusivity, not as a share of an industry-wide licensing market estimate.&lt;/p&gt;</content>
+  </entry>
+</feed>

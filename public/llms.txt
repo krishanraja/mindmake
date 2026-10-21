@@ -28,6 +28,10 @@ Mindmake is a small AI and commercial strategy practice. It builds a leader thei
 
 ## Ideas you can use
 
+- [Who can build an AI that knows how you decide?](https://mindmake.co/answers/ai-that-knows-how-you-decide-who-can-build-it): answers "who can build an AI that knows me and how I make decisions". The AI you can buy knows the market and nothing about you. What an AI that knows your standards has to hold, and how to judge who can build it.
+- [What is a data company worth when AI can do the analysis?](https://mindmake.co/answers/data-company-value-when-ai-can-do-the-analysis): answers "how does a data company stay valuable when AI can do the analysis". When a buyer's own AI can analyse anything, a data company has to sell rights, a place in the decision and judgement, and change how it prices and sells.
+- [How do you know an AI project is working before you spend more?](https://mindmake.co/answers/how-to-know-an-ai-project-is-working-before-you-spend-more): answers "how do I know if an AI project is actually working before we spend more". Adoption charts and hours saved can rise while decisions stay the same. Four checks that tell you an AI project works before you scale it.
+- [Where should a PE-backed media business start with AI?](https://mindmake.co/answers/pe-backed-media-business-where-to-start-with-ai): answers "where should a private equity backed media company start with AI". For an investor-owned media business, the order matters more than the list of AI uses. Start with the decision that moves the value of the company.
 - [How an AI brain learns your judgement](https://mindmake.co/blog/how-an-ai-brain-works): How an AI brain learns a leader's taste from real work, keeps their calls apart from its guesses, repairs itself after a correction and outlasts any model.
 - [An AI system gets better at your work when every correction is kept with its reason](https://mindmake.co/answers/ai-system-learns-from-corrections): answers "how do I make an AI system learn from our corrections over time". Correcting AI in the moment fixes one answer. Recording the correction and its reason fixes every answer after it. Here is how that works.
 - [People should decide what reaches the outside world, what cannot be undone and what sets the standard](https://mindmake.co/answers/what-humans-should-decide-when-ai-does-the-work): answers "what decisions should humans still make when AI can do most of the work". Let AI do reversible internal work. Keep people accountable for anything that reaches customers, cannot be undone or defines what good looks like.
@@ -49,3 +53,8 @@ Mindmake is a small AI and commercial strategy practice. It builds a leader thei
 - [How to test an AI vendor before you commit](https://mindmake.co/blog/ai-vendor-theatre-how-to-spot-and-avoid-it): Five practical checks for testing an AI vendor on your data, your problem and clear success measures.
 - [A useful first 30 days of building with AI](https://mindmake.co/blog/a-useful-first-30-days-building-with-ai): A practical 30-day plan for testing AI on real work, building a useful first system and recording what changed.
 - [How an executive team can learn AI together](https://mindmake.co/blog/ai-literacy-for-executive-teams-lab-model): A practical way for an executive team to build shared AI judgement through one real decision.
+
+## Optional
+
+- [Full text](https://mindmake.co/llms-full.txt): every idea, answer and question above in full, in one file.
+- [Answers feed](https://mindmake.co/answers/feed.xml): the answer pages as an Atom feed, newest first.

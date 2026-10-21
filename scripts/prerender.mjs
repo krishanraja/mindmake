@@ -155,7 +155,7 @@ const articlePages = blogPosts.map((post) => ({
    page component passes to `SEO`, so the record in the served head and the one
    a client-side navigation writes cannot disagree: an Article with the liftable
    answer as its abstract, and the front matter's FAQ beside it in one graph. */
-const { answers, answerPath, answerJsonLd } = await loadAnswers(rootDir);
+const { answers, answerPath, answerJsonLd, feedPath } = await loadAnswers(rootDir);
 const answerPages = answers.map((answer) => ({
   path: answerPath(answer.slug),
   title: answer.title,
@@ -222,6 +222,11 @@ function build(page) {
   html = replaceMeta(html, "name", "twitter:image", plateUrl);
   html = replaceMeta(html, "name", "twitter:image:alt", plateAlt);
   html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
+  /* The answer feed, announced where the answers are listed and read, so a
+     feed reader or crawler on those pages finds it without guessing. */
+  if (page.path === "/blog" || page.path.startsWith("/answers/")) {
+    html = html.replace("</head>", `    <link rel="alternate" type="application/atom+xml" title="Mindmake answers" href="${site}${feedPath}" />\n  </head>`);
+  }
   if (page.jsonLd) {
     html = html.replace("</head>", `    <script id="mindmake-page-jsonld" type="application/ld+json">${JSON.stringify(page.jsonLd).replaceAll("<", "\\u003c")}</script>\n  </head>`);
   }

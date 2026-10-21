@@ -128,8 +128,9 @@ owns payload, privacy, retention, email and failure-path contracts.
 
 ## Answer hub and machine-readable discovery
 
-As committed on 21 October 2026 on branch `claude/admiring-knuth-ls8u9k`; not
-merged or deployed, so none of this is live until a release reads it back.
+Merged to main on 21 October 2026 (#244, `98332368`). Production readback of
+these surfaces is not recorded here, so treat them as merged and unverified
+live until a release reads them back.
 
 - Thirteen answer pages under `/answers/:slug`; four new on 21 October 2026,
   written for PE and VC backed media, adtech and data leaders. They are listed

@@ -5,6 +5,11 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-21
+
+- rolled from NOW.md: 2026-10-14 to 2026-10-15, the AI Brain benefits became fourteen true stories (#236); the full entry is under 2026-10-15 below. NOW.md was trimmed to stay under the 200-line limit.
+- Docs steward reconciled at `9833236`: NOW.md's head moved from `abba812`, folding in the answer hub (#244: four answers, the Atom feed, `llms-full.txt`, the AI crawler group in `robots.txt`, extra structured data, the weekly brief workflow). `06_CURRENT_STATE.md` still said the hub was "not merged or deployed"; it now says merged, with production readback unrecorded. `CLAUDE.md` still carries "Reviewed 26 September 2026"; its body was not re-verified in this run, so the stamp was left for a person. The older stamps on 04_PROOF.md, 04_PROOF_RECORDS.md, 07_DEPLOYMENT.md and 07_DEPLOY_RUNBOOK.md were not touched by this change and were left.
+
 ## 2026-10-19
 
 - rolled from NOW.md: 2026-10-07, robots.txt stopped blocking `/testimonials` and `/intake` (#234); the full entry is under its own date below. NOW.md was trimmed to stay under the 200-line limit. Docs steward reconciled at `abba812`: NOW.md's head moved from `159aeaf`. `CLAUDE.md` still carries "Reviewed 26 September 2026"; its body was not re-verified in this run, so the stamp was left for a person.

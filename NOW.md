@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-19
-head: abba812
+as_of: 2026-10-21
+head: 9833236
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -41,7 +41,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-19)
+## Where it is right now (as of 2026-10-21)
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -71,6 +71,19 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-21: the answer hub became a weekly publication that machines can
+  read (#244). Moving the North Star Horizon's first half, being the name an AI
+  answer engine gives a PE or VC backed media, adtech or data leader, it began
+  with an audit: the favicon set, per-page social plates, canonicals and the
+  Organization graph were already complete and left alone. Added: four answers
+  written only from 00, 01 and 04 (no price, duration, count or client result),
+  an Atom feed of every answer in full at `/answers/feed.xml`, `llms-full.txt`
+  beside `llms.txt`, a `robots.txt` group naming fifteen AI crawlers (a named
+  group replaces `*`, so every `*` rule is repeated), BreadcrumbList, FAQPage
+  and Person/ProfessionalService data, and a workflow that opens a weekly
+  brief issue from `answer-backlog.json` with no model spend. Locked files
+  changed on purpose and the lock was regenerated in the same commit.
+  Production readback is not recorded; see 06_CURRENT_STATE.md.
 - 2026-10-19: the site now names the two registered companies (#242, #243).
   Krish: "I actually have Mindmaker LTD in the UK and Mindmaker LLC in the
   USA." `/terms` and `/privacy` say Mindmake is the public brand of Mindmaker
@@ -132,17 +145,6 @@ post-publication verification.
   with small rendering differences; the other 30 were restored unchanged. The
   production readback found one "GTM" left in public copy on /ai-brain, removed
   the same day.
-- 2026-10-14 to 2026-10-15: the AI Brain benefits became fourteen true stories
-  (#236), the first of three sharpenings Krish agreed on 11 October. Ten came
-  first ("I like them all"), then four from his current client work in his own
-  framing; each has its own generated scene, and two quote a client exactly.
-  Seven candidate rounds each failed a panel veto or the new readiness probe
-  (`qa:material-candidate-readiness`) before release. The probe found arrows
-  hidden under the cookie notice and action bar on short laptops; on the
-  smallest phones the contents now sits above the pin because fourteen rows no
-  longer fitted one panel, and a laptop zoomed to 150% reads the section as a
-  document. Krish's ruling that the stories are true is in the feedback ledger
-  (`AI-BRAIN-STORIES-TRUE-001`).
 - Older entries are in [history/LOG.md](project-documentation/history/LOG.md).
 
 ## What is next and what is waiting on Krish

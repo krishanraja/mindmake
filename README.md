@@ -68,7 +68,11 @@ failure guarantees belong to [05_LEAD_DELIVERY_SPEC.md](project-documentation/05
 - src/data/testimonials.ts and rebuildProof.ts: consented quotation/proof sources.
 - src/content/answers/: the quick tips, one markdown file per page.
   src/lib/ideaFormat.ts merges them with src/data/blogPosts.ts into the one
-  list /blog shows and llms.txt repeats.
+  list /blog shows and llms.txt repeats. scripts/generate-answers-feed.mjs
+  writes /answers/feed.xml and scripts/generate-llms.mjs writes llms-full.txt
+  beside llms.txt. The weekly brief (.github/workflows/answers-weekly.yml)
+  reads project-documentation/answer-backlog.json; cadence and quality bar are
+  in 01_CANON.md, "The answer pages".
 - scripts/lib/pages.mjs: indexed-page metadata; prerender/sitemap/llms/social
   generators and discoverability tests keep crawler surfaces consistent.
 - supabase/functions/: site backend; do not alter unrelated CTRL functions.

@@ -10,6 +10,21 @@ import { START_LABEL } from "@/lib/publicLinks";
 /** The same curated corpus the ask bar answers from, laid out in full. */
 const answers = corpus.entries as Array<{ id: string; question: string; answer: string }>;
 
+/* The same questions and answers the page shows, as structured data, so an
+   answer engine reads the words a visitor reads and nothing else. */
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  url: "https://mindmake.co/faq",
+  inLanguage: "en-GB",
+  publisher: { "@type": "Organization", "@id": "https://mindmake.co/#organization", name: "Mindmake", url: "https://mindmake.co" },
+  mainEntity: answers.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
 export default function Questions() {
   const [briefOpen, setBriefOpen] = useState(false);
 
@@ -19,6 +34,7 @@ export default function Questions() {
         title="Questions we get asked"
         description="Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep."
         canonical="/faq"
+        jsonLd={faqJsonLd}
       />
       <section className="mm-answers-page" aria-labelledby="answers-title">
         <div className="mm-container">

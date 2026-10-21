@@ -26,6 +26,50 @@ import "@/styles/mindmake-about.css";
  * exactly what their authors wrote.
  */
 const REFERENCE_IDS = ["young", "wales-brown", "paine"] as const;
+
+/* The practice and the person who runs it, as structured data, from the facts
+   this page shows a reader and nothing more. The practice node shares the
+   `#organization` id every served head carries (index.html), so the two
+   records describe one business rather than two. */
+const SITE = "https://mindmake.co";
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": `${SITE}/about`,
+      url: `${SITE}/about`,
+      name: "About us",
+      inLanguage: "en-GB",
+      about: { "@id": `${SITE}/#organization` },
+      mainEntity: { "@id": `${SITE}/about#founder` },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE}/#organization`,
+      name: "Mindmake",
+      url: `${SITE}/`,
+      logo: `${SITE}/mindmake-logo-512.png`,
+      description: "A small practice that helps leaders use AI to make better decisions, then builds the systems that carry those decisions out.",
+      areaServed: "Worldwide",
+      founder: { "@id": `${SITE}/about#founder` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE}/about#founder`,
+      name: "Krish Raja",
+      jobTitle: "Founder",
+      worksFor: { "@id": `${SITE}/#organization` },
+      url: `${SITE}/about`,
+      description: "Sixteen years building commercial teams and businesses in media, data and technology, at Microsoft, Nine, SingTel and Captify, across the UK, Australia and the US.",
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: "University for the Creative Arts" },
+        { "@type": "CollegeOrUniversity", name: "University of Manchester" },
+        { "@type": "CollegeOrUniversity", name: "Harvard Business School" },
+      ],
+    },
+  ],
+};
 const references = REFERENCE_IDS.map((id) => testimonials.find((item) => item.id === id && item.family === "reference"))
   .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
@@ -38,6 +82,7 @@ export default function About() {
         title="About us"
         description="Who runs Mindmake and why. Sixteen years building commercial teams in media, data and technology, now spent helping leaders use AI to make better decisions."
         canonical="/about"
+        jsonLd={aboutJsonLd}
       />
 
       <section className="mm-answers-page mm-about-page" aria-labelledby="about-title">

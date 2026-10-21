@@ -126,6 +126,27 @@ owns payload, privacy, retention, email and failure-path contracts.
   discoverability-mindmake.co-2026-09-24T16-20-40.819Z.json is the public
   26-route/32-asset receipt. Historical records remain only in history/LOG.md.
 
+## Answer hub and machine-readable discovery
+
+As committed on 21 October 2026 on branch `claude/admiring-knuth-ls8u9k`; not
+merged or deployed, so none of this is live until a release reads it back.
+
+- Thirteen answer pages under `/answers/:slug`; four new on 21 October 2026,
+  written for PE and VC backed media, adtech and data leaders. They are listed
+  on `/blog` with the longer reads; the newest one allowed to lead opens it.
+- `/answers/feed.xml`: an Atom feed of every answer in full, announced in the
+  head of `/blog` and every answer page. `llms-full.txt` carries every answer,
+  read and `/faq` question in full; `llms.txt` points to both.
+- `robots.txt` names fifteen AI crawlers in their own group, with the same
+  rules as everyone else.
+- Structured data: answer pages carry Article, FAQPage and BreadcrumbList tied
+  to the one `#organization` node; `/faq` carries an FAQPage from its corpus;
+  `/about` carries the practice as a ProfessionalService and its founder as a
+  Person, from facts the page shows.
+- `.github/workflows/answers-weekly.yml` opens the weekly brief issue from
+  `answer-backlog.json`. Cadence and the quality bar are in `01_CANON.md`,
+  "The answer pages".
+
 ## Open work and evidence limits
 
 - Search Console/Bing property ownership and submissions were not verified.

@@ -533,6 +533,36 @@ These stay true and are safe to reuse anywhere:
 - **Will the site add me to the publication?** No. Publication interest is a
   separate, unticked choice. It records interest only.
 
+### The answer pages
+
+The pages under `/answers/:slug` answer one buyer question each, written to be
+read and quoted by a person or by an AI answer engine. They serve the Horizon
+in `00_NORTH_STAR.md`: when a PE or VC backed media, adtech or data leader asks
+an assistant who can build an AI that knows them, the answer should be
+Mindmake. A page is one markdown file in `src/content/answers/`; the format is
+documented in `src/lib/answerFormat.ts`.
+
+- **Cadence.** One page a week, or a deliberate skip. Every Monday morning
+  (Brisbane), `.github/workflows/answers-weekly.yml` opens an issue, "Answer hub
+  brief: week of <date>", with the checklist and the next three open questions
+  from `answer-backlog.json`. It writes nothing else and spends nothing.
+- **Sourcing.** A question comes from a real buyer conversation or from the
+  backlog, in the words a buyer uses. Every sentence of the answer comes from
+  what is already public: this file, `00_NORTH_STAR.md` and `04_PROOF.md`.
+- **Quality bar.** The direct answer comes first and stands alone, in two or
+  three sentences. The page says one thing the pages already answering the
+  question do not (`claim`). No price, no duration, no count, no client name,
+  and no client result outside `/case-studies` (`04_PROOF.md`, Placement
+  authority); link to `/case-studies` instead. Practice voice, house style,
+  honest dates. An adtech-led page carries `lead: false` (Krish, 25 September
+  2026). `src/test/answer-hub.test.ts` and `src/test/discoverability.test.ts`
+  hold the fields, lengths, slugs, structured data, sitemap, feed and llms
+  files. A new page is a new public claim, so Krish reads it before it merges.
+- **Reach.** Each page is prerendered, in the sitemap, in `llms.txt` and
+  `llms-full.txt`, in the Atom feed at `/answers/feed.xml`, and listed on
+  `/blog`. Every reader, human or crawler, gets the same HTML. The hub adds
+  nothing to the menus, header or footer.
+
 ---
 
 ## Proof and product

@@ -274,6 +274,13 @@ export function orderAnswers(pages: AnswerPage[]) {
  * build time, and a crawler comparing the two must not find two different
  * records of the same page.
  */
+/*
+ * The author and publisher point at the one Organization node every served
+ * head already carries (index.html, `#organization`), so a crawler joins the
+ * page to the business rather than to a second, nameless organisation.
+ */
+const ORGANIZATION = { "@type": "Organization", "@id": `${SITE}/#organization`, name: "Mindmake", url: SITE };
+
 export const answerJsonLd = (answer: AnswerPage) => ({
   "@context": "https://schema.org",
   "@graph": [
@@ -283,11 +290,12 @@ export const answerJsonLd = (answer: AnswerPage) => ({
       description: answer.description,
       abstract: answer.answer,
       about: { "@type": "Thing", name: answer.targetQuery },
-      author: { "@type": "Organization", name: "Mindmake", url: SITE },
-      publisher: { "@type": "Organization", name: "Mindmake", url: SITE },
+      author: ORGANIZATION,
+      publisher: ORGANIZATION,
       datePublished: answer.publishedAt,
       inLanguage: "en-GB",
       isAccessibleForFree: true,
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
       mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${answerPath(answer.slug)}` },
     },
     {
@@ -298,5 +306,18 @@ export const answerJsonLd = (answer: AnswerPage) => ({
         acceptedAnswer: { "@type": "Answer", text: entry.a },
       })),
     },
+    /* Where the page sits. "Ideas you can use" is the index the page's own
+       back link names, because `/answers` itself redirects there. */
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Ideas you can use", item: `${SITE}/blog` },
+        { "@type": "ListItem", position: 3, name: answer.title, item: `${SITE}${answerPath(answer.slug)}` },
+      ],
+    },
   ],
 });
+
+/** The answer feed's address, in one place so the feed, its head link and llms.txt agree. */
+export const ANSWER_FEED_PATH = "/answers/feed.xml";

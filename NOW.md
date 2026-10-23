@@ -1,7 +1,7 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-21
+as_of: 2026-10-23
 head: 9833236
 lifecycle: live
 production_url: https://mindmake.co
@@ -41,7 +41,9 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-21)
+## Where it is right now (as of 2026-10-23)
+
+<!-- north-star-state {"week_of": "2026-10-26", "week_target": "private", "current": "private", "current_as_of": "2026-10-23", "current_source": "Control Center revenue_events (Stripe, account mindmaker_llc), read-only", "urgency": 3, "urgency_reason": "at 71% of this week's target"} --> **North Star number: U3, well behind.** Cash collected by Mindmake, trailing 4 weeks: at 71% of this week's target (figures private). Two experiments a week, growth output doubled.
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits
@@ -128,24 +130,6 @@ post-publication verification.
   where the result is on the record. Fifteen stories in all; two whose outcome
   said nothing a stranger could use, and the separate success-story cards, were
   cut. His ruling: "Approved, ship it."
-- 2026-10-15: the front door was rebuilt around Krish's pitch line, "An AI
-  brain layer basically turns your AI tool from a 30K intern into a 200K chief
-  of staff" (#235 to #238). The first options showed only the first frame of a
-  headline that rotates, and Krish caught it: "the headlines are rotating, are
-  they not? In which case we need to have the right headlines on rotation, with
-  the most impactful first." The rotation now leads with "Promote your AI from
-  intern to chief of staff." (his pick on the rendered result), the second door
-  is "Build your AI revenue engine" ("Build your AI revenue" in the phone
-  menus, which also removed a broken homepage menu layout at 540 to 700px), and
-  the brain door reads "Unlock and create the idea you've been sitting on."
-  Asked "How do I know you're not just going to completely regress
-  everything?", the change was declared word for word first and every page was
-  compared, words, tags and pixels, against the live site
-  (`artifacts/front-door-r1/`). Painting two new share images repainted all 32
-  with small rendering differences; the other 30 were restored unchanged. The
-  production readback found one "GTM" left in public copy on /ai-brain, removed
-  the same day.
-- Older entries are in [history/LOG.md](project-documentation/history/LOG.md).
 
 ## What is next and what is waiting on Krish
 
@@ -171,6 +155,7 @@ post-publication verification.
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
+- North Star check (2026-10-23): holds.
 
 ## Read next
 

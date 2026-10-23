@@ -18,6 +18,24 @@ this and lose to it.
 
 Set by Krish on 18 October 2026, and not reached yet. Everything below serves it, every session in this repository works toward it, and only Krish changes it.
 
+## The number
+
+**Cash collected by Mindmake, trailing 4 weeks**, on a front-loaded weekly ladder to 29 March 2027. Figures stay out of this repository (Ruling, Krish, 2026-10-05: revenue and objectives are published in control-center and ai-harness, never here). The target and the weekly ladder live in control-center, `docs/plans/north-star-numbers/mindmake.md`.
+
+```yaml north-star-metric
+metric: "Cash collected by Mindmake, trailing 4 weeks"
+unit: USD
+direction: up
+target: private
+deadline: 2027-03-29
+ladder_shape: front-loaded
+source: "Control Center revenue_events (Stripe, account mindmaker_llc), read-only"
+status: active
+ladder: private
+```
+
+Urgency (U1 to U5) is worked out every week from where the number stands against that week's target, by [the harness contract](https://github.com/krishanraja/ai-harness/blob/main/contract/north-star-metric.md). Set by Krish on 23 October 2026.
+
 ## Mindmake in one page
 
 The whole business in the plainest words, for a person or an agent with two

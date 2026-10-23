@@ -5,6 +5,12 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-23
+
+- rolled from NOW.md, to keep the file under the schema's 200 lines after the North Star number line was added (these bullets were 8 days old, inside the 30-day window):
+  - 2026-10-15: the front door was rebuilt around Krish's pitch line, "An AI brain layer basically turns your AI tool from a 30K intern into a 200K chief of staff" (#235 to #238). The first options showed only the first frame of a headline that rotates, and Krish caught it: "the headlines are rotating, are they not? In which case we need to have the right headlines on rotation, with the most impactful first." The rotation now leads with "Promote your AI from intern to chief of staff." (his pick on the rendered result), the second door is "Build your AI revenue engine" ("Build your AI revenue" in the phone menus, which also removed a broken homepage menu layout at 540 to 700px), and the brain door reads "Unlock and create the idea you've been sitting on." Asked "How do I know you're not just going to completely regress everything?", the change was declared word for word first and every page was compared, words, tags and pixels, against the live site (`artifacts/front-door-r1/`). Painting two new share images repainted all 32 with small rendering differences; the other 30 were restored unchanged. The production readback found one "GTM" left in public copy on /ai-brain, removed the same day.
+  - Older entries are in [history/LOG.md](project-documentation/history/LOG.md).
+
 ## 2026-10-21
 
 - rolled from NOW.md: 2026-10-14 to 2026-10-15, the AI Brain benefits became fourteen true stories (#236); the full entry is under 2026-10-15 below. NOW.md was trimmed to stay under the 200-line limit.

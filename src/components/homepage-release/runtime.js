@@ -3,11 +3,6 @@ import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
 import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07.webp";
 import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4";
-import asset4 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
-import asset5 from "../../assets/films/film-04-loop.mp4";
-import asset6 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
-import asset7 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
-import asset8 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 export function mountHomepageRuntime(root, { onStart }) {
   const abort = new AbortController();
   const observers = new Set();
@@ -75,91 +70,6 @@ export function mountHomepageRuntime(root, { onStart }) {
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
 
-  const routeContent = {
-    brain: {
-      title: "Own your judgement, and amplify it.",
-      lede: "Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader.",
-      caption: "The next decision begins with what the last one taught you.",
-      source: "Anonymous client outcome · Research and content",
-      steps: ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."],
-      result: "Research-backed publishing moved from days to under an hour, and from roughly monthly to most days.",
-      film: asset3,
-    },
-    gtm: {
-      title: "We turn an AI market shift into one tested commercial move.",
-      lede: "See how one market change alters product, price, positioning and people before you commit.",
-      caption: "Start with the commercial decision that is holding the rest of the system back.",
-      source: "Anonymous client outcome · Media advisory",
-      steps: ["Expertise people value", "A clear offer", "A defined plan launched"],
-      result: "A respected advisory firm turned its expertise into a clear offer clients could buy.",
-      film: asset5,
-    },
-  };
-  let selectedRoute = "brain";
-  const activateRouteMedia = () => within("route", "video").forEach((video) => {
-    if (video.closest(".r3-variant")?.offsetParent === null) return;
-    const source = video.querySelector("source")?.getAttribute("src") || "";
-    if (video.dataset.loadedSrc === source) return;
-    video.dataset.loadedSrc = source;
-    video.load();
-    if (!reducedMotion.matches) video.play().catch(() => {});
-  });
-  const selectRoute = (route, shouldScroll = false, activateMedia = false) => {
-    selectedRoute = route;
-    within("route", ".site-frame").forEach((frame) => {
-      const item = routeContent[route];
-      frame.querySelector(".route-copy h2").textContent = item.title;
-      frame.querySelector(".lede").textContent = item.lede;
-      const captionNode = frame.querySelector("figcaption");
-      if (captionNode) captionNode.textContent = item.caption;
-      const sourceHeaderNode = frame.querySelector(".receipt header p");
-      if (sourceHeaderNode) sourceHeaderNode.textContent = item.source;
-      [...frame.querySelectorAll(".receipt li")].forEach((node, index) => { node.textContent = item.steps[index]; });
-      const resultNode = frame.querySelector("blockquote");
-      if (resultNode) resultNode.textContent = item.result;
-      const sourceNode = frame.querySelector("video source");
-      if (sourceNode.getAttribute("src") !== item.film) sourceNode.setAttribute("src", item.film);
-      frame.querySelector("[data-start-route]").dataset.startRoute = route;
-    });
-    if (activateMedia) activateRouteMedia();
-    if (shouldScroll) {
-      const heading = within('route', '.route-copy h2').find(node => node.offsetParent !== null);
-      if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
-    }
-    if (shouldScroll) scope("route").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
-  };
-  within("route", "[data-route-toggle]").forEach((button) => listen(button, "click", () => {
-    selectRoute(selectedRoute === "brain" ? "gtm" : "brain", false, true);
-  }));
-  within("route", "[data-start-route]").forEach((button) => listen(button, "click", () => { onStart(button.dataset.startRoute); }));
-
-  const stories = [
-    { era: "370 BC · Writing is invented", image: asset4, alt: "An illustrative historical writing scene", question: "“If knowledge lives outside us, will memory grow weaker?”", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
-    { era: "1675 · The engine loom arrives", image: asset6, alt: "An illustrative mechanised loom scene", question: "“If the machine can do the work, what happens to the worker?”", outcome: "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." },
-    { era: "1970s · Calculators reach classrooms", image: asset7, alt: "An illustrative classroom calculator scene", question: "“If the device does the arithmetic, will children stop learning to think?”", outcome: "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." },
-    { era: "2000s · Satnav goes mainstream", image: asset8, alt: "An illustrative early satellite navigation scene", question: "“If the device knows the route, will we lose our sense of direction?”", outcome: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
-  ];
-  const selectStory = (index) => {
-    within("history", ".history-frame").forEach((frame) => {
-      const story = stories[index];
-      frame.querySelector("[data-story-question]").textContent = story.question;
-      frame.querySelector("[data-story-outcome]").textContent = story.outcome;
-      frame.querySelector("[data-story-era]").textContent = story.era;
-      frame.querySelector("[data-story-count]").textContent = `0${index + 1}`;
-      const image = frame.querySelector("[data-story-image]");
-      image.src = story.image;
-      image.alt = story.alt;
-      frame.querySelectorAll("[data-era]").forEach((button) => setCurrent(button, Number(button.dataset.era) === index));
-    });
-  };
-  within("history", "[data-era]").forEach((button) => listen(button, "click", () => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }));
-
-  if ("IntersectionObserver" in window) new TrackedObserver(([entry], observer) => {
-    if (!entry.isIntersecting) return;
-    activateRouteMedia();
-    observer.disconnect();
-  }, { threshold: .05 }).observe(scope("route"));
-
   const reveals = [...root.querySelectorAll(".r3-reveal")];
   if (reducedMotion.matches || !("IntersectionObserver" in window)) reveals.forEach((section) => section.classList.add("is-visible"));
   else {
@@ -175,37 +85,15 @@ export function mountHomepageRuntime(root, { onStart }) {
     reveals.forEach((section) => section.classList.add("is-visible"));
   });
 
-  selectStory(0);
-  const holdStoryHeight = () => within("history", ".story-copy").forEach(copy => {
-    if (copy.offsetParent === null) return;
-    const probe = copy.cloneNode(true);
-    probe.setAttribute("aria-hidden", "true");
-    probe.removeAttribute("id");
-    probe.querySelectorAll("[id]").forEach(node => node.removeAttribute("id"));
-    Object.assign(probe.style, { visibility: "hidden", pointerEvents: "none", minHeight: "0px", width: copy.offsetWidth + "px" });
-    copy.after(probe);
-    const question = probe.querySelector("[data-story-question]");
-    const outcome = probe.querySelector("[data-story-outcome]");
-    let tallest = 0;
-    stories.forEach(story => { question.textContent = story.question; outcome.textContent = story.outcome; tallest = Math.max(tallest, probe.offsetHeight); });
-    probe.remove();
-    copy.style.minHeight = tallest + "px";
-  });
-  let storyHeightFrame = 0;
-  const queueStoryHeight = () => { window.cancelAnimationFrame(storyHeightFrame); storyHeightFrame = requestAnimationFrame(holdStoryHeight); };
-  listen(window, "resize", queueStoryHeight);
-  document.fonts?.ready.then(queueStoryHeight);
-  queueStoryHeight();
   const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
     else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});
   });
   listen(reducedMotion, 'change', syncMotionMedia);
   syncMotionMedia();
+  root.querySelectorAll('[data-start-route]').forEach(button => listen(button, 'click', () => onStart(button.dataset.startRoute)));
   root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));
-  selectRoute("brain");
   return {
-    selectStory,
     destroy() {
       abort.abort();
       observers.forEach(observer => observer.disconnect());

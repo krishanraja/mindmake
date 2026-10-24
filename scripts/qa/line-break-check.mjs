@@ -23,6 +23,19 @@
  *    from the page's scroll width. A word inside a scroller is not clipped:
  *    what a scroller hides is a swipe away.
  *
+ *  - Size changes (Ruling, Krish, 2026-10-24: "we don't ever get one word sprawl
+ *    over to a second line and change the entire component size. That makes
+ *    everything look unstable"): on the pages listed in STATES, every tab,
+ *    toggle, step and seat is clicked in turn. Each newly shown state is
+ *    measured for stranded words like the rest of the page, and the component
+ *    around the control fails if its height moves by more than 1px. A control
+ *    that something fixed covers once it is scrolled into view fails too: the
+ *    story rail's arrow sat under the action bar at 1280 wide, and a click
+ *    there pressed the bar.
+ *
+ * Measured at the normal desktop and phone sizes and, since 24 October 2026,
+ * at a 1280 laptop and a 360 phone as well.
+ *
  * Reduced motion is emulated so every reveal is in its final place; layout is
  * measured after fonts load. `--base` points at an existing server; otherwise
  * the check serves `dist/` itself. Routes come from the built sitemap, so every
@@ -44,7 +57,28 @@ const BASE = flag("base") ?? `http://127.0.0.1:${port}`;
 const sitemap = await readFile(resolve(root, "dist/sitemap.xml"), "utf8");
 const routes = [...new Set([...sitemap.matchAll(/<loc>https?:\/\/[^/<]+(\/[^<]*)<\/loc>/g)].map(([, path]) => path || "/"))];
 const only = flag("paths")?.split(",");
-const VIEWPORTS = [{ name: "desktop", width: 1440, height: 900 }, { name: "mobile", width: 390, height: 844 }];
+const VIEWPORTS = [{ name: "desktop", width: 1440, height: 900 }, { name: "laptop", width: 1280, height: 800 }, { name: "mobile", width: 390, height: 844 }, { name: "small", width: 360, height: 780 }];
+/* What a reader can change on each page, and the component whose size each
+   change must leave alone. Controls are clicked in document order; only the
+   ones visible at the viewport are used. A group's setup is clicked first, so
+   the rail is walked in the situation that has more stories than fit; a group
+   that repeats presses its one control until it leaves, to the last card. A group
+   that finds its frame but clicks nothing fails: a renamed selector must never
+   pass in silence. */
+const STATES = {
+  "/": [{ name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] }],
+  "/ai-brain": [
+    { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },
+    { name: "finder", controls: ".brain-finder [data-finder-tab]", frames: [".brain-finder .story-finder"] },
+    { name: "finder rail", setup: '.brain-finder [data-finder-tab="change"]', controls: ".brain-finder .finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".brain-finder .story-finder"] },
+  ],
+  "/ai-gtm": [
+    { name: "starting point", controls: ".gtm-door", frames: [".lever-steps"] },
+    { name: "team", controls: ".gtm-view-switch button", frames: [".gtm-team-body"] },
+    { name: "seat", controls: ".role-cell:not(:disabled)", frames: [".gtm-team-body"] },
+  ],
+  "/new-age-leadership": [{ name: "finder", controls: "[data-finder-tab]", frames: [".story-finder"] }],
+};
 
 for (let i = 0; i < 100; i += 1) { try { if ((await fetch(BASE)).ok) break; } catch {} await new Promise((r) => setTimeout(r, 100)); }
 
@@ -134,8 +168,68 @@ const measure = () => {
   return problems;
 };
 
+/* Heights of a group's frames, as numbers, or null where a frame is absent. */
+const heights = (frames) => frames.map((selector) => {
+  const el = [...document.querySelectorAll(selector)].find((node) => node.getClientRects().length);
+  return el ? el.getBoundingClientRect().height : null;
+});
+
+/* Click every visible control of each group, measure the new state, and
+   report a frame whose height moved. */
+async function sweep(page, groups, report, swept = {}) {
+  for (const group of groups) {
+    if (group.setup) {
+      const setup = page.locator(group.setup).first();
+      if (await setup.isVisible()) { await setup.scrollIntoViewIfNeeded(); await setup.click(); await page.waitForTimeout(220); }
+    }
+    const controls = page.locator(group.controls);
+    const count = await controls.count();
+    const first = await page.evaluate(heights, group.frames);
+    if (first.every((h) => h === null)) {
+      report({ kind: "coverage", where: group.name, stranded: `none of ${group.frames.join(", ")} is on the page` });
+      continue;
+    }
+    let clicked = 0;
+    for (let i = 0; i < (group.repeat ?? count); i += 1) {
+      const control = group.repeat ? controls.first() : controls.nth(i);
+      if (!(await control.isVisible()) || !(await control.isEnabled())) {
+        if (group.repeat) break;
+        continue;
+      }
+      await control.scrollIntoViewIfNeeded();
+      /* A control under fixed chrome (the action bar, the notice) can be
+         neither seen nor pressed, and a click there lands on the chrome. */
+      const covered = await control.evaluate((node) => {
+        const box = node.getBoundingClientRect();
+        const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+        return top && !node.contains(top) ? (top.className || top.tagName).toString().slice(0, 60) : null;
+      });
+      if (covered) {
+        report({ kind: "covered", where: `${group.name}: control ${i + 1}`, stranded: `under ${covered}` });
+        if (group.repeat) break;
+        continue;
+      }
+      await control.click();
+      clicked += 1;
+      await page.waitForTimeout(220);
+      for (const problem of await page.evaluate(measure)) report(problem);
+      const now = await page.evaluate(heights, group.frames);
+      now.forEach((h, k) => {
+        if (h === null || first[k] === null) return;
+        const moved = Math.abs(h - first[k]);
+        if (moved > 1) report({ kind: "height", where: `${group.name}: ${group.frames[k]}`, stranded: `${Math.round(first[k])}px became ${Math.round(h)}px after control ${i + 1}` });
+      });
+    }
+    swept[group.name] = clicked;
+    if (group.repeat && clicked >= group.repeat) report({ kind: "coverage", where: group.name, stranded: `still offered after ${clicked} presses: the rail never reaches its last card` });
+    if (!clicked) report({ kind: "coverage", where: group.name, stranded: `no visible control matches ${group.controls}` });
+  }
+  return swept;
+}
+
 const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {});
 const failures = [];
+const swept = {};
 try {
   for (const viewport of VIEWPORTS) {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
@@ -154,6 +248,8 @@ try {
         await new Promise((r) => setTimeout(r, 600));
       });
       for (const problem of await page.evaluate(measure)) failures.push({ viewport: viewport.name, route, ...problem });
+      const groups = STATES[route.replace(/\/$/, "") || "/"];
+      if (groups) swept[`${viewport.width}x${viewport.height} ${route}`] = await sweep(page, groups, (problem) => failures.push({ viewport: viewport.name, route, ...problem }));
     }
     await context.close();
   }
@@ -166,6 +262,20 @@ try {
   const caught = await control.evaluate(measure);
   const clippedCaught = caught.filter((p) => p.kind === "clipped");
   if (!caught.some((p) => p.kind === "word") || !caught.some((p) => p.kind === "link") || clippedCaught.length !== 1 || !clippedCaught[0].where.includes("#cut")) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "negative control", stranded: `expected a word, a link and one clipped line, caught ${JSON.stringify(caught)}` });
+  /* Size changes: a box that grows when its button is pressed must be caught,
+     and one that holds both states in one cell must not. */
+  await control.setContent(`<div id="grows" style="width:220px;font:16px monospace"><button id="grow" onclick="document.getElementById('words').textContent='a much longer line of words that wraps over several more lines'">change</button><p id="words">short words here</p></div><div id="holds" style="width:220px;font:16px monospace"><button id="hold" onclick="document.querySelectorAll('#held > p').forEach((p) => p.style.visibility = p.style.visibility === 'hidden' ? 'visible' : 'hidden')">change</button><div id="held" style="display:grid"><p style="grid-area:1/1">short words here</p><p style="grid-area:1/1;visibility:hidden">a much longer line of words that wraps over several more lines</p></div></div>`);
+  const sized = [];
+  await sweep(control, [{ name: "grows", controls: "#grow", frames: ["#grows"] }, { name: "holds", controls: "#hold", frames: ["#holds"] }], (problem) => sized.push(problem));
+  const sizeCaught = sized.filter((p) => p.kind === "height");
+  if (sizeCaught.length !== 1 || !sizeCaught[0].where.startsWith("grows")) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "size control", stranded: `expected one size change in #grows and none in #holds, caught ${JSON.stringify(sized)}` });
+  /* A control under a fixed band across the bottom edge must be reported, and
+     one clear of it must not. */
+  await control.setContent(`<div id="frame" style="font:16px monospace"><button id="clear">clear</button></div><button id="under" style="position:fixed;left:20px;bottom:8px">under</button><div style="position:fixed;left:0;right:0;bottom:0;height:60px;background:#000"></div>`);
+  const hidden = [];
+  await sweep(control, [{ name: "under", controls: "#under", frames: ["#frame"] }, { name: "clear", controls: "#clear", frames: ["#frame"] }], (problem) => hidden.push(problem));
+  const coveredCaught = hidden.filter((p) => p.kind === "covered");
+  if (coveredCaught.length !== 1 || !coveredCaught[0].where.startsWith("under")) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "covered control", stranded: `expected #under to be reported as covered and #clear not, caught ${JSON.stringify(hidden)}` });
 } finally {
   await browser.close();
   server?.kill();
@@ -174,5 +284,5 @@ try {
 /* The same stranded item repeated across routes is one fault: shared chrome. */
 const seen = new Set();
 const unique = failures.filter((f) => { const key = `${f.viewport}|${f.kind}|${f.where}|${f.text ?? ""}|${f.stranded}`; if (seen.has(key)) return false; seen.add(key); return true; });
-console.log(JSON.stringify({ routes: only ?? routes, viewports: VIEWPORTS.map((v) => `${v.width}x${v.height}`), failures: unique }, null, 2));
+console.log(JSON.stringify({ routes: only ?? routes, viewports: VIEWPORTS.map((v) => `${v.width}x${v.height}`), clicked: swept, failures: unique }, null, 2));
 if (unique.length) process.exitCode = 1;

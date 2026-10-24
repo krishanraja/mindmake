@@ -197,14 +197,13 @@ const currentDocumentationRequirements = [
   ["state", "quality/route-lock/approved-production-r14.json"],
   ["state", "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/"],
   ["state", "scripts/qa/build-homepage-release.mjs"],
-  // r41 (Ruling, Krish, 2026-09-25): the homepage carries the R3 history
-  // chapter and then the three new-age leadership chapters, reach in both states.
-  ["state", "the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41)"],
-  ["state", "History retains four reversible states"],
-  ["state", "The reach chapter retains both states"],
-  // 16 October 2026 (Krish: "Approved, ship it"): the fourteen pinned stories
-  // became a chooser of fifteen, one client to a card, that never pins.
-  ["state", "The AI Brain stories are fifteen cards in five situations, a chooser that never pins, followed by The returned hour"],
+  // S6 (Ruling, Krish, 2026-10-24): every page is three sections, and nothing
+  // on the homepage pins. It supersedes r41's history and reach contract and
+  // the homepage placement of the stories, which moved to /ai-brain.
+  ["state", "Between the opening and the footer the homepage carries three sections (S6)"],
+  ["state", "Nothing on the homepage pins"],
+  ["state", "The AI Brain stories are seventeen cards in five situations on /ai-brain, a chooser that never pins"],
+  ["state", "No swapping component changes size when a reader makes a choice"],
   ["state", "No wheel/touch cancellation"],
   ["state", "Every state stays reachable from its direct controls on reduced-motion and short screens"],
   ["state", "Only Krish may approve a material surface or accept an MMF exception"],
@@ -229,6 +228,9 @@ const obsoleteCurrentClaims = [
   "opens on \"The organisation changes shape.\" alone",
   "The AI Brain benefits retain all six beside The returned hour",
   "The AI Brain stories retain all fourteen beside The returned hour",
+  "History retains four reversible states",
+  "the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41)",
+  "fifteen cards in five situations",
 ];
 function validateCurrentDocumentation(documents) {
   const issues = [];

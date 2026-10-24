@@ -32,8 +32,8 @@ const fingerprints = {
   "src/styles/mindmake-locked-brain.css": "51e0a9a3a351e81d8578f570eaf662d0f6b958acf17551c666caf89ddc5dc4a2",
 };
 /* /ai-gtm left the locked-material routes in r47: it is written by hand on the
-   house tokens and has its own scroll-build gate (scripts/qa/ai-gtm-scroll-build-check.mjs).
-   Its checks here had asserted the retired signal-and-response design since r25. */
+   house tokens. Its scroll-build gate retired with its pins in S6 (2026-10-24); its sizes
+   are held by qa:line-breaks. Its checks here had asserted the retired signal-and-response design since r25. */
 const issues = [];
 const observations = [];
 let origin;

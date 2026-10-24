@@ -80,7 +80,7 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
              changed is still counted, the new one so the action bar's button,
              which deliberately carries no data-mm-primary because it would see
              itself and never appear, does not walk past this gate unseen. */
-          const says = /start here|get your free ai brief|read my business|show me week one|build your ai (brain|gtm)/i.test(text);
+          const says = /start here|get your free ai brief|start building your ai (brain|revenue engine)|read my business|show me week one|build your ai (brain|gtm)/i.test(text);
           if (!marked && !(says && el.tagName === "BUTTON")) continue;
           const box = el.getBoundingClientRect();
           const style = getComputedStyle(el);

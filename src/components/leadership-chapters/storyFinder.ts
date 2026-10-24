@@ -1,5 +1,6 @@
 import { clientStories } from "@/data/rebuildProof";
 import { publishableTestimonials } from "@/data/testimonials";
+import { START_LABEL } from "@/lib/publicLinks";
 import type { LeadershipStory } from "./leadershipChapters";
 
 /**
@@ -29,7 +30,7 @@ interface Situation {
 
 export const SITUATIONS: readonly Situation[] = [
   { id: "ideas", label: "Getting your ideas out", door: "brain", cards: ["A founder who posted", "A CEO who hates writing", "Leadership updates become"] },
-  { id: "change", label: "Seeing what is changing", door: "brain", cards: ["A CEO who read many newsletters", "A leader who only heard from inside", "A change in market pricing"] },
+  { id: "change", label: "Seeing what is changing", door: "brain", cards: ["An insurance leader", "An investor buying", "A CEO who read many newsletters", "A leader who only heard from inside", "A change in market pricing"] },
   { id: "hands", label: "Getting hands-on again", door: "brain", cards: ["A head of operations", "Someone new to AI", "A CRO who hates the numbers"] },
   { id: "team", label: "Keeping your team in step", door: "gtm", cards: ["Teams working on the same account", "One person corrected it once", "A team's account plans"] },
   { id: "calls", label: "Making the big AI calls", door: "gtm", cards: ["Two quarters of argument", "A publisher weighing up", "A broadcaster stopped"] },
@@ -48,8 +49,11 @@ export const storyByStart = (stories: readonly LeadershipStory[], start: string)
   return found;
 };
 
+/* `data-mm-native` keeps the page-transition handler (RouteTransitions) from
+   taking the click first: on any page but the homepage it would otherwise
+   carry the reader to / before the finder could open the brief in place. */
 const startLink = (door: "brain" | "gtm") =>
-  `<a class="finder-start" href="/?start=${door}" data-finder-start="${door}">Get your free AI brief <span aria-hidden="true">→</span></a>`;
+  `<a class="finder-start" href="/?start=${door}" data-finder-start="${door}" data-mm-native>${START_LABEL} <span aria-hidden="true">→</span></a>`;
 
 /* Where it started and where it ended, for a story with no scene. */
 const figureMarkup = (figure: NonNullable<LeadershipStory["figure"]>, extra = "") =>
@@ -71,13 +75,19 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
   return `<li class="finder-card"><details data-finder-card="${id}"><summary>${face}</summary>${full}</details></li>`;
 }
 
-export function storyFinderMarkup(stories: readonly LeadershipStory[]) {
+export interface StoryFinderMarkupOptions {
+  /** The "What your AI Brain makes possible" label. /ai-brain leaves it out: the page already says so. */
+  kicker?: boolean;
+}
+
+export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true }: StoryFinderMarkupOptions = {}) {
   const tabs = SITUATIONS.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}">${s.label}</button>`).join("");
   const panels = SITUATIONS.map((s, i) => {
     const cards = s.cards.map((start, n) => card(storyByStart(stories, start), s.door, `${s.id}-${n + 1}`)).join("");
-    return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${s.label}</h3><ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> / ${s.cards.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div></div>`;
+    return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${s.label}</h3><ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> of ${s.cards.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div></div>`;
   }).join("");
-  return `<div class="story-finder" data-story-finder><p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p><h2 class="finder-question">Where would you start?</h2><div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div>${panels}<dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
+  const label = kicker ? `<p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p>` : "";
+  return `<div class="story-finder" data-story-finder>${label}<h2 class="finder-question">Where would you start?</h2><div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
 }
 
 export interface StoryFinderOptions {
@@ -101,7 +111,11 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart }: StoryF
 
   const select = (index: number, focus = false) => {
     tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
-    panels.forEach((panel, i) => { panel.classList.toggle("is-active", i === index); panel.hidden = i !== index; });
+    /* The situations share one place and the unchosen ones are hidden there
+       rather than taken out, so the finder is always the height of its
+       tallest situation and choosing one never resizes it (Ruling, Krish,
+       2026-10-24). `inert` keeps the unchosen ones out of reach. */
+    panels.forEach((panel, i) => { panel.classList.toggle("is-active", i === index); panel.toggleAttribute("inert", i !== index); });
     const rail = panels[index]?.querySelector<HTMLElement>("[data-finder-rail]");
     rail?.scrollTo?.({ left: 0, behavior: "instant" as ScrollBehavior });
     /* A panel measured while hidden had no width, so its arrows are read again once it shows. */
@@ -109,7 +123,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart }: StoryF
     if (focus) tabs[index]?.focus();
     tabs[index]?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
   };
-  panels.forEach((panel, i) => { panel.hidden = i !== 0; });
+  panels.forEach((panel, i) => { panel.toggleAttribute("inert", i !== 0); });
   tabs.forEach((tab, i) => {
     tab.addEventListener("click", () => select(i), { signal });
     tab.addEventListener("keydown", (event) => {
@@ -141,14 +155,34 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart }: StoryF
     const paint = () => {
       if (!rail.clientWidth) return;
       const i = current();
-      if (at) at.textContent = String(i + 1);
+      /* Where several cards show at once the count names all of them, so a
+         situation with five stories reads "1 to 3 of 5", then "3 to 5 of 5". */
+      const step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : rail.clientWidth;
+      const inView = Math.max(1, Math.round(rail.clientWidth / Math.max(1, step)));
+      const last = Math.min(cards.length, i + inView);
+      if (at) at.textContent = last > i + 1 ? `${i + 1} to ${last}` : String(i + 1);
       const end = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 2;
       prev?.toggleAttribute("disabled", i === 0 && rail.scrollLeft < 2);
       next?.toggleAttribute("disabled", end);
-      /* Where every card already shows, there is nothing to page through. */
-      if (nav) nav.hidden = rail.scrollWidth <= rail.clientWidth + 2;
+      /* Where every card already shows there is nothing to page through, so
+         the arrows go, but their room stays: a situation with three stories
+         and one with five are the same height (Ruling, Krish, 2026-10-24: no
+         component may change size when a reader makes a choice). */
+      if (nav) nav.style.visibility = rail.scrollWidth <= rail.clientWidth + 2 ? "hidden" : "";
     };
-    painters[panels.indexOf(panel)] = paint;
+    /* Every card's outcome starts on the same line (Ruling, Krish,
+       2026-10-24: the green outcome lines must not sit at different heights
+       because one heading wraps to an extra line). The headings of a
+       situation take the height of its tallest, measured whenever the
+       situation is shown or the screen changes width, never while scrolling. */
+    const headings = cards.map((card) => card.querySelector<HTMLElement>(".finder-heading")).filter((el): el is HTMLElement => Boolean(el));
+    const equalise = () => {
+      if (!rail.clientWidth || !headings.length) return;
+      panel.style.removeProperty("--finder-heading-h");
+      const tallest = Math.max(...headings.map((heading) => heading.getBoundingClientRect().height));
+      panel.style.setProperty("--finder-heading-h", `${Math.ceil(tallest)}px`);
+    };
+    painters[panels.indexOf(panel)] = () => { equalise(); paint(); };
     const go = (step: number) => {
       const i = Math.max(0, Math.min(cards.length - 1, current() + step));
       rail.scrollTo?.({ left: cards[i].offsetLeft - rail.offsetLeft, behavior: reduced ? "auto" : "smooth" });
@@ -157,9 +191,14 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart }: StoryF
     next?.addEventListener("click", () => go(1), { signal });
     let frame = 0;
     rail.addEventListener("scroll", () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(paint); }, { passive: true, signal });
-    addEventListener("resize", paint, { passive: true, signal });
+    addEventListener("resize", () => { equalise(); paint(); }, { passive: true, signal });
+    equalise();
     paint();
   });
+
+  /* The web fonts change where headings break, so every situation is measured
+     again once they have loaded. */
+  void document.fonts?.ready.then(() => { if (!signal.aborted) painters.forEach((paint) => paint?.()); });
 
   /* A card opens as a sheet: the whole story, its result on the record where
      it has one, and the brief at its door. */

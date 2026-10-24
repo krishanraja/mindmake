@@ -112,7 +112,7 @@ async function testGtm(page, viewport) {
   for (const label of ["Home", "Build your AI brain", /^Build your AI revenue( engine)?$/, "Success stories", "Ideas you can use", "Questions we get asked", "About us", "Media"]) {
     if (!(await page.locator("#mindmake-menu .mm-menu-routes").getByText(label, { exact: true }).count())) fail(viewport.name, route, `navigation is missing ${label}`);
   }
-  if (!(await page.locator("#mindmake-menu").getByRole("button", { name: "Get your free AI brief" }).count())) fail(viewport.name, route, "navigation is missing the start action");
+  if (!(await page.locator("#mindmake-menu").getByRole("button", { name: /Start building your AI brain/ }).count())) fail(viewport.name, route, "navigation is missing the start action");
   await page.getByRole("button", { name: "Close navigation" }).click();
   await page.waitForTimeout(180);
 

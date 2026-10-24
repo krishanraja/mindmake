@@ -1,72 +1,86 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { homepageMarkup } from "@/components/homepage-release/markup";
-import { leadershipChaptersMarkup, mountLeadershipChapters, practiceRest, practiceSweep } from "@/components/leadership-chapters/leadershipChapters";
-import { mountReturnedHour } from "@/components/homepage-release/returnedHour";
+import { heroStartMarkup, homepageSectionsMarkup, mountHomepageSections } from "@/components/homepage-release/homepageSections";
+import { leadershipChaptersMarkup, mountLeadershipChapters, organisationGridMarkup, practiceRest, practiceSweep } from "@/components/leadership-chapters/leadershipChapters";
 import { readFileSync } from "node:fs";
 
-describe("homepage leadership chapters", () => {
+describe("the homepage in three sections", () => {
   afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
 
-  it("carries the three new-age leadership chapters between the opening and the route", () => {
-    const opening = homepageMarkup.indexOf('id="opening"');
-    const chapters = homepageMarkup.indexOf('id="new-age-leadership"');
-    const route = homepageMarkup.indexOf('id="route"');
-    expect(opening).toBeGreaterThan(-1);
-    expect(chapters).toBeGreaterThan(opening);
-    expect(route).toBeGreaterThan(chapters);
+  /* Ruling (2026-10-24): "drastically simplify everything here to be probably
+     three sections". The R3 opening, then the problem, how it works and what
+     the reader gets, then the R3 footer. */
+  it("runs the opening, the three sections and the footer, in that order", () => {
+    const at = (needle: string) => homepageMarkup.indexOf(needle);
+    expect(at('id="opening"')).toBeGreaterThan(-1);
+    expect(at('id="hs-problem-title"')).toBeGreaterThan(at('id="opening"'));
+    expect(at('id="footer"')).toBeGreaterThan(at('id="hs-get-title"'));
+    const sections = homepageSectionsMarkup();
+    const order = ["Right now, your AI is an intern.", "A chief of staff knows how you think.", "Built on your real work. Yours to keep."].map((title) => sections.indexOf(title));
+    expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
+    expect(sections.match(/<section\b/g)).toHaveLength(3);
+    expect(sections).toContain('id="history"');
+  });
+
+  it("no longer carries the cut chapters: history pin, reach, practice, stories, returned hour, route or receipt", () => {
+    for (const retired of ['data-component="authority"', 'data-component="leadership-dividend"', 'data-component="history"', 'id="route"', 'id="new-age-leadership"', "r3-mode-switch", "data-stage=", "data-practice=", "data-story-finder", "proof-return", "What stays with you", "Get your free AI brief"]) {
+      expect(homepageMarkup + homepageSectionsMarkup(), retired).not.toContain(retired);
+    }
+    expect(homepageSectionsMarkup()).not.toContain("reach-sequence");
+    expect(homepageSectionsMarkup()).not.toContain("work-scroll");
+  });
+
+  it("puts the way in and the publication in the opening, after the doors, on desktop and phone", () => {
+    /* markup.ts interpolates the hero's way in when it loads: once on desktop, once on the phone. */
+    expect(homepageMarkup.split(heroStartMarkup()).length - 1).toBe(2);
+    const hero = heroStartMarkup();
+    expect(hero).toContain('data-start-route="brain"');
+    expect(hero).toContain("Start building your AI brain");
+    expect(hero).toContain("From Make Your Mind Up");
+    expect(hero).toContain('href="https://makeyourmindup.ai"');
+    expect(hero).not.toMatch(/latest/i);
+    expect(homepageMarkup).toContain("The leaders who shape the next decade will have an AI that thinks like them. We build yours.");
+  });
+
+  it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {
+    const root = document.createElement("div");
+    root.innerHTML = homepageSectionsMarkup();
+    document.body.append(root);
+    const tiles = [...root.querySelectorAll<HTMLButtonElement>("[data-hs-era]")];
+    expect(tiles).toHaveLength(4);
+    expect(tiles.map((tile) => tile.querySelector(".hs-era-q")?.textContent)).toEqual([
+      "“If knowledge lives outside us, will memory grow weaker?”",
+      "“If the machine can do the work, what happens to the worker?”",
+      "“If the device does the arithmetic, will children stop learning to think?”",
+      "“If the device knows the route, will we lose our sense of direction?”",
+    ]);
+    const unmount = mountHomepageSections(root);
+    tiles[2].click();
+    expect(tiles.map((tile) => tile.getAttribute("aria-pressed"))).toEqual(["false", "false", "true", "false"]);
+    tiles[2].click();
+    expect(tiles[2].getAttribute("aria-pressed")).toBe("false");
+    unmount();
+    tiles[0].click();
+    expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
+  });
+
+  it("shows the organisation still, and the practice scenes as pictures, with no film to play", () => {
+    const sections = homepageSectionsMarkup();
+    expect(sections).toContain('class="hybrid-organisation is-active"');
+    expect(sections).toContain(organisationGridMarkup);
+    expect(sections).not.toContain("<video");
+    expect(sections.match(/<img [^>]*alt=""/g)).toHaveLength(3);
+  });
+});
+
+describe("the new-age leadership chapters, shared with /new-age-leadership", () => {
+  afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
+
+  it("still carry reach, practice and the stories for /new-age-leadership", () => {
     const rendered = leadershipChaptersMarkup();
     for (const words of ["What people do, and should do,<br />", "When built right,<br />", "What your AI Brain makes possible", "What will you do with the hours you save on a task?"]) {
       expect(rendered).toContain(words);
     }
-  });
-
-  it("no longer carries the retired R3 authority and dividend chapters", () => {
-    for (const retired of ['data-component="authority"', 'data-component="leadership-dividend"', "r3-mode-switch", "data-stage=", "data-practice="]) {
-      expect(homepageMarkup).not.toContain(retired);
-    }
-  });
-
-  it("carries the R3 history chapter before the leadership chapters, and the reach chapter's two states (r41)", () => {
-    const history = homepageMarkup.indexOf('data-component="history"');
-    expect(history).toBeGreaterThan(homepageMarkup.indexOf('id="opening"'));
-    expect(history).toBeLessThan(homepageMarkup.indexOf('id="new-age-leadership"'));
-    expect(homepageMarkup).toContain("We've been making new technology the enemy for thousands of years.");
-    expect(homepageMarkup.match(/data-era="[0-3]"/g)?.length).toBeGreaterThanOrEqual(4);
-    expect(homepageMarkup).toContain('href="#history"');
-    const chapters = leadershipChaptersMarkup();
-    expect(chapters).toContain("The feeling is similar.");
-    expect(chapters).toContain('data-reach-jump="organisation"');
-  });
-
-  /* 26 September 2026 (Krish): the history questions are quotations, and the
-     closing chapter's AI brain state keeps the words and film its markup
-     carries. The runtime used to restore older words over them on load. */
-  it("quotes the history questions and keeps the closing chapter's words and film", () => {
-    const runtime = readFileSync("src/components/homepage-release/runtime.js", "utf8");
-    expect(homepageMarkup.match(/<h3 data-story-question=""[^>]*>“If knowledge lives outside us, will memory grow weaker\?”<\/h3>/g)).toHaveLength(2);
-    expect(runtime.match(/question: "“[^"]+”"/g)).toHaveLength(4);
-    expect(homepageMarkup.match(/<h2>Own your judgement, and amplify it\.<\/h2>/g)).toHaveLength(2);
-    expect(runtime).toContain('title: "Own your judgement, and amplify it."');
-    expect(runtime).toContain('steps: ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."]');
-    expect(`${homepageMarkup}${runtime}`).not.toContain("film-02");
-    expect(homepageMarkup.match(/<section class="route-stage"><video [^>]*poster="[^"]*archive-engine-hero-poster-r07[^"]*"><source src="[^"]*archive-engine-hero-loop-r07/g)).toHaveLength(2);
-  });
-
-  it("crosses out the returned hour's first answer, and gives the words back when unmounted", () => {
-    const root = document.createElement("div");
-    root.innerHTML = `<div class="mm-home-leadership">${leadershipChaptersMarkup()}</div>`;
-    document.body.append(root);
-    const answer = root.querySelector<HTMLElement>(".proof-return li")!;
-    const unmount = mountReturnedHour(root);
-    expect(answer.querySelector("s.mm-hour-strike")?.textContent).toBe("Clock off work earlier?");
-    expect(answer.classList.contains("mm-hour-struck")).toBe(true);
-    /* jsdom lays nothing out, so the answer reads as above the fold: fully struck. */
-    expect(answer.style.getPropertyValue("--strike")).toBe("1.0000");
-    unmount();
-    expect(answer.querySelector("s")).toBeNull();
-    expect(answer.textContent).toBe("Clock off work earlier?");
-    expect(answer.classList.contains("mm-hour-struck")).toBe(false);
-    expect(answer.style.getPropertyValue("--strike")).toBe("");
   });
 
   it("hides every decorative chapter film from assistive technology", () => {
@@ -92,7 +106,9 @@ describe("homepage leadership chapters", () => {
     const panels = [...root.querySelectorAll<HTMLElement>("[data-finder-panel]")];
     const selected = () => tabs.map((tab) => tab.getAttribute("aria-selected"));
     expect(selected()).toEqual(["true", "false", "false", "false", "false"]);
-    expect(panels.map((panel) => panel.hidden)).toEqual([false, true, true, true, true]);
+    /* The unchosen situations stay in place, out of reach, so the finder keeps
+       its height (2026-10-24). */
+    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([false, true, true, true, true]);
     /* Arrow keys move between situations and wrap; Home and End go to the ends. */
     tabs[0].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
     expect(selected()[4]).toBe("true");
@@ -100,7 +116,7 @@ describe("homepage leadership chapters", () => {
     tabs[4].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
     expect(selected()[0]).toBe("true");
     tabs[4].click();
-    expect(panels.map((panel) => panel.hidden)).toEqual([true, true, true, true, false]);
+    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([true, true, true, true, false]);
     /* A card opens as a sheet holding the whole story and its result on the record. */
     const summary = panels[4].querySelector<HTMLElement>("summary")!;
     summary.click();
@@ -120,7 +136,7 @@ describe("homepage leadership chapters", () => {
     expect(document.activeElement).toBe(summary);
     unmount();
     tabs[1].click();
-    expect(panels[1].hidden).toBe(true);
+    expect(panels[1].hasAttribute("inert")).toBe(true);
     expect(root.querySelector("[data-story-finder]")!.classList.contains("is-live")).toBe(false);
   });
 
@@ -130,7 +146,7 @@ describe("homepage leadership chapters", () => {
     const root = document.createElement("div");
     root.innerHTML = leadershipChaptersMarkup();
     expect(root.querySelectorAll("[data-finder-panel][hidden]")).toHaveLength(0);
-    expect(root.querySelectorAll("details[data-finder-card] .finder-full")).toHaveLength(15);
+    expect(root.querySelectorAll("details[data-finder-card] .finder-full")).toHaveLength(17);
     root.querySelectorAll<HTMLAnchorElement>("[data-finder-start]").forEach((link) => expect(link.getAttribute("href")).toMatch(/^\/\?start=(brain|gtm)$/));
   });
 

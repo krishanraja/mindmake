@@ -1,58 +1,42 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { track } from "@/lib/analytics";
 import { setBottomReserve } from "@/lib/bottomReserve";
 
 /**
  * The way in, pinned to the bottom of the screen.
  *
- * Two slots and never three. On the right, the one action, which opens the
- * brief. On the left, at most one door: the offer route the reader is not
- * already on. A reader on /ai-brain is offered /ai-gtm and nothing else; a
- * reader on an editorial page is offered no door at all, because neither one is
- * more relevant than the other and a bar is a place to act rather than a place
- * to navigate.
- *
- * ## Why two
- *
- * `scripts/qa/one-way-in-check.mjs` permits a fork of exactly two in one
- * control group and fails anything else on a page, and
- * `src/components/mindmake/CloseBlock.tsx` records the defect that produced
- * that rule: three "Start here" buttons at once at the foot of /ai-gtm. Three
- * choices at the moment of action is also a worse surface than two. The door is
- * a link and the action is a button, which is what they each really are.
+ * One button and nothing else (Ruling, Krish, 2026-10-24: "they should just
+ * have one call to action"). The bar used to carry a second slot, a door to the
+ * other offer route, and with the analytics notice beside it a reader on
+ * /ai-brain faced four controls at the bottom of the screen. The other route is
+ * one quiet line at the foot of each offer page and in the menu; the bar is a
+ * place to act, not a place to navigate.
  *
  * ## Non-duplicative
  *
- * It waits until the reader has left the first screen, and it stands down
- * entirely whenever the page's own primary action is on screen, so a reader
+ * It waits until the page's own first way in (the hero button, marked
+ * `data-mm-hero`) has scrolled away above the reader, or, on a page without
+ * one, until the reader has left the first screen. It stands down entirely
+ * whenever any of the page's own primary actions is on screen, so a reader
  * never sees two ways in at once. It reserves its measured height at the foot
  * of the page, so it never covers the last thing somebody is reading.
  *
- * It used to be phone-only, and its rules used to live in
- * `mindmake-instruments.css`, which only /case-studies imports, so on every
- * other route it rendered as a bare button below the footer. The rules now live
- * in `mindmake.css` beside the `--mm-bar-reserve` token that the footer reads.
+ * The rules live in `mindmake.css` beside the `--mm-bar-reserve` token that
+ * the footer reads.
  */
-
-export interface ActionBarDoor {
-  to: string;
-  label: string;
-}
 
 interface SiteActionBarProps {
   onStart: () => void;
-  /** The offer route the reader is not on. Omitted where neither is the page. */
-  door?: ActionBarDoor;
   label: string;
 }
 
-export function SiteActionBar({ onStart, door, label }: SiteActionBarProps) {
+export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
   const [shown, setShown] = useState(false);
   const barRef = useRef<HTMLDivElement>(null);
 
-  /* Shown after the first screen, and hidden again whenever the page's own
-     primary action is on screen. The bar exists so the action is reachable
+  /* Shown once the page's own first way in has gone above the reader (or,
+     where a page has none, after the first screen), and hidden again whenever
+     the page's own primary action is on screen. The bar exists so the action is reachable
      while none is in front of the reader; alongside one it is a second way in,
      which is how the foot of /ai-gtm ended up showing three at once and how the
      try-it panel ended up competing with a bar offering something else.
@@ -60,7 +44,8 @@ export function SiteActionBar({ onStart, door, label }: SiteActionBarProps) {
      deliberately does not: it would see itself and never appear. */
   useEffect(() => {
     const decide = () => {
-      const past = window.scrollY > window.innerHeight * 0.8;
+      const hero = document.querySelector("[data-mm-hero]");
+      const past = hero ? hero.getBoundingClientRect().bottom < 0 : window.scrollY > window.innerHeight * 0.8;
       /* Any part of it on screen, with no grace margin. A margin here means a
          band of scroll positions where the page's own button is visible and the
          bar is still up, which is exactly the two-ways-in this is meant to
@@ -113,16 +98,6 @@ export function SiteActionBar({ onStart, door, label }: SiteActionBarProps) {
   return (
     <div ref={barRef} className={`mm-action-bar${shown ? " is-shown" : ""}`} aria-hidden={!shown}>
       <div className="mm-action-bar-inner">
-        {door && (
-          <Link
-            className="mm-action-bar-door"
-            to={door.to}
-            tabIndex={shown ? 0 : -1}
-            onClick={() => track("door_click", { source: "action_bar", to: door.to })}
-          >
-            {door.label} <span aria-hidden="true">↗</span>
-          </Link>
-        )}
         <button
           className="mm-button"
           type="button"

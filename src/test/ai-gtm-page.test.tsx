@@ -37,27 +37,25 @@ describe("/ai-gtm on the server", () => {
   const html = serverRender("/ai-gtm");
   const body = html.slice(html.indexOf('class="mm-gtm"'));
 
-  it("has one h1, and it names the reader's problem rather than the offer", () => {
+  it("has one h1, and it is the proposition, with the urgency in its lede and nothing before the four places", () => {
+    /* Ruling (2026-10-24): "the Make Your Pricing, Positioning and Team AI
+       Native is probably actually the top headline", leading with the urgency
+       of the old opening, and the "add an AI tool" section "doesn't need to
+       exist". */
     expect(html.match(/<h1\b/g)).toHaveLength(1);
     const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>"));
-    expect(text(h1).trim()).toBe("Your customers have changed how they buy.");
-    const first = body.indexOf("<h1");
-    const offer = body.indexOf("Make your pricing, positioning and team");
-    expect(first).toBeGreaterThan(-1);
-    expect(offer).toBeGreaterThan(first);
-    // The four felt moments, and the easy way out and its cost, come before the offer.
-    expect(body.indexOf("You can feel it in four places.")).toBeLessThan(offer);
-    expect(body.indexOf("You could add an AI tool and keep everything else.")).toBeLessThan(offer);
-    expect(body.indexOf("The deals would go to whoever changed the rest.")).toBeLessThan(offer);
+    expect(text(h1).trim()).toBe("Make your pricing, positioning and team AI-native.");
+    const lede = body.indexOf("Your customers have changed how they buy.");
+    expect(lede).toBeGreaterThan(body.indexOf("<h1"));
+    expect(body.indexOf("Where are you starting from?")).toBeGreaterThan(lede);
+    expect(body.indexOf("You can feel it in four places.")).toBeGreaterThan(body.indexOf("Where are you starting from?"));
+    expect(text(body)).not.toContain("You could add an AI tool");
+    expect(text(body)).not.toContain("The deals would go to whoever changed the rest.");
   });
 
-  it("lays out every step of every chapter, with the first one active and nothing hidden from assistive technology", () => {
-    for (const chapter of ["levers", "plan"]) {
-      const start = body.indexOf(`data-gtm-chapter="${chapter}"`);
-      const section = body.slice(start, body.indexOf("</section>", start));
-      expect(section).toMatch(/data-gtm-step="0" data-active="true"/);
-      expect(section).not.toContain('aria-hidden="true" data-gtm-step');
-    }
+  it("shows every part of every section at once, with nothing pinned and nothing hidden from assistive technology but the other starting point", () => {
+    expect(body).not.toMatch(/data-gtm-step=/);
+    expect(body).not.toContain("gtm-stage");
     for (const felt of [
       "Your buyers are being offered software that does the whole job.",
       "Your buyers can already pay some software for each result it delivers.",
@@ -66,7 +64,13 @@ describe("/ai-gtm on the server", () => {
     ]) {
       expect(text(body)).toContain(felt);
     }
+    /* Each card holds both starting points in one place, the chosen one shown
+       and the other hidden from sight and from assistive technology. */
+    const levers = body.slice(body.indexOf('data-gtm-chapter="levers"'), body.indexOf("</section>", body.indexOf('data-gtm-chapter="levers"')));
+    expect((levers.match(/class="gtm-lever-way" data-active="true"/g) ?? [])).toHaveLength(4);
+    expect((levers.match(/class="gtm-lever-way" data-active="false" aria-hidden="true"/g) ?? [])).toHaveLength(4);
     for (const step of ["Week 1", "Weeks 2 to 4", "Day 30"]) expect(text(body)).toContain(step);
+    for (const keep of ["The model.", "The evidence.", "Anything we built."]) expect(text(body)).toContain(keep);
   });
 
   it("shows the work the month can produce instead of folding it into a drawer", () => {
@@ -161,23 +165,24 @@ describe("/ai-gtm in the browser", () => {
     fireEvent.click(screen.getByLabelText(/I'm building an AI-native business/));
     expect(screen.getByText("Your first commercial team can be mostly agents.")).toBeTruthy();
     expect(document.querySelector(".gtm-quote")!.textContent).toContain("We had a brilliant product nobody could buy");
-    expect(screen.getByText("Build around the job AI can finish.")).toBeTruthy();
     expect(contexts.at(-1)).toBe("I'm building an AI-native business");
-    // Words already read above the switch do not change underneath the reader.
+    /* The four places now speak to the chosen starting point, in the same
+       cells: the founder's ways are the ones shown, and no card gained or lost
+       a word, so none can change size. */
+    const shown = [...document.querySelectorAll('.gtm-lever-way[data-active="true"]')].map((way) => way.textContent).join(" ");
+    expect(shown).toContain("Build around the job AI can finish.");
+    expect(shown).not.toContain("Software that finishes the work.");
     expect(document.querySelector('[data-gtm-chapter="levers"]')!.textContent).toBe(levers);
     // Choosing never moves the page.
     expect(window.scrollTo).not.toHaveBeenCalled();
   });
 
-  it("shows the decision a seat creates beside the board, without moving the page", () => {
-    // The board is a chart to pick from only where the chapter pins.
-    const computed = window.getComputedStyle;
-    vi.spyOn(window, "getComputedStyle").mockImplementation((element, pseudo) => {
-      const style = computed(element, pseudo);
-      if (!(element as Element).classList?.contains("gtm-stage")) return style;
-      return new Proxy(style, { get: (target, key) => (key === "position" ? "sticky" : key === "top" ? "68px" : Reflect.get(target, key)) });
-    });
+  it("turns today's team into the AI-native one with its switch, and shows the decision a seat creates, without moving the page", () => {
     renderPage();
+    const team = document.querySelector('[data-gtm-chapter="team"]') as HTMLElement;
+    expect(team.dataset.view).toBe("today");
+    fireEvent.click(screen.getByRole("button", { name: "AI-native" }));
+    expect(team.dataset.view).toBe("native");
     fireEvent.click(screen.getAllByRole("button", { name: /Lead qualification/ })[0]);
     expect(document.querySelector(".decision-panel h3")!.textContent).toBe("Who is accountable when an agent turns away a lead that would have bought?");
     expect(window.scrollTo).not.toHaveBeenCalled();
@@ -217,8 +222,9 @@ describe("/ai-gtm's stylesheet", () => {
     }
   });
 
-  it("releases every pin for a reader without scripts and drops transitions for reduced motion", () => {
-    expect(css).toMatch(/@media[^{]*\(scripting: none\)[^{]*\{[\s\S]*?\.gtm-stage \{ position: static;/);
+  it("pins nothing, reads as a document without scripts, and drops transitions for reduced motion", () => {
+    expect(css).not.toMatch(/position: sticky/);
+    expect(css).toMatch(/@media \(scripting: none\) \{[\s\S]*?\.gtm-view-switch \{ display: none; \}/);
     expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?transition: none;/);
   });
 });

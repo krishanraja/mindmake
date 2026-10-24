@@ -69,8 +69,13 @@ Public route labels, in menu order: **Home**, **Build your AI brain**,
 **Build your AI revenue engine** ("Build your AI revenue" in the phone menus),
 **Success stories**, **Ideas you can use**, **Questions we get asked**,
 **About us** and **Media**, with a **Subscribe for free** badge beside Media.
-The one action is **Get your free AI brief** (`PRIMARY_ROUTES` and
-`START_LABEL` in `src/lib/publicLinks.ts`). Footer positioning: **Keep your edge
+The one action is **Start building your AI brain** (`START_LABEL` in
+`src/lib/publicLinks.ts`; on `/ai-gtm` **Start building your AI revenue
+engine**, `START_LABEL_GTM`), with "Free and private. It starts with a read of
+your business." beneath the page's own button (`START_SUBLABEL`). Krish chose
+it on 24 October 2026 to replace "Get your free AI brief": the free first step
+is a read of the business, so the line beneath says so and the button never
+promises a finished brain or a time it takes. Footer positioning: **Keep your edge
 as AI changes the market.**
 
 The four underlying GTM levers remain **product, price, positioning and people**.
@@ -704,7 +709,7 @@ copy is governed by the rest of this file.
 
 **Three asks, and who each one is for.**
 
-1. **Get your free AI brief**, at `https://mindmake.co/?start=1`. The main ask,
+1. **Start building your AI brain**, at `https://mindmake.co/?start=1`. The main ask,
    for a leader who can make the decision and has a live problem. Describe it as
    the site does: answer a few questions, keep the brief, then a free
    consultation.

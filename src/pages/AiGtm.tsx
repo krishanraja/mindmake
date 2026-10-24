@@ -6,12 +6,12 @@ import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import { useLockedMotion } from "@/components/mindmake/locked/useLockedMotion";
 import { Opening } from "@/components/ai-gtm/Opening";
 import { LeverChapter, type LeverStep } from "@/components/ai-gtm/LeverChapter";
-import { Workaround } from "@/components/ai-gtm/Workaround";
 import { TurnBand } from "@/components/ai-gtm/TurnBand";
 import { PlanChapter } from "@/components/ai-gtm/PlanChapter";
 import { TeamChapter, type TeamCopy } from "@/components/ai-gtm/TeamChapter";
 import { ProofBand } from "@/components/ai-gtm/ProofBand";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
+import { START_LABEL_GTM, START_SUBLABEL } from "@/lib/publicLinks";
 import signals from "@/data/vnext/gtm-signals.json";
 import quietWorkshopFilm from "@/assets/films/sep2026/quiet-workshop-growth-loop-r01-20s-720p-web-sealed.mp4";
 import signalsArriveFilm from "@/assets/films/sep2026/signals-arrive-loop-r01-20s-720p-web-sealed.mp4";
@@ -20,16 +20,21 @@ import signalsArrivePoster from "../../prototypes/website-redesign-recovery/case
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-ai-gtm.css";
 
-/* The AI GTM page (r47, awaiting the owner's review of the rendered page).
+/* The AI revenue engine page, in three sections (owner ruling, 2026-10-24:
+   every page answers what problem it solves, how it solves it, and what the
+   reader gets and how they know it works).
 
-   Told as one argument, in the order a buyer lives it: the change they already
-   feel, in four places; the workaround they would reach for and what it would
-   cost them; the offer as the answer; the 30 days; what their team becomes;
-   one result. Each chapter holds one idea on one screen, and the
-   three with more than one state pin and build with scroll in both directions.
-   It is drawn in the site's own system (Newsreader headlines, Archivo body,
-   Plex Mono labels, the house palette and container), with the two films the
-   continuity contract gives this page and no other imagery. */
+   1. The problem: the proposition as the headline, the one way in, where the
+      reader is starting from, and the four places they already feel the change.
+   2. How it works: their team, today and AI-native, and the decision each seat
+      puts on their desk.
+   3. What they get: one move in 30 days, what they keep, one result in the
+      client's own words, the way in, and one line to the AI brain.
+
+   Nothing pins. Every part that changes with a choice holds all of its states
+   in one place, so a choice never changes the size of anything. It is drawn in
+   the site's own system with the two films the continuity contract gives this
+   page and no other imagery. */
 
 type Mode = "established" | "founder";
 
@@ -62,45 +67,32 @@ const SHIFT = {
   people: { was: "Hire more people as you grow", now: "A smaller team leads while agents carry the volume." },
 } as const;
 
-const LEVER_STEPS: LeverStep[] = LEVERS.map((key) => ({
-  key,
-  name: LEVER_NAMES[key],
-  felt: FELT[key],
-  was: SHIFT[key].was,
-  now: SHIFT[key].now,
-  source: { name: SOURCE_NAME[key], date: SIGNAL_FOR[key].date, href: SIGNAL_FOR[key].source },
-}));
-
+/* The headline is the proposition and the lede carries the urgency (Ruling,
+   owner, 2026-10-24: "the Make Your Pricing, Positioning and Team AI Native
+   is probably actually the top headline", and "I like leading with the
+   urgency"). */
 const OPENING = {
-  lead: "Your customers have changed",
-  accent: "how they buy.",
-  deck: "You still build, price, position and hire by the old playbook.",
-};
-
-const WORKAROUND = {
-  easy: "You could add an AI tool and keep everything else.",
-  cost: "The deals would go to whoever changed the rest.",
-};
-
-const TURN = {
   heading: "Make your pricing, positioning and team",
   accent: "AI-native.",
+  lede: "Your customers have changed how they buy. We change how you sell to match, then test it with real buyers.",
   question: "Where are you starting from?",
 };
+
+/* What the reader keeps on day 30, said once, as the receipt. */
+const KEEPS = ["The model.", "The evidence.", "Anything we built."] as const;
 
 const MODES: Record<Mode, {
   tab: string;
   tabSmall: string;
-  lede: string;
-  levers: Record<(typeof LEVERS)[number], { was: string; now: string }> | null;
+  /** The old way and the new for each lever, for this starting point. */
+  levers: Record<(typeof LEVERS)[number], { was: string; now: string }>;
   team: TeamCopy;
   proof: { result: string; quote: string; who: string; story: string };
 }> = {
   established: {
     tab: "I run an established business",
     tabSmall: "Fixing a model that works",
-    lede: "AI is changing what customers pay for, how they choose and who does the work. We rebuild your go-to-market around it, then test it with real buyers.",
-    levers: null,
+    levers: SHIFT,
     team: {
       heading: "Your sales and marketing team gets agents.",
       lead: {
@@ -146,7 +138,6 @@ const MODES: Record<Mode, {
   founder: {
     tab: "I'm building an AI-native business",
     tabSmall: "Starting from scratch",
-    lede: "AI is changing what customers pay for, how they choose and who does the work. We help you build a go-to-market that starts AI-native, then test it with real buyers.",
     levers: {
       product: { now: "Build around the job AI can finish.", was: "Match the leader's feature list" },
       price: { now: "Charge for work done from the first customer.", was: "Borrow seat pricing from SaaS" },
@@ -190,6 +181,17 @@ const MODES: Record<Mode, {
   },
 };
 
+/* Every lever card holds both starting points' wording in the same place, so
+   choosing one never changes a card's size. The felt line and its dated
+   source are the same for both. */
+const LEVER_STEPS: LeverStep[] = LEVERS.map((key) => ({
+  key,
+  name: LEVER_NAMES[key],
+  felt: FELT[key],
+  ways: (Object.keys(MODES) as Mode[]).map((mode) => ({ mode, ...MODES[mode].levers[key] })),
+  source: { name: SOURCE_NAME[key], date: SIGNAL_FOR[key].date, href: SIGNAL_FOR[key].source },
+}));
+
 const PLAN = [
   { when: "Week 1", what: "We map all four", detail: "What AI changes for your product, price, positioning and people.", days: [1, 7] as const },
   { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "And test it with real buyers.", days: [8, 28] as const },
@@ -226,17 +228,18 @@ export default function AiGtm() {
     setMode(next);
     setPicked("lead");
   };
-  const mapped = copy.levers ? LEVERS.map((key) => ({ name: LEVER_NAMES[key], ...copy.levers![key] })) : null;
 
   return (
-    <MindmakeShell onStart={() => openBrief("gtm")} siteClassName="mm-route-gtm">
+    <MindmakeShell onStart={() => openBrief("gtm")} siteClassName="mm-route-gtm" startLabel={START_LABEL_GTM}>
       <SEO title="Build your AI revenue engine" description="Make your pricing, positioning and team AI-native, then test it with real buyers." canonical="/ai-gtm" />
       <div ref={rootRef} className="mm-gtm" data-mode={mode}>
         <Opening
-          lead={OPENING.lead}
+          heading={OPENING.heading}
           accent={OPENING.accent}
-          deck={OPENING.deck}
-          rules={LEVERS.map((key) => ({ name: LEVER_NAMES[key], was: SHIFT[key].was }))}
+          lede={OPENING.lede}
+          startLabel={START_LABEL_GTM}
+          startNote={START_SUBLABEL}
+          onStart={() => openBrief("gtm")}
           paused={paused}
           onToggleMotion={toggleMotion}
           film={(
@@ -249,32 +252,20 @@ export default function AiGtm() {
         <LeverChapter
           heading="You can feel it in four places."
           steps={LEVER_STEPS}
+          mode={mode}
           backdrop={(
             <figure className="gtm-film gtm-film-quiet" aria-hidden="true" data-motion-scene="signals">
               <video aria-hidden="true" data-motion-video="signals" data-src={signalsArriveFilm} poster={signalsArrivePoster} preload="none" muted loop playsInline />
             </figure>
           )}
-        />
-
-        <Workaround easy={WORKAROUND.easy} cost={WORKAROUND.cost} />
-
-        <TurnBand
-          heading={TURN.heading}
-          accent={TURN.accent}
-          question={TURN.question}
-          promise={copy.lede}
-          doors={(Object.keys(MODES) as Mode[]).map((key) => ({ mode: key, label: MODES[key].tab, small: MODES[key].tabSmall }))}
-          mode={mode}
-          onMode={chooseMode}
-        />
-
-        <PlanChapter
-          heading="One go-to-market move in 30 days"
-          steps={PLAN}
-          mapped={mapped}
-          menu={MENU}
-          note="We agree which of these go into your 30 days, and the fee, before work starts."
-        />
+        >
+          <TurnBand
+            question={OPENING.question}
+            doors={(Object.keys(MODES) as Mode[]).map((key) => ({ mode: key, label: MODES[key].tab, small: MODES[key].tabSmall }))}
+            mode={mode}
+            onMode={chooseMode}
+          />
+        </LeverChapter>
 
         <TeamChapter
           copy={copy.team}
@@ -284,9 +275,17 @@ export default function AiGtm() {
           decisionNote="We work through decisions like this with you in week 1."
         />
 
-        <ProofBand heading="Result" quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} story={copy.proof.story} />
+        <PlanChapter
+          heading="One go-to-market move in 30 days"
+          steps={PLAN}
+          keeps={KEEPS}
+          menu={MENU}
+          note="We agree which of these go into your 30 days, and the fee, before work starts."
+        >
+          <ProofBand quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} story={copy.proof.story} />
+          <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
+        </PlanChapter>
       </div>
-      <PairingBridge route="gtm" onStart={() => openBrief("gtm")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} initialContext={copy.tab} />
     </MindmakeShell>
   );

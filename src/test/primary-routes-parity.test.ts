@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { homepageMarkup } from "@/components/homepage-release/markup";
 import { PRIMARY_ROUTES, PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 
 const read = (path: string) => readFileSync(resolve(process.cwd(), path), "utf8");
@@ -65,7 +66,13 @@ describe("primary routes parity", () => {
     /* Home leads and About us sits before Media (Krish, 2026-09-25). */
     expect(PRIMARY_ROUTES[0]).toEqual({ label: "Home", href: "/" });
     expect(PRIMARY_ROUTES.at(-2)).toEqual({ label: "About us", href: "/about" });
-    expect(START_LABEL).toBe(selection.start);
+    /* The way in was renamed on 24 October 2026 ("Start building your AI
+       brain"), after the handoff froze "Get your free AI brief". The handoff is
+       an immutable recovery record, so the homepage the generator writes is
+       held to the shell's label instead: the same words in both menus and the
+       footer. */
+    expect(selection.start).toBe("Get your free AI brief");
+    expect(homepageMarkup.split(`href="/start">${START_LABEL}`).length - 1).toBe(3);
   });
 });
 

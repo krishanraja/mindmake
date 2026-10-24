@@ -1,6 +1,5 @@
-import type { CSSProperties } from "react";
-import { usePinnedSteps } from "@/hooks/usePinnedSteps";
-import { StepRail } from "./StepRail";
+import type { CSSProperties, ReactNode } from "react";
+import { Receipt } from "@/components/mindmake/Receipt";
 import { Unbroken } from "./Unbroken";
 
 export interface PlanStep {
@@ -14,71 +13,54 @@ export interface PlanStep {
 const DAYS = Array.from({ length: 30 }, (_, index) => index + 1);
 
 /**
- * The 30 days as the month itself: thirty days that light one by one as the
- * page scrolls, grouped into the three stretches of the work, whose names are
- * the controls that take the reader to each. All three stretches stay on
- * screen so the whole shape is never hidden; the one reached is lit and the
- * ones ahead wait. What each stretch produces is written into it rather than
- * folded into a drawer.
+ * Section three: what the reader gets, and how they know it works.
+ *
+ * Ruling (owner, 2026-10-24): "One go-to-market move in 30 days" is "a really
+ * good visual, but it needs to be the third section of three as opposed to
+ * hidden right down the bottom of a really long experience". It no longer
+ * pins: the month is drawn whole, its stretches in their own colours, with the
+ * work of each stretch beneath it and the deliverables to choose from. The last
+ * stretch, Day 30, is what the reader keeps, so it is drawn as the receipt the
+ * other offer page ends with. The proof, the way in and the line to the other
+ * page follow as `children`, at the point where the reader has understood the
+ * offer and wants to see it work.
  */
-export function PlanChapter({ heading, steps, mapped, menu, note }: {
+export function PlanChapter({ heading, steps, keeps, menu, note, children }: {
   heading: string;
   steps: readonly PlanStep[];
-  /** What week 1 maps for this business, lever by lever, old way and new. */
-  mapped: readonly { name: string; was: string; now: string }[] | null;
+  /** What the reader keeps on the last day, one item a line. */
+  keeps: readonly string[];
   menu: readonly string[];
   note: string;
+  children?: ReactNode;
 }) {
-  const { trackRef, stageRef, step, goTo } = usePinnedSteps<HTMLElement>(steps.length);
+  const work = steps.slice(0, -1);
+  const last = steps[steps.length - 1];
   return (
-    <section
-      ref={trackRef}
-      className="gtm-chapter gtm-plan"
-      data-gtm-chapter="plan"
-      aria-labelledby="gtm-plan-title"
-      style={{ "--gtm-steps": steps.length } as CSSProperties}
-    >
-      <div ref={stageRef} className="gtm-stage">
-        <div className="gtm-stage-body mm-container">
-          <h2 id="gtm-plan-title" className="gtm-plan-title"><Unbroken text={heading} /></h2>
-          <div className="plan-month">
-            <ol className="plan-days" aria-hidden="true">
-              {DAYS.map((day) => {
-                const stretch = steps.findIndex((item) => day >= item.days[0] && day <= item.days[1]);
-                return <li key={day} data-stretch={stretch} style={{ "--gtm-day": day } as CSSProperties} />;
-              })}
-            </ol>
-            <StepRail label="The 30 days" steps={steps.map((item) => item.when)} active={step} onGo={goTo} className="gtm-rail-days" />
-          </div>
-          <ol className="gtm-steps gtm-plan-steps">
-            {steps.map((item, index) => (
-              <li key={item.when} className="gtm-step gtm-plan-step" data-gtm-step={index} data-active={index === step} data-reached={index <= step}>
-                <p className="gtm-plan-when">{item.when}</p>
-                <h3 className="gtm-plan-what">{item.what}</h3>
-                <p className="gtm-plan-detail">{item.detail}</p>
-                {index === 0 && mapped ? (
-                  <ul className="gtm-plan-list gtm-plan-mapped">
-                    {mapped.map((entry) => (
-                      <li key={entry.name}>
-                        <span>{entry.name}</span>
-                        <span className="gtm-was"><s>{entry.was}</s></span>
-                        <b>{entry.now}</b>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-                {index === 1 ? (
-                  <>
-                    <ul className="gtm-plan-list gtm-plan-menu">
-                      {menu.map((entry) => <li key={entry}>{entry}</li>)}
-                    </ul>
-                    <p className="gtm-plan-note">{note}</p>
-                  </>
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </div>
+    <section className="gtm-plan" data-gtm-chapter="plan" aria-labelledby="gtm-plan-title">
+      <div className="gtm-plan-body mm-container">
+        <h2 id="gtm-plan-title" className="gtm-plan-title"><Unbroken text={heading} /></h2>
+        <ol className="plan-days" aria-hidden="true">
+          {DAYS.map((day) => {
+            const stretch = steps.findIndex((item) => day >= item.days[0] && day <= item.days[1]);
+            return <li key={day} data-stretch={stretch} style={{ "--gtm-day": day } as CSSProperties} />;
+          })}
+        </ol>
+        <ol className="gtm-plan-steps">
+          {work.map((item, index) => (
+            <li key={item.when} className="gtm-plan-step" data-stretch={index}>
+              <p className="gtm-plan-when">{item.when}</p>
+              <h3 className="gtm-plan-what">{item.what}</h3>
+              <p className="gtm-plan-detail">{item.detail}</p>
+            </li>
+          ))}
+        </ol>
+        <ul className="gtm-plan-menu">
+          {menu.map((entry) => <li key={entry}>{entry}</li>)}
+        </ul>
+        <p className="gtm-plan-note">{note}</p>
+        <Receipt title="What stays with you" tag={`Yours to keep · ${last.when}`} items={keeps} />
+        {children}
       </div>
     </section>
   );

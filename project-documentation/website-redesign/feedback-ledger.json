@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-10-16",
+  "updatedAt": "2026-10-24",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -995,6 +995,537 @@
         "src/components/leadership-chapters/leadershipChapters.ts",
         "src/components/leadership-chapters/storyFinder.ts",
         "src/test/leadership-stories.test.ts"
+      ]
+    },
+    {
+      "id": "S6-H01",
+      "exactFeedback": "This screen is lovely, it's a good opener, and has the right doors. I think we could do a better job of showing that there's a media channel related to this that we could subsc- that a user, a visitor could subscribe to. doesn't need to be a new button, but, let's think imaginatively about how we get as many people to subscribe to my substack as possible, directly from here. this section is really,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H01 (\"Keep the opener; make the media subscription discoverable\", 0s to 31s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "Opening",
+      "device": "all",
+      "element": "hero, doors and the publication",
+      "classification": "correction",
+      "requiredOutcome": "Keep the opening and its two doors. A visitor can see that the publication exists and subscribe from here, without a new button competing with the way in.",
+      "acceptanceTest": "The opening's film, rotation and doors are unchanged; one line under the way in names an issue of Make Your Mind Up and links to subscribe; the homepage gate finds it at every size.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The R3 opening keeps its film, rotation and both doors. Under the way in, one line reads \"From Make Your Mind Up\", the title of an issue (read from the publication's feed at build time, scripts/fetch-latest-issue.mjs, the last good one kept if the feed fails) and \"Get it free, three times a week\", linking to makeyourmindup.ai. It never says \"latest\". Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts",
+        "scripts/fetch-latest-issue.mjs",
+        "src/data/latestIssue.json"
+      ]
+    },
+    {
+      "id": "S6-H02",
+      "exactFeedback": "good in terms of it's powerful at making, clear that this has been happening for ages and it's nothing new. Thank Okay. Cause the goal of MindMake is to show people that human agency and accountability is really the old school trick to embracing AI. I don't particularly like the text here on the left. I, I, I like the copy, I just don't like visually how it looks. It just looks like, the fonts are, I guess, too same-same, there's too much text. I think that, perhaps this could be, a bit simpler, I'll show I think, you know, I really like the visuals and the, the, almost, like, the timeline thing. I just don't. I just think it's a little too, wordy.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H02 (\"Keep the historical argument; simplify its visual hierarchy\", 31s to 83s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "Right now, your AI is an intern.",
+      "device": "all",
+      "element": "the four eras",
+      "classification": "correction",
+      "requiredOutcome": "Keep the argument that people have resisted new tools before and kept their judgement in charge, told with a simpler hierarchy.",
+      "acceptanceTest": "The four eras read at a glance as tiles; each turns in place to what actually happened; the section closes on one line.",
+      "status": "implemented-awaiting-review",
+      "resolution": "\"Right now, your AI is an intern.\" then \"We've been here before.\": four tiles (writing, the engine loom, the calculator, the satnav) with the approved question on the face and what actually happened on the turn, closing \"Every time, the people who kept their judgement in charge came out ahead. The feeling is the same. The scale is not.\" Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts"
+      ]
+    },
+    {
+      "id": "S6-H03",
+      "exactFeedback": "I also don't think that, but it's worth the effort. Keeping a user here for so long, through the scroll, and so, I think from a, the way the user feels when they are on this, is that they're, they have to consume all the content, whereas it's actual, that's actually just optional, narrative that just needs to drive a sense of urgency, but a sense of assurance. so I need you to figure out how to simplify this so that a user can experience it if they want, but if, if they don't, then they can, scroll past it and just get the message in a couple of seconds.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H03 (\"Make the timeline optional, with a fast route past it\", 83s to 119s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "Right now, your AI is an intern.",
+      "device": "all",
+      "element": "the history timeline",
+      "classification": "correction",
+      "requiredOutcome": "The history is optional and quick to pass: nothing holds the reader.",
+      "acceptanceTest": "Nothing on the homepage pins; each section moves exactly as far as the page scrolls (homepage gate); the tiles turn without resizing the four.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The history pin (pinnedChapters.ts) is retired. The eras are four tiles a reader can turn or scroll past in one screen; without scripts the question and answer both show. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts",
+        "scripts/qa/line-break-check.mjs"
+      ]
+    },
+    {
+      "id": "S6-H04",
+      "exactFeedback": "the feeling is similar scale, it's not this section is really good, but, and, and I, I really like this, again, this is a, this is a really nice section.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H04 (\"Preserve the role diagram and AI level-up storytelling\", 119s to 138s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "A chief of staff knows how you think.",
+      "device": "all",
+      "element": "the organisation and the level-up",
+      "classification": "correction",
+      "requiredOutcome": "Keep the role diagram and the AI level-up storytelling.",
+      "acceptanceTest": "The organisation and the three practice scenes appear in the how-it-works section, from the shared source, readable without motion.",
+      "status": "implemented-awaiting-review",
+      "resolution": "\"A chief of staff knows how you think.\" carries the organisation from the shared source (organisationGridMarkup), what AI carries and what you keep, and \"When built right, AI is our biggest level-up.\" with the three practice scenes, still. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts",
+        "src/components/leadership-chapters/leadershipChapters.ts"
+      ]
+    },
+    {
+      "id": "S6-H05",
+      "exactFeedback": "this, this section, here, where would you start, is probably one of the most important sections in the entire site, and it's not, doesn't fit the page, it's not, is the, the text isn't aligned, like the green text at the, the bottom of each box, and and I've got a few more of these. as well, that, I've been working on, which I can, I can give you a stream of consciousness narrative as to what they are, and we can make, we can figure out how we bring all of this to life in this section, it is the most practical. outlook, output for what an AI brain makes possible, but, having said that, I think this might belong on the AI brain page, this section, what will you do with the time,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H05 (\"Repair and potentially relocate 'Where would you start?'\", 138s to 189s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain",
+      "section": "Where would you start?",
+      "device": "all",
+      "element": "the story finder",
+      "classification": "correction",
+      "requiredOutcome": "The stories live with the AI brain, and their layout is repaired: outcomes aligned, cards the same size, every story reachable.",
+      "acceptanceTest": "On /ai-brain the outcome lines of the shown cards start on one line; the finder keeps one height across situations and stories; every story is reachable by tab and rail at 1440, 1280, 390 and 360 wide (qa:line-breaks).",
+      "status": "implemented-awaiting-review",
+      "resolution": "The finder moved to /ai-brain#stories. Each situation's headings take the height of its tallest, so the outcomes align; the situations share one place, so choosing one never resizes the finder; a situation with more stories than fit shows \"1 to 3 of 5\" and arrows. The homepage shows three results that link to it. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiBrainLocked.tsx",
+        "src/styles/mindmake-brain-s6.css",
+        "src/test/brain-narrative.test.ts",
+        "src/components/leadership-chapters/storyFinder.ts",
+        "src/styles/new-age-leadership-r6.layer.css",
+        "scripts/qa/line-break-check.mjs"
+      ]
+    },
+    {
+      "id": "S6-H06",
+      "exactFeedback": "page, this section, what will you do with the time, the hours you save on a task, I, I think it's a great message, I don't think it's worth a full section, at all, I think this, this needs to, to, to go somewhere, and the most important wording, needs to be put, you know, somewhere else, either, another sentence somewhere else in this page needs to be made more powerful, or, it goes in the FAQs or something like that.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H06 (\"Keep the reinvestment message without a full section\", 187s to 209s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "A chief of staff knows how you think.",
+      "device": "all",
+      "element": "the returned hour",
+      "classification": "correction",
+      "requiredOutcome": "Keep the reinvestment message without giving it a section.",
+      "acceptanceTest": "The returned hour is no longer a section; its point closes the how-it-works section in one line.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The returned hour section (returnedHour.ts) is retired. Its point closes the section: \"And the hours it hands back go into the work only you can do.\" Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts"
+      ]
+    },
+    {
+      "id": "S6-H07",
+      "exactFeedback": "This section, again, does not need to be there, this is basically a call to action, and the green button should just go in the top section, and, the copy for Own Your Judgment and Amplify it, and the sub-copy should maybe just go in to the top section as a result. The rotation, with all the rest of it, so we can just delete this section entirely. the,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H07 (\"Fold the closing CTA into the opening\", 210s to 232s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "Opening",
+      "device": "all",
+      "element": "the closing route chapter",
+      "classification": "correction",
+      "requiredOutcome": "The way in moves into the opening; the closing headline joins the rotation; the closing section goes.",
+      "acceptanceTest": "The hero carries the way in; \"Own your judgement, and amplify it.\" is the second rotating line; the route chapter is absent.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The green button \"Start building your AI brain\" sits in the hero with its line beneath. \"Own your judgement, and amplify it.\" is the rotation's second line (six lines). The route chapter, its film and receipt are cut by the generator. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts",
+        "src/components/homepage-release/heroRotation.ts",
+        "src/test/hero-rotation.test.ts"
+      ]
+    },
+    {
+      "id": "S6-H08",
+      "exactFeedback": "the What Stays With You, panel at the bottom is really good, again, but, that, once again, that is an AI brain, output, so, I guess that maybe could go with the outcomes sort of the AI brain that we are looking at above that are going to, move over. ultimately, we need to drastically simplify,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H08 (\"Carry 'What stays with you' into AI Brain outcomes\", 232s to 252s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain and /ai-gtm",
+      "section": "What stays with you",
+      "device": "all",
+      "element": "the closing strip",
+      "classification": "correction",
+      "requiredOutcome": "\"What stays with you\" moves to the AI brain's outcomes and reads as stable and professional.",
+      "acceptanceTest": "One receipt component on both door pages: title row, \"Yours to keep\" tag, three checked items in equal cells, stacked on a phone.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Receipt.tsx: a bordered receipt with the title in a header row, a mono \"Yours to keep · Day 30\" tag, three equal cells split by hairlines with a check on each; on a phone three stacked line items. On /ai-brain it holds the three canon steps; on /ai-gtm \"The model.\", \"The evidence.\", \"Anything we built.\". Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/mindmake/Receipt.tsx",
+        "src/styles/mindmake-pairing.css",
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiBrainLocked.tsx",
+        "src/pages/AiGtm.tsx"
+      ]
+    },
+    {
+      "id": "S6-H09",
+      "exactFeedback": "to, move over. ultimately, we need to drastically simplify, everything here to be probably three sections, and each section has either cards or panels or, you know, the current, you know, transitions inside those, but, but. overall, we need to really cut down, the, the amount of sections. Okay, so that's the homepage. Now let's move over to the AI Brain page.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card H09 (\"Rebuild the homepage around roughly three sections\", 248s to 276s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/",
+      "section": "the whole page",
+      "device": "all",
+      "element": "page architecture",
+      "classification": "correction",
+      "requiredOutcome": "The homepage is three sections: the problem, how it works, what you get and how we know it works.",
+      "acceptanceTest": "Between the opening and the footer there are exactly three sections in that order (homepage gate, unit test).",
+      "status": "implemented-awaiting-review",
+      "resolution": "Opening, then \"Right now, your AI is an intern.\", \"A chief of staff knows how you think.\" and \"Built on your real work. Yours to keep.\" (three results in their public words, a link to the stories and the way in), then the footer. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/build-homepage-release.mjs",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "src/test/homepage-leadership-chapters.test.ts"
+      ]
+    },
+    {
+      "id": "S6-B01",
+      "exactFeedback": "the AI Brain page, you know, at the bottom, for example, there's There's four buttons, there's Google Analytics, allow a client, there's a get your free AI brief, and build your revenue engine. that's way too much. The, the user shouldn't have to think about that much. they should just have one call to action. and I don't know if get your free AI brief is actually a good call to action. I, I, I feel like, we need to figure out how to make this warmer, and more of a no-brainer to, that they're gonna get value for, immediately, like within 30 minutes.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card B01 (\"Resolve competing bottom actions and make the primary offer warmer\", 277s to 308s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "every page",
+      "section": "bottom edge",
+      "device": "all",
+      "element": "action bar and analytics notice",
+      "classification": "correction",
+      "requiredOutcome": "One clear way in at the bottom, never stacked on the analytics notice, in warmer words than \"Get your free AI brief\".",
+      "acceptanceTest": "The bar holds one button and shows only after the page's own way in has scrolled away; the notice sits apart (a card on the left of a laptop, under the masthead on a phone) with equal Allow and Decline; the label is \"Start building your AI brain\" (\"Start building your AI revenue engine\" on /ai-gtm).",
+      "status": "implemented-awaiting-review",
+      "resolution": "SiteActionBar is one button; the door slot is gone. The notice no longer stacks on the bar. START_LABEL is \"Start building your AI brain\" and START_LABEL_GTM \"Start building your AI revenue engine\", with \"Free and private. It starts with a read of your business.\" beneath the page's own button. A control scrolled into view lands above the bar (scroll-padding), checked by qa:line-breaks. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/lib/publicLinks.ts",
+        "src/components/mindmake/SiteActionBar.tsx",
+        "src/components/mindmake/MindmakeShell.tsx",
+        "src/styles/mindmake.css",
+        "src/test/action-bar-door.test.ts",
+        "src/test/CookieConsent.test.tsx"
+      ]
+    },
+    {
+      "id": "S6-B02",
+      "exactFeedback": "this slide, the questions only you can answer, is fine, and it's very good at storytelling. In setting up, but, again, maybe, we can merge this with another section, or merge it with the Your Next Call Gets Sharper, section, and have it as a transition, so as you scroll, the first section turns into the Your Next Call Gets Sharper section, We'll time. Bye-bye. as well as this Your Business Rises With You section. So I think those three, sections, 1, 3, and 5, should be one section, essentially. What Our Brain Holds, and then Private to You and Yours to Keep",
+      "source": "Krish, walkthrough recording of 24 October 2026, card B02 (\"Combine questions, sharper calls and business growth into one story\", 308s to 343s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain",
+      "section": "The questions only you can answer.",
+      "device": "all",
+      "element": "three chapters",
+      "classification": "correction",
+      "requiredOutcome": "The questions, the sharper call and the business rising become one story.",
+      "acceptanceTest": "One panel in three beats with tabs and arrows; the panel holds its size across the beats (qa:line-breaks); without scripts the beats read one after another.",
+      "status": "implemented-awaiting-review",
+      "resolution": "One section, three beats: \"The questions only you can answer.\", \"Your next call gets sharper.\", \"Your business rises with you.\", each with its own instrument, all stacked in one place so the panel never resizes. The rail and chapter numbers are retired. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiBrainLocked.tsx",
+        "src/styles/mindmake-brain-s6.css",
+        "src/test/brain-narrative.test.ts",
+        "scripts/qa/line-break-check.mjs"
+      ]
+    },
+    {
+      "id": "S6-B03",
+      "exactFeedback": "essentially. What Our Brain Holds, and then Private to You and Yours to Keep are really important sections. So they should remain,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card B03 (\"Retain 'What a Brain holds'\", 339s to 350s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain",
+      "section": "What a Brain holds.",
+      "device": "all",
+      "element": "the constellation",
+      "classification": "correction",
+      "requiredOutcome": "Keep \"What a Brain holds\".",
+      "acceptanceTest": "The section and its instrument remain, beside privacy, as how it works.",
+      "status": "implemented-awaiting-review",
+      "resolution": "\"What a Brain holds.\" is the first panel of the how-it-works pair, with its constellation. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiBrainLocked.tsx",
+        "src/styles/mindmake-brain-s6.css",
+        "src/test/brain-narrative.test.ts"
+      ]
+    },
+    {
+      "id": "S6-B04",
+      "exactFeedback": "essentially. What Our Brain Holds, and then Private to You and Yours to Keep are really important sections. So they should remain,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card B04 (\"Retain privacy and ownership\", 339s to 350s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain",
+      "section": "Private to you, and yours to keep.",
+      "device": "all",
+      "element": "the living record",
+      "classification": "correction",
+      "requiredOutcome": "Keep privacy and ownership.",
+      "acceptanceTest": "The section and its instrument remain, beside what a Brain holds.",
+      "status": "implemented-awaiting-review",
+      "resolution": "\"Private to you, and yours to keep.\" is the second panel of the pair, with the living record. Its copy is unchanged. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiBrainLocked.tsx",
+        "src/styles/mindmake-brain-s6.css",
+        "src/test/brain-narrative.test.ts"
+      ]
+    },
+    {
+      "id": "S6-B05",
+      "exactFeedback": "and the We Build It With You in 30 Days needs to be probably merged with, what we bring over from the homepage that I just mentioned, because this is the outcome, this is what you get, and so we need to Good. deduplicate that, and, make it easier to,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card B05 (\"Unify the 30-day build story with migrated outcomes\", 350s to 370s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain",
+      "section": "We build it with you in 30 days.",
+      "device": "all",
+      "element": "the month and the outcomes",
+      "classification": "correction",
+      "requiredOutcome": "The 30-day build, the stories and what stays with you read as one closing section.",
+      "acceptanceTest": "The month, then the story finder, the receipt and the way in, in that order.",
+      "status": "implemented-awaiting-review",
+      "resolution": "#built keeps the month; the story finder, the receipt and the way in follow it as the page's third section. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiBrainLocked.tsx",
+        "src/styles/mindmake-brain-s6.css",
+        "src/test/brain-narrative.test.ts"
+      ]
+    },
+    {
+      "id": "S6-B06",
+      "exactFeedback": "to consume. then this call to action, an AI brain gives your revenue engine something to run on, is an awesome call to action, but it needs to be condensed, it should shouldn't take up this much, screen space. the, the, again, this,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card B06 (\"Keep the revenue-engine bridge, but shrink its footprint\", 370s to 385s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-brain",
+      "section": "the close",
+      "device": "all",
+      "element": "the revenue engine bridge",
+      "classification": "correction",
+      "requiredOutcome": "Keep the bridge to the revenue engine, much smaller.",
+      "acceptanceTest": "One line under the way in, with a link.",
+      "status": "implemented-awaiting-review",
+      "resolution": "PairingBridge is the way in and one line: \"Running a revenue team? An AI brain gives your revenue engine something to run on.\" linking to /ai-gtm. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/mindmake/PairingBridge.tsx",
+        "src/styles/mindmake-pairing.css"
+      ]
+    },
+    {
+      "id": "S6-R01",
+      "exactFeedback": "This section gives me the same feeling as the historical timeline section. It, it just feels, look at it, feels really glitchy and just so much cop, copy and, I don't know, I just don't like it. it's not simple enough, but it is, I like the urgency, I like leading with the urgency, that's a good thing. Once again, the bottom panel is horrible, and needs to be changed. this, you could add an AI tool and keep",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R01 (\"Simplify the urgency-led opening and repair the bottom panel\", 403s to 433s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "Opening",
+      "device": "all",
+      "element": "opening and bottom panel",
+      "classification": "correction",
+      "requiredOutcome": "A simpler opening that keeps the urgency, and the same repaired bottom edge as the AI brain.",
+      "acceptanceTest": "The h1 is the proposition, the urgency is its lede, and the bar and notice behave as on every page.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The opening is \"Make your pricing, positioning and team AI-native.\" with the lede \"Your customers have changed how they buy. We change how you sell to match, then test it with real buyers.\" and the way in. The bottom edge follows B01. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/pages/AiGtm.tsx",
+        "src/components/ai-gtm/",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/test/ai-gtm-page.test.tsx"
+      ]
+    },
+    {
+      "id": "S6-R02",
+      "exactFeedback": "and needs to be changed. this, you could add an AI tool and keep everything else, section is, is, once again, just verbal diarrhea doesn't need to exist, and this call to action,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R02 (\"Remove the standalone 'You could add an AI tool' section\", 430s to 441s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "You could add an AI tool",
+      "device": "all",
+      "element": "the section",
+      "classification": "correction",
+      "requiredOutcome": "Remove the section.",
+      "acceptanceTest": "The phrase and its section are absent (unit test).",
+      "status": "implemented-awaiting-review",
+      "resolution": "Workaround.tsx is deleted with its section. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/pages/AiGtm.tsx",
+        "src/components/ai-gtm/",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/test/ai-gtm-page.test.tsx"
+      ]
+    },
+    {
+      "id": "S6-R03",
+      "exactFeedback": "the Make Your Pricing, Positioning and Team AI Native is probably actually the top headline of this section. So this section entirely, the wording, of it and everything is actually probably better as the top section, which is why, which is probably a good example of, why I don't like the current top section of this page.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R03 (\"Promote the AI-native proposition to the top\", 442s to 463s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "Opening",
+      "device": "all",
+      "element": "the headline",
+      "classification": "correction",
+      "requiredOutcome": "\"Make your pricing, positioning and team AI-native\" is the top headline.",
+      "acceptanceTest": "It is the page's only h1 (unit test).",
+      "status": "implemented-awaiting-review",
+      "resolution": "Opening.tsx carries it as the h1, with \"AI-native.\" as the accent. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/pages/AiGtm.tsx",
+        "src/components/ai-gtm/",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/test/ai-gtm-page.test.tsx"
+      ]
+    },
+    {
+      "id": "S6-R04",
+      "exactFeedback": "and again, the one, one go-to-market move in 30 days, we map all four, it's It's a really good visual, but, it needs to be the third section of three as opposed to, hidden right down the bottom of a really long experience.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R04 (\"Bring the 30-day go-to-market visual forward\", 463s to 477s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "One go-to-market move in 30 days",
+      "device": "all",
+      "element": "the 30-day visual",
+      "classification": "correction",
+      "requiredOutcome": "The 30 days is the third of three sections, not buried at the end of a long experience.",
+      "acceptanceTest": "The page is the opening and four places, the team, then the 30 days with what stays with you and the proof; nothing pins.",
+      "status": "implemented-awaiting-review",
+      "resolution": "PlanChapter is static: the month, the steps, the work it can produce, the receipt, the result in the client's words and the way in. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/pages/AiGtm.tsx",
+        "src/components/ai-gtm/",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/test/ai-gtm-page.test.tsx"
+      ]
+    },
+    {
+      "id": "S6-R05",
+      "exactFeedback": "is a really important piece, but I just don't know if it just needs to be merged with one of the top sections, where, you know, like, the top section could lead with the threats and challenges, and this is one of them. and so, I wonder if we are able to think about how we deduplicate that as well. but, I mean, this is probably one of the more powerful sections in reality, because it's really relatable and really visual, and presents a really high level challenge. And it's really clear who would be interested in this.",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R05 (\"Move the relatable agent-team challenge nearer the opening\", 494s to 536s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "Your sales and marketing team gets agents.",
+      "device": "all",
+      "element": "the team",
+      "classification": "correction",
+      "requiredOutcome": "The agent team sits near the opening as the page's second section.",
+      "acceptanceTest": "The team follows the four places, switches between Today and AI-native, and shows a seat's decision without moving the page or resizing the panel (qa:line-breaks).",
+      "status": "implemented-awaiting-review",
+      "resolution": "TeamChapter is the second section on paper, with a Today and AI-native switch instead of a pinned build, and the decision a picked seat creates. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/pages/AiGtm.tsx",
+        "src/components/ai-gtm/",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/test/ai-gtm-page.test.tsx",
+        "scripts/qa/line-break-check.mjs"
+      ]
+    },
+    {
+      "id": "S6-R06",
+      "exactFeedback": "I think that, you know, again, we don't need a separate section for this testimonial down the bottom here. I think it would be better if we had, links to the success stories in the exact place. A reader would be thinking, okay, I get what it is, now show me the proof. so it doesn't need a whole section, it needs a link to the success stories. And again, this call to action,",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R06 (\"Put proof where the reader asks for it\", 536s to 563s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "the close",
+      "device": "all",
+      "element": "the testimonial",
+      "classification": "correction",
+      "requiredOutcome": "Proof where the reader asks for it, not a standalone section.",
+      "acceptanceTest": "The verbatim quote, the result and \"Read the story\" sit inside the third section, after what stays with you.",
+      "status": "implemented-awaiting-review",
+      "resolution": "ProofBand is a figure inside PlanChapter: the CRO's verbatim quote, \"A new sales path led to a paid test with a major US publisher.\" and a link to /case-studies#story=market-moves. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/pages/AiGtm.tsx",
+        "src/components/ai-gtm/",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/test/ai-gtm-page.test.tsx"
+      ]
+    },
+    {
+      "id": "S6-R07",
+      "exactFeedback": "stories. And again, this call to action, again, needs to be so much more condensed. but is, again, a good message. Thank",
+      "source": "Krish, walkthrough recording of 24 October 2026, card R07 (\"Condense the final AI Brain cross-link\", 561s to 568s), in his Drive handoff mindmake-visual-feedback; his words from its verbatim captions.",
+      "surface": "/ai-gtm",
+      "section": "the close",
+      "device": "all",
+      "element": "the AI brain bridge",
+      "classification": "correction",
+      "requiredOutcome": "Condense the cross-link to the AI brain.",
+      "acceptanceTest": "One line under the way in, with a link.",
+      "status": "implemented-awaiting-review",
+      "resolution": "PairingBridge on /ai-gtm: \"Your revenue engine runs better on an AI brain.\" linking to /ai-brain. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "evidence": [
+        "src/components/mindmake/PairingBridge.tsx",
+        "src/styles/mindmake-pairing.css"
+      ]
+    },
+    {
+      "id": "S6-STORIES-NEW-001",
+      "exactFeedback": "There's an investor looking to buy companies that I am helping, and I've helped him look for external market signals using his unique methodology so he can get ahead of the market as more investors pour into his area. I've also helped a senior leader at an insurance company to keep ahead of the market in a world where she can't network as much anymore. That's where she used to find out all her industry information. That's a particularly sensitive one because she's not allowed to hand over customer data, and so this is just a one-way delivery of the world outside of her business to her. It helps her to feel more informed. These are both pretty good to go in the \"What an AI brain gives you\" area, but I think we probably need to figure out how we make that whole area accessible because there are a lot of stories.",
+      "source": "Krish, 24 October 2026, in the S6 session, on the rendered mocks.",
+      "surface": "/ai-brain and /new-age-leadership",
+      "section": "Where would you start?",
+      "device": "all",
+      "element": "two new stories",
+      "classification": "correction",
+      "requiredOutcome": "Two true stories join \"Seeing what is changing\" in Krish's account, anonymous at role level; the insurance story never implies customer data leaves her business; the finder stays easy to use with more stories.",
+      "acceptanceTest": "Krish approves both wordings; seventeen stories in five situations; the rail reaches every story at every size.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Added first under \"Seeing what is changing\": \"An insurance leader who networks less now still hears what her market says.\" (\"She feels more informed, and no customer data ever leaves her business.\") and \"An investor buying companies now watches his market through his own method.\" (\"It flags the signals he looks for, so he can stay ahead as more investors move into his area.\"), with situation, happening and figure lines drafted from his account. The situation shows \"1 to 3 of 5\" and arrows. The wording awaits his yes.",
+      "evidence": [
+        "src/components/leadership-chapters/leadershipChapters.ts",
+        "src/components/leadership-chapters/storyFinder.ts",
+        "src/test/leadership-stories.test.ts"
+      ]
+    },
+    {
+      "id": "S6-FINDER-ALIGN-001",
+      "exactFeedback": "The screen grab shows some misalignments in the green text horizontally. I think the issue is that on a mobile phone, one of them takes three lines, whereas the others just take two. We need to mitigate for this without bastardizing or losing the message.",
+      "source": "Krish, 24 October 2026, in the S6 session, on the rendered mocks.",
+      "surface": "/ai-brain and /new-age-leadership",
+      "section": "Where would you start?",
+      "device": "all",
+      "element": "the outcome lines",
+      "classification": "correction",
+      "requiredOutcome": "The green outcome lines start on one line across the cards in view, with every word of every story kept.",
+      "acceptanceTest": "The headings of a situation share the height of its tallest; outcome tops are equal at 1440, 1280, 390 and 360 wide.",
+      "status": "implemented-awaiting-review",
+      "resolution": "storyFinder.ts sets --finder-heading-h to the tallest heading of each situation whenever it is shown or the width changes; the copy is unchanged.",
+      "evidence": [
+        "src/components/leadership-chapters/storyFinder.ts",
+        "src/styles/new-age-leadership-r6.layer.css",
+        "src/styles/new-age-leadership-r5.css"
+      ]
+    },
+    {
+      "id": "S6-RECEIPT-001",
+      "exactFeedback": "This section does not look visually stable or professional for some reason. What does it need to feel less like just text everywhere?",
+      "source": "Krish, 24 October 2026, in the S6 session, on the rendered mocks.",
+      "surface": "/ai-brain and /ai-gtm",
+      "section": "What stays with you",
+      "device": "all",
+      "element": "the closing strip",
+      "classification": "correction",
+      "requiredOutcome": "\"What stays with you\" reads as one stable, professional object.",
+      "acceptanceTest": "Krish approved the receipt mock: \"Receipt approved, and the AI Brain mock with it.\"",
+      "status": "implemented-awaiting-review",
+      "resolution": "Built as Receipt.tsx (see S6-H08), the same object on both door pages.",
+      "evidence": [
+        "src/components/mindmake/Receipt.tsx",
+        "src/styles/mindmake-pairing.css"
+      ]
+    },
+    {
+      "id": "S6-TEXT-STABILITY-001",
+      "exactFeedback": "I think we need to run tests to make sure that, at a regular desktop and phone screen width, we don't ever get one word sprawl over to a second line and change the entire component size. That makes everything look unstable. It should be pretty easy to rewrite that kind of sentence to be a bit shorter, or have fixed component sizes, or both, or reduce the font size. There are loads of different options, but that's something that just really annoys me.",
+      "source": "Krish, 24 October 2026, in the S6 session, on the rendered mocks.",
+      "surface": "every page",
+      "section": "every swapping component",
+      "device": "all",
+      "element": "lone words and size changes",
+      "classification": "constraint",
+      "requiredOutcome": "No word sits alone on a line at a regular desktop or phone width, and no component changes size when a reader makes a choice.",
+      "acceptanceTest": "qa:line-breaks passes on every indexed page at 1440x900, 1280x800, 390x844 and 360x780, clicking every tab, toggle, step, seat and rail on /, /ai-brain, /ai-gtm and /new-age-leadership, failing a group that clicks nothing or a control under fixed chrome, with negative controls for each.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Every swapping panel holds all its states in one place (the eras, the beats, the finder, the four places, the team's decision), so it is always the size of its longest state. qa:line-breaks gained the laptop and small-phone sizes, the click-through sweep, the coverage and covered-control failures, and their negative controls; it caught the story rail's arrow under the action bar at 1280 wide, now fixed.",
+      "evidence": [
+        "scripts/qa/line-break-check.mjs",
+        "src/styles/mindmake.css"
       ]
     }
   ]

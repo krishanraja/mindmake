@@ -5,6 +5,21 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-24
+
+- S6 shipped (PR #245, merge `23de29d`, 16:21 UTC): every page in three
+  sections, from Krish's 22-card walkthrough of the site and his approval of
+  the rendered mocks; the way in became "Start building your AI brain"; the
+  stories moved to `/ai-brain` with two new ones he approved; `qa:line-breaks`
+  gained the 1280 and 360 sizes and a click-through of every swapping control.
+  Feedback ledger rows `S6-*`; the receipt is in `06_CURRENT_STATE.md`.
+- Superseded in `06_CURRENT_STATE.md` by that release: PR #239, the AI Brain
+  stories as a chooser, merge `f395cc4`, production deployment
+  dpl_D2w2JX9zwjb176NEGK3Y76hdRvut, read back on 16 October 2026 (fifteen story
+  cards in five situations on `/` and `/new-age-leadership`, no pinned story
+  track; Chromium release check, line-break check and main's post-merge route
+  lock and Chromium verification passed).
+
 ## 2026-10-23
 
 - rolled from NOW.md, to keep the file under the schema's 200 lines after the North Star number line was added (these bullets were 8 days old, inside the 30-day window):

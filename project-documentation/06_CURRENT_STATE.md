@@ -12,23 +12,30 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 - Recoverable preceding release: dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8, mindmake-bh0d8hczk-krish-rajas-projects.vercel.app.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
-- Latest application release: PR #239, the AI Brain stories as a chooser, merge
-  `f395cc4`, production deployment dpl_D2w2JX9zwjb176NEGK3Y76hdRvut. Read back
-  on 16 October 2026: `/` and `/new-age-leadership` serve fifteen story cards in
-  five situations and no pinned story track; the Chromium release browser check
-  against https://mindmake.co and the line-break check on both pages passed;
-  main's post-merge route lock and Chromium verification passed. The
-  26-route and 32-asset receipt below is still the 24 September one.
+- Latest application release: PR #245, S6, three sections on every page, merge
+  `23de29d` on 24 October 2026 at 16:21 UTC on Krish's go ("Go: merge S6 to
+  main and read production back."), production deployment
+  mindmake-b2pcb2r4x-krish-rajas-projects.vercel.app. Rollback: the preceding
+  production, `006e8df`, mindmake-e2weosodm-krish-rajas-projects.vercel.app.
+  Read back the same day against https://mindmake.co: the homepage, `/ai-brain`,
+  `/ai-gtm` and `/new-age-leadership` serve the S6 copy and no "Get your free AI
+  brief"; the Chromium homepage check passed 8 of 8 cases at 1440, 1280, 390 and
+  360 wide; `qa:line-breaks` passed on all 36 indexed pages at those four sizes,
+  clicking every swapping control; `qa:discoverability` passed 36 routes and 42
+  assets bound to `23de29d`. Main's post-merge route lock passed its source job;
+  its browser legs cannot run on Linux (GitHub's Ubuntu 26.04 runner, on which
+  Playwright cannot install browsers, the same as on `7f13d4e`), and every
+  Chromium case on its macOS leg passed. The 26-route and 32-asset receipt below
+  is still the 24 September one.
 
-The approved R3 homepage carries: opening, the R3 history chapter (four pinned
-eras), the three new-age leadership chapters (reach in both its states,
-practice, and the AI Brain stories followed by the returned hour), the two door
-routes and footer. History, reach and practice pin by scroll in both
-directions, release naturally and keep direct controls on reduced-motion and
-short screens. The AI Brain stories are a chooser that never pins: fifteen
-cards in five situations of three, each a story and its outcome (16 October
-2026). The new-age-leadership route is a separate approved companion that
-shares their source.
+Since S6 (24 October 2026) the homepage carries the R3 opening, with the way in
+and a publication line, then three sections (the problem with the four eras as
+tiles, how it works with the organisation and practice scenes, and what the
+reader gets with three results and the way in) and the footer. Nothing on it
+pins. The AI Brain stories are a chooser on `/ai-brain` that never pins:
+seventeen cards in five situations, each a story and its outcome. The
+new-age-leadership route is a separate approved companion that keeps its
+pinned reach and practice chapters and shares the stories' source.
 
 [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md) owns the receipt.
 The active source lock is `quality/route-lock/approved-production.lock.json`,
@@ -56,12 +63,13 @@ and the brief's success step all open the home page of Make Your Mind Up,
 https://makeyourmindup.ai, where its own Subscribe free button is.
 
 The personal-read API remains deployed, but is not a second form in this
-frontend. `/ai-gtm` serves the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his pre-merge review of the rebuilt page, `AI-GTM-R47-OWNER-REVIEW-001`, is accepted ("I approve the /ai-gtm rebuild", record `quality/ai-gtm/approved-story-r3.json`). The retained daily-news
+frontend. `/ai-gtm` serves S6 in three sections on the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his pre-merge review of the rebuilt page, `AI-GTM-R47-OWNER-REVIEW-001`, is accepted ("I approve the /ai-gtm rebuild", record `quality/ai-gtm/approved-story-r3.json`). The retained daily-news
 API is not evidence that a live board is rendered on the approved homepage.
 
 Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
 Success stories, Ideas you can use, Questions we get asked, About us and Media,
-and the one action, Get your free AI brief (`PRIMARY_ROUTES` in
+and the one action, Start building your AI brain (Start building your AI
+revenue engine on `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM` in
 `src/lib/publicLinks.ts`). Canonical non-root routes omit trailing slashes.
 www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to mindmake.co
 preserving path/query. Public readback verified all 26 initial and hydrated route

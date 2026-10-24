@@ -56,7 +56,7 @@ component that changes size when a reader makes a choice.
 
 The two new stories (the insurance leader and the investor, from his own
 account, in `leadershipChapters.ts`) are approved as written (Krish, 24
-October 2026: "Both story wordings approved as written."). Waiting on Krish before release: his go to merge. Not claimed: how many minutes
+October 2026: "Both story wordings approved as written."). Krish gave the go to merge on 24 October 2026 ("Go: merge S6 to main and read production back."); `06_CURRENT_STATE.md` owns the release readback. Not claimed: how many minutes
 the first step takes (it is not measured, so the line under the button names
 no time). The publication line names one issue read from the publication's
 feed at build time (`scripts/fetch-latest-issue.mjs`) and calls it "From Make
@@ -101,8 +101,7 @@ lives in private planning documents and is not copied here.
   are unchanged. Every other word and pixel was held to the live site by the
   declared change list and comparison in `artifacts/front-door-r1/`.
 
-Next action: Krish's go to merge the S6 candidate.
-Then the free AI brief (Change 3), shown rendered before it is built. S6
+Next action: the free AI brief (Change 3), shown rendered before it is built. S6
 rewrote the hero lede for every leader, which settles Change 1.
 
 ## Approved source and scope

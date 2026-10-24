@@ -1465,8 +1465,8 @@
       "classification": "correction",
       "requiredOutcome": "Two true stories join \"Seeing what is changing\" in Krish's account, anonymous at role level; the insurance story never implies customer data leaves her business; the finder stays easy to use with more stories.",
       "acceptanceTest": "Krish approves both wordings; seventeen stories in five situations; the rail reaches every story at every size.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Added first under \"Seeing what is changing\": \"An insurance leader who networks less now still hears what her market says.\" (\"She feels more informed, and no customer data ever leaves her business.\") and \"An investor buying companies now watches his market through his own method.\" (\"It flags the signals he looks for, so he can stay ahead as more investors move into his area.\"), with situation, happening and figure lines drafted from his account. The situation shows \"1 to 3 of 5\" and arrows. The wording awaits his yes.",
+      "status": "accepted",
+      "resolution": "Added first under \"Seeing what is changing\": \"An insurance leader who networks less now still hears what her market says.\" (\"She feels more informed, and no customer data ever leaves her business.\") and \"An investor buying companies now watches his market through his own method.\" (\"It flags the signals he looks for, so he can stay ahead as more investors move into his area.\"), with situation, happening and figure lines drafted from his account. The situation shows \"1 to 3 of 5\" and arrows. Krish approved both wordings on 24 October 2026, verbatim: \"Both story wordings approved as written.\"",
       "evidence": [
         "src/components/leadership-chapters/leadershipChapters.ts",
         "src/components/leadership-chapters/storyFinder.ts",

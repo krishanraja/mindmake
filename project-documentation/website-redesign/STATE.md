@@ -54,9 +54,9 @@ component that changes size when a reader makes a choice.
   Allow and Decline; `PairingBridge` is the page's way in and one line to the
   other page.
 
-Waiting on Krish before release: the wording of the two new stories (the
-insurance leader and the investor, from his own account, in
-`leadershipChapters.ts`), and his go to merge. Not claimed: how many minutes
+The two new stories (the insurance leader and the investor, from his own
+account, in `leadershipChapters.ts`) are approved as written (Krish, 24
+October 2026: "Both story wordings approved as written."). Waiting on Krish before release: his go to merge. Not claimed: how many minutes
 the first step takes (it is not measured, so the line under the button names
 no time). The publication line names one issue read from the publication's
 feed at build time (`scripts/fetch-latest-issue.mjs`) and calls it "From Make
@@ -101,7 +101,7 @@ lives in private planning documents and is not copied here.
   are unchanged. Every other word and pixel was held to the live site by the
   declared change list and comparison in `artifacts/front-door-r1/`.
 
-Next action: Krish's review of the S6 candidate and the two story wordings.
+Next action: Krish's go to merge the S6 candidate.
 Then the free AI brief (Change 3), shown rendered before it is built. S6
 rewrote the hero lede for every leader, which settles Change 1.
 

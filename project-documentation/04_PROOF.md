@@ -196,9 +196,9 @@ this file does not keep a second copy.
   under "Seeing what is changing": a senior insurance leader who networks less
   now and receives the outside world one way, with no customer data leaving
   her business, and an investor buying companies whose own method now watches
-  his market. Both are anonymous at role level and carry no figure. Their
-  wording awaits Krish's yes (`S6-STORIES-NEW-001`); until then they are not
-  approved proof.
+  his market. Both are anonymous at role level and carry no figure. Krish
+  approved both wordings on 24 October 2026: "Both story wordings approved as written."
+  (`S6-STORIES-NEW-001`).
 - Approval: Krish approved the rendered section on 16 October 2026: "Approved,
   ship it". That is the scoped approval the placement rule below asks for to
   place these results' outcomes outside `/case-studies`.

@@ -7,13 +7,14 @@ import fixture from "@/data/vnext/brain-fixture.json";
 import { blogPosts } from "@/data/blogPosts";
 
 /**
- * /ai-brain after the S4 narrative (Krish, 2026-09-25) and its S5 sharpening
- * (Krish, 2026-09-26): the hero, then six chapters that speak to the reader.
- * You (the questions only they can answer), Inside (what a Brain holds, each
- * idea labelled with its standing), Sharper (one decision), Private (the living
- * record, reaching four kinds of work), Business (one call reaching the four
- * levers) and Built (the month we build it in). The source-check and
- * correction chapters stay retired.
+ * /ai-brain after S6 (Krish, 2026-10-24), which put the S4 narrative and its S5
+ * sharpening into three sections. The hero and its way in, then one panel in
+ * three beats: You (the questions only they can answer), Sharper (one
+ * decision) and Business (one call reaching the four levers). Then Inside
+ * (what a Brain holds) beside Private (the living record), as two panels of
+ * one section. Then Built (the month), with the finder, what stays with you
+ * and the way in after it. The rail and the source-check and correction
+ * chapters are retired.
  */
 
 const ROOT = resolve(__dirname, "../..");
@@ -23,55 +24,38 @@ const MARKUP = "prototypes/website-redesign-recovery/brain-signature/index-s4-na
 const page = () => new DOMParser().parseFromString(serverRender("/ai-brain"), "text/html");
 
 describe("the Brain narrative", () => {
-  it("runs the hero and six chapters in order", () => {
+  it("runs the hero and three sections in order, the story's beats and the two panels inside them", () => {
     const doc = page();
     const chapters = [...doc.querySelectorAll<HTMLElement>(".mm-locked-brain .chapter[data-phase]")];
-    expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "memory", "sharper", "living-record", "business", "built"]);
-    expect(chapters.map((chapter) => chapter.dataset.phase)).toEqual(["opening", "you", "memory", "sharper", "record", "business", "built"]);
-    expect(doc.querySelector("h1")?.textContent?.trim()).toBe("An AI brain of your own.");
+    expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "inside", "built"]);
+    expect([...doc.querySelectorAll<HTMLElement>("#you .beat")].map((beat) => beat.id)).toEqual(["questions", "sharper", "business"]);
+    expect([...doc.querySelectorAll<HTMLElement>("#inside .pair-panel")].map((panel) => panel.id)).toEqual(["memory", "living-record"]);
+    expect(doc.querySelector("h1")?.textContent?.trim()).toBe("An AI that thinks like you.");
+    expect(doc.querySelector(".phase-rail")).toBeNull();
+    expect(doc.querySelector(".chapter-number")).toBeNull();
   });
 
-  it("points every rail link and the opening action at a real chapter", () => {
+  it("holds the three beats in one place, the first shown, and opens the brief from the hero", () => {
     const doc = page();
-    const links = [...doc.querySelectorAll<HTMLAnchorElement>(".phase-rail a[data-phase-link]")];
-    expect(links.map((link) => link.textContent?.replace(/^\d+/, "").trim())).toEqual(["You", "Inside", "Sharper", "Private", "Business", "Built"]);
-    for (const link of links) {
-      const target = doc.querySelector<HTMLElement>(link.getAttribute("href") ?? "#missing");
-      expect(target?.dataset.phase, link.getAttribute("href") ?? "").toBe(link.dataset.phaseLink);
-    }
-    const action = doc.querySelector<HTMLAnchorElement>(".opening .primary-link");
-    expect(action?.getAttribute("href")).toBe("#you");
+    const active = (selector: string) => [...doc.querySelectorAll<HTMLElement>(selector)].map((el) => el.dataset.active);
+    expect(active("#you .beat-copy")).toEqual(["true", "false", "false"]);
+    expect(active("#you .beat")).toEqual(["true", "false", "false"]);
+    expect([...doc.querySelectorAll("#you [data-beat-go]")].map((button) => button.getAttribute("aria-pressed"))).toEqual(["true", "false", "false"]);
+    const start = doc.querySelector<HTMLButtonElement>(".opening [data-brain-start]");
+    expect(start?.hasAttribute("data-mm-hero")).toBe(true);
+    expect(start?.hasAttribute("data-mm-primary")).toBe(true);
+    expect(start?.textContent).toContain("Start building your AI brain");
+    expect(doc.querySelector(".opening .primary-link")).toBeNull();
   });
 
-  it("keeps every instrument inside a chapter the scroll build reads", () => {
+  it("ends in the finder, what stays with you, and one way in, with the other page one line away", () => {
     const doc = page();
-    const instruments = [...doc.querySelectorAll(".mm-locked-brain .instrument")];
-    expect(instruments.length).toBe(6);
-    for (const instrument of instruments) expect(instrument.closest(".chapter[data-phase]")).not.toBeNull();
-  });
-
-  it("steps through five questions, four decision leaves, four levers and the month", () => {
-    const doc = page();
-    const count = (selector: string) => doc.querySelectorAll(`${selector} [data-step]`).length;
-    expect(count("#you .question-stack")).toBe(5);
-    expect(count("#sharper .decision-stack")).toBe(4);
-    expect(count("#business .lever-field")).toBe(4);
-    expect(count("#built .month-field")).toBe(4);
-    // Thirty days, each lighting at its own point in the month's four steps.
-    expect(doc.querySelectorAll("#built .month-days i").length).toBe(30);
-    // Nothing is dimmed in the server render: without script every step reads whole.
-    expect(doc.querySelectorAll("[data-step-state]").length).toBe(0);
-  });
-
-  it("keeps the approved film, the constellation and the living record", () => {
-    const html = serverRender("/ai-brain");
-    expect(html.match(/data-motion-video="evidence"/g)?.length).toBe(1);
-    for (const id of ["meaningFieldS2", "relationshipFieldS2", "meaningInspectorS2", "recordReelS2", "pauseRecordS2", "nextRecordS2", "completeRecordS2"]) {
-      expect(html, id).toContain(`id="${id}"`);
-    }
-    // The inspector's label names the picked idea's standing, starting on the
-    // settled idea the page opens with.
-    expect(html).toContain('data-standing="settled">Agreed by you</span>');
+    const close = doc.querySelector(".brain-close")!;
+    expect(close.querySelectorAll("[data-finder-tab]")).toHaveLength(5);
+    expect(close.querySelector(".kicker")).toBeNull();
+    expect([...close.querySelectorAll(".mm-receipt-items li")].map((item) => item.textContent?.trim())).toEqual(["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."]);
+    expect(close.querySelectorAll("[data-mm-primary]")).toHaveLength(1);
+    expect([...close.querySelectorAll<HTMLAnchorElement>(".mm-pairing-link")].map((link) => link.getAttribute("href"))).toEqual(["/ai-gtm"]);
   });
 
   it("names the work the record reaches, not AI companies, and says 30 days only where it builds", () => {

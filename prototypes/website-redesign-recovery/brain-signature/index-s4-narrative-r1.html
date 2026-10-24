@@ -8,15 +8,23 @@
   </head>
   <!--
     Production markup source for /ai-brain, injected by src/pages/AiBrainLocked.tsx.
-    S5 sharpens S4 (git holds S4 at 68bbdd9): the hero says the Brain is useful on
-    every call, the constellation names each idea's standing and lights the picked
-    idea's own connections, the living record reaches four kinds of work, and one
-    new chapter, the month, says how a Brain is built.
-    S4 succeeded BRAIN-MOTION-S3 (index-s2-motion-s3.html, kept unchanged as the
-    record of that approval). Every chapter uses the Brain's existing grounds,
-    leaves and rail.
-    Styles: src/styles/mindmake-locked-brain.css, mindmake-brain-refinements.css
-    and mindmake-brain-narrative.css. This file is not a standalone prototype.
+    S6 (Ruling, Krish, 2026-10-24) puts the page in three sections, each answering
+    one question: what problem it solves, how it solves it, and what the reader
+    gets and how they know it works.
+    1. The opening, then one story in three beats on one panel: the questions
+       only you can answer (#you), your next call gets sharper (#sharper) and your
+       business rises with you (#business). The reader steps through them; the
+       panel holds all three in one place, so it never changes size.
+    2. What a Brain holds (#memory) and private to you (#living-record), as two
+       panels of one section.
+    3. The month (#built). The story finder, what stays with you, the way in and
+       the line to the AI revenue engine follow it from AiBrainLocked.tsx.
+    The chapter rail and chapter numbers are gone with the chapters they counted.
+    S5 is at git 006e8df; S4 at 68bbdd9. Every section keeps the Brain's existing
+    grounds, leaves and instruments.
+    Styles: src/styles/mindmake-locked-brain.css, mindmake-brain-refinements.css,
+    mindmake-brain-narrative.css and mindmake-brain-s6.css. This file is not a
+    standalone prototype.
   -->
   <body class="no-js">
     <main id="main">
@@ -34,9 +42,12 @@
           <span class="opening-film-scrim"></span>
         </figure>
         <div class="opening-copy">
-          <h1 id="opening-title">An AI brain of your own.</h1>
-          <p>Every AI you can buy already knows the market, and none of them know you. We help you build the one that does: private to you, useful on every call you make and sharper after each one.</p>
-          <a class="primary-link" href="#you">Start with you <span aria-hidden="true">↓</span></a>
+          <h1 id="opening-title">An AI that thinks like you.</h1>
+          <p>Every AI you can buy knows the market. None of them know you. We build the one that does, and it gets sharper with every call you make.</p>
+          <div class="opening-start">
+            <button class="mm-button" type="button" data-brain-start data-mm-primary data-mm-hero>Start building your AI brain <span aria-hidden="true">→</span></button>
+            <small>Free and private. It starts with a read of your business.</small>
+          </div>
         </div>
         <div class="brain-object" aria-hidden="true">
           <div class="orbit orbit-one" aria-hidden="true"></div>
@@ -46,117 +57,120 @@
         </div>
       </section>
 
-      <nav class="phase-rail" aria-label="Brain sequence">
-        <a href="#you" data-phase-link="you"><span>01</span>You</a>
-        <a href="#memory" data-phase-link="memory"><span>02</span>Inside</a>
-        <a href="#sharper" data-phase-link="sharper"><span>03</span>Sharper</a>
-        <a href="#living-record" data-phase-link="record"><span>04</span>Private</a>
-        <a href="#business" data-phase-link="business"><span>05</span>Business</a>
-        <a href="#built" data-phase-link="built"><span>06</span>Built</a>
-      </nav>
-
-      <section class="chapter you" id="you" data-phase="you" data-build="idle" aria-labelledby="you-title">
+      <section class="chapter you beats" id="you" data-phase="you" data-build="idle" aria-labelledby="you-title">
         <div class="chapter-copy">
-          <span class="chapter-number" aria-hidden="true">01</span>
-          <h2 id="you-title">The questions only you can answer.</h2>
-          <p>They come to you because you set the standard. Your sense of what is good, what is real and who to trust took years to earn and is the hardest thing to write down.</p>
-        </div>
-        <ol class="leaf-stack question-stack instrument" data-steps>
-          <li class="leaf" data-step><span>Taste</span><p>Does this sound like us?</p></li>
-          <li class="leaf" data-step><span>Standards</span><p>Is this good enough to send?</p></li>
-          <li class="leaf" data-step><span>Judgement</span><p>Is this deal real?</p></li>
-          <li class="leaf" data-step><span>Trusted context</span><p>Who should we call first?</p></li>
-          <li class="leaf" data-step><span>Memory</span><p>Have we been here before?</p></li>
-        </ol>
-      </section>
-
-      <section class="chapter memory" id="memory" data-phase="memory" data-build="idle" aria-labelledby="memory-title">
-        <div class="chapter-copy">
-          <span class="chapter-number" aria-hidden="true">02</span>
-          <h2 id="memory-title">What a Brain holds.</h2>
-          <p>Ideas, standards and the reasons that connect them. We build yours from your real work, so it looks like no one else's, and only you decide what it believes.</p>
-        </div>
-        <div class="brain-stage instrument">
-          <div class="brain-field" id="meaningFieldS2" aria-label="Twenty connected ideas in the Brain">
-            <svg id="relationshipFieldS2" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-            <div class="field-focus" aria-hidden="true"></div>
+          <div class="beat-tabs js-action" role="group" aria-label="The story">
+            <button class="beat-tab" type="button" data-beat-go="0" aria-pressed="true"><span>01</span>Only you</button>
+            <button class="beat-tab" type="button" data-beat-go="1" aria-pressed="false"><span>02</span>Your call</button>
+            <button class="beat-tab" type="button" data-beat-go="2" aria-pressed="false"><span>03</span>Your business</button>
           </div>
-          <aside class="plain-inspector" id="meaningInspectorS2" aria-live="polite">
-            <span id="inspectorKindS2" data-standing="settled">Agreed by you</span>
-            <h3 id="inspectorTitleS2">Human release judgement</h3>
-            <p id="inspectorStatementS2">People stay accountable for work that reaches the outside world.</p>
-          </aside>
-        </div>
-      </section>
-
-      <section class="chapter sharper" id="sharper" data-phase="sharper" data-build="idle" aria-labelledby="sharper-title">
-        <div class="chapter-copy">
-          <span class="chapter-number" aria-hidden="true">03</span>
-          <h2 id="sharper-title">Your next call gets sharper.</h2>
-          <p>Your Brain brings your standards to a real decision and asks the question you tend to skip. You make the call, and the next one begins with what this one taught you.</p>
-        </div>
-        <ol class="leaf-stack decision-stack instrument" data-steps>
-          <li class="leaf" data-step data-role="decision"><span>Decision</span><p>Raise prices for existing customers?</p></li>
-          <li class="leaf" data-step data-role="standard"><span>Your standard</span><p>We never surprise loyal customers.</p></li>
-          <li class="leaf" data-step data-role="moved"><span>The question you tend to skip</span><p>What will the customers who stay expect next?</p></li>
-          <li class="leaf" data-step data-role="call"><span>Your call</span><p>Tell loyal customers first, then raise.</p></li>
-        </ol>
-      </section>
-
-      <section class="chapter living-record" id="living-record" data-phase="record" data-build="idle" aria-labelledby="record-title">
-        <div class="chapter-copy">
-          <span class="chapter-number" aria-hidden="true">04</span>
-          <h2 id="record-title">Private to you, and yours to keep.</h2>
-          <p>Because it is private, it can hold your honest thinking, and you decide who sees it. You read and correct it in plain words, without code, and it goes where you go.</p>
-        </div>
-        <div class="record-machine instrument" aria-label="The complete Brain record cycling automatically">
-          <div class="record-counts" aria-label="Complete record totals">
-            <span><b>20</b> ideas</span><span><b>18</b> connections</span><span><b>10</b> sources</span><span><b>3</b> changes</span>
-          </div>
-          <div class="reel-window">
-            <div class="reel-line" aria-hidden="true"></div>
-            <ol class="record-reel" id="recordReelS2" aria-live="off"></ol>
-            <div class="reel-focus" aria-hidden="true"></div>
-          </div>
-          <ul class="record-ports" aria-label="Work the record reaches">
-            <li style="--i: 0">Board paper</li>
-            <li style="--i: 1">Client reply</li>
-            <li style="--i: 2">Next post</li>
-            <li style="--i: 3">Team brief</li>
-          </ul>
-          <div class="record-controls">
-            <p><span class="live-dot" aria-hidden="true"></span><strong id="recordStateS2">Live record</strong><small id="recordIndexS2">1 of 51</small></p>
-            <button class="record-control js-action" id="pauseRecordS2" type="button" aria-pressed="false">Pause</button>
-            <button class="record-control js-action" id="nextRecordS2" type="button">Next</button>
-          </div>
-          <div class="sr-only" id="completeRecordS2" aria-label="Complete Brain record"></div>
-          <noscript>
-            <div class="no-js-record">
-              <p><strong>Complete record:</strong> 20 ideas, 18 connections, 10 sources and 3 corrections.</p>
+          <div class="beat-copies">
+            <div class="beat-copy" data-beat="0" data-active="true">
+              <h2 id="you-title">The questions only you can answer.</h2>
+              <p>They come to you because you set the standard. An AI intern cannot answer them. A Brain built from your judgement can.</p>
             </div>
-          </noscript>
+            <div class="beat-copy" data-beat="1" data-active="false">
+              <h2 id="sharper-title">Your next call gets sharper.</h2>
+              <p>Your Brain brings your standard to a real decision, and asks the question you tend to skip. You still make the call.</p>
+            </div>
+            <div class="beat-copy" data-beat="2" data-active="false">
+              <h2 id="business-title">Your business rises with you.</h2>
+              <p>Your standards shape every product, price, positioning and people call, even the ones your team makes.</p>
+            </div>
+          </div>
+          <div class="beat-nav js-action">
+            <button class="beat-step" type="button" data-beat-step="-1" aria-label="Previous">←</button>
+            <span class="beat-at" aria-hidden="true">1 / 3</span>
+            <button class="beat-step" type="button" data-beat-step="1" aria-label="Next">→</button>
+          </div>
+        </div>
+        <div class="beat-instruments">
+          <div class="beat" id="questions" data-beat="0" data-active="true">
+            <ol class="leaf-stack question-stack instrument" data-steps>
+              <li class="leaf" data-step><span>Taste</span><p>Does this sound like us?</p></li>
+              <li class="leaf" data-step><span>Standards</span><p>Is this good enough to send?</p></li>
+              <li class="leaf" data-step><span>Judgement</span><p>Is this deal real?</p></li>
+              <li class="leaf" data-step><span>Trusted context</span><p>Who should we call first?</p></li>
+              <li class="leaf" data-step><span>Memory</span><p>Have we been here before?</p></li>
+            </ol>
+          </div>
+          <div class="beat" id="sharper" data-beat="1" data-active="false">
+            <ol class="leaf-stack decision-stack instrument" data-steps>
+              <li class="leaf" data-step data-role="decision"><span>Decision</span><p>Raise prices for existing customers?</p></li>
+              <li class="leaf" data-step data-role="standard"><span>Your standard</span><p>We never surprise loyal customers.</p></li>
+              <li class="leaf" data-step data-role="moved"><span>The question you tend to skip</span><p>What will the customers who stay expect next?</p></li>
+              <li class="leaf" data-step data-role="call"><span>Your call</span><p>Tell loyal customers first, then raise.</p></li>
+            </ol>
+          </div>
+          <div class="beat" id="business" data-beat="2" data-active="false">
+            <div class="lever-field instrument" data-steps>
+              <div class="lever-call"><span>Your call</span><p>Loyal customers hear first.</p></div>
+              <ol class="lever-list">
+                <li class="leaf" data-step><span>Product</span><p>What should we make next?</p></li>
+                <li class="leaf" data-step><span>Price</span><p>What is it worth to them?</p></li>
+                <li class="leaf" data-step><span>Positioning</span><p>Why would they choose us?</p></li>
+                <li class="leaf" data-step><span>People</span><p>Who should do the work?</p></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="chapter business" id="business" data-phase="business" data-build="idle" aria-labelledby="business-title">
-        <div class="chapter-copy">
-          <span class="chapter-number" aria-hidden="true">05</span>
-          <h2 id="business-title">Your business rises with you.</h2>
-          <p>Your standards can shape every product, price, positioning and people call, even the ones your team makes. Those calls are your go-to-market: how the business reaches customers and gets paid.</p>
+      <section class="chapter pair" id="inside" data-phase="memory" data-build="idle">
+        <div class="pair-panel memory" id="memory">
+          <div class="chapter-copy">
+            <h2 id="memory-title">What a Brain holds.</h2>
+            <p>Ideas, standards and the reasons that connect them. We build yours from your real work, so it looks like no one else's, and only you decide what it believes.</p>
+          </div>
+          <div class="brain-stage instrument">
+            <div class="brain-field" id="meaningFieldS2" aria-label="Twenty connected ideas in the Brain">
+              <svg id="relationshipFieldS2" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <div class="field-focus" aria-hidden="true"></div>
+            </div>
+            <aside class="plain-inspector" id="meaningInspectorS2" aria-live="polite">
+              <span id="inspectorKindS2" data-standing="settled">Agreed by you</span>
+              <h3 id="inspectorTitleS2">Human release judgement</h3>
+              <p id="inspectorStatementS2">People stay accountable for work that reaches the outside world.</p>
+            </aside>
+          </div>
         </div>
-        <div class="lever-field instrument" data-steps>
-          <div class="lever-call"><span>Your call</span><p>Loyal customers hear first.</p></div>
-          <ol class="lever-list">
-            <li class="leaf" data-step><span>Product</span><p>What should we make next?</p></li>
-            <li class="leaf" data-step><span>Price</span><p>What is it worth to them?</p></li>
-            <li class="leaf" data-step><span>Positioning</span><p>Why would they choose us?</p></li>
-            <li class="leaf" data-step><span>People</span><p>Who should do the work?</p></li>
-          </ol>
+        <div class="pair-panel living-record" id="living-record">
+          <div class="chapter-copy">
+            <h2 id="record-title">Private to you, and yours to keep.</h2>
+            <p>Because it is private, it can hold your honest thinking, and you decide who sees it. You read and correct it in plain words, without code, and it goes where you go.</p>
+          </div>
+          <div class="record-machine instrument" aria-label="The complete Brain record cycling automatically">
+            <div class="record-counts" aria-label="Complete record totals">
+              <span><b>20</b> ideas</span><span><b>18</b> connections</span><span><b>10</b> sources</span><span><b>3</b> changes</span>
+            </div>
+            <div class="reel-window">
+              <div class="reel-line" aria-hidden="true"></div>
+              <ol class="record-reel" id="recordReelS2" aria-live="off"></ol>
+              <div class="reel-focus" aria-hidden="true"></div>
+            </div>
+            <ul class="record-ports" aria-label="Work the record reaches">
+              <li style="--i: 0">Board paper</li>
+              <li style="--i: 1">Client reply</li>
+              <li style="--i: 2">Next post</li>
+              <li style="--i: 3">Team brief</li>
+            </ul>
+            <div class="record-controls">
+              <p><span class="live-dot" aria-hidden="true"></span><strong id="recordStateS2">Live record</strong><small id="recordIndexS2">1 of 51</small></p>
+              <button class="record-control js-action" id="pauseRecordS2" type="button" aria-pressed="false">Pause</button>
+              <button class="record-control js-action" id="nextRecordS2" type="button">Next</button>
+            </div>
+            <div class="sr-only" id="completeRecordS2" aria-label="Complete Brain record"></div>
+            <noscript>
+              <div class="no-js-record">
+                <p><strong>Complete record:</strong> 20 ideas, 18 connections, 10 sources and 3 corrections.</p>
+              </div>
+            </noscript>
+          </div>
         </div>
       </section>
+
       <section class="chapter built" id="built" data-phase="built" data-build="idle" aria-labelledby="built-title">
         <div class="chapter-copy">
-          <span class="chapter-number" aria-hidden="true">06</span>
           <h2 id="built-title">We build it with you in 30 days.</h2>
           <p>You bring real work and make every call. The longer we build together, the more of your judgement it carries.</p>
           <a class="built-link" href="/blog/how-an-ai-brain-works">How it works, in full</a>

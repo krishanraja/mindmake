@@ -17,7 +17,7 @@ faq:
   - q: "Is an AI brain a piece of software I buy?"
     a: "It is built with you. Together we decide which tools to chain together around your work, build your standards and decisions into them, prove it on real work, and leave you able to run and correct it without code. No single model or AI company holds it."
   - q: "How do I start?"
-    a: "Get your free AI brief at mindmake.co/?start=1. You answer a few questions about your business, keep the brief it produces, and then talk it through in a free consultation."
+    a: "Start building your AI brain at mindmake.co/?start=1. It is free: you answer a few questions about your business, keep the brief it produces, and then talk it through in a free consultation."
   - q: "What does it cost?"
     a: "The scope and fee are agreed privately after the brief. Mindmake does not publish a price."
 ---

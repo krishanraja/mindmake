@@ -177,31 +177,30 @@ describe("the privacy strip's rules", () => {
     expect(block(".mm-cookie-notice {")).not.toContain("flex-wrap");
   });
 
-  it("sits on the bottom edge of a phone screen, with the action bar stacked on it", () => {
-    expect(phoneStrip).toContain("inset: auto 0 0 0");
-    /* The offset it used to carry, which was the action bar's height whether
-       or not the bar was there. Matched with its `calc(` so that a comment
-       quoting a measurement cannot satisfy it. */
+  it("sits apart from the action bar and never stacks on it", () => {
+    /* Ruling (2026-10-24): the bar stacked on the notice made the foot of
+       /ai-brain four competing controls. On a phone the notice docks under
+       the masthead, so the bottom edge is the bar's alone; on a laptop it is a
+       card on the left, in the bar's band, while the button is on the right. */
+    expect(phoneStrip).toContain("inset: calc(var(--mm-header-bar, 66px) + var(--mm-safe-top)) 0 auto 0");
     expect(phoneStrip).not.toContain("calc(76px");
-    /* The bar reads the strip's published height rather than the other way
-       round, so the strip is always the thing on the bottom edge, and it
-       carries no copy of either height. */
+    expect(block(".mm-cookie-notice {")).toContain("inset: auto auto calc(14px + var(--mm-safe-bottom)) var(--mm-gutter)");
     /* The bar's rules live in mindmake.css, beside --mm-bar-reserve and the
-       .mm-footer rule that reads it. They used to sit in the instruments
-       stylesheet, which only /case-studies imports, so every other shell route
-       shipped the component with no CSS and rendered a bare button below the
-       footer. Asserted here rather than left to the move: the stylesheet the
-       bar is in decides which routes get a bar at all. */
-    const bar = css.slice(css.indexOf(".mm-action-bar {", css.indexOf("@media (max-width: 767px) and (any-pointer: coarse)")));
-    expect(bar.slice(0, bar.indexOf("\n  }"))).toContain("bottom: var(--mm-cookie-reserve, 0px)");
+       .mm-footer rule that reads it, never in the instruments stylesheet that
+       only /case-studies imports. It sits on the bottom edge itself and reads
+       nothing of the notice's height. */
+    const bar = block(".mm-action-bar {");
+    expect(bar).toContain("bottom: 0;");
+    expect(bar).not.toContain("--mm-cookie-reserve");
     expect(instruments).not.toContain(".mm-action-bar");
     expect(instruments).not.toContain("calc(var(--mm-section) + 76px");
   });
 
-  it("reserves both heights at the foot of the page, added rather than replaced", () => {
-    /* Two rules setting the same property meant the later one won and the
-       other piece of chrome sat on the last line of the footer. */
-    expect(block(".mm-footer {")).toContain("var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px)");
+  it("reserves the taller of the two heights at the foot of the page", () => {
+    /* They share one band on a laptop and the notice leaves the bottom on a
+       phone, so the footer clears the taller, never their sum, and one rule
+       sets it so the two can never replace each other. */
+    expect(block(".mm-footer {")).toContain("max(var(--mm-cookie-reserve, 0px), var(--mm-bar-reserve, 0px))");
     expect(css).not.toContain(".mm-cookie-visible .mm-footer");
     expect(instruments).not.toContain(".mm-bar-visible .mm-footer");
   });

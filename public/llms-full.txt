@@ -12,7 +12,7 @@ Mindmake is a small AI and commercial strategy practice. It builds a leader thei
 
 ## Ways in
 
-- [Get your free AI brief](https://mindmake.co/?start=1): Answer a few questions, keep the brief, then a free consultation.
+- [Start building your AI brain](https://mindmake.co/?start=1): Free and private. Answer a few questions, keep the brief, then a free consultation.
 - [Make Your Mind Up](https://makeyourmindup.ai): Mindmake's free publication by email. What's coming in AI, before it's obvious.
 
 ## Questions we get asked
@@ -173,7 +173,7 @@ Q: Is an AI brain a piece of software I buy?
 A: It is built with you. Together we decide which tools to chain together around your work, build your standards and decisions into them, prove it on real work, and leave you able to run and correct it without code. No single model or AI company holds it.
 
 Q: How do I start?
-A: Get your free AI brief at mindmake.co/?start=1. You answer a few questions about your business, keep the brief it produces, and then talk it through in a free consultation.
+A: Start building your AI brain at mindmake.co/?start=1. It is free: you answer a few questions about your business, keep the brief it produces, and then talk it through in a free consultation.
 
 Q: What does it cost?
 A: The scope and fee are agreed privately after the brief. Mindmake does not publish a price.

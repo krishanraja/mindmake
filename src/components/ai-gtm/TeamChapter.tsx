@@ -1,6 +1,4 @@
-import type { CSSProperties } from "react";
-import { usePinnedSteps } from "@/hooks/usePinnedSteps";
-import { StepRail } from "./StepRail";
+import { useState, type CSSProperties } from "react";
 import { Unbroken } from "./Unbroken";
 
 export type Kind = "person" | "hybrid" | "agent";
@@ -20,22 +18,27 @@ const VIEW_NAMES: Record<View, string> = { today: "Today", native: "AI-native" }
 const KIND_NAME: Record<Kind, string> = { person: "Person", hybrid: "Person + agents", agent: "Agent-first" };
 
 /**
- * The team, rebuilt in front of the reader: today's commercial team becomes the
- * AI-native one as the page scrolls, and back again on the way up.
+ * The team, rebuilt in front of the reader: one switch turns today's
+ * commercial team into the AI-native one, and back.
+ *
+ * Ruling (owner, 2026-10-24): this is "one of the more powerful sections in
+ * reality, because it's really relatable and really visual", and it is how the
+ * page shows the change working. It no longer pins and builds with scroll; the
+ * reader turns it with the switch beside the tally, at every width.
  *
  * It is drawn as an org chart on an instrument panel that says it is an
  * example. Each seat holds both of its states in the same place, so the change
  * reads as the same seat becoming something else, and its top rule carries its
  * kind: a person, a person with agents, agents first, or a new role. A seat that
  * does not exist yet is an empty dashed seat until the AI-native team fills it.
- * Picking a seat shows the decision it creates beside the chart, and never
- * moves the page.
+ * Picking a seat shows the decision it creates under the chart, and never
+ * moves the page. The decision panel holds every seat's decision unseen behind
+ * the one on screen, and every seat holds both of its states, so neither the
+ * switch nor a pick ever changes the size of anything.
  *
- * Where the chapter cannot pin (any phone, a short screen, a phone on its side,
- * no scripting, a reader's own larger text) it is a document instead: every
- * seat shows today's version struck through, the AI-native one, and the
- * decision it creates, so nothing waits behind a tap, and the seats are not
- * controls because there is nothing left for them to open.
+ * Without scripting the switch cannot work, so the chapter is a document
+ * instead: every seat shows today's version struck through, the AI-native one,
+ * and the decision it creates.
  */
 export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote, instrumentLabel }: {
   copy: TeamCopy;
@@ -45,8 +48,7 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
   decisionNote: string;
   instrumentLabel?: string;
 }) {
-  const { trackRef, stageRef, step, pinned, goTo } = usePinnedSteps<HTMLElement>(VIEWS.length);
-  const view: View = pinned ? VIEWS[step] : "native";
+  const [view, setView] = useState<View>("today");
 
   const ids = [...new Set([...copy.roles.today, ...copy.roles.native].map((role) => role.id))];
   const find = (which: View, id: string) => copy.roles[which].find((role) => role.id === id) ?? null;
@@ -60,31 +62,33 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
 
   return (
     <section
-      ref={trackRef}
-      className="gtm-chapter gtm-team"
+      className="gtm-team mm-on-paper"
       data-gtm-chapter="team"
       data-view={view}
       aria-labelledby="gtm-team-title"
-      style={{ "--gtm-steps": VIEWS.length } as CSSProperties}
     >
-      <div ref={stageRef} className="gtm-stage">
-        <div className="gtm-stage-body mm-container">
+      <div className="gtm-team-body mm-container">
           <div className="gtm-team-head">
             <h2 id="gtm-team-title"><Unbroken text={copy.heading} /></h2>
           </div>
           <div className="team-instrument">
             <div className="team-instrument-head">
               {instrumentLabel ? <p className="team-instrument-label"><i aria-hidden="true" />{instrumentLabel}</p> : null}
+              <div className="gtm-view-switch" role="group" aria-label="Your team">
+                {VIEWS.map((which) => (
+                  <button key={which} type="button" aria-pressed={view === which} onClick={() => setView(which)}>{VIEW_NAMES[which]}</button>
+                ))}
+              </div>
               <p className="gtm-team-tally" aria-live="polite">
                 <span data-view-layer="today">{copy.tally.today}</span>
                 <span data-view-layer="native">{copy.tally.native}</span>
               </p>
             </div>
             <div className="team-board" role="group" aria-label={`${VIEW_NAMES[view]} team`} style={{ "--gtm-cols": ids.length % 3 === 0 ? 3 : 2 } as CSSProperties}>
-              <RoleCell today={copy.lead.today} native={copy.lead.native} view={view} pinned={pinned} decision={copy.decisions.lead} active={picked === "lead"} onPick={() => onPick("lead")} lead />
+              <RoleCell today={copy.lead.today} native={copy.lead.native} view={view} decision={copy.decisions.lead} active={picked === "lead"} onPick={() => onPick("lead")} lead />
               <span className="team-bus" aria-hidden="true" />
               {ids.map((id) => (
-                <RoleCell key={id} today={find("today", id)} native={find("native", id)} view={view} pinned={pinned} decision={copy.decisions[id] ?? copy.decisions.lead} active={picked === id} onPick={() => onPick(id)} />
+                <RoleCell key={id} today={find("today", id)} native={find("native", id)} view={view} decision={copy.decisions[id] ?? copy.decisions.lead} active={picked === id} onPick={() => onPick(id)} />
               ))}
             </div>
           </div>
@@ -103,18 +107,15 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
             </div>
             <p className="gtm-decision-note">{decisionNote}</p>
           </article>
-        </div>
-        <StepRail label="Your team" steps={VIEWS.map((name) => VIEW_NAMES[name])} active={VIEWS.indexOf(view)} onGo={goTo} className="gtm-rail-two" />
       </div>
     </section>
   );
 }
 
-function RoleCell({ today, native, view, pinned, decision, active, onPick, lead = false }: {
+function RoleCell({ today, native, view, decision, active, onPick, lead = false }: {
   today: Role | null;
   native: Role | null;
   view: View;
-  pinned: boolean;
   decision: string;
   active: boolean;
   onPick: () => void;
@@ -136,10 +137,9 @@ function RoleCell({ today, native, view, pinned, decision, active, onPick, lead 
     <span className="role-layer role-empty" data-view-layer={which} aria-hidden="true" />
   );
   /* A seat the team on screen does not have yet is drawn empty and cannot be
-     picked; it has nothing to say until the AI-native team fills it. Unpinned,
-     the seat already shows its decision, so it is not a control at all. */
+     picked; it has nothing to say until the AI-native team fills it. */
   const current = view === "today" ? today : native;
-  const pickable = pinned && Boolean(current);
+  const pickable = Boolean(current);
   return (
     <button type="button" className={`role-cell${lead ? " role-lead" : ""}${today ? "" : " role-arrives"}`} aria-pressed={pickable && active} disabled={!pickable} aria-label={current ? undefined : "Not yet a seat"} onClick={onPick}>
       <span className="role-pick" aria-hidden="true" />

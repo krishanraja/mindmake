@@ -5,23 +5,20 @@ import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { track } from "@/lib/analytics";
 import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
-import { mountLeadershipChapters } from "@/components/leadership-chapters/leadershipChapters";
-import { mountPinnedChapters } from "@/components/homepage-release/pinnedChapters";
-import { mountReturnedHour } from "@/components/homepage-release/returnedHour";
+import { mountHomepageSections } from "@/components/homepage-release/homepageSections";
 import { mountHeroRotation } from "@/components/homepage-release/heroRotation";
 import "@/styles/mindmake.css";
 import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
 import "@/components/homepage-release/page.css";
 import "@/components/homepage-release/integration.css";
-import "@/components/homepage-release/pinnedChapters.css";
+import "@/components/homepage-release/homepageSections.css";
 
 /**
- * Production delivery of the accepted R3, not a reconstruction of it.
- * Markup and styles are compiled from its immutable source. React owns the
- * lead journey; the bounded adapter owns the opening, route and menu; the
- * three new-age leadership chapters between them carry their own scroll
- * behaviour, shared with /new-age-leadership.
+ * Production delivery of the accepted R3 opening, menu and footer, compiled
+ * from its immutable source, with the three sections of homepageSections.ts
+ * between them (the owner's ruling of 2026-10-24). React owns the lead journey; the
+ * bounded adapter owns the opening and menu. Nothing on the page pins.
  */
 export default function Index() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -46,10 +43,7 @@ export default function Index() {
         startRef.current(route);
       },
     });
-    const motion = matchMedia("(prefers-reduced-motion: reduce)");
-    const unpin = mountPinnedChapters(root, runtime);
-    const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches, onStart: (door) => startRef.current(door) });
-    const unstrike = mountReturnedHour(root);
+    const unmountSections = mountHomepageSections(root);
     const unrotate = mountHeroRotation(root);
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
@@ -59,15 +53,13 @@ export default function Index() {
       const door = target?.closest<HTMLElement>("[data-route-choice]");
       if (door) track("door_click", { source: "homepage_hero", route: door.dataset.routeChoice ?? "" });
       const publication = target?.closest("a[href*='substack.com'], a[href*='makeyourmindup.ai']");
-      if (publication) track("substack_click", { source: publication.closest(".r3-navigation") ? "menu" : "homepage_footer" });
+      if (publication) track("substack_click", { source: publication.closest(".r3-navigation") ? "menu" : (publication as HTMLElement).dataset.subscribeSource ?? "homepage_footer" });
     };
     root.addEventListener("click", measure);
     return () => {
       root.removeEventListener("click", measure);
-      unstrike();
       unrotate();
-      unmountChapters();
-      unpin();
+      unmountSections();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");
       document.body.classList.remove("mm-homepage-active");

@@ -1,66 +1,44 @@
 import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
-import { START_LABEL } from "@/lib/publicLinks";
+import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 
 /**
- * The action bar's door, and the trailing slash that broke it.
+ * The action bar is one button and nothing else.
  *
- * The bar carries at most one door: the offer route the reader is not already
- * on. The first version keyed that on `location.pathname` exactly, so
- * "/ai-brain" found a door and "/ai-brain/" did not. Both spellings reach the
- * same page — Vercel resolves either, and the local preview serves the
- * prerendered file from the second — so the document was rendered with a door
- * and hydrated without one. React error #418, the whole route dropped to client
- * rendering, and the server heading went with it. Every engine caught it.
+ * Ruling (2026-10-24): "they should just have one call to action". The bar used
+ * to carry a door to the other offer route beside the button, and with the
+ * analytics notice that made four controls at the foot of /ai-brain. The other
+ * route is now one quiet line at the foot of each offer page.
  *
- * These assertions are the shape of that bug: the same door on both spellings,
- * no door where neither offer route is the page, and never both doors at once.
+ * The door's history still matters: it was keyed on the pathname, so
+ * "/ai-brain" found a door and "/ai-brain/" did not, and the document hydrated
+ * into React error #418. The label is now a prop each page passes, so both
+ * spellings of a route must render the same bar.
  */
 
-const doorsIn = (html: string) =>
-  [...html.matchAll(/class="mm-action-bar-door"[^>]*href="([^"]+)"/g)].map((match) => match[1]);
+const bar = (html: string) => html.match(/<div class="mm-action-bar[^"]*"[^>]*>[\s\S]*?<\/button><\/div><\/div>/)?.[0] ?? "";
 
-const hrefFirst = (html: string) =>
-  [...html.matchAll(/<a[^>]*href="([^"]+)"[^>]*class="mm-action-bar-door"/g)].map((match) => match[1]);
-
-const doors = (html: string) => {
-  const found = [...doorsIn(html), ...hrefFirst(html)];
-  return [...new Set(found)];
-};
-
-describe("the action bar's door", () => {
-  it.each([
-    ["/ai-brain", "/ai-gtm"],
-    ["/ai-gtm", "/ai-brain"],
-  ])("offers the other offer route on %s", (route, expected) => {
-    expect(doors(serverRender(route)), route).toEqual([expected]);
-  });
-
-  it.each([
-    ["/ai-brain/", "/ai-gtm"],
-    ["/ai-gtm/", "/ai-brain"],
-  ])("offers the same door on %s, which is the spelling hydration arrives at", (route, expected) => {
-    expect(doors(serverRender(route)), route).toEqual([expected]);
-  });
-
-  it.each(["/blog", "/case-studies", "/faq", "/contact"])(
-    "offers no door on %s, where neither offer route is the page",
+describe("the action bar", () => {
+  it.each(["/ai-brain", "/ai-gtm", "/ai-brain/", "/ai-gtm/", "/blog", "/case-studies", "/faq", "/contact"])(
+    "offers no door on %s, only the one button",
     (route) => {
-      expect(doors(serverRender(route)), route).toEqual([]);
+      const html = serverRender(route);
+      expect(html.includes("mm-action-bar-door"), route).toBe(false);
+      expect((bar(html).match(/<(?:a|button)\b/g) ?? []).length, route).toBe(1);
     },
   );
 
-  it("never puts both doors in the bar, which would be three controls in a bar allowed two", () => {
-    for (const route of ["/ai-brain", "/ai-gtm", "/blog", "/faq"]) {
-      expect(doors(serverRender(route)).length, route).toBeLessThanOrEqual(1);
+  it("names what the reader is building, and the revenue engine on its own page", () => {
+    for (const route of ["/ai-brain", "/blog", "/faq", "/case-studies"]) {
+      expect(bar(serverRender(route)).includes(START_LABEL), route).toBe(true);
+    }
+    for (const route of ["/ai-gtm", "/ai-gtm/"]) {
+      expect(bar(serverRender(route)).includes(START_LABEL_GTM), route).toBe(true);
     }
   });
 
-  it("carries the one shared label on every route that renders a bar", () => {
-    for (const route of ["/ai-brain", "/ai-gtm", "/blog", "/faq", "/case-studies"]) {
-      const html = serverRender(route);
-      expect(html.includes('class="mm-action-bar'), route).toBe(true);
-      expect(html.includes(START_LABEL), route).toBe(true);
-    }
+  it("renders the same bar on both spellings of an offer route", () => {
+    expect(bar(serverRender("/ai-brain/"))).toBe(bar(serverRender("/ai-brain")));
+    expect(bar(serverRender("/ai-gtm/"))).toBe(bar(serverRender("/ai-gtm")));
   });
 });

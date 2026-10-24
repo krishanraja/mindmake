@@ -1,56 +1,68 @@
-import type { CSSProperties, ReactNode } from "react";
-import { usePinnedSteps } from "@/hooks/usePinnedSteps";
-import { StepRail } from "./StepRail";
+import type { ReactNode } from "react";
 import { Unbroken } from "./Unbroken";
+
+export interface LeverWay {
+  /** Which starting point this old and new way belongs to. */
+  mode: string;
+  was: string;
+  now: string;
+}
 
 export interface LeverStep {
   key: string;
   name: string;
   felt: string;
-  was: string;
-  now: string;
+  ways: readonly LeverWay[];
   source: { name: string; date: string; href: string };
 }
 
 /**
- * Chapter one: the four places the reader already feels the change.
+ * Section one: where the reader is starting from, then the four places they
+ * already feel the change, all four on screen at once.
  *
- * Each step pairs the moment in the reader's own terms with the lever it
- * belongs to, the old way struck through and the new one beside it, and the
- * dated public source that shows the shift is real. It reads the same for
- * both kinds of business, because the switch that tells them apart comes
- * after it and scrolling back must never change words already read.
+ * Ruling (owner, 2026-10-24): the pinned sequence felt "glitchy" and kept the
+ * reader scrolling through copy. The four places are now four still cards a
+ * reader takes in at a glance. Each card names its lever, strikes the old way
+ * through and gives the new one for the reader's own starting point, then
+ * says what the reader feels and the dated public source that shows it is
+ * real, once. Both starting points' wording sits in the same place in every
+ * card, so changing the answer above never changes a card's size; the one not
+ * chosen is hidden from sight and from assistive technology.
  */
-export function LeverChapter({ heading, steps, backdrop }: { heading: string; steps: readonly LeverStep[]; backdrop: ReactNode }) {
-  const { trackRef, stageRef, step, goTo } = usePinnedSteps<HTMLElement>(steps.length);
+export function LeverChapter({ heading, steps, mode, backdrop, children }: {
+  heading: string;
+  steps: readonly LeverStep[];
+  mode: string;
+  backdrop: ReactNode;
+  children?: ReactNode;
+}) {
   return (
-    <section
-      ref={trackRef}
-      className="gtm-chapter gtm-levers"
-      data-gtm-chapter="levers"
-      aria-labelledby="gtm-levers-title"
-      style={{ "--gtm-steps": steps.length } as CSSProperties}
-    >
-      <div ref={stageRef} className="gtm-stage">
-        {backdrop}
-        <div className="gtm-stage-body mm-container">
-          <h2 id="gtm-levers-title" className="gtm-levers-title">{heading}</h2>
-          <div className="gtm-steps lever-steps">
-            {steps.map((item, index) => (
-              <article key={item.key} className="gtm-step gtm-lever" data-gtm-step={index} data-active={index === step}>
-                <h3 className="gtm-felt"><Unbroken text={item.felt} /></h3>
-                <div className="gtm-lever-card">
-                  <p className="gtm-lever-was"><s>{item.was}</s></p>
-                  <p className="gtm-lever-now"><Unbroken text={item.now} /></p>
-                  <a className="gtm-source" href={item.source.href} target="_blank" rel="noreferrer">
-                    {item.source.name} · {item.source.date} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section className="gtm-levers" data-gtm-chapter="levers" aria-labelledby="gtm-levers-title">
+      {backdrop}
+      <div className="gtm-levers-body mm-container">
+        {children}
+        <h2 id="gtm-levers-title" className="gtm-levers-title">{heading}</h2>
+        <div className="lever-steps">
+          {steps.map((item) => (
+            <article key={item.key} className="gtm-lever" aria-label={item.name}>
+              <span className="gtm-lever-name" aria-hidden="true">{item.name}</span>
+              <span className="gtm-lever-ways">
+                {item.ways.map((way) => (
+                  <span key={way.mode} className="gtm-lever-way" data-active={way.mode === mode} aria-hidden={way.mode === mode ? undefined : "true"}>
+                    <span className="gtm-lever-was"><s>{way.was}</s></span>
+                    <span className="gtm-lever-now"><Unbroken text={way.now} /></span>
+                  </span>
+                ))}
+              </span>
+              <p className="gtm-felt">
+                {item.felt}{" "}
+                <a className="gtm-source" href={item.source.href} target="_blank" rel="noreferrer">
+                  {item.source.name} · {item.source.date} <span aria-hidden="true">&#8599;</span>
+                </a>
+              </p>
+            </article>
+          ))}
         </div>
-        <StepRail label="The four changes" steps={steps.map((item) => item.name)} active={step} onGo={goTo} />
       </div>
     </section>
   );

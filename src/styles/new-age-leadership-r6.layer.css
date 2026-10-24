@@ -637,7 +637,10 @@
   object-fit: cover;
 }
 
+/* The tallest heading in the situation sets every heading's height (the
+ * finder measures it), so each card's outcome starts on the same line. */
 .finder-heading {
+  min-height: var(--finder-heading-h, 0px);
   padding: 0 18px;
   color: var(--paper);
   font: 400 clamp(22px, 1.9vw, 28px) / 1.1 var(--serif);
@@ -917,7 +920,7 @@
     grid-column: 1;
   }
 
-  .finder-panel {
+  .finder-panels {
     grid-column: 2;
     grid-row: 1 / span 3;
     min-width: 0;
@@ -1058,9 +1061,25 @@
 }
 
 /* With scripts the situations are tabs and only the chosen one shows, from
- * the first paint; without them every situation and card is on the page. */
+ * the first paint; without them every situation and card is on the page.
+ * The situations share one grid cell and the unchosen ones are hidden in it,
+ * so the finder is always the height of its tallest situation and choosing
+ * one never resizes it (Krish, 2026-10-24). */
 @media (scripting: enabled) {
-  .finder-panel:not(.is-active),
+  .finder-panels {
+    display: grid;
+    min-width: 0;
+  }
+
+  .finder-panel {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+
+  .finder-panel:not(.is-active) {
+    visibility: hidden;
+  }
+
   .finder-situation {
     display: none;
   }

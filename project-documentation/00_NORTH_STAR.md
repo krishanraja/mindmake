@@ -72,7 +72,8 @@ working first version, used on real work, and kept by the leader when the work
 ends. The public shape is 30 days, stated on the two door pages only. The price
 is agreed privately and never published.
 
-**How to start.** **Get your free AI brief** at
+**How to start.** **Start building your AI brain** (on `/ai-gtm`, **Start
+building your AI revenue engine**; Krish, 24 October 2026) at
 [mindmake.co/?start=1](https://mindmake.co/?start=1). The leader gives a work
 email, name and role, answers a few questions about their business and keeps
 the brief it produces; then Mindmake gets in touch about a free consultation.
@@ -213,7 +214,7 @@ working first version, use it on real work, leave something behind that keeps
 running. Not a stretch of discovery followed by a report. The price is private
 and never appears on the site; the only public length is the 30-day shape on
 `/ai-gtm` and `/ai-brain`, and there is no public diary link. The only primary action on the site
-is **Get your free AI brief**.
+is **Start building your AI brain** (**Start building your AI revenue engine** on `/ai-gtm`).
 
 **CTRL** is our own product, running our own practice. It appears as evidence
 that we do this ourselves. It is never a third thing to buy, never linked, never

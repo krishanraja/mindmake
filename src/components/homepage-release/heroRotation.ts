@@ -1,5 +1,5 @@
 /**
- * The hero headline turns through five lines once, then rests on the first
+ * The hero headline turns through six lines once, then rests on the first
  * (Krish, 2026-09-27), and each underlines the "you" or "your" it turns on.
  * The first says what an AI brain does for a leader (Krish, 2026-10-15). The
  * second and third speak to standards and taste, early in the turn, so a
@@ -23,6 +23,10 @@ type Row = string;
     the terms a chief executive grasped at once. R3's headline turns last. */
 export const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
   ["Promote *your* AI", "from intern to", "chief of staff."],
+  /* The closing chapter's headline, folded into the rotation when that
+     chapter was cut (Ruling, Krish, 2026-10-24: "the copy for Own Your
+     Judgment and Amplify it... should maybe just go in to the top section"). */
+  ["Own *your*", "judgement, and", "amplify it."],
   ["High standards", "deserve an AI that", "knows *yours*."],
   ["AI can copy almost", "anything except", "*your* taste."],
   ["Amplify *your*", "judgement, and the", "business follows."],

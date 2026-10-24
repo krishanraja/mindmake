@@ -33,13 +33,20 @@ export const START_PATH = "/?start=1";
  * really quickly, for free — the wizard, the capture, the output, then a free
  * consultation and audit.
  *
+ * Ruling (Krish, 2026-10-24): the way in names what the reader is building, not
+ * the document, so it reads as the start of the real thing: "Start building
+ * your AI brain", and on /ai-gtm "Start building your AI revenue engine". The
+ * line beneath it says what the first step really is, so the free step is never
+ * mistaken for the brain itself.
+ *
  * It carries no duration. The site states no public price or timescale, and the
- * number of minutes this takes is not measured anywhere, so it is not claimed.
- * The consultation is named as what follows rather than as what the button
- * books, because nothing in the flow books a session.
+ * number of minutes the first step takes is not yet measured, so it is not
+ * claimed. The consultation is named as what follows rather than as what the
+ * button books, because nothing in the flow books a session.
  */
-export const START_LABEL = "Get your free AI brief";
-export const START_SUBLABEL = "Answer a few questions, keep the brief, then a free consultation.";
+export const START_LABEL = "Start building your AI brain";
+export const START_LABEL_GTM = "Start building your AI revenue engine";
+export const START_SUBLABEL = "Free and private. It starts with a read of your business.";
 
 /**
  * The address a visitor can actually reach a human on.

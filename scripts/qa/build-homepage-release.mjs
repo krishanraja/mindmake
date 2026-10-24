@@ -39,9 +39,22 @@ import postcss from 'postcss';
 // markup (`brainWords`), which leaves one place to change them. The AI GTM
 // state keeps film-04 and its own words.
 //
-// A seventh (Krish, 2026-09-26): each era's label names its event
-// (`eraLabels`), after his edit of the first to "Writing IS INVENTED". The
-// runtime used to restore the bare names over the markup on load.
+// A seventh (Krish, 2026-09-26): each era's label names its event, after his
+// edit of the first to "Writing IS INVENTED".
+//
+// A sixteenth (Ruling, Krish, 2026-10-24: "drastically simplify everything
+// here to be probably three sections"), which supersedes the history, route
+// and leadership-chapter corrections above (git keeps them): everything
+// between the opening and the footer is cut, and the three sections of
+// src/components/homepage-release/homepageSections.ts are delivered in its
+// place. The history chapter's four eras become tiles in the first section,
+// the reach chapter's organisation and the practice scenes become the second,
+// the closing route chapter folds into the opening (its button joins the hero;
+// its headline joins the rotation in heroRotation.ts), and the AI Brain
+// stories and "What stays with you" move to /ai-brain. The opening gains the
+// way in and the publication line after its doors (`heroStart`), a new lede
+// and new door lines. The runtime loses everything that served the cut
+// chapters.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -69,8 +82,8 @@ const cut = (text, from, to, replacement = '', label = from) => {
   if (start < 0 || end < 0 || text.indexOf(from, start + 1) >= 0) throw new Error(`Homepage adapter anchor not unique or missing: ${label}`);
   return text.slice(0, start) + replacement + text.slice(end);
 };
-const retiredChapters = /\.r3-(?:authority|dividend)\b|\.r3-mode-switch\b|\[data-(?:stage|practice|benefit-prev|benefit-next)\]/;
-const leadershipChapters = '<div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>\n      ';
+const retiredChapters = /\.r3-(?:authority|dividend|history|route)\b|\.r3-mode-switch\b|\[data-(?:stage|practice|benefit-prev|benefit-next)\]/;
+const homepageSections = '${homepageSectionsMarkup()}';
 const assets = new Map();
 const register = value => {
   if (!value.startsWith('../')) return value;
@@ -80,7 +93,7 @@ const register = value => {
   return assets.get(value).name;
 };
 let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
-body = cut(body, '<section id="authority"', '<section id="route"', leadershipChapters, 'retired chapters');
+body = cut(body, '<section id="history"', '<section id="footer"', homepageSections, 'chapters between the opening and the footer');
 // Every Media and "Subscribe for free" link lands on the publication's own
 // site (Krish, 2026-09-26).
 const media = 'https://makeyourmindup.ai';
@@ -95,27 +108,7 @@ body = body
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${media}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
   .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${media}" target="_blank" rel="noreferrer">Media</a>`)
-  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`)
-  .replace(/(<section class="route-stage"><video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*><source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`);
-// The history questions are what people asked at the time, so they read as
-// quotations, in the curly marks the rest of the site quotes with.
-const list = values => `[${values.map(value => JSON.stringify(value)).join(', ')}]`;
-const quoted = question => `“${question.replace(/^["“]|["”]$/g, '')}”`;
-body = body.replace(/(<h3 data-story-question=""[^>]*>)([^<]+)(<\/h3>)/g, (_, open, question, close) => `${open}${quoted(question)}${close}`);
-const eraLabels = ['370 BC · Writing is invented', '1675 · The engine loom arrives', '1970s · Calculators reach classrooms', '2000s · Satnav goes mainstream'];
-{
-  const labels = [...new Set([...body.matchAll(/<b data-story-era="">([^<]+)<\/b>/g)].map(([, label]) => label))];
-  if (labels.length !== 1 || !labels[0].startsWith('370 BC · Writing')) throw new Error('Homepage adapter anchor missing or split: first era label');
-  body = body.replaceAll(`<b data-story-era="">${labels[0]}</b>`, `<b data-story-era="">${eraLabels[0]}</b>`);
-}
-const brainWords = (() => {
-  const copies = [...body.matchAll(/<div class="route-copy"[^>]*><h2>([^<]+)<\/h2><p class="lede">([^<]+)<\/p>/g)].map(([, title, lede]) => ({ title, lede }));
-  const steps = [...body.matchAll(/<article class="receipt">[\s\S]*?<ol>([\s\S]*?)<\/ol>/g)].map(([, list]) => [...list.matchAll(/<li>([^<]+)<\/li>/g)].map(([, step]) => step));
-  if (copies.length !== 2 || steps.length !== 2 || steps[0].length !== 3) throw new Error('Homepage adapter anchor missing: route brain words');
-  const words = { ...copies[0], steps: steps[0] };
-  if (JSON.stringify({ ...copies[1], steps: steps[1] }) !== JSON.stringify(words)) throw new Error('Homepage adapter drift: desktop and phone route words differ');
-  return words;
-})();
+  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
 // The route labels say what the reader gets, Home leads and About us sits
 // before Media, in every menu and footer (Krish, 2026-09-25). PRIMARY_ROUTES in
 // src/lib/publicLinks.ts carries the same list for every other page.
@@ -136,10 +129,6 @@ const phoneFooterRoutes = /(<div class="r3-variant preview-mobile"><footer class
 if (!phoneFooterRoutes.test(body)) throw new Error('Homepage adapter anchor missing: phone footer routes');
 body = body.replace(phoneFooterRoutes, '$1');
 body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
-// A tenth (Krish, 2026-09-26: the bridge was "not impactful enough ... looks
-// too much like the text below it"): the words stay, and the closing sentence
-// becomes its own line so it can land as the pay-off.
-body = body.replace(/(<p data-optional-copy="bridgeLine">[^<]*?) It's all in the mind\.<\/p>/g, '$1 <em class="mm-bridge-payoff">It\'s all in the mind.</em></p>');
 // An eleventh (Krish, 2026-09-26): "your" in the headline is underlined, the
 // line drawn in as the page loads (integration.css draws it). A twelfth
 // (Krish, 2026-09-27): the headline is set in three fixed lines, as are the
@@ -154,8 +143,8 @@ body = body.replace(/<h1>Build the human \+ AI business that augments your visio
 // have been sitting on. The /ai-gtm address is unchanged.
 body = body
   .replace(/<strong>AI GTM<\/strong>/g, '<strong>AI revenue engine</strong>')
-  .replace(/<small>Your judgement, taste, standards & vision, encoded\. <\/small>/g, "<small>Unlock and create the idea you've been sitting on.</small>")
-  .replace(/<span>AI Brain or AI GTM<\/span>/g, '<span>AI brain or AI revenue engine</span>')
+  .replace(/<small>Your judgement, taste, standards & vision, encoded\. <\/small>/g, '<small>Your judgement, running as a system you own.</small>')
+  .replace(/<small>The pricing, positioning and org structure you'll need\.<\/small>/g, "<small>The pricing, positioning and team you'll need.</small>")
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="\/ai-gtm">Build your AI GTM<\/a>/g, '$1<a href="/ai-gtm"><span>Build your AI revenue<span class="mm-route-tail"> engine</span></span></a>')
   .replace(/>Build your AI GTM<\/a>/g, '>Build your AI revenue engine</a>');
 // A fifteenth (Krish, 2026-10-19: "Yes, add the footer note to Mindmake too"):
@@ -164,31 +153,24 @@ body = body
 // between them, never inside one.
 const entityNote = '<span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company.</span> <span>Mindmaker Ltd in the UK.</span></span>';
 body = body.replace(/<small>(© \d{4} Mindmake\.)<\/small>/g, `<small>$1 ${entityNote}</small>`);
-// An eighth (Krish, 2026-09-26): the hero lede reads "with the high standards".
-body = body.replace(/(<p class="hero-lede">For leaders in creative industries with )high standards/g, '$1the high standards');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 3, 'Media to the publication'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 4, 'hero and route film'], [/archive-engine-hero-poster-r07/g, 4, 'hero and route poster'], [/<section class="route-stage"><video [^>]*archive-engine-hero-poster-r07[^>]*><source src="[^"]*archive-engine-hero-loop-r07/g, 2, 'route film'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<h3 data-story-question=""[^>]*>“[^"“”<]+”<\/h3>/g, 2, 'quoted history question'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<span class="mm-hero-row">from intern to<\/span> <span class="mm-hero-row">chief of staff\.<\/span><\/span><\/h1>/g, 2, 'hero lines'], [/<strong>AI revenue engine<\/strong>/g, 2, 'revenue engine door'], [/<small>Unlock and create the idea you've been sitting on\.<\/small>/g, 2, 'brain door line'], [/<span>AI brain or AI revenue engine<\/span>/g, 2, 'route back control'], [/<a href="\/ai-gtm"><span>Build your AI revenue<span class="mm-route-tail"> engine<\/span><\/span><\/a>/g, 2, 'revenue engine menu route'], [/>Build your AI revenue engine<\/a>/g, 1, 'revenue engine footer route'], [/GTM/g, 0, 'GTM acronym in public copy'], [/<em class="mm-bridge-payoff">It's all in the mind\.<\/em><\/p>/g, 2, 'bridge pay-off'], [/<p class="hero-lede">For leaders in creative industries with the high standards and curiosity required to drive the new era\.<\/p>/g, 2, 'hero lede'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/<small>© \d{4} Mindmake\. <span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company\.<\/span> <span>Mindmaker Ltd in the UK\.<\/span><\/span><\/small>/g, 2, 'footer entity note'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
+// The hero lede, the doors' way in and the publication line (Ruling, Krish,
+// 2026-10-24). The lede speaks to every leader, not one industry; the button
+// opens the brief at the AI brain's door; the publication is one line under it
+// (homepageSections.ts writes both).
+body = body.replace(/<p class="hero-lede">For leaders in creative industries with high standards and curiosity required to drive the new era\.<\/p>/g, '<p class="hero-lede">The leaders who shape the next decade will have an AI that thinks like them. We build yours.</p>');
+body = body.replace(/(<div class="route-doors" role="group" aria-label="Choose a Mindmake route">[\s\S]*?<\/div>)/g, '$1${heroStartMarkup()}');
+// The menu's and footer's way in say what the reader is building, as
+// START_LABEL in src/lib/publicLinks.ts does on every other page.
+body = body.replace(/(href="\/start">)Get your free AI brief/g, '$1Start building your AI brain');
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 3, 'Media to the publication'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 2, 'hero film'], [/archive-engine-hero-poster-r07/g, 2, 'hero poster'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<section id="(?:authority|leadership-dividend|route)"/g, 0, 'cut chapters'], [/\$\{homepageSectionsMarkup\(\)\}/g, 1, 'homepage sections'], [/\$\{heroStartMarkup\(\)\}/g, 2, 'hero way in'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<span class="mm-hero-row">from intern to<\/span> <span class="mm-hero-row">chief of staff\.<\/span><\/span><\/h1>/g, 2, 'hero lines'], [/<strong>AI revenue engine<\/strong>/g, 2, 'revenue engine door'], [/<small>Your judgement, running as a system you own\.<\/small>/g, 2, 'brain door line'], [/<small>The pricing, positioning and team you'll need\.<\/small>/g, 2, 'revenue engine door line'], [/<a href="\/ai-gtm"><span>Build your AI revenue<span class="mm-route-tail"> engine<\/span><\/span><\/a>/g, 2, 'revenue engine menu route'], [/>Build your AI revenue engine<\/a>/g, 1, 'revenue engine footer route'], [/GTM/g, 0, 'GTM acronym in public copy'], [/href="\/start">Start building your AI brain/g, 3, 'menu and footer way in'], [/Get your free AI brief/g, 0, 'retired way in'], [/<p class="hero-lede">The leaders who shape the next decade will have an AI that thinks like them\. We build yours\.<\/p>/g, 2, 'hero lede'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/<small>© \d{4} Mindmake\. <span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company\.<\/span> <span>Mindmaker Ltd in the UK\.<\/span><\/span><\/small>/g, 2, 'footer entity note'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
 const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
 let script = read('script.js');
-if (Object.values(brainWords).flat().some(text => /[&<>]/.test(text))) throw new Error('Route brain words carry markup; set them as plain text');
-script = cut(script, '    brain: {\n', '      caption:', `    brain: {\n      title: ${JSON.stringify(brainWords.title)},\n      lede: ${JSON.stringify(brainWords.lede)},\n`, 'route brain title and lede');
-script = script.replace(/(    brain: \{[\s\S]*?      steps: )\[[^\]]*\](,[\s\S]*?      film: )"\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/, (_, open, middle) => `${open}${list(brainWords.steps)}${middle}${JSON.stringify(heroFilm.mp4)}`);
-script = script.replace(/question: "([^"]+)"/g, (_, question) => `question: ${JSON.stringify(quoted(question))}`);
-for (const [index, bare] of ['370 BC · Writing', '1675 · Engine loom', '1970s · Calculator', '2000s · Satnav'].entries()) script = cut(script, `    { era: "${bare}", `, null, `    { era: ${JSON.stringify(eraLabels[index])}, `, `era label ${index + 1}`);
-for (const [pattern, expected, label] of [[/question: "“[^"“”]+”"/g, 4, 'quoted history questions'], [/film-02-loop/g, 0, 'retired route film in runtime'], [new RegExp(`title: ${JSON.stringify(brainWords.title).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g'), 1, 'route brain title']]) {
-  const found = (script.match(pattern) ?? []).length;
-  if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
-}
-if (script.split(`steps: ${list(brainWords.steps)}`).length !== 2) throw new Error('Authorised correction drifted: route brain steps');
-for (const label of eraLabels) if (script.split(`{ era: ${JSON.stringify(label)}, `).length !== 2) throw new Error(`Authorised correction drifted: era label ${label}`);
-if ((body.match(new RegExp(`<b data-story-era="">${eraLabels[0]}</b>`, 'g')) ?? []).length !== 2) throw new Error('Authorised correction drifted: first era label in markup');
-script = cut(script, '  const selectAuthority = (phase) => {', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
+script = cut(script, '  const routeContent = {', '  const reveals = [...document.querySelectorAll(".r3-reveal")];', '', 'route, history and retired chapter runtime');
 script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
-script = cut(script, '  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');
-// The doors are links now; the page they name is where the click goes.
-script = cut(script, '  within("opening", "[data-route-choice]").forEach((button) => button.addEventListener("click", () => selectRoute(button.dataset.routeChoice, true, true)));\n', null, '', 'hero door binding');
+script = cut(script, '  selectStory(0);\n  selectAuthority("work");\n  selectDividend("practice");\n  selectRoute("brain");\n', null, '  /* adapter: end */\n', 'chapter start');
 let runtime = script.replace(/^\(\(\) => \{/, 'export function mountHomepageRuntime(root, { onStart }) {').replace(/\}\)\(\);\s*$/, '}');
 runtime = runtime.replace('  const root = document.documentElement;', lifecycle);
 runtime = runtime.replaceAll('document.querySelector', 'root.querySelector').replace('document.getElementById("site")', 'root.querySelector("#site")');
@@ -208,56 +190,23 @@ runtime = runtime.replace('    navigation.querySelector(`${variant} .menu-contro
 runtime = runtime.replace('  const setNavigation = (open, opener = null) => {', '  const setNavigation = (open, opener = null) => {\n    const focusVersion = ++navigationFocusVersion;');
 runtime = runtime.replace(/      requestAnimationFrame\(focusNavigationClose\);\r?\n      setTimeout\(focusNavigationClose, 60\);/, '      requestAnimationFrame(() => focusNavigationClose(focusVersion));');
 runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturnFocus?.focus({ preventScroll: true });', 'const restoreNavigationFocus = () => { if (focusVersion === navigationFocusVersion && (document.activeElement === document.body || navigation.contains(document.activeElement))) navigationReturnFocus?.focus({ preventScroll: true }); };');
-runtime = cut(runtime, 'button.toggleAttribute("aria-current", Number(button.dataset.era) === index)', null, 'setCurrent(button, Number(button.dataset.era) === index)', 'history current state');
-runtime = cut(runtime, '() => selectStory(Number(button.dataset.era))', null, '() => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }', 'history choice');
 runtime = runtime.replace('    video.play().catch(() => {});', '    if (!reducedMotion.matches) video.play().catch(() => {});');
-// A ninth (Krish, 2026-09-26): the four eras hold one layout. The phone copy
-// is anchored to the bottom of its frame, so a longer answer ("A review of 79
-// studies…" runs to three lines) pushed the label and question up as the eras
-// changed. Each frame's copy now reserves the tallest era's height, measured on
-// a hidden copy at the current width, so nothing moves from era to era.
-runtime = cut(runtime, '  selectRoute("brain");', null, `  const holdStoryHeight = () => within("history", ".story-copy").forEach(copy => {
-    if (copy.offsetParent === null) return;
-    const probe = copy.cloneNode(true);
-    probe.setAttribute("aria-hidden", "true");
-    probe.removeAttribute("id");
-    probe.querySelectorAll("[id]").forEach(node => node.removeAttribute("id"));
-    Object.assign(probe.style, { visibility: "hidden", pointerEvents: "none", minHeight: "0px", width: copy.offsetWidth + "px" });
-    copy.after(probe);
-    const question = probe.querySelector("[data-story-question]");
-    const outcome = probe.querySelector("[data-story-outcome]");
-    let tallest = 0;
-    stories.forEach(story => { question.textContent = story.question; outcome.textContent = story.outcome; tallest = Math.max(tallest, probe.offsetHeight); });
-    probe.remove();
-    copy.style.minHeight = tallest + "px";
-  });
-  let storyHeightFrame = 0;
-  const queueStoryHeight = () => { window.cancelAnimationFrame(storyHeightFrame); storyHeightFrame = requestAnimationFrame(holdStoryHeight); };
-  listen(window, "resize", queueStoryHeight);
-  document.fonts?.ready.then(queueStoryHeight);
-  queueStoryHeight();
-  selectRoute("brain");`, 'era height');
-runtime = cut(runtime, '  selectRoute("brain");', null, `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
+runtime = cut(runtime, '  /* adapter: end */', null, `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
     else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});
   });
   listen(reducedMotion, 'change', syncMotionMedia);
   syncMotionMedia();
-  selectRoute("brain");`, 'motion media');
-runtime = runtime.replace('    if (shouldScroll) scope("route").scrollIntoView', `    if (shouldScroll) {
-      const heading = within('route', '.route-copy h2').find(node => node.offsetParent !== null);
-      if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
-    }
-    if (shouldScroll) scope("route").scrollIntoView`);
+  /* adapter: end */`, 'motion media');
 runtime = runtime.replace(/"(\.\.\/[^\"]+\.(?:mp4|webp))"/g, (_, value) => register(value));
-runtime = runtime.replace('location.href = `/?start=${button.dataset.startRoute}`;', 'onStart(button.dataset.startRoute);');
-runtime = cut(runtime, '  selectRoute("brain");', null, `  root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));\n  selectRoute("brain");`, 'start links');
-runtime = cut(runtime, '  selectRoute("brain");', null, `  selectRoute("brain");\n  return {\n    selectStory,\n    destroy() {\n      abort.abort();\n      observers.forEach(observer => observer.disconnect());\n      timeouts.forEach(id => window.clearTimeout(id));\n      intervals.forEach(id => window.clearInterval(id));\n      frames.forEach(id => window.cancelAnimationFrame(id));\n      root.querySelectorAll('video').forEach(video => video.pause());\n      root.classList.remove('has-motion');\n      document.body.classList.remove('navigation-open');\n      site.removeAttribute('inert');\n    },\n  };`, 'lifecycle return');
+// The way in, in the hero and at the end, opens the brief at its door.
+runtime = cut(runtime, '  /* adapter: end */', null, `  root.querySelectorAll('[data-start-route]').forEach(button => listen(button, 'click', () => onStart(button.dataset.startRoute)));\n  root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));\n  /* adapter: end */`, 'start links');
+runtime = cut(runtime, '  /* adapter: end */', null, `  return {\n    destroy() {\n      abort.abort();\n      observers.forEach(observer => observer.disconnect());\n      timeouts.forEach(id => window.clearTimeout(id));\n      intervals.forEach(id => window.clearInterval(id));\n      frames.forEach(id => window.cancelAnimationFrame(id));\n      root.querySelectorAll('video').forEach(video => video.pause());\n      root.classList.remove('has-motion');\n      document.body.classList.remove('navigation-open');\n      site.removeAttribute('inert');\n    },\n  };`, 'lifecycle return');
 const imports = [...assets.values()].map(({name, absolute}) => `import ${name} from ${JSON.stringify(path.relative(output, absolute).replaceAll('\\', '/'))};`).join('\n');
 const files = {
-  'markup.ts': `// Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.\n${imports}\nimport { leadershipChaptersMarkup } from "@/components/leadership-chapters/leadershipChapters";\nexport const homepageMarkup = \`${markup}\`;\n`,
+  'markup.ts': `// Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.\n${imports}\nimport { heroStartMarkup, homepageSectionsMarkup } from "@/components/homepage-release/homepageSections";\nexport const homepageMarkup = \`${markup}\`;\n`,
   'runtime.js': `// Generated delivery adapter. Approved source remains unchanged.\n${imports}\n${runtime}`,
-  'runtime.d.ts': `export interface HomepageRuntime {\n  selectStory(index: number): void;\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
+  'runtime.d.ts': `export interface HomepageRuntime {\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
 };
 for (const name of ['component-styles.css', 'page.css']) {
   const ast = postcss.parse(read(name));

@@ -151,10 +151,13 @@ A data company changed how it sold as AI changed the web. The work led to a paid
 
 ## The AI Brain stories
 
-The section "What your AI Brain makes possible", on `/` and
-`/new-age-leadership`, tells fifteen true client stories in Mindmake's words,
-one client to a card, in five situations of three. Each card is a story and
-the outcome it led to. Their words live only in
+The story chooser "Where would you start?", on `/ai-brain` (since S6, 24
+October 2026; it left the homepage) and `/new-age-leadership`, tells seventeen
+true client stories in Mindmake's words, one client to a card, in five
+situations: "Seeing what is changing" has five, the others three. Each card is
+a story and the outcome it led to. The homepage's third section shows three of
+the results above in their public words (the founder who now posts most days,
+the CEO who hates writing, the CRO's quote) and links to the chooser. Their words live only in
 [leadershipChapters.ts](../src/components/leadership-chapters/leadershipChapters.ts);
 this file does not keep a second copy.
 
@@ -189,6 +192,13 @@ this file does not keep a second copy.
   ("Expertise became an offer people could buy", a plan with nothing sold; it
   stays on `/case-studies`), and the stories "Work nobody owns" and
   "Founder-led content".
+- Added on 24 October 2026 from Krish's own account in the S6 session, first
+  under "Seeing what is changing": a senior insurance leader who networks less
+  now and receives the outside world one way, with no customer data leaving
+  her business, and an investor buying companies whose own method now watches
+  his market. Both are anonymous at role level and carry no figure. Krish
+  approved both wordings on 24 October 2026: "Both story wordings approved as written."
+  (`S6-STORIES-NEW-001`).
 - Approval: Krish approved the rendered section on 16 October 2026: "Approved,
   ship it". That is the scoped approval the placement rule below asks for to
   place these results' outcomes outside `/case-studies`.

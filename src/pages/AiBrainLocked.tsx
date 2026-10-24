@@ -10,11 +10,17 @@ import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-
 import lockedDocument from "../../prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html?raw";
 import evidencePoster from "../../prototypes/website-redesign-recovery/brain-signature/media/evidence-connects-poster.png";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
+import { Receipt } from "@/components/mindmake/Receipt";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
+import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
+import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
+import { track } from "@/lib/analytics";
+import { START_LABEL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
 import "@/styles/mindmake-brain-refinements.css";
 import "@/styles/mindmake-brain-narrative.css";
+import "@/styles/mindmake-brain-s6.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -50,10 +56,16 @@ const evidenceMessages = {
 
 type BrainItem = (typeof fixture.items)[number];
 
-// The page is six chapters after the opening, in this order. Each heading
-// must appear exactly once, so a copy edit can never silently drop or double
-// a chapter the scroll build, the rail and the checks all depend on.
-const chapterTitles = ["opening-title", "you-title", "memory-title", "sharper-title", "record-title", "business-title", "built-title"];
+// The page is three sections (S6, Ruling, Krish, 2026-10-24): the opening and
+// one story in three beats (you, sharper, business), what a Brain holds beside
+// the living record, then the month. Each heading must appear exactly once, so
+// a copy edit can never silently drop or double a part the scroll build and
+// the checks depend on.
+const chapterTitles = ["opening-title", "you-title", "sharper-title", "business-title", "memory-title", "record-title", "built-title"];
+/** The finder's stories, moved here from the homepage (Ruling, Krish, 2026-10-24: "it is the most practical. outlook, output for what an AI brain makes possible, but, having said that, I think this might belong on the AI brain page"). The page already says what it is about, so the finder carries no label of its own. */
+const finderMarkup = storyFinderMarkup(leadershipStories, { kicker: false });
+/** What stays with you, as the receipt: the approved brain steps (01_CANON.md). */
+const KEEPS = ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."] as const;
 /** Where the month's steps light: this far down the screen, well clear of the action bar. */
 const READING_LINE = 0.72;
 
@@ -397,18 +409,83 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
   }, [rootRef]);
 }
 
+/**
+ * S6: the story in three beats, the hero's way in, and the finder.
+ *
+ * The beats are one panel the reader steps through with its own controls; it
+ * never pins and never moves the page, and all three beats sit in one place,
+ * so the panel is always the size of its longest (Ruling, Krish, 2026-10-24).
+ * Without scripting the controls are hidden and the beats read one after
+ * another. The hero's button lives in the locked markup, so its click is taken
+ * here.
+ */
+function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: React.RefObject<HTMLDivElement>, startRef: React.MutableRefObject<(route: "brain" | "gtm") => void>) {
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const panel = root.querySelector<HTMLElement>(".beats");
+    const count = panel ? panel.querySelectorAll(".beat").length : 0;
+    let current = 0;
+    const show = (index: number) => {
+      if (!panel || !count) return;
+      current = (index + count) % count;
+      panel.querySelectorAll<HTMLElement>("[data-beat]").forEach((el) => { el.dataset.active = String(Number(el.dataset.beat) === current); });
+      panel.querySelectorAll<HTMLButtonElement>("[data-beat-go]").forEach((button) => button.setAttribute("aria-pressed", String(Number(button.dataset.beatGo) === current)));
+      const at = panel.querySelector(".beat-at");
+      if (at) at.textContent = `${current + 1} / ${count}`;
+    };
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const go = target.closest<HTMLElement>("[data-beat-go]");
+      if (go) { show(Number(go.dataset.beatGo)); return; }
+      const step = target.closest<HTMLElement>("[data-beat-step]");
+      if (step) { show(current + Number(step.dataset.beatStep)); return; }
+      if (target.closest("[data-brain-start]")) {
+        track("scoping_request", { source: "hero", route: "brain" });
+        startRef.current("brain");
+      }
+    };
+    root.addEventListener("click", onClick);
+
+    const finder = finderRef.current;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const unmountFinder = finder ? mountStoryFinder(finder, {
+      reduced,
+      onStart: (door) => {
+        track("scoping_request", { source: "story_finder", route: door });
+        startRef.current(door);
+      },
+    }) : () => undefined;
+
+    return () => {
+      root.removeEventListener("click", onClick);
+      unmountFinder();
+    };
+  }, [rootRef, finderRef, startRef]);
+}
+
 export default function AiBrainLocked() {
-  const { briefOpen, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
+  const { briefOpen, briefRoute, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
   const rootRef = useRef<HTMLDivElement>(null);
+  const finderRef = useRef<HTMLDivElement>(null);
+  const startRef = useRef(openBrief);
+  startRef.current = openBrief;
   useLockedBrain(rootRef);
   useLockedMotion(rootRef);
+  useBrainSections(rootRef, finderRef, startRef);
 
   return (
     <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain">
       <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
-      <PairingBridge route="brain" onStart={() => openBrief("brain")} />
-      <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />
+      <div className="brain-close">
+        <div ref={finderRef} id="stories" className="nal-page brain-finder" dangerouslySetInnerHTML={{ __html: finderMarkup }} />
+        <div className="brain-close-body">
+          <Receipt title="What stays with you" tag="Yours to keep · Day 30" items={KEEPS} />
+          <PairingBridge route="brain" onStart={() => openBrief("brain")} startLabel={START_LABEL} />
+        </div>
+      </div>
+      <LeadBrief key={briefRoute} open={briefOpen} onClose={closeBrief} route={briefRoute === "gtm" ? "gtm" : "brain"} presentation="drawer" journeyKey={briefJourneyKey} />
     </MindmakeShell>
   );
 }

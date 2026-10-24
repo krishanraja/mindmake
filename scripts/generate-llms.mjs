@@ -31,7 +31,7 @@ const ideaLines = ideas
    two links are START_PATH and PUBLICATION_URL in src/lib/publicLinks.ts. */
 const about = `Mindmake is a small AI and commercial strategy practice. It builds a leader their own AI brain: a working system that holds their taste, standards, judgement and memory, so the AI they already use works the way they do. It is for a founder, principal, investor or senior commercial leader who can make the decision. Work starts with one paid proof, scoped and priced privately; the site publishes no price.`;
 const waysIn = [
-  `- [Get your free AI brief](${site}/?start=1): Answer a few questions, keep the brief, then a free consultation.`,
+  `- [Start building your AI brain](${site}/?start=1): Free and private. Answer a few questions, keep the brief, then a free consultation.`,
   `- [Make Your Mind Up](https://makeyourmindup.ai): Mindmake's free publication by email. What's coming in AI, before it's obvious.`,
 ].join("\n");
 

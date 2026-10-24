@@ -1,6 +1,6 @@
 import { type MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
-import { SiteActionBar, type ActionBarDoor } from "@/components/mindmake/SiteActionBar";
+import { SiteActionBar } from "@/components/mindmake/SiteActionBar";
 import { Link, useLocation } from "react-router-dom";
 import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
@@ -11,20 +11,10 @@ interface MindmakeShellProps {
   mainClassName?: string;
   siteClassName?: string;
   showMobileActionBar?: boolean;
+  /** What every way in on the page says. /ai-gtm passes START_LABEL_GTM; a prop
+      rather than a pathname lookup, so the server and client render agree. */
+  startLabel?: string;
 }
-
-/**
- * The door the action bar offers: the offer route the reader is not already on.
- *
- * Two entries and no default. On an editorial page neither route is more
- * relevant than the other, and offering both would put three controls in a bar
- * that is allowed two. The bar is where a reader acts, not where they browse;
- * the menu and the footer carry the whole site.
- */
-const ACTION_BAR_DOORS: Record<string, ActionBarDoor> = {
-  "/ai-brain": { to: "/ai-gtm", label: "Build your AI revenue engine" },
-  "/ai-gtm": { to: "/ai-brain", label: "Build your AI brain" },
-};
 
 export function MindmakeShell({
   children,
@@ -32,6 +22,7 @@ export function MindmakeShell({
   mainClassName = "",
   siteClassName = "",
   showMobileActionBar = true,
+  startLabel = START_LABEL,
 }: MindmakeShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -39,17 +30,6 @@ export function MindmakeShell({
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const location = useLocation();
-  /* Keyed on the route without its trailing slash, because both spellings
-     reach the same page and the door has to be the same on each.
-
-     The first version of this read location.pathname directly, and the release
-     smoke caught it on every engine: the prerendered document for /ai-brain is
-     rendered from "/ai-brain", the reader arrives at "/ai-brain/", the lookup
-     missed, and React hydrated a bar with no door onto markup that had one.
-     That is React error #418 and it takes the whole route down to client
-     rendering, losing the server heading with it. Vercel resolves either
-     spelling, so this was a real visitor's page, not only a gate's. */
-  const actionBarDoor = ACTION_BAR_DOORS[location.pathname.replace(/\/+$/, "") || "/"];
 
   useEffect(() => setMenuOpen(false), [location.pathname, location.hash, location.search]);
 
@@ -184,7 +164,7 @@ export function MindmakeShell({
           ))}
         </nav>
         <button className="mm-menu-start" type="button" onClick={startFromMenu}>
-          {START_LABEL} <span aria-hidden="true">→</span>
+          {startLabel} <span aria-hidden="true">→</span>
         </button>
         <nav className="mm-menu-secondary" aria-label="Additional navigation">
           <Link to="/privacy">Privacy</Link>
@@ -224,7 +204,7 @@ export function MindmakeShell({
               : <Link key={href} to={href}>{label}</Link>)}
             {/* R3 links /start. Here it opens the brief in place, as the
                 menu's start action does; without script it follows the link. */}
-            <a href="/start" onClick={startFromFooter}>{START_LABEL}</a>
+            <a href="/start" onClick={startFromFooter}>{startLabel}</a>
           </nav>
           <nav className="mm-footer-legal" aria-label="Legal navigation">
             <Link to="/privacy">Privacy</Link>
@@ -242,7 +222,7 @@ export function MindmakeShell({
       {/* The one way in, pinned to the bottom of the screen once the reader
           has left the first screen, and standing down whenever the page's own
           primary action is on screen. */}
-      {showMobileActionBar && <SiteActionBar onStart={onStart} door={actionBarDoor} label={START_LABEL} />}
+      {showMobileActionBar && <SiteActionBar onStart={onStart} label={startLabel} />}
     </div>
   );
 }

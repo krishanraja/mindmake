@@ -22,9 +22,11 @@ describe("AI Brain stories", () => {
     for (const story of leadershipStories) expect(story.situation, story.heading).toBeTruthy();
   });
 
-  it("is one client to a card: fifteen stories, each with the outcome it led to", () => {
-    expect(leadershipStories).toHaveLength(15);
-    expect(new Set(leadershipStories.map((story) => story.heading)).size).toBe(15);
+  it("is one client to a card: seventeen stories, each with the outcome it led to", () => {
+    /* Fifteen, then two more on 24 October 2026: the insurance leader and the
+       investor, both in "Seeing what is changing", from Krish's own account. */
+    expect(leadershipStories).toHaveLength(17);
+    expect(new Set(leadershipStories.map((story) => story.heading)).size).toBe(17);
     for (const story of leadershipStories) expect(story.outcome, story.heading).toBeTruthy();
   });
 
@@ -43,10 +45,11 @@ describe("AI Brain stories", () => {
     for (const story of leadershipStories) expect(Boolean(story.scene) || Boolean(story.figure), story.heading).toBe(true);
   });
 
-  it("files every story under exactly one of five situations, three to each", () => {
+  it("files every story under exactly one of five situations, at least three to each", () => {
     expect(SITUATIONS).toHaveLength(5);
+    expect(SITUATIONS.map((situation) => situation.cards.length)).toEqual([3, 5, 3, 3, 3]);
     const filed = SITUATIONS.flatMap((situation) => {
-      expect(situation.cards, situation.label).toHaveLength(3);
+      expect(situation.cards.length, situation.label).toBeGreaterThanOrEqual(3);
       return situation.cards.map((start) => storyByStart(leadershipStories, start));
     });
     expect(new Set(filed).size).toBe(filed.length);
@@ -88,7 +91,7 @@ describe("AI Brain stories", () => {
     const human = markup.slice(markup.indexOf('<section class="human-proof'), markup.indexOf('<div class="proof-return">'));
     const plain = human.replaceAll("\u00a0", " ");
     const cards = human.match(/<li class="finder-card">/g) ?? [];
-    expect(cards).toHaveLength(15);
+    expect(cards).toHaveLength(17);
     for (const story of leadershipStories) {
       expect(plain.split(`<span class="finder-heading">${story.heading.replaceAll("\u00a0", " ")}</span>`)).toHaveLength(2);
       expect(plain).toContain(`<span class="finder-outcome">${story.outcome.replaceAll("\u00a0", " ")}</span>`);

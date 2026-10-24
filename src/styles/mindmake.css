@@ -360,13 +360,8 @@ html {
    contrast of about 1.1:1 (Krish, 2026-09-25). Inside the Brain the headings
    inherit again; the page's own heading colours still win where it sets one. */
 .mm-site .mm-locked-brain :is(h1, h2, h3, h4) { color: inherit; }
-/* The chapter rail (01 to 04) is fixed 1rem from the right edge and 44px
-   wide, but each chapter's inline padding is max(4vw, ...), which is 58px at
-   1440 and 51px at 1280: the rail sat on top of the right edge of every
-   instrument panel (Krish, 2026-09-25). Chapters reserve the rail's width. */
-@media (min-width: 761px) {
-  .mm-site .mm-locked-brain .chapter { padding-inline-end: max(4vw, calc((100vw - 1600px) / 2), 4.5rem); }
-}
+/* The chapter rail is retired with the chapters it counted (S6, Ruling,
+   Krish, 2026-10-24), so chapters no longer reserve its width. */
 /* Text below WCAG AA on /ai-brain (Krish, 2026-09-25). The small mono labels
    and captions on the dark panels were paper at 40 to 50% opacity, 3.1 to
    4.3:1; at 62% they are 5.5:1 or better on every panel ground. The living
@@ -949,11 +944,10 @@ html {
 .mm-footer {
   background: #06110d;
   color: var(--mm-chrome-paper);
-  /* Both pieces of fixed chrome reserve their own measured height here, and
-     they add up. They used to be two rules setting the same property, so
-     whichever came second in the stylesheet won and the other's chrome sat on
-     the last line of the footer whenever both were up. */
-  padding-bottom: calc(var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px));
+  /* Both pieces of fixed chrome reserve their own measured height here. They
+     share one band at the bottom of a laptop screen rather than stacking, so
+     the footer clears the taller of the two, not their sum. */
+  padding-bottom: max(var(--mm-cookie-reserve, 0px), var(--mm-bar-reserve, 0px));
 }
 .mm-footer-grid {
   box-sizing: border-box;
@@ -1120,47 +1114,28 @@ html {
   position: fixed;
   left: 0;
   right: 0;
-  /* Stacked on the privacy strip, from the height the strip publishes. The
-     strip is flush to the bottom of the screen and this sits on top of it,
-     so the two are never apart and never overlap. */
-  bottom: var(--mm-cookie-reserve, 0px);
+  /* On the bottom edge itself, never stacked on the analytics notice (Ruling,
+     Krish, 2026-10-24: the bar stacked on the notice was "horrible" and made
+     four controls compete). On a laptop the notice is a card in the bar's own
+     band, on the left, while the one button is on the right; on a phone the
+     notice docks under the masthead. */
+  bottom: 0;
   z-index: 40;
   display: flex;
   justify-content: center;
   border-top: 1px solid var(--mm-line);
   background: rgba(10, 16, 13, .94);
   backdrop-filter: blur(8px);
-  /* The home indicator's inset is only this bar's to clear when this bar is
-     the thing on the bottom edge. With the privacy strip below it the strip
-     carries it, and adding it here as well left about 34px of empty bar on
-     an iPhone. `max()` resolves to zero the moment the strip is up. No gate
-     here can see this: Playwright does not emulate a safe-area inset. */
-  padding: 10px var(--mm-edge) calc(10px + max(0px, var(--mm-safe-bottom) - var(--mm-cookie-reserve, 0px)));
-  transform: translateY(calc(110% + var(--mm-cookie-reserve, 0px)));
+  /* The bar is always the thing on the bottom edge, so it clears the home
+     indicator itself. No gate here can see this: Playwright does not emulate
+     a safe-area inset. */
+  padding: 10px var(--mm-edge) calc(10px + var(--mm-safe-bottom));
+  transform: translateY(110%);
   transition: transform .2s ease;
 }
 .mm-action-bar.is-shown { transform: translateY(0); }
-/* On a laptop the privacy notice is a corner card inset from the bottom, and
-   the bar stacked on it left the page showing in a band under the bar
-   across the rest of the screen, so the bar read as hovering above the foot
-   of the page (Krish, 2026-09-26, the same failure the phone strip had). The
-   bar's own ground now runs down to the bottom edge beneath it and the card
-   sits inside that band. Paint only: the bar's box, and so the height it
-   publishes, are unchanged. */
-@media (min-width: 768px) {
-  .mm-action-bar::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: var(--mm-cookie-reserve, 0px);
-    background: inherit;
-    pointer-events: none;
-  }
-}
-/* Two slots and never three: at most one door, then the one action. They share
-   the shell's measure so the action lands under the page's own right edge. */
+/* One action, on the shell's measure, so it lands under the page's own right
+   edge and clear of the notice's card on the left. */
 .mm-action-bar-inner {
   width: 100%;
   max-width: var(--mm-shell-max);
@@ -1169,29 +1144,11 @@ html {
   justify-content: flex-end;
   gap: 16px;
 }
-.mm-action-bar-door {
-  margin-right: auto;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--mm-tx2);
-  font-family: var(--mm-mono);
-  font-size: 12px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-}
-.mm-action-bar-door:hover { color: var(--mm-mint); }
 /* It reserves its own measured height in --mm-bar-reserve, which the
    footer reads and adds to the strip's, so it never covers the last thing
    being read and the two reserves cannot cancel each other. */
 @media (max-width: 767px) {
-  /* A phone gets the action and nothing else. The door was a second row here,
-     and the release smoke measured the cost: the bar stood 150.7px tall at
-     320x568, more than a quarter of the screen, and its own reserve pushed the
-     last footer link underneath it on both offer routes. The bar's job on a
-     phone is the one action; the menu carries both routes one tap away. */
-  .mm-action-bar-door { display: none; }
+  /* A phone gets the action full width and nothing else beside it. */
   .mm-action-bar-inner { justify-content: center; }
   .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
 }
@@ -1564,7 +1521,9 @@ html {
    have left a 350px box that the sentence and the button do not share. */
 .mm-cookie-notice {
   position: fixed;
-  inset: auto var(--mm-gutter) calc(14px + var(--mm-safe-bottom)) auto;
+  /* Bottom left on a laptop, inside the action bar's band when the bar is up,
+     so the notice and the one button sit apart in one row and never stack. */
+  inset: auto auto calc(14px + var(--mm-safe-bottom)) var(--mm-gutter);
   z-index: 90;
   width: max-content;
   max-width: calc(100vw - var(--mm-gutter) * 2);
@@ -1600,22 +1559,21 @@ html {
 .mm-cookie-notice button { white-space: nowrap; }
 .mm-cookie-actions { display: flex; gap: 8px; margin-left: auto; }
 
-/* Flush to the bottom of the screen, and the action bar stacks on top of it
-   from the height this publishes. It used to sit at `76px`, the bar's height,
-   whether or not the bar was there; the bar appears later than the notice and
-   stands down whenever the page's own action is on screen, so on every phone
-   measured the strip floated 76px above the bottom with the page showing
-   underneath it. A photograph of that is what started this. */
+/* Docked under the masthead on a phone, full width (Ruling, Krish,
+   2026-10-24). The bottom edge belongs to the one button; the notice stacked
+   under it made the bottom of the screen a wall of controls. Up here it
+   publishes no bottom reserve (CookieConsent measures where it actually is),
+   and Allow and Decline stay equal and reachable until answered. */
 @media (max-width: 767px) {
   .mm-cookie-notice {
-    inset: auto 0 0 0;
+    inset: calc(var(--mm-header-bar, 66px) + var(--mm-safe-top)) 0 auto 0;
     width: auto;
     max-width: none;
     justify-content: space-between;
     border-radius: 0;
     border-inline: 0;
-    border-bottom: 0;
-    padding: 4px 8px calc(4px + var(--mm-safe-bottom)) var(--mm-gutter);
+    border-top: 0;
+    padding: 4px 8px 4px var(--mm-gutter);
     font-size: 10.5px;
     /* The full-width strip may fall into two rows when a visitor's text is
        scaled up, which is the tidy end of running out of room. The corner
@@ -1639,6 +1597,11 @@ html {
 .mm-cookie-notice .mm-button-small { min-height: 30px; padding: 5px 10px; }
 
 html.mm-cookie-visible{scroll-padding-bottom:calc(var(--mm-cookie-reserve,0px) + 16px)}
+/* The action bar is an opaque band across the whole bottom edge, so a control
+   brought into view or focused must land above it, never under it where it
+   can be neither seen nor pressed (S6: the story rail's arrow sat under the
+   bar at 1280 wide). The taller of the two reserves wins, as in the footer. */
+html.mm-bar-visible{scroll-padding-bottom:calc(max(var(--mm-cookie-reserve,0px),var(--mm-bar-reserve,0px)) + 16px)}
 html.mm-cookie-visible .mm-brain-r5 .decision-sticky,
 html.mm-cookie-visible .mm-gtm-r6 .decision-sticky{height:calc(100svh - var(--mm-cookie-reserve,0px))}
 html.mm-cookie-visible .mm-brain-r5 .proof-copy,
@@ -1650,8 +1613,7 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
 }
 
 /* Both reserves are published by the components that occupy the space, and
-   read by `.mm-footer` above and by the action bar, which stacks on the
-   notice. Nothing here carries a copy of either height. */
+   read by `.mm-footer` above. Nothing here carries a copy of either height. */
 
 /* Closing block shared by the secondary pages. */
 .mm-final { background: var(--mm-ink2); border-top: 1px solid var(--mm-hair); padding-block: var(--mm-section); }

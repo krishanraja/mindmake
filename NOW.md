@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-23
-head: 7f13d4e
+as_of: 2026-10-24
+head: 277ca1c
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -20,8 +20,9 @@ Mindmake is a small AI and commercial strategy practice run by Krish Raja. It
 builds a leader their own AI brain: a working system that holds their taste,
 standards, judgement and memory. Two doors, Build your AI brain and Build your
 AI revenue engine, lead to one privately scoped paid proof. The headline turns
-through five lines and opens on **Promote your AI from intern to chief of
-staff.** The way in is **Get your free AI brief**. The publication, **Make Your
+through six lines and opens on **Promote your AI from intern to chief of
+staff.** The way in is **Start building your AI brain** (**Start building your AI
+revenue engine** on `/ai-gtm`). The publication, **Make Your
 Mind Up** at https://makeyourmindup.ai, is for readers not ready yet. CTRL, the
 product the work runs on, is in a private pilot with leaders. The whole account
 is "Mindmake in one page" in
@@ -41,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-23)
+## Where it is right now (as of 2026-10-24)
 
 <!-- north-star-state {"week_of": "2026-10-26", "week_target": "private", "current": "private", "current_as_of": "2026-10-23", "current_source": "Control Center revenue_events (Stripe, account mindmaker_llc), read-only", "urgency": 3, "urgency_reason": "at 71% of this week's target"} --> **North Star number: U3, well behind.** Cash collected by Mindmake, trailing 4 weeks: at 71% of this week's target (figures private). Two experiments a week, growth output doubled.
 
@@ -52,14 +53,13 @@ Do not repeat deployment journals here. History lives only in
 [history/LOG.md](project-documentation/history/LOG.md).
 
 Keep the accepted composition, copy, imagery, controls and responsive choices.
-Between the opening and the route, the homepage carries the R3 history
-chapter (four pinned eras, from writing to satnav) and then the three new-age
-leadership chapters (r41): the reach chapter in both its states, the system in
-practice, and the AI Brain stories, then the returned hour. They share one
-source with /new-age-leadership. History, reach and practice pin by scroll in
-both directions; the stories are a chooser that never pins: fifteen true
-stories, one client to a card, in five situations of three, each card a story
-and the outcome it led to, the whole story a tap away.
+Since S6 (24 October 2026) every page is three sections: the problem, how it
+works, and what the reader gets and how they know it works. Between the R3
+opening and the footer the homepage carries "Right now, your AI is an intern."
+(the four eras as tiles), "A chief of staff knows how you think." and "Built on
+your real work. Yours to keep."; nothing on it pins. The AI Brain stories are a
+chooser on `/ai-brain` that never pins: seventeen stories in five situations,
+the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
 Generate the adapter from the immutable R3 source, never reconstruct it from
 older components.
 
@@ -73,6 +73,22 @@ post-publication verification.
 
 ## What changed recently
 
+- 2026-10-24: every page became three sections (S6, #245). Krish's ruling:
+  every page says "what problem it solves, how it solves it, and what the
+  reader gets and how they know it works", with the spine "intern to chief of
+  staff" and a bold, visionary tone. The homepage's pinned history, reach,
+  practice, stories, returned-hour and route chapters left it; `/ai-brain`
+  gained a one-panel opening, a seventeen-story finder and a receipt;
+  `/ai-gtm` lost every pin. The way in is one button, "Start building your AI
+  brain", replacing "Get your free AI brief".
+  A second ruling: no word alone on a line, and no component that changes size
+  when a reader makes a choice, so `qa:line-breaks` now covers 1280 and 360
+  wide, clicks every swapping control and fails size changes. The production
+  readback is in `06_CURRENT_STATE.md`; 26 `S6-*` feedback rows await Krish.
+- 2026-10-24: the Linux browser legs of CI were pinned to ubuntu-24.04 (#246).
+  GitHub moved `ubuntu-latest` to 26.04 and the pinned Playwright 1.60.0
+  "does not support chromium on ubuntu26.04-x64", so both legs stopped before
+  any case ran. Lift the pin when Playwright supports the newer runner.
 - 2026-10-21: the answer hub became a weekly publication that machines can
   read (#244). Moving the North Star Horizon's first half, being the name an AI
   answer engine gives a PE or VC backed media, adtech or data leader, it began
@@ -144,9 +160,9 @@ post-publication verification.
 - In play: the CTRL pilot with leaders, by invitation from Krish only, and the
   first outreach drafts (a post, a note to his network, a Make Your Mind Up
   sign-off), each waiting for his yes to that exact send.
-- Next: the free AI brief that names one thing AI could carry in the reader's
-  own week (change 3), shown rendered before it is built; the hero lede that
-  names who the site is for (change 1) follows it
+- Next: the free AI brief (the brief behind the new way in) that names one thing AI could carry in the reader's
+  own week (change 3), shown rendered before it is built; the hero lede for
+  every leader (change 1) was settled by S6
   ([STATE.md](project-documentation/website-redesign/STATE.md)).
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
@@ -155,7 +171,7 @@ post-publication verification.
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-10-23): holds.
+- North Star check (2026-10-24): holds.
 
 ## Read next
 

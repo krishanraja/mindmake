@@ -112,10 +112,20 @@ jobs:
         # artifact, and qa:homepage-release still launches all three engines on
         # both platforms, which is why the install step below is never filtered
         # to `engine`.
+        #
+        # The Linux legs are pinned to ubuntu-24.04, not ubuntu-latest. GitHub
+        # moved ubuntu-latest to Ubuntu 26.04, and the Playwright pinned in
+        # package-lock.json (1.60.0) does not support it: both Linux legs stopped
+        # at "Install release verification browsers" with "Playwright does not
+        # support chromium on ubuntu26.04-x64" before a single case ran (main runs
+        # 39955450199 on 7f13d4e4 and 40111218609 on 23de29dc). Lift the pin back
+        # to ubuntu-latest when the pinned Playwright supports the newer runner,
+        # and not before: a Playwright upgrade is its own change. The macOS leg is
+        # unaffected and stays on macos-latest.
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             engine: chromium
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             engine: firefox
           - os: macos-latest
             engine: webkit

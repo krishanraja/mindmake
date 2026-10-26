@@ -543,6 +543,57 @@ async function deliverConfirmedBrief(
   return finished;
 }
 
+/**
+ * Work that may finish after the response, where the runtime offers it.
+ * Supabase's edge runtime keeps a worker alive for a promise handed to
+ * `EdgeRuntime.waitUntil`; anywhere else (tests, a local runner) there is no
+ * such thing, and the caller does the work in line instead.
+ */
+declare const EdgeRuntime: { waitUntil(promise: Promise<unknown>): void } | undefined;
+function runAfterResponse(work: Promise<unknown>): boolean {
+  if (typeof EdgeRuntime === "undefined" || typeof EdgeRuntime?.waitUntil !== "function") return false;
+  EdgeRuntime.waitUntil(work);
+  return true;
+}
+
+/**
+ * The company research behind a brief, written to its row. It takes most of
+ * half a minute against the outside providers, which is why the code is sent
+ * before it (below): the reader opens their email while it runs, and a code
+ * confirmed before it is done waits for it (`confirm` answers `not_ready`,
+ * which spends no attempt, and the browser asks again).
+ */
+async function assembleBrief(
+  admin: AdminClient,
+  row: BriefRow,
+  claimToken: string,
+  parsed: MindmakeBriefRequestActionV2,
+): Promise<BriefRow> {
+  try {
+    const research = await assembleResearch(parsed);
+    createStoredBrief(parsed, research);
+    const envelope = await callRpc(admin, "finish_assembly", {
+      row_id: row.id,
+      claim_token: claimToken,
+      ok: true,
+      company_research: research,
+    });
+    if (envelope.outcome !== "finished" && envelope.outcome !== "stale_claim") {
+      throw new StorageError();
+    }
+    return requireRow(envelope);
+  } catch (error) {
+    await callRpc(admin, "finish_assembly", {
+      row_id: row.id,
+      claim_token: claimToken,
+      ok: false,
+      company_research: null,
+    }).catch(() => undefined);
+    console.error("[mindmake-brief] company research assembly failed");
+    throw error instanceof StorageError ? error : new StorageError();
+  }
+}
+
 async function handleRequestAction(
   admin: AdminClient,
   request: Request,
@@ -583,7 +634,7 @@ async function handleRequestAction(
     proposedCode,
   );
 
-  let envelope = await callRpc(admin, "begin", {
+  const envelope = await callRpc(admin, "begin", {
     request_id: parsed.requestId,
     request_payload_sha256: requestHash,
     email: parsed.contact.email,
@@ -625,30 +676,18 @@ async function handleRequestAction(
   let row = requireRow(envelope);
   if (envelope.outcome === "assemble") {
     if (!envelope.claim_token) throw new StorageError();
-    const assemblyClaimToken = envelope.claim_token;
-    try {
-      const research = await assembleResearch(parsed);
-      createStoredBrief(parsed, research);
-      envelope = await callRpc(admin, "finish_assembly", {
-        row_id: row.id,
-        claim_token: assemblyClaimToken,
-        ok: true,
-        company_research: research,
-      });
-      if (envelope.outcome !== "finished" && envelope.outcome !== "stale_claim") {
-        throw new StorageError();
+    const assembly = assembleBrief(admin, row, envelope.claim_token, parsed);
+    /* The code first (the owner, 2026-10-26: "Send the code" had taken 35
+       seconds with nothing but a spinner, while this research ran). The code
+       email needs only the request and the address, both written by `begin`. */
+    if (runAfterResponse(assembly.catch(() => undefined))) {
+      const accepted = await deliverVerification(admin, row, config);
+      if (!accepted) {
+        return responseJson({ success: false, error: "verification_delivery_failed" }, 503, origin);
       }
-      row = requireRow(envelope);
-    } catch (error) {
-      await callRpc(admin, "finish_assembly", {
-        row_id: row.id,
-        claim_token: assemblyClaimToken,
-        ok: false,
-        company_research: null,
-      }).catch(() => undefined);
-      console.error("[mindmake-brief] company research assembly failed");
-      throw error instanceof StorageError ? error : new StorageError();
+      return responseJson(verificationRequiredResponse(parsed.requestId), 200, origin);
     }
+    row = await assembly;
   }
 
   if (envelope.outcome === "already_confirmed" || row.verified_at) {

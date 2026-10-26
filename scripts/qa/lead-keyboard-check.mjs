@@ -42,7 +42,7 @@
 import { existsSync, realpathSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "playwright";
 
 const args = process.argv.slice(2);
@@ -51,7 +51,8 @@ const root = resolve(flag("root") ?? fileURLToPath(new URL("../../", import.meta
 /* `--only <text>` walks only the labels containing it, e.g. "decision". */
 const only = flag("only");
 const output = resolve(flag("out") ?? resolve(fileURLToPath(new URL("../../", import.meta.url)), "artifacts/lead-keyboard"));
-const { createServer } = await import(resolve(root, "node_modules/vite/dist/node/index.js"));
+/* A file URL, not a path: on Windows an absolute path is not an import specifier. */
+const { createServer } = await import(pathToFileURL(resolve(root, "node_modules/vite/dist/node/index.js")).href);
 
 const failures = [];
 const observations = [];
@@ -146,7 +147,7 @@ async function prepare(page) {
    offer of a person is otherwise dressed from), the homepage's drawer and
    /ai-brain's drawer. */
 const entries = [
-  { name: "card", path: "/case-studies?start=1", door: /Build your AI revenue engine/ },
+  { name: "card", path: "/case-studies?start=1" }, // opens at the AI brain's door since 26 October 2026
   { name: "home", path: "/?start=brain" },
   { name: "brain", path: "/ai-brain?start=brain" },
 ];
@@ -292,9 +293,7 @@ try {
     await dialog.getByRole("button", { name: /see the company read/i }).click();
     await dialog.getByRole("heading", { name: "This is what I can see so far." }).waitFor({ timeout: 15000 });
     await dialog.locator(".mm-choice-grid button").first().click();
-    await dialog.getByRole("button", { name: /use this problem/i }).click();
     await dialog.getByRole("button", { name: "Grow this business" }).click();
-    await dialog.getByRole("button", { name: /show me the recommendation/i }).click();
     await page.locator('.mm-brief-panel[data-step="preview"] .mm-folio').waitFor({ state: "visible" });
     await page.screenshot({ path: resolve(output, `${label}-preview-header.png`) });
     for (let leaf = 0; leaf < 3; leaf += 1) {
@@ -302,7 +301,6 @@ try {
       if (await next.isVisible()) await next.click();
     }
     await dialog.getByRole("button", { name: /keep the private brief/i }).click();
-    await dialog.getByRole("button", { name: /^continue/i }).click();
 
     await dialog.locator("#mm-work-email").waitFor();
     await checkField(page, label, "contact-email", "#mm-work-email", ".is-contact .mm-button", viewport.keyboard, viewport.pan);

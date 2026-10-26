@@ -143,15 +143,13 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   await page.getByRole("group", { name: /Which part of the business/ }).getByRole("button", { name: "Leadership", exact: true }).click();
   await page.getByRole("button", { name: /Read my business/ }).click();
 
-  await page.getByRole("button", { name: /Use this problem/ }).waitFor({ state: "visible", timeout: 20_000 });
+  await page.getByRole("heading", { name: "This is what I can see so far." }).waitFor({ state: "visible", timeout: 20_000 });
   /* By accessible name, not by shape. The first version walked the dialog with
      ".mm-brief-step fieldset button", which is a description of today's markup
      rather than of the thing being clicked, and it broke on the step that does
      not use a fieldset. */
   await page.locator(".mm-choice-grid button").first().click();
-  await page.getByRole("button", { name: /Use this problem/ }).click();
   await page.getByRole("button", { name: /Grow this business/ }).click();
-  await page.getByRole("button", { name: /Show me the recommendation/ }).click();
   await page.getByRole("button", { name: /Keep the private brief/ }).click();
 
   /* The email hand-off is behind VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED. With it

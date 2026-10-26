@@ -48,7 +48,7 @@ try {
     await dialog.getByRole('button', { name: /See the company read/ }).click();
   }
   await (await companyResponse).finished();
-  await dialog.getByRole('button', { name: /Use this problem/ }).waitFor({ state: 'visible', timeout: 15000 });
+  await dialog.getByRole('heading', { name: 'This is what I can see so far.' }).waitFor({ state: 'visible', timeout: 15000 });
   emit({ stage: 'company-read', entryLayout: combinedEntry ? 'combined' : 'company-then-profile', text: await dialog.innerText() });
   if (researchOnly) input.close();
   // Subsequent navigation stays explicit so the test cannot guess a send control.

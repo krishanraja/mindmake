@@ -8,7 +8,8 @@ const START_PARAM = "start";
  * Which door the visitor came through, in the address.
  *
  * `?start=1` is the original and still means "opened without a door", which the
- * dialog answers by asking. `?start=brain` and `?start=gtm` are the two named
+ * dialog opens at the AI brain's (since 26 October 2026 every way in that names
+ * no door reads "Start building your AI brain"). `?start=brain` and `?start=gtm` are the two named
  * doors, and they exist here rather than in component state for the reason the
  * open flag does: this address is what the site's primary action produces, so
  * it has to survive a shared link, a reload and the back button.

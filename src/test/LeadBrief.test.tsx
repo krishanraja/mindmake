@@ -5,6 +5,10 @@ import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   BRIEF_BLOB_REVOKE_DELAY_MS,
+  BRIEF_NOT_READY,
+  BRIEF_READY_ATTEMPTS,
+  BRIEF_READY_RETRY_MS,
+  CODE_NOT_ACCEPTED,
   COMPANY_READ_TIMEOUT_MS,
   LeadBrief,
 } from "@/components/mindmake/LeadBrief";
@@ -94,34 +98,36 @@ async function reachPreview(domain = "example.com") {
   fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
   await screen.findByRole("heading", { name: "This is what I can see so far." });
   fireEvent.click(screen.getByRole("button", { name: "Customers can now do more without us" }));
-  fireEvent.click(screen.getByRole("button", { name: /use this problem/i }));
-  fireEvent.click(screen.getByRole("button", { name: "Grow this business" }));
-  fireEvent.click(screen.getByRole("button", { name: /show me the recommendation/i }));
+  fireEvent.click(await screen.findByRole("button", { name: "Grow this business" }));
   await screen.findByRole("heading", { name: "Two parts of the work are now clear." });
 }
 
 async function reachContact(domain = "example.com") {
   await reachPreview(domain);
   fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
-  expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
   await screen.findByLabelText("Work email");
 }
 
-it("keeps nested confirmation focus inside the dialog and returns it to the invoking control", async () => {
-  vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+/* As few clicks as the brief allows (the owner, 2026-10-26): a choice is the
+   answer, and keeping the brief goes straight to the address, which already
+   says a code comes first and nothing is sent until it is confirmed. */
+it("moves on from a choice by itself and keeps the brief without a confirmation in between", async () => {
+  vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
   invoke.mockResolvedValue({ data: dossier, error: null });
   render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-  await reachPreview();
-
-  const keepButton = screen.getByRole("button", { name: /keep the private brief/i });
-  keepButton.focus();
-  fireEvent.click(keepButton);
-
-  const notNow = await screen.findByRole("button", { name: "Not now" });
-  await waitFor(() => expect(notNow).toHaveFocus());
-  fireEvent.click(notNow);
-  await waitFor(() => expect(keepButton).toHaveFocus());
+  await fillDetails();
+  fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
+  await screen.findByRole("heading", { name: "This is what I can see so far." });
+  expect(screen.queryByRole("button", { name: /use this problem/i })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Customers can now do more without us" }));
+  expect(await screen.findByRole("heading", { name: /where would you put it/i })).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: /show me the recommendation/i })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Grow this business" }));
+  await screen.findByRole("heading", { name: "Two parts of the work are now clear." });
+  fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
+  expect(await screen.findByRole("heading", { name: "Email the private brief." })).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: "Email verification is next." })).not.toBeInTheDocument();
+  expect(screen.getByText(/A six-digit code comes first/)).toBeInTheDocument();
 });
 
 async function requestCode({ email = "leader@example.com", publication = false } = {}) {
@@ -286,8 +292,6 @@ describe("Mindmake private brief journey", () => {
     expect(screen.getByRole("link", { name: /how we handle information/i })).toHaveAttribute("href", "/privacy");
     await reachPreview();
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
-    expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
 
     expect(await screen.findByRole("heading", { name: "Keep this. Your brief is ready." })).toBeInTheDocument();
     expect(screen.getByText("Download it now. Nothing has been sent to us, and no email has been sent.")).toBeInTheDocument();
@@ -396,12 +400,8 @@ describe("Mindmake private brief journey", () => {
     await act(async () => finishCompanyRead?.({ data: dossier, error: null }));
     await screen.findByRole("heading", { name: "This is what I can see so far." });
     fireEvent.click(screen.getByRole("button", { name: "Customers can now do more without us" }));
-    fireEvent.click(screen.getByRole("button", { name: /use this problem/i }));
-    fireEvent.click(screen.getByRole("button", { name: "Grow this business" }));
-    fireEvent.click(screen.getByRole("button", { name: /show me the recommendation/i }));
+    fireEvent.click(await screen.findByRole("button", { name: "Grow this business" }));
     fireEvent.click(await screen.findByRole("button", { name: /keep the private brief/i }));
-    expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
 
     const emailField = await screen.findByLabelText("Work email");
     await waitFor(() => expect(emailField).toHaveFocus());
@@ -556,6 +556,57 @@ describe("Mindmake private brief journey", () => {
     expect(screen.queryByText(/our copy was queued/i)).not.toBeInTheDocument();
   });
 
+  /* The code goes out before the research behind the brief is finished, so a
+     right code typed quickly can arrive first: the server answers 409
+     `request_in_progress` (no attempt spent) and the code is asked about again. */
+  const stillPreparing = () => ({
+    data: null,
+    error: Object.assign(new Error("Edge Function returned a non-2xx status code"), {
+      context: new Response(JSON.stringify({ success: false, error: "request_in_progress" }), { status: 409 }),
+    }),
+  });
+
+  it("waits for the brief behind a right code instead of calling the code wrong", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    let confirms = 0;
+    invoke.mockImplementation((name: string, options?: { body?: Record<string, unknown> }) => {
+      if (name === "enrich-company") return Promise.resolve({ data: dossier, error: null });
+      if (options?.body?.action === "request") return Promise.resolve({ data: verificationResponse(String(options.body.requestId)), error: null });
+      if (options?.body?.action === "confirm") return Promise.resolve((confirms += 1) < 3 ? stillPreparing() : { data: confirmedResponse(), error: null });
+      return Promise.resolve({ data: null, error: new Error("unexpected-call") });
+    });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    await confirmCode();
+    expect(await screen.findByText(/Your code is right. Your brief is being finished/)).toBeInTheDocument();
+    expect(screen.queryByText(CODE_NOT_ACCEPTED)).not.toBeInTheDocument();
+    await act(async () => { await vi.advanceTimersByTimeAsync(BRIEF_READY_RETRY_MS * 2 + 100); });
+    expect(await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." })).toBeInTheDocument();
+    expect(confirms).toBe(3);
+  });
+
+  it("offers a person when the brief behind a right code is never finished", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    invoke.mockImplementation((name: string, options?: { body?: Record<string, unknown> }) => {
+      if (name === "enrich-company") return Promise.resolve({ data: dossier, error: null });
+      if (options?.body?.action === "request") return Promise.resolve({ data: verificationResponse(String(options.body.requestId)), error: null });
+      if (options?.body?.action === "confirm") return Promise.resolve(stillPreparing());
+      return Promise.resolve({ data: null, error: new Error("unexpected-call") });
+    });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    await confirmCode();
+    await act(async () => { await vi.advanceTimersByTimeAsync(BRIEF_READY_RETRY_MS * BRIEF_READY_ATTEMPTS + 100); });
+    expect(await screen.findByText(BRIEF_NOT_READY)).toBeInTheDocument();
+    expect(screen.queryByText(CODE_NOT_ACCEPTED)).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ask a person to look at this/i })).toBeInTheDocument();
+    expect(invoke.mock.calls.filter(([, options]) => options?.body?.action === "confirm")).toHaveLength(BRIEF_READY_ATTEMPTS);
+  });
+
   it("rejects a publication interest the visitor did not request", async () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow(confirmedResponse({ publicationInterestRecorded: true }));
@@ -654,8 +705,6 @@ describe("Mindmake private brief journey", () => {
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachPreview();
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
-    expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
     await screen.findByRole("heading", { name: "Keep this. Your brief is ready." });
 
     const createObjectURL = vi.fn(() => "blob:mindmake-brief");
@@ -914,7 +963,6 @@ describe("the dialog's structure", () => {
       ".mm-company-read",
       ".mm-choice-grid",
       ".mm-capacity-grid",
-      ".mm-value-preview",
       ".mm-brief-result-grid",
       ".mm-folio-preview",
       ".mm-folio-instrument",
@@ -1005,52 +1053,39 @@ describe("the offer of a person under a personal address", () => {
 });
 
 /**
- * The door, and why the dialog sometimes asks for it.
+ * The door a way in names, and the one it names when it names none.
  *
- * `BriefRoute` is `home | brain | gtm` and each door has held its own four
- * pressure questions since the doors existed. Nothing on the homepage passed a
- * route, so every visitor who started there met `PRESSURES.default`, a generic
- * set belonging to neither door, and the difference the code was built to make
- * was never made. The homepage forks at the button now; everything that opens
- * this without a door asks here.
+ * Each door holds its own four pressure questions. Since S6 every way in that
+ * names no door reads "Start building your AI brain", so the brief opens at the
+ * AI brain's door rather than asking "Which one are you here for?" after that
+ * button (the owner, 2026-10-26: as few clicks as possible).
  */
 describe("the door", () => {
   afterEach(cleanup);
 
-  it("asks which one, when it was opened without one", () => {
+  it("opens at the AI brain's door when the way in names none", async () => {
+    invoke.mockResolvedValue({ data: dossier, error: null });
     render(<LeadBrief open onClose={() => undefined} />);
-    expect(screen.getByRole("heading", { name: "Which one are you here for?" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Build your AI brain/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Build your AI revenue engine/ })).toBeInTheDocument();
-  });
-
-  it("does not ask when the door is already known", () => {
-    render(<LeadBrief open onClose={() => undefined} route="brain" />);
     expect(screen.queryByRole("heading", { name: "Which one are you here for?" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Let’s get started." })).toBeInTheDocument();
+    await fillDetails();
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
+    await screen.findByRole("heading", { name: "This is what I can see so far." });
+    expect(screen.getByRole("button", { name: "Too much important context lives in my head" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Customers can now do more without us" })).not.toBeInTheDocument();
   });
 
-  it("shows that door's own four problems, not a generic set", async () => {
-    /* The whole point of asking. The brain door asks about a leader's own week
-       and the GTM door about what customers will pay for, and before this the
-       homepage offered neither. */
-    render(<LeadBrief open onClose={() => undefined} />);
-    fireEvent.click(screen.getByRole("button", { name: /Build your AI brain/ }));
-    await screen.findByRole("heading", { name: "Let’s get started." });
-
-    const source = readFileSync(resolve(__dirname, "../components/mindmake/LeadBrief.tsx"), "utf8");
-    const brain = source.slice(source.indexOf("  brain: ["), source.indexOf("  gtm: ["));
-    expect(brain).toContain("Too much important context lives in my head");
-    expect(brain).not.toContain("Customers can now do more without us");
-  });
-
-  it("puts the door in the path, so it can be gone back to", () => {
-    render(<LeadBrief open onClose={() => undefined} />);
-    expect(screen.getByRole("button", { name: "Door" })).toBeInTheDocument();
-  });
-
-  it("leaves the path alone when there was no door to pick", () => {
+  it("keeps the revenue engine's own door and four problems", async () => {
+    invoke.mockResolvedValue({ data: dossier, error: null });
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await fillDetails();
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
+    await screen.findByRole("heading", { name: "This is what I can see so far." });
+    expect(screen.getByRole("button", { name: "Customers can now do more without us" })).toBeInTheDocument();
+  });
+
+  it("has no door in the path, whichever way in opened it", () => {
+    render(<LeadBrief open onClose={() => undefined} />);
     expect(screen.queryByRole("button", { name: "Door" })).not.toBeInTheDocument();
   });
 });

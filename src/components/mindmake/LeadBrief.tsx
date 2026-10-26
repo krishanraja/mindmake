@@ -80,19 +80,16 @@ type Step = "door" | "company" | "profile" | "reading" | "pressure" | "capacity"
 type CompanyReadState = "idle" | "reading" | "ready" | "failed";
 
 /**
- * The two doors, and why the dialog sometimes has to ask.
+ * The door a way in names, and the one it names when it names none.
  *
- * Each door carries its own four pressure questions in `PRESSURES` below, and
- * until 1 September 2026 nothing on the homepage passed a route, so every
- * visitor who started there met `PRESSURES.default`, a generic set belonging
- * to neither door. The homepage now forks at the button. Everything else that
- * opens this without a door, the sticky bar, the menu, /case-studies and a
- * shared `?start=1` link, asks here instead, before the four details.
+ * Since S6 every button that opens this without a door (the homepage's menu
+ * and footer, the action bar on the shell's pages, a shared `?start=1` link)
+ * reads "Start building your AI brain", so it opens at the AI brain's door.
+ * Asking "Which one are you here for?" after that button contradicted it and
+ * cost a choice (the owner, 2026-10-26: as few clicks and as little
+ * brainpower as possible). `/ai-gtm` names its own door.
  */
-const DOOR_CHOICES: ReadonlyArray<{ route: BriefRoute; label: string; line: string }> = [
-  { route: "brain", label: "Build your AI brain", line: "An AI that knows your standards, your context and the decisions you have already made." },
-  { route: "gtm", label: "Build your AI revenue engine", line: "One part of how you sell, rebuilt: what you offer, what you charge, how you stand out, who sells." },
-];
+const doorFor = (route: BriefRoute): BriefRoute => (route === "home" ? "brain" : route);
 
 /* The dialog's tone arc: the question in the dark, the read on paper, the
    recommendation revealed on forest, the forms back on paper, and the
@@ -120,6 +117,21 @@ export const CODE_NOT_ACCEPTED =
   "That code was not accepted. Check the six digits and try again.";
 export const DELIVERY_NOT_CONFIRMED =
   "The code was accepted, but neither hand-off was confirmed. Download your copy and email us directly if you want it seen.";
+export const BRIEF_NOT_READY =
+  "Your code is right, but we could not finish your brief. Your copy is still on the previous step.";
+
+/* The code is sent before the company research behind the brief is finished,
+   so a code typed quickly can arrive first. The server says so (409,
+   `request_in_progress`, no attempt spent) and the code is asked about again
+   every two seconds for up to a minute. */
+export const BRIEF_READY_RETRY_MS = 2_000;
+export const BRIEF_READY_ATTEMPTS = 30;
+const stillPreparing = async (error: unknown) => {
+  const context = (error as { context?: unknown } | null)?.context;
+  if (!(context instanceof Response) || context.status !== 409) return false;
+  const body = await context.clone().json().catch(() => null) as { error?: unknown } | null;
+  return body?.error === "request_in_progress";
+};
 
 export const COMPANY_READ_TIMEOUT_MS = 10_000;
 export const BRIEF_BLOB_REVOKE_DELAY_MS = 1_000;
@@ -341,8 +353,8 @@ const readableText = (value: unknown): string => {
 export function LeadBrief({ open, onClose, route = "home", presentation = "modal", initialDomain, initialEmail, initialContext, onConfirmed, visitor, journeyKey }: LeadBriefProps) {
   /* Opened without a door, the first thing to settle is which one. Given one,
      that question has an obvious answer and asking it would be furniture. */
-  const [step, setStep] = useState<Step>(route === "home" ? "door" : "company");
-  const [door, setDoor] = useState<BriefRoute>(route);
+  const [step, setStep] = useState<Step>("company");
+  const [door, setDoor] = useState<BriefRoute>(doorFor(route));
   /* What this dialog collected itself. On /ai-gtm the page has already asked,
      and hands them in through `visitor`; opened cold from the homepage or the
      archive there is nobody upstream, so it asks and keeps them here. Either
@@ -370,7 +382,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const [previewCompact, setPreviewCompact] = useState(false);
   const [timeEditorOpen, setTimeEditorOpen] = useState(false);
   const [timeDraft, setTimeDraft] = useState("");
-  const [keepConfirmOpen, setKeepConfirmOpen] = useState(false);
   const [previewAnnouncement, setPreviewAnnouncement] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
@@ -378,6 +389,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const [stepAnnouncement, setStepAnnouncement] = useState("");
   const [newsletter, setNewsletter] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  /* A right code waiting for the brief behind it to finish (BRIEF_READY_*). */
+  const [finishingBrief, setFinishingBrief] = useState(false);
   const [handoffResult, setHandoffResult] = useState<MindmakeConfirmedResponseV2 | null>(null);
   const [researchIssue, setResearchIssue] = useState("");
   const [error, setError] = useState("");
@@ -390,8 +403,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const stepHeadingRef = useRef<HTMLHeadingElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
-  const choiceActionRef = useRef<HTMLButtonElement>(null);
-  const revealChoiceActionRef = useRef(false);
   const lastAutoSubmittedRef = useRef("");
   const firstDivisionRef = useRef<HTMLButtonElement>(null);
   const divisionSelectRef = useRef<HTMLSelectElement>(null);
@@ -450,8 +461,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     researchAbortRef.current = null;
     handoffAbortRef.current?.abort();
     handoffAbortRef.current = null;
-    setStep(route === "home" ? "door" : "company");
-    setDoor(route);
+    setStep("company");
+    setDoor(doorFor(route));
     setCollected(null);
     setFirstName("");
     setLastName("");
@@ -471,7 +482,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setPreviewLeaf(0);
     setTimeEditorOpen(false);
     setTimeDraft("");
-    setKeepConfirmOpen(false);
     setPreviewAnnouncement("");
     setEmail("");
     setVerificationCode("");
@@ -554,9 +564,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
           email?: string; researchIssue?: string;
         };
         if (typeof draft.savedAt === "number" && Date.now() - draft.savedAt < 2 * 60 * 60 * 1000) {
-          const restoredStep = draft.step === "reading" ? "profile" : draft.step === "verify" ? "contact" : draft.step;
+          const restoredStep = draft.step === "reading" ? "profile" : draft.step === "verify" ? "contact" : draft.step === "door" ? "company" : draft.step;
           if (restoredStep && restoredStep !== "success") setStep(restoredStep);
-          if (draft.door) setDoor(draft.door);
+          if (draft.door) setDoor(doorFor(draft.door));
           setCollected(draft.collected ?? null);
           setFirstName(draft.firstName ?? "");
           setLastName(draft.lastName ?? "");
@@ -613,12 +623,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
           previewReturnFocusRef.current?.focus({ preventScroll: true });
           return;
         }
-        if (keepConfirmOpen) {
-          event.preventDefault();
-          setKeepConfirmOpen(false);
-          previewReturnFocusRef.current?.focus({ preventScroll: true });
-          return;
-        }
         onClose();
       }
       if (event.key !== "Tab" || !panelRef.current) return;
@@ -635,7 +639,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [keepConfirmOpen, onClose, open, timeEditorOpen]);
+  }, [onClose, open, timeEditorOpen]);
 
   useEffect(() => {
     if (!open || step !== "preview" || typeof window.matchMedia !== "function") return;
@@ -650,11 +654,11 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     if (!open || step !== "preview") return;
     const instrument = previewInstrumentRef.current;
     if (!instrument) return;
-    instrument.inert = timeEditorOpen || keepConfirmOpen;
-    if (timeEditorOpen || keepConfirmOpen) instrument.setAttribute("aria-hidden", "true");
+    instrument.inert = timeEditorOpen;
+    if (timeEditorOpen) instrument.setAttribute("aria-hidden", "true");
     else instrument.removeAttribute("aria-hidden");
-    if (!timeEditorOpen && !keepConfirmOpen) return;
-    const overlay = panelRef.current?.querySelector<HTMLElement>(timeEditorOpen ? ".mm-folio-time-panel" : ".mm-folio-keep-panel");
+    if (!timeEditorOpen) return;
+    const overlay = panelRef.current?.querySelector<HTMLElement>(".mm-folio-time-panel");
     const firstFrame = window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => overlay?.querySelector<HTMLElement>("input:checked, button")?.focus({ preventScroll: true }));
     });
@@ -663,7 +667,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       instrument.inert = false;
       instrument.removeAttribute("aria-hidden");
     };
-  }, [keepConfirmOpen, open, step, timeEditorOpen]);
+  }, [open, step, timeEditorOpen]);
 
   useEffect(() => {
     if (!open || step !== "preview") return;
@@ -724,23 +728,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   /* The backdrop is sized and placed from the visible viewport, and the
      panel scrolls a focused field above the keyboard. */
   useKeyboardSafeViewport({ open, host: backdropRef, scroller: panelRef, prefix: "--mm-brief", chrome: BRIEF_CHROME });
-
-  /* On a phone the action under a choice often starts below the fold, and a
-     tap that seems to do nothing reads as broken. After a choice made by
-     touch, the panel moves just far enough to show it. */
-  useEffect(() => {
-    if (!revealChoiceActionRef.current) return;
-    revealChoiceActionRef.current = false;
-    const panel = panelRef.current;
-    const action = choiceActionRef.current;
-    if (!panel || !action) return;
-    const frame = window.requestAnimationFrame(() => revealWithinScroller(panel, [action], [], BRIEF_CHROME));
-    return () => window.cancelAnimationFrame(frame);
-  }, [capacity, pressure]);
-
-  const noteChoiceByTouch = () => {
-    if (usesCoarseInteraction()) revealChoiceActionRef.current = true;
-  };
 
   /* What the offer of a person needs, when the page collected it before opening
      this. The address is the one typed in here rather than the one the page
@@ -964,11 +951,16 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setSubmitting(true);
     try {
       const { supabase } = await import("@/integrations/supabase/client");
-      const { data, error: invokeError } = await supabase.functions.invoke("submit-mindmake-brief", {
-        body: request,
-        signal: controller.signal,
-      });
+      let reply = await supabase.functions.invoke("submit-mindmake-brief", { body: request, signal: controller.signal });
+      for (let attempt = 1; attempt < BRIEF_READY_ATTEMPTS && await stillPreparing(reply.error); attempt += 1) {
+        if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;
+        setFinishingBrief(true);
+        await new Promise((resolve) => window.setTimeout(resolve, BRIEF_READY_RETRY_MS));
+        reply = await supabase.functions.invoke("submit-mindmake-brief", { body: request, signal: controller.signal });
+      }
+      const { data, error: invokeError } = reply;
       if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;
+      if (await stillPreparing(invokeError)) throw new Error("brief-not-ready");
       if (invokeError || !isMindmakeBriefResponseV2(data) || data.status !== "confirmed") {
         throw invokeError || new Error("confirmation-not-complete");
       }
@@ -990,14 +982,17 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       setHandoffResult(null);
       const mismatch = caught instanceof Error && caught.message === "publication-choice-mismatch";
       const deliveryFailure = caught instanceof Error && caught.message === "delivery-not-confirmed";
+      const notReady = caught instanceof Error && caught.message === "brief-not-ready";
       setError(mismatch
         ? "The reply included a publication choice you did not make. Nothing is described as confirmed."
         : deliveryFailure
           ? DELIVERY_NOT_CONFIRMED
-          : CODE_NOT_ACCEPTED);
+          : notReady
+            ? BRIEF_NOT_READY
+            : CODE_NOT_ACCEPTED);
       if (deliveryFailure || mismatch) setStep("success");
     } finally {
-      if (journeyVersion === journeyVersionRef.current) setSubmitting(false);
+      if (journeyVersion === journeyVersionRef.current) { setSubmitting(false); setFinishingBrief(false); }
       if (handoffAbortRef.current === controller) handoffAbortRef.current = null;
     }
   };
@@ -1126,22 +1121,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setPreviewAnnouncement(`Time restored to ${previousCapacity}. The four guidance leaves are unchanged.`);
   };
 
-  const openKeepConfirmation = (trigger: HTMLElement) => {
-    previewReturnFocusRef.current = trigger;
-    setKeepConfirmOpen(true);
-  };
-
-  const closeKeepConfirmation = () => {
-    setKeepConfirmOpen(false);
-    restorePreviewPanelFocus();
-  };
-
-  const continueFromKeepConfirmation = () => {
-    setKeepConfirmOpen(false);
-    setPreviewAnnouncement("Email verification is next. Nothing has been sent.");
-    keepBrief();
-  };
-
   const downloadBrief = () => {
     const downloadContent = {
       ...brief,
@@ -1166,7 +1145,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   /* The functional progress path: every rendered segment is a working
      control naming a stage the visitor can return to. */
   const pathStages: Array<{ label: string; target: Step; steps: Step[] }> = [
-    ...(route === "home" ? [{ label: "Door", target: "door" as Step, steps: ["door"] as Step[] }] : []),
     { label: "Company", target: "company", steps: ["company"] },
     { label: "You", target: "profile", steps: ["profile", "reading"] },
     { label: "Problem", target: "pressure", steps: ["pressure"] },
@@ -1241,25 +1219,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
           ))}
         </nav>
 
-        {step === "door" && (
-          <section className="mm-brief-step is-door">
-            <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which one are you here for?</h2>
-            <p>Both end in the same piece of work, and you can cross to the other later.</p>
-            <div className="mm-door-pick" role="group" aria-label="Which one are you here for?">
-              {DOOR_CHOICES.map((choice) => (
-                <button
-                  className="mm-door-choice"
-                  type="button"
-                  key={choice.route}
-                  onClick={() => { setDoor(choice.route); setStep("company"); }}
-                >
-                  <b>{choice.label}</b>
-                  <span>{choice.line}</span>
-                </button>
-              ))}
-            </div>
-          </section>
-        )}
 
         {step === "company" && (
           <section className="mm-brief-step mm-brief-start-step is-company">
@@ -1460,7 +1419,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                         key={item.id}
                         type="button"
                         aria-pressed={tailoredChoice?.id === item.id}
-                        onClick={() => { noteChoiceByTouch(); setTailoredChoice(item); setPressure(item.label); }}
+                        onClick={() => { setTailoredChoice(item); setPressure(item.label); setStep("capacity"); }}
                       >
                         {item.label}
                       </button>
@@ -1475,7 +1434,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                       key={item}
                       type="button"
                       aria-pressed={!tailoredChoice && pressure === item}
-                      onClick={() => { noteChoiceByTouch(); setPressure(item); setTailoredChoice(null); }}
+                      onClick={() => { setPressure(item); setTailoredChoice(null); setStep("capacity"); }}
                     >
                       {item}
                     </button>
@@ -1483,7 +1442,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 </div>
               )}
             </fieldset>
-            <button ref={choiceActionRef} className="mm-button" type="button" disabled={!pressure} onClick={() => setStep("capacity")}>Use this problem <span aria-hidden="true">→</span></button>
           </section>
         )}
 
@@ -1493,23 +1451,21 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">If you got more of your best time back, where would you put it?</h2>
             <div className="mm-choice-grid mm-capacity-grid">
               {CAPACITY_CHOICES.map((item) => (
-                <button key={item} type="button" aria-pressed={capacity === item} onClick={() => { noteChoiceByTouch(); setCapacity(item); }}>{item}</button>
+                <button
+                  key={item}
+                  type="button"
+                  aria-pressed={capacity === item}
+                  onClick={() => {
+                    setCapacity(item);
+                    setPreviewLeaf(0);
+                    setPreviousCapacity(null);
+                    setStep("preview");
+                  }}
+                >
+                  {item}
+                </button>
               ))}
             </div>
-            {capacity && <p className="mm-value-preview" aria-live="polite"><strong>What that time could buy</strong>{timeValue}</p>}
-            <button
-              ref={choiceActionRef}
-              className="mm-button"
-              type="button"
-              disabled={!capacity}
-              onClick={() => {
-                setPreviewLeaf(0);
-                setPreviousCapacity(null);
-                setStep("preview");
-              }}
-            >
-              Show me the recommendation <span aria-hidden="true">→</span>
-            </button>
           </section>
         )}
 
@@ -1557,7 +1513,29 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                     <p>Private starting brief</p>
                     <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Two parts of the work are now clear.</h2>
                   </div>
-                  <span className="mm-folio-leaf-count" aria-live="polite"><b>{previewLeaf + 1}</b> of 4</span>
+                  {/* On a phone the leaves turn here, beside the count, so the
+                      footer keeps one action: keeping the brief. */}
+                  <div className="mm-folio-leaf-nav">
+                    <button
+                      className="mm-folio-back-leaf"
+                      type="button"
+                      aria-label="Previous leaf"
+                      hidden={!previewCompact || previewLeaf === 0}
+                      onClick={() => movePreviewLeaf(previewLeaf - 1, true)}
+                    >
+                      <span aria-hidden="true">←</span>
+                    </button>
+                    <span className="mm-folio-leaf-count" aria-live="polite"><b>{previewLeaf + 1}</b> of 4</span>
+                    <button
+                      className="mm-folio-back-leaf mm-folio-next-leaf"
+                      type="button"
+                      aria-label="Next leaf"
+                      hidden={!previewCompact || previewLeaf === 3}
+                      onClick={() => movePreviewLeaf(previewLeaf + 1, true)}
+                    >
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
                 </header>
 
                 <div
@@ -1588,23 +1566,11 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 </div>
 
                 <footer className="mm-folio-actions">
-                  <button
-                    className="mm-folio-back-leaf"
-                    type="button"
-                    hidden={!previewCompact || previewLeaf === 0}
-                    onClick={() => movePreviewLeaf(previewLeaf - 1, true)}
-                  >
-                    ← Previous
-                  </button>
-                  <button
-                    className="mm-button mm-folio-primary"
-                    type="button"
-                    onClick={(event) => {
-                      if (previewCompact && previewLeaf < 3) movePreviewLeaf(previewLeaf + 1, true);
-                      else openKeepConfirmation(event.currentTarget);
-                    }}
-                  >
-                    {previewCompact && previewLeaf < 3 ? "Next leaf" : "Keep the private brief"} <span aria-hidden="true">→</span>
+                  {/* Kept from any leaf, and straight to the address: the
+                      email step already says a code comes first and that
+                      nothing is sent until it is confirmed. */}
+                  <button className="mm-button mm-folio-primary" type="button" onClick={keepBrief}>
+                    Keep the private brief <span aria-hidden="true">→</span>
                   </button>
                   <p>This is a useful first view, not a promise or final answer.</p>
                 </footer>
@@ -1637,21 +1603,6 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                   <footer>
                     <button className="mm-folio-quiet" type="button" onClick={closeTimeEditor}>Keep current time</button>
                     <button className="mm-button" type="button" onClick={commitTime}>Use this time <span aria-hidden="true">→</span></button>
-                  </footer>
-                </div>
-              </section>
-            )}
-
-            {keepConfirmOpen && (
-              <section className="mm-folio-panel mm-folio-keep-panel" role="dialog" aria-modal="true" aria-labelledby="mm-folio-keep-title">
-                <div className="mm-folio-panel-surface mm-folio-keep-surface">
-                  <p className="mm-folio-panel-kicker">Keep this brief</p>
-                  <h2 id="mm-folio-keep-title">Email verification is next.</h2>
-                  <strong>Nothing has been sent.</strong>
-                  <p>Your brief stays here until you choose to continue.</p>
-                  <footer>
-                    <button autoFocus className="mm-folio-quiet" type="button" onClick={closeKeepConfirmation}>Not now</button>
-                    <button className="mm-button" type="button" onClick={continueFromKeepConfirmation}>Continue <span aria-hidden="true">→</span></button>
                   </footer>
                 </div>
               </section>
@@ -1744,12 +1695,18 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 aria-describedby={error ? "mm-verification-code-error" : undefined}
               />
               {error && <p id="mm-verification-code-error" className="mm-form-error" role="alert">{error}</p>}
-              <button className="mm-button" type="submit" disabled={submitting}>{submitting ? "Checking the code..." : "Send my private brief"} <span aria-hidden="true">→</span></button>
+              <button className="mm-button" type="submit" disabled={submitting}>{finishingBrief ? "Finishing your brief..." : submitting ? "Checking the code..." : "Send my private brief"} <span aria-hidden="true">→</span></button>
+              {finishingBrief && <p className="mm-honesty-note" role="status">Your code is right. Your brief is being finished; this takes a few seconds.</p>}
             </form>
             <button className="mm-text-button" type="button" disabled={submitting} onClick={resendVerification}>{submitting ? "Sending a new code..." : "Send a new code"}</button>
             {codeResent && <p className="mm-honesty-note" role="status">A new code is on its way.</p>}
             {error === CODE_NOT_ACCEPTED && (
               <HumanHandoff reason="code-not-accepted" details={handoffDetails} asTrigger />
+            )}
+            {/* The research behind the brief failed after the code went out:
+                "something broke at our end" is the honest offer. */}
+            {error === BRIEF_NOT_READY && (
+              <HumanHandoff reason="read-failed" details={handoffDetails} asTrigger />
             )}
             <small>The full brief goes to this verified address. We receive the same context only after the code is confirmed.</small>
           </section>

@@ -12,23 +12,17 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 - Recoverable preceding release: dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8, mindmake-bh0d8hczk-krish-rajas-projects.vercel.app.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
-- Latest application release: PR #248, Krish's phone review of S6, merge
-  `8266c5f` on 26 October 2026 at 13:04 UTC on Krish's approval of the rendered
-  pages ("Approved. Merge #248 and read production back."), production
-  deployment mindmake-j3m375x51-krish-rajas-projects.vercel.app. Rollback: the
-  preceding production, `ab30417`, mindmake-kghtq55jv-krish-rajas-projects.vercel.app.
-  Read back the same day against https://mindmake.co: the homepage serves the
-  eras and practice carousels, seven picture cards and the masthead Subscribe,
-  and every shell page its Subscribe; the brief opens "Let’s get started.",
-  "Get building" and its subscribe line from the homepage, `/ai-brain` and
-  `/ai-gtm`; the Chromium homepage check passed 10 of 10 cases at 1440, 1280,
-  390, 360 and 412x741; `qa:card-contrast` passed all 149 lines (worst 5.26:1);
-  `qa:line-breaks` passed all 36 indexed pages at four sizes, clicking every
-  swapping control and both carousels. Main's post-merge route lock passed its
-  source job and its Linux Chromium leg on `ubuntu-24.04` (PR #246's pin, and
-  this release's corrected `qa:new-age-r5-production`), the first full Linux
-  Chromium pass since `7f13d4e`. The 26-route and 32-asset receipt below is
-  still the 24 September one.
+- Latest application release: PR #250, the brief in fewer clicks, merge
+  `6b86220` on 26 October 2026 at 14:25 UTC on Krish's approval ("Approved.
+  Merge #250, deploy the brief function, and read both back."), production
+  deployment mindmake-8wmgynped-krish-rajas-projects.vercel.app. Rollback: the
+  preceding production, `11a7f96`, mindmake-eo1t2wtqp-krish-rajas-projects.vercel.app.
+  Read back the same day on https://mindmake.co: from the homepage hero, the
+  footer and `/ai-gtm` on a phone the brief reaches "Check your email." in 8
+  clicks (11 on desktop and 14 on a phone before), with no door question, a
+  choice that moves on, and "Keep the private brief" straight to the address.
+  The brief function was deployed with it (Backend, below). The 26-route and
+  32-asset receipt below is still the 24 September one.
 
 Since S6 (24 October 2026) the homepage carries the R3 opening, with the way in
 and a publication line, then three sections (the problem with the four eras as
@@ -85,16 +79,28 @@ not changed. Technical eligibility is not evidence of indexing or AI citation.
 
 ## Backend
 
-Project bkyuxvschuwngtcdhsyg. Versions read back 24 September:
+Project bkyuxvschuwngtcdhsyg. Versions read back 26 October 2026 with the
+Supabase CLI (`functions list`); only `submit-mindmake-brief` was deployed that
+day, and its source was read back and matches main file for file:
 
 | Function | Version | JWT | Scope |
 |---|---|---|---|
-| enrich-company | 44 | on | Domain-bound, corroborated literal company evidence |
-| submit-mindmake-brief | 21 | off | Verified brief, visitor/operator delivery, truthful day-14 disclosure/enqueue |
-| mindmake-personal-read | 25 | off | Retained personal read and human handoff |
-| get-ai-news | 70 | off | Retained cache API; not redeployed by this release |
-| send-follow-ups | 5 | off | Cron sender; not invoked in release testing |
-| aa-price-snapshot | 3 | off | Daily price recorder; not redeployed |
+| enrich-company | 45 | on | Domain-bound, corroborated literal company evidence |
+| submit-mindmake-brief | 23 | off | Verified brief, visitor/operator delivery, truthful day-14 disclosure/enqueue; sends the code before the company research behind the brief (26 October 2026) |
+| mindmake-personal-read | 26 | off | Retained personal read and human handoff |
+| get-ai-news | 71 | off | Retained cache API |
+| send-follow-ups | 6 | off | Cron sender; not invoked in release testing |
+| aa-price-snapshot | 4 | off | Daily price recorder |
+
+`submit-mindmake-brief` v23 was deployed from main `6b86220` on 26 October 2026
+on Krish's approval ("Approved. Merge #250, deploy the brief function, and read
+both back."). Before it, v22 matched main `11a7f96` file for file, which is the
+rollback: deploy the function from that commit. Read back the same day on
+https://mindmake.co: "Send the code" answered in 2.5 s on desktop and 1.5 s on a
+phone (34.6 s before), the code reached the designated inbox, and the same
+request replayed 45 s later answered `verification_required` without a new
+email (assembly no longer in progress and not failed). A code confirmed by a
+person after this deploy is the remaining end-to-end proof.
 
 The owned themindmaker.ai alias maps to mindmake.co for research/signatures
 only, never recipients. Arbitrary redirects and lookalikes are not trusted.

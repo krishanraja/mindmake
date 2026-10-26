@@ -7,6 +7,17 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-26
 
+- The brief in fewer clicks shipped (PR #250, merge `6b86220`, 14:25 UTC) with
+  `submit-mindmake-brief` v23: 8 clicks to the code from the homepage hero
+  (11 on desktop, 14 on a phone before), and the code sent before the company
+  research (2.5 s, was 34.6 s). From Krish's live test of every call to action
+  that day; ledger row `BRIEF-CLICKS-001`.
+- Superseded in `06_CURRENT_STATE.md` by that release: PR #248, Krish's phone review of S6, merge `8266c5f` on 26 October 2026 at 13:04 UTC on Krish's approval of the rendered pages ("Approved. Merge #248 and read production back."), production deployment mindmake-j3m375x51-krish-rajas-projects.vercel.app. Rollback: the preceding production, `ab30417`, mindmake-kghtq55jv-krish-rajas-projects.vercel.app. Read back the same day against https://mindmake.co: the homepage serves the eras and practice carousels, seven picture cards and the masthead Subscribe, and every shell page its Subscribe; the brief opens "Let’s get started.", "Get building" and its subscribe line from the homepage, `/ai-brain` and `/ai-gtm`; the Chromium homepage check passed 10 of 10 cases at 1440, 1280, 390, 360 and 412x741; `qa:card-contrast` passed all 149 lines (worst 5.26:1); `qa:line-breaks` passed all 36 indexed pages at four sizes, clicking every swapping control and both carousels. Main's post-merge route lock passed its source job and its Linux Chromium leg on `ubuntu-24.04` (PR #246's pin, and this release's corrected `qa:new-age-r5-production`), the first full Linux Chromium pass since `7f13d4e`. The 26-route and 32-asset receipt below is still the 24 September one.
+- Superseded backend table (read back 24 September): enrich-company 44,
+  submit-mindmake-brief 21, mindmake-personal-read 25, get-ai-news 70,
+  send-follow-ups 5, aa-price-snapshot 3. By 26 October before this deploy
+  they were 45, 22, 26, 71, 6 and 4.
+
 - Krish's phone review of S6 shipped (PR #248, merge `8266c5f`, 13:04 UTC): the
   opening grows to fit, the eras and practice scenes are carousels, the eras and
   results sit on their pictures under measured contrast, Subscribe sits beside

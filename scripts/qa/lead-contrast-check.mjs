@@ -365,7 +365,7 @@ try {
       await snapshot(page, label, "company");
 
       await dialog.locator("#mm-company-email").fill("anya@gmail.com");
-      await dialog.getByRole("button", { name: /read the business/i }).click();
+      await dialog.getByRole("button", { name: /get building/i }).click();
       await dialog.locator(".mm-form-error").waitFor();
       await snapshot(page, label, "company-personal-email-error");
       await dialog.locator(".mm-handoff-trigger").click();
@@ -378,7 +378,7 @@ try {
       await snapshot(page, label, "company-handoff-form-error");
 
       await dialog.locator("#mm-company-email").fill("anya.divekar@peldonrose.com");
-      await dialog.getByRole("button", { name: /read the business/i }).click();
+      await dialog.getByRole("button", { name: /get building/i }).click();
       await dialog.getByRole("heading", { name: "Who is this for?" }).waitFor();
       await snapshot(page, label, "profile");
       await dialog.getByRole("button", { name: /see the company read/i }).click();

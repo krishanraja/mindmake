@@ -404,10 +404,10 @@ for (const viewport of viewports) {
   const companyLines = await visualLines(page.locator("#mm-brief-title"));
   checkFlow(viewport.name, "company question", companyLines, 4);
   await page.screenshot({ path: `${output}/${viewport.name}-drawer-company.png`, fullPage: false });
-  await page.locator('button:has-text("Read the business")').click();
+  await page.locator('button:has-text("Get building")').click();
   fail(!(await page.locator("#mm-company-email-error").isVisible()), `${viewport.name}: empty work email has no visible validation`);
   await page.locator("#mm-company-email").fill("founder@example.com");
-  await page.locator('button:has-text("Read the business")').click();
+  await page.locator('button:has-text("Get building")').click();
   await page.getByRole("heading", { name: "Who is this for?" }).waitFor();
   await page.waitForTimeout(500);
   fail(companyReadRequests !== 1, `${viewport.name}: company read did not start before personal details`);

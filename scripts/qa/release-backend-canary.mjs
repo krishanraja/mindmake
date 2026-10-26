@@ -41,7 +41,7 @@ try {
   await workEmail.fill(researchOnly ? 'release@mindmake.co' : 'krish@themindmaker.ai');
   if (combinedEntry) await fillProfile();
   const companyResponse = page.waitForResponse(response => response.url().includes('/functions/v1/enrich-company'), { timeout: 45000 });
-  await dialog.getByRole('button', { name: /Read the business/ }).click();
+  await dialog.getByRole('button', { name: /Get building/ }).click();
   if (!combinedEntry) {
     await dialog.getByLabel('First name', { exact: true }).waitFor({ state: 'visible', timeout: 15000 });
     await fillProfile();

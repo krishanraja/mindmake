@@ -44,21 +44,142 @@
 .mm-homepage-release .hs-subtitle em,
 .mm-homepage-release .hs-close em { color: var(--hs-mint); font-style: italic; }
 
-/* 1. We have been here before: four tiles that turn in place. */
-.mm-homepage-release .hs-eras {
+/* Carousels (Krish, 2026-10-24: "a carousel, which the user obviously knows
+   they have to scroll through, time left to right"). A row that swipes, runs
+   to the screen's edge so the next card shows, and snaps a card to the start.
+   Under it, the arrows and the stops it moves through, lit as they come into
+   view. The page scrolls down; only the row scrolls across. */
+.mm-homepage-release .hs-rail { display: grid; gap: 18px; min-width: 0; }
+.mm-homepage-release [data-hs-rail-track] {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-auto-flow: column;
+  margin: 0 calc(var(--hs-edge) * -1);
+  padding: 0 var(--hs-edge) 4px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--hs-edge);
+  scrollbar-width: none;
+}
+.mm-homepage-release [data-hs-rail-track]::-webkit-scrollbar { display: none; }
+.mm-homepage-release [data-hs-rail-track] > li { scroll-snap-align: start; }
+.mm-homepage-release [data-hs-rail-track]:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: -2px; }
+.mm-homepage-release .hs-rail-nav {
+  --hs-rail-ink: var(--hs-cream);
+  --hs-rail-dim: rgba(234, 223, 200, .42);
+  --hs-rail-lit: var(--hs-mint);
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 12px;
+  max-width: 620px;
+}
+.mm-homepage-release .hs-rail-step {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--hs-rail-dim);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--hs-rail-ink);
+  font: 400 18px / 1 var(--r3-sans);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-homepage-release .hs-rail-step:not(:disabled):hover { border-color: var(--hs-rail-lit); color: var(--hs-rail-lit); }
+.mm-homepage-release .hs-rail-step:disabled { opacity: .35; cursor: default; }
+.mm-homepage-release .hs-rail-step:focus-visible,
+.mm-homepage-release .hs-rail-stops button:focus-visible { outline: 2px solid var(--hs-rail-lit); outline-offset: 2px; }
+/* The stops sit on a line that fills from the left as the row moves right. */
+.mm-homepage-release .hs-rail-stops {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--hs-stops), minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
 }
+.mm-homepage-release .hs-rail-stops::before,
+.mm-homepage-release .hs-rail-stops::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  height: 1px;
+  background: var(--hs-rail-dim);
+}
+.mm-homepage-release .hs-rail-stops::before { right: 0; }
+.mm-homepage-release .hs-rail-stops::after {
+  width: calc(var(--hs-progress, 0) * 100%);
+  background: var(--hs-rail-lit);
+  transition: width .2s ease;
+}
+.mm-homepage-release .hs-rail-stops button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  min-height: 44px;
+  justify-items: start;
+  align-content: start;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--hs-rail-dim);
+  font: 400 12px / 1.2 var(--r3-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-homepage-release .hs-rail-stops button::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-top: 3px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: var(--hs-rail-ground, var(--hs-ink));
+}
+.mm-homepage-release .hs-rail-stops button.is-seen { color: var(--hs-rail-ink); }
+.mm-homepage-release .hs-rail-stops button[aria-current="true"] { color: var(--hs-rail-lit); }
+.mm-homepage-release .hs-rail-stops button[aria-current="true"]::before { background: currentColor; }
+
+/* A card on its picture. The picture lies behind the card's ink and shows
+   most in the band at the top, where no text sits; from the text down the ink
+   is never thinner than 90%, so a word keeps its contrast whatever the
+   picture holds. A label in the band sits on its own ink. The contrasts are
+   measured on the rendered cards (qa:card-contrast). */
+.mm-homepage-release .hs-card-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.85);
+}
+
+/* 1. We have been here before: four eras on their pictures, oldest first,
+   that turn in place. */
+.mm-homepage-release .hs-eras { grid-auto-columns: min(84%, 340px); gap: 12px; }
 .mm-homepage-release .hs-eras > li { display: grid; min-width: 0; }
 .mm-homepage-release .hs-era {
+  --hs-band: 150px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(calc(var(--hs-band) - 52px), 1fr) auto auto;
   gap: 14px;
   min-width: 0;
+  min-height: 400px;
   padding: 18px;
   border: 1px solid var(--hs-line);
   background: var(--hs-ink-2);
@@ -66,20 +187,36 @@
   text-align: left;
   cursor: pointer;
   touch-action: manipulation;
-  transition: border-color .2s ease, background-color .2s ease;
+  transition: border-color .2s ease;
+}
+/* The words stand at the tile's foot, so the ink thickens from the foot up:
+   at least 90% for the 240px that the longest answer, its label and the
+   mark can take at the narrowest tile, then thinning to let the picture show
+   above them. */
+.mm-homepage-release .hs-era::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(0deg, rgba(13, 28, 22, .93) 0, rgba(13, 28, 22, .9) 240px, rgba(13, 28, 22, .55) 310px, rgba(13, 28, 22, .4) 100%);
 }
 .mm-homepage-release .hs-era:hover { border-color: var(--hs-mint); }
 .mm-homepage-release .hs-era:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
-.mm-homepage-release .hs-era[aria-pressed="true"] { border-color: var(--hs-mint); background: #12251c; }
+.mm-homepage-release .hs-era[aria-pressed="true"] { border-color: var(--hs-mint); }
 .mm-homepage-release .hs-era-when {
+  justify-self: start;
+  padding: 6px 9px;
+  background: rgba(6, 17, 13, .9);
   color: var(--hs-mint);
   font: 400 12px / 1.2 var(--r3-mono);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
+.mm-homepage-release .hs-era-faces { grid-row: 3; }
+.mm-homepage-release .hs-era-mark { grid-row: 4; }
 /* Question and answer share one cell, so a tile is always the size of the
    longer of the two and turning it moves nothing. */
-.mm-homepage-release .hs-era-faces { display: grid; min-width: 0; }
+.mm-homepage-release .hs-era-faces { display: grid; align-self: end; min-width: 0; }
 .mm-homepage-release .hs-era-q,
 .mm-homepage-release .hs-era-a { grid-area: 1 / 1; min-width: 0; transition: opacity .25s ease; }
 .mm-homepage-release .hs-era-q { font: 400 clamp(18px, 1.5vw, 22px) / 1.25 var(--r3-serif); }
@@ -146,14 +283,16 @@
   letter-spacing: .12em;
   text-transform: uppercase;
 }
+.mm-homepage-release .hs-how .hs-rail-nav {
+  --hs-rail-ink: var(--hs-paper-ink);
+  --hs-rail-dim: rgba(19, 34, 26, .5);
+  --hs-rail-lit: var(--hs-mint-d);
+  --hs-rail-ground: var(--hs-paper);
+}
 .mm-homepage-release .hs-trio {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: auto;
+  grid-template-rows: repeat(4, auto);
+  grid-auto-columns: min(84%, 400px);
   column-gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 .mm-homepage-release .hs-trio > li {
   grid-row: span 4;
@@ -200,15 +339,26 @@
   list-style: none;
 }
 .mm-homepage-release .hs-proof > li {
+  --hs-band: 150px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   grid-row: span 3;
   display: grid;
   grid-template-rows: subgrid;
   row-gap: 14px;
   min-width: 0;
   margin-bottom: 12px;
-  padding: 20px;
+  padding: var(--hs-band) 20px 20px;
   border: 1px solid var(--hs-line);
   background: var(--hs-ink-2);
+}
+.mm-homepage-release .hs-proof > li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(13, 28, 22, .3) 0, rgba(13, 28, 22, .45) calc(var(--hs-band) - 60px), rgba(13, 28, 22, .9) calc(var(--hs-band) - 6px), rgba(13, 28, 22, .93) 100%);
 }
 .mm-homepage-release .hs-proof-story {
   margin: 0;
@@ -299,28 +449,66 @@
 }
 .mm-homepage-release :is(.hs-issue-title, .hs-issue-subscribe):hover { color: #9ff1c9; }
 
-/* Phones and tablets: their own composition. */
-@media (max-width: 1023px) {
-  .mm-homepage-release .hs-eras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* The opening is at least one screen tall and grows when its words need more
+   (Krish, 2026-10-24, on the phone: "a strange cutoff at the bottom of the
+   hero section"). R3 drew it as a frame exactly one screen tall that hid
+   whatever did not fit, so on a short screen the way in's line and the
+   publication line fell off its foot. The film and its wash fill the stage
+   whatever its height. */
+.mm-homepage-release .r3-opening > .r3-variant,
+.mm-homepage-release .r3-opening .r3-variant > .site-frame { height: auto; }
+.mm-homepage-release .r3-opening .preview-desktop .hero-stage,
+.mm-homepage-release .r3-opening .preview-mobile .hero-stage {
+  position: relative;
+  inset: auto !important;
+  margin-top: var(--masthead);
+  min-height: max(calc(100dvh - var(--masthead)), 614px);
 }
+.mm-homepage-release .r3-opening .hero-stage > .hero-copy { height: auto; min-height: inherit; }
+
+/* Subscribe, beside the menu (Krish, 2026-10-24: "add a subscribe button in
+   the top nav bar next to the hamburger"). */
+.mm-homepage-release .hs-subscribe {
+  position: relative;
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  margin: 0 24px 0 auto;
+  padding: 0 14px;
+  border: 1px solid rgba(157, 240, 200, .55);
+  border-radius: 2px;
+  color: #9df0c8;
+  font: 400 11px / 1 var(--r3-mono, "IBM Plex Mono", monospace);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mm-homepage-release .hs-subscribe::after { content: ""; position: absolute; inset: -5px -4px; }
+.mm-homepage-release .hs-subscribe:hover { border-color: #9df0c8; background: rgba(157, 240, 200, .1); }
+.mm-homepage-release .hs-subscribe:focus-visible { outline: 2px solid #eadfc8; outline-offset: 3px; }
+
+/* Phones and tablets: their own composition. */
 @media (max-width: 760px) {
-  .mm-homepage-release .hs-trio,
   .mm-homepage-release .hs-proof { grid-template-columns: minmax(0, 1fr); }
   .mm-homepage-release .hs-era { padding: 14px; }
   .mm-homepage-release .hs-era-q { font-size: 18px; }
   .mm-homepage-release .hs-era-a { font-size: 15px; }
 }
-@media (max-width: 380px) {
-  .mm-homepage-release .hs-eras { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-opening .preview-mobile .hero-stage { min-height: max(calc(100dvh - var(--masthead)), 504px); }
+  .mm-homepage-release .hs-subscribe { margin-right: 14px; }
 }
 
-/* Without script a tile cannot turn, so it shows both, one under the other. */
+/* Without script a tile cannot turn, so it shows both, one under the other,
+   and each carousel is a row to swipe without its controls. */
 @media (scripting: none) {
   .mm-homepage-release .hs-era-q,
   .mm-homepage-release .hs-era-a { grid-area: auto; visibility: visible; opacity: 1; }
   .mm-homepage-release .hs-era-faces { gap: 12px; }
-  .mm-homepage-release .hs-era-mark { display: none; }
+  .mm-homepage-release .hs-era-mark,
+  .mm-homepage-release .hs-rail-nav { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .mm-homepage-release :is(.hs-era, .hs-era-q, .hs-era-a, .hs-era-mark::before, .hs-era-mark::after, .hs-start-button) { transition: none; }
+  .mm-homepage-release :is(.hs-era, .hs-era-q, .hs-era-a, .hs-era-mark::before, .hs-era-mark::after, .hs-start-button, .hs-rail-stops::after) { transition: none; }
 }

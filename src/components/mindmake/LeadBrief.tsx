@@ -1272,8 +1272,12 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
             <div className="mm-brief-start-form">
               <div className="mm-brief-start-content">
                 {initialContext && <p className="mm-brief-carried-context"><span>Starting point</span>{initialContext}</p>}
-                <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which business should we read?</h2>
-                <p className="mm-brief-start-lede">Your work email tells us where to look. We read public company information while you answer the next question.</p>
+                {/* The owner, 2026-10-24: the first step "should say, 'Let's get
+                    started,' and something along the lines of, 'This will take
+                    you only a few minutes and will help us to scope out where
+                    you're at and what you need.'" */}
+                <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Let’s get started.</h2>
+                <p className="mm-brief-start-lede">This takes only a few minutes, and helps us scope out where you are and what you need.</p>
                 <form id="mm-company-form" className="mm-brief-company-form" onSubmit={submitCompany} noValidate>
                   <p className="mm-brief-entry-field">
                     <label htmlFor="mm-company-email">Work email</label>
@@ -1310,7 +1314,21 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 )}
               </div>
               <footer className="mm-brief-action-rail">
-                <button className="mm-button" data-mm-primary type="submit" form="mm-company-form">Read the business <span aria-hidden="true">→</span></button>
+                <button className="mm-button" data-mm-primary type="submit" form="mm-company-form">Get building <span aria-hidden="true">→</span></button>
+                {/* A reader not ready to go all the way can take the
+                    publication instead (the owner, 2026-10-24: "they might not
+                    want to go all the way"). */}
+                <p className="mm-brief-start-subscribe">
+                  <span>Not ready yet?</span>{" "}
+                  <a
+                    href={SUBSCRIBE_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => track("substack_click", { source: "brief_start" })}
+                  >
+                    Subscribe to Make Your Mind Up, free <span aria-hidden="true">↗</span>
+                  </a>
+                </p>
                 <p>No brief reaches our team until you confirm later. <a href="/privacy" target="_blank" rel="noreferrer">How we handle information</a>.</p>
               </footer>
             </div>

@@ -31,9 +31,11 @@ Wednesdays and **mind.the.gap** on Fridays.
   page (`PUBLICATION_URL` and `SUBSCRIBE_URL` in `src/lib/publicLinks.ts`;
   Krish, 26 September 2026). `/signal` and `/builder-economy` redirect there
   too.
-- Subscribing appears in four places: a badge beside Media in both menus, one
-  button in every footer, one line with a button in the brief's success step,
-  and one line at the foot of the homepage hero that names an issue ("From Make
+- Subscribing appears in six places: a badge beside Media in both menus, a
+  Subscribe button beside the menu in every masthead, one button in every
+  footer, one line under the brief's first button for a reader not ready to
+  build ("Not ready yet?"), one line with a button in the brief's success
+  step, and one line at the foot of the homepage hero that names an issue ("From Make
   Your Mind Up", read from the publication's feed at build time and never
   called "latest") beside "Get it free, three times a week" (S6, Krish,
   24 October 2026). There is no band, pop-up or modal.

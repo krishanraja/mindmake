@@ -122,6 +122,17 @@ export function MindmakeShell({
       <header className="mm-header">
         <div className="mm-container mm-nav">
           <MindmakeBrand />
+          {/* Subscribe beside the menu (the owner, 2026-10-24), as the homepage's
+              masthead has it. */}
+          <a
+            className="mm-nav-subscribe"
+            href={SUBSCRIBE_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => track("substack_click", { source: "masthead" })}
+          >
+            Subscribe
+          </a>
           <button
             ref={menuButtonRef}
             className="mm-menu-button"

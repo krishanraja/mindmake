@@ -29,6 +29,7 @@
     "qa:cards": "node scripts/qa/card-geometry-check.mjs",
     "qa:oneway": "node scripts/qa/one-way-in-check.mjs",
     "qa:line-breaks": "node scripts/qa/line-break-check.mjs",
+    "qa:card-contrast": "node scripts/qa/card-contrast-check.mjs",
     "qa:lead-keyboard": "node scripts/qa/lead-keyboard-check.mjs",
     "qa:lead-contrast": "node scripts/qa/lead-contrast-check.mjs",
     "qa:type-system": "node scripts/qa/type-system-check.mjs",

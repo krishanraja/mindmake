@@ -74,7 +74,7 @@ async function reachPreview(page, browserName, width, height) {
   const dialog = page.locator('.mm-brief-panel[role="dialog"]');
   await dialog.waitFor({ state: "visible" });
   await dialog.locator("#mm-company-email").fill("ada@example.com");
-  await dialog.getByRole("button", { name: /read the business/i }).click();
+  await dialog.getByRole("button", { name: /get building/i }).click();
   await dialog.getByRole("heading", { name: "Who is this for?" }).waitFor();
   await dialog.locator("#mm-first-name").fill("Ada");
   await dialog.locator("#mm-last-name").fill("Lovelace");

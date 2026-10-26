@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-26",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -1526,6 +1526,138 @@
       "evidence": [
         "scripts/qa/line-break-check.mjs",
         "src/styles/mindmake.css"
+      ]
+    },
+    {
+      "id": "S6P-01",
+      "exactFeedback": "There's now a strange cutoff at the bottom of the hero section on the homepage, below the \"Start building your AI brain\" button.",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "/",
+      "section": "Opening",
+      "device": "phone",
+      "element": "the foot of the hero",
+      "classification": "correction",
+      "requiredOutcome": "Everything the opening carries sits inside it at every size, including a short phone with its browser bars showing.",
+      "acceptanceTest": "The homepage check finds the opening's last line inside its foot at 1440x900, 1280x800, 390x844, 360x780 and 412x741; qa:line-breaks fails text cut off below a box that hides overflow.",
+      "status": "accepted",
+      "resolution": "The opening is at least one screen tall and grows when its words need more (homepageSections.css). On a 412x741 phone the publication line had ended 47px below R3's one-screen frame, which hid it. qa:line-breaks only measured text cut off across; it now measures down too, with a negative control. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/homepage-release-browser-check.mjs",
+        "scripts/qa/line-break-check.mjs"
+      ]
+    },
+    {
+      "id": "S6P-02",
+      "exactFeedback": "I think that the historical cards should have the imagery that was in the previous version in the background of the card, but faded enough that the text is all visible. Make sure you do color contrast checks, and then make these cards a carousel, which the user obviously knows they have to scroll through, time left to right.",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "/",
+      "section": "We've been here before.",
+      "device": "all",
+      "element": "the four eras",
+      "classification": "correction",
+      "requiredOutcome": "Each era sits on its picture from the old history chapter, faded so every word reads at AA or better, in a carousel a reader can see runs through time from left to right.",
+      "acceptanceTest": "qa:card-contrast passes on every line of both faces of every era at three sizes, with a negative control; the homepage check pages the carousel to the last era; qa:line-breaks sweeps it without a size change.",
+      "status": "accepted",
+      "resolution": "Four tiles on the history-*-s2 pictures in a row that swipes and snaps, the next tile showing at the edge; under it arrows and a timeline (370 BC, 1675, 1970s, 2000s) that lights each stop as its tile comes into view and fills as the row moves. The date sits on its own ink; the words at the foot sit on ink of at least 90%. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/card-contrast-check.mjs"
+      ]
+    },
+    {
+      "id": "S6P-03",
+      "exactFeedback": "Make it notice what changed. Screenshot cards: a carousel that's swiped left to right as well. Make it obvious for the user.",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "/",
+      "section": "When built right, AI is our biggest level-up.",
+      "device": "all",
+      "element": "the three practice scenes",
+      "classification": "correction",
+      "requiredOutcome": "The three practice scenes are a carousel a reader can see swipes left to right.",
+      "acceptanceTest": "qa:line-breaks sweeps the scene carousel to its end wherever its row is wider than the screen.",
+      "status": "accepted",
+      "resolution": "The scenes run in a row of their own with arrows and a timeline (Notice, Connect, Prepare); where all three fit, the controls keep their room unseen. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css"
+      ]
+    },
+    {
+      "id": "S6P-04",
+      "exactFeedback": "In the cards with a CEO who hates writing, etc., again, make those the background of those cards: the images that used to be there, but again, faded enough that you've done your color contrast checks and it's still really legible and stylish.",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "/",
+      "section": "Built on your real work. Yours to keep.",
+      "device": "all",
+      "element": "the three results",
+      "classification": "correction",
+      "requiredOutcome": "Each result sits on its story's own picture, faded so every word reads at AA or better.",
+      "acceptanceTest": "qa:card-contrast passes on every line of the three results at three sizes (worst 5.26:1, the CRO's attribution, against 4.5:1).",
+      "status": "accepted",
+      "resolution": "The founder's pantograph, the CEO's proofing press and the CRO's punched cards, each the scene of that story on /ai-brain (found by its record), shown in a band at the top of the card and fading into its ink behind the words. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/card-contrast-check.mjs"
+      ]
+    },
+    {
+      "id": "S6P-05",
+      "exactFeedback": "On the AI GTM page, left-align the green button text.",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "/ai-gtm",
+      "section": "Opening",
+      "device": "all",
+      "element": "the way in",
+      "classification": "correction",
+      "requiredOutcome": "The button's words sit on the left.",
+      "acceptanceTest": "Rendered at 412x741 and 1440x900.",
+      "status": "accepted",
+      "resolution": "The opening's button sets its words on the left and its arrow on the right (mindmake-ai-gtm.css). Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "src/styles/mindmake-ai-gtm.css"
+      ]
+    },
+    {
+      "id": "S6P-06",
+      "exactFeedback": "On the \"Which business should we read?\" page after I've clicked \"Build my AI Brain,\" the text here should say, \"Let's get started,\" and something along the lines of, \"This will take you only a few minutes and will help us to scope out where you're at and what you need.\" Beneath the \"Read the business\" button, we should have a way for the user to just subscribe to the media channel instead - they might not want to go all the way. \"Read the business\" should be more like \"Get building,\" or something like that.",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "the brief",
+      "section": "first step",
+      "device": "all",
+      "element": "heading, line, button and a way out",
+      "classification": "correction",
+      "requiredOutcome": "The first step opens \"Let's get started\" with the time and purpose, its button says \"Get building\", and a reader can take the publication instead.",
+      "acceptanceTest": "The brief's unit suite finds the new heading and button; the success-step subscription is unchanged.",
+      "status": "accepted",
+      "resolution": "\"Let’s get started.\", \"This takes only a few minutes, and helps us scope out where you are and what you need.\", \"Get building\", and beneath it \"Not ready yet? Subscribe to Make Your Mind Up, free\" (tracked as brief_start). The lead flow itself is unchanged. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "src/components/mindmake/LeadBrief.tsx",
+        "src/styles/mindmake-brief.css",
+        "src/test/LeadBrief.test.tsx",
+        "project-documentation/05_LEAD_DELIVERY_SPEC.md"
+      ]
+    },
+    {
+      "id": "S6P-07",
+      "exactFeedback": "Also add a subscribe button in the top nav bar next to the hamburger",
+      "source": "Krish, 24 October 2026, reviewing the live S6 release on a phone, with five screenshots.",
+      "surface": "every page",
+      "section": "masthead",
+      "device": "all",
+      "element": "beside the menu",
+      "classification": "correction",
+      "requiredOutcome": "Subscribe sits beside the menu in every masthead.",
+      "acceptanceTest": "The homepage generator inserts it at both sizes (count-guarded); the shell carries it on every other page; qa:chrome keeps the mastheads alike.",
+      "status": "accepted",
+      "resolution": "A small outlined Subscribe, in the mono capitals of the masthead, before the menu control, linking to makeyourmindup.ai (tracked as masthead). Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
+      "evidence": [
+        "scripts/qa/build-homepage-release.mjs",
+        "src/components/mindmake/MindmakeShell.tsx",
+        "src/styles/mindmake.css",
+        "src/components/homepage-release/homepageSections.css"
       ]
     }
   ]

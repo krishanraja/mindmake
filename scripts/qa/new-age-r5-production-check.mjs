@@ -230,8 +230,12 @@ for (const engineName of asked) {
        the state changes. A phone used to hide it and draw a fixed word. */
     fail(!opening.motionShown || !/motion/iu.test(opening.motionLabel || ""), `${label}: the film control has no readable label (${opening.motionLabel})`);
 
-    /* The AI Brain stories: a chooser of five situations, three stories to
-       each, that never pins (Krish, 16 October 2026: "Approved, ship it"). */
+    /* The AI Brain stories: a chooser of five situations, seventeen stories in
+       all, that never pins (Krish, 16 October 2026: "Approved, ship it").
+       Seventeen since S6 approved the two new stories (24 October 2026). The situations share one
+       place and the unchosen ones are hidden with visibility, not display, so
+       choosing one never resizes the chooser; a panel counts as shown only
+       when a reader can see it. */
     const finder = await page.evaluate(() => {
       const root = document.querySelector(".nal-page [data-story-finder]");
       if (!root) return null;
@@ -241,12 +245,12 @@ for (const engineName of asked) {
         live: root.classList.contains("is-live"),
         tabs: root.querySelectorAll("[data-finder-tab]").length,
         cards: root.querySelectorAll(".finder-card").length,
-        shownPanels: [...root.querySelectorAll("[data-finder-panel]")].filter((panel) => !panel.hidden && getComputedStyle(panel).display !== "none").length,
+        shownPanels: [...root.querySelectorAll("[data-finder-panel]")].filter((panel) => { const s = getComputedStyle(panel); return !panel.hidden && s.display !== "none" && s.visibility !== "hidden"; }).length,
         pinned: chain.some((position) => position === "sticky" || position === "fixed"),
       };
     });
     fail(!finder, `${label}: the AI Brain stories are missing`);
-    fail(finder && (!finder.live || finder.tabs !== 5 || finder.cards !== 15 || finder.shownPanels !== 1), `${label}: the AI Brain stories are not five situations of fifteen stories, one shown (${JSON.stringify(finder)})`);
+    fail(finder && (!finder.live || finder.tabs !== 5 || finder.cards !== 17 || finder.shownPanels !== 1), `${label}: the AI Brain stories are not five situations of seventeen stories, one shown (${JSON.stringify(finder)})`);
     fail(finder?.pinned, `${label}: the AI Brain stories pin`);
     const forward = await sweep(page, height, "forward");
     const reverse = await sweep(page, height, "reverse");

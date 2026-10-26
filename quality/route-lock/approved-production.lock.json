@@ -131,7 +131,7 @@
     "scripts/qa/locked-material-production-check.mjs": "36142ebe7cfec06724829dce7e0f4e9a97efe1a495cbe6be9d9d367ba009e4db",
     "scripts/qa/logo-alignment-check.mjs": "c82100587c85aa4541b7022d2a17971ce4893fe0439dacce3e68c28d7a87d4e5",
     "scripts/qa/material-candidate-readiness.mjs": "a161f435aed31049b9f35845428daf14e4f4283bc7064318f048439b5d7f7278",
-    "scripts/qa/new-age-r5-production-check.mjs": "a141ec10a743560ddf1306f3f7b3148794681336a07a2f81219ef001c68eed23",
+    "scripts/qa/new-age-r5-production-check.mjs": "3b04938921d4f2871cb7fbf3e507d448df1809d989a235015d4b28ac9802b684",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "scripts/qa/record-route-lock-r47.mjs": "a3687c7a5effe1d4de5a1dac8847178bc253b384df1c8760ccc951f0282be7db",
     "scripts/qa/release-route-smoke.mjs": "6a42f8649e16e8fdfa42ba0e29fee02a25e062ec849dd9ed9396b84d7715bb2f",

@@ -112,31 +112,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   GitHub moved `ubuntu-latest` to 26.04 and the pinned Playwright 1.60.0
   "does not support chromium on ubuntu26.04-x64", so both legs stopped before
   any case ran. Lift the pin when Playwright supports the newer runner.
-- 2026-10-21: the answer hub became a weekly publication that machines can
-  read (#244). Moving the North Star Horizon's first half, being the name an AI
-  answer engine gives a PE or VC backed media, adtech or data leader, it began
-  with an audit: the favicon set, per-page social plates, canonicals and the
-  Organization graph were already complete and left alone. Added: four answers
-  written only from 00, 01 and 04 (no price, duration, count or client result),
-  an Atom feed of every answer in full at `/answers/feed.xml`, `llms-full.txt`
-  beside `llms.txt`, a `robots.txt` group naming fifteen AI crawlers (a named
-  group replaces `*`, so every `*` rule is repeated), BreadcrumbList, FAQPage
-  and Person/ProfessionalService data, and a workflow that opens a weekly
-  brief issue from `answer-backlog.json` with no model spend. Locked files
-  changed on purpose and the lock was regenerated in the same commit.
-  Read back live on 26 October 2026 (`06_CURRENT_STATE.md`).
-- 2026-10-19: the site now names the two registered companies (#242, #243).
-  Krish: "I actually have Mindmaker LTD in the UK and Mindmaker LLC in the
-  USA." `/terms` and `/privacy` say Mindmake is the public brand of Mindmaker
-  LLC (United States) and Mindmaker Ltd (United Kingdom), and every footer
-  carries "Mindmake is a Mindmaker LLC company. Mindmaker Ltd in the UK."
-  The first request stopped short of the footer because the North Star kept the
-  legal entity to the two legal pages and only Krish changes it; he authorised
-  the change in the next request, so the naming law now allows both entities in
-  the privacy notice, the terms and that one footer line only. The sitemap
-  gives a static page a `lastmod` only where the page shows its own dated
-  revision, so `/terms` and `/privacy` carry 2026-10-19. Every footer served the
-  line on 26 October 2026.
 - 2026-10-18: the North Star was set and every session was anchored to it.
   `00_NORTH_STAR.md` gained a Horizon: by March 2027 Mindmake is the first name
   a PE or VC backed media, adtech or data leader hears when they ask who can

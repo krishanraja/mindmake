@@ -7,6 +7,10 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-26
 
+- rolled from NOW.md, to keep it within the steward's 200-line limit: the
+  2026-10-21 bullet (the answer hub, #244) and the 2026-10-19 bullet (the two
+  registered companies, #242 and #243); the full entries are under their own
+  dates, and both surfaces were read back live on 26 October 2026.
 - The documentation was audited against the live site before the next merge,
   on Krish's instruction: "ensure the documentation is 100% up to scratch, and
   that an AI agent reading the documentation cannot possibly misinterpret or

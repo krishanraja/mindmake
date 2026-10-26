@@ -16,8 +16,10 @@ Accepted surface and change guards: website-redesign/STATE.md.
   main promotes production automatically, documentation-only commits included
   (they do not change the application).
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
-- Production on 26 October 2026, read from GitHub's deployment record: main `86dcf6d` (the release receipt below, a documentation commit),
-  mindmake-q02lhagcp-krish-rajas-projects.vercel.app.
+- Production follows main, so every commit there deploys, documentation
+  included; GitHub's deployment record names the deployment for each commit.
+  The application has not changed since PR #250 below: later commits on main
+  change documentation only.
 - Latest application release: PR #250, the brief in fewer clicks, merge
   `6b86220` on 26 October 2026 at 14:25 UTC on Krish's approval ("Approved.
   Merge #250, deploy the brief function, and read both back."), production
@@ -34,8 +36,9 @@ Accepted surface and change guards: website-redesign/STATE.md.
   S6, three sections on every page), PR #244 (21 October 2026, the answer hub
   and machine-readable discovery) and PRs #242 and #243 (19 October 2026, the
   two legal entities).
-- Main's post-merge route lock on `86dcf6d` (run 40341296566) passed its source
-  job and its Linux Chromium leg on `ubuntu-24.04`. Firefox and WebKit results
+- Main's post-merge route lock on `ad6c1b1` (run 40367119390, the
+  documentation audit) passed its source job and its Linux Chromium leg on
+  `ubuntu-24.04`. Firefox and WebKit results
   are not read (CLAUDE.md, Krish, 2026-09-26).
 
 ## What the live site is

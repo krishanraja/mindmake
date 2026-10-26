@@ -399,7 +399,7 @@ async function exerciseLeadBrief(route) {
   await page.locator("[data-mm-primary]:visible").first().click();
   const dialog = page.locator('[role="dialog"]');
   await dialog.locator("#mm-company-email").fill("founder@example.com");
-  await dialog.getByRole("button", { name: /Read the business/i }).click();
+  await dialog.getByRole("button", { name: /Get building/i }).click();
   await dialog.getByRole("heading", { name: "Who is this for?" }).waitFor();
   await dialog.locator("#mm-first-name").fill("Alex");
   await dialog.locator("#mm-last-name").fill("Founder");

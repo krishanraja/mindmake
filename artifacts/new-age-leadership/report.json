@@ -1,6 +1,6 @@
 {
   "gate": "new-age-leadership-scroll-build",
-  "at": "2026-10-15T11:19:08.315Z",
+  "at": "2026-10-26T12:50:03.485Z",
   "engines": [
     "chromium"
   ],
@@ -10,8 +10,8 @@
   "observations": [
     {
       "label": "chromium-320x568",
-      "document": 9418,
-      "samples": 79,
+      "document": 8426,
+      "samples": 71,
       "worstBlankPx": 116,
       "worstBlankShare": 0.204,
       "forward": {
@@ -25,15 +25,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -51,15 +42,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -69,8 +51,8 @@
     },
     {
       "label": "chromium-360x640",
-      "document": 10281,
-      "samples": 77,
+      "document": 9028,
+      "samples": 67,
       "worstBlankPx": 130,
       "worstBlankShare": 0.203,
       "forward": {
@@ -84,15 +66,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -110,15 +83,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -128,8 +92,8 @@
     },
     {
       "label": "chromium-390x844",
-      "document": 13539,
-      "samples": 77,
+      "document": 11581,
+      "samples": 65,
       "worstBlankPx": 200,
       "worstBlankShare": 0.237,
       "forward": {
@@ -143,15 +107,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -169,15 +124,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -187,8 +133,8 @@
     },
     {
       "label": "chromium-430x932",
-      "document": 14915,
-      "samples": 77,
+      "document": 12656,
+      "samples": 64,
       "worstBlankPx": 221,
       "worstBlankShare": 0.237,
       "forward": {
@@ -202,15 +148,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -228,15 +165,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -246,8 +174,8 @@
     },
     {
       "label": "chromium-768x1024",
-      "document": 16577,
-      "samples": 77,
+      "document": 14182,
+      "samples": 66,
       "worstBlankPx": 312,
       "worstBlankShare": 0.305,
       "forward": {
@@ -261,15 +189,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -287,15 +206,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -305,10 +215,10 @@
     },
     {
       "label": "chromium-844x390",
-      "document": 7656,
-      "samples": 95,
-      "worstBlankPx": 145,
-      "worstBlankShare": 0.372,
+      "document": 7036,
+      "samples": 87,
+      "worstBlankPx": 152,
+      "worstBlankShare": 0.39,
       "forward": {
         "lens": [
           0,
@@ -320,15 +230,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -346,15 +247,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -364,8 +256,8 @@
     },
     {
       "label": "chromium-1024x768",
-      "document": 12939,
-      "samples": 81,
+      "document": 11634,
+      "samples": 72,
       "worstBlankPx": 273,
       "worstBlankShare": 0.355,
       "forward": {
@@ -379,15 +271,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -405,15 +288,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -423,8 +297,8 @@
     },
     {
       "label": "chromium-1366x768",
-      "document": 12970,
-      "samples": 81,
+      "document": 11697,
+      "samples": 73,
       "worstBlankPx": 208,
       "worstBlankShare": 0.271,
       "forward": {
@@ -438,15 +312,6 @@
           0,
           1
         ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
         "work": [
           0,
           1,
@@ -463,15 +328,6 @@
         "reach": [
           0,
           1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
         ],
         "work": [
           0,
@@ -482,10 +338,10 @@
     },
     {
       "label": "chromium-1440x900",
-      "document": 15165,
-      "samples": 81,
-      "worstBlankPx": 305,
-      "worstBlankShare": 0.339,
+      "document": 13605,
+      "samples": 72,
+      "worstBlankPx": 275,
+      "worstBlankShare": 0.306,
       "forward": {
         "lens": [
           0,
@@ -496,15 +352,6 @@
         "reach": [
           0,
           1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
         ],
         "work": [
           0,
@@ -522,15 +369,6 @@
         "reach": [
           0,
           1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
         ],
         "work": [
           0,
@@ -541,10 +379,10 @@
     },
     {
       "label": "chromium-1920x1080",
-      "document": 18163,
-      "samples": 81,
-      "worstBlankPx": 366,
-      "worstBlankShare": 0.339,
+      "document": 16184,
+      "samples": 71,
+      "worstBlankPx": 403,
+      "worstBlankShare": 0.373,
       "forward": {
         "lens": [
           0,
@@ -555,15 +393,6 @@
         "reach": [
           0,
           1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
         ],
         "work": [
           0,
@@ -581,15 +410,6 @@
         "reach": [
           0,
           1
-        ],
-        "benefit": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
         ],
         "work": [
           0,
@@ -601,7 +421,7 @@
     {
       "label": "negative-control-unpinned",
       "historyStatesReached": 4,
-      "worstBlankPx": 717
+      "worstBlankPx": 763
     }
   ],
   "failures": []

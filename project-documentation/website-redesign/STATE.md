@@ -56,11 +56,38 @@ component that changes size when a reader makes a choice.
 
 The two new stories (the insurance leader and the investor, from his own
 account, in `leadershipChapters.ts`) are approved as written (Krish, 24
-October 2026: "Both story wordings approved as written."). Krish gave the go to merge on 24 October 2026 ("Go: merge S6 to main and read production back."); `06_CURRENT_STATE.md` owns the release readback. Not claimed: how many minutes
-the first step takes (it is not measured, so the line under the button names
-no time). The publication line names one issue read from the publication's
+October 2026: "Both story wordings approved as written."). Krish gave the go to merge on 24 October 2026 ("Go: merge S6 to main and read production back."); `06_CURRENT_STATE.md` owns the release readback. The line under the button names
+no time; inside the brief the first step says it "takes only a few minutes"
+(Krish's own words, 2026-10-24), a time that is not measured. The publication line names one issue read from the publication's
 feed at build time (`scripts/fetch-latest-issue.mjs`) and calls it "From Make
 Your Mind Up", never "latest".
+
+### Krish's review on a phone, after the release (24 October 2026)
+
+Feedback ledger rows `S6P-01` to `S6P-07`. Each ships only after Krish has seen it
+rendered.
+
+- The opening is at least one screen tall and grows when its words need more:
+  R3's frame was exactly one screen and hid what did not fit, so on a short
+  phone the way in's line and the publication line fell off its foot.
+- The four eras are a carousel swiped through time, oldest first, each era on
+  its picture from the old history chapter; under the row, arrows and a
+  timeline of the four dates that fills as the row moves. A tile still turns
+  in place. The three practice scenes are a carousel of their own, its
+  timeline Notice, Connect and Prepare. Where every card fits, the controls
+  go but keep their room.
+- The three results sit on their stories' own pictures. A picture shows in
+  the band at the top of its card, and wherever text can fall the card's ink
+  is never thinner than 90%; `npm run qa:card-contrast` reads every line on
+  those cards pixel by pixel at 412x741, 360x780 and 1440x900 (worst 5.26:1
+  against 4.5:1), with a negative control.
+- Subscribe sits beside the menu in every masthead, the homepage's and the
+  shell's.
+- On `/ai-gtm` the way in's words sit on the left, its arrow on the right.
+- The brief's first step reads "Let’s get started.", "This takes only a few
+  minutes, and helps us scope out where you are and what you need.", and
+  "Get building", with "Not ready yet? Subscribe to Make Your Mind Up, free"
+  beneath it.
 
 ## In progress: three agreed sharpenings (October 2026)
 
@@ -126,8 +153,8 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 - Both offer pages end with `PairingBridge` (S6, Krish, 2026-10-24: the card "needs to be condensed"): this page's way in, then one line to the other page. The button is `data-mm-primary`, so the action bar stands down and one way in holds. "What stays with you" is a receipt above it (`Receipt.tsx`), the same object on both pages.
 - Surfaces explain nothing about themselves and hold still under interaction (r43, Krish, 2026-09-25). `/ai-brain` carries no caveats, status lines or source labels; its hero orbit is the decorative ground behind the whole opening; its ideas keep one size, its titles one line, and its panels one height. Since r48 its stepped instruments (questions, decision, levers and, since S5, the month) light by colour and opacity only, forward and back with scroll, and show whole without script or motion. `/ai-brain` corrections live in `src/styles/mindmake-brain-refinements.css` and the S4 and S5 chapters in `src/styles/mindmake-brain-narrative.css`, both loaded after the generated locked stylesheet, which stays reproducible from its prototype sources.
 - `/blog`, Ideas you can use, lists every quick tip and every longer read in one list, newest first, in the tips' entry form, under a kind filter (All, Quick tips, Longer reads) and a subject filter (Krish, 2026-09-25; `/answers` redirects there and the tips keep their pages under `/answers/:slug`). It never opens on an idea marked `lead: false` (the adtech answer); the newest idea allowed to lead goes first and the rest keep date order (`orderIdeas` in `src/lib/ideaFormat.ts`). Tip titles are in sentence case, and each tip entry shows the question it answers as a sentence-case question.
-- Every Media link, and the old `/signal` and `/builder-economy` redirects, land on the publication's own site, https://makeyourmindup.ai (Krish, 2026-09-26; `PUBLICATION_URL`). Subscribing appears in four places: a hairline badge beside Media in both menus, a footer button, the brief's success step, and since S6 one line at the foot of the homepage hero naming an issue; every "Subscribe for free" link goes to https://makeyourmindup.ai too (Krish, 2026-09-26: "Every single subscribe link should go to makeyourmindup.ai"; `SUBSCRIBE_URL` is `PUBLICATION_URL`). There is no band, pop-up or modal. It never outweighs the brief's filled mint.
-- No word or link sits alone on a new line at 1440x900, 1280x800, 390x844 or 360x780 on any page, and no swapping component changes size when a reader makes a choice (`qa:line-breaks`, which clicks every tab, toggle, step and seat on `/`, `/ai-brain`, `/ai-gtm` and `/new-age-leadership`; Krish, 2026-10-24: "we don't ever get one word sprawl over to a second line and change the entire component size"; the rule is in `03_DESIGN_CONTRACT.md`).
+- Every Media link, and the old `/signal` and `/builder-economy` redirects, land on the publication's own site, https://makeyourmindup.ai (Krish, 2026-09-26; `PUBLICATION_URL`). Subscribing appears in six places: a hairline badge beside Media in both menus, a Subscribe button beside the menu in every masthead (Krish, 2026-10-24), a footer button, the brief's first step (for a reader not ready to build) and its success step, and since S6 one line at the foot of the homepage hero naming an issue; every "Subscribe for free" link goes to https://makeyourmindup.ai too (Krish, 2026-09-26: "Every single subscribe link should go to makeyourmindup.ai"; `SUBSCRIBE_URL` is `PUBLICATION_URL`). There is no band, pop-up or modal. It never outweighs the brief's filled mint.
+- No word or link sits alone on a new line at 1440x900, 1280x800, 390x844 or 360x780 on any page, and no swapping component changes size when a reader makes a choice (`qa:line-breaks`, which clicks every tab, toggle, step, seat and carousel on `/`, `/ai-brain`, `/ai-gtm` and `/new-age-leadership`, and since 24 October 2026 also fails text cut off at the top or bottom of a box that hides overflow; Krish, 2026-10-24: "we don't ever get one word sprawl over to a second line and change the entire component size"; the rule is in `03_DESIGN_CONTRACT.md`).
 - Every page carries the homepage's masthead and footer, identical within 1px at 360, 390, 412, 768, 1024 and 1440 (Krish, 2026-09-26: "The logo in the top left nav bar changes size depending on what page you're on, which is unacceptable"; "the bottom nav bar is super inconsistent across pages"). The footer is the brand, "Keep your edge as AI changes the market.", Subscribe, the route rail on wider screens, Privacy and Terms as two separate 44px links, and "© 2026 Mindmake." on the left edge. On phones it fills the width on the masthead's gutter; there is no Contact link (the address is on /about, /privacy and /terms).
 - The homepage hero turns its headline once through six lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"; the closing chapter's headline joined second with S6): "Promote your AI from intern to chief of staff.", "Own your judgement, and amplify it.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision." A unit test holds the first to the generated h1 (`src/test/hero-rotation.test.ts`). The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). Since S6 the lede reads "The leaders who shape the next decade will have an AI that thinks like them. We build yours."
 - The analytics notice never stacks on the action bar (S6, Krish, 2026-10-24: "the bottom panel is horrible"). On a laptop it is a card on the left of the bottom band while the bar's one button is on the right; on a phone it docks under the masthead. Allow and Decline stay equal.
@@ -136,7 +163,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 
 ## Non-regression contract
 
-1. Between the opening and the footer the homepage carries three sections (S6): the problem, with the four eras as tiles that turn in place; how it works, with the organisation and the three practice scenes; and what the reader gets, with three results and the way in. Nothing on the homepage pins. The AI Brain stories are seventeen cards in five situations on /ai-brain, a chooser that never pins; `/new-age-leadership` keeps its own reach, practice and story chapters from the shared source. R3's history pin, authority, leadership-dividend and route chapters are retired from `/`.
+1. Between the opening and the footer the homepage carries three sections (S6): the problem, with the four eras as a carousel of tiles on their pictures that turn in place; how it works, with the organisation and the three practice scenes as a carousel; and what the reader gets, with three results on their stories' pictures and the way in. The opening is at least one screen tall and grows to hold everything it carries. Nothing on the homepage pins. The AI Brain stories are seventeen cards in five situations on /ai-brain, a chooser that never pins; `/new-age-leadership` keeps its own reach, practice and story chapters from the shared source. R3's history pin, authority, leadership-dividend and route chapters are retired from `/`.
 2. No wheel/touch cancellation anywhere. No swapping component changes size when a reader makes a choice: every panel that swaps holds all its states in one place. Without scripts every state reads in flow (the eras show question and answer, the beats one after another, the team as a document). Every state stays reachable from its direct controls on reduced-motion and short screens. `/new-age-leadership` keeps its pinned chapters and their r46 phone sweep.
 3. Proof of a swapping state observes visible text after each actual control and the height of the component around it. A screenshot, state attribute or entrance reveal alone is not proof.
 4. Preserve the selected masthead/content alignment: the chapters pin under the homepage's fixed masthead and take its gutter. Device-specific compositions remain distinct. No clipping, collisions, hidden actions, blank substitute panels or fixed-nav/cookie overlap.

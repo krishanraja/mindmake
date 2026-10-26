@@ -62,11 +62,17 @@ const VIEWPORTS = [{ name: "desktop", width: 1440, height: 900 }, { name: "lapto
    change must leave alone. Controls are clicked in document order; only the
    ones visible at the viewport are used. A group's setup is clicked first, so
    the rail is walked in the situation that has more stories than fit; a group
-   that repeats presses its one control until it leaves, to the last card. A group
+   that repeats presses its one control until it leaves, to the last card. A
+   group with ifOverflows is a carousel that only needs its controls where its
+   row is wider than the screen; where every card fits it is not swept. A group
    that finds its frame but clicks nothing fails: a renamed selector must never
    pass in silence. */
 const STATES = {
-  "/": [{ name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] }],
+  "/": [
+    { name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] },
+    { name: "era rail", setup: '.hs-problem [data-hs-rail-go="0"]', controls: '.hs-problem [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-problem [data-hs-rail-track]", frames: [".hs-problem .hs-rail"] },
+    { name: "scene rail", setup: '.hs-how [data-hs-rail-go="0"]', controls: '.hs-how [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-how [data-hs-rail-track]", frames: [".hs-how .hs-rail"] },
+  ],
   "/ai-brain": [
     { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },
     { name: "finder", controls: ".brain-finder [data-finder-tab]", frames: [".brain-finder .story-finder"] },
@@ -96,6 +102,10 @@ const measure = () => {
     return parts.join(" > ");
   };
   const blockish = (el) => !/^(inline|contents|none)$/.test(getComputedStyle(el).display);
+  /* Windows that things move through by design, each reached by its own
+     controls, like a scroller: the living record's reel on /ai-brain, whose
+     records pass through it and whose Next shows each one whole. */
+  const MOVING_WINDOWS = ".reel-window";
   const problems = [];
 
   /* Text: the innermost blocks that hold words directly. */
@@ -118,19 +128,35 @@ const measure = () => {
       }
     }
     /* Clipped: the nearest ancestor that hides overflow, unless a scroller
-       comes first; the root's clip is the viewport. */
-    let edge = null;
-    for (let node = el.parentElement; node; node = node.parentElement) {
-      const overflow = getComputedStyle(node).overflowX;
-      if (/auto|scroll/.test(overflow)) { edge = null; break; }
-      if (/hidden|clip/.test(overflow)) { edge = node; break; }
-    }
+       or a moving window comes first; the root's clip is the viewport. Across
+       and, since 24 October 2026, down: the opening hid its last line below
+       its own foot on a short phone, and only the across check existed. The
+       page itself scrolls down, so the root never clips downwards. A fixed
+       element (a masthead) escapes the clip of everything above it. */
+    const clipOf = (axis) => {
+      if (getComputedStyle(el).position === "fixed") return null;
+      for (let node = el.parentElement; node; node = node.parentElement) {
+        const style = getComputedStyle(node);
+        if (/auto|scroll/.test(style[axis]) || node.matches(MOVING_WINDOWS)) return null;
+        if (/hidden|clip/.test(style[axis])) return node;
+        if (style.position === "fixed") return null;
+      }
+      return null;
+    };
+    const edge = clipOf("overflowX");
     if (edge && words.length) {
       const bounds = edge === document.documentElement || edge === document.body ? { left: 0, right: innerWidth } : edge.getBoundingClientRect();
       const lefts = words.map((word) => word.left);
       const rights = words.map((word) => word.right);
       const past = Math.max(Math.max(...rights) - bounds.right, bounds.left - Math.min(...lefts));
       if (past > 1) problems.push({ kind: "clipped", where: describe(el), text: el.textContent.trim().replace(/\s+/g, " ").slice(0, 90), stranded: `${Math.round(past)}px past ${describe(edge)}` });
+    }
+    const floor = clipOf("overflowY");
+    if (floor && floor !== document.documentElement && floor !== document.body && words.length) {
+      const bounds = floor.getBoundingClientRect();
+      const below = Math.max(...words.map((word) => word.bottom)) - bounds.bottom;
+      const above = bounds.top - Math.min(...words.map((word) => word.top));
+      if (Math.max(below, above) > 1) problems.push({ kind: "clipped", where: describe(el), text: el.textContent.trim().replace(/\s+/g, " ").slice(0, 90), stranded: `${Math.round(Math.max(below, above))}px ${below > above ? "below the foot of" : "above the top of"} ${describe(floor)}` });
     }
     if (words.length < 3) continue;
     const lines = [];
@@ -178,6 +204,10 @@ const heights = (frames) => frames.map((selector) => {
    report a frame whose height moved. */
 async function sweep(page, groups, report, swept = {}) {
   for (const group of groups) {
+    if (group.ifOverflows && !(await page.evaluate((selector) => {
+      const row = document.querySelector(selector);
+      return row ? row.scrollWidth > row.clientWidth + 2 : true;
+    }, group.ifOverflows))) { swept[group.name] = "fits"; continue; }
     if (group.setup) {
       const setup = page.locator(group.setup).first();
       if (await setup.isVisible()) { await setup.scrollIntoViewIfNeeded(); await setup.click(); await page.waitForTimeout(220); }
@@ -258,10 +288,10 @@ try {
      silence on the site means nothing. The same overhang inside a scroller
      must not be reported. */
   const control = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await control.setContent(`<p style="width:11ch;font:16px monospace;text-wrap:wrap">aaa bbb ccc ddd</p><nav style="display:flex;flex-wrap:wrap;column-gap:10px;width:230px">${'<a href="#" style="display:block;width:100px;font:16px monospace">Route</a>'.repeat(5)}</nav><div style="width:120px;overflow:hidden"><p id="cut" style="width:240px;font:16px monospace">cut off at the edge</p></div><div style="width:120px;overflow-x:auto"><p style="width:240px;font:16px monospace">reachable by a swipe</p></div>`);
+  await control.setContent(`<p style="width:11ch;font:16px monospace;text-wrap:wrap">aaa bbb ccc ddd</p><nav style="display:flex;flex-wrap:wrap;column-gap:10px;width:230px">${'<a href="#" style="display:block;width:100px;font:16px monospace">Route</a>'.repeat(5)}</nav><div style="width:120px;overflow:hidden"><p id="cut" style="width:240px;font:16px monospace">cut off at the edge</p></div><div style="width:120px;overflow-x:auto"><p style="width:240px;font:16px monospace">reachable by a swipe</p></div><div style="width:130px;height:22px;overflow:hidden"><p id="cutv" style="margin:0;font:16px/20px monospace">first line then lost below</p></div><div style="width:130px;height:22px;overflow-y:auto"><p style="margin:0;font:16px/20px monospace">first line then scrolled to</p></div><div style="width:130px;height:22px;overflow:hidden"><p style="position:fixed;top:0;left:0;margin:0;font:16px/20px monospace">a masthead</p></div>`);
   const caught = await control.evaluate(measure);
   const clippedCaught = caught.filter((p) => p.kind === "clipped");
-  if (!caught.some((p) => p.kind === "word") || !caught.some((p) => p.kind === "link") || clippedCaught.length !== 1 || !clippedCaught[0].where.includes("#cut")) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "negative control", stranded: `expected a word, a link and one clipped line, caught ${JSON.stringify(caught)}` });
+  if (!caught.some((p) => p.kind === "word") || !caught.some((p) => p.kind === "link") || clippedCaught.length !== 2 || !clippedCaught.some((p) => p.where.includes("#cut") && !p.where.includes("#cutv")) || !clippedCaught.some((p) => p.where.includes("#cutv"))) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "negative control", stranded: `expected a word, a link, one line clipped across and one clipped below, caught ${JSON.stringify(caught)}` });
   /* Size changes: a box that grows when its button is pressed must be caught,
      and one that holds both states in one cell must not. */
   await control.setContent(`<div id="grows" style="width:220px;font:16px monospace"><button id="grow" onclick="document.getElementById('words').textContent='a much longer line of words that wraps over several more lines'">change</button><p id="words">short words here</p></div><div id="holds" style="width:220px;font:16px monospace"><button id="hold" onclick="document.querySelectorAll('#held > p').forEach((p) => p.style.visibility = p.style.visibility === 'hidden' ? 'visible' : 'hidden')">change</button><div id="held" style="display:grid"><p style="grid-area:1/1">short words here</p><p style="grid-area:1/1;visibility:hidden">a much longer line of words that wraps over several more lines</p></div></div>`);

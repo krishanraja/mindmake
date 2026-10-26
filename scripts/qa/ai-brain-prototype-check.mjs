@@ -258,7 +258,7 @@ await handoff.locator('[data-drawer-screen="complete"] .drawer-action').click();
 await handoff.waitForURL(/\/ai-brain\?start=brain$/);
 await handoff.locator('.mm-brief-panel[role="dialog"]').waitFor();
 fail(!handoff.url().endsWith("/ai-brain?start=brain"), "live handoff: wrong destination");
-fail((await handoff.locator("#mm-brief-title").textContent()) !== "Which business should we read?", "live handoff: production Brain brief did not open");
+fail((await handoff.locator("#mm-brief-title").textContent()) !== "Let’s get started.", "live handoff: production Brain brief did not open");
 await handoff.screenshot({ path: `${output}/mobile-390x844-live-handoff.png`, fullPage: false });
 await handoff.close();
 

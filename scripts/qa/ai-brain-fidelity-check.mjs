@@ -218,7 +218,7 @@ const deepLink = await browser.newPage({ viewport: { width: 390, height: 844 } }
 await deepLink.addInitScript(() => localStorage.setItem("mindmake_consent", "accepted"));
 await deepLink.goto(`${base}?start=brain`, { waitUntil: "networkidle" });
 await deepLink.locator('.mm-brief-panel[role="dialog"]').waitFor();
-fail((await deepLink.locator("#mm-brief-title").textContent()) !== "Which business should we read?", "deep link: live Brain brief does not open on the company step");
+fail((await deepLink.locator("#mm-brief-title").textContent()) !== "Let’s get started.", "deep link: live Brain brief does not open on the company step");
 await deepLink.close();
 
 await browser.close();

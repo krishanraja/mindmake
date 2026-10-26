@@ -15,7 +15,11 @@ import { chromium, firefox, webkit } from 'playwright';
 //  - the hero's way in and the closing one open the brief at the AI brain's
 //    door, and Escape gives focus back to the button that opened it;
 //  - the publication line is in the opening;
-//  - each era tile turns in place without changing the size of the four;
+//  - each era tile turns in place without changing the size of the four, and
+//    the eras' carousel pages through time to the last era;
+//  - the opening holds its last line inside its own foot, at every size,
+//    including a short phone with its browser bars showing (Krish's 412x741,
+//    where the publication line fell off the opening on 24 October 2026);
 //  - films stand still for a reader who asks for reduced motion;
 //  - nothing runs off the side of the screen, and the page throws nothing.
 //
@@ -34,7 +38,7 @@ const server = external ? null : spawn(process.execPath, [path.join(root, 'node_
 const failures = [], cases = [], screenshots = [];
 const assert = (condition, message) => { if (!condition) failures.push(message); };
 const settle = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 390, height: 844 }, { width: 360, height: 780 }];
+const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 390, height: 844 }, { width: 360, height: 780 }, { width: 412, height: 741 }];
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 
 const openAndClose = async (page, label, locator) => {
@@ -99,6 +103,16 @@ try {
             assert(Math.abs((before - after) - 200) < 3, `${label}: ${selector} moves with the page, never pinned (${Math.round(before)} to ${Math.round(after)})`);
           }
 
+          /* The opening holds everything it carries: its last line ends
+             inside its own foot. */
+          const foot = await page.evaluate(() => {
+            const stage = [...document.querySelectorAll('.r3-opening .hero-stage')].find((node) => node.offsetParent);
+            const last = stage && [...stage.querySelectorAll('.hero-copy > *')].filter((node) => node.offsetParent).at(-1);
+            return stage && last ? Math.round(stage.getBoundingClientRect().bottom - last.getBoundingClientRect().bottom) : null;
+          });
+          observed.openingRoomBelowLastLine = foot;
+          assert(foot !== null && foot >= 0, `${label}: the opening's last line sits inside the opening (${foot}px to spare)`);
+
           /* The publication, one line in the opening. */
           const issue = page.locator('.r3-opening .hs-issue:visible');
           assert(await issue.count() === 1, `${label}: the publication line is in the opening`);
@@ -117,6 +131,13 @@ try {
             const now = await eras.evaluate(node => node.getBoundingClientRect().height);
             assert(Math.abs(now - height) <= 1, `${label}: era ${i + 1} turns without resizing the four (${Math.round(height)} to ${Math.round(now)})`);
             await tiles.nth(i).click();
+          }
+          /* The eras' carousel pages through time, oldest to newest. */
+          const step = page.locator('.hs-problem [data-hs-rail-step="1"]');
+          if (await step.isVisible()) {
+            for (let i = 0; i < 6 && await step.isEnabled(); i++) { await step.click(); await page.waitForTimeout(400); }
+            assert(!(await step.isEnabled()), `${label}: the eras' carousel reaches its end`);
+            assert(await page.locator('.hs-problem [data-hs-rail-go="3"]').getAttribute('aria-current') === 'true', `${label}: the last era is the current stop at the end`);
           }
 
           /* Films stand still for a reader who asks for reduced motion. */

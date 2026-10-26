@@ -72,7 +72,7 @@ function ReopenHarness() {
    division are collected while it runs. */
 async function fillDetails(domain = "example.com") {
   fireEvent.change(screen.getByLabelText("Work email"), { target: { value: `ada@${domain}` } });
-  fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+  fireEvent.click(screen.getByRole("button", { name: /get building/i }));
   await screen.findByRole("heading", { name: "Who is this for?" });
   fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
   fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
@@ -202,7 +202,7 @@ describe("Mindmake private brief journey", () => {
 
     try {
       render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-      const heading = screen.getByRole("heading", { name: "Which business should we read?" });
+      const heading = screen.getByRole("heading", { name: "Let’s get started." });
       const field = screen.getByLabelText("Work email");
       const panel = screen.getByRole("dialog");
       const backdrop = panel.parentElement as HTMLElement;
@@ -375,12 +375,12 @@ describe("Mindmake private brief journey", () => {
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     const companyEmailField = screen.getByLabelText("Work email");
     await waitFor(() => expect(companyEmailField).toHaveFocus());
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get building/i }));
     expect(companyEmailField).toHaveAttribute("aria-invalid", "true");
     expect(companyEmailField).toHaveAttribute("aria-describedby", "mm-company-email-error");
 
     fireEvent.change(companyEmailField, { target: { value: "ada@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get building/i }));
     const nameField = await screen.findByLabelText("First name");
     fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
     expect(nameField).toHaveAttribute("aria-invalid", "true");
@@ -433,7 +433,7 @@ describe("Mindmake private brief journey", () => {
 
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     fireEvent.change(screen.getByLabelText("Work email"), { target: { value: "ada@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get building/i }));
     expect(screen.getByRole("heading", { name: "Who is this for?" })).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
     fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
@@ -701,7 +701,7 @@ describe("typing on a phone", () => {
 
   async function submitCompanyEmail(address: string) {
     fireEvent.change(screen.getByLabelText("Work email"), { target: { value: address } });
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get building/i }));
     await screen.findByRole("heading", { name: "Who is this for?" });
   }
 
@@ -993,13 +993,13 @@ describe("the offer of a person under a personal address", () => {
        saw it and "Have a person pick this up" reloaded the page. */
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     fireEvent.change(screen.getByLabelText("Work email"), { target: { value: "anya@gmail.com" } });
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get building/i }));
     fireEvent.click(await screen.findByRole("button", { name: /ask a person to look at this/i }));
     const offerForm = document.querySelector(".mm-handoff form");
     expect(offerForm).not.toBeNull();
     expect(offerForm?.parentElement?.closest("form")).toBeNull();
     /* The step's own button still sends the step's own form. */
-    const read = screen.getByRole("button", { name: /read the business/i }) as HTMLButtonElement;
+    const read = screen.getByRole("button", { name: /get building/i }) as HTMLButtonElement;
     expect(read.form?.id).toBe("mm-company-form");
   });
 });
@@ -1027,7 +1027,7 @@ describe("the door", () => {
   it("does not ask when the door is already known", () => {
     render(<LeadBrief open onClose={() => undefined} route="brain" />);
     expect(screen.queryByRole("heading", { name: "Which one are you here for?" })).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Which business should we read?" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Let’s get started." })).toBeInTheDocument();
   });
 
   it("shows that door's own four problems, not a generic set", async () => {
@@ -1036,7 +1036,7 @@ describe("the door", () => {
        homepage offered neither. */
     render(<LeadBrief open onClose={() => undefined} />);
     fireEvent.click(screen.getByRole("button", { name: /Build your AI brain/ }));
-    await screen.findByRole("heading", { name: "Which business should we read?" });
+    await screen.findByRole("heading", { name: "Let’s get started." });
 
     const source = readFileSync(resolve(__dirname, "../components/mindmake/LeadBrief.tsx"), "utf8");
     const brain = source.slice(source.indexOf("  brain: ["), source.indexOf("  gtm: ["));

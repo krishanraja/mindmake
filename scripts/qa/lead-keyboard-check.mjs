@@ -252,7 +252,7 @@ try {
 
     /* A personal address, the offer of a person, and its three fields. */
     await dialog.locator("#mm-company-email").fill("anya@gmail.com");
-    await dialog.getByRole("button", { name: /read the business/i }).click();
+    await dialog.getByRole("button", { name: /get building/i }).click();
     await dialog.locator(".mm-handoff-trigger").click();
     await dialog.locator(".mm-handoff .mm-details").waitFor();
     const handoffInputs = await page.locator(".mm-handoff .mm-details input").evaluateAll((inputs) => inputs.map((input) => input.id));
@@ -272,7 +272,7 @@ try {
     if (!stayed) throw new Error("the offer's button left the dialog");
 
     await dialog.locator("#mm-company-email").fill("anya.divekar@peldonrose.com");
-    await dialog.getByRole("button", { name: /read the business/i }).click();
+    await dialog.getByRole("button", { name: /get building/i }).click();
     await dialog.getByRole("heading", { name: "Who is this for?" }).waitFor();
 
     const filled = [await dialog.locator("#mm-first-name").inputValue(), await dialog.locator("#mm-last-name").inputValue()];

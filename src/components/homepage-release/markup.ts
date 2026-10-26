@@ -3,7 +3,7 @@ import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
 import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07.webp";
 import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4";
-import { heroStartMarkup, homepageSectionsMarkup } from "@/components/homepage-release/homepageSections";
+import { heroStartMarkup, homepageSectionsMarkup, mastheadSubscribeMarkup } from "@/components/homepage-release/homepageSections";
 export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the story</a>
     <main id="site" data-release="homepage-integrated-candidate-r3" aria-label="Mindmake homepage">
       <section id="opening" class="r3-section r3-opening" data-component="opening"><div class="r3-variant preview-desktop"><div class="site-frame" data-composition-desktop="editorial" data-title-desktop="balanced" data-measure-desktop="balanced" data-position-desktop="middle" data-crop-desktop="center" data-contrast="cinema" data-lede="show" data-doors="paired" data-proof="show" data-reveal="staged">
@@ -12,7 +12,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                   <img class="mark" src="${asset0}" alt="">
                   <img class="wordmark" src="${asset1}" alt="Mindmake">
                 </a>
-                <button class="menu-control" type="button" aria-label="Open navigation"><b>Menu</b><i aria-hidden="true"></i></button>
+                ${mastheadSubscribeMarkup()}<button class="menu-control" type="button" aria-label="Open navigation"><b>Menu</b><i aria-hidden="true"></i></button>
               </header>
               <section class="hero-stage">
                 <video data-mm-poster="true" muted="" loop="" playsinline="" preload="metadata" poster="${asset2}" aria-hidden="true">
@@ -34,7 +34,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                   <img class="mark" src="${asset0}" alt="">
                   <img class="wordmark" src="${asset1}" alt="Mindmake">
                 </a>
-                <button class="menu-control" type="button" aria-label="Open navigation"><b>Menu</b><i aria-hidden="true"></i></button>
+                ${mastheadSubscribeMarkup()}<button class="menu-control" type="button" aria-label="Open navigation"><b>Menu</b><i aria-hidden="true"></i></button>
               </header>
               <section class="hero-stage">
                 <video data-mm-poster="true" muted="" loop="" playsinline="" preload="metadata" poster="${asset2}" aria-hidden="true">

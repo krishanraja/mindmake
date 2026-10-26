@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { homepageMarkup } from "@/components/homepage-release/markup";
-import { heroStartMarkup, homepageSectionsMarkup, mountHomepageSections } from "@/components/homepage-release/homepageSections";
+import { heroStartMarkup, homepageSectionsMarkup, mastheadSubscribeMarkup, mountHomepageSections } from "@/components/homepage-release/homepageSections";
 import { leadershipChaptersMarkup, mountLeadershipChapters, organisationGridMarkup, practiceRest, practiceSweep } from "@/components/leadership-chapters/leadershipChapters";
 import { readFileSync } from "node:fs";
 
@@ -69,7 +69,47 @@ describe("the homepage in three sections", () => {
     expect(sections).toContain('class="hybrid-organisation is-active"');
     expect(sections).toContain(organisationGridMarkup);
     expect(sections).not.toContain("<video");
-    expect(sections.match(/<img [^>]*alt=""/g)).toHaveLength(3);
+    const root = document.createElement("div");
+    root.innerHTML = sections;
+    expect(root.querySelectorAll('.hs-trio img[alt=""]')).toHaveLength(3);
+  });
+
+  it("puts each era and each result on its own picture, decorative and loaded when near", () => {
+    /* The owner's review on their phone, 24 October 2026: the old history
+       pictures behind the eras, the stories' pictures behind the results. */
+    const root = document.createElement("div");
+    root.innerHTML = homepageSectionsMarkup();
+    const eras = [...root.querySelectorAll<HTMLImageElement>("[data-hs-era] .hs-card-img")];
+    const results = [...root.querySelectorAll<HTMLImageElement>(".hs-proof > li > .hs-card-img")];
+    expect(eras).toHaveLength(4);
+    expect(results).toHaveLength(3);
+    for (const image of [...eras, ...results]) {
+      expect(image.getAttribute("alt")).toBe("");
+      expect(image.getAttribute("loading")).toBe("lazy");
+      expect(image.getAttribute("src")).toBeTruthy();
+    }
+    expect(eras.map((image) => image.getAttribute("src")).join(" ")).toMatch(/history-writing.*history-loom.*history-calculator.*history-satnav/);
+    expect(new Set(results.map((image) => image.getAttribute("src"))).size).toBe(3);
+  });
+
+  it("runs the eras and the practice scenes as carousels with a timeline of their stops, oldest first", () => {
+    const root = document.createElement("div");
+    root.innerHTML = homepageSectionsMarkup();
+    const rails = [...root.querySelectorAll<HTMLElement>("[data-hs-rail]")];
+    expect(rails).toHaveLength(2);
+    expect([...rails[0].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["370 BC", "1675", "1970s", "2000s"]);
+    expect([...rails[1].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["Notice", "Connect", "Prepare"]);
+    for (const rail of rails) {
+      expect(rail.querySelector('[data-hs-rail-step="-1"]')?.getAttribute("aria-label")).toMatch(/^Previous /);
+      expect(rail.querySelector('[data-hs-rail-step="1"]')?.getAttribute("aria-label")).toMatch(/^Next /);
+      expect(rail.querySelector('[data-hs-rail-go="0"]')?.getAttribute("aria-current")).toBe("true");
+    }
+  });
+
+  it("offers the publication beside the menu in the homepage masthead, at both sizes", () => {
+    expect(homepageMarkup.split(mastheadSubscribeMarkup()).length - 1).toBe(2);
+    expect(mastheadSubscribeMarkup()).toContain('href="https://makeyourmindup.ai"');
+    expect(mastheadSubscribeMarkup()).toContain('data-subscribe-source="masthead"');
   });
 });
 

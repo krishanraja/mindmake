@@ -206,6 +206,32 @@
   line-height: 1.35;
 }
 .mm-brief-action-rail a { color: inherit; text-underline-offset: 2px; }
+/* The publication instead of the brief, under the way on: a quiet second
+   choice with a full-size target (Krish, 2026-10-24). */
+.mm-brief-action-rail > .mm-brief-start-subscribe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 10px;
+  margin: 6px 0 0;
+  color: var(--mmb-muted);
+  font-size: 13px;
+}
+.mm-brief-start-subscribe a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  color: var(--mmb-fg);
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: var(--mmb-line);
+  text-underline-offset: 4px;
+}
+.mm-brief-start-subscribe a:hover { text-decoration-color: currentColor; }
 .mm-brief-reading-record {
   display: grid;
   grid-template-columns: auto 1fr auto;

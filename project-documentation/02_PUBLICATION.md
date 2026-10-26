@@ -1,6 +1,7 @@
 # 02. The publication
 
-*Reviewed 16 October 2026 against makeyourmindup.ai. This file says what the
+*Reviewed 16 October 2026 against makeyourmindup.ai; how the site connects to
+it, 26 October 2026 against mindmake.co. This file says what the
 publication is to Mindmake and how the site connects to it. It is not evidence
 of cadence, subscriber counts or which pieces are live; read those from the
 publication itself. Operational state: `06_CURRENT_STATE.md`.*

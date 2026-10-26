@@ -1,6 +1,6 @@
 # Mindmake private brief and personal-read delivery
 
-Current at the 24 September 2026 production release. This file specifies current behavior, durable privacy/product boundaries and known limitations. Historical experiments and incident narratives belong only in `history/LOG.md`. Current deployment identity is in `06_CURRENT_STATE.md`; executed backend evidence is in `website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md`.
+Current at the 26 October 2026 release (PR #250 and `submit-mindmake-brief` v23); the privacy, retention and delivery contract is unchanged since the 24 September 2026 release. This file specifies current behavior, durable privacy/product boundaries and known limitations. Historical experiments and incident narratives belong only in `history/LOG.md`. Current deployment identity is in `06_CURRENT_STATE.md`; executed backend evidence is in `website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md`.
 
 ## Product and consent boundaries
 

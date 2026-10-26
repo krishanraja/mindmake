@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-24
-head: 277ca1c
+as_of: 2026-10-26
+head: 86dcf6d
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-24)
+## Where it is right now (as of 2026-10-26)
 
 <!-- north-star-state {"week_of": "2026-10-26", "week_target": "private", "current": "private", "current_as_of": "2026-10-23", "current_source": "Control Center revenue_events (Stripe, account mindmaker_llc), read-only", "urgency": 3, "urgency_reason": "at 71% of this week's target"} --> **North Star number: U3, well behind.** Cash collected by Mindmake, trailing 4 weeks: at 71% of this week's target (figures private). Two experiments a week, growth output doubled.
 
@@ -56,23 +56,46 @@ Keep the accepted composition, copy, imagery, controls and responsive choices.
 Since S6 (24 October 2026) every page is three sections: the problem, how it
 works, and what the reader gets and how they know it works. Between the R3
 opening and the footer the homepage carries "Right now, your AI is an intern."
-(the four eras as tiles), "A chief of staff knows how you think." and "Built on
+(the four eras, a carousel on their pictures), "A chief of staff knows how you
+think." (the organisation and a carousel of practice scenes) and "Built on
 your real work. Yours to keep."; nothing on it pins. The AI Brain stories are a
 chooser on `/ai-brain` that never pins: seventeen stories in five situations,
 the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
 Generate the adapter from the immutable R3 source, never reconstruct it from
 older components.
 
-The production company-first lead journey passed through actual verification,
-visitor/operator INBOX delivery, persistence, one due follow-up and downloaded
-brief inspection. That proof is not permission for additional sends.
+Since 26 October 2026 the brief takes 8 clicks from the homepage hero to
+"Check your email." and sends the code before the research behind it. The last
+end-to-end delivery proof (verification, visitor and operator INBOX delivery,
+persistence, one due follow-up and a downloaded brief) is from 24 September
+2026; a code confirmed by a person since the 26 October function deploy is not
+yet recorded. That proof is not permission for additional sends.
 
-Technical discovery metadata/social/icon verification and current-document
-consolidation are live. All 26 public routes and 32 metadata assets passed
-post-publication verification.
+A live discoverability readback on 26 October 2026 passed on all 36 routes and
+42 metadata assets.
 
 ## What changed recently
 
+- 2026-10-26: the documentation was audited against the live site on Krish's
+  instruction ("ensure the documentation is 100% up to scratch, and that an AI
+  agent reading the documentation cannot possibly misinterpret or read stale
+  version of this business"). `06_CURRENT_STATE.md` was rewritten to current
+  truth only, and it and the accepted state were archived verbatim in
+  `history/ARCHIVE.md`; the canon's copy table, the North Star's placement and
+  proof lines, the README, CLAUDE.md's gates, the runbook and the design
+  contract now match what mindmake.co serves. No site code or copy changed.
+- 2026-10-26: the brief in fewer clicks (#250) and `submit-mindmake-brief` v23.
+  From Krish's live test of every call to action: no door question, a choice
+  that moves on, "Keep the private brief" straight to the address, the leaf
+  arrows in the brief's header on a phone, and the code sent at once, 2.5 s on
+  a desktop where it took 34.6 s. 8 clicks from the hero to the code, down from
+  11 on a desktop and 14 on a phone. Ledger row `BRIEF-CLICKS-001`.
+- 2026-10-26: Krish's phone review of S6 (#248): the opening grows to fit, the
+  eras and practice scenes are carousels, the eras and results sit on their
+  pictures under measured contrast (`qa:card-contrast`), Subscribe sits beside
+  the menu in every masthead, `/ai-gtm`'s way in is left-aligned and the
+  brief's first step reads "Let’s get started." Ledger rows `S6P-01` to
+  `S6P-07`, accepted.
 - 2026-10-24: every page became three sections (S6, #245). Krish's ruling:
   every page says "what problem it solves, how it solves it, and what the
   reader gets and how they know it works", with the spine "intern to chief of
@@ -83,8 +106,8 @@ post-publication verification.
   brain", replacing "Get your free AI brief".
   A second ruling: no word alone on a line, and no component that changes size
   when a reader makes a choice, so `qa:line-breaks` now covers 1280 and 360
-  wide, clicks every swapping control and fails size changes. The production
-  readback is in `06_CURRENT_STATE.md`; 26 `S6-*` feedback rows await Krish.
+  wide, clicks every swapping control and fails size changes. 25 `S6-*`
+  feedback rows are implemented and await Krish's review in the ledger.
 - 2026-10-24: the Linux browser legs of CI were pinned to ubuntu-24.04 (#246).
   GitHub moved `ubuntu-latest` to 26.04 and the pinned Playwright 1.60.0
   "does not support chromium on ubuntu26.04-x64", so both legs stopped before
@@ -101,7 +124,7 @@ post-publication verification.
   and Person/ProfessionalService data, and a workflow that opens a weekly
   brief issue from `answer-backlog.json` with no model spend. Locked files
   changed on purpose and the lock was regenerated in the same commit.
-  Production readback is not recorded; see 06_CURRENT_STATE.md.
+  Read back live on 26 October 2026 (`06_CURRENT_STATE.md`).
 - 2026-10-19: the site now names the two registered companies (#242, #243).
   Krish: "I actually have Mindmaker LTD in the UK and Mindmaker LLC in the
   USA." `/terms` and `/privacy` say Mindmake is the public brand of Mindmaker
@@ -112,8 +135,8 @@ post-publication verification.
   the change in the next request, so the naming law now allows both entities in
   the privacy notice, the terms and that one footer line only. The sitemap
   gives a static page a `lastmod` only where the page shows its own dated
-  revision, so `/terms` and `/privacy` carry 2026-10-19. Production readback of
-  the footer is not recorded here; see 06_CURRENT_STATE.md.
+  revision, so `/terms` and `/privacy` carry 2026-10-19. Every footer served the
+  line on 26 October 2026.
 - 2026-10-18: the North Star was set and every session was anchored to it.
   `00_NORTH_STAR.md` gained a Horizon: by March 2027 Mindmake is the first name
   a PE or VC backed media, adtech or data leader hears when they ask who can
@@ -125,53 +148,34 @@ post-publication verification.
   branches, an abandoned canon sync) were merged as history only (#241),
   because they predate the 16 October rewrite; the current canon and the
   accepted site were kept byte for byte. No site code or copy changed.
-- 2026-10-16: the documentation became the one plain account of Mindmake, for
-  people and for the growth engine. 00 opens with "Mindmake in one page"; 01
-  gained "What the growth engine may say" (three asks, who they reach, what may
-  and may never be said, Krish approves every send); 02 now names the
-  publication as Make Your Mind Up at makeyourmindup.ai, its old two-channel
-  contract archived verbatim; llms.txt carries the plain summary and both ways
-  in; the stale "Start here", Substack, navigation, "GTM" and "chief of staff"
-  rules were corrected. Krish: "ensure the project documentation is 11/10 as to
-  how This product works ... The goal is to get an autonomous growth engine to
-  feed off of this, too." The Drive folder now routes every agent here.
-- 2026-10-16: the AI Brain stories became a chooser (#239). On a phone Krish
-  saw "an endless list of stuff, which overwhelms me" and asked for "a much
-  more intelligent way of showcasing what can be done and has been done". The
-  section now asks "Where would you start?", offers five situations and shows
-  three stories for each, one at a time on a phone; nothing pins. On the first
-  preview he asked to "cull things that are meaningless" and to map each story
-  to its outcome, so every card is now one client: the story and the outcome it
-  led to, with the client's own words and the full story on `/case-studies`
-  where the result is on the record. Fifteen stories in all; two whose outcome
-  said nothing a stranger could use, and the separate success-story cards, were
-  cut. His ruling: "Approved, ship it."
-
 ## What is next and what is waiting on Krish
 
-- Physical iPhone VoiceOver and Android TalkBack remain outstanding under the
-  owner's release-only exception.
+- Physical iPhone VoiceOver and Android TalkBack have never been run. The
+  owner's exception covered the 24 September 2026 release only; every release
+  since shipped without them.
 - Search-console ownership, indexing, ranking and AI citation outcomes are not
   established by technical checks. Require fresh evidence for those claims.
 - Dependency advisories remain upgrade work, not a clean audit.
 - The 4000+ attendance count Krish approved on 26 September 2026
   (`04_PROOF.md`) still needs its section 6 evidence trail compiled before the
-  figure is used anywhere beyond the approved line above the brand grid.
+  figure is used anywhere beyond the approved line above the brand grid on
+  `/case-studies`.
 - In play: the CTRL pilot with leaders, by invitation from Krish only, and the
   first outreach drafts (a post, a note to his network, a Make Your Mind Up
   sign-off), each waiting for his yes to that exact send.
-- Next: the free AI brief (the brief behind the new way in) that names one thing AI could carry in the reader's
-  own week (change 3), shown rendered before it is built; the hero lede for
-  every leader (change 1) was settled by S6
-  ([STATE.md](project-documentation/website-redesign/STATE.md)).
+- Next: Change 3, the brief names one thing AI could carry in the reader's
+  own week, shown rendered before it is built
+  ([STATE.md](project-documentation/website-redesign/STATE.md), "Open").
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback
-  ledger).
+  ledger); Krish's review of 31 implemented rows (25 `S6-*` and six older ones);
+  and one brief code confirmed on a phone, the end-to-end proof of the 26
+  October deploy.
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-10-24): holds.
+- North Star check (2026-10-26): holds.
 
 ## Read next
 
@@ -193,6 +197,13 @@ Do not ask the owner to reapprove settled selections or quietly choose new ones.
 - The frozen route-lock manifests r1 to r48 and
   `quality/website-redesign/homepage-handoff.v1.json` as a description of
   today's page: they are history and a recovery baseline.
+- `project-documentation/homepage-redesign/`: every file there is history.
+  `ROUTE-CONTINUITY-R3.md` is a byte-locked snapshot of 17 September 2026 that
+  older manifests hash; it says there is no `/about` route and names retired
+  labels, and none of that is current.
+- The dated evidence files in `project-documentation/website-redesign/`
+  (`RELEASE-2026-09-24.md`, `BACKEND-RELEASE-EVIDENCE-2026-09-24.md`) as
+  today's state: they are receipts of their date.
 - A build, an exit code or a screenshot alone as proof of behaviour, and an
   older receipt relabelled as new verification.
 - Prices, durations, dates or availability from memory. The canon and the live

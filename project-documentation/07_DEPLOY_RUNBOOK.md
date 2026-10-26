@@ -1,6 +1,8 @@
 # Release runbook
 
-Current procedure, reviewed 24 September 2026. Not a deployment journal.
+Current procedure, reviewed 26 October 2026. Not a deployment journal. The
+required gate list is in [CLAUDE.md](../CLAUDE.md), "Verification"; this file
+puts those gates in release order.
 [06_CURRENT_STATE.md](06_CURRENT_STATE.md) owns live/rollback identities;
 [07_DEPLOYMENT.md](07_DEPLOYMENT.md) owns topology and authority boundaries.
 
@@ -21,7 +23,8 @@ normalizes it and exact configuration bytes are release-bound.
 
 - Run the deterministic homepage adapter --check; never hand-edit generated R3.
 - Run qa:approved-routes and its negative self-test, qa:homepage-handoff,
-  qa:website-feedback, qa:material-review:self-test and qa:plain-language.
+  qa:website-feedback, qa:material-review:self-test, qa:plain-language,
+  qa:docs and qa:website-restart.
 - Run typecheck against tsconfig.app.json, lint, full units and npm run build.
   Root tsconfig alone is not a typecheck.
 - Metadata changes require discoverability tests, route/canonical parity,
@@ -41,15 +44,18 @@ normalizes it and exact configuration bytes are release-bound.
 
 ## Browser and journey gates
 
-These run after the merge, not before it. Ruling (Krish, 2026-09-25): the
-browser matrix is not a pre-merge gate and nothing waits on it. CI runs it on
-main against the commit Vercel promotes; a failure there is fixed forward or
-rolled back, both of which take minutes.
+Before merging, on the exact built artifact and on Chromium only: qa:line-breaks
+and qa:homepage-release:pre-merge; qa:card-contrast when the homepage's picture
+cards change; qa:lead-keyboard and qa:lead-contrast when the brief changes.
 
-Use the exact built artifact. Full route smoke runs Chromium/Firefox on Linux
-and WebKit on macOS. Require expected counts and navigation supplements. Do not
-substitute a smaller matrix when it runs; local smoke is additive evidence and
-is never required before landing a change.
+The three-engine browser matrix runs after the merge, not before it. Ruling
+(Krish, 2026-09-25): it is not a pre-merge gate and nothing waits on it. CI runs
+it on main against the commit Vercel promotes (Chromium and Firefox on Linux,
+pinned to ubuntu-24.04 since 24 October 2026, WebKit on macOS); agents read its
+Chromium result only (Krish, 2026-09-26), and a failure there is fixed forward
+or rolled back, both of which take minutes. Require expected counts and
+navigation supplements. Local smoke is additive evidence and is never required
+before landing a change.
 
 For pinned builds verify every visible state, stable geometry, forward/reverse
 traversal, entry and natural release. Test reduced motion, short screens,
@@ -72,11 +78,15 @@ retain verification codes/full private bodies. Head/docs-only edits need no send
 
 ## Promote and verify
 
-1. Freeze the exact candidate commit; require its CI, independent review and
-   applicable material approval. Keep failed runs as failures.
+1. Freeze the exact candidate commit; require its exact-head CI and Krish's
+   approval of any material change. Merging itself is pre-authorised (CLAUDE.md,
+   2026-09-24), and no AI review round is run unless Krish asks for one. Keep
+   failed runs as failures.
 2. Preserve frontend deployment and affected backend rollback closures.
 3. Merge to main; Vercel auto-promotes. Do not deploy an arbitrary local
-   worktree. Match build/commit and production alias.
+   worktree. Match build/commit and production alias. A merge never deploys a
+   Supabase function: deploy a changed function from main with its original JWT
+   flag, on Krish's go, and read its source back.
 4. Read public HTML, assets, redirects and runtime behavior. For discoverability,
    include head, robots, sitemap, icons and social images.
 5. Update current state/receipts; put chronology only in history/LOG.md.

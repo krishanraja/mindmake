@@ -1,6 +1,6 @@
 # 00. North star
 
-*Current authority reviewed 16 October 2026 against the live site. Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Current authority reviewed 26 October 2026 against the live site (S6, its phone review and the brief in fewer clicks). Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
@@ -80,13 +80,14 @@ the brief it produces; then Mindmake gets in touch about a free consultation.
 Apart from a code that confirms the address, it sends the results and one
 follow-up two weeks later, nothing more.
 
-**The proof.** Fifteen true client stories on the homepage and
-`/new-age-leadership`, eight verified results on `/case-studies`, and the
-permissions for each in `04_PROOF.md`.
+**The proof.** Seventeen true client stories on `/ai-brain` and
+`/new-age-leadership` (the homepage shows three results that link to them),
+eight verified results on `/case-studies`, and the permissions for each in
+`04_PROOF.md`.
 
 **Ways in, and what extends the work.**
 
-- **The free AI brief**, above. The main way in.
+- **Start building your AI brain**, the free brief above. The main way in.
 - **Make Your Mind Up**, Mindmake's free publication at
   [makeyourmindup.ai](https://makeyourmindup.ai): what's coming in AI, before
   it's obvious, three times a week by email. For readers who are curious but not
@@ -259,9 +260,11 @@ the claim. A mono speaks data and labels, and only those. If you are unsure
 which face to use, you are unsure what the line is doing.
 
 **The motion.** Ambient films establish the setting; scroll builds explain a
-sequence; controls respond promptly. The approved R3 history chapter and the
-reach and practice chapters pin and progress reversibly with native scroll; the
-AI Brain stories are a chooser that never pins. Their static
+sequence; controls respond promptly. Nothing on the homepage pins (24 October
+2026): its eras and practice scenes are carousels a reader swipes. On
+`/new-age-leadership` the history, reach and practice chapters pin and
+progress reversibly with native scroll; the AI Brain stories are a chooser
+that never pins. Their static
 content remains available without script, with reduced motion, or where the
 viewport cannot fit the instrument. Approved staged reveals must never make
 reading depend on animation. `03_DESIGN_CONTRACT.md` owns the exact guarantees.
@@ -378,9 +381,13 @@ staff.**, the simplest form of what an AI brain does for a leader (Krish, 15
 October 2026). Its
 opening line is **Part people. Part agent. Led by judgement.**
 
-The homepage contains the approved history chapter, the three new-age
-leadership chapters and the AI Brain stories. `/new-age-leadership` remains a
-companion, not a reason to remove those chapters. The two doors carry their
+Since S6 (Krish, 24 October 2026) every page is three sections: the problem,
+how it works, and what the reader gets and how they know it works. The homepage
+is the R3 opening, then "Right now, your AI is an intern." (the four eras),
+"A chief of staff knows how you think." (the organisation and the practice
+scenes) and "Built on your real work. Yours to keep." (three results). The AI
+Brain stories live on `/ai-brain`. `/new-age-leadership` remains a companion
+with its own pinned chapters and the stories. The two doors carry their
 specific capabilities.
 
 The internal buyer psychology stays private. Its approved public expression is

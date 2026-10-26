@@ -5,13 +5,14 @@
 Live: [mindmake.co](https://mindmake.co). Mindmake is a small AI and
 commercial strategy practice run by Krish Raja. It builds a leader their own AI
 brain: a working system that holds their taste, standards, judgement and
-memory. Build your AI brain: **Unlock and create the idea you've been sitting
-on.** Build your AI revenue engine: **The pricing, positioning and org
-structure you'll need.** Both lead to one paid proof, privately scoped and
+memory. Build your AI brain: **Your judgement, running as a system you own.**
+Build your AI revenue engine: **The pricing, positioning and team you'll
+need.** Both lead to one paid proof, privately scoped and
 priced; the only public length is the 30-day shape on the two door pages.
 
-The way in is **Get your free AI brief** (`/?start=1`). For readers not ready
-yet, the publication is **Make Your Mind Up** at
+The way in is **Start building your AI brain** (`/?start=1`; **Start building
+your AI revenue engine** on `/ai-gtm`), a free, private brief. For readers not
+ready yet, the publication is **Make Your Mind Up** at
 [makeyourmindup.ai](https://makeyourmindup.ai). CTRL, the product the work runs
 on, is a separate project in a private pilot with leaders.
 
@@ -24,18 +25,20 @@ The whole business in two minutes is "Mindmake in one page" in
 identities and verification status. Superseded narratives live in the single
 [history ledger](project-documentation/history/LOG.md), not current guides.
 
-The owner-approved R3 design/copy is locked. Do not reinterpret general rules to
-remove accepted labels, chapters or scroll builds. Preserve the immutable source
-and use its deterministic production adapter.
+The owner-approved R3 opening and footer are locked. Since S6 (Krish, 24
+October 2026) every page is three sections, the problem, how it works and what
+the reader gets, and nothing on the homepage pins. Do not reinterpret general
+rules to remove accepted labels, sections or scroll builds. Preserve the
+immutable source and use its deterministic production adapter.
 
 ## Public routes
 
 | Route | Purpose |
 |---|---|
-| / | Approved R3 opening, four history eras, the reach and practice chapters, the AI Brain stories (fifteen, chosen by situation), the returned hour and two doors |
-| /ai-brain | Approved judgement-and-memory instrument |
-| /ai-gtm | Approved market-change instrument |
-| /new-age-leadership | Approved people/AI companion narrative |
+| / | The R3 opening (film, six-line headline, both doors, the way in), then three sections: the four eras, the organisation and its practice scenes, and three results; nothing pins |
+| /ai-brain | Build your AI brain: three sections, the 30 days and the seventeen AI Brain stories as a chooser |
+| /ai-gtm | Build your AI revenue engine: three sections and one go-to-market move in 30 days |
+| /new-age-leadership | The people and AI companion narrative, with its own pinned history, reach and practice chapters and the stories |
 | /case-studies | Success stories: eight verified client stories |
 | /blog | Ideas you can use: every quick tip and longer read, newest first, filtered by kind and subject |
 | /blog/:slug | A longer read |
@@ -52,7 +55,8 @@ src/App.tsx. Do not use redirecting aliases as canonical or sitemap URLs.
 ## Conversion
 
 Homepage and both doors open the same LeadBrief: company email, person/role,
-company read, problem, returned time, brief, explicit keep action and verification.
+company read, problem, returned time, brief, explicit keep action and
+verification, 8 clicks from the homepage hero to the code (26 October 2026).
 Results remain visible and downloadable; the operator receives a private digest.
 Publication interest is separate and unticked. Payload, delivery, privacy and
 failure guarantees belong to [05_LEAD_DELIVERY_SPEC.md](project-documentation/05_LEAD_DELIVERY_SPEC.md).

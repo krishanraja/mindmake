@@ -121,7 +121,7 @@
     "scripts/qa/build-homepage-release.mjs": "b683b9d36a0ce38a440081f64b8c0c023da600f4ae66f0ae257542f176cd1e43",
     "scripts/qa/build-new-age-r5-styles.mjs": "e50939a2552f4aa55d3045bed433a593b1aefc2923e5a015af75e5bf37b6c097",
     "scripts/qa/card-contrast-check.mjs": "92de960bc495905b349329e29fdd3628ef855c1fbb5d3c0c1f0f6cc6859bebdf",
-    "scripts/qa/current-documentation-check.mjs": "8ccfa7ac79df3f956798223a578f18d8162b4c9c3acc8fd18cec1fbfff4bc405",
+    "scripts/qa/current-documentation-check.mjs": "74e5bdd034580920cea9aa793a43728bb2996ad6766dfa3dafc87427ddde70d2",
     "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
     "scripts/qa/full-route-continuity-check.mjs": "9463e9aee4b5a109cd359d150bc19553839fef04899781bd66705ef45dec7c55",
     "scripts/qa/homepage-release-adapter-check.mjs": "84f6c1db90590d0340ad6dbea37b3774d3e301d57dc88f7af6ff17b081e24249",

@@ -4,8 +4,9 @@ import { resolve, dirname, relative } from 'node:path';
 
 const root = resolve(import.meta.dirname, '../..');
 const read = (path) => readFileSync(resolve(root, path), 'utf8').replace(/\r\n/g, '\n');
-const core = ['NOW.md', 'README.md', 'CLAUDE.md', 'AGENTS.md', ...readdirSync(resolve(root, 'project-documentation'))
-  .filter((name) => name.endsWith('.md')).map((name) => `project-documentation/${name}`)];
+const core = ['NOW.md', 'README.md', 'CLAUDE.md', 'AGENTS.md', 'project-documentation/website-redesign/STATE.md',
+  ...readdirSync(resolve(root, 'project-documentation'))
+    .filter((name) => name.endsWith('.md')).map((name) => `project-documentation/${name}`)];
 const docs = new Map(core.map((path) => [path, read(path)]));
 const failures = [];
 
@@ -17,6 +18,18 @@ export function validateCurrentDocument(path, text) {
     /latest promotion is the edge rewrite of 5 September/i,
     /single current state route for the unreleased multi-surface redesign/i,
     /never more than a day behind the tree/i,
+    // Retired by S6 and the brief in fewer clicks (24 and 26 October 2026) and
+    // removed by that day's documentation audit. A current document that says
+    // one of these again describes a business that no longer exists.
+    /The way in is \*\*Get your free AI brief\*\*/,
+    /Verified application release: PR #171/,
+    /AI Brain stories \(fifteen/i,
+    /Fifteen true client stories/i,
+    /The homepage contains the approved history chapter/,
+    /headline turns through\s+five lines/,
+    /r16\.json`?[^.]*(?:identifies|identity of) what is live/,
+    /All 26 public routes and 32 metadata assets passed/,
+    /at 1440x900 or 390x844/,
   ];
   for (const pattern of obsolete) if (pattern.test(text)) issues.push(`superseded current guidance: ${pattern}`);
   if (path.endsWith('06_CURRENT_STATE.md')) {
@@ -60,6 +73,8 @@ const bad = [
   `${current}\n## Historical frontend baseline\nOld release.`,
   `${current}\nThe latest promotion is the edge rewrite of 5 September.`,
   `${current}\n450 tests`,
+  `${current}\nThe way in is **Get your free AI brief** (\`/?start=1\`).`,
+  `${current}\nThe proof. Fifteen true client stories on the homepage.`,
   current.replace('## Backend', '## Removed backend owner'),
   current.replaceAll('history/LOG.md', 'somewhere-else.md'),
 ];

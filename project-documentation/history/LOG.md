@@ -7,6 +7,28 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-26
 
+- The documentation was audited against the live site before the next merge,
+  on Krish's instruction: "ensure the documentation is 100% up to scratch, and
+  that an AI agent reading the documentation cannot possibly misinterpret or
+  read stale version of this business". `06_CURRENT_STATE.md` was rewritten to
+  current truth only and, with `website-redesign/STATE.md`, archived verbatim
+  ([06](ARCHIVE.md#archive-2026-10-26-06-current-state-md),
+  [STATE](ARCHIVE.md#archive-2026-10-26-website-redesign-state-md)). Fresh
+  readings that day: a live discoverability pass on 36 routes and 42 assets
+  bound to `86dcf6d`; the answer feed, `llms.txt`, `llms-full.txt` and
+  `robots.txt` served live (the 21 October hub had no recorded readback); every
+  footer served the legal-entity line; `npm audit` 25 entries (17 high, 7
+  moderate, 1 low), up from 23; no branch protection or rulesets on `main`;
+  `/case-studies#record-<id>` still fails to open on a desktop. Corrected
+  elsewhere: the canon's copy table (six headlines, S6's door lines, page
+  headlines and promises), the North Star's proof, ways in, motion and
+  placement lines, the README's routes, CLAUDE.md's `qa:line-breaks` sizes and
+  conditional gates, the runbook's gate order and review rule, and the design
+  contract's lock lineage. `homepage-redesign/README.md` marks that folder as
+  history, and `qa:docs` now rejects nine of the stale sentences in any
+  current document. No site code or copy changed.
+- Moved from `website-redesign/STATE.md` by that audit, verbatim: "Homepage copy and fit, 26 September 2026 (Krish), all homepage-only, superseded by S6 with the chapters it fitted (git keeps the detail). The four history questions are quotations in curly marks, set by the generator, and run three balanced lines of the story column sized to the frame's width and height, the opening mark hanging in the gutter on a desktop. The reach headings, "When built right, AI is our biggest level-up." (two lines) and the returned hour's question size to their columns and to short laptop screens in `integration.css`, and `/new-age-leadership` keeps its own sizes. The returned hour's three answers each hold one line, and the first, "Clock off work earlier?", is crossed out in red as the reader scrolls, forward and back (`returnedHour.ts`); reduced motion and no-script show it struck. The closing chapter's AI brain state reads "Own your judgement, and amplify it.", its lede and the steps "Your brain, built out.", "The systems that amplify you, proven." and "The confidence of being an AI era leader."; the generator reads those words from the markup, so the runtime can no longer restore older copy over them. The steps span the band on a desktop and stack on a phone."
+
 - The brief in fewer clicks shipped (PR #250, merge `6b86220`, 14:25 UTC) with
   `submit-mindmake-brief` v23: 8 clicks to the code from the homepage hero
   (11 on desktop, 14 on a phone before), and the code sent before the company

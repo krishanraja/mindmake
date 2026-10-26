@@ -1,6 +1,6 @@
-# Current backend release evidence
+# Backend release evidence, 24 September 2026
 
-Verified release: 24 September 2026. This is the current evidence summary, not a chronological repair log. Full prior records and incident sequence are retained in `../history/LOG.md`. Behavioral specification: `../05_LEAD_DELIVERY_SPEC.md`. Overall production identity and frontend gates: `RELEASE-2026-09-24.md`.
+Dated evidence of the 24 September 2026 release, not current state: today's backend versions, rollback and limits are in `../06_CURRENT_STATE.md` (since then `submit-mindmake-brief` has moved from v21 to v23). This is an evidence summary of that release, not a chronological repair log. Full prior records and incident sequence are retained in `../history/LOG.md`. Behavioral specification: `../05_LEAD_DELIVERY_SPEC.md`. Overall production identity and frontend gates: `RELEASE-2026-09-24.md`.
 
 ## Target and deployed identity
 

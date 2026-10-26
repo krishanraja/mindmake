@@ -1,6 +1,7 @@
 # Deployment topology and operating contract
 
-Reviewed 24 September 2026. Current deployment/version/rollback identities:
+Reviewed 26 October 2026; the topology is unchanged since 24 September. Current
+deployment/version/rollback identities:
 [06_CURRENT_STATE.md](06_CURRENT_STATE.md). Procedure:
 [07_DEPLOY_RUNBOOK.md](07_DEPLOY_RUNBOOK.md). History: history/LOG.md only.
 
@@ -28,7 +29,7 @@ Project bkyuxvschuwngtcdhsyg. Versions/source evidence are in current state.
 
 | Function | JWT | Contract |
 |---|---|---|
-| submit-mindmake-brief | off | Company-first brief, verification and delivery |
+| submit-mindmake-brief | off | Company-first brief, verification and delivery; sends the code first and finishes the research after the response |
 | enrich-company | on | Server-called domain-bound enrichment |
 | mindmake-personal-read | off | Retained personal-read API and human handoff |
 | get-ai-news | off | Retained cache API, not the approved homepage composition |

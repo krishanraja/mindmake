@@ -1,6 +1,6 @@
 # 01. Canon
 
-*Current authority reviewed 16 October 2026 against the live site. Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Current authority reviewed 26 October 2026 against the live site (S6, its phone review and the brief in fewer clicks). Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.
@@ -41,34 +41,48 @@ buyer archetype is not public positioning.
 ## The two doors
 
 The owner-approved public copy is locked. The homepage headline turns through
-five lines once, then rests on the first, which is also the page's h1 and title
-(Krish, 15 October 2026: "the most impactful first"; `heroRotation.ts`).
+six lines once, then rests on the first, which is also the page's h1 and title
+(Krish, 15 October 2026: "the most impactful first"; the second joined on 24
+October 2026 when the closing chapter that carried it left the homepage;
+`heroRotation.ts`). The table is the live copy as read back on mindmake.co on
+26 October 2026 (S6 and its phone review).
 
 | Placement | Accepted copy |
 |---|---|
 | Homepage headline (first, and the h1) | Promote your AI from intern to chief of staff. |
-| Homepage headlines 2 to 5 | High standards deserve an AI that knows yours. / AI can copy almost anything except your taste. / Amplify your judgement, and the business follows. / Build the human + AI business that augments your vision. |
+| Homepage headlines 2 to 6 | Own your judgement, and amplify it. / High standards deserve an AI that knows yours. / AI can copy almost anything except your taste. / Amplify your judgement, and the business follows. / Build the human + AI business that augments your vision. |
 | Opening promise | Part people. Part agent. Led by judgement. |
+| Homepage lede | The leaders who shape the next decade will have an AI that thinks like them. We build yours. |
 | Brain door | Build your AI brain |
-| Brain door explanation | Unlock and create the idea you've been sitting on. |
+| Brain door explanation | Your judgement, running as a system you own. |
 | Revenue engine door | Build your AI revenue engine |
-| Revenue engine door explanation | The pricing, positioning and org structure you'll need. |
-| Shared proof | Build the first working version on real work. Keep the system. |
-| Brain headline | Own your judgement, and amplify it. |
-| Brain promise | Give your standards, taste and business vision a seat at the table, and level up your capabilities as a leader. |
-| Brain steps | Your brain, built out. The systems that amplify you, proven. The confidence of being an AI era leader. |
-| Brain film line | The next decision begins with what the last one taught you. |
-| GTM headline | Make your pricing, positioning and team AI-native. |
-| GTM promise | AI is changing what customers pay for, how they choose and who does the work. We rebuild your go-to-market around it, then test it with real buyers. |
-| GTM kicker | One go-to-market move in 30 days |
-| GTM 30 days | Week 1: we map all four. Weeks 2 to 4: we build the move worth most and test it with real buyers. Day 30: you keep it. |
-| Route back control | AI brain or AI revenue engine |
-| Proof receipt | What stays with you |
+| Revenue engine door explanation | The pricing, positioning and team you'll need. |
+| Homepage section 1 (the problem) | Right now, your AI is an intern. |
+| Homepage section 2 (how it works) | A chief of staff knows how you think. |
+| Homepage section 3 (what you get) | Built on your real work. Yours to keep. |
+| Brain headline (`/ai-brain` h1) | An AI that thinks like you. |
+| Brain promise | Every AI you can buy knows the market. None of them know you. We build the one that does, and it gets sharper with every call you make. |
+| Brain 30 days | We build it with you in 30 days. |
+| Brain receipt | Your brain, built out. The systems that amplify you, proven. The confidence of being an AI era leader. |
+| GTM headline (`/ai-gtm` h1) | Make your pricing, positioning and team AI-native. |
+| GTM promise | Your customers have changed how they buy. We change how you sell to match, then test it with real buyers. |
+| GTM 30 days | One go-to-market move in 30 days. Week 1: we map all four. Weeks 2 to 4: we build the move worth most, and test it with real buyers. |
+| GTM receipt | The model. The evidence. Anything we built. |
+| Proof receipt title | What stays with you |
+
+Retired with S6 and not to be restored as current copy: "Unlock and create the
+idea you've been sitting on.", "The pricing, positioning and org structure
+you'll need.", "Build the first working version on real work. Keep the
+system.", the closing chapter's brain promise, the film line "The next decision
+begins with what the last one taught you.", the old GTM promise beginning "AI
+is changing what customers pay for" and the route control "AI brain or AI
+revenue engine".
 
 Public route labels, in menu order: **Home**, **Build your AI brain**,
 **Build your AI revenue engine** ("Build your AI revenue" in the phone menus),
 **Success stories**, **Ideas you can use**, **Questions we get asked**,
-**About us** and **Media**, with a **Subscribe for free** badge beside Media.
+**About us** and **Media**, with a **Subscribe for free** badge beside Media
+and a **Subscribe** button beside the menu in every masthead (24 October 2026).
 The one action is **Start building your AI brain** (`START_LABEL` in
 `src/lib/publicLinks.ts`; on `/ai-gtm` **Start building your AI revenue
 engine**, `START_LABEL_GTM`), with "Free and private. It starts with a read of
@@ -412,18 +426,27 @@ rather than the craft.
 
 ## The conversion path
 
-There is no public diary link or "Book a fit call" CTA. **Get your free AI
-brief** is the primary action. The two adjacent door choices are one routing decision.
+There is no public diary link or "Book a fit call" CTA. **Start building your
+AI brain** (on `/ai-gtm`, **Start building your AI revenue engine**) is the
+primary action and opens the free brief; it replaced "Get your free AI brief"
+on 24 October 2026. A button that names no door opens the brief at the AI
+brain's door (26 October 2026), so the visitor is never asked which door.
 
 The approved homepage and both doors use the same company-first `LeadBrief`:
 
-1. Work email, then first/last name and business role; company comes from the
-   work domain. Personal domains are refused with an honest explanation.
+1. "Let’s get started.": a work email and **Get building**, with the
+   publication offered beneath for a reader not ready to build. Then first/last
+   name and business role; company comes from the work domain. Personal domains
+   are refused with an honest explanation.
 2. A corroborated company read, then a problem choice and where returned time
-   would help. Generic approved options remain valid when tailoring is absent.
+   would help, each one tap that moves on. Generic approved options remain
+   valid when tailoring is absent.
 3. A brief: what AI can carry, what the leader keeps, and one useful first proof.
-4. **Keep the private brief** is explicit; the visitor confirms their address
-   with a code before delivery. The brief stays on screen and can be downloaded.
+4. **Keep the private brief** is explicit and goes straight to the address; the
+   visitor confirms it with a code before delivery. The code is sent at once
+   and the research behind the brief finishes afterwards. The brief stays on
+   screen and can be downloaded. From the homepage hero to "Check your email."
+   is 8 clicks on a desktop or a phone (26 October 2026).
 5. The visitor receives their results and the operator receives a private fit
    digest. The operator decides whether a personal reply would help.
 

@@ -410,10 +410,8 @@ async function exerciseLeadBrief(route) {
   await dialog.getByRole("button", { name: /See the company read/i }).click();
   await dialog.getByRole("heading", { name: "This is what I can see so far." }).waitFor({ timeout: 15000 });
   await dialog.locator(".mm-choice-grid button").first().click();
-  await dialog.getByRole("button", { name: /Use this problem/i }).click();
   await dialog.locator(".mm-capacity-grid button").first().click();
-  const valuePreview = await dialog.locator(".mm-value-preview").innerText();
-  await dialog.getByRole("button", { name: /Show me the recommendation/i }).click();
+  const valuePreview = await dialog.locator(".mm-folio-time-inscription p").innerText();
   const recommendation = await dialog.locator(".mm-brief-result-grid article").allInnerTexts();
   await page.keyboard.press("Escape");
   await page.goForward({ waitUntil: "networkidle" });
@@ -428,7 +426,7 @@ async function exerciseLeadBrief(route) {
   const callsBeforeKeep = [...functionCalls];
   await restoredDialog.getByRole("button", { name: /Back to your time/i }).click();
   const retainedChoice = await restoredDialog.locator(".mm-capacity-grid button[aria-pressed=true]").count() === 1;
-  await restoredDialog.getByRole("button", { name: /Show me the recommendation/i }).click();
+  await restoredDialog.locator(".mm-capacity-grid button[aria-pressed=true]").click();
   await restoredDialog.getByRole("button", { name: /Keep the private brief/i }).click();
   const consequence = restoredDialog.locator(".is-contact, .is-success");
   await consequence.waitFor();

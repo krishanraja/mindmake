@@ -27,14 +27,15 @@
 import { existsSync, realpathSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "playwright";
 
 const args = process.argv.slice(2);
 const flag = (name) => { const at = args.indexOf(`--${name}`); return at === -1 ? undefined : args[at + 1]; };
 const root = resolve(flag("root") ?? fileURLToPath(new URL("../../", import.meta.url)));
 const output = resolve(flag("out") ?? resolve(fileURLToPath(new URL("../../", import.meta.url)), "artifacts/lead-contrast"));
-const { createServer } = await import(resolve(root, "node_modules/vite/dist/node/index.js"));
+/* A file URL, not a path: on Windows an absolute path is not an import specifier. */
+const { createServer } = await import(pathToFileURL(resolve(root, "node_modules/vite/dist/node/index.js")).href);
 
 const failures = [];
 const measured = [];
@@ -46,14 +47,14 @@ const dossier = {
   synthesis: "Peldon Rose designs and builds workplaces.",
 };
 
-/* The homepage's drawer, which asks for the door; /ai-brain's drawer, which
-   does not; and /about's card, whose page loads mindmake-instruments.css, the
+/* The homepage's drawer and /ai-brain's, both at the AI brain's door (since
+   26 October 2026 a way in that names no door opens there); and /about's card, whose page loads mindmake-instruments.css, the
    stylesheet that turned the offer of a person pale (it stays loaded after a
    visitor moves on from /about or /case-studies to any other page). */
 const entries = [
-  { name: "home", path: "/?start=1", door: /Build your AI brain/ },
+  { name: "home", path: "/?start=1" },
   { name: "brain", path: "/ai-brain?start=brain" },
-  { name: "about", path: "/about?start=1", door: /Build your AI revenue engine/ },
+  { name: "about", path: "/about?start=1" },
 ];
 
 const viewports = [
@@ -391,12 +392,8 @@ try {
       await dialog.getByRole("heading", { name: "This is what I can see so far." }).waitFor({ timeout: 15000 });
       await snapshot(page, label, "pressure");
       await dialog.locator(".mm-choice-grid button").first().click();
-      await snapshot(page, label, "pressure-chosen");
-      await dialog.getByRole("button", { name: /use this problem/i }).click();
       await snapshot(page, label, "capacity");
       await dialog.getByRole("button", { name: "Grow this business" }).click();
-      await snapshot(page, label, "capacity-chosen");
-      await dialog.getByRole("button", { name: /show me the recommendation/i }).click();
       await page.locator('.mm-brief-panel[data-step="preview"] .mm-folio').waitFor({ state: "visible" });
       await snapshot(page, label, "preview");
       for (let leaf = 0; leaf < 3; leaf += 1) {
@@ -409,9 +406,6 @@ try {
       await snapshot(page, label, "preview-time-editor");
       await dialog.getByRole("button", { name: /keep current time/i }).click();
       await dialog.getByRole("button", { name: /keep the private brief/i }).click();
-      await dialog.locator(".mm-folio-keep-panel").waitFor();
-      await snapshot(page, label, "preview-keep-confirm");
-      await dialog.getByRole("button", { name: /^continue/i }).click();
       await dialog.locator("#mm-work-email").waitFor();
       await snapshot(page, label, "contact");
       await dialog.getByRole("button", { name: /send the code/i }).click();

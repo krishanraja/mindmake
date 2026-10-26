@@ -115,9 +115,7 @@ async function reachPreview(page, browserName, width, height) {
     leadSent: false,
   });
   await dialog.getByRole("button", { name: "Customers can now do more without us" }).click();
-  await dialog.getByRole("button", { name: /use this problem/i }).click();
   await dialog.getByRole("button", { name: "Grow this business" }).click();
-  await dialog.getByRole("button", { name: /show me the recommendation/i }).click();
   await page.locator('.mm-brief-panel[data-step="preview"] .mm-folio').waitFor({ state: "visible" });
   await page.evaluate(() => document.fonts.ready);
   return dialog;
@@ -232,20 +230,21 @@ async function exercise(page, dialog, browserName, width, height) {
     fail(await dialog.locator(".mm-folio-leaf").nth(1).getAttribute("aria-current") !== "step", `${label}: keyboard did not move the active desktop leaf`);
   }
 
-  await dialog.locator(".mm-folio-primary").click();
-  const keepPanel = dialog.locator(".mm-folio-keep-panel");
-  await keepPanel.waitFor({ state: "visible" });
-  const keepText = (await keepPanel.innerText()).toLowerCase();
-  fail(!keepText.includes("email verification is next.") || !keepText.includes("nothing has been sent."), `${label}: exact Keep consequence missing`);
-  const consequenceGeometry = await geometry(page);
-  assess(consequenceGeometry, `${label} Keep`, compact);
-  record(browserName, viewport, "keep private brief", "state the next step and that nothing has been sent before continuing", failures.filter((item) => item.startsWith(label)).length ? "fail" : "pass", keepText);
-
+  /* Screenshot the brief before keeping it, then keep it. Since 26 October 2026
+     Keep goes straight to the address, and that step says the next step and
+     that nothing is sent until the code is confirmed. */
   if (browserName === "chromium" && [[320, 568], [390, 844], [844, 390], [1440, 700], [1440, 900]].some(([w, h]) => w === width && h === height)) {
-    await keepPanel.getByRole("button", { name: /not now/i }).click();
     await page.locator("video").evaluateAll((videos) => videos.forEach((video) => video.pause()));
     await page.screenshot({ path: `${output}/chromium-${viewport}.png`, fullPage: false });
   }
+  await dialog.locator(".mm-folio-primary").click();
+  const contact = dialog.locator(".is-contact");
+  await contact.waitFor({ state: "visible" });
+  const keepText = (await contact.innerText()).toLowerCase();
+  fail(!keepText.includes("a six-digit code comes first") || !keepText.includes("nothing is sent to us until you confirm the code"), `${label}: exact Keep consequence missing`);
+  const consequenceGeometry = await geometry(page);
+  assess(consequenceGeometry, `${label} Keep`, compact);
+  record(browserName, viewport, "keep private brief", "go straight to the address, which states the next step and that nothing has been sent", failures.filter((item) => item.startsWith(label)).length ? "fail" : "pass", keepText);
 }
 
 async function runBrowser(browserType, browserName, matrix) {

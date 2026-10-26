@@ -16,15 +16,15 @@ The starting read is an outside view, not a finished diagnosis or advice. The vi
 
 ## Shared private-brief journey
 
-`src/components/mindmake/LeadBrief.tsx` owns the current progressive flow. A route-specific entry carries Brain/GTM; a generic entry asks for the door first.
+`src/components/mindmake/LeadBrief.tsx` owns the current progressive flow. A route-specific entry carries Brain/GTM; an entry that names no door (`?start=1`, `/start`, the menus, the footers, the action bar off `/ai-gtm`) opens at the AI brain's, because every such button reads "Start building your AI brain" (Krish, 2026-10-26: as few clicks and as little brainpower as possible).
 
 1. Work email → **Get building** (Krish, 2026-10-24; the step opens "Let’s get started." and offers the publication instead, under the button). Derive the company domain; reject personal addresses for company research. The public read begins while the visitor continues.
 2. First name, last name and division/Leadership → **See the company read**. Do not ask the visitor to re-enter the company or work email. A `first.last@` or `first_last@` address fills both names in the browser (`nameFromEmail`, `src/lib/workEmail.ts`); a role mailbox, a single word or a shape it cannot place fills nothing, and a name the visitor typed is never replaced. The guess is an editable default, not evidence, and is not sent anywhere the typed name would not be.
 3. Show the declarative company read or an honestly labelled unavailable state. Where available, two or three tailored pressure statements are server-authored, signed and bound to a locked lens. “Something else” and the locked choices remain the recovery path.
-4. Choose the pressure, then where returned time would matter.
+4. Choose the pressure, then where returned time would matter. Each choice is one tap that moves on; "← Back to the problem" returns with the choice still marked.
 5. Show the illustrative private starting brief, with AI work, human responsibility and a first proof. Its disclaimer remains explicit; the preview is not professional advice.
-6. **Keep the private brief** opens the explicit confirmation that verification is next and nothing has been sent. Continue to the prefilled email and separate optional publication-interest box.
-7. Request the six-digit code. It expires after ten minutes and locks after five failed attempts. Six digits, typed or pasted, send themselves once; a code that failed is not resent until it changes.
+6. **Keep the private brief**, on every leaf (on a phone the leaves turn with two arrows beside it), goes straight to the prefilled email and the separate optional publication-interest box. That step states that a six-digit code comes first and that nothing is sent until it is confirmed.
+7. Request the six-digit code. The code is sent at once and the server finishes the company research behind the brief afterwards, while the visitor opens their email (`EdgeRuntime.waitUntil`; until 26 October 2026 the research ran first and the code took about 35 seconds). It expires after ten minutes and locks after five failed attempts. Six digits, typed or pasted, send themselves once; a code that failed is not resent until it changes. A right code that arrives before the research is finished is answered `request_in_progress` (no attempt spent); the browser says "Your brief is being finished" and asks again every two seconds for up to a minute, then offers a person (`read-failed`) rather than calling the code wrong.
 8. Only after successful confirmation attempt visitor brief and operator digest independently; show the completed “Your private brief” article and individual delivery status.
 9. **Download my brief** saves the actual self-contained HTML brief even if final email delivery fails.
 

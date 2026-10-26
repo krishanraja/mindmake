@@ -2,7 +2,7 @@
 repo: krishanraja/mindmake
 product: Mindmake
 as_of: 2026-10-26
-head: 86dcf6d
+head: 5f550d6
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md

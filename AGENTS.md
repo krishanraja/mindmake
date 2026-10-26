@@ -23,10 +23,10 @@ that every statement is fresh. Chronology lives only in
 
 ## Approved website release and future revisions
 
-Before touching the homepage, AI Brain, AI GTM, free AI brief journey, proof, case studies
+Before touching the homepage, AI Brain, AI GTM, the brief (the free first step), proof, case studies
 or their shared visual system, read `project-documentation/website-redesign/STATE.md`
 and `quality/website-redesign/continuity-contract.v1.json` completely. They are the
-single resumable state and feedback contract for the active multi-session redesign.
+single resumable state and feedback contract for the website.
 Also apply and validate `quality/website-redesign/experience-quality.profile.json`;
 it is the project adapter for the canonical harness experience-quality contract.
 Run `npm run qa:website-restart` before any public-surface edit. Do not create another

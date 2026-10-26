@@ -3,6 +3,14 @@
 Browser verification against the built output. Not part of the build, never
 deployed, and not run by `npm test`.
 
+The gates required before a merge are listed in `CLAUDE.md`, "Verification",
+and put in release order by `project-documentation/07_DEPLOY_RUNBOOK.md`. The
+browser ones are `qa:line-breaks` and `qa:homepage-release:pre-merge`, with
+`qa:card-contrast`, `qa:lead-keyboard`, `qa:lead-contrast` and
+`qa:discoverability` when a change touches what they measure. A script below
+that is not on that list is supporting evidence, and some check records older
+than the live site.
+
 ## Why these exist
 
 `vite preview` applies its SPA fallback first, so it serves `dist/index.html`
@@ -48,8 +56,9 @@ rubric hash so a later rubric edit cannot silently change an earlier verdict.
 
 ## Approved homepage fidelity
 
-`quality/homepage/approved-vnext-r2.json` records the approved homepage
-direction and its non-regression rules. The production gate exercises the
+`quality/homepage/approved-vnext-r2.json` records the homepage direction
+approved on 13 September 2026, before R3 and S6, and its non-regression rules;
+it is not a description of today's homepage and this check is not a merge gate. The production gate exercises the
 opening, both routes and the lead drawer at desktop, tablet, phone, short-phone
 and landscape sizes. It also checks deliberate line breaks, text zoom, browser
 history, focus restoration and the homepage's immediate load.

@@ -12,7 +12,7 @@ This repository's North Star is [`project-documentation/00_NORTH_STAR.md`](proje
 - Only Krish changes it.
 <!-- north-star:end -->
 
-Reviewed 26 September 2026. Read AGENTS.md and NOW.md first. Numbered project
+Reviewed 26 October 2026. Read AGENTS.md and NOW.md first. Numbered project
 documentation owns business truth; this is execution guidance, not its duplicate.
 
 ## Accepted surface
@@ -59,11 +59,17 @@ Node22.x >=22.18 and npm ci. Required gates:
   The feedback ledger is a record, not a merge gate: qa:website-feedback checks
   its shape, and an open item never blocks a branch (Krish, 2026-09-25).
 - qa:plain-language, typecheck, lint, full unit suite and build.
-- qa:line-breaks on the built site: no lone word or link on its own line, and
-  no text cut off by an edge that hides it, at 1440x900 or 390x844 (Krish,
-  2026-09-25).
+- qa:line-breaks on the built site: no lone word or link on its own line, no
+  text cut off across or down by an edge that hides it, no control under fixed
+  chrome and no swapping component that changes size when clicked, at
+  1440x900, 1280x800, 390x844 and 360x780 (Krish, 2026-09-25 and 2026-10-24).
+  It clicks every tab, toggle, step, seat and carousel on /, /ai-brain, /ai-gtm
+  and /new-age-leadership.
 - qa:homepage-release:pre-merge: rendered scroll/fallback states and negative
   controls, Chromium only.
+- Only when the change touches them: qa:card-contrast for the homepage's
+  picture cards, qa:lead-keyboard and qa:lead-contrast for the brief, and
+  qa:discoverability for crawler or head edits.
 
 Run the required gates and nothing more. No AI review rounds (review skills,
 reviewer subagents, Claude Code Review or Copilot requests) unless Krish asks

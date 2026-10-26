@@ -225,9 +225,11 @@ Preserve the deterministic adapter and accepted source.
   chapters). The Brain's current proof is `src/test/brain-narrative.test.ts`
   and `qa:line-breaks`.
 - The feedback ledger (`website-redesign/feedback-ledger.json`, a record, not a
-  merge gate) holds 31 rows implemented and awaiting Krish's review (25 `S6-*`
-  rows and six older ones) and two open rows waiting on Krish:
-  `LEAD-BRIEF-INTELLIGENCE-001` and `LEAD-BRIEF-DELIVERABLE-001`.
+  merge gate) has two open rows waiting on Krish,
+  `LEAD-BRIEF-INTELLIGENCE-001` and `LEAD-BRIEF-DELIVERABLE-001`, and none
+  awaiting review: the 31 implemented rows (25 `S6-*` and six older ones) were
+  accepted on 26 October 2026 (Krish: "Yes, mark all 31 feedback ledger rows
+  as accepted, citing this message.").
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

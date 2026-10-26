@@ -106,8 +106,8 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   brain", replacing "Get your free AI brief".
   A second ruling: no word alone on a line, and no component that changes size
   when a reader makes a choice, so `qa:line-breaks` now covers 1280 and 360
-  wide, clicks every swapping control and fails size changes. 25 `S6-*`
-  feedback rows are implemented and await Krish's review in the ledger.
+  wide, clicks every swapping control and fails size changes. Its 25 `S6-*`
+  feedback rows were accepted on 26 October 2026.
 - 2026-10-24: the Linux browser legs of CI were pinned to ubuntu-24.04 (#246).
   GitHub moved `ubuntu-latest` to 26.04 and the pinned Playwright 1.60.0
   "does not support chromium on ubuntu26.04-x64", so both legs stopped before
@@ -144,9 +144,9 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback
-  ledger); Krish's review of 31 implemented rows (25 `S6-*` and six older ones);
-  and one brief code confirmed on a phone, the end-to-end proof of the 26
-  October deploy.
+  ledger), and one brief started and confirmed on a phone, the end-to-end
+  proof of the 26 October deploy. The code of 14:33 UTC that day came from a
+  speed test, not a brief, and expired unused.
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.

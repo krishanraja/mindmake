@@ -7,6 +7,16 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-26
 
+- The 31 feedback ledger rows that were implemented and awaiting review (25
+  `S6-*` rows and `TYPE-SYSTEM-002`, `IDEAS-MERGE-001`,
+  `FOOTER-PHONE-ROUTES-001`, `LEAD-BRIEF-KEYBOARD-001`, `LEAD-BRIEF-LOGO-001`
+  and `LEAD-BRIEF-NAME-PREFILL-001`) were marked accepted, from Krish: "Yes,
+  mark all 31 feedback ledger rows as accepted, citing this message." The
+  ledger now holds 55 accepted, 20 verified, 6 superseded and 2 open rows.
+- The brief code Krish saw on a phone that day was the speed test's of
+  14:33 UTC, sent to a test address after the `submit-mindmake-brief` v23
+  deploy; it expired unused, so a brief confirmed by a person since v23 is
+  still not recorded.
 - rolled from NOW.md, to keep it within the steward's 200-line limit: the
   2026-10-21 bullet (the answer hub, #244) and the 2026-10-19 bullet (the two
   registered companies, #242 and #243); the full entries are under their own

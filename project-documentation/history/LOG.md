@@ -5,6 +5,16 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-26
+
+- Krish's phone review of S6 shipped (PR #248, merge `8266c5f`, 13:04 UTC): the
+  opening grows to fit, the eras and practice scenes are carousels, the eras and
+  results sit on their pictures under measured contrast, Subscribe sits beside
+  the menu, `/ai-gtm`'s way in is left-aligned and the brief's first step reads
+  "Let’s get started." with "Get building" and a subscribe line. Ledger rows
+  `S6P-01` to `S6P-07`; the receipt is in `06_CURRENT_STATE.md`.
+- Superseded in `06_CURRENT_STATE.md` by that release: PR #245, S6, three sections on every page, merge `23de29d` on 24 October 2026 at 16:21 UTC on Krish's go ("Go: merge S6 to main and read production back."), production deployment mindmake-b2pcb2r4x-krish-rajas-projects.vercel.app. Rollback: the preceding production, `006e8df`, mindmake-e2weosodm-krish-rajas-projects.vercel.app. Read back the same day against https://mindmake.co: the homepage, `/ai-brain`, `/ai-gtm` and `/new-age-leadership` serve the S6 copy and no "Get your free AI brief"; the Chromium homepage check passed 8 of 8 cases at 1440, 1280, 390 and 360 wide; `qa:line-breaks` passed on all 36 indexed pages at those four sizes, clicking every swapping control; `qa:discoverability` passed 36 routes and 42 assets bound to `23de29d`. Main's post-merge route lock passed its source job; its browser legs cannot run on Linux (GitHub's Ubuntu 26.04 runner, on which Playwright cannot install browsers, the same as on `7f13d4e`), and every Chromium case on its macOS leg passed. The 26-route and 32-asset receipt below is still the 24 September one.
+
 ## 2026-10-24
 
 - S6 shipped (PR #245, merge `23de29d`, 16:21 UTC): every page in three

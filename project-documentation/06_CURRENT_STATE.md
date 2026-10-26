@@ -12,27 +12,30 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 - Recoverable preceding release: dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8, mindmake-bh0d8hczk-krish-rajas-projects.vercel.app.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
-- Latest application release: PR #245, S6, three sections on every page, merge
-  `23de29d` on 24 October 2026 at 16:21 UTC on Krish's go ("Go: merge S6 to
-  main and read production back."), production deployment
-  mindmake-b2pcb2r4x-krish-rajas-projects.vercel.app. Rollback: the preceding
-  production, `006e8df`, mindmake-e2weosodm-krish-rajas-projects.vercel.app.
-  Read back the same day against https://mindmake.co: the homepage, `/ai-brain`,
-  `/ai-gtm` and `/new-age-leadership` serve the S6 copy and no "Get your free AI
-  brief"; the Chromium homepage check passed 8 of 8 cases at 1440, 1280, 390 and
-  360 wide; `qa:line-breaks` passed on all 36 indexed pages at those four sizes,
-  clicking every swapping control; `qa:discoverability` passed 36 routes and 42
-  assets bound to `23de29d`. Main's post-merge route lock passed its source job;
-  its browser legs cannot run on Linux (GitHub's Ubuntu 26.04 runner, on which
-  Playwright cannot install browsers, the same as on `7f13d4e`), and every
-  Chromium case on its macOS leg passed. The 26-route and 32-asset receipt below
-  is still the 24 September one.
+- Latest application release: PR #248, Krish's phone review of S6, merge
+  `8266c5f` on 26 October 2026 at 13:04 UTC on Krish's approval of the rendered
+  pages ("Approved. Merge #248 and read production back."), production
+  deployment mindmake-j3m375x51-krish-rajas-projects.vercel.app. Rollback: the
+  preceding production, `ab30417`, mindmake-kghtq55jv-krish-rajas-projects.vercel.app.
+  Read back the same day against https://mindmake.co: the homepage serves the
+  eras and practice carousels, seven picture cards and the masthead Subscribe,
+  and every shell page its Subscribe; the brief opens "Let’s get started.",
+  "Get building" and its subscribe line from the homepage, `/ai-brain` and
+  `/ai-gtm`; the Chromium homepage check passed 10 of 10 cases at 1440, 1280,
+  390, 360 and 412x741; `qa:card-contrast` passed all 149 lines (worst 5.26:1);
+  `qa:line-breaks` passed all 36 indexed pages at four sizes, clicking every
+  swapping control and both carousels. Main's post-merge route lock passed its
+  source job and its Linux Chromium leg on `ubuntu-24.04` (PR #246's pin, and
+  this release's corrected `qa:new-age-r5-production`), the first full Linux
+  Chromium pass since `7f13d4e`. The 26-route and 32-asset receipt below is
+  still the 24 September one.
 
 Since S6 (24 October 2026) the homepage carries the R3 opening, with the way in
 and a publication line, then three sections (the problem with the four eras as
-tiles, how it works with the organisation and practice scenes, and what the
-reader gets with three results and the way in) and the footer. Nothing on it
-pins. The AI Brain stories are a chooser on `/ai-brain` that never pins:
+a carousel on their pictures, how it works with the organisation and the
+practice scenes as a carousel, and what the reader gets with three results on
+their stories' pictures and the way in) and the footer. Nothing on it pins, and
+the opening grows to hold everything it carries (26 October 2026). The AI Brain stories are a chooser on `/ai-brain` that never pins:
 seventeen cards in five situations, each a story and its outcome. The
 new-age-leadership route is a separate approved companion that keeps its
 pinned reach and practice chapters and shares the stories' source.

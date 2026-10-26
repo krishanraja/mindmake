@@ -64,8 +64,8 @@ Your Mind Up", never "latest".
 
 ### Krish's review on a phone, after the release (24 October 2026)
 
-Feedback ledger rows `S6P-01` to `S6P-07`. Each ships only after Krish has seen it
-rendered.
+Feedback ledger rows `S6P-01` to `S6P-07`. Krish approved the rendered pages on 26
+October 2026 ("Approved. Merge #248 and read production back.").
 
 - The opening is at least one screen tall and grows when its words need more:
   R3's frame was exactly one screen and hid what did not fit, so on a short

@@ -1539,8 +1539,8 @@
       "classification": "correction",
       "requiredOutcome": "Everything the opening carries sits inside it at every size, including a short phone with its browser bars showing.",
       "acceptanceTest": "The homepage check finds the opening's last line inside its foot at 1440x900, 1280x800, 390x844, 360x780 and 412x741; qa:line-breaks fails text cut off below a box that hides overflow.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The opening is at least one screen tall and grows when its words need more (homepageSections.css). On a 412x741 phone the publication line had ended 47px below R3's one-screen frame, which hid it. qa:line-breaks only measured text cut off across; it now measures down too, with a negative control. Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "The opening is at least one screen tall and grows when its words need more (homepageSections.css). On a 412x741 phone the publication line had ended 47px below R3's one-screen frame, which hid it. qa:line-breaks only measured text cut off across; it now measures down too, with a negative control. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.css",
         "scripts/qa/homepage-release-browser-check.mjs",
@@ -1558,8 +1558,8 @@
       "classification": "correction",
       "requiredOutcome": "Each era sits on its picture from the old history chapter, faded so every word reads at AA or better, in a carousel a reader can see runs through time from left to right.",
       "acceptanceTest": "qa:card-contrast passes on every line of both faces of every era at three sizes, with a negative control; the homepage check pages the carousel to the last era; qa:line-breaks sweeps it without a size change.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Four tiles on the history-*-s2 pictures in a row that swipes and snaps, the next tile showing at the edge; under it arrows and a timeline (370 BC, 1675, 1970s, 2000s) that lights each stop as its tile comes into view and fills as the row moves. The date sits on its own ink; the words at the foot sit on ink of at least 90%. Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "Four tiles on the history-*-s2 pictures in a row that swipes and snaps, the next tile showing at the edge; under it arrows and a timeline (370 BC, 1675, 1970s, 2000s) that lights each stop as its tile comes into view and fills as the row moves. The date sits on its own ink; the words at the foot sit on ink of at least 90%. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1577,8 +1577,8 @@
       "classification": "correction",
       "requiredOutcome": "The three practice scenes are a carousel a reader can see swipes left to right.",
       "acceptanceTest": "qa:line-breaks sweeps the scene carousel to its end wherever its row is wider than the screen.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The scenes run in a row of their own with arrows and a timeline (Notice, Connect, Prepare); where all three fit, the controls keep their room unseen. Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "The scenes run in a row of their own with arrows and a timeline (Notice, Connect, Prepare); where all three fit, the controls keep their room unseen. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css"
@@ -1595,8 +1595,8 @@
       "classification": "correction",
       "requiredOutcome": "Each result sits on its story's own picture, faded so every word reads at AA or better.",
       "acceptanceTest": "qa:card-contrast passes on every line of the three results at three sizes (worst 5.26:1, the CRO's attribution, against 4.5:1).",
-      "status": "implemented-awaiting-review",
-      "resolution": "The founder's pantograph, the CEO's proofing press and the CRO's punched cards, each the scene of that story on /ai-brain (found by its record), shown in a band at the top of the card and fading into its ink behind the words. Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "The founder's pantograph, the CEO's proofing press and the CRO's punched cards, each the scene of that story on /ai-brain (found by its record), shown in a band at the top of the card and fading into its ink behind the words. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1614,8 +1614,8 @@
       "classification": "correction",
       "requiredOutcome": "The button's words sit on the left.",
       "acceptanceTest": "Rendered at 412x741 and 1440x900.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The opening's button sets its words on the left and its arrow on the right (mindmake-ai-gtm.css). Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "The opening's button sets its words on the left and its arrow on the right (mindmake-ai-gtm.css). Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "src/styles/mindmake-ai-gtm.css"
       ]
@@ -1631,8 +1631,8 @@
       "classification": "correction",
       "requiredOutcome": "The first step opens \"Let's get started\" with the time and purpose, its button says \"Get building\", and a reader can take the publication instead.",
       "acceptanceTest": "The brief's unit suite finds the new heading and button; the success-step subscription is unchanged.",
-      "status": "implemented-awaiting-review",
-      "resolution": "\"Let’s get started.\", \"This takes only a few minutes, and helps us scope out where you are and what you need.\", \"Get building\", and beneath it \"Not ready yet? Subscribe to Make Your Mind Up, free\" (tracked as brief_start). The lead flow itself is unchanged. Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "\"Let’s get started.\", \"This takes only a few minutes, and helps us scope out where you are and what you need.\", \"Get building\", and beneath it \"Not ready yet? Subscribe to Make Your Mind Up, free\" (tracked as brief_start). The lead flow itself is unchanged. Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "src/components/mindmake/LeadBrief.tsx",
         "src/styles/mindmake-brief.css",
@@ -1651,8 +1651,8 @@
       "classification": "correction",
       "requiredOutcome": "Subscribe sits beside the menu in every masthead.",
       "acceptanceTest": "The homepage generator inserts it at both sizes (count-guarded); the shell carries it on every other page; qa:chrome keeps the mastheads alike.",
-      "status": "implemented-awaiting-review",
-      "resolution": "A small outlined Subscribe, in the mono capitals of the masthead, before the menu control, linking to makeyourmindup.ai (tracked as masthead). Built on branch redesign/s6-phone-feedback and shown to Krish rendered before release.",
+      "status": "accepted",
+      "resolution": "A small outlined Subscribe, in the mono capitals of the masthead, before the menu control, linking to makeyourmindup.ai (tracked as masthead). Krish approved the rendered pages on 26 October 2026, verbatim: \"Approved. Merge #248 and read production back.\"",
       "evidence": [
         "scripts/qa/build-homepage-release.mjs",
         "src/components/mindmake/MindmakeShell.tsx",

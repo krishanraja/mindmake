@@ -709,8 +709,8 @@
       "classification": "correction",
       "requiredOutcome": "Every word takes the role /ai-brain gives it as rendered: Newsreader headlines and reading copy at the AI Brain page's reading size, Archivo only for actions and small interface text (bold, sentence case, never tracked, never a heading or sentence), Plex Mono 400 for labels, numbers and dates, and no synthetic bold. Words, order and composition unchanged.",
       "acceptanceTest": "npm run qa:type-system passes on the built site at 1440x900 and 390x844 on every indexed route plus /ai-brain, /ai-gtm, /about, /contact, /privacy, /terms and the 404, and fails on the previous main; qa:line-breaks and qa:homepage-release:pre-merge stay clean; desktop and phone screenshots of the homepage and shell pages reviewed.",
-      "status": "implemented-awaiting-review",
-      "resolution": "--mm-body is Newsreader in src/styles/mindmake.css; the homepage's type section in src/components/homepage-release/integration.css sets the lede, doors, proof line, history bridge and dates, route lede and receipt, footer and menu word in the AI Brain roles; src/styles/new-age-leadership-r6.layer.css fixes label tracking, the synthetic-bold capability labels and the finale kicker; src/styles/mindmake-ai-gtm.css, mindmake-commercial-decision-balance.css, mindmake-instruments.css and mindmake-about.css fix their stragglers. scripts/qa/type-system-check.mjs is the measurement.",
+      "status": "accepted",
+      "resolution": "--mm-body is Newsreader in src/styles/mindmake.css; the homepage's type section in src/components/homepage-release/integration.css sets the lede, doors, proof line, history bridge and dates, route lede and receipt, footer and menu word in the AI Brain roles; src/styles/new-age-leadership-r6.layer.css fixes label tracking, the synthetic-bold capability labels and the finale kicker; src/styles/mindmake-ai-gtm.css, mindmake-commercial-decision-balance.css, mindmake-instruments.css and mindmake-about.css fix their stragglers. scripts/qa/type-system-check.mjs is the measurement. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "npm run qa:type-system: PASS, 4,531 text nodes on 32 routes at 1440x900 and 390x844; the same check on the previous main (d7e545f) fails with 66 findings on /, /about, /blog and /ai-brain alone",
         "qa:line-breaks: no findings on 31 routes at 1440x900 or 390x844; qa:homepage-release:pre-merge (Chromium): 8 cases, 8 screenshots, no failures",
@@ -729,8 +729,8 @@
       "classification": "correction",
       "requiredOutcome": "One page titled Ideas you can use lists every quick tip and every longer read in the tips' entry form, newest first, with a kind filter and a subject filter at the top. The second page no longer exists: its address redirects to the merged page, every menu and footer carries one Ideas you can use route, and each tip and read keeps its own page.",
       "acceptanceTest": "src/test/route-resilience.test.tsx renders /blog with every idea newest first and narrows it by kind and subject; src/test/primary-routes-parity.test.ts holds the homepage and shell menus to PRIMARY_ROUTES without /answers; src/test/redirects.test.ts checks the /answers redirect in vercel.json and src/App.tsx; discoverability, seo-prerender and brief2-public-contract cover the sitemap, llms.txt and the surface list; the built site renders /blog at 1440x900 and 390x844 with qa:line-breaks clean.",
-      "status": "implemented-awaiting-review",
-      "resolution": "src/lib/ideaFormat.ts merges src/data/blogPosts.ts and src/content/answers/ into one ordered list for src/pages/Blog.tsx and scripts/generate-llms.mjs; src/pages/Answers.tsx is deleted; /answers redirects to /blog in vercel.json and src/App.tsx; PRIMARY_ROUTES and the homepage generator drop the Quick AI tips route; each answer file carries a category for the subject filter. The generated route lock carries the change. The merged page keeps the /blog address because the archive, /library and the old post redirects already point there; the page Krish named is the surviving one in every visible respect.",
+      "status": "accepted",
+      "resolution": "src/lib/ideaFormat.ts merges src/data/blogPosts.ts and src/content/answers/ into one ordered list for src/pages/Blog.tsx and scripts/generate-llms.mjs; src/pages/Answers.tsx is deleted; /answers redirects to /blog in vercel.json and src/App.tsx; PRIMARY_ROUTES and the homepage generator drop the Quick AI tips route; each answer file carries a category for the subject filter. The generated route lock carries the change. The merged page keeps the /blog address because the archive, /library and the old post redirects already point there; the page Krish named is the surviving one in every visible respect. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "quality/route-lock/approved-production.lock.json, regenerated with src/pages/Answers.tsx removed",
         "src/test/route-resilience.test.tsx, src/test/primary-routes-parity.test.ts, src/test/redirects.test.ts and src/test/discoverability.test.ts, green in the full unit suite",
@@ -748,8 +748,8 @@
       "classification": "correction",
       "requiredOutcome": "On a phone no footer repeats the menu's route list. The shell footer keeps Contact, Privacy and Terms; the homepage footer keeps its statement, the subscribe action, Privacy and Terms and the copyright. Desktop footers are unchanged.",
       "acceptanceTest": "The built site at 390x844 shows the shell footer with three links on one row and the homepage footer without a route list, with qa:line-breaks clean; at 1440x900 both footers still carry their full route rail; scripts/qa/build-homepage-release.mjs counts one footer route rail in the generated markup.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The shell footer's route links carry .mm-footer-route, hidden below 521px in src/styles/mindmake.css; the homepage generator cuts the phone footer's route list from the generated markup and src/components/homepage-release/integration.css lifts the phone footer's authored minimum height.",
+      "status": "accepted",
+      "resolution": "The shell footer's route links carry .mm-footer-route, hidden below 521px in src/styles/mindmake.css; the homepage generator cuts the phone footer's route list from the generated markup and src/components/homepage-release/integration.css lifts the phone footer's authored minimum height. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/markup.ts, generated with one footer-routes rail",
         "artifacts/ideas-merge/2026-09-25/case-studies-footer-390x844.png and home-footer-390x844.png, the built footers on a phone"
@@ -766,8 +766,8 @@
       "classification": "correction",
       "requiredOutcome": "With the keyboard up, the focused field, its label and its hint or error sit between the bottom of the sticky header and rail and the top of the keyboard; the rail never slides under the header; nothing shows through either; surnames are not autocorrected; return in First name moves to Last name; a pasted or typed six-digit code sends itself once.",
       "acceptanceTest": "npm run qa:lead-keyboard passes at 390x844 and 320x568 with the visual viewport shrunk to the keyboard and to keyboard plus autofill strip, and fails against the previous main (negative control); src/test/LeadBrief.test.tsx covers reveal, keyboard detection, return key, paste and single auto-submit. Final acceptance is Krish repeating the same walk on his phone.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The phone panel no longer subtracts the keyboard twice; the header has one height the rail pins under; the header and rail are opaque; a focused field is scrolled back into view by the panel alone only when it has left the visible band; the step change no longer takes focus back from a field; the page behind is locked on phones; every text field carries autocapitalize, autocorrect, spellcheck and enterkeyhint; the code field has no length cap, takes a paste and sends six digits once. Landscape phones (844x390) with the keyboard up are recorded as a known limit.",
+      "status": "accepted",
+      "resolution": "The phone panel no longer subtracts the keyboard twice; the header has one height the rail pins under; the header and rail are opaque; a focused field is scrolled back into view by the panel alone only when it has left the visible band; the step change no longer takes focus back from a field; the page behind is locked on phones; every text field carries autocapitalize, autocorrect, spellcheck and enterkeyhint; the code field has no length cap, takes a paste and sends six digits once. Landscape phones (844x390) with the keyboard up are recorded as a known limit. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "scripts/qa/lead-keyboard-check.mjs: passes on this branch (33 observations); 60 blocking failures against main 95dfcc9, 18 of them fields under the header",
         "src/test/LeadBrief.test.tsx: typing on a phone"
@@ -784,8 +784,8 @@
       "classification": "correction",
       "requiredOutcome": "The dialog header shows the real Mindmake mark and wordmark, readable on the ink, paper and forest steps, beside the approved S4 label (Start here, and Start here / Private brief on the desktop preview), with the close control on the right.",
       "acceptanceTest": "src/test/LeadBrief.test.tsx finds the Mindmake image in the header with its own gradient ids and no link; the keyboard gate's screenshots show the lockup on paper and on the forest preview at 390x844 and 320x568.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The text span is replaced by BrandMarks (instance dialog) from src/components/mindmake/MindmakeBrand.tsx; the header names --mm-tx and --mm-mint for each tone so the wordmark reads on paper. The emails and downloaded brief still use a text wordmark; the download moves to the vector logo with the Release 2 brief.",
+      "status": "accepted",
+      "resolution": "The text span is replaced by BrandMarks (instance dialog) from src/components/mindmake/MindmakeBrand.tsx; the header names --mm-tx and --mm-mint for each tone so the wordmark reads on paper. The emails and downloaded brief still use a text wordmark; the download moves to the vector logo with the Release 2 brief. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/test/LeadBrief.test.tsx: wears the real logo in its header",
         "artifacts/lead-keyboard/390x844-profile-prefilled.png and 390x844-preview-header.png, produced by npm run qa:lead-keyboard"
@@ -802,8 +802,8 @@
       "classification": "correction",
       "requiredOutcome": "first.last@company.com (and first_last) arrives on the You step with both names filled and editable; a typed name is never replaced; role mailboxes, single-word addresses and shapes the parser cannot place fill nothing.",
       "acceptanceTest": "src/test/work-email.test.ts holds the parser table, including the addresses that must fill nothing; src/test/LeadBrief.test.tsx holds prefill, typed-name survival and draft restore; the keyboard gate asserts anya.divekar@peldonrose.com arrives as Anya / Divekar.",
-      "status": "implemented-awaiting-review",
-      "resolution": "nameFromEmail in src/lib/workEmail.ts; LeadBrief fills only empty or previously guessed fields and keeps its guesses in the resumable draft. With both names filled the phone keyboard stays down on the You step.",
+      "status": "accepted",
+      "resolution": "nameFromEmail in src/lib/workEmail.ts; LeadBrief fills only empty or previously guessed fields and keeps its guesses in the resumable draft. With both names filled the phone keyboard stays down on the You step. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/test/work-email.test.ts: the work email carries the name",
         "src/test/LeadBrief.test.tsx: reads the name from a first.last address and never replaces a typed one"
@@ -1008,8 +1008,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep the opening and its two doors. A visitor can see that the publication exists and subscribe from here, without a new button competing with the way in.",
       "acceptanceTest": "The opening's film, rotation and doors are unchanged; one line under the way in names an issue of Make Your Mind Up and links to subscribe; the homepage gate finds it at every size.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The R3 opening keeps its film, rotation and both doors. Under the way in, one line reads \"From Make Your Mind Up\", the title of an issue (read from the publication's feed at build time, scripts/fetch-latest-issue.mjs, the last good one kept if the feed fails) and \"Get it free, three times a week\", linking to makeyourmindup.ai. It never says \"latest\". Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "The R3 opening keeps its film, rotation and both doors. Under the way in, one line reads \"From Make Your Mind Up\", the title of an issue (read from the publication's feed at build time, scripts/fetch-latest-issue.mjs, the last good one kept if the feed fails) and \"Get it free, three times a week\", linking to makeyourmindup.ai. It never says \"latest\". Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1031,8 +1031,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep the argument that people have resisted new tools before and kept their judgement in charge, told with a simpler hierarchy.",
       "acceptanceTest": "The four eras read at a glance as tiles; each turns in place to what actually happened; the section closes on one line.",
-      "status": "implemented-awaiting-review",
-      "resolution": "\"Right now, your AI is an intern.\" then \"We've been here before.\": four tiles (writing, the engine loom, the calculator, the satnav) with the approved question on the face and what actually happened on the turn, closing \"Every time, the people who kept their judgement in charge came out ahead. The feeling is the same. The scale is not.\" Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "\"Right now, your AI is an intern.\" then \"We've been here before.\": four tiles (writing, the engine loom, the calculator, the satnav) with the approved question on the face and what actually happened on the turn, closing \"Every time, the people who kept their judgement in charge came out ahead. The feeling is the same. The scale is not.\" Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1052,8 +1052,8 @@
       "classification": "correction",
       "requiredOutcome": "The history is optional and quick to pass: nothing holds the reader.",
       "acceptanceTest": "Nothing on the homepage pins; each section moves exactly as far as the page scrolls (homepage gate); the tiles turn without resizing the four.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The history pin (pinnedChapters.ts) is retired. The eras are four tiles a reader can turn or scroll past in one screen; without scripts the question and answer both show. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "The history pin (pinnedChapters.ts) is retired. The eras are four tiles a reader can turn or scroll past in one screen; without scripts the question and answer both show. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1074,8 +1074,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep the role diagram and the AI level-up storytelling.",
       "acceptanceTest": "The organisation and the three practice scenes appear in the how-it-works section, from the shared source, readable without motion.",
-      "status": "implemented-awaiting-review",
-      "resolution": "\"A chief of staff knows how you think.\" carries the organisation from the shared source (organisationGridMarkup), what AI carries and what you keep, and \"When built right, AI is our biggest level-up.\" with the three practice scenes, still. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "\"A chief of staff knows how you think.\" carries the organisation from the shared source (organisationGridMarkup), what AI carries and what you keep, and \"When built right, AI is our biggest level-up.\" with the three practice scenes, still. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1096,8 +1096,8 @@
       "classification": "correction",
       "requiredOutcome": "The stories live with the AI brain, and their layout is repaired: outcomes aligned, cards the same size, every story reachable.",
       "acceptanceTest": "On /ai-brain the outcome lines of the shown cards start on one line; the finder keeps one height across situations and stories; every story is reachable by tab and rail at 1440, 1280, 390 and 360 wide (qa:line-breaks).",
-      "status": "implemented-awaiting-review",
-      "resolution": "The finder moved to /ai-brain#stories. Each situation's headings take the height of its tallest, so the outcomes align; the situations share one place, so choosing one never resizes the finder; a situation with more stories than fit shows \"1 to 3 of 5\" and arrows. The homepage shows three results that link to it. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "The finder moved to /ai-brain#stories. Each situation's headings take the height of its tallest, so the outcomes align; the situations share one place, so choosing one never resizes the finder; a situation with more stories than fit shows \"1 to 3 of 5\" and arrows. The homepage shows three results that link to it. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
         "src/pages/AiBrainLocked.tsx",
@@ -1119,8 +1119,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep the reinvestment message without giving it a section.",
       "acceptanceTest": "The returned hour is no longer a section; its point closes the how-it-works section in one line.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The returned hour section (returnedHour.ts) is retired. Its point closes the section: \"And the hours it hands back go into the work only you can do.\" Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "The returned hour section (returnedHour.ts) is retired. Its point closes the section: \"And the hours it hands back go into the work only you can do.\" Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1140,8 +1140,8 @@
       "classification": "correction",
       "requiredOutcome": "The way in moves into the opening; the closing headline joins the rotation; the closing section goes.",
       "acceptanceTest": "The hero carries the way in; \"Own your judgement, and amplify it.\" is the second rotating line; the route chapter is absent.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The green button \"Start building your AI brain\" sits in the hero with its line beneath. \"Own your judgement, and amplify it.\" is the rotation's second line (six lines). The route chapter, its film and receipt are cut by the generator. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "The green button \"Start building your AI brain\" sits in the hero with its line beneath. \"Own your judgement, and amplify it.\" is the rotation's second line (six lines). The route chapter, its film and receipt are cut by the generator. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1163,8 +1163,8 @@
       "classification": "correction",
       "requiredOutcome": "\"What stays with you\" moves to the AI brain's outcomes and reads as stable and professional.",
       "acceptanceTest": "One receipt component on both door pages: title row, \"Yours to keep\" tag, three checked items in equal cells, stacked on a phone.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Receipt.tsx: a bordered receipt with the title in a header row, a mono \"Yours to keep · Day 30\" tag, three equal cells split by hairlines with a check on each; on a phone three stacked line items. On /ai-brain it holds the three canon steps; on /ai-gtm \"The model.\", \"The evidence.\", \"Anything we built.\". Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "Receipt.tsx: a bordered receipt with the title in a header row, a mono \"Yours to keep · Day 30\" tag, three equal cells split by hairlines with a check on each; on a phone three stacked line items. On /ai-brain it holds the three canon steps; on /ai-gtm \"The model.\", \"The evidence.\", \"Anything we built.\". Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/mindmake/Receipt.tsx",
         "src/styles/mindmake-pairing.css",
@@ -1184,8 +1184,8 @@
       "classification": "correction",
       "requiredOutcome": "The homepage is three sections: the problem, how it works, what you get and how we know it works.",
       "acceptanceTest": "Between the opening and the footer there are exactly three sections in that order (homepage gate, unit test).",
-      "status": "implemented-awaiting-review",
-      "resolution": "Opening, then \"Right now, your AI is an intern.\", \"A chief of staff knows how you think.\" and \"Built on your real work. Yours to keep.\" (three results in their public words, a link to the stories and the way in), then the footer. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "Opening, then \"Right now, your AI is an intern.\", \"A chief of staff knows how you think.\" and \"Built on your real work. Yours to keep.\" (three results in their public words, a link to the stories and the way in), then the footer. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
@@ -1205,8 +1205,8 @@
       "classification": "correction",
       "requiredOutcome": "One clear way in at the bottom, never stacked on the analytics notice, in warmer words than \"Get your free AI brief\".",
       "acceptanceTest": "The bar holds one button and shows only after the page's own way in has scrolled away; the notice sits apart (a card on the left of a laptop, under the masthead on a phone) with equal Allow and Decline; the label is \"Start building your AI brain\" (\"Start building your AI revenue engine\" on /ai-gtm).",
-      "status": "implemented-awaiting-review",
-      "resolution": "SiteActionBar is one button; the door slot is gone. The notice no longer stacks on the bar. START_LABEL is \"Start building your AI brain\" and START_LABEL_GTM \"Start building your AI revenue engine\", with \"Free and private. It starts with a read of your business.\" beneath the page's own button. A control scrolled into view lands above the bar (scroll-padding), checked by qa:line-breaks. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "SiteActionBar is one button; the door slot is gone. The notice no longer stacks on the bar. START_LABEL is \"Start building your AI brain\" and START_LABEL_GTM \"Start building your AI revenue engine\", with \"Free and private. It starts with a read of your business.\" beneath the page's own button. A control scrolled into view lands above the bar (scroll-padding), checked by qa:line-breaks. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/lib/publicLinks.ts",
         "src/components/mindmake/SiteActionBar.tsx",
@@ -1227,8 +1227,8 @@
       "classification": "correction",
       "requiredOutcome": "The questions, the sharper call and the business rising become one story.",
       "acceptanceTest": "One panel in three beats with tabs and arrows; the panel holds its size across the beats (qa:line-breaks); without scripts the beats read one after another.",
-      "status": "implemented-awaiting-review",
-      "resolution": "One section, three beats: \"The questions only you can answer.\", \"Your next call gets sharper.\", \"Your business rises with you.\", each with its own instrument, all stacked in one place so the panel never resizes. The rail and chapter numbers are retired. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "One section, three beats: \"The questions only you can answer.\", \"Your next call gets sharper.\", \"Your business rises with you.\", each with its own instrument, all stacked in one place so the panel never resizes. The rail and chapter numbers are retired. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
         "src/pages/AiBrainLocked.tsx",
@@ -1248,8 +1248,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep \"What a Brain holds\".",
       "acceptanceTest": "The section and its instrument remain, beside privacy, as how it works.",
-      "status": "implemented-awaiting-review",
-      "resolution": "\"What a Brain holds.\" is the first panel of the how-it-works pair, with its constellation. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "\"What a Brain holds.\" is the first panel of the how-it-works pair, with its constellation. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
         "src/pages/AiBrainLocked.tsx",
@@ -1268,8 +1268,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep privacy and ownership.",
       "acceptanceTest": "The section and its instrument remain, beside what a Brain holds.",
-      "status": "implemented-awaiting-review",
-      "resolution": "\"Private to you, and yours to keep.\" is the second panel of the pair, with the living record. Its copy is unchanged. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "\"Private to you, and yours to keep.\" is the second panel of the pair, with the living record. Its copy is unchanged. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
         "src/pages/AiBrainLocked.tsx",
@@ -1288,8 +1288,8 @@
       "classification": "correction",
       "requiredOutcome": "The 30-day build, the stories and what stays with you read as one closing section.",
       "acceptanceTest": "The month, then the story finder, the receipt and the way in, in that order.",
-      "status": "implemented-awaiting-review",
-      "resolution": "#built keeps the month; the story finder, the receipt and the way in follow it as the page's third section. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "#built keeps the month; the story finder, the receipt and the way in follow it as the page's third section. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
         "src/pages/AiBrainLocked.tsx",
@@ -1308,8 +1308,8 @@
       "classification": "correction",
       "requiredOutcome": "Keep the bridge to the revenue engine, much smaller.",
       "acceptanceTest": "One line under the way in, with a link.",
-      "status": "implemented-awaiting-review",
-      "resolution": "PairingBridge is the way in and one line: \"Running a revenue team? An AI brain gives your revenue engine something to run on.\" linking to /ai-gtm. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "PairingBridge is the way in and one line: \"Running a revenue team? An AI brain gives your revenue engine something to run on.\" linking to /ai-gtm. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/mindmake/PairingBridge.tsx",
         "src/styles/mindmake-pairing.css"
@@ -1326,8 +1326,8 @@
       "classification": "correction",
       "requiredOutcome": "A simpler opening that keeps the urgency, and the same repaired bottom edge as the AI brain.",
       "acceptanceTest": "The h1 is the proposition, the urgency is its lede, and the bar and notice behave as on every page.",
-      "status": "implemented-awaiting-review",
-      "resolution": "The opening is \"Make your pricing, positioning and team AI-native.\" with the lede \"Your customers have changed how they buy. We change how you sell to match, then test it with real buyers.\" and the way in. The bottom edge follows B01. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "The opening is \"Make your pricing, positioning and team AI-native.\" with the lede \"Your customers have changed how they buy. We change how you sell to match, then test it with real buyers.\" and the way in. The bottom edge follows B01. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/components/ai-gtm/",
@@ -1346,8 +1346,8 @@
       "classification": "correction",
       "requiredOutcome": "Remove the section.",
       "acceptanceTest": "The phrase and its section are absent (unit test).",
-      "status": "implemented-awaiting-review",
-      "resolution": "Workaround.tsx is deleted with its section. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "Workaround.tsx is deleted with its section. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/components/ai-gtm/",
@@ -1366,8 +1366,8 @@
       "classification": "correction",
       "requiredOutcome": "\"Make your pricing, positioning and team AI-native\" is the top headline.",
       "acceptanceTest": "It is the page's only h1 (unit test).",
-      "status": "implemented-awaiting-review",
-      "resolution": "Opening.tsx carries it as the h1, with \"AI-native.\" as the accent. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "Opening.tsx carries it as the h1, with \"AI-native.\" as the accent. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/components/ai-gtm/",
@@ -1386,8 +1386,8 @@
       "classification": "correction",
       "requiredOutcome": "The 30 days is the third of three sections, not buried at the end of a long experience.",
       "acceptanceTest": "The page is the opening and four places, the team, then the 30 days with what stays with you and the proof; nothing pins.",
-      "status": "implemented-awaiting-review",
-      "resolution": "PlanChapter is static: the month, the steps, the work it can produce, the receipt, the result in the client's words and the way in. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "PlanChapter is static: the month, the steps, the work it can produce, the receipt, the result in the client's words and the way in. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/components/ai-gtm/",
@@ -1406,8 +1406,8 @@
       "classification": "correction",
       "requiredOutcome": "The agent team sits near the opening as the page's second section.",
       "acceptanceTest": "The team follows the four places, switches between Today and AI-native, and shows a seat's decision without moving the page or resizing the panel (qa:line-breaks).",
-      "status": "implemented-awaiting-review",
-      "resolution": "TeamChapter is the second section on paper, with a Today and AI-native switch instead of a pinned build, and the decision a picked seat creates. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "TeamChapter is the second section on paper, with a Today and AI-native switch instead of a pinned build, and the decision a picked seat creates. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/components/ai-gtm/",
@@ -1427,8 +1427,8 @@
       "classification": "correction",
       "requiredOutcome": "Proof where the reader asks for it, not a standalone section.",
       "acceptanceTest": "The verbatim quote, the result and \"Read the story\" sit inside the third section, after what stays with you.",
-      "status": "implemented-awaiting-review",
-      "resolution": "ProofBand is a figure inside PlanChapter: the CRO's verbatim quote, \"A new sales path led to a paid test with a major US publisher.\" and a link to /case-studies#story=market-moves. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "ProofBand is a figure inside PlanChapter: the CRO's verbatim quote, \"A new sales path led to a paid test with a major US publisher.\" and a link to /case-studies#story=market-moves. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/components/ai-gtm/",
@@ -1447,8 +1447,8 @@
       "classification": "correction",
       "requiredOutcome": "Condense the cross-link to the AI brain.",
       "acceptanceTest": "One line under the way in, with a link.",
-      "status": "implemented-awaiting-review",
-      "resolution": "PairingBridge on /ai-gtm: \"Your revenue engine runs better on an AI brain.\" linking to /ai-brain. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); the built pages await his review.",
+      "status": "accepted",
+      "resolution": "PairingBridge on /ai-gtm: \"Your revenue engine runs better on an AI brain.\" linking to /ai-brain. Krish approved the plan and the rendered mocks on 24 October 2026 (\"Receipt approved, and the AI Brain mock with it.\"; \"Revenue Engine mock approved. Start the build per the plan.\"); Krish accepted the built pages on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/mindmake/PairingBridge.tsx",
         "src/styles/mindmake-pairing.css"
@@ -1484,8 +1484,8 @@
       "classification": "correction",
       "requiredOutcome": "The green outcome lines start on one line across the cards in view, with every word of every story kept.",
       "acceptanceTest": "The headings of a situation share the height of its tallest; outcome tops are equal at 1440, 1280, 390 and 360 wide.",
-      "status": "implemented-awaiting-review",
-      "resolution": "storyFinder.ts sets --finder-heading-h to the tallest heading of each situation whenever it is shown or the width changes; the copy is unchanged.",
+      "status": "accepted",
+      "resolution": "storyFinder.ts sets --finder-heading-h to the tallest heading of each situation whenever it is shown or the width changes; the copy is unchanged. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/leadership-chapters/storyFinder.ts",
         "src/styles/new-age-leadership-r6.layer.css",
@@ -1503,8 +1503,8 @@
       "classification": "correction",
       "requiredOutcome": "\"What stays with you\" reads as one stable, professional object.",
       "acceptanceTest": "Krish approved the receipt mock: \"Receipt approved, and the AI Brain mock with it.\"",
-      "status": "implemented-awaiting-review",
-      "resolution": "Built as Receipt.tsx (see S6-H08), the same object on both door pages.",
+      "status": "accepted",
+      "resolution": "Built as Receipt.tsx (see S6-H08), the same object on both door pages. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "src/components/mindmake/Receipt.tsx",
         "src/styles/mindmake-pairing.css"
@@ -1521,8 +1521,8 @@
       "classification": "constraint",
       "requiredOutcome": "No word sits alone on a line at a regular desktop or phone width, and no component changes size when a reader makes a choice.",
       "acceptanceTest": "qa:line-breaks passes on every indexed page at 1440x900, 1280x800, 390x844 and 360x780, clicking every tab, toggle, step, seat and rail on /, /ai-brain, /ai-gtm and /new-age-leadership, failing a group that clicks nothing or a control under fixed chrome, with negative controls for each.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Every swapping panel holds all its states in one place (the eras, the beats, the finder, the four places, the team's decision), so it is always the size of its longest state. qa:line-breaks gained the laptop and small-phone sizes, the click-through sweep, the coverage and covered-control failures, and their negative controls; it caught the story rail's arrow under the action bar at 1280 wide, now fixed.",
+      "status": "accepted",
+      "resolution": "Every swapping panel holds all its states in one place (the eras, the beats, the finder, the four places, the team's decision), so it is always the size of its longest state. qa:line-breaks gained the laptop and small-phone sizes, the click-through sweep, the coverage and covered-control failures, and their negative controls; it caught the story rail's arrow under the action bar at 1280 wide, now fixed. Krish accepted the built result on 26 October 2026, verbatim: \"Yes, mark all 31 feedback ledger rows as accepted, citing this message.\"",
       "evidence": [
         "scripts/qa/line-break-check.mjs",
         "src/styles/mindmake.css"

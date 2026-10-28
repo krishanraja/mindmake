@@ -144,7 +144,8 @@ export const CookieConsent = () => {
 
   const decline = () => {
     remember(DECLINE);
-    /* A growth placement's tag was held only for Google, which is now off. */
+    /* A growth placement's tag is dropped with Google: neither Analytics nor
+       a brief request started after this will carry it. */
     dropVisitTag();
     setVisible(false);
   };

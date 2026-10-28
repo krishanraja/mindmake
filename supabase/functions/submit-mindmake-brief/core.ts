@@ -152,7 +152,21 @@ export interface MindmakeBriefRequestActionV2 {
     wordingVersion: typeof CONSENT_WORDING_VERSION;
   };
   website: "";
+  /** The growth placement the visit arrived from, held by the browser in
+   *  page memory only. Absent when there is none. */
+  placement?: BriefPlacement;
 }
+
+/** growth-mindmake's placement tag: `utm_source=growth-<path>` (at most 40
+ *  characters) with `utm_medium=referral`, and nothing else. The table's
+ *  CHECK constraints hold the same rule. */
+export interface BriefPlacement {
+  source: string;
+  medium: "referral";
+}
+
+export const PLACEMENT_SOURCE_PATTERN = /^growth-[a-z]+(?:-[a-z]+)*$/;
+export const PLACEMENT_SOURCE_MAX = 40;
 
 /** A server-authored tailored pressure, carried by the browser and proven
  *  by its HMAC id before any label is trusted. */
@@ -343,6 +357,7 @@ const parseRequestAction = (input: unknown): MindmakeBriefRequestActionV2 => {
     ["version", "action", "requestId", "contact", "company", "choices", "consent", "website"],
     "request",
     issues,
+    ["placement"],
   );
   const root = rootOk ? input : {};
 
@@ -409,6 +424,7 @@ const parseRequestAction = (input: unknown): MindmakeBriefRequestActionV2 => {
     issues.push("consent.wordingVersion is not supported");
   }
   if (root.website !== "") issues.push("website must be empty");
+  const placement = parsePlacement(root.placement, issues);
 
   if (issues.length) throw new BriefValidationError([...new Set(issues)]);
 
@@ -426,7 +442,25 @@ const parseRequestAction = (input: unknown): MindmakeBriefRequestActionV2 => {
       wordingVersion: CONSENT_WORDING_VERSION,
     },
     website: "",
+    ...(placement ? { placement } : {}),
   };
+};
+
+/** Validate the optional placement tag. Anything but the engine's exact shape
+ *  rejects the whole request, like every other unexpected value here; the
+ *  browser sends it only when it already holds that shape, so a visitor never
+ *  meets this, and nothing outside the shape is ever stored. */
+const parsePlacement = (value: unknown, issues: string[]): BriefPlacement | undefined => {
+  if (value === undefined) return undefined;
+  if (!exactKeys(value, ["source", "medium"], "placement", issues)) return undefined;
+  const record = value as Record<string, unknown>;
+  const source = typeof record.source === "string" ? record.source : "";
+  if (source.length > PLACEMENT_SOURCE_MAX || !PLACEMENT_SOURCE_PATTERN.test(source)) {
+    issues.push("placement.source is not valid");
+  }
+  if (record.medium !== "referral") issues.push("placement.medium is not valid");
+  if (issues.some((issue) => issue.startsWith("placement"))) return undefined;
+  return { source, medium: "referral" };
 };
 
 /** Validate an optional tailored-choice reference; the HMAC itself is

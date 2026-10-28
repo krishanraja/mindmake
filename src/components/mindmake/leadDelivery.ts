@@ -1,3 +1,5 @@
+import type { BriefPlacement } from "@/lib/visitTag";
+
 export type BriefRoute = "home" | "brain" | "gtm";
 
 export const NEWSLETTER_CONSENT_WORDING_VERSION = "mindmake-publication-consent-v1";
@@ -43,6 +45,9 @@ export interface MindmakeBriefRequestV2 {
     wordingVersion: typeof NEWSLETTER_CONSENT_WORDING_VERSION;
   };
   website: "";
+  /* The growth placement the visit arrived from, only when one is held in
+     page memory (`heldPlacement` in src/lib/visitTag.ts). Omitted otherwise. */
+  placement?: BriefPlacement;
 }
 
 /* A server-authored tailored pressure the browser carries back unchanged;
@@ -89,6 +94,7 @@ interface MindmakeBriefRequestInputV2 {
   requestId: string;
   route: BriefRoute;
   tailored?: TailoredChoiceRef;
+  placement?: BriefPlacement;
 }
 
 interface MindmakeBriefConfirmInputV2 {
@@ -107,6 +113,7 @@ export const buildMindmakeBriefRequestV2 = ({
   requestId,
   route,
   tailored,
+  placement,
 }: MindmakeBriefRequestInputV2): MindmakeBriefRequestV2 => ({
   version: 2,
   action: "request",
@@ -124,6 +131,7 @@ export const buildMindmakeBriefRequestV2 = ({
     wordingVersion: NEWSLETTER_CONSENT_WORDING_VERSION,
   },
   website: "",
+  ...(placement ? { placement: { source: placement.source, medium: placement.medium } } : {}),
 });
 
 export const buildMindmakeBriefConfirmV2 = ({

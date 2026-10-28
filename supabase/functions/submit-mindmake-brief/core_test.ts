@@ -125,6 +125,28 @@ Deno.test("rejects browser narrative, unknown IDs, route mismatches and honeypot
   assertThrowsValidation(() => parseMindmakeBriefRequest({ ...validRequest(), website: " " }));
 });
 
+Deno.test("records a growth placement only in the engine's exact shape", () => {
+  const parsed = parseMindmakeBriefRequest({
+    ...validRequest(),
+    placement: { source: "growth-guest-seat", medium: "referral" },
+  });
+  assert(parsed.action === "request", "Expected request action");
+  if (parsed.action !== "request") return;
+  assert(parsed.placement?.source === "growth-guest-seat", "Placement source should be kept");
+  assert(parsed.placement?.medium === "referral", "Placement medium should be kept");
+  const plain = parseMindmakeBriefRequest(validRequest());
+  assert(!("placement" in plain), "No placement should be invented");
+  for (const placement of [
+    { source: "growth-podcast", medium: "email" },
+    { source: "newsletter", medium: "referral" },
+    { source: "growth-Podcast", medium: "referral" },
+    { source: `growth-${"a".repeat(34)}`, medium: "referral" },
+    { source: "growth-podcast", medium: "referral", campaign: "x" },
+  ]) {
+    assertThrowsValidation(() => parseMindmakeBriefRequest({ ...validRequest(), placement }));
+  }
+});
+
 Deno.test("reconstructs all recommendation text from the allowlisted IDs", () => {
   const stored = createStoredBrief(parsedRequest(), research());
   assert(stored.choices.pressure === "Our product is moving faster than our message", "Pressure should be server-owned");

@@ -135,6 +135,37 @@ describe("Mindmake brief V2 backend core", () => {
     expect(() => parseMindmakeBriefRequest({ ...validRequest(), website: " " })).toThrow(BriefValidationError);
   });
 
+  it("records a growth placement only in the engine's exact shape, and rejects anything else", () => {
+    const plain = parseMindmakeBriefRequest(validRequest());
+    expect(plain.action === "request" && "placement" in plain).toBe(false);
+
+    for (const source of ["growth-podcast", "growth-guest-seat", `growth-${"a".repeat(33)}`]) {
+      const parsed = parseMindmakeBriefRequest({ ...validRequest(), placement: { source, medium: "referral" } });
+      expect(parsed.action === "request" ? parsed.placement : null).toEqual({ source, medium: "referral" });
+    }
+
+    for (const placement of [
+      { source: "growth-podcast", medium: "email" },
+      { source: "growth-podcast" },
+      { source: "growth-podcast", medium: "referral", campaign: "x" },
+      { source: "newsletter", medium: "referral" },
+      { source: "growth-", medium: "referral" },
+      { source: "growth-Podcast", medium: "referral" },
+      { source: "growth-pod_cast", medium: "referral" },
+      { source: " growth-podcast", medium: "referral" },
+      { source: "growth-ada@example.com", medium: "referral" },
+      { source: `growth-${"a".repeat(34)}`, medium: "referral" },
+      { source: 7, medium: "referral" },
+      "growth-podcast",
+      null,
+    ]) {
+      expect(() => parseMindmakeBriefRequest({ ...validRequest(), placement }), JSON.stringify(placement))
+        .toThrow(BriefValidationError);
+    }
+    expect(() => parseMindmakeBriefRequest({ ...validConfirm(), placement: { source: "growth-podcast", medium: "referral" } }))
+      .toThrow(BriefValidationError);
+  });
+
   it("rebuilds visitor-facing recommendations from authoritative IDs", () => {
     const stored = createStoredBrief(parsedRequest(), research());
     expect(stored.choices).toMatchObject({

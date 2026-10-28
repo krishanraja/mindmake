@@ -59,6 +59,8 @@ interface BriefRow {
   pressure_id: MindmakeBriefRequestActionV2["choices"]["pressureId"];
   returned_time_id: MindmakeBriefRequestActionV2["choices"]["returnedTimeId"];
   entry_route: MindmakeBriefRequestActionV2["choices"]["entryRoute"];
+  utm_source: string | null;
+  utm_medium: "referral" | null;
   publication_requested: boolean;
   consent_wording_version: MindmakeBriefRequestActionV2["consent"]["wordingVersion"];
   company_research: StoredCompanyResearch | null;
@@ -642,6 +644,10 @@ async function handleRequestAction(
     pressure_id: parsed.choices.pressureId,
     returned_time_id: parsed.choices.returnedTimeId,
     entry_route: parsed.choices.entryRoute,
+    /* The growth placement, already held to the engine's shape by the parser;
+       null when the visit came from none. */
+    utm_source: parsed.placement?.source ?? null,
+    utm_medium: parsed.placement?.medium ?? null,
     publication_requested: parsed.consent.publicationRequested,
     consent_wording_version: parsed.consent.wordingVersion,
     rate_limit_ip_hash: ipHash,

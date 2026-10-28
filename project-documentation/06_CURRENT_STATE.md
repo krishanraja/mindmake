@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Current as of 26 October 2026. This file owns live identities, what was
+Current as of 28 October 2026. This file owns live identities, what was
 verified and when, and the known limits. It is current delivery truth, not a
 changelog: superseded lines live only in [history/LOG.md](history/LOG.md), and
 the whole text this file replaced on 26 October 2026 is kept verbatim in
@@ -18,18 +18,21 @@ Accepted surface and change guards: website-redesign/STATE.md.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Production follows main, so every commit there deploys, documentation
   included; GitHub's deployment record names the deployment for each commit.
-  The application has not changed since PR #250 below: later commits on main
-  change documentation only.
-- Latest application release: PR #250, the brief in fewer clicks, merge
-  `6b86220` on 26 October 2026 at 14:25 UTC on Krish's approval ("Approved.
-  Merge #250, deploy the brief function, and read both back."), production
-  deployment mindmake-8wmgynped-krish-rajas-projects.vercel.app. Rollback: the
-  preceding production, `11a7f96`, mindmake-eo1t2wtqp-krish-rajas-projects.vercel.app.
-  Read back the same day on https://mindmake.co: from the homepage hero, the
-  footer and `/ai-gtm` on a phone the brief reaches "Check your email." in 8
-  clicks (11 on desktop and 14 on a phone before), with no door question, a
-  choice that moves on, and "Keep the private brief" straight to the address.
-  The brief function was deployed with it (Backend, below).
+- Latest application release: PR #255, the brief request records which
+  growth placement it came from and `/privacy` says so, merged on 28 October
+  2026 on Krish's approval ("Yes do number two"); GitHub's deployment record
+  for its merge commit names the production deployment. Rollback: the
+  preceding production, `c03b21c` (PR #254),
+  mindmake-1i11hno40-krish-rajas-projects.vercel.app. The migration and
+  `submit-mindmake-brief` v24 were deployed before the merge (Backend, below).
+- PR #254 (28 October 2026): the brief's steps in Google Analytics after
+  Allow and a growth placement's tag held in page memory (Analytics, below).
+- PR #250 (26 October 2026), the brief in fewer clicks, merge `6b86220` on
+  Krish's approval ("Approved. Merge #250, deploy the brief function, and read
+  both back."), production deployment
+  mindmake-8wmgynped-krish-rajas-projects.vercel.app: from the homepage hero,
+  the footer and `/ai-gtm` on a phone the brief reaches "Check your email." in
+  8 clicks (11 on desktop and 14 on a phone before), read back that day.
 - The releases before it, newest first, each read back in history/LOG.md under
   its date: PR #248 (26 October 2026, Krish's phone review of S6), PR #246
   (24 October 2026, CI runner pin, no site change), PR #245 (24 October 2026,
@@ -129,8 +132,13 @@ arrival address by the head script into page memory and queued before the
 config, so the first page view after Allow carries it; any other source or
 medium is not held, nothing of it is written to the device, and Decline drops
 it (`src/lib/visitTag.ts`). `/start` keeps the query string at the edge (a 307
-to `/?...&start=1`) and in the client route. The brief request does not
-record the tag: that needs the privacy page to say so first.
+to `/?...&start=1`) and in the client route. Since 28 October 2026 (PR #255)
+the brief request records the same held tag beside its entry route:
+`placement` in the request, `utm_source` and `utm_medium` on the private
+request row, read from page memory only and never from the address, and
+`/privacy` section 2 says so. With no tag, or after Decline, both are null;
+the function rejects any other shape and the row's CHECK constraints hold the
+same rule.
 
 ## Discovery and machine-readable surfaces
 
@@ -157,22 +165,37 @@ Technical eligibility is not evidence of indexing, ranking or AI citation.
 ## Backend
 
 Project bkyuxvschuwngtcdhsyg. Versions read back 26 October 2026 with the
-Supabase CLI (`functions list`); only `submit-mindmake-brief` was deployed that
-day, and its source was read back and matches main file for file:
+Supabase CLI (`functions list`), and `submit-mindmake-brief` again on 28
+October 2026, the only function deployed since; its source was read back and
+matches the PR #255 head file for file:
 
 | Function | Version | JWT | Scope |
 |---|---|---|---|
 | enrich-company | 45 | on | Domain-bound, corroborated literal company evidence |
-| submit-mindmake-brief | 23 | off | Verified brief, visitor/operator delivery, truthful day-14 disclosure/enqueue; sends the code before the company research behind the brief (26 October 2026) |
+| submit-mindmake-brief | 24 | off | Verified brief, visitor/operator delivery, truthful day-14 disclosure/enqueue; sends the code before the company research behind the brief (26 October 2026); records a growth placement's tag (28 October 2026) |
 | mindmake-personal-read | 26 | off | Retained personal read and human handoff |
 | get-ai-news | 71 | off | Retained cache API |
 | send-follow-ups | 6 | off | Cron sender; not invoked in release testing |
 | aa-price-snapshot | 4 | off | Daily price recorder |
 
-`submit-mindmake-brief` v23 was deployed from main `6b86220` on 26 October 2026
-on Krish's approval ("Approved. Merge #250, deploy the brief function, and read
-both back."). Before it, v22 matched main `11a7f96` file for file, which is the
-rollback: deploy the function from that commit. Read back the same day on
+`submit-mindmake-brief` v24 was deployed on 28 October 2026 from the PR #255
+branch commit `5f31a69`, before that PR's merge, because the function rejects
+unknown keys and had to accept `placement` before the site sends it (Krish:
+"Yes do number two"). All 15 downloaded files match that commit. It runs after
+the migration `mindmake_brief_placement` (repository file
+`20261028120000_mindmake_brief_placement.sql`), which added the two nullable
+columns and their CHECK constraints and redefined the RPC's insert only;
+both were read back. Rollback: v23, which matched main `c03b21c` file for file
+on 28 October 2026; the two columns are nullable and v23 ignores them. A live
+proof the same day: a request carrying `growth-podcast` recorded
+`growth-podcast` and `referral`, one with no tag recorded two nulls, and one
+with `growth-Podcast` was refused 400 with no row. Both codes went to the
+designated inbox only and neither was confirmed; the two synthetic rows were
+deleted by request id and zero read back (their two one-way rate-limit
+records expire within 48 hours).
+
+v23 was deployed from main `6b86220` on 26 October 2026 on Krish's approval
+("Approved. Merge #250, deploy the brief function, and read both back."). Read back the same day on
 https://mindmake.co: "Send the code" answered in 2.5 s on desktop and 1.5 s on a
 phone (34.6 s before), the code reached the designated inbox, and the same
 request replayed 45 s later answered `verification_required` without a new
@@ -193,13 +216,18 @@ privacy, retention, email and failure-path contracts.
 
 ## Gates for the latest release
 
-PR #250 passed locally before its merge: the unit suite (691 tests), typecheck,
-lint, qa:approved-routes and its self-test, qa:docs, qa:website-restart,
-qa:plain-language, qa:website-feedback, the build, qa:line-breaks,
-qa:homepage-release:pre-merge, qa:lead-keyboard and qa:lead-contrast (2,514
-measurements), `deno check` and the function's nine Deno tests. Its exact-head
-checks passed before the merge: approved-routes and the Vercel preview (the
-browser matrix runs on main, after the merge). The required gate list is in `CLAUDE.md`.
+PR #255 passed locally before its merge: the unit suite (705 tests),
+typecheck, lint, qa:approved-routes and its self-test, qa:docs,
+qa:website-restart, qa:homepage-handoff, qa:plain-language,
+qa:website-feedback, qa:material-review:self-test, the build, qa:line-breaks
+(all 36 indexed pages, `/privacy` among them), qa:homepage-release:pre-merge
+(10 cases), qa:lead-keyboard (237 observations) and qa:lead-contrast (2,514
+measurements), `deno check` of the function's closure and its ten Deno tests.
+`npm run qa:material-review -- quality/website-redesign/material-review-candidate.json`
+fails closed on its stale September receipts, identically on `c03b21c`; the
+candidate does not cover `/privacy`, whose one clause Krish approved in
+substance. Its exact-head checks passed before the merge: approved-routes and
+the Vercel preview (the browser matrix runs on main, after the merge). The required gate list is in `CLAUDE.md`.
 
 The active source lock is `quality/route-lock/approved-production.lock.json`,
 generated by `npm run qa:approved-routes:update` and checked by

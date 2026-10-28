@@ -76,6 +76,11 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-10-28: the brief request records which growth placement it came from
+  (`utm_source=growth-<path>`, `utm_medium=referral`, from the tag held in
+  page memory only, null otherwise), and `/privacy` section 2 says so, on
+  Krish's yes ("Yes do number two"). Migration, `submit-mindmake-brief` v24
+  and PR #255, in that order.
 - 2026-10-28: Google Analytics hears the brief's steps (`brief_open`,
   `brief_step`, `brief_submit`, fixed names only) after Allow, and a growth
   placement's `utm_source=growth-<path>&utm_medium=referral` is held in page
@@ -147,10 +152,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 - Next: Change 3, the brief names one thing AI could carry in the reader's
   own week, shown rendered before it is built
   ([STATE.md](project-documentation/website-redesign/STATE.md), "Open").
-- Waiting on Krish: the privacy line that lets the brief request record a
-  growth placement's tag beside its entry route (growth-mindmake's third
-  mindmake change). `/privacy` lists what a brief stores, so the tag cannot be
-  recorded until it says so; that is a visible change for his read.
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback
@@ -161,6 +162,8 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
 - North Star check (2026-10-26): holds.
+- North Star check (2026-10-28): holds. The placement record lets a brief be
+  read against the growth path that brought it; it moves no number by itself.
 
 ## Read next
 

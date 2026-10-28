@@ -1,5 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { setBottomReserve } from "@/lib/bottomReserve";
+import { dropVisitTag } from "@/lib/visitTag";
 
 const CONSENT_KEY = "mindmake_consent";
 /* "analytics" allows Google Analytics and "essential" declines it. Any stored
@@ -143,6 +144,8 @@ export const CookieConsent = () => {
 
   const decline = () => {
     remember(DECLINE);
+    /* A growth placement's tag was held only for Google, which is now off. */
+    dropVisitTag();
     setVisible(false);
   };
 

@@ -20,7 +20,7 @@ import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
-import { track } from "@/lib/analytics";
+import { track, trackBrief } from "@/lib/analytics";
 import {
   KEYBOARD_OPEN_THRESHOLD_PX,
   fieldAction,
@@ -613,6 +613,21 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     }));
   }, [autoNames, capacity, collected, companyReadState, domain, dossier, division, door, draftHydratedFor, draftStorageKey, email, firstName, lastName, liveRead, open, pressure, previousCapacity, previewLeaf, researchIssue, showGenericChoices, step, tailoredChoice]);
 
+  /* Google Analytics sees the brief open and each step it reaches, and only
+     once the visitor has allowed it on this page (trackBrief). The step and
+     the door are the only values sent. */
+  const sentStepRef = useRef("");
+  useEffect(() => {
+    if (!open) {
+      sentStepRef.current = "";
+      return;
+    }
+    if (!sentStepRef.current) trackBrief("brief_open", door);
+    if (sentStepRef.current === step) return;
+    sentStepRef.current = step;
+    trackBrief("brief_step", door, step);
+  }, [door, open, step]);
+
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -925,6 +940,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       lastAutoSubmittedRef.current = "";
       setVerificationCode("");
       setCodeResent(resend);
+      if (!resend) trackBrief("brief_submit", door);
       setStep("verify");
     } catch {
       if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;

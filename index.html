@@ -14,6 +14,22 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'});
       gtag('js', new Date());
+      /* A growth placement's tag, held in page memory only: never written to
+         the device, sent to Google only if gtag.js loads after Allow, and
+         dropped on Decline (src/lib/visitTag.ts). Only the shape
+         growth-mindmake places is kept: utm_source=growth-<path> with
+         utm_medium=referral. Anything else is not held. It is set before the
+         config so the first page view carries it even after the address has
+         moved on. */
+      window.mmVisitTag = (function(){
+        try {
+          var q = new URLSearchParams(window.location.search);
+          var source = q.get('utm_source'), medium = q.get('utm_medium');
+          return source && source.length <= 40 && /^growth-[a-z]+(?:-[a-z]+)*$/.test(source) && medium === 'referral'
+            ? {campaign_source: source, campaign_medium: medium} : null;
+        } catch (e) { return null; }
+      })();
+      if (window.mmVisitTag) gtag('set', window.mmVisitTag);
 
       gtag('config', 'G-SMXQH8E4CM');
       window.mmLoadGoogleTag = function(){

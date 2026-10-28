@@ -208,7 +208,16 @@ function ExternalRedirect({ to }: { to: string }) {
   return <div className="min-h-screen bg-background" aria-live="polite">Opening the next page...</div>;
 }
 
-const ToStart = () => <Navigate to="/?start=1" replace />;
+/* The edge's /start redirect keeps the query string (a 307 to /?...&start=1),
+   and this client route does the same, so a growth placement's utm_source and
+   utm_medium (and any utm_campaign) survive a /start link opened inside the
+   app. What the site holds of them is decided in index.html's head. */
+export function ToStart() {
+  const { search } = useLocation();
+  const next = new URLSearchParams(search);
+  next.set("start", "1");
+  return <Navigate to={`/?${next.toString()}`} replace />;
+}
 
 function AppRoutes() {
   return (

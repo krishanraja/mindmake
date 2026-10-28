@@ -1089,3 +1089,53 @@ describe("the door", () => {
     expect(screen.queryByRole("button", { name: "Door" })).not.toBeInTheDocument();
   });
 });
+
+/* Google Analytics sees the brief's steps only after Allow, and only the
+   fixed step and door names: never a name, an address or a company. */
+describe("the brief's steps in Google Analytics", () => {
+  afterEach(() => {
+    delete window.gtag;
+    delete window.mmGoogleTagLoaded;
+  });
+
+  it("sends the opening, each step reached and the submit once, with nothing typed", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    mockWorkingV2Flow();
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    window.mmGoogleTagLoaded = true;
+
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+    fireEvent.click(screen.getByRole("button", { name: /send a new code/i }));
+    await waitFor(() => {
+      expect(invoke.mock.calls.filter(([name, options]) => name === "submit-mindmake-brief" && options.body.action === "request")).toHaveLength(2);
+    });
+    await confirmCode();
+    await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." });
+
+    const sent = gtag.mock.calls.map(([command, name, params]) => ({ command, name, params }));
+    expect(sent.every(({ command }) => command === "event")).toBe(true);
+    expect(sent.filter(({ name }) => name === "brief_open")).toEqual([{ command: "event", name: "brief_open", params: { brief_route: "gtm" } }]);
+    expect(sent.filter(({ name }) => name === "brief_submit")).toEqual([{ command: "event", name: "brief_submit", params: { brief_route: "gtm" } }]);
+    const steps = sent.filter(({ name }) => name === "brief_step").map(({ params }) => params.brief_step);
+    for (const step of ["company", "profile", "pressure", "capacity", "preview", "contact", "verify", "success"]) {
+      expect(steps, step).toContain(step);
+    }
+    expect(new Set(steps).size).toBe(steps.length);
+    expect(JSON.stringify(sent)).not.toMatch(/ada|lovelace|leader|example|leadership|customers|grow/i);
+  });
+
+  it("sends nothing when the visitor has not allowed Google Analytics", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    mockWorkingV2Flow();
+    const gtag = vi.fn();
+    window.gtag = gtag;
+
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+    expect(gtag).not.toHaveBeenCalled();
+  });
+});

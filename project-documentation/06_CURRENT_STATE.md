@@ -115,6 +115,23 @@ as a yes. On a laptop the notice is a card on the left of the bottom band; on a
 phone it docks under the masthead. `/privacy` section 5 names both tools and
 carries "Change your analytics choice".
 
+Since 28 October 2026 Google Analytics also receives the brief's steps, only
+once Allow has loaded the tag on that page (`trackBrief` in
+`src/lib/analytics.ts`): `brief_open`, `brief_step` with a fixed step name
+(`company`, `profile`, `reading`, `pressure`, `capacity`, `preview`,
+`contact`, `verify`, `success`) and `brief_submit` when a code is sent, each
+with `brief_route`, never a name, address, company or typed text. Nothing is
+queued before Allow. Which of them count as key events is set in the
+Analytics property, not in this repository. Plausible's `scoping_request` is
+unchanged. A growth placement's tag (`utm_source=growth-<path>` with
+`utm_medium=referral`, the shape growth-mindmake places) is read from the
+arrival address by the head script into page memory and queued before the
+config, so the first page view after Allow carries it; any other source or
+medium is not held, nothing of it is written to the device, and Decline drops
+it (`src/lib/visitTag.ts`). `/start` keeps the query string at the edge (a 307
+to `/?...&start=1`) and in the client route. The brief request does not
+record the tag: that needs the privacy page to say so first.
+
 ## Discovery and machine-readable surfaces
 
 `npm run qa:discoverability -- --base=https://mindmake.co`, bound to `86dcf6d`,

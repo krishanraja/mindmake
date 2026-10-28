@@ -83,6 +83,30 @@ describe("CookieConsent", () => {
     delete window.mmLoadGoogleTag;
   });
 
+  it("drops a held growth tag on Decline and keeps it for Allow", () => {
+    const tag = { campaign_source: "growth-podcast", campaign_medium: "referral" as const };
+    window.mmVisitTag = tag;
+    window.dataLayer = [["set", tag]];
+    render(<CookieConsent />);
+    leaveFirstScreen();
+    fireEvent.click(screen.getByText("Decline"));
+    expect(window.mmVisitTag).toBeNull();
+    expect(window.dataLayer).toEqual([]);
+
+    localStorage.clear();
+    window.mmVisitTag = tag;
+    window.dataLayer = [["set", tag]];
+    window.mmLoadGoogleTag = vi.fn();
+    render(<CookieConsent />);
+    leaveFirstScreen();
+    fireEvent.click(screen.getByText("Allow"));
+    expect(window.mmVisitTag).toBe(tag);
+    expect(window.dataLayer).toEqual([["set", tag]]);
+    delete window.mmLoadGoogleTag;
+    delete window.mmVisitTag;
+    delete window.dataLayer;
+  });
+
   it("the head loads Google's script only for a stored yes, never for the old answer", () => {
     const head = readFileSync(resolve(__dirname, "../../index.html"), "utf8");
     const tag = head.slice(head.indexOf("<!-- Google tag"), head.indexOf("</script>", head.indexOf("<!-- Google tag")));

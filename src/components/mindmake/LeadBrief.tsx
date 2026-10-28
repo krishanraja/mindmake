@@ -21,6 +21,7 @@ import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mi
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track, trackBrief } from "@/lib/analytics";
+import { allowAnalytics, consentStored, declineAnalytics, setBriefOpen } from "@/lib/consent";
 import { heldPlacement, type BriefPlacement } from "@/lib/visitTag";
 import {
   KEYBOARD_OPEN_THRESHOLD_PX,
@@ -631,6 +632,41 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     sentStepRef.current = step;
     trackBrief("brief_step", door, step);
   }, [door, open, step]);
+
+  /* The analytics question, asked inside the brief (the owner,
+     2026-10-28: "Ask inside the brief"). A brief opened straight away covers
+     the page and its notice, so a visitor on a brief link was never asked.
+     It is asked on the first screen only when no answer is stored, it is the
+     page notice's own choice (`src/lib/consent.ts`), nothing in the brief
+     waits on it, and the page notice stays away while the brief is open.
+     Once answered the line keeps its room unseen, so the action below it
+     never moves. */
+  const [analyticsAsk, setAnalyticsAsk] = useState<"ask" | "answered" | null>(null);
+  useEffect(() => {
+    if (!open) {
+      setAnalyticsAsk(null);
+      return;
+    }
+    setAnalyticsAsk(consentStored() ? null : "ask");
+    setBriefOpen(true);
+    return () => setBriefOpen(false);
+  }, [open]);
+
+  const answerAnalytics = (allowed: boolean) => {
+    if (allowed) {
+      allowAnalytics();
+      /* The open and this step were not sent before Allow; they are now,
+         once, and never queued from before. */
+      trackBrief("brief_open", door);
+      trackBrief("brief_step", door, step);
+    } else {
+      declineAnalytics();
+    }
+    setAnalyticsAsk("answered");
+    /* The pressed button leaves view; focus goes to the step's heading, not
+       a field, so a phone does not raise its keyboard unasked. */
+    stepHeadingRef.current?.focus({ preventScroll: true });
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -1313,6 +1349,15 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                   </a>
                 </p>
                 <p>No brief reaches our team until you confirm later. <a href="/privacy" target="_blank" rel="noreferrer">How we handle information</a>.</p>
+                {analyticsAsk && (
+                  <div className="mm-brief-analytics" data-answered={analyticsAsk === "answered" ? "true" : undefined}>
+                    <p id="mm-brief-analytics-question">Can we count your visit with Google&nbsp;Analytics?</p>
+                    <div className="mm-brief-analytics-actions" role="group" aria-labelledby="mm-brief-analytics-question">
+                      <button type="button" onClick={() => answerAnalytics(true)}>Allow</button>
+                      <button type="button" onClick={() => answerAnalytics(false)}>Decline</button>
+                    </div>
+                  </div>
+                )}
               </footer>
             </div>
           </section>
@@ -1592,11 +1637,12 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 <footer className="mm-folio-actions">
                   {/* Kept from any leaf, and straight to the address: the
                       email step already says a code comes first and that
-                      nothing is sent until it is confirmed. */}
+                      nothing is sent until it is confirmed. Bottom right,
+                      bigger and pulsing, with no line beneath it (the owner,
+                      2026-10-28). */}
                   <button className="mm-button mm-folio-primary" type="button" onClick={keepBrief}>
                     Keep the private brief <span aria-hidden="true">→</span>
                   </button>
-                  <p>This is a useful first view, not a promise or final answer.</p>
                 </footer>
               </section>
             </div>

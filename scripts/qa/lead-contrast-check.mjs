@@ -87,7 +87,9 @@ const executablePath = process.env.PLAYWRIGHT_CHROMIUM ?? (existsSync("/opt/pw-b
 const browser = await chromium.launch(executablePath ? { executablePath } : {});
 
 async function prepare(page) {
-  await page.addInitScript(() => localStorage.setItem("mindmake_consent", "accepted"));
+  /* No stored analytics answer, so the brief's first screen carries its
+     analytics question and it is measured with the rest (2026-10-28). */
+  await page.addInitScript(() => localStorage.removeItem("mindmake_consent"));
   let requests = 0;
   await page.route("**/functions/v1/**", async (route) => {
     const request = route.request();
@@ -363,7 +365,11 @@ try {
         await snapshot(page, label, "door");
         await dialog.getByRole("button", { name: entry.door }).click();
       }
+      await dialog.locator(".mm-brief-analytics").waitFor({ state: "visible" });
       await snapshot(page, label, "company");
+      /* Declined, so nothing is loaded from Google; the line keeps its room
+         unseen and the rest of the walk is measured as before. */
+      await dialog.locator(".mm-brief-analytics").getByRole("button", { name: "Decline" }).click();
 
       await dialog.locator("#mm-company-email").fill("anya@gmail.com");
       await dialog.getByRole("button", { name: /get building/i }).click();

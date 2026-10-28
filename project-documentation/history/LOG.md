@@ -5,6 +5,24 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-10-28
+
+- Google Analytics events for the brief's steps and a growth placement's tag
+  held until the banner is answered, for growth-mindmake's traffic reading
+  (its brief of 27 October, section 10; Krish, 28 October 2026: "You are more
+  than welcome to add the MindMake repository to this session", with the
+  decisions delegated). `brief_open`, `brief_step` and `brief_submit` go to
+  Google only after Allow, with fixed names only. The head script holds
+  `utm_source=growth-<path>&utm_medium=referral` in page memory, queues it
+  before the config and drops it on Decline; nothing is written to the
+  device, so the brief's "never before Allow" wins over a session-storage
+  hold. The client `/start` route now keeps the query string, as the edge
+  already did. Not done: the brief request recording the tag, because the
+  privacy page lists what a brief stores and would have to say so first, a
+  visible change kept for Krish's read. Locked files changed: `index.html`,
+  `src/App.tsx` and `src/components/mindmake/LeadBrief.tsx`, with the lock
+  regenerated. No visible text changed.
+
 ## 2026-10-26
 
 - The 31 feedback ledger rows that were implemented and awaiting review (25

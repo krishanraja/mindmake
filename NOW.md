@@ -76,6 +76,12 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-10-28: Google Analytics hears the brief's steps (`brief_open`,
+  `brief_step`, `brief_submit`, fixed names only) after Allow, and a growth
+  placement's `utm_source=growth-<path>&utm_medium=referral` is held in page
+  memory until the banner is answered, never on the device, dropped on
+  Decline. `/start` keeps its query string in the client as at the edge. No
+  visible text changed.
 - 2026-10-26: the documentation was audited against the live site on Krish's
   instruction ("ensure the documentation is 100% up to scratch, and that an AI
   agent reading the documentation cannot possibly misinterpret or read stale
@@ -141,6 +147,10 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 - Next: Change 3, the brief names one thing AI could carry in the reader's
   own week, shown rendered before it is built
   ([STATE.md](project-documentation/website-redesign/STATE.md), "Open").
+- Waiting on Krish: the privacy line that lets the brief request record a
+  growth placement's tag beside its entry route (growth-mindmake's third
+  mindmake change). `/privacy` lists what a brief stores, so the tag cannot be
+  recorded until it says so; that is a visible change for his read.
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback

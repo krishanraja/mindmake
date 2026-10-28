@@ -543,6 +543,34 @@ describe("Mindmake private brief journey", () => {
     expect(requestCall?.[1].body.requestId).toMatch(/^mindmake-[a-z0-9]+-1234$/);
   });
 
+  /* Krish, 2026-10-28: the brief request records which growth placement it
+     came from, read from the tag held in page memory only (/privacy says so). */
+  it("carries the held growth placement with the request, and nothing when none is held", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    mockWorkingV2Flow();
+    const requests = () => invoke.mock.calls
+      .filter(([name, options]) => name === "submit-mindmake-brief" && options.body.action === "request")
+      .map(([, options]) => options.body);
+
+    window.mmVisitTag = { campaign_source: "growth-podcast", campaign_medium: "referral" };
+    const first = render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+    expect(requests()[0].placement).toEqual({ source: "growth-podcast", medium: "referral" });
+    first.unmount();
+
+    for (const held of [null, { campaign_source: "growth-Podcast", campaign_medium: "referral" as const }]) {
+      invoke.mockClear();
+      window.mmVisitTag = held;
+      const view = render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+      await reachContact();
+      await requestCode();
+      expect(requests()[0]).not.toHaveProperty("placement");
+      view.unmount();
+    }
+    delete window.mmVisitTag;
+  });
+
   it("only claims the delivery outcomes confirmed after verification", async () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow(confirmedResponse({ operatorDelivery: "failed" }));

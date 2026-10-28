@@ -21,6 +21,7 @@ import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mi
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track, trackBrief } from "@/lib/analytics";
+import { heldPlacement, type BriefPlacement } from "@/lib/visitTag";
 import {
   KEYBOARD_OPEN_THRESHOLD_PX,
   fieldAction,
@@ -410,6 +411,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const researchAbortRef = useRef<AbortController | null>(null);
   const handoffAbortRef = useRef<AbortController | null>(null);
   const requestIdRef = useRef(createRequestId());
+  /* The held growth placement, read once per request id, so a resend of the
+     same request carries the same payload (a changed one is a conflict). */
+  const placementRef = useRef<{ requestId: string; placement?: BriefPlacement } | null>(null);
   const journeyVersionRef = useRef(0);
   const profileSubmittedRef = useRef(false);
   const handoffEnabled = import.meta.env.VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED === "true";
@@ -910,6 +914,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const requestVerification = async (resend = false) => {
     setError("");
     setCodeResent(false);
+    if (placementRef.current?.requestId !== requestIdRef.current) {
+      placementRef.current = { requestId: requestIdRef.current, placement: heldPlacement() };
+    }
     const request = buildMindmakeBriefRequestV2({
       domain,
       capacityChoice: capacity as keyof typeof RETURNED_TIME_IDS,
@@ -919,6 +926,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       requestId: requestIdRef.current,
       route: door,
       tailored: tailoredChoice ? { id: tailoredChoice.id, label: tailoredChoice.label } : undefined,
+      placement: placementRef.current.placement,
     });
     handoffAbortRef.current?.abort();
     const controller = new AbortController();

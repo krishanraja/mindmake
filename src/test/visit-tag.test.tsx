@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ToStart } from "@/App";
-import { dropVisitTag } from "@/lib/visitTag";
+import { dropVisitTag, heldPlacement, isGrowthPlacement } from "@/lib/visitTag";
 import { trackBrief } from "@/lib/analytics";
 
 /* The head script that holds a growth placement's tag, run against a given
@@ -80,6 +80,28 @@ describe("a growth placement's tag", () => {
     dropVisitTag();
     expect(window.mmVisitTag).toBeNull();
     expect(window.dataLayer).toEqual([["consent", "default"], config]);
+  });
+
+  it("is what the brief request carries, by the same rule as the head script", () => {
+    for (const search of [
+      "?utm_source=growth-podcast&utm_medium=referral",
+      "?utm_source=growth-guest-seat&utm_medium=referral",
+      `?utm_source=growth-${"a".repeat(33)}&utm_medium=referral`,
+      `?utm_source=growth-${"a".repeat(34)}&utm_medium=referral`,
+      "?utm_source=growth-Podcast&utm_medium=referral",
+      "?utm_source=growth-podcast&utm_medium=email",
+      "?utm_source=newsletter&utm_medium=referral",
+    ]) {
+      const query = new URLSearchParams(search);
+      const held = arrive(search).win.mmVisitTag as typeof window.mmVisitTag;
+      expect(Boolean(held), search).toBe(isGrowthPlacement(query.get("utm_source"), query.get("utm_medium")));
+      window.mmVisitTag = held;
+      expect(heldPlacement(), search).toEqual(held ? { source: query.get("utm_source"), medium: "referral" } : undefined);
+    }
+    window.mmVisitTag = { campaign_source: "growth-Podcast", campaign_medium: "referral" };
+    expect(heldPlacement()).toBeUndefined();
+    window.mmVisitTag = null;
+    expect(heldPlacement()).toBeUndefined();
   });
 
   it("is never written to the device", () => {

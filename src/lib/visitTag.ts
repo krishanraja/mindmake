@@ -13,7 +13,30 @@
  * It reaches Google only if gtag.js loads, which happens only after Allow
  * (`mmLoadGoogleTag`). On Decline it is dropped from page memory and from the
  * queued commands, so nothing of it is left to send.
+ *
+ * The brief request records the same held tag beside its entry route
+ * (`heldPlacement`, sent as `placement` to `submit-mindmake-brief`), and
+ * /privacy section 2 says so. It is read from page memory only, never from the
+ * address, and only while it still has the engine's shape; the function and
+ * the table's CHECK constraints hold the same rule.
  */
+
+/** The engine's shape: `growth-<path>`, lower-case words joined by hyphens,
+ *  at most 40 characters, always with the medium `referral`. */
+export const GROWTH_SOURCE_PATTERN = /^growth-[a-z]+(?:-[a-z]+)*$/;
+export const GROWTH_SOURCE_MAX = 40;
+export const GROWTH_MEDIUM = "referral";
+
+export const isGrowthPlacement = (source: unknown, medium: unknown): boolean =>
+  typeof source === "string"
+  && source.length <= GROWTH_SOURCE_MAX
+  && GROWTH_SOURCE_PATTERN.test(source)
+  && medium === GROWTH_MEDIUM;
+
+export interface BriefPlacement {
+  source: string;
+  medium: typeof GROWTH_MEDIUM;
+}
 
 export interface VisitTag {
   campaign_source: string;
@@ -27,6 +50,15 @@ declare global {
     mmVisitTag?: VisitTag | null;
     dataLayer?: QueuedCommand[];
   }
+}
+
+/** The held tag as the brief request carries it, or undefined when nothing
+ *  is held (no placement, another shape, or dropped on Decline). */
+export function heldPlacement(): BriefPlacement | undefined {
+  if (typeof window === "undefined") return undefined;
+  const tag = window.mmVisitTag;
+  if (!tag || !isGrowthPlacement(tag.campaign_source, tag.campaign_medium)) return undefined;
+  return { source: tag.campaign_source, medium: GROWTH_MEDIUM };
 }
 
 /** Forget the tag: page memory and the queued `set` command alike. */

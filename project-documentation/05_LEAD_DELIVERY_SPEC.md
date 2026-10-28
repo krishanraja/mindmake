@@ -1,6 +1,6 @@
 # Mindmake private brief and personal-read delivery
 
-Current at the 26 October 2026 release (PR #250 and `submit-mindmake-brief` v23); the privacy, retention and delivery contract is unchanged since the 24 September 2026 release. This file specifies current behavior, durable privacy/product boundaries and known limitations. Historical experiments and incident narratives belong only in `history/LOG.md`. Current deployment identity is in `06_CURRENT_STATE.md`; executed backend evidence is in `website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md`.
+Current at the 28 October 2026 release (PR #255 and `submit-mindmake-brief` v24); the retention and delivery contract is unchanged since the 24 September 2026 release, and the privacy notice since 28 October 2026 also lists the growth placement a brief came from. This file specifies current behavior, durable privacy/product boundaries and known limitations. Historical experiments and incident narratives belong only in `history/LOG.md`. Current deployment identity is in `06_CURRENT_STATE.md`; executed backend evidence is in `website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md`.
 
 ## Product and consent boundaries
 
@@ -32,7 +32,7 @@ Changing email or explicitly requesting another code creates a fresh request. A 
 
 ## API and server authority
 
-The exact current contracts live in `supabase/functions/submit-mindmake-brief/core.ts`; avoid a second independently maintained interface in documentation. The brief v2 `request` sends requestId, contact.email, company.domain, allowlisted pressure/returned-time/entry-route choices, optional signed tailored choice, consent wording version and the empty honeypot. `confirm` sends requestId, email, code and optional signed tailored choice. Invalid/extra fields are rejected.
+The exact current contracts live in `supabase/functions/submit-mindmake-brief/core.ts`; avoid a second independently maintained interface in documentation. The brief v2 `request` sends requestId, contact.email, company.domain, allowlisted pressure/returned-time/entry-route choices, optional signed tailored choice, consent wording version, the empty honeypot and, only when the page holds a growth placement's tag (`src/lib/visitTag.ts`, page memory only, never the address), `placement` with `source` `growth-<path>` (at most 40 characters) and `medium` `referral`. It is stored as `utm_source` and `utm_medium` beside the entry route, null when absent, and anything outside that shape rejects the request; the row's CHECK constraints hold the same rule. `confirm` sends requestId, email, code and optional signed tailored choice. Invalid/extra fields are rejected.
 
 Server-owned work: normalize identifiers; apply hash-based abuse limits; research the company or label insufficiency; assemble from server-owned rules; store private request/delivery state; create and send the code; verify it; independently construct/send visitor and operator templates; return truthful status. Retries use delivery-specific deterministic idempotency keys.
 

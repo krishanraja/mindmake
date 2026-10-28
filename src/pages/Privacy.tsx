@@ -13,7 +13,7 @@ const sections = [
   },
   {
     title: "2. What we collect",
-    body: <><p>We collect only what is needed for the part of Mindmake you choose to use.</p><ul><li>For a private starting brief or a personal read: your first and last name, your work email, the part of the business you work in, the company we read from that email, the problem and use of time you choose, the page where you began and your separate publication-interest choice. We ask for a work address rather than a personal one because the read is built from the company behind it.</li><li>For a general message: your name, email, company if supplied and the message.</li><li>For paid work: the business information, files, notes and payment records needed to do the agreed work.</li><li>For the publication: your email and subscription choices, handled through the publication provider.</li><li>For the website: basic visit information and the privacy choice stored on your device.</li></ul><p>The private brief may use public information about the company, and about the named person at that company, to prepare the read. It stores the resulting company read, your name and division, the brief choices and delivery records. The private brief database does not store the six-digit code, your raw internet address or a plain description of your browser. It stores one-way security codes made from some of this information to limit abuse.</p></>,
+    body: <><p>We collect only what is needed for the part of Mindmake you choose to use.</p><ul><li>For a private starting brief or a personal read: your first and last name, your work email, the part of the business you work in, the company we read from that email, the problem and use of time you choose, the page where you began and, if you arrived from one of our placements, which one, and your separate publication-interest choice. We ask for a work address rather than a personal one because the read is built from the company behind it.</li><li>For a general message: your name, email, company if supplied and the message.</li><li>For paid work: the business information, files, notes and payment records needed to do the agreed work.</li><li>For the publication: your email and subscription choices, handled through the publication provider.</li><li>For the website: basic visit information and the privacy choice stored on your device.</li></ul><p>The private brief may use public information about the company, and about the named person at that company, to prepare the read. It stores the resulting company read, your name and division, the brief choices and delivery records. The private brief database does not store the six-digit code, your raw internet address or a plain description of your browser. It stores one-way security codes made from some of this information to limit abuse.</p></>,
   },
   {
     title: "3. Why we use it",
@@ -59,7 +59,7 @@ export default function Privacy() {
         <header className="mm-container mm-legal-hero">
           <h1>Privacy policy.</h1>
           <p>This page explains what Mindmake collects, why it is needed and the choices you have.</p>
-          <small>Last updated: 19 October 2026</small>
+          <small>Last updated: 28 October 2026</small>
         </header>
         <div className="mm-container mm-legal-sections">
           {sections.map((section) => <section key={section.title}><h2>{section.title}</h2><div>{section.body}</div></section>)}

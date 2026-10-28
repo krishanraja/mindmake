@@ -7,6 +7,20 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-28
 
+- The brief request records which growth placement it came from (PR #255,
+  Krish, 28 October 2026: "Yes do number two"), growth-mindmake's third
+  mindmake change. Deployed in order: the migration `mindmake_brief_placement`
+  (two nullable checked columns, `utm_source` and `utm_medium`, and the RPC's
+  insert; read back), then `submit-mindmake-brief` v24 from the branch commit
+  `5f31a69` (15 files read back identical), then the merge. `/privacy` section
+  2 now lists "and, if you arrived from one of our placements, which one", and
+  its Last updated line moved to 28 October 2026. Live proof: a tagged request
+  recorded `growth-podcast` and `referral`, an untagged one two nulls, a
+  malformed one was refused 400 with no row; two codes went to the designated
+  inbox, none was confirmed, and both synthetic rows were deleted with zero
+  read back. Superseded in `06_CURRENT_STATE.md`: "The brief request does not
+  record the tag: that needs the privacy page to say so first." and v23 as the
+  live brief function.
 - Google Analytics events for the brief's steps and a growth placement's tag
   held until the banner is answered, for growth-mindmake's traffic reading
   (its brief of 27 October, section 10; Krish, 28 October 2026: "You are more

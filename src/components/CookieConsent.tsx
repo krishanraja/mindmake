@@ -1,27 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { setBottomReserve } from "@/lib/bottomReserve";
-import { dropVisitTag } from "@/lib/visitTag";
-
-const CONSENT_KEY = "mindmake_consent";
-/* "analytics" allows Google Analytics and "essential" declines it. Any stored
-   value means the visitor has answered, including the older "accepted", which
-   was given to a Plausible-only notice and is never read as a yes to Google. */
-const ALLOW = "analytics";
-const DECLINE = "essential";
-
-declare global {
-  interface Window {
-    mmLoadGoogleTag?: () => void;
-  }
-}
-
-function remember(choice: string) {
-  try {
-    localStorage.setItem(CONSENT_KEY, choice);
-  } catch {
-    // Keep the choice for this page view when storage is unavailable.
-  }
-}
+import { CONSENT_KEY, allowAnalytics, briefIsOpen, consentStored, declineAnalytics, onConsentSignal } from "@/lib/consent";
 
 /**
  * Withdrawing is as easy as allowing: forget the answer, remove the Google
@@ -60,8 +39,22 @@ export const AnalyticsChoiceReset = () => (
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 export const CookieConsent = () => {
-  const [visible, setVisible] = useState(false);
+  /* Due once the visitor leaves the first screen; shown only while no brief
+     is open, because the brief asks the same question inside itself
+     (`src/lib/consent.ts`), and never again once answered in either place. */
+  const [due, setDue] = useState(false);
+  const [briefOpen, setBriefOpenState] = useState(false);
+  const [answered, setAnswered] = useState(false);
+  const visible = due && !briefOpen && !answered;
   const noticeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setBriefOpenState(briefIsOpen());
+    return onConsentSignal((kind) => {
+      if (kind === "answered") setAnswered(true);
+      else setBriefOpenState(briefIsOpen());
+    });
+  }, []);
 
   /**
    * Held back until the visitor leaves the first screen.
@@ -74,17 +67,13 @@ export const CookieConsent = () => {
    * needed, and the moment they do scroll it arrives.
    */
   useEffect(() => {
-    let asked = false;
-    try {
-      asked = localStorage.getItem(CONSENT_KEY) !== null;
-    } catch {
-      // A blocked storage API should not hide the privacy notice.
-    }
-    if (asked) return;
+    /* A blocked storage API reads as unanswered and should not hide the
+       privacy notice. */
+    if (consentStored()) return;
 
     const show = () => {
       if (window.scrollY < window.innerHeight * 0.6) return;
-      setVisible(true);
+      setDue(true);
       window.removeEventListener("scroll", show);
     };
     show();
@@ -137,17 +126,13 @@ export const CookieConsent = () => {
   }, [visible]);
 
   const allow = () => {
-    remember(ALLOW);
-    window.mmLoadGoogleTag?.();
-    setVisible(false);
+    allowAnalytics();
+    setAnswered(true);
   };
 
   const decline = () => {
-    remember(DECLINE);
-    /* A growth placement's tag is dropped with Google: neither Analytics nor
-       a brief request started after this will carry it. */
-    dropVisitTag();
-    setVisible(false);
+    declineAnalytics();
+    setAnswered(true);
   };
 
   if (!visible) return null;

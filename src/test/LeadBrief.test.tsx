@@ -13,6 +13,7 @@ import {
   LeadBrief,
 } from "@/components/mindmake/LeadBrief";
 import { NEWSLETTER_CONSENT_WORDING_VERSION } from "@/components/mindmake/leadDelivery";
+import { CookieConsent } from "@/components/CookieConsent";
 
 const { invoke } = vi.hoisted(() => ({ invoke: vi.fn() }));
 
@@ -1165,5 +1166,105 @@ describe("the brief's steps in Google Analytics", () => {
     await reachContact();
     await requestCode();
     expect(gtag).not.toHaveBeenCalled();
+  });
+});
+
+/* A brief opened straight away (a `?start=1` link) covers the page and its
+   notice, so it asks the analytics question itself (Ruling, Krish,
+   2026-10-28: "Ask inside the brief"): the same stored choice, an explicit
+   Allow or Decline, nothing in the brief waiting on it, and the page notice
+   away while the brief is open. */
+describe("the analytics question inside the brief", () => {
+  afterEach(() => {
+    cleanup();
+    localStorage.clear();
+    window.scrollY = 0;
+    delete window.gtag;
+    delete window.mmGoogleTagLoaded;
+    delete window.mmLoadGoogleTag;
+  });
+
+  function arriveOnBriefLink() {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    const loadTag = vi.fn(() => { window.mmGoogleTagLoaded = true; });
+    window.mmLoadGoogleTag = loadTag;
+    /* Far enough down that the page notice would be due, were no brief open. */
+    window.scrollY = window.innerHeight * 2;
+    render(<><CookieConsent /><LeadBrief open onClose={() => undefined} route="gtm" /></>);
+    const question = screen.getByText("Can we count your visit with Google Analytics?");
+    const line = question.closest(".mm-brief-analytics") as HTMLElement;
+    return { gtag, loadTag, line };
+  }
+
+  it("asks on the first screen when no choice is stored, and Allow loads the tag and sends the open and the step", () => {
+    const { gtag, loadTag, line } = arriveOnBriefLink();
+    expect(screen.getByRole("dialog").contains(line)).toBe(true);
+    expect(line).not.toHaveAttribute("data-answered");
+    expect(document.querySelector(".mm-cookie-notice")).toBeNull();
+    expect(gtag).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: /get building/i })).toBeEnabled();
+
+    fireEvent.click(within(line).getByRole("button", { name: "Allow" }));
+
+    expect(loadTag).toHaveBeenCalledTimes(1);
+    expect(localStorage.getItem("mindmake_consent")).toBe("analytics");
+    expect(gtag.mock.calls).toEqual([
+      ["event", "brief_open", { brief_route: "gtm" }],
+      ["event", "brief_step", { brief_route: "gtm", brief_step: "company" }],
+    ]);
+    /* Answered, it keeps its room unseen, and the page notice never comes. */
+    expect(line).toHaveAttribute("data-answered", "true");
+    expect(document.querySelector(".mm-cookie-notice")).toBeNull();
+  });
+
+  it("Decline loads nothing and sends nothing", () => {
+    const { gtag, loadTag, line } = arriveOnBriefLink();
+    fireEvent.click(within(line).getByRole("button", { name: "Decline" }));
+    expect(loadTag).not.toHaveBeenCalled();
+    expect(gtag).not.toHaveBeenCalled();
+    expect(localStorage.getItem("mindmake_consent")).toBe("essential");
+    expect(line).toHaveAttribute("data-answered", "true");
+    expect(document.querySelector(".mm-cookie-notice")).toBeNull();
+  });
+
+  it("is not asked again once a choice is stored", () => {
+    localStorage.setItem("mindmake_consent", "essential");
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    expect(screen.queryByText("Can we count your visit with Google Analytics?")).toBeNull();
+  });
+
+  it("hands the question back to the page notice once the brief closes unanswered", () => {
+    window.scrollY = window.innerHeight * 2;
+    const { rerender } = render(<><CookieConsent /><LeadBrief open onClose={() => undefined} route="gtm" /></>);
+    expect(document.querySelector(".mm-cookie-notice")).toBeNull();
+    rerender(<><CookieConsent /><LeadBrief open={false} onClose={() => undefined} route="gtm" /></>);
+    expect(document.querySelector(".mm-cookie-notice")).not.toBeNull();
+  });
+});
+
+/* Krish, 2026-10-28: "I also want the green button in the bottom right,
+   bigger, pulsing and without the accompanying text beneath it." */
+describe("keeping the private brief", () => {
+  afterEach(cleanup);
+  const css = readFileSync(resolve(__dirname, "../styles/mindmake-brief.css"), "utf8");
+
+  it("has no line beneath the button", async () => {
+    mockWorkingV2Flow();
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachPreview();
+    const keep = screen.getByRole("button", { name: /keep the private brief/i });
+    expect(keep.parentElement?.textContent?.trim()).toBe("Keep the private brief →");
+    expect(screen.queryByText(/useful first view/i)).toBeNull();
+  });
+
+  it("pulses by a glow alone, and not at all under reduced motion", () => {
+    const keyframes = css.slice(css.indexOf("@keyframes mm-folio-keep-pulse"));
+    const body = keyframes.slice(0, keyframes.indexOf("\n}\n"));
+    expect(body).toMatch(/box-shadow/);
+    expect(body).not.toMatch(/transform|width|height|padding|margin|scale/);
+    expect(css).toMatch(/\.mm-folio-preview \.mm-folio-primary\.mm-button \{[^}]*animation: mm-folio-keep-pulse 2\.4s ease-in-out infinite;/);
+    const reduced = css.slice(css.lastIndexOf("@media (prefers-reduced-motion: reduce)"));
+    expect(reduced.slice(0, reduced.indexOf("\n}\n"))).toMatch(/\.mm-folio-preview \.mm-folio-primary\.mm-button \{ animation: none; \}/);
   });
 });

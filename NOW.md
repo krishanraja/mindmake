@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-26
-head: 5f550d6
+as_of: 2026-10-28
+head: 44851e4
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -76,6 +76,14 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-10-28: the brief's "Keep the private brief" sits at the bottom right
+  of the preview card, bigger and pulsing, with no line beneath it, and the
+  brief's first screen asks for analytics consent itself when none is stored,
+  because a brief opened from a `?start=1` link covered the page notice
+  (PR #256; Krish: "I also want the green button in the bottom right, bigger,
+  pulsing and without the accompanying text beneath it." and "Ask inside the
+  brief"). Ledger rows `BRIEF-KEEP-001` and `BRIEF-CONSENT-001` await his
+  review of the result.
 - 2026-10-28: the brief request records which growth placement it came from
   (`utm_source=growth-<path>`, `utm_medium=referral`, from the tag held in
   page memory only, null otherwise), and `/privacy` section 2 says so, on
@@ -164,6 +172,10 @@ Do not ask the owner to reapprove settled selections or quietly choose new ones.
 - North Star check (2026-10-26): holds.
 - North Star check (2026-10-28): holds. The placement record lets a brief be
   read against the growth path that brought it; it moves no number by itself.
+- North Star check (2026-10-28, PR #256): holds. Brief links now ask for
+  analytics consent, so a growth placement's brief can be counted when the
+  visitor allows it, and the way to keep the brief is easier to see; neither
+  moves cash by itself.
 
 ## Read next
 

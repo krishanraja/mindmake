@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-10-28",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -1680,6 +1680,46 @@
         "src/hooks/useLeadBriefHistory.ts",
         "src/styles/mindmake-brief.css",
         "project-documentation/05_LEAD_DELIVERY_SPEC.md"
+      ]
+    },
+    {
+      "id": "BRIEF-KEEP-001",
+      "exactFeedback": "I also want the green button in the bottom right, bigger, pulsing and without the accompanying text beneath it.",
+      "source": "Krish, 28 October 2026, with a screenshot of the brief's last screen (the preview step, \"1 of 4\").",
+      "surface": "the brief, its preview step",
+      "section": "the private brief journey",
+      "device": "all",
+      "element": "\"Keep the private brief\" and the line beneath it",
+      "classification": "correction",
+      "requiredOutcome": "\"Keep the private brief\" sits at the bottom right of the preview card (a full-width bar at the foot of the card on a phone), bigger, with a slow, calm pulse that stops under reduced motion and never changes its size, and the line \"This is a useful first view, not a promise or final answer.\" is no longer beneath it.",
+      "acceptanceTest": "At 1440x900 the button is in the card's bottom-right corner; at 390x844 and 360x780 it is the card's last row; it is 64px tall on a desktop (was 46) with a 19px label (was 15), 58px with 18px on a phone; the leaves end above it; the pulse is a box-shadow on a 2.4 second cycle and none under prefers-reduced-motion; the line is gone from the preview step and stays in the private brief document and its email; the brief's unit, keyboard and contrast checks and qa:line-breaks pass.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The folio's footer is its last grid row, sized by the button, with the button at its right end; the leaves above give up exactly its room and the folio is the height of the screen, so it never scrolls away. The line is removed from the footer only: `proposalContent.ts` and the brief function's email keep it, because the private brief document carries it. Desktop and phone screenshots of the candidate are on the pull request.",
+      "evidence": [
+        "src/components/mindmake/LeadBrief.tsx",
+        "src/styles/mindmake-brief.css",
+        "src/test/LeadBrief.test.tsx"
+      ]
+    },
+    {
+      "id": "BRIEF-CONSENT-001",
+      "exactFeedback": "Ask inside the brief",
+      "source": "Krish, 28 October 2026, choosing between ways to ask visitors on a brief link for analytics consent: a brief opened straight away (the ?start=1 links growth-mindmake places) covered the page notice with its backdrop, and the notice waits for 60% of a screen of scrolling, so those visitors were never asked. Implied consent was ruled out on legal grounds.",
+      "surface": "the brief's first screen, from every way in",
+      "section": "the private brief journey",
+      "device": "all",
+      "element": "the analytics question",
+      "classification": "correction",
+      "requiredOutcome": "With no stored choice, the brief's first screen asks \"Can we count your visit with Google Analytics?\" with Allow and Decline, inside the panel and quieter than \"Get building\"; it is the page notice's own choice (the same stored key, Allow loading the tag, Decline dropping a held placement tag); nothing in the brief waits on it; once answered it keeps its room unseen so nothing moves; and the page notice stays away while the brief is open.",
+      "acceptanceTest": "On a brief link with no stored choice the line shows; Allow stores `analytics`, loads the tag and sends `brief_open` and `brief_step`; Decline stores `essential` and sends nothing; the page notice is absent while the brief is open and returns, unanswered, once it closes; Get building is the same place before and after an answer at 1440x900, 390x844 and 360x780.",
+      "status": "implemented-awaiting-review",
+      "resolution": "`src/lib/consent.ts` holds the one choice (key, Allow, Decline) and whether a brief is open; the page notice and the brief both answer through it. The brief asks on its company step only when nothing is stored. /privacy does not say when the notice appears, so its wording is unchanged.",
+      "evidence": [
+        "src/lib/consent.ts",
+        "src/components/CookieConsent.tsx",
+        "src/components/mindmake/LeadBrief.tsx",
+        "src/styles/mindmake-brief.css",
+        "src/test/LeadBrief.test.tsx"
       ]
     }
   ]

@@ -113,6 +113,23 @@ ledger row `BRIEF-CLICKS-001`). Krish approved it on 26 October 2026
 - From the homepage hero to "Check your email." is 8 clicks on a desktop or a
   phone (11 and 14 before).
 
+### The keep button and the analytics question (28 October 2026)
+
+Two changes Krish approved on 28 October 2026 (ledger rows `BRIEF-KEEP-001`
+and `BRIEF-CONSENT-001`, implemented and awaiting his review of the result).
+
+- **Keep the private brief** sits at the bottom right of the preview card, a
+  full-width bar at its foot on a phone, bigger, with a slow glow that never
+  changes its size and stops under reduced motion, and no line beneath it
+  (Krish: "I also want the green button in the bottom right, bigger, pulsing
+  and without the accompanying text beneath it.").
+- The brief's first screen asks "Can we count your visit with Google
+  Analytics?" with Allow and Decline when no answer is stored, quieter than
+  Get building and inside the panel; it is the page notice's own choice, the
+  notice stays away while a brief is open, nothing waits on the answer, and
+  once answered the line keeps its room unseen (Krish's choice: "Ask inside
+  the brief"; implied consent was ruled out).
+
 ## Open: the brief names one thing AI could carry (Change 3)
 
 Krish agreed three changes on 11 October 2026 and asked for them one at a time,

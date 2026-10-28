@@ -18,13 +18,17 @@ Accepted surface and change guards: website-redesign/STATE.md.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Production follows main, so every commit there deploys, documentation
   included; GitHub's deployment record names the deployment for each commit.
-- Latest application release: PR #255, the brief request records which
-  growth placement it came from and `/privacy` says so, merged on 28 October
-  2026 on Krish's approval ("Yes do number two"); GitHub's deployment record
-  for its merge commit names the production deployment. Rollback: the
-  preceding production, `c03b21c` (PR #254),
-  mindmake-1i11hno40-krish-rajas-projects.vercel.app. The migration and
-  `submit-mindmake-brief` v24 were deployed before the merge (Backend, below).
+- Latest application release: PR #256, the brief's "Keep the private brief"
+  at the bottom right, bigger and pulsing with no line beneath it, and the
+  analytics question asked inside the brief, merged on 28 October 2026 on
+  Krish's approval (his words: "I also want the green button in the bottom
+  right, bigger, pulsing and without the accompanying text beneath it." and
+  his choice "Ask inside the brief"); GitHub's deployment record for its merge
+  commit names the production deployment. Rollback: the preceding
+  production, `ec08a0b` (PR #255). No backend change.
+- PR #255 (28 October 2026): the brief request records which growth placement
+  it came from and `/privacy` says so, on Krish's approval ("Yes do number
+  two"), after the migration and `submit-mindmake-brief` v24 (Backend, below).
 - PR #254 (28 October 2026): the brief's steps in Google Analytics after
   Allow and a growth placement's tag held in page memory (Analytics, below).
 - PR #250 (26 October 2026), the brief in fewer clicks, merge `6b86220` on
@@ -117,6 +121,15 @@ older `accepted` answer was given to a Plausible-only notice and never counts
 as a yes. On a laptop the notice is a card on the left of the bottom band; on a
 phone it docks under the masthead. `/privacy` section 5 names both tools and
 carries "Change your analytics choice".
+
+Since 28 October 2026 (PR #256) a brief asks the same question on its first
+screen when no answer is stored ("Can we count your visit with Google
+Analytics?", Allow and Decline, inside the panel), because a brief opened
+straight away covered the notice. Both answer through `src/lib/consent.ts`
+(the same key, Allow loading the tag, Decline dropping a held placement tag);
+the page notice stays away while a brief is open; Allow there sends
+`brief_open` and the current `brief_step` once; nothing in the brief waits on
+the answer.
 
 Since 28 October 2026 Google Analytics also receives the brief's steps, only
 once Allow has loaded the tag on that page (`trackBrief` in

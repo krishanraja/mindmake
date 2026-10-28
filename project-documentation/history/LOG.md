@@ -7,6 +7,25 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-28
 
+- The brief's "Keep the private brief" and its analytics question (PR #256),
+  two changes Krish approved on 28 October 2026. The button moved to the
+  bottom right of the preview card (a full-width bar at its foot on a
+  phone), grew from 46px with a 15px label to 64px with 19px on a desktop
+  (58px with 18px on a phone) and pulses by a glow on a 2.4 second cycle,
+  none under reduced motion; "This is a useful first view, not a promise or
+  final answer." left the footer beneath it, and stays in the private brief
+  document and its email. Krish: "I also want the green button in the bottom
+  right, bigger, pulsing and without the accompanying text beneath it." A
+  brief opened straight away (a `?start=1` link) had covered the analytics
+  notice, which waits for scrolling, so visitors on brief links were never
+  asked; Krish chose "Ask inside the brief", with implied consent ruled out.
+  The brief's first screen now asks with Allow and Decline when nothing is
+  stored, through `src/lib/consent.ts`, the one choice the page notice also
+  uses, and the notice stays away while a brief is open. `/privacy` does not
+  say when the notice appears, so it is unchanged. `qa:lead-contrast` now
+  measures the question. Locked files changed: `LeadBrief.tsx` and
+  `mindmake-brief.css`, with the lock regenerated. Ledger rows
+  `BRIEF-KEEP-001` and `BRIEF-CONSENT-001`.
 - The brief request records which growth placement it came from (PR #255,
   Krish, 28 October 2026: "Yes do number two"), growth-mindmake's third
   mindmake change. Deployed in order: the migration `mindmake_brief_placement`

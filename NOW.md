@@ -2,7 +2,7 @@
 repo: krishanraja/mindmake
 product: Mindmake
 as_of: 2026-10-28
-head: 44851e4
+head: aa181f1
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-26)
+## Where it is right now (as of 2026-10-28)
 
 <!-- north-star-state {"week_of": "2026-10-26", "week_target": "private", "current": "private", "current_as_of": "2026-10-23", "current_source": "Control Center revenue_events (Stripe, account mindmaker_llc), read-only", "urgency": 3, "urgency_reason": "at 71% of this week's target"} --> **North Star number: U3, well behind.** Cash collected by Mindmake, trailing 4 weeks: at 71% of this week's target (figures private). Two experiments a week, growth output doubled.
 
@@ -127,21 +127,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   when a reader makes a choice, so `qa:line-breaks` now covers 1280 and 360
   wide, clicks every swapping control and fails size changes. Its 25 `S6-*`
   feedback rows were accepted on 26 October 2026.
-- 2026-10-24: the Linux browser legs of CI were pinned to ubuntu-24.04 (#246).
-  GitHub moved `ubuntu-latest` to 26.04 and the pinned Playwright 1.60.0
-  "does not support chromium on ubuntu26.04-x64", so both legs stopped before
-  any case ran. Lift the pin when Playwright supports the newer runner.
-- 2026-10-18: the North Star was set and every session was anchored to it.
-  `00_NORTH_STAR.md` gained a Horizon: by March 2027 Mindmake is the first name
-  a PE or VC backed media, adtech or data leader hears when they ask who can
-  build an AI that knows them, and twelve leaders run one they would vouch for
-  out loud. CLAUDE.md and AGENTS.md now tell each session to read it first, say
-  which part the task moves and close by noting what moved. Krish's ruling:
-  "North Star timeframes assume agents do the work, not humans." The same day
-  superseded branches (older documentation reconciliations, two dated steward
-  branches, an abandoned canon sync) were merged as history only (#241),
-  because they predate the 16 October rewrite; the current canon and the
-  accepted site were kept byte for byte. No site code or copy changed.
+
 ## What is next and what is waiting on Krish
 
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The
@@ -169,13 +155,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-10-26): holds.
-- North Star check (2026-10-28): holds. The placement record lets a brief be
-  read against the growth path that brought it; it moves no number by itself.
-- North Star check (2026-10-28, PR #256): holds. Brief links now ask for
-  analytics consent, so a growth placement's brief can be counted when the
-  visitor allows it, and the way to keep the brief is easier to see; neither
-  moves cash by itself.
+- North Star check (2026-10-28): holds.
 
 ## Read next
 

@@ -115,6 +115,7 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-24
 
+- rolled from NOW.md: the Linux browser legs of CI were pinned to ubuntu-24.04 (#246). GitHub moved `ubuntu-latest` to 26.04 and the pinned Playwright 1.60.0 "does not support chromium on ubuntu26.04-x64", so both legs stopped before any case ran. Lift the pin when Playwright supports the newer runner.
 - S6 shipped (PR #245, merge `23de29d`, 16:21 UTC): every page in three
   sections, from Krish's 22-card walkthrough of the site and his approval of
   the rendered mocks; the way in became "Start building your AI brain"; the
@@ -147,6 +148,7 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-10-18
 
+- rolled from NOW.md: the North Star was set and every session was anchored to it (Horizon in `00_NORTH_STAR.md`; Ruling, Krish, 2026-10-18: "North Star timeframes assume agents do the work, not humans."); superseded branches were merged as history only (#241). No site code or copy changed.
 - The North Star was set by Krish: a Horizon in `00_NORTH_STAR.md` ("By March 2027, Mindmake is the first name a PE or VC backed media, adtech or data leader hears when they ask who can build an AI that knows them, and twelve leaders run one they would vouch for out loud."), with CLAUDE.md and AGENTS.md carrying a marked block that sends every session to it first. Ruling (Krish, 2026-10-18): North Star timeframes assume agents do the work, not humans. Pull request #241 merged superseded branches as history only (May to September documentation reconciliations, two dated steward branches, a closed canon-sync branch, two branches whose targets were removed on 2026-08-26); each commit message records why it is superseded, and no current file changed from them. Docs steward reconciled at `159aeaf`: NOW.md's head moved from `791392b`. `CLAUDE.md` still carries "Reviewed 26 September 2026"; its body was not re-verified in this run, so the stamp was left for a person.
 
 ## 2026-10-16

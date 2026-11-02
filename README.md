@@ -48,6 +48,7 @@ immutable source and use its deterministic production adapter.
 | /contact | General contact |
 | /privacy and /terms | Website policies |
 | /alumni | Unlisted, noindex surface |
+| /feedback/dtd | Unlisted, noindex DoThinkDo staff feedback form; `submit-dtd-feedback` emails each response to the operator |
 
 Retired routes keep the compatibility redirects declared in vercel.json and
 src/App.tsx. Do not use redirecting aliases as canonical or sitemap URLs.

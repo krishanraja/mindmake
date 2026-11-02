@@ -29,6 +29,7 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Alumni from "./pages/Alumni";
+import DtdFeedback from "./pages/DtdFeedback";
 
 /**
  * The pages, rendered to HTML at build time.
@@ -73,6 +74,7 @@ function SiteRoutes() {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/alumni" element={<Alumni />} />
+      <Route path="/feedback/dtd" element={<DtdFeedback />} />
     </Routes>
   );
 }

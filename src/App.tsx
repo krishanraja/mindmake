@@ -24,6 +24,7 @@ const Questions = preloadable(() => import("./pages/Library"));
 const About = preloadable(() => import("./pages/About"));
 const AnswerPage = preloadable(() => import("./pages/Answer"));
 const Alumni = preloadable(() => import("./pages/Alumni"));
+const DtdFeedback = preloadable(() => import("./pages/DtdFeedback"));
 const AiBrain = preloadable(() => import("./pages/AiBrainLocked"));
 const AiGtm = preloadable(() => import("./pages/AiGtm"));
 
@@ -46,6 +47,7 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/privacy\/?$/, Privacy],
   [/^\/terms\/?$/, Terms],
   [/^\/alumni\/?$/, Alumni],
+  [/^\/feedback\/dtd\/?$/, DtdFeedback],
 ];
 const preloadPage = (pathname: string) => PAGE_CODE.find(([pattern]) => pattern.test(pathname))?.[1].preload();
 
@@ -258,6 +260,7 @@ function AppRoutes() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/alumni" element={<Alumni />} />
+            <Route path="/feedback/dtd" element={<DtdFeedback />} />
 
             <Route path="/sprint" element={<ToStart />} />
             <Route path="/teardown" element={<ToStart />} />

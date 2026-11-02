@@ -1,0 +1,42 @@
+/* /feedback/dtd: the DoThinkDo staff feedback form. Unlisted and noindex.
+   Chips change colour only when picked, never size (qa:line-breaks). */
+.mm-dtd-form { display: grid; gap: 40px; max-width: 760px; padding-top: 40px; }
+.mm-dtd-group { display: grid; gap: 14px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.mm-dtd-group legend { padding: 0; font: 700 clamp(22px, 2.4vw, 28px)/1.2 var(--mm-grotesque); letter-spacing: -.01em; }
+.mm-dtd-hint { margin: 2px 0 0; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.mm-dtd-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.mm-site .mm-dtd-chip {
+  min-height: 44px;
+  border: 1px solid var(--mm-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mm-tx);
+  padding: 10px 16px;
+  font: 500 15px/1.2 var(--mm-grotesque);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background .1s ease, border-color .1s ease, color .1s ease;
+}
+@media (hover: hover) and (pointer: fine) { .mm-site .mm-dtd-chip:hover { border-color: var(--mm-mint-dim); } }
+.mm-site .mm-dtd-chip[aria-pressed="true"] { border-color: var(--mm-mint-bright); background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
+.mm-dtd-comment, .mm-dtd-name { display: grid; gap: 8px; }
+.mm-dtd-comment label, .mm-dtd-name label { color: var(--mm-tx2); font-size: 16px; }
+.mm-dtd-name label span { color: var(--mm-mut); }
+.mm-dtd-comment textarea, .mm-dtd-name input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--mm-line);
+  border-radius: 2px;
+  background: var(--mm-ink2, var(--mm-ink));
+  color: var(--mm-tx);
+  padding: 12px;
+  font: 16px/1.5 var(--mm-body);
+  resize: vertical;
+}
+.mm-dtd-comment textarea:focus, .mm-dtd-name input:focus { border-color: var(--mm-mint-dim); }
+.mm-dtd-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.mm-dtd-form .mm-button { justify-self: start; min-width: 200px; }
+.mm-dtd-form .mm-button:disabled { opacity: .7; cursor: progress; }
+.mm-dtd-done { max-width: 620px; padding: 48px 0 24px; }
+.mm-dtd-done p { margin-top: 14px; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }

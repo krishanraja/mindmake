@@ -77,6 +77,10 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   `/blog/:slug`, the answers at `/answers/:slug` (`/answers` redirects to
   `/blog`), `/faq`, `/about`, `/contact`, `/privacy`, `/terms` and the unlisted,
   noindex `/alumni`. The sitemap lists 36 URLs.
+- `/feedback/dtd` (Krish, 2026-11-02): an unlisted, noindex feedback form for
+  DoThinkDo staff. Chips for what they liked and what to do better, each with
+  its own text box; the `submit-dtd-feedback` edge function emails every
+  response to the address in its `DTD_FEEDBACK_TO` secret and stores nothing.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
   Success stories, Ideas you can use, Questions we get asked, About us and

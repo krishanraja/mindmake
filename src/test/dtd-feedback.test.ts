@@ -37,8 +37,10 @@ describe("DoThinkDo feedback payload", () => {
     expect(() => parseDtdFeedback({ better: [{ id: "timing" }], liked: [{ id: "timing" }] })).toThrow(FeedbackValidationError);
   });
 
-  it("refuses a starter that still has a blank in it", () => {
-    expect(() => parseDtdFeedback({ liked: [{ id: "pace", comment: "The moment it clicked for me was when ___" }] }))
+  it("refuses a comment that stops where a starter stops", () => {
+    expect(() => parseDtdFeedback({ liked: [{ id: "pace", comment: "The moment it clicked for me was when" }] }))
+      .toThrow(FeedbackValidationError);
+    expect(() => parseDtdFeedback({ better: [{ id: "timing", comment: "Mornings were hard. I got stuck when " }] }))
       .toThrow(FeedbackValidationError);
     expect(parseDtdFeedback({ liked: [{ id: "pace", comment: "The moment it clicked for me was when Andy changed his own page" }] }))
       .not.toBeNull();
@@ -75,7 +77,7 @@ describe("DoThinkDo feedback route", () => {
     expect(read("src/App.tsx")).toContain('path="/feedback/dtd"');
     expect(read("src/entry-server.tsx")).toContain('path="/feedback/dtd"');
     expect(vercel.rewrites).not.toContainEqual({ source: "/feedback/dtd", destination: "/index.html" });
-    expect(read("scripts/prerender.mjs")).toContain(`const unlistedPages = [{ path: "/feedback/dtd" }]`);
+    expect(read("scripts/prerender.mjs")).toContain(`{ path: "/feedback/dtd" }`);
     const noindex = vercel.headers.find((header: { headers: { value: string }[] }) =>
       header.headers.some((value) => value.value.includes("noindex")));
     expect(noindex.source).toContain("feedback");

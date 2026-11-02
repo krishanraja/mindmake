@@ -113,12 +113,15 @@ describe("public route contract", () => {
       header.headers.some((value) => value.value.includes("noindex")),
     );
     expect(noindex.source).toContain("alumni");
+    /* Served its own prerendered HTML, not the homepage shell, so it never
+       paints the homepage first (2026-11-02). */
+    expect(vercel.rewrites ?? []).not.toContainEqual({ source: "/alumni", destination: "/index.html" });
+    expect(readFileSync(resolve(process.cwd(), "scripts/prerender.mjs"), "utf8")).toContain('{ path: "/alumni" }');
   });
 
   it("lets the host return real 404 responses for unknown direct routes", () => {
     const broadSpaRewrite = vercel.rewrites.find((route: { source: string }) => route.source.includes(".*"));
     expect(broadSpaRewrite).toBeUndefined();
-    expect(vercel.rewrites).toContainEqual({ source: "/alumni", destination: "/index.html" });
     expect(bySource.get("/operator")?.destination).toBe("/ai-brain");
   });
 

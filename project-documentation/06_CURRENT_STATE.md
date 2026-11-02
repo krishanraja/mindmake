@@ -86,8 +86,9 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   its `DTD_FEEDBACK_TO` secret and stores nothing. It speaks as Krish, first
   person, opening on a note from him, and is prerendered as an unlisted page
   (`unlistedPages` in `scripts/prerender.mjs`) so it never paints the
-  homepage first. `/alumni` is still served the homepage shell and has that
-  flash.
+  homepage first. `/alumni` is prerendered the same way, so neither unlisted
+  page is served the homepage shell. Starters are sentence openings with one
+  gap at the end; a comment that stops where a starter stops is refused.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
   Success stories, Ideas you can use, Questions we get asked, About us and

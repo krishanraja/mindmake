@@ -114,7 +114,7 @@
     "scripts/lib/pages.mjs": "c10572ecf7983b2cab99ccd4dd7a977d76b99c6140d6f823f62a6ae1d5f7b8b9",
     "scripts/lib/route-lock.mjs": "3be77ff84b1e705863df3b18fc1bec308a08e5e4c276ac10e88c217679fbf417",
     "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
-    "scripts/prerender.mjs": "de0858d4cd44e07e525a77d9731bcad620d6d4f1ef3c8e8f7488550d4c4f30f9",
+    "scripts/prerender.mjs": "ffef56c119e04ce9d1d0acf47c381ae9f445fc4d8b1212d952576786a8c50cb2",
     "scripts/qa/approved-route-lock-check.mjs": "edd7b0c6c49a427ce79685690106ea7ad6744dd558df8546dfd3ebf6367b4fd7",
     "scripts/qa/approved-route-lock-self-test.mjs": "c8b13ba02a5138233629e3395657630c84e428b71fd75875ea765bd7ebb5b4e7",
     "scripts/qa/approved-route-lock-update.mjs": "1012fab1254733cb208cbbef8de8522cd2826ccab3bd8e42e18d0ce5dc5168e4",
@@ -222,7 +222,7 @@
     "src/test/seo-prerender.test.tsx": "3f576c9068c2cd71963491a66db5a8e74921268294190bfc27afbada27ea4898",
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
-    "vercel.json": "819ee16e18586c97ca4f11f2b64de3f96e376dbad7cf85897a5a21029d7b7c60",
+    "vercel.json": "0c4a87de8be4c3ac9e3fec11e7d9fc3624dced148eac572cf8536c5cfa0d37de",
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
   }
 }

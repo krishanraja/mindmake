@@ -37,24 +37,30 @@ export const BETTER_CHIPS: readonly FeedbackChip[] = [
   { id: OTHER_CHIP_ID, label: "Something else", prompt: "What else should I do differently?" },
 ];
 
-/** The gap a starter leaves for the person to fill in their own words. */
-export const BLANK = "___";
-
-/* One tap drops a half-finished sentence into the box. Nothing sends while a
-   blank is left, so every starter ends up in the person's own words. */
+/* One tap drops the opening of a sentence into the box with the cursor at its
+   end, so the person just keeps typing. Every starter has one gap, at the end:
+   two gaps made people hunt for the second (Krish, 2026-11-02: "fiddly to use
+   and glitches"). A comment that stops where a starter stops is unfinished. */
 export const LIKED_STARTERS: readonly string[] = [
-  `The moment it clicked for me was when ${BLANK}`,
-  `Before, I used to ${BLANK}. Now I ${BLANK}`,
-  `Something I still use every week is ${BLANK}`,
-  `If a colleague asked, I'd tell them ${BLANK}`,
+  "The moment it clicked for me was when",
+  "The biggest change for me is",
+  "Something I still use every week is",
+  "If a colleague asked, I'd tell them",
 ];
 
 export const BETTER_STARTERS: readonly string[] = [
-  `I got stuck when ${BLANK}`,
-  `I wish we had ${BLANK} before ${BLANK}`,
-  `If you ran it again, cut ${BLANK} and add ${BLANK}`,
-  `I never really used ${BLANK} because ${BLANK}`,
+  "I got stuck when",
+  "I wish we had done more of",
+  "If you ran it again, I'd change",
+  "I never really got into",
 ];
+
+/** The starter a comment stops on, with nothing of the person's own after it. */
+export function unfinishedStarter(comment: string, starters: readonly string[] = [...LIKED_STARTERS, ...BETTER_STARTERS]): string | null {
+  const text = comment.trim().replace(/[\s.…]+$/, "").toLowerCase();
+  if (!text) return null;
+  return starters.find((starter) => text.endsWith(starter.toLowerCase())) ?? null;
+}
 
 export interface FeedbackItem {
   id: string;
@@ -97,7 +103,7 @@ const parseGroup = (value: unknown, chips: readonly FeedbackChip[]): FeedbackIte
     if (seen.has(chip.id)) throw new FeedbackValidationError("Duplicate choice");
     seen.add(chip.id);
     const comment = clean(entry.comment, COMMENT_LIMIT);
-    if (comment.includes(BLANK)) throw new FeedbackValidationError("Finish each sentence before sending");
+    if (unfinishedStarter(comment)) throw new FeedbackValidationError("Finish each sentence before sending");
     return { id: chip.id, label: chip.label, comment };
   });
 };

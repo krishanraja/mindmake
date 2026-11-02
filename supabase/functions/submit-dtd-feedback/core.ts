@@ -72,7 +72,21 @@ export interface DtdFeedback {
   name: string;
   liked: FeedbackItem[];
   better: FeedbackItem[];
+  /** True only when the person ticked the unticked quote box. */
+  quotePermission: boolean;
 }
+
+/* Permission to quote is an unticked box the person ticks themselves: a
+   pre-ticked box is not valid consent under UK GDPR, the same reason the
+   brief's publication choice is unticked (Krish, 2026-11-02, chose
+   unticked). The version names the exact sentence they agreed to, and the
+   server refuses a yes given against any other wording. */
+export const QUOTE_WORDING_VERSION = "dtd-quote-consent-v1";
+export const ANONYMOUS_ATTRIBUTION = "DTD team member";
+
+/** The sentence beside the box, which changes with whether a name is given. */
+export const quoteConsentSentence = (hasName: boolean): string =>
+  `Happy for Krish to quote this, ${hasName ? "with my name" : "without my name"}, in Mindmake's materials.`;
 
 export class FeedbackValidationError extends Error {}
 
@@ -115,10 +129,18 @@ const parseGroup = (value: unknown, chips: readonly FeedbackChip[]): FeedbackIte
 export function parseDtdFeedback(input: unknown): DtdFeedback | null {
   if (!isRecord(input)) throw new FeedbackValidationError("Expected an object");
   if (typeof input.website === "string" && input.website.trim() !== "") return null;
+  if (input.quotePermission !== undefined && typeof input.quotePermission !== "boolean") {
+    throw new FeedbackValidationError("Quote permission must be yes or no");
+  }
+  const quotePermission = input.quotePermission === true;
+  if (quotePermission && input.quoteWording !== QUOTE_WORDING_VERSION) {
+    throw new FeedbackValidationError("Quote permission was given against unknown wording");
+  }
   const feedback = {
     name: clean(input.name, NAME_LIMIT).replace(/\s+/g, " "),
     liked: parseGroup(input.liked, LIKED_CHIPS),
     better: parseGroup(input.better, BETTER_CHIPS),
+    quotePermission,
   };
   if (feedback.liked.length === 0 && feedback.better.length === 0) {
     throw new FeedbackValidationError("Pick at least one choice");
@@ -139,6 +161,14 @@ const NO_COMMENT = "(no comment)";
 export function renderFeedbackEmail(feedback: DtdFeedback, receivedAt: Date) {
   const who = feedback.name || "Anonymous";
   const when = receivedAt.toISOString().replace("T", " ").slice(0, 16) + " UTC";
+  const permission = !feedback.quotePermission
+    ? "NO, keep it private"
+    : feedback.name
+      ? `YES, with name (${feedback.name})`
+      : `YES, anonymous ("${ANONYMOUS_ATTRIBUTION}")`;
+  const agreed = feedback.quotePermission
+    ? `They ticked: "${quoteConsentSentence(Boolean(feedback.name))}" (${QUOTE_WORDING_VERSION}, ${when})`
+    : "The quote box was left unticked.";
   const groups = [
     { heading: "What they liked", items: feedback.liked },
     { heading: "What we could do better next time", items: feedback.better },
@@ -147,6 +177,8 @@ export function renderFeedbackEmail(feedback: DtdFeedback, receivedAt: Date) {
   const text = [
     `DTD feedback from ${who}`,
     `Received ${when}`,
+    `Quote permission: ${permission}`,
+    agreed,
     ...groups.flatMap(({ heading, items }) => [
       "",
       heading.toUpperCase(),
@@ -170,8 +202,10 @@ export function renderFeedbackEmail(feedback: DtdFeedback, receivedAt: Date) {
     <div style="max-width:620px">
       <h1 style="font:600 20px/1.3 Arial,sans-serif;margin:0 0 4px">DTD feedback from ${escapeHtml(who)}</h1>
       <p style="font:13px/1.4 Arial,sans-serif;color:#7c857a;margin:0">Received ${when} via mindmake.co/feedback/dtd</p>
+      <p style="font:600 14px/1.4 Arial,sans-serif;margin:14px 0 2px;color:${feedback.quotePermission ? "#2f6f51" : "#9a5a1c"}">Quote permission: ${escapeHtml(permission)}</p>
+      <p style="font:12px/1.4 Arial,sans-serif;color:#7c857a;margin:0">${escapeHtml(agreed)}</p>
       ${groups.map(htmlGroup).join("")}
     </div></body></html>`;
 
-  return { subject: `DTD feedback: ${who}`, text, html };
+  return { subject: `DTD feedback: ${who}${feedback.quotePermission ? " · OK to quote" : ""}`, text, html };
 }

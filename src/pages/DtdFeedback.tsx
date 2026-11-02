@@ -12,6 +12,8 @@ import {
   LIKED_CHIPS,
   LIKED_STARTERS,
   NAME_LIMIT,
+  QUOTE_WORDING_VERSION,
+  quoteConsentSentence,
   unfinishedStarter,
   type FeedbackChip,
 } from "../../supabase/functions/submit-dtd-feedback/core";
@@ -65,6 +67,7 @@ export default function DtdFeedback() {
   const [picks, setPicks] = useState<Record<Group, Picks>>({ liked: {}, better: {} });
   const [index, setIndex] = useState(0);
   const [name, setName] = useState("");
+  const [quotePermission, setQuotePermission] = useState(false);
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
   const [error, setError] = useState("");
@@ -162,6 +165,8 @@ export default function DtdFeedback() {
         body: JSON.stringify({
           name,
           website,
+          quotePermission,
+          quoteWording: QUOTE_WORDING_VERSION,
           liked: toItems(LIKED_CHIPS, picks.liked),
           better: toItems(BETTER_CHIPS, picks.better),
         }),
@@ -290,6 +295,16 @@ export default function DtdFeedback() {
                       <div className="mm-dtd-name">
                         <label htmlFor="dtd-name">Your name <span>(leave it blank if you'd rather stay anonymous - either is fine)</span></label>
                         <input id="dtd-name" autoComplete="name" maxLength={NAME_LIMIT} value={name} onChange={(event) => setName(event.target.value)} />
+                        <label className="mm-dtd-consent" htmlFor="dtd-quote">
+                          <input
+                            id="dtd-quote"
+                            type="checkbox"
+                            checked={quotePermission}
+                            onChange={(event) => setQuotePermission(event.target.checked)}
+                          />
+                          <span>{quoteConsentSentence(name.trim() !== "")}</span>
+                        </label>
+                        <p className="mm-dtd-consent-note">Leave it unticked and it stays between us. You can change your mind any time by emailing me.</p>
                       </div>
                     )}
                     <div className="mm-dtd-trap" aria-hidden="true">

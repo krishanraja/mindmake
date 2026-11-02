@@ -37,6 +37,13 @@ describe("DoThinkDo feedback payload", () => {
     expect(() => parseDtdFeedback({ better: [{ id: "timing" }], liked: [{ id: "timing" }] })).toThrow(FeedbackValidationError);
   });
 
+  it("refuses a starter that still has a blank in it", () => {
+    expect(() => parseDtdFeedback({ liked: [{ id: "pace", comment: "The moment it clicked for me was when ___" }] }))
+      .toThrow(FeedbackValidationError);
+    expect(parseDtdFeedback({ liked: [{ id: "pace", comment: "The moment it clicked for me was when Andy changed his own page" }] }))
+      .not.toBeNull();
+  });
+
   it("drops a filled honeypot without error", () => {
     expect(parseDtdFeedback({ website: "spam.example", liked: [{ id: "pace" }] })).toBeNull();
   });

@@ -54,4 +54,15 @@ describe("DoThinkDo feedback flow", () => {
     fireEvent.click(screen.getByRole("button", { name: "Back" }));
     expect(screen.getByRole("button", { name: "LinkedIn lookups" }).getAttribute("aria-pressed")).toBe("true");
   });
+
+  it("honours a Let's go tap made before the page hydrated, then stops listening", () => {
+    const fn = vi.fn();
+    document.addEventListener("click", fn, true);
+    (window as Window & { __dtdEarly?: unknown }).__dtdEarly = { started: true, fn };
+    render(<MemoryRouter><DtdFeedback /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: "What worked for you?" })).toBeTruthy();
+    expect((window as Window & { __dtdEarly?: unknown }).__dtdEarly).toBeUndefined();
+    fireEvent.click(screen.getByRole("button", { name: "Build Lab sessions" }));
+    expect(fn).not.toHaveBeenCalled();
+  });
 });

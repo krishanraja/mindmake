@@ -20,6 +20,17 @@ import {
    the same guard as src/components/CookieConsent.tsx. */
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
+/* The page is prerendered, so "Let's go" is on screen before React has
+   hydrated. A tap in that gap would natively submit the form and reload the
+   page, and the reader would land back on the welcome. This catches that one
+   tap, stops the reload and leaves a flag; the page reads the flag as soon as
+   it mounts, moves on, and removes the catcher so it never touches a later
+   click. Measured on production on 2026-11-02: a tap at load was lost, the
+   same tap three seconds later worked. */
+const EARLY_START = `(function(){var w=window;if(w.__dtdEarly)return;var e={started:false};e.fn=function(ev){var t=ev.target;if(t&&t.closest&&t.closest("[data-dtd-start]")){ev.preventDefault();e.started=true;}};document.addEventListener("click",e.fn,true);w.__dtdEarly=e;})();`;
+
+type EarlyStart = { started: boolean; fn: (event: Event) => void };
+
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL ?? ""}/functions/v1/submit-dtd-feedback`;
 const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 
@@ -73,6 +84,14 @@ export default function DtdFeedback() {
   }, [picks]);
 
   const step = steps[Math.min(index, steps.length - 1)];
+
+  useEffect(() => {
+    const early = (window as Window & { __dtdEarly?: EarlyStart }).__dtdEarly;
+    if (!early) return;
+    document.removeEventListener("click", early.fn, true);
+    delete (window as Window & { __dtdEarly?: EarlyStart }).__dtdEarly;
+    if (early.started) setIndex(1);
+  }, []);
   const section = sectionOf(step);
 
   useEffect(() => {
@@ -182,6 +201,7 @@ export default function DtdFeedback() {
   return (
     <MindmakeShell onStart={() => navigate(START_PATH)} showMobileActionBar={false}>
       <SEO title="DoThinkDo feedback" description="A short note from Krish to the DoThinkDo team, asking how the work went." canonical="/feedback/dtd" noindex />
+      <script dangerouslySetInnerHTML={{ __html: EARLY_START }} />
       <article className="mm-legal-page mm-dtd-page">
         <div className="mm-container">
           {status === "sent" ? (
@@ -288,6 +308,7 @@ export default function DtdFeedback() {
                 <button
                   className="mm-button"
                   type="submit"
+                  data-dtd-start={step.kind === "welcome" ? "" : undefined}
                   disabled={status === "sending" || (step.kind === "name" && nothingPicked)}
                 >
                   {nextLabel}

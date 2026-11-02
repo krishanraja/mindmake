@@ -114,7 +114,7 @@
     "scripts/lib/pages.mjs": "c10572ecf7983b2cab99ccd4dd7a977d76b99c6140d6f823f62a6ae1d5f7b8b9",
     "scripts/lib/route-lock.mjs": "3be77ff84b1e705863df3b18fc1bec308a08e5e4c276ac10e88c217679fbf417",
     "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
-    "scripts/prerender.mjs": "9f74d66837da63761ce2527ff0e9993dbea52b4bf494627bbdf79ef4fbff914d",
+    "scripts/prerender.mjs": "de0858d4cd44e07e525a77d9731bcad620d6d4f1ef3c8e8f7488550d4c4f30f9",
     "scripts/qa/approved-route-lock-check.mjs": "edd7b0c6c49a427ce79685690106ea7ad6744dd558df8546dfd3ebf6367b4fd7",
     "scripts/qa/approved-route-lock-self-test.mjs": "c8b13ba02a5138233629e3395657630c84e428b71fd75875ea765bd7ebb5b4e7",
     "scripts/qa/approved-route-lock-update.mjs": "1012fab1254733cb208cbbef8de8522cd2826ccab3bd8e42e18d0ce5dc5168e4",
@@ -211,7 +211,7 @@
     "src/styles/route-transition.css": "dd8851c306917be8b2d52d3c7b5a977a41ecf7b3a0edbf9ffd6d917ed2e7d5b4",
     "src/test/ai-gtm-page.test.tsx": "8cde2d0ff20de1ae240daaecfd25ce81873917cf4bfa3679a796a452851498fd",
     "src/test/brain-narrative.test.ts": "f6762d8c2972914982a8d36feb08b430fc713924649673cf9f4933987b44772f",
-    "src/test/brief2-public-contract.test.ts": "12d1adc00f13cc9dc18b91caec1e16b7905ef2e654c9f4c0c98606a4c039330f",
+    "src/test/brief2-public-contract.test.ts": "d1e4909f108b664adc79af149e7ff2b5ab2b3b2278188abd44b88c478ee749a7",
     "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
     "src/test/discoverability.test.ts": "aef70ed4f937537e57226110c6abeb90a8dee36eaf0cb75c714172b2fa44546b",
     "src/test/homepage-leadership-chapters.test.ts": "e1a0c370b083ce94cdd8f52533e76178ea02c410f3864ef7329fd5ce158b62e1",
@@ -222,7 +222,7 @@
     "src/test/seo-prerender.test.tsx": "3f576c9068c2cd71963491a66db5a8e74921268294190bfc27afbada27ea4898",
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
-    "vercel.json": "12b1baf47115cf20f75a40c7ecea340f3622f4e456d79c098c64d587a939e280",
+    "vercel.json": "819ee16e18586c97ca4f11f2b64de3f96e376dbad7cf85897a5a21029d7b7c60",
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
   }
 }

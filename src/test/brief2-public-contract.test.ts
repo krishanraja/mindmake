@@ -166,6 +166,7 @@ describe("the Krish gate", () => {
     "src/components/mindmake/FounderNote.tsx": "the founder section: his bio, in his own voice",
     "src/components/mindmake/ProofDrum.tsx": "the framing of the proof: who these people worked with",
     "src/pages/About.tsx": "the About us page: who runs the practice and why, in his own voice (Krish, 2026-09-25)",
+    "src/pages/DtdFeedback.tsx": "the unlisted DoThinkDo staff feedback form: a note from him to people he worked with, in his own voice (Krish, 2026-11-02: it must sound \"sincere\", \"warm\" and \"human like me\")",
   };
 
   it("keeps the operator's name out of the practice's own voice", () => {
@@ -184,7 +185,7 @@ describe("the Krish gate", () => {
         .toBe(`${surface} exists: true`);
       expect(NAMED_SURFACES[surface].length > 20).toBe(true);
     }
-    expect(Object.keys(NAMED_SURFACES)).toHaveLength(4);
+    expect(Object.keys(NAMED_SURFACES)).toHaveLength(5);
   });
 
   it("keeps the practice speaking as we, even where he is named", () => {

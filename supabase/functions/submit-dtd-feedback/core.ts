@@ -17,24 +17,24 @@ export interface FeedbackChip {
 }
 
 export const LIKED_CHIPS: readonly FeedbackChip[] = [
-  { id: "build-lab", label: "Build Lab sessions", prompt: "What did you like about the Build Lab sessions?" },
-  { id: "one-to-one", label: "One-to-one setup and coaching", prompt: "What did you like about the one-to-one setup and coaching?" },
-  { id: "skills-plugin", label: "Our own Claude skills and plugin", prompt: "What did you like about having your own Claude skills and plugin?" },
-  { id: "account-plans", label: "Account plans and boards", prompt: "What did you like about the account plans and boards?" },
-  { id: "linkedin-lookups", label: "LinkedIn lookups", prompt: "What did you like about the LinkedIn lookups?" },
-  { id: "setup-sheet", label: "The setup sheet", prompt: "What did you like about the setup sheet?" },
-  { id: "pace", label: "Pace and responsiveness", prompt: "What did you like about the pace and responsiveness?" },
-  { id: OTHER_CHIP_ID, label: "Something else", prompt: "What else did you like?" },
+  { id: "build-lab", label: "Build Lab sessions", prompt: "What made the Build Lab sessions useful for you?" },
+  { id: "one-to-one", label: "One-to-one setup and coaching", prompt: "What helped most when we worked one to one?" },
+  { id: "skills-plugin", label: "Having your own Claude skills and plugin", prompt: "What has having your own Claude skills changed for you?" },
+  { id: "account-plans", label: "Account plans and boards", prompt: "What did the account plans and boards do for you?" },
+  { id: "linkedin-lookups", label: "LinkedIn lookups", prompt: "Where have the LinkedIn lookups earned their keep?" },
+  { id: "setup-sheet", label: "The setup sheet", prompt: "What worked about the setup sheet for you?" },
+  { id: "pace", label: "Pace and responsiveness", prompt: "When did the pace feel right to you?" },
+  { id: OTHER_CHIP_ID, label: "Something else", prompt: "What else worked for you?" },
 ];
 
 export const BETTER_CHIPS: readonly FeedbackChip[] = [
-  { id: "hands-on-time", label: "More hands-on time", prompt: "Where would more hands-on time have helped most?" },
-  { id: "clearer-plan", label: "A clearer plan up front", prompt: "What would have made the plan clearer up front?" },
-  { id: "fewer-tools", label: "Fewer tools at once", prompt: "Which tools could we have held back or introduced later?" },
-  { id: "follow-through", label: "Faster follow-through", prompt: "Where could we have followed through faster?" },
-  { id: "written-guides", label: "Written guides to keep", prompt: "Which written guides would you want to keep?" },
-  { id: "timing", label: "Timing and scheduling", prompt: "What would have worked better on timing and scheduling?" },
-  { id: OTHER_CHIP_ID, label: "Something else", prompt: "What else could we do better?" },
+  { id: "hands-on-time", label: "More hands-on time", prompt: "Where would more time with me have helped most?" },
+  { id: "clearer-plan", label: "A clearer plan up front", prompt: "What would have made the plan clearer from day one?" },
+  { id: "fewer-tools", label: "Fewer tools at once", prompt: "Which tools should I have held back, or brought in later?" },
+  { id: "follow-through", label: "Faster follow-through", prompt: "Where did I leave you waiting?" },
+  { id: "written-guides", label: "Written guides to keep", prompt: "What would you want written down to keep?" },
+  { id: "timing", label: "Timing and scheduling", prompt: "What would have worked better on timing?" },
+  { id: OTHER_CHIP_ID, label: "Something else", prompt: "What else should I do differently?" },
 ];
 
 /** The gap a starter leaves for the person to fill in their own words. */

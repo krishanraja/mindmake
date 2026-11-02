@@ -89,3 +89,12 @@
 }
 @media (max-width: 379px) { .mm-dtd-card { min-height: 770px; } }
 .mm-dtd-body h1.mm-dtd-hero { margin-top: clamp(24px, 6vh, 64px); font-size: clamp(44px, 7vw, 72px); line-height: 1; }
+
+/* The welcome is a short note from Krish at its natural height, not the
+   fixed-height question card with three lines in it (Krish, 2026-11-02). */
+.mm-dtd-card[data-step="welcome"], .mm-dtd-card.mm-dtd-done { min-height: 0; }
+.mm-dtd-card[data-step="welcome"] .mm-dtd-body { gap: 18px; }
+.mm-dtd-card[data-step="welcome"] .mm-dtd-body h1.mm-dtd-hero { margin-top: 0; }
+.mm-dtd-card[data-step="welcome"] .mm-dtd-nav { justify-content: flex-start; padding-top: 32px; }
+.mm-dtd-card[data-step="welcome"] .mm-dtd-nav .mm-form-error { display: none; }
+.mm-dtd-sign { margin-top: 8px; color: var(--mm-mint); font: 500 18px/1.2 var(--mm-grotesque); }

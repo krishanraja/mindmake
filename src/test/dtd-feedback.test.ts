@@ -74,7 +74,8 @@ describe("DoThinkDo feedback route", () => {
     const vercel = JSON.parse(read("vercel.json"));
     expect(read("src/App.tsx")).toContain('path="/feedback/dtd"');
     expect(read("src/entry-server.tsx")).toContain('path="/feedback/dtd"');
-    expect(vercel.rewrites).toContainEqual({ source: "/feedback/dtd", destination: "/index.html" });
+    expect(vercel.rewrites).not.toContainEqual({ source: "/feedback/dtd", destination: "/index.html" });
+    expect(read("scripts/prerender.mjs")).toContain(`const unlistedPages = [{ path: "/feedback/dtd" }]`);
     const noindex = vercel.headers.find((header: { headers: { value: string }[] }) =>
       header.headers.some((value) => value.value.includes("noindex")));
     expect(noindex.source).toContain("feedback");

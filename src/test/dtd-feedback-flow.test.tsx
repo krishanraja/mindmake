@@ -8,7 +8,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-const next = () => fireEvent.click(screen.getByRole("button", { name: /^(Start|Next|Skip|Skip this one|Send feedback)$/ }));
+const next = () => fireEvent.click(screen.getByRole("button", { name: /^(Let's go|Next|Nothing to add|Skip this part|Send to Krish)$/ }));
 
 describe("DoThinkDo feedback flow", () => {
   it("shows one screen at a time and will not move on while a starter blank is left", async () => {
@@ -16,31 +16,31 @@ describe("DoThinkDo feedback flow", () => {
     vi.stubGlobal("fetch", fetchMock);
     render(<MemoryRouter><DtdFeedback /></MemoryRouter>);
 
-    expect(screen.getByRole("heading", { name: "How did it go?" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Hi, it's Krish." })).toBeTruthy();
     next();
-    expect(screen.getByRole("heading", { name: "What did you like?" })).toBeTruthy();
-    expect(screen.queryByRole("heading", { name: "What could we do better next time?" })).toBeNull();
+    expect(screen.getByRole("heading", { name: "What worked for you?" })).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "What should I do differently next time?" })).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Build Lab sessions" }));
     next();
-    expect(screen.getByRole("heading", { name: "What did you like about the Build Lab sessions?" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "What made the Build Lab sessions useful for you?" })).toBeTruthy();
 
     fireEvent.click(screen.getByRole("button", { name: "The moment it clicked for me was when …" }));
-    const box = screen.getByLabelText("What did you like about the Build Lab sessions?") as HTMLTextAreaElement;
+    const box = screen.getByLabelText("What made the Build Lab sessions useful for you?") as HTMLTextAreaElement;
     expect(box.value).toBe("The moment it clicked for me was when ___");
     next();
     expect(screen.getByRole("alert").textContent).toContain("own words");
-    expect(screen.getByRole("heading", { name: "What did you like about the Build Lab sessions?" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "What made the Build Lab sessions useful for you?" })).toBeTruthy();
 
     fireEvent.change(box, { target: { value: "The moment it clicked for me was when we built the account plan live" } });
     next();
-    expect(screen.getByRole("heading", { name: "What could we do better next time?" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Skip this one" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "What should I do differently next time?" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Skip this part" })).toBeTruthy();
     next();
-    expect(screen.getByRole("heading", { name: "Last bit." })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Last thing." })).toBeTruthy();
     next();
 
-    await waitFor(() => expect(screen.getByRole("heading", { name: "Thank you." })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole("heading", { name: "Thank you - really." })).toBeTruthy());
     const body = JSON.parse(fetchMock.mock.calls[0][1].body);
     expect(body.liked).toEqual([{ id: "build-lab", comment: "The moment it clicked for me was when we built the account plan live" }]);
     expect(body.better).toEqual([]);

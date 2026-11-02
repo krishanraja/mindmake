@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
+  QUOTE_WORDING_VERSION,
   BETTER_CHIPS,
   COMMENT_LIMIT,
   FeedbackValidationError,
@@ -26,6 +27,7 @@ describe("DoThinkDo feedback payload", () => {
         { id: "other", label: "Something else", comment: "" },
       ],
       better: [{ id: "timing", label: "Timing and scheduling", comment: "Earlier slots" }],
+      quotePermission: false,
     });
   });
 
@@ -52,7 +54,7 @@ describe("DoThinkDo feedback payload", () => {
 
   it("renders an escaped email that names the sender or says anonymous", () => {
     const anonymous = renderFeedbackEmail(
-      { name: "", liked: [{ id: "pace", label: "Pace and responsiveness", comment: "<b>fast</b>" }], better: [] },
+      { name: "", liked: [{ id: "pace", label: "Pace and responsiveness", comment: "<b>fast</b>" }], better: [], quotePermission: false },
       new Date("2026-11-02T10:00:00Z"),
     );
     expect(anonymous.subject).toBe("DTD feedback: Anonymous");
@@ -68,6 +70,34 @@ describe("DoThinkDo feedback payload", () => {
       expect(chips.every((chip) => chip.prompt.endsWith("?"))).toBe(true);
       expect(chips.at(-1)?.label).toBe("Something else");
     }
+  });
+});
+
+describe("permission to quote", () => {
+  const base = { liked: [{ id: "pace", comment: "Quick replies." }] };
+  const when = new Date("2026-11-02T10:00:00Z");
+
+  it("is no unless the person ticked it, against the current wording", () => {
+    expect(parseDtdFeedback(base)?.quotePermission).toBe(false);
+    expect(parseDtdFeedback({ ...base, quotePermission: false, quoteWording: QUOTE_WORDING_VERSION })?.quotePermission).toBe(false);
+    expect(parseDtdFeedback({ ...base, quotePermission: true, quoteWording: QUOTE_WORDING_VERSION })?.quotePermission).toBe(true);
+    expect(() => parseDtdFeedback({ ...base, quotePermission: true })).toThrow(FeedbackValidationError);
+    expect(() => parseDtdFeedback({ ...base, quotePermission: true, quoteWording: "old" })).toThrow(FeedbackValidationError);
+    expect(() => parseDtdFeedback({ ...base, quotePermission: "yes" })).toThrow(FeedbackValidationError);
+  });
+
+  it("says yes with name, yes anonymous, or no, and quotes what they agreed to", () => {
+    const item = [{ id: "pace", label: "Pace and responsiveness", comment: "Quick replies." }];
+    const named = renderFeedbackEmail({ name: "Sam", liked: item, better: [], quotePermission: true }, when);
+    expect(named.subject).toBe("DTD feedback: Sam · OK to quote");
+    expect(named.text).toContain("Quote permission: YES, with name (Sam)");
+    expect(named.text).toContain(`They ticked: "Happy for Krish to quote this, with my name, in Mindmake's materials." (${QUOTE_WORDING_VERSION}, 2026-11-02 10:00 UTC)`);
+    const anonymous = renderFeedbackEmail({ name: "", liked: item, better: [], quotePermission: true }, when);
+    expect(anonymous.text).toContain('Quote permission: YES, anonymous ("DTD team member")');
+    expect(anonymous.text).toContain("without my name");
+    const no = renderFeedbackEmail({ name: "Sam", liked: item, better: [], quotePermission: false }, when);
+    expect(no.subject).toBe("DTD feedback: Sam");
+    expect(no.text).toContain("Quote permission: NO, keep it private");
   });
 });
 

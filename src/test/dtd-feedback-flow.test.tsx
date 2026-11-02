@@ -39,12 +39,17 @@ describe("DoThinkDo feedback flow", () => {
     expect(screen.getByRole("button", { name: "Skip this part" })).toBeTruthy();
     next();
     expect(screen.getByRole("heading", { name: "Last thing." })).toBeTruthy();
+    const quote = screen.getByRole("checkbox", { name: "Happy for Krish to quote this, without my name, in Mindmake's materials." }) as HTMLInputElement;
+    expect(quote.checked).toBe(false);
+    fireEvent.change(screen.getByLabelText(/Your name/), { target: { value: "Sam" } });
+    fireEvent.click(screen.getByRole("checkbox", { name: "Happy for Krish to quote this, with my name, in Mindmake's materials." }));
     next();
 
     await waitFor(() => expect(screen.getByRole("heading", { name: "Thank you - really." })).toBeTruthy());
     const body = JSON.parse(fetchMock.mock.calls[0][1].body);
     expect(body.liked).toEqual([{ id: "build-lab", comment: "The moment it clicked for me was when we built the account plan live" }]);
     expect(body.better).toEqual([]);
+    expect(body).toMatchObject({ name: "Sam", quotePermission: true, quoteWording: "dtd-quote-consent-v1" });
   });
 
   it("keeps answers when going back", () => {

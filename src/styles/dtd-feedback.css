@@ -139,3 +139,29 @@
   padding-bottom: 8px;
   pointer-events: none;
 }
+
+/* Permission to quote: unticked until the person ticks it. The whole row is
+   the tap target, and ticking changes only the box, never the row's size. */
+.mm-dtd-name label.mm-dtd-consent {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 10px 0;
+  color: var(--mm-tx);
+  font-size: 16px;
+  line-height: 1.45;
+  cursor: pointer;
+}
+.mm-dtd-consent input {
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  margin: 1px 0 0;
+  padding: 0;
+  accent-color: var(--mm-mint-bright);
+  cursor: pointer;
+}
+.mm-dtd-consent-note { margin: -4px 0 0 34px; color: var(--mm-mut); font-size: 14px; line-height: 1.45; }

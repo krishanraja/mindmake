@@ -4,6 +4,7 @@ Allow: /answers
 Disallow: /api/
 Disallow: /admin/
 Disallow: /alumni
+Disallow: /feedback/
 Disallow: /test-email-flows.html
 
 # AI search, answer and training crawlers, named so the welcome is explicit.
@@ -29,6 +30,7 @@ Allow: /answers
 Disallow: /api/
 Disallow: /admin/
 Disallow: /alumni
+Disallow: /feedback/
 Disallow: /test-email-flows.html
 
 Sitemap: https://mindmake.co/sitemap.xml

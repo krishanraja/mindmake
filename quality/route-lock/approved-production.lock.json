@@ -97,7 +97,7 @@
     "public/favicon.svg": "1b813838a8a80fac0412fbd78ae6676563ac49dc0ace456d9817a49931211303",
     "public/llms.txt": "ce9aeed83db804ec5b5344c2bb39464663722f7ac5b4e58872ea98761eba2921",
     "public/mindmake-logo-512.png": "7172f1a79ec2c25b5a30274e7212eb21d423591b37ce72efa2ce8582b94e3568",
-    "public/robots.txt": "ca8e42320522cdeadb09ed987d14e96c38871382054e5dcc659d8ffb9c492595",
+    "public/robots.txt": "e06d60c193b0f338ff02ee7dd95f0fd47e8029cb544e94f0a999f855c35fd7ce",
     "public/safari-pinned-tab.svg": "694cb4a56de28eaf403d3a1f3526ee9e4efc5f689f8b53f5266edee8b4205e83",
     "public/site.webmanifest": "6bee8c8f39dfff7ae9238d49043596ccce8609015ea9b51666f4f0fd9bf5ed83",
     "public/sitemap.xml": "f0c50dc88d02618d9ce0006f38efdbe2dcbac89940a4eb18a9574657bb906da0",
@@ -140,7 +140,7 @@
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
     "scripts/qa/website-restart-contract-check.mjs": "7f90c1dee6c8455331bc831c96279e921a9539685a01ddf657d1ab36a6d74fa8",
-    "src/App.tsx": "cfab5b15ba2ae6f9ac1efe7e3d3d3d642939fc7f2ffa3304c04f05db39e310e3",
+    "src/App.tsx": "d49e2e2e1e9261a13992ab8d3ccdd37bb95a3854237fba9e1752805cb986797a",
     "src/assets/films/sep2026/README.md": "8afb409eb16129578921bd6b2e06ddd5c30659ba8c01de5535f8705f559c2227",
     "src/assets/stories/founder-pantograph-r01-800.webp": "b73604e1c49766c0c84b58651c1f518fdd3ed14e156dd1d4f298b662d85ca860",
     "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
@@ -176,7 +176,7 @@
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/data/vnext/brain-fixture.json": "6603d5dbb725aad78dcbdd4b2433bb815b45d060be762b79c9c53a4005e7d594",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
-    "src/entry-server.tsx": "d23816dd5983fb1aa26de8d6c4aa8737b44916f3e50c502ed363cd805f4de641",
+    "src/entry-server.tsx": "57f564157605fb3b15f21d80b1e8519be5c8eae17a42e5ded95c6edbc312830d",
     "src/hooks/useLeadBriefHistory.ts": "bd1ef97a9938511c5c1e8f53a6e2e8ed667eddcde3fbb92f7ee22dfed98e5be6",
     "src/index.css": "fe3529727ad57664bafcbe3c1eacbc923a450f9d40c26ea632f01ba651321ee6",
     "src/lib/keepLastWords.ts": "610a02f004cbabba0911e5d820192bd2dcfe39c8033293a74273bf61a2799d91",
@@ -222,7 +222,7 @@
     "src/test/seo-prerender.test.tsx": "3f576c9068c2cd71963491a66db5a8e74921268294190bfc27afbada27ea4898",
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
-    "vercel.json": "64973554e83cb882960975c7c8cd068c816c0ac36cc41d54cffdf15777151065",
+    "vercel.json": "12b1baf47115cf20f75a40c7ecea340f3622f4e456d79c098c64d587a939e280",
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
   }
 }

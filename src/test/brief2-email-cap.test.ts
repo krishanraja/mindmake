@@ -46,6 +46,9 @@ describe("what can send mail", () => {
       "supabase/functions/mindmake-personal-read/index.ts",
       // The one day-14 follow-up.
       "supabase/functions/send-follow-ups/index.ts",
+      // The DoThinkDo staff feedback form: to the operator only, never a
+      // visitor, so it does not touch the two-email cap (Krish, 2026-11-02).
+      "supabase/functions/submit-dtd-feedback/index.ts",
     ].sort());
   });
 

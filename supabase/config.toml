@@ -22,3 +22,8 @@ verify_jwt = false
 
 [functions.aa-price-snapshot]
 verify_jwt = false
+
+# Called by the browser from /feedback/dtd, with the origin allowlist enforced
+# in code. Emails the operator; stores nothing.
+[functions.submit-dtd-feedback]
+verify_jwt = false

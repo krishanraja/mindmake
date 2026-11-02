@@ -1,42 +1,91 @@
-/* /feedback/dtd: the DoThinkDo staff feedback form. Unlisted and noindex.
-   Chips change colour only when picked, never size (qa:line-breaks). */
-.mm-dtd-form { display: grid; gap: 40px; max-width: 760px; padding-top: 40px; }
-.mm-dtd-group { display: grid; gap: 14px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.mm-dtd-group legend { padding: 0; font: 700 clamp(22px, 2.4vw, 28px)/1.2 var(--mm-grotesque); letter-spacing: -.01em; }
-.mm-dtd-hint { margin: 2px 0 0; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-.mm-dtd-chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.mm-site .mm-dtd-chip {
+/* /feedback/dtd: the DoThinkDo staff feedback form, one screen at a time.
+   Unlisted and noindex. The card holds one height whatever the screen, and the
+   nav row sits at its foot, so Back and Next never move as screens swap
+   (qa:line-breaks). Chips change colour only when picked, never size. */
+.mm-dtd-page .mm-container { max-width: 760px; }
+.mm-dtd-card {
+  display: flex;
+  flex-direction: column;
+  /* As tall as the tallest screen (a comment screen with its longest
+     question), measured at 1440, 1280, 390 and 360 wide. */
+  min-height: 680px;
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  background: var(--mm-ink2, var(--mm-ink));
+  padding: clamp(22px, 3.4vw, 40px);
+}
+.mm-dtd-progress { display: flex; gap: 8px; margin: 0 0 clamp(28px, 4vw, 44px); padding: 0; list-style: none; }
+.mm-dtd-progress li {
+  flex: 1;
+  border-top: 3px solid var(--mm-line);
+  padding-top: 8px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.mm-dtd-progress li[data-state="done"] { border-color: var(--mm-mint-dim); color: var(--mm-tx2); }
+.mm-dtd-progress li[data-state="now"] { border-color: var(--mm-mint-bright); color: var(--mm-tx); }
+.mm-dtd-body { display: grid; align-content: start; gap: 14px; }
+.mm-dtd-body h1, .mm-dtd-done h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; outline: none; }
+.mm-dtd-lede, .mm-dtd-done p { max-width: 52ch; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }
+.mm-dtd-kicker, .mm-dtd-hint { margin: 0; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.mm-dtd-kicker { color: var(--mm-mint); }
+.mm-dtd-chips, .mm-dtd-starters { display: flex; flex-wrap: wrap; gap: 10px; }
+.mm-site .mm-dtd-chip, .mm-site .mm-dtd-starter {
   min-height: 44px;
   border: 1px solid var(--mm-line);
   border-radius: 999px;
   background: transparent;
   color: var(--mm-tx);
   padding: 10px 16px;
-  font: 500 15px/1.2 var(--mm-grotesque);
+  font: 500 15px/1.25 var(--mm-grotesque);
   text-align: left;
   cursor: pointer;
   touch-action: manipulation;
   transition: background .1s ease, border-color .1s ease, color .1s ease;
 }
-@media (hover: hover) and (pointer: fine) { .mm-site .mm-dtd-chip:hover { border-color: var(--mm-mint-dim); } }
+.mm-site .mm-dtd-starter { border-style: dashed; border-radius: 3px; color: var(--mm-tx2); font: 15px/1.35 var(--mm-body); }
+@media (hover: hover) and (pointer: fine) {
+  .mm-site .mm-dtd-chip:hover, .mm-site .mm-dtd-starter:hover { border-color: var(--mm-mint-dim); }
+}
 .mm-site .mm-dtd-chip[aria-pressed="true"] { border-color: var(--mm-mint-bright); background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
-.mm-dtd-comment, .mm-dtd-name { display: grid; gap: 8px; }
-.mm-dtd-comment label, .mm-dtd-name label { color: var(--mm-tx2); font-size: 16px; }
-.mm-dtd-name label span { color: var(--mm-mut); }
-.mm-dtd-comment textarea, .mm-dtd-name input {
+.mm-dtd-body textarea, .mm-dtd-name input {
   width: 100%;
   min-height: 46px;
   border: 1px solid var(--mm-line);
   border-radius: 2px;
-  background: var(--mm-ink2, var(--mm-ink));
+  background: var(--mm-ink);
   color: var(--mm-tx);
   padding: 12px;
-  font: 16px/1.5 var(--mm-body);
+  font: 17px/1.5 var(--mm-body);
   resize: vertical;
 }
-.mm-dtd-comment textarea:focus, .mm-dtd-name input:focus { border-color: var(--mm-mint-dim); }
-.mm-dtd-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-.mm-dtd-form .mm-button { justify-self: start; min-width: 200px; }
-.mm-dtd-form .mm-button:disabled { opacity: .7; cursor: progress; }
-.mm-dtd-done { max-width: 620px; padding: 48px 0 24px; }
-.mm-dtd-done p { margin-top: 14px; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }
+.mm-dtd-body textarea { margin-top: 4px; min-height: 120px; }
+.mm-dtd-body textarea:focus, .mm-dtd-name input:focus { border-color: var(--mm-mint-dim); }
+.mm-dtd-name { display: grid; gap: 8px; margin-top: 8px; }
+.mm-dtd-name label { color: var(--mm-tx2); font-size: 16px; }
+.mm-dtd-name label span { color: var(--mm-mut); }
+.mm-dtd-sr, .mm-dtd-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.mm-dtd-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; margin-top: auto; padding-top: 28px; }
+.mm-dtd-nav .mm-form-error { flex: 1 1 100%; min-height: 1.4em; margin: 0; border: 0; padding: 0; background: none; text-align: right; }
+.mm-dtd-nav .mm-button { min-width: 120px; }
+.mm-dtd-nav .mm-button[type="submit"] { min-width: 170px; }
+.mm-dtd-nav .mm-button:disabled { opacity: .6; cursor: not-allowed; }
+.mm-dtd-done { justify-content: center; gap: 16px; }
+
+@media (max-width: 767px) {
+  .mm-dtd-page.mm-legal-page { padding-top: calc(var(--mm-header-height) + 20px); }
+  .mm-dtd-card { padding: 20px 18px; min-height: 710px; }
+  .mm-dtd-progress { margin-bottom: 22px; }
+  .mm-dtd-body { gap: 12px; }
+  .mm-dtd-body h1 { font-size: 26px; }
+  .mm-dtd-chips, .mm-dtd-starters { gap: 8px; }
+  .mm-site .mm-dtd-chip { padding: 9px 14px; font-size: 14.5px; }
+  .mm-site .mm-dtd-starter { padding: 8px 12px; font-size: 14.5px; }
+  .mm-dtd-body textarea { min-height: 104px; }
+  .mm-dtd-nav { padding-top: 18px; }
+}
+@media (max-width: 379px) { .mm-dtd-card { min-height: 770px; } }
+.mm-dtd-body h1.mm-dtd-hero { margin-top: clamp(24px, 6vh, 64px); font-size: clamp(44px, 7vw, 72px); line-height: 1; }

@@ -37,6 +37,25 @@ export const BETTER_CHIPS: readonly FeedbackChip[] = [
   { id: OTHER_CHIP_ID, label: "Something else", prompt: "What else could we do better?" },
 ];
 
+/** The gap a starter leaves for the person to fill in their own words. */
+export const BLANK = "___";
+
+/* One tap drops a half-finished sentence into the box. Nothing sends while a
+   blank is left, so every starter ends up in the person's own words. */
+export const LIKED_STARTERS: readonly string[] = [
+  `The moment it clicked for me was when ${BLANK}`,
+  `Before, I used to ${BLANK}. Now I ${BLANK}`,
+  `Something I still use every week is ${BLANK}`,
+  `If a colleague asked, I'd tell them ${BLANK}`,
+];
+
+export const BETTER_STARTERS: readonly string[] = [
+  `I got stuck when ${BLANK}`,
+  `I wish we had ${BLANK} before ${BLANK}`,
+  `If you ran it again, cut ${BLANK} and add ${BLANK}`,
+  `I never really used ${BLANK} because ${BLANK}`,
+];
+
 export interface FeedbackItem {
   id: string;
   label: string;
@@ -77,7 +96,9 @@ const parseGroup = (value: unknown, chips: readonly FeedbackChip[]): FeedbackIte
     if (!chip) throw new FeedbackValidationError("Unknown choice");
     if (seen.has(chip.id)) throw new FeedbackValidationError("Duplicate choice");
     seen.add(chip.id);
-    return { id: chip.id, label: chip.label, comment: clean(entry.comment, COMMENT_LIMIT) };
+    const comment = clean(entry.comment, COMMENT_LIMIT);
+    if (comment.includes(BLANK)) throw new FeedbackValidationError("Finish each sentence before sending");
+    return { id: chip.id, label: chip.label, comment };
   });
 };
 

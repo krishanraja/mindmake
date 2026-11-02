@@ -44,7 +44,7 @@ business stands behind. Everything in `never_publish` above stays off it.
 
 ## Where it is right now (as of 2026-10-28)
 
-<!-- north-star-state {"week_of": "2026-10-26", "week_target": "private", "current": "private", "current_as_of": "2026-10-23", "current_source": "Control Center revenue_events (Stripe, account mindmaker_llc), read-only", "urgency": 3, "urgency_reason": "at 71% of this week's target"} --> **North Star number: U3, well behind.** Cash collected by Mindmake, trailing 4 weeks: at 71% of this week's target (figures private). Two experiments a week, growth output doubled.
+<!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
 The approved R3 homepage and companion surfaces are live at https://mindmake.co.
 The canonical live deployment, rollback, backend versions and evidence limits

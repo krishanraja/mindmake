@@ -83,7 +83,11 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   Each comment screen offers starter sentences with blanks that must be
   finished in the person's own words; the server refuses a leftover blank. The
   `submit-dtd-feedback` edge function emails every response to the address in
-  its `DTD_FEEDBACK_TO` secret and stores nothing.
+  its `DTD_FEEDBACK_TO` secret and stores nothing. It speaks as Krish, first
+  person, opening on a note from him, and is prerendered as an unlisted page
+  (`unlistedPages` in `scripts/prerender.mjs`) so it never paints the
+  homepage first. `/alumni` is still served the homepage shell and has that
+  flash.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
   Success stories, Ideas you can use, Questions we get asked, About us and

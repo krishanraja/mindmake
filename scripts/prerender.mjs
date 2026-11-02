@@ -84,6 +84,7 @@ const staticRouteModules = {
   "/contact": "src/pages/Contact.tsx",
   "/privacy": "src/pages/Privacy.tsx",
   "/terms": "src/pages/Terms.tsx",
+  "/feedback/dtd": "src/pages/DtdFeedback.tsx",
 };
 const unmappedStaticRoutes = staticPages.map((page) => page.path).filter((path) => !(path in staticRouteModules));
 if (unmappedStaticRoutes.length) {
@@ -166,6 +167,13 @@ const answerPages = answers.map((answer) => ({
 
 const pages = [...staticPages, ...articlePages, ...answerPages];
 
+/* Unlisted pages: reachable by direct link, noindex, and kept out of the
+   sitemap, llms.txt and social plates. They are still rendered here so the
+   first paint is the page itself. Without this the host served them the
+   prerendered homepage, which painted the homepage, hydrated on the wrong
+   route and then swapped (reported on /feedback/dtd, 2026-11-02). */
+const unlistedPages = [{ path: "/feedback/dtd" }];
+
 /* The built server bundle. `npm run build` builds it immediately before this
    script runs; a stale one would silently prerender the previous commit's
    markup, so its absence is a failure rather than a fallback. */
@@ -186,15 +194,21 @@ function replaceMeta(html, attribute, key, content) {
   return pattern.test(html) ? html.replace(pattern, tag) : html.replace("</head>", `    ${tag}\n  </head>`);
 }
 
-function build(page) {
+function build(page, { unlisted = false } = {}) {
   const { body, metadata } = renderWithMetadata(page.path);
-  if (!metadata || metadata.noindex || metadata.canonical !== page.path) {
-    throw new Error(`Indexed route ${page.path} must render one matching, indexable SEO owner.`);
-  }
-  // The component owns the head. The page list owns inclusion and social art.
-  // A stale list must fail rather than silently diverge from llms/social output.
-  if (page.title !== metadata.title || page.description !== metadata.description) {
-    throw new Error(`Metadata manifest is stale for ${page.path}; reconcile it with the approved component metadata.`);
+  if (unlisted) {
+    if (!metadata || !metadata.noindex || metadata.canonical !== page.path) {
+      throw new Error(`Unlisted route ${page.path} must render one matching, noindex SEO owner.`);
+    }
+  } else {
+    if (!metadata || metadata.noindex || metadata.canonical !== page.path) {
+      throw new Error(`Indexed route ${page.path} must render one matching, indexable SEO owner.`);
+    }
+    // The component owns the head. The page list owns inclusion and social art.
+    // A stale list must fail rather than silently diverge from llms/social output.
+    if (page.title !== metadata.title || page.description !== metadata.description) {
+      throw new Error(`Metadata manifest is stale for ${page.path}; reconcile it with the approved component metadata.`);
+    }
   }
   page = { ...page, ...metadata };
   const fullTitle = `${page.title} | Mindmake`;
@@ -210,6 +224,7 @@ function build(page) {
   html = replaceMeta(html, "name", "twitter:description", page.description);
   html = replaceMeta(html, "name", "twitter:url", canonicalUrl);
   if (page.keywords) html = replaceMeta(html, "name", "keywords", page.keywords);
+  if (unlisted) html = replaceMeta(html, "name", "robots", "noindex, nofollow");
   /* The page's own social plate, painted from these same words by
      scripts/social-plates.mjs; the version in the URL changes when the words
      do, so a network that caches by URL fetches the repainted plate. */
@@ -320,6 +335,13 @@ for (const page of pages) {
   }
 }
 
+for (const page of unlistedPages) {
+  if (renderedPaths.has(page.path)) throw new Error(`Unlisted path is also indexed: ${page.path}`);
+  const out = resolve(distDir, page.path.slice(1));
+  if (!existsSync(out)) mkdirSync(out, { recursive: true });
+  writeFileSync(resolve(out, "index.html"), build(page, { unlisted: true }));
+}
+
 /* A route the sitemap indexes and the server bundle does not render would ship
    an empty #root: the page would still work, as a single-page app, and would
    have quietly lost everything the prerender is for. The build fails on it for
@@ -340,4 +362,5 @@ if (missing.length || unexpected.length) {
   throw new Error(`Prerender and sitemap differ. Missing: ${missing.join(", ") || "none"}. Unexpected: ${unexpected.join(", ") || "none"}.`);
 }
 
+console.log(`Prerendered ${unlistedPages.length} unlisted page(s): ${unlistedPages.map((page) => page.path).join(", ")}`);
 console.log(`Prerendered ${pages.length} indexed pages (${staticPages.length} pages + ${articlePages.length} articles + ${answerPages.length} answers)`);

@@ -27,7 +27,8 @@ describe("DoThinkDo feedback flow", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "The moment it clicked for me was when …" }));
     const box = screen.getByLabelText("What made the Build Lab sessions useful for you?") as HTMLTextAreaElement;
-    expect(box.value).toBe("The moment it clicked for me was when ___");
+    expect(box.value).toBe("The moment it clicked for me was when ");
+    expect(box.selectionStart).toBe(box.value.length);
     next();
     expect(screen.getByRole("alert").textContent).toContain("own words");
     expect(screen.getByRole("heading", { name: "What made the Build Lab sessions useful for you?" })).toBeTruthy();
@@ -64,5 +65,19 @@ describe("DoThinkDo feedback flow", () => {
     expect((window as Window & { __dtdEarly?: unknown }).__dtdEarly).toBeUndefined();
     fireEvent.click(screen.getByRole("button", { name: "Build Lab sessions" }));
     expect(fn).not.toHaveBeenCalled();
+  });
+
+  it("joins a second starter on as a new sentence, with one gap at the end", () => {
+    render(<MemoryRouter><DtdFeedback /></MemoryRouter>);
+    next();
+    fireEvent.click(screen.getByRole("button", { name: "Build Lab sessions" }));
+    next();
+    const box = screen.getByLabelText("What made the Build Lab sessions useful for you?") as HTMLTextAreaElement;
+    fireEvent.click(screen.getByRole("button", { name: "The biggest change for me is …" }));
+    fireEvent.change(box, { target: { value: `${box.value}speed` } });
+    fireEvent.click(screen.getByRole("button", { name: "Something I still use every week is …" }));
+    expect(box.value).toBe("The biggest change for me is speed. Something I still use every week is ");
+    next();
+    expect(screen.getByRole("alert").textContent).toContain("own words");
   });
 });

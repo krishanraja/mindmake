@@ -8,11 +8,11 @@ import "@/styles/dtd-feedback.css";
 import {
   BETTER_CHIPS,
   BETTER_STARTERS,
-  BLANK,
   COMMENT_LIMIT,
   LIKED_CHIPS,
   LIKED_STARTERS,
   NAME_LIMIT,
+  unfinishedStarter,
   type FeedbackChip,
 } from "../../supabase/functions/submit-dtd-feedback/core";
 
@@ -123,28 +123,30 @@ export default function DtdFeedback() {
   const setComment = (group: Group, chipId: string, comment: string) =>
     setPicks((current) => ({ ...current, [group]: { ...current[group], [chipId]: comment } }));
 
-  /* Puts the cursor on the first blank, selected, so typing replaces it. Focus
-     moves at once, so a quick typist never types into the starter button; the
-     selection lands once React has written the new text into the box. */
-  const pendingBlank = useRef(false);
-  const selectBlank = () => {
-    pendingBlank.current = true;
+  /* Puts the cursor at the end of the text, where a starter leaves its one
+     gap, so the person just keeps typing. Focus moves at once, so a quick
+     typist never types into the starter button; the caret lands once React
+     has written the new text into the box. */
+  const pendingEnd = useRef(false);
+  const caretToEnd = () => {
+    pendingEnd.current = true;
     textRef.current?.focus();
   };
   const commentValue = step.kind === "comment" ? picks[step.group][step.chip.id] : null;
   useIsomorphicLayoutEffect(() => {
     const box = textRef.current;
-    if (!pendingBlank.current || !box) return;
-    pendingBlank.current = false;
-    const at = box.value.indexOf(BLANK);
-    if (at >= 0) box.setSelectionRange(at, at + BLANK.length);
+    if (!pendingEnd.current || !box) return;
+    pendingEnd.current = false;
+    box.setSelectionRange(box.value.length, box.value.length);
+    box.scrollTop = box.scrollHeight;
   }, [commentValue]);
 
   const addStarter = (group: Group, chipId: string, starter: string) => {
     const existing = picks[group][chipId].trimEnd();
-    const text = `${existing}${existing ? " " : ""}${starter}`.slice(0, COMMENT_LIMIT);
+    const joiner = !existing ? "" : /[.!?]$/.test(existing) ? " " : ". ";
+    const text = `${existing}${joiner}${starter} `.slice(0, COMMENT_LIMIT);
     setComment(group, chipId, text);
-    selectBlank();
+    caretToEnd();
   };
 
   const nothingPicked = Object.keys(picks.liked).length === 0 && Object.keys(picks.better).length === 0;
@@ -177,13 +179,13 @@ export default function DtdFeedback() {
     event.preventDefault();
     if (step.kind === "comment") {
       const text = picks[step.group][step.chip.id];
-      if (text.includes(BLANK)) {
-        setError("Fill in the gap in your own words - that's the bit I want to read.");
-        selectBlank();
+      if (unfinishedStarter(text, GROUPS[step.group].starters)) {
+        setError("Finish the sentence in your own words - that's the bit I want to read.");
         const box = textRef.current;
-        const at = text.indexOf(BLANK);
-        if (box && at >= 0) box.setSelectionRange(at, at + BLANK.length);
-        pendingBlank.current = false;
+        if (box) {
+          box.focus();
+          box.setSelectionRange(box.value.length, box.value.length);
+        }
         return;
       }
     }
@@ -262,7 +264,7 @@ export default function DtdFeedback() {
                     <div className="mm-dtd-starters">
                       {GROUPS[step.group].starters.map((starter) => (
                         <button key={starter} type="button" className="mm-dtd-starter" onClick={() => addStarter(step.group, step.chip.id, starter)}>
-                          {starter.replace(new RegExp(`${BLANK}\\.?`, "g"), "…")}
+                          {starter} …
                         </button>
                       ))}
                     </div>

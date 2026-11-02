@@ -98,3 +98,44 @@
 .mm-dtd-card[data-step="welcome"] .mm-dtd-nav { justify-content: flex-start; padding-top: 32px; }
 .mm-dtd-card[data-step="welcome"] .mm-dtd-nav .mm-form-error { display: none; }
 .mm-dtd-sign { margin-top: 8px; color: var(--mm-mint); font: 500 18px/1.2 var(--mm-grotesque); }
+
+/* Next must always be on screen (Krish, 2026-11-02: "I can't really ever see
+   the next button"). The fixed card above put it at the card's foot, which on
+   a laptop with zoom or a short window sat below the fold. Now the card is
+   never taller than the window, and the nav bar sticks to the bottom of the
+   screen whenever the card runs past it, clear of the cookie banner, the
+   action bar and the home indicator. It still sits at the card's foot when
+   the card fits, so Back and Next keep one place on every question screen. */
+.mm-dtd-page { --dtd-pad: clamp(22px, 3.4vw, 40px); --dtd-gap: 32px; }
+.mm-dtd-page.mm-legal-page { padding-top: calc(var(--mm-header-height) + var(--dtd-gap)); }
+.mm-dtd-card { padding: var(--dtd-pad); min-height: min(680px, calc(100svh - var(--mm-header-height) - var(--dtd-gap) - 24px)); }
+.mm-dtd-card:not([data-step="welcome"]) .mm-dtd-nav {
+  position: sticky;
+  bottom: max(var(--mm-cookie-reserve, 0px), var(--mm-bar-reserve, 0px));
+  z-index: 2;
+  margin: auto calc(var(--dtd-pad) * -1) calc(var(--dtd-pad) * -1);
+  padding: 14px var(--dtd-pad) calc(14px + var(--mm-safe-bottom, 0px));
+  border-top: 1px solid var(--mm-hair);
+  background: var(--mm-ink2, var(--mm-ink));
+}
+.mm-dtd-card:not([data-step="welcome"]) .mm-dtd-body { padding-bottom: 20px; }
+@media (max-width: 767px) {
+  .mm-dtd-page { --dtd-pad: 18px; --dtd-gap: 16px; }
+  .mm-dtd-card { padding: 20px var(--dtd-pad); min-height: min(710px, calc(100svh - var(--mm-header-height) - var(--dtd-gap) - 16px)); }
+  .mm-dtd-card:not([data-step="welcome"]) .mm-dtd-nav { margin-bottom: -20px; padding-top: 12px; padding-bottom: calc(12px + var(--mm-safe-bottom, 0px)); }
+}
+@media (max-width: 379px) {
+  .mm-dtd-card { min-height: min(770px, calc(100svh - var(--mm-header-height) - var(--dtd-gap) - 16px)); }
+}
+/* The message ("Fill in the gap...") floats just above the bar instead of
+   reserving an empty line inside it, so the bar is only as tall as Back and
+   Next, and showing the message moves nothing. */
+.mm-dtd-card:not([data-step="welcome"]) .mm-dtd-nav .mm-form-error {
+  position: absolute;
+  right: var(--dtd-pad);
+  bottom: 100%;
+  left: var(--dtd-pad);
+  min-height: 0;
+  padding-bottom: 8px;
+  pointer-events: none;
+}

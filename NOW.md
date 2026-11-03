@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-10-28
-head: aa181f1
+as_of: 2026-11-03
+head: 85a5c0e
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-10-28)
+## Where it is right now (as of 2026-11-03)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -76,6 +76,24 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-02: a feedback form for DoThinkDo staff went live at `/feedback/dtd`
+  (PRs #258 to #264), unlisted and noindex, one screen at a time, speaking as
+  Krish. It was reworked six times in a day from his live use: Next sat below
+  the fold at 1536x730, 1280x620, 1100x560 and 360x780, so the card now never
+  exceeds the window; a Let's go tap made before hydration reloaded onto the
+  welcome, so an inline script keeps it; two-gap starters were "fiddly" and
+  glitchy, so starters are one-gap openings and the server refuses an
+  unfinished sentence. Responses are emailed, nothing is stored.
+- 2026-11-02: the form asks permission to quote, unticked. Krish first asked
+  for a pre-ticked box; a pre-ticked box is not valid consent under UK GDPR
+  (the brief's publication choice is unticked for the same reason), so he
+  chose an unticked box beside the name, with no name meaning anonymous
+  attribution. The server accepts yes only against `dtd-quote-consent-v1`.
+- 2026-11-02: `/alumni` was served the homepage first with JavaScript off
+  ("Promote your AI from intern to chief of staff."), because it was rewritten
+  to the prerendered homepage. It and `/feedback/dtd` are now prerendered as
+  unlisted pages; the sitemap is still 36 URLs and the route lock was
+  regenerated for the intended `prerender.mjs` and `vercel.json` edits.
 - 2026-10-28: the brief's "Keep the private brief" sits at the bottom right
   of the preview card, bigger and pulsing, with no line beneath it, and the
   brief's first screen asks for analytics consent itself when none is stored,
@@ -103,18 +121,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   `history/ARCHIVE.md`; the canon's copy table, the North Star's placement and
   proof lines, the README, CLAUDE.md's gates, the runbook and the design
   contract now match what mindmake.co serves. No site code or copy changed.
-- 2026-10-26: the brief in fewer clicks (#250) and `submit-mindmake-brief` v23.
-  From Krish's live test of every call to action: no door question, a choice
-  that moves on, "Keep the private brief" straight to the address, the leaf
-  arrows in the brief's header on a phone, and the code sent at once, 2.5 s on
-  a desktop where it took 34.6 s. 8 clicks from the hero to the code, down from
-  11 on a desktop and 14 on a phone. Ledger row `BRIEF-CLICKS-001`.
-- 2026-10-26: Krish's phone review of S6 (#248): the opening grows to fit, the
-  eras and practice scenes are carousels, the eras and results sit on their
-  pictures under measured contrast (`qa:card-contrast`), Subscribe sits beside
-  the menu in every masthead, `/ai-gtm`'s way in is left-aligned and the
-  brief's first step reads "Let’s get started." Ledger rows `S6P-01` to
-  `S6P-07`, accepted.
 - 2026-10-24: every page became three sections (S6, #245). Krish's ruling:
   every page says "what problem it solves, how it solves it, and what the
   reader gets and how they know it works", with the spine "intern to chief of

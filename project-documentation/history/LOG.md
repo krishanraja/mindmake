@@ -5,6 +5,12 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-03
+
+- reconciled at `85a5c0e`: NOW.md gained the DoThinkDo feedback form (`/feedback/dtd`), its unticked quote permission and the `/alumni` prerender; 06_CURRENT_STATE.md gained the quote-permission sentence. Stamps on CLAUDE.md, 02, 04 and 07 were not re-verified and were left for a person.
+- rolled from NOW.md: 2026-10-26, the brief in fewer clicks (#250) and `submit-mindmake-brief` v23, from Krish's live test of every call to action: 8 clicks from the hero to the code, down from 11 on a desktop and 14 on a phone, the code sent in 2.5 s where it took 34.6 s. Ledger row `BRIEF-CLICKS-001`.
+- rolled from NOW.md: 2026-10-26, Krish's phone review of S6 (#248): the opening grows to fit, eras and practice scenes became carousels under measured contrast (`qa:card-contrast`), Subscribe sits beside the menu in every masthead. Ledger rows `S6P-01` to `S6P-07`, accepted.
+
 ## 2026-10-28
 
 - The brief's "Keep the private brief" and its analytics question (PR #256),

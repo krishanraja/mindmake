@@ -89,6 +89,9 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   homepage first. `/alumni` is prerendered the same way, so neither unlisted
   page is served the homepage shell. Starters are sentence openings with one
   gap at the end; a comment that stops where a starter stops is refused.
+  An unticked box beside the name asks permission to quote the response in
+  Mindmake's materials (wording version `dtd-quote-consent-v1`); the email
+  records yes with name, yes anonymous or no, and the exact sentence agreed.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
   Success stories, Ideas you can use, Questions we get asked, About us and

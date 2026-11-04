@@ -11,7 +11,7 @@
  * pins or changes size: content stays readable if no animation ever runs.
  */
 import { revealOnArrival } from "@/hooks/useReveal";
-import { loopPath, underlinePath } from "@/lib/scribble";
+import { underlinePath } from "@/lib/scribble";
 
 export interface BuildSelectors {
   /** Each section that builds on its own. */
@@ -60,24 +60,28 @@ export function buildOnScroll(root: HTMLElement, selectors: BuildSelectors): () 
 }
 
 /**
- * A hand marks a heading's key words once it has arrived: a loop around one
- * or an underline beneath it (the content engine's scribble,
- * src/lib/scribble.ts). Decoration over words already there, so hidden from
- * assistive technology and drawn once; reduced motion shows it drawn.
+ * A hand marks a heading's closing words once it has arrived: two quick pen
+ * strokes beneath them (the content engine's scribble, src/lib/scribble.ts).
+ * Only ever under the heading's last line, so the ink never runs across other
+ * words (Krish, 2026-11-04: "We can't have underlines that overlap other
+ * text"); at a width where the phrase is not on the last line, no mark is
+ * drawn. Decoration over words already there, so hidden from assistive
+ * technology and drawn once; reduced motion shows it drawn.
  */
 export function drawMarks(title: HTMLElement) {
+  /* A full second after the heading lands, so the reader sees the hand come
+     in rather than finding the mark already there (Krish, 2026-11-04). */
+  let start = 1450;
   title.querySelectorAll<HTMLElement>("[data-hs-mark]").forEach((mark, index) => {
     if (mark.querySelector("svg")) return;
     const box = mark.getBoundingClientRect();
     if (!box.width) return;
-    const kind = mark.dataset.hsMark === "loop" ? "loop" : "underline";
     const fontSize = parseFloat(getComputedStyle(mark).fontSize) || 40;
+    if (!onLastLine(box, title.getBoundingClientRect(), fontSize)) return;
     const scale = fontSize / 40;
-    const pad = kind === "loop" ? Math.round(fontSize * 0.45) : Math.round(fontSize * 0.3);
+    const pad = Math.round(fontSize * 0.45);
     const w = box.width + pad * 2, h = box.height + pad * 2;
-    const target = { x: pad, y: pad, w: box.width, h: box.height };
-    const seed = `${mark.textContent}-${index}`;
-    const d = kind === "loop" ? loopPath(target, seed) : underlinePath({ ...target, y: pad - fontSize * 0.08 }, seed, scale);
+    const strokes = underlinePath({ x: pad, y: pad - fontSize * 0.08, w: box.width, h: box.height }, `${mark.textContent}-${index}`, scale);
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "hs-mark-ink");
     svg.setAttribute("aria-hidden", "true");
@@ -86,13 +90,29 @@ export function drawMarks(title: HTMLElement) {
     svg.setAttribute("height", h.toFixed(1));
     svg.style.left = `${-pad}px`;
     svg.style.top = `${-pad}px`;
-    svg.style.setProperty("--hs-mark-delay", `${450 + index * 350}ms`);
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("d", d);
-    path.setAttribute("pathLength", "1");
-    path.style.strokeWidth = `${Math.max(2, 2.6 * scale).toFixed(1)}px`;
-    svg.append(path);
+    /* One hand, one stroke at a time (Krish, 2026-11-04: "like someone is
+       literally drawing two lines one after the other with a pen"): each takes
+       as long as a steady pen needs for its length, and the second begins
+       once the pen has lifted. */
+    /* A quick hand (Krish, 2026-11-04: "People don't draw that slowly"). */
+    const duration = Math.min(450, Math.max(220, 180 + box.width / 3.5));
+    strokes.forEach((d) => {
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      path.setAttribute("pathLength", "1");
+      path.style.strokeWidth = `${Math.max(2, 2.6 * scale).toFixed(1)}px`;
+      path.style.setProperty("--stroke-delay", `${Math.round(start)}ms`);
+      path.style.setProperty("--stroke-dur", `${Math.round(duration)}ms`);
+      svg.append(path);
+      start += duration + 60;
+    });
+    start += 160;
     mark.append(svg);
     requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add("is-drawn")));
   });
+}
+
+/** Whether a phrase sits on its heading's last line, with nothing of the heading below it. */
+export function onLastLine(mark: { bottom: number }, title: { bottom: number }, fontSize: number): boolean {
+  return title.bottom - mark.bottom <= fontSize * 0.5;
 }

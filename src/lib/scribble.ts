@@ -1,14 +1,14 @@
 /**
- * Hand-drawn marks: a loop around a word or a quick underline beneath it.
+ * Hand-drawn marks: a quick double underline beneath a phrase.
  *
  * Ported from the content engine's scribble device
  * (krishanraja/content-engine, apps/renderer/src/engine/kit/scribblePath.ts,
  * "Approved H/build.py geometry"), so the site's marks are drawn by the same
  * hand as the videos': the same seeded wobble, the same Catmull-Rom smoothing,
- * the same overshooting second pass on an underline. Only the loop and the
- * underline come across; the engine's arrow, bracket, tick and cross stay
- * there. Pixels here are the mark's own box, not a 1080-wide canvas, so the
- * wobble scales with the type (`scale`).
+ * the same second pass on an underline. Only the underline comes across;
+ * the engine's loop, arrow, bracket, tick and cross stay there. Pixels here
+ * are the mark's own box, not a 1080-wide canvas, so the wobble scales with
+ * the type (`scale`).
  */
 type Point = readonly [number, number];
 
@@ -40,39 +40,28 @@ function smooth(pts: Point[]): string {
 
 export type Box = { x: number; y: number; w: number; h: number };
 
-/** A loop around a box: a slightly squared ellipse that overruns its start, as a pen does. */
-export function loopPath(target: Box, seed: string, turns = 1.16): string {
+/**
+ * A double underline beneath a box, as a pen draws one (Krish, 2026-11-04:
+ * "like someone is literally drawing two lines one after the other with a
+ * pen"): two separate strokes, both left to right, the second a little lower
+ * and set slightly off the first. Each wavers gently and drifts a touch, as a
+ * hand does; nothing joins them, so the pen lifts between the two.
+ */
+export function underlinePath(target: Box, seed: string, scale = 1): [string, string] {
   const rng = random(seed);
-  const cx = target.x + target.w / 2, cy = target.y + target.h / 2;
-  const u: Point = [target.w * 0.53, 0], v: Point = [0, target.h * 0.74];
-  const ph = [rng() * 6.28, rng() * 6.28, rng() * 6.28];
-  const pts: Point[] = [], steps = 44, sq = 2;
-  for (let i = 0; i <= Math.floor(steps * turns); i++) {
-    const t = i / steps, a = -2.3 + 2 * Math.PI * t;
-    const w = 1 + 0.05 * Math.sin(2 * a + ph[0]) + 0.035 * Math.sin(3 * a + ph[1]) + 0.02 * Math.sin(5 * a + ph[2]);
-    const g = 1 + 0.13 * t, c = Math.cos(a), s = Math.sin(a);
-    const x = w * g * Math.sign(c) * Math.abs(c) ** (2 / sq), y = w * g * Math.sign(s) * Math.abs(s) ** (2 / sq);
-    pts.push([cx + x * u[0] + y * v[0], cy + x * u[1] + y * v[1]]);
-  }
-  return smooth(pts);
-}
-
-/** An underline beneath a box: one wavering stroke out, a flick, and a second pass back. */
-export function underlinePath(target: Box, seed: string, scale = 1): string {
-  const rng = random(seed);
-  const x0 = target.x, x1 = target.x + target.w, y = target.y + target.h + 6 * scale;
-  const length = x1 - x0;
-  const amp = 3.2 * scale, ph = rng() * 6.28;
-  const stroke = (off: number, a0: number, over: number) => {
-    const pts: Point[] = [], n = Math.max(12, Math.floor(length / 22));
+  const x0 = target.x, length = target.w, y = target.y + target.h + 6 * scale;
+  const amp = 1.6 * scale, ph = rng() * 6.28;
+  const stroke = (off: number, a0: number, start: number, end: number, drift: number) => {
+    const pts: Point[] = [], n = Math.max(10, Math.floor(length / 26));
     for (let i = 0; i <= n; i++) {
-      const t = i / n, s = -over + t * (length + 2 * over);
-      const wob = amp * Math.sin(t * 2.5 * 2 * Math.PI + ph + a0) * (0.55 + 0.45 * Math.sin(t * 3.1 + a0));
-      pts.push([x0 + s, y + wob + off]);
+      const t = i / n, s = start + t * (length + end - start);
+      const wob = amp * Math.sin(t * 1.6 * 2 * Math.PI + ph + a0) * (0.6 + 0.4 * Math.sin(t * 2.7 + a0));
+      pts.push([x0 + s, y + off + wob - drift * t]);
     }
-    return pts;
+    return smooth(pts);
   };
-  const first = stroke(0, 0.3, 6 * scale);
-  const end = first[first.length - 1];
-  return smooth([...first, [end[0] + 8 * scale, end[1] + amp * 1.2], ...stroke(amp * 2.3, 1.9, 2 * scale).reverse()]);
+  return [
+    stroke(0, 0.3, -5 * scale, 4 * scale, 2.4 * scale),
+    stroke(amp * 3.4, 1.9, 4 * scale, -2 * scale, 1.2 * scale),
+  ];
 }

@@ -7,6 +7,11 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-11-04
 
+- The hand-drawn marks draw like a pen, approved by Krish ("faster pen is good"):
+  two quick strokes left to right, one after the other, a second after the
+  heading lands, only under a heading's last line so no mark crosses other
+  words; circles removed; the hero underline is revealed, not stretched.
+  Ledger row `S7-SCROLL-003`.
 - /ai-brain and /ai-gtm build on scroll like the homepage, approved by Krish
   from phone recordings ("Merge"): shared `src/lib/scrollBuild.ts`; /ai-brain
   keeps its scrub and adds marked headings, sentence-by-sentence ledes and

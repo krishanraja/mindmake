@@ -1887,7 +1887,8 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset .75s cubic-bezier(.05, .7, .1, 1) var(--hs-mark-delay, 450ms);
+  /* An even pen speed, stroke by stroke (src/lib/scrollBuild.ts times each). */
+  transition: stroke-dashoffset var(--stroke-dur, 350ms) cubic-bezier(.4, .1, .5, .95) var(--stroke-delay, 1450ms);
 }
 .hs-mark-ink.is-drawn path { stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: reduce) {

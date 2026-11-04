@@ -250,7 +250,7 @@ export default function AiGtm() {
       <div ref={rootRef} className="mm-gtm" data-mode={mode}>
         <Opening
           heading={OPENING.heading}
-          mark={{ phrase: "survives AI", kind: "underline" }}
+          mark={{ phrase: "AI agents", kind: "underline" }}
           accent={OPENING.accent}
           lede={OPENING.lede}
           startLabel={START_LABEL_GTM}
@@ -267,7 +267,7 @@ export default function AiGtm() {
 
         <LeverChapter
           heading="You can feel it in four places."
-          mark={{ phrase: "four places", kind: "loop" }}
+          mark={{ phrase: "four places", kind: "underline" }}
           steps={LEVER_STEPS}
           mode={mode}
           backdrop={(
@@ -294,7 +294,7 @@ export default function AiGtm() {
 
         <PlanChapter
           heading="One go-to-market move in 30 days"
-          mark={{ phrase: "30 days", kind: "loop" }}
+          mark={{ phrase: "30 days", kind: "underline" }}
           steps={PLAN}
           keeps={KEEPS}
           menu={MENU}

@@ -1618,3 +1618,91 @@
   font-style: normal;
 }
 
+/* The story library on /case-studies (proposal, 2026-11-04). The page's own
+ * heading sits inside the finder, so it shares the finder's left edge and
+ * ground. The choice of product is a filled two-way switch: a level above
+ * the situations, and unmistakably a different kind of control. */
+.nal-page .finder-intro {
+  display: grid;
+  gap: 12px;
+  padding-bottom: clamp(24px, 4vh, 44px);
+  margin-bottom: clamp(24px, 4vh, 44px);
+  border-bottom: 1px solid rgba(234, 223, 200, .16);
+}
+
+.nal-page .finder-intro h1 {
+  margin: 0;
+  color: var(--paper);
+  font: 380 clamp(40px, 5vw, 76px) / .98 var(--serif);
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+
+.nal-page .finder-intro p {
+  max-width: 52ch;
+  margin: 0;
+  color: rgba(234, 223, 200, .78);
+  font: 400 clamp(17px, 1.4vw, 21px) / 1.45 var(--serif);
+  text-wrap: pretty;
+}
+
+.nal-page .story-finder.is-library {
+  padding-top: calc(var(--header, 64px) + clamp(24px, 5vh, 56px));
+}
+
+.nal-page .finder-doors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 22px;
+  padding: 4px;
+  border: 1px solid rgba(157, 240, 200, .45);
+  border-radius: 999px;
+  background: rgba(3, 13, 9, .6);
+}
+
+.nal-page .finder-doors button {
+  min-height: 48px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(234, 223, 200, .82);
+  font: 600 15px / 1.15 var(--sans);
+  letter-spacing: -.005em;
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+
+.nal-page .finder-doors button[aria-pressed="true"] {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+.nal-page .finder-doors button:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+}
+
+.nal-page .finder-tabs button[hidden] {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .nal-page .finder-intro {
+    grid-column: 1 / -1;
+  }
+
+  .nal-page .story-finder.is-library {
+    grid-template-rows: auto auto auto auto 1fr;
+  }
+
+  .nal-page .story-finder.is-library .finder-panels {
+    grid-row: 2 / span 4;
+  }
+
+  .nal-page .finder-doors {
+    grid-column: 1;
+  }
+}
+
+

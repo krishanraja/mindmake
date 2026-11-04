@@ -6,6 +6,7 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { LeaderCount } from "@/components/mindmake/LeaderCount";
 import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
+import { StoryLibrary } from "@/components/mindmake/StoryLibrary";
 import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
@@ -41,11 +42,13 @@ export default function CaseStudies() {
   return (
     <MindmakeShell onStart={openBrief} mainClassName="mm-case-route">
       <SEO
-        title="Success stories"
+        title="What you can do with it"
         description="Eight verified stories about the work Mindmake helped customers change and what happened next."
         canonical="/case-studies"
         jsonLd={jsonLd}
       />
+
+      <StoryLibrary door="all" onStart={(door) => openBrief(door)} intro={{ title: "What you can do with it.", lede: "Real things leaders now do with their AI brain or AI revenue engine. Pick one to see what fits you." }} />
 
       <CaseProofField stories={clientStories} />
 

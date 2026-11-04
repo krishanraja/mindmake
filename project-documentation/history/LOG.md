@@ -7,6 +7,11 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-11-04
 
+- /ai-brain and /ai-gtm build on scroll like the homepage, approved by Krish
+  from phone recordings ("Merge"): shared `src/lib/scrollBuild.ts`; /ai-brain
+  keeps its scrub and adds marked headings, sentence-by-sentence ledes and
+  arriving cards; /ai-gtm builds the same way; the hero's underline is
+  hand-drawn in three variants. Ledger row `S7-SCROLL-002`.
 - The homepage builds on scroll, approved by Krish from a phone recording
   ("merge"): heading, then the lede a sentence at a time, then the cards,
   through the one entrance primitive (`revealOnArrival` in useReveal.ts); a

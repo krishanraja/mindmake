@@ -1990,6 +1990,28 @@
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css"
       ]
+    },
+    {
+      "id": "S7-SCROLL-002",
+      "exactFeedback": "do the same scroll build on /ai-brain and /ai-gtm, they already have some builds so figure out what is already there. And make the underlines in the homepage rotating headlines a bit more hand drawn instead of the current precise straight underlines too",
+      "source": "Krish, 4 November 2026; the phone recordings approved verbatim: \"Merge\".",
+      "surface": "/ai-brain, /ai-gtm, /",
+      "section": "every section; the hero headline",
+      "device": "all",
+      "element": "scroll build, heading marks, hero underline",
+      "classification": "correction",
+      "requiredOutcome": "/ai-brain keeps its scrub and adds headings with marks, ledes a sentence at a time, then cards; /ai-gtm builds the same way (lede whole); the hero's underline is hand-drawn. Readable if no animation runs.",
+      "acceptanceTest": "src/test/reveal-contract.test.tsx, src/test/ai-gtm-page.test.tsx, src/test/brain-narrative.test.ts; qa:line-breaks, qa:alignment, qa:first-visit pass; phone recordings reviewed by Krish.",
+      "status": "implemented-awaiting-review",
+      "resolution": "src/lib/scrollBuild.ts shares the homepage's build and marks; /ai-brain marks \"like you\", \"only you\", \"sharper\", \"your goals\", \"yours to keep\", \"30 days\"; /ai-gtm marks \"survives AI\", \"four places\", \"30 days\" via src/components/mindmake/Marked.tsx; the hero underline is a scribble-geometry stroke in three variants.",
+      "evidence": [
+        "src/lib/scrollBuild.ts",
+        "src/components/mindmake/Marked.tsx",
+        "src/pages/AiBrainLocked.tsx",
+        "src/pages/AiGtm.tsx",
+        "src/components/homepage-release/integration.css",
+        "src/components/homepage-release/heroRotation.ts"
+      ]
     }
   ]
 }

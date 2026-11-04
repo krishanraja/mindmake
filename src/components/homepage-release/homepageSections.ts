@@ -5,6 +5,7 @@ import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-l
 import { leadershipScenes, leadershipStories, organisationGridMarkup } from "@/components/leadership-chapters/leadershipChapters";
 import latestIssue from "@/data/latestIssue.json";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
+import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 
 /**
  * The homepage after its opening, in three sections (Ruling, Krish,
@@ -85,8 +86,17 @@ export function mastheadSubscribeMarkup() {
   return `<a class="hs-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="masthead">Subscribe</a>`;
 }
 
-/** A picture behind a card: decorative, so it has no name and loads when near. */
-const cardImage = (src: string) => `<img class="hs-card-img" src="${esc(src)}" alt="" width="800" height="450" loading="lazy" decoding="async" />`;
+/**
+ * A picture behind a card: decorative, so it has no name and loads when near.
+ * A phone downloads the size its card shows, and the card holds a blurred
+ * placeholder of the scene until the picture arrives (Krish, 2026-11-04:
+ * pictures took up to ten seconds on a phone's first visit).
+ */
+const cardImage = (src: string, originalWidth = 800, sizes = "(max-width: 760px) 84vw, 340px") => {
+  const srcset = srcsetFor(src, originalWidth);
+  const placeholder = placeholderFor(src);
+  return `<img class="hs-card-img" src="${esc(src)}"${srcset ? ` srcset="${esc(srcset)}" sizes="${sizes}"` : ""} alt="" width="800" height="450" loading="lazy" decoding="async"${placeholder ? ` style="background:#0d1c16 url(${placeholder}) center / cover"` : ""} />`;
+};
 
 /**
  * Under a carousel: back and forward, and the stops it moves through, left to
@@ -97,11 +107,11 @@ const railNav = (noun: string, stops: readonly string[]) =>
   `<div class="hs-rail-nav" data-hs-rail-nav><button type="button" class="hs-rail-step" data-hs-rail-step="-1" aria-label="Previous ${noun}" disabled><span aria-hidden="true">←</span></button><ol class="hs-rail-stops" style="--hs-stops:${stops.length}">${stops.map((stop, index) => `<li><button type="button" data-hs-rail-go="${index}"${index ? "" : ' aria-current="true"'}>${stop}</button></li>`).join("")}</ol><button type="button" class="hs-rail-step" data-hs-rail-step="1" aria-label="Next ${noun}"><span aria-hidden="true">→</span></button></div>`;
 
 const eraMarkup = ({ when, image, question, answer }: (typeof ERAS)[number]) =>
-  `<li><button type="button" class="hs-era" aria-pressed="false" data-hs-era>${cardImage(image)}<span class="hs-era-when">${when}</span><span class="hs-era-faces"><span class="hs-era-q">“${question}”</span><span class="hs-era-a"><b>What actually happened instead</b>${answer}</span></span><span class="hs-era-mark" aria-hidden="true"></span></button></li>`;
+  `<li><button type="button" class="hs-era" aria-pressed="false" data-hs-era>${cardImage(image, 1600)}<span class="hs-era-when">${when}</span><span class="hs-era-faces"><span class="hs-era-q">“${question}”</span><span class="hs-era-a"><b>What actually happened instead</b>${answer}</span></span><span class="hs-era-mark" aria-hidden="true"></span></button></li>`;
 
 const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
-  ? `<li>${cardImage(sceneOf(item.record))}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
-  : `<li>${cardImage(sceneOf(item.record))}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
+  ? `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
+  : `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
 
 export function homepageSectionsMarkup() {
   const acts = leadershipScenes.map(([, poster], index) => `<li>${cardImage(poster)}<b>${ACTS[index].word}</b><span>${ACTS[index].line}</span></li>`).join("");

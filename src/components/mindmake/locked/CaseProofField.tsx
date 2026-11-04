@@ -1,3 +1,4 @@
+import { filmsMayLoad } from "@/lib/filmGate";
 import { useEffect, useMemo, useRef } from "react";
 import type { ClientStory } from "@/data/rebuildProof";
 import readyFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
@@ -295,6 +296,7 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
       const rect = region.getBoundingClientRect();
       return rect.right > 0 && rect.bottom > 0 && rect.left < innerWidth && rect.top < innerHeight;
     };
+    let filmsAllowed = false;
     const syncFilms = () => {
       const moving = filmMayMove() && document.visibilityState === "visible";
       shell.dataset.filmMotion = moving ? "moving" : "still";
@@ -303,6 +305,8 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
         if (!filmMayMove()) removeFilmSources();
         return;
       }
+      /* Films wait for the page's pictures and skip slow lines (src/lib/filmGate.ts). */
+      if (!filmsAllowed) { void filmsMayLoad().then((ok) => { if (ok && !filmsAllowed) { filmsAllowed = true; syncFilms(); } }); return; }
       ensureFilmSources();
       const visibleFilms = films.filter(filmIsVisible);
       const limit = isCompact() ? 2 : 4;

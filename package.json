@@ -30,6 +30,7 @@
     "qa:oneway": "node scripts/qa/one-way-in-check.mjs",
     "qa:line-breaks": "node scripts/qa/line-break-check.mjs",
     "qa:alignment": "node scripts/qa/alignment-check.mjs",
+    "qa:first-visit": "node scripts/qa/first-visit-check.mjs",
     "qa:card-contrast": "node scripts/qa/card-contrast-check.mjs",
     "qa:lead-keyboard": "node scripts/qa/lead-keyboard-check.mjs",
     "qa:lead-contrast": "node scripts/qa/lead-contrast-check.mjs",

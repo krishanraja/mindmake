@@ -100,8 +100,12 @@ const media = 'https://makeyourmindup.ai';
 const subscribe = { href: media, label: 'Subscribe for free' };
 const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
 const heroFilm = {
-  poster: '../../../src/assets/films/sep2026/archive-engine-hero-poster-r07.webp',
+  /* The poster at 1280 wide, 42 KB, where the full 1920 was 115 KB, and a 720p
+     film for phones, 0.8 MB where the 1080p is 3.1 MB (Krish, 2026-11-04:
+     pictures took up to ten seconds on a phone's first visit). */
+  poster: '../../../src/assets/films/sep2026/archive-engine-hero-poster-r07-w1280.webp',
   mp4: '../../../src/assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4',
+  phoneMp4: '../../../src/assets/films/sep2026/archive-engine-hero-loop-r07-16s-720p-phone.mp4',
 };
 body = body
   .replace(/(<section class="hero-stage">\s*<video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*>\s*<source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`)
@@ -109,6 +113,9 @@ body = body
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${media}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
   .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${media}" target="_blank" rel="noreferrer">Media</a>`)
   .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
+// The phone's source takes the phone film, and no film fetches a byte until
+// the page has loaded (src/lib/filmGate.ts): the poster shows until then.
+body = body.replace(new RegExp(`(<source src=")${heroFilm.mp4.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(" type="video/mp4" media="\\(max-width: 700px\\)")`, 'g'), `$1${heroFilm.phoneMp4}$2`);
 // The route labels say what the reader gets, Home leads and About us sits
 // before Media, in every menu and footer (Krish, 2026-09-25). PRIMARY_ROUTES in
 // src/lib/publicLinks.ts carries the same list for every other page.
@@ -171,7 +178,7 @@ for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g,
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
-const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
+const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(<video data-mm-poster="true"[^>]*)preload="metadata"/g, '$1preload="none"').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
 let script = read('script.js');
 script = cut(script, '  const routeContent = {', '  const reveals = [...document.querySelectorAll(".r3-reveal")];', '', 'route, history and retired chapter runtime');
 script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
@@ -195,10 +202,10 @@ runtime = runtime.replace('    navigation.querySelector(`${variant} .menu-contro
 runtime = runtime.replace('  const setNavigation = (open, opener = null) => {', '  const setNavigation = (open, opener = null) => {\n    const focusVersion = ++navigationFocusVersion;');
 runtime = runtime.replace(/      requestAnimationFrame\(focusNavigationClose\);\r?\n      setTimeout\(focusNavigationClose, 60\);/, '      requestAnimationFrame(() => focusNavigationClose(focusVersion));');
 runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturnFocus?.focus({ preventScroll: true });', 'const restoreNavigationFocus = () => { if (focusVersion === navigationFocusVersion && (document.activeElement === document.body || navigation.contains(document.activeElement))) navigationReturnFocus?.focus({ preventScroll: true }); };');
-runtime = runtime.replace('    video.play().catch(() => {});', '    if (!reducedMotion.matches) video.play().catch(() => {});');
+runtime = runtime.replace('    video.play().catch(() => {});', '    if (!reducedMotion.matches) playWhenFilmsMayLoad(video, () => !reducedMotion.matches);');
 runtime = cut(runtime, '  /* adapter: end */', null, `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
-    else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});
+    else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) playWhenFilmsMayLoad(video, () => !reducedMotion.matches && !abort.signal.aborted);
   });
   listen(reducedMotion, 'change', syncMotionMedia);
   syncMotionMedia();
@@ -210,7 +217,7 @@ runtime = cut(runtime, '  /* adapter: end */', null, `  return {\n    destroy() 
 const imports = [...assets.values()].map(({name, absolute}) => `import ${name} from ${JSON.stringify(path.relative(output, absolute).replaceAll('\\', '/'))};`).join('\n');
 const files = {
   'markup.ts': `// Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.\n${imports}\nimport { heroStartMarkup, homepageSectionsMarkup, mastheadSubscribeMarkup } from "@/components/homepage-release/homepageSections";\nexport const homepageMarkup = \`${markup}\`;\n`,
-  'runtime.js': `// Generated delivery adapter. Approved source remains unchanged.\n${imports}\n${runtime}`,
+  'runtime.js': `// Generated delivery adapter. Approved source remains unchanged.\n${imports}\nimport { playWhenFilmsMayLoad } from "@/lib/filmGate";\n${runtime}`,
   'runtime.d.ts': `export interface HomepageRuntime {\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
 };
 for (const name of ['component-styles.css', 'page.css']) {

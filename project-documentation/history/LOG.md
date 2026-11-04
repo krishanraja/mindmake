@@ -7,6 +7,12 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-11-04
 
+- First-visit speed (Krish: pictures took up to ten seconds on his phone). On
+  Slow 4G at 390x844 the slowest picture went from 9.7 s to 1.6 s on
+  /ai-brain and from 3.3 s to 1.7 s on the homepage; pictures sent to phones
+  fell from 507 KB to 245 KB on the homepage and 1,200 KB to 164 KB on
+  /ai-brain; films wait for the page to load. New gate `qa:first-visit`.
+  Ledger row `S7-SPEED-001`.
 - S7 from Krish's review of the live site: every finder story card on its own
   picture (three stills generated on Higgsfield, GPT Image 2.5, two variants
   each, 9 credits: `one-way-receiver`, `method-sight`, `switch-panel`; the

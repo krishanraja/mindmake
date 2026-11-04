@@ -8,7 +8,9 @@ import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import fixture from "@/data/vnext/brain-fixture.json";
 import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4";
 import lockedDocument from "../../prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html?raw";
-import evidencePoster from "../../prototypes/website-redesign-recovery/brain-signature/media/evidence-connects-poster.png";
+/* The poster as a 1280-wide webp, 33 KB, where the PNG was 901 KB and took
+   ten seconds on a phone (Krish, 2026-11-04). */
+import evidencePoster from "@/assets/responsive/evidence-connects-poster-w1280.webp";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import { Receipt } from "@/components/mindmake/Receipt";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";

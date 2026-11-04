@@ -1,3 +1,4 @@
+import { filmsMayLoad } from "@/lib/filmGate";
 import { useEffect, useRef, useState } from "react";
 import { useAmbientMotion } from "@/hooks/useAmbientMotion";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
@@ -114,7 +115,10 @@ export function FilmPlate({
   );
 
   const hasFilm = Boolean(src || srcWebm);
-  const showLoop = hasFilm && !clickToPlay && motion && near;
+  /* Films wait for the page's pictures and skip slow lines (src/lib/filmGate.ts). */
+  const [filmsOk, setFilmsOk] = useState(false);
+  useEffect(() => { let live = true; void filmsMayLoad().then((ok) => { if (live) setFilmsOk(ok); }); return () => { live = false; }; }, []);
+  const showLoop = hasFilm && !clickToPlay && motion && near && filmsOk;
 
   return (
     <div

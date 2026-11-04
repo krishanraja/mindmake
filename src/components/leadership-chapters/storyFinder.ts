@@ -1,6 +1,7 @@
 import { clientStories } from "@/data/rebuildProof";
 import { publishableTestimonials } from "@/data/testimonials";
 import { START_LABEL } from "@/lib/publicLinks";
+import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import type { LeadershipStory } from "./leadershipChapters";
 
 /**
@@ -55,7 +56,11 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
   const record = story.record ? clientStories.find((entry) => entry.id === story.record) : undefined;
   if (story.record && !record) throw new Error(`No result on the record with id "${story.record}"`);
   const voice = story.quote ? publishableTestimonials.find((entry) => entry.id === story.quote!.testimonialId) : undefined;
-  const plate = `<img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" />`;
+  /* A phone downloads the size its card shows, over a blurred placeholder of
+     the scene (Krish, 2026-11-04: pictures took up to ten seconds). */
+  const srcset = srcsetFor(story.scene, 800);
+  const placeholder = placeholderFor(story.scene);
+  const plate = `<img src="${esc(story.scene)}"${srcset ? ` srcset="${esc(srcset)}" sizes="(max-width: 620px) 300px, (max-width: 1279px) 42vw, 30vw"` : ""} alt="" width="800" height="800" loading="lazy" decoding="async"${placeholder ? ` style="background:#0a1712 url(${placeholder}) center / cover"` : ""} />`;
   /* The scene lies behind the whole card, clearest in the band at the top
      where no words sit; the card's ink thickens under the words. */
   const faceVisual = `<span class="finder-plate" aria-hidden="true">${plate}</span>`;

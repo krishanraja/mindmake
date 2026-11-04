@@ -53,6 +53,8 @@ const ROOT_MARGIN = "0px 0px -12% 0px";
  * thirty.
  */
 const pending = new Set<HTMLElement>();
+/** Each pending element's own reveal, so the sweep announces it as the observer would. */
+const watchers = new Map<HTMLElement, () => void>();
 let frame = 0;
 let listening = false;
 
@@ -61,8 +63,9 @@ function sweep() {
   const viewport = window.innerHeight;
   for (const element of [...pending]) {
     if (element.getBoundingClientRect().top < viewport) {
-      element.dataset.reveal = "shown";
-      pending.delete(element);
+      const show = watchers.get(element);
+      if (show) show();
+      else { element.dataset.reveal = "shown"; pending.delete(element); }
     }
   }
   if (pending.size === 0) stopSweeping();
@@ -93,6 +96,73 @@ const reducedMotion = (): boolean =>
   && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
+ * Marks an element to arrive as it is read, outside React (the homepage's
+ * sections are markup the R3 adapter writes, so they cannot hold a hook).
+ * The same guarantees as the hook below, which calls this: nothing is hidden
+ * without an observer, under reduced motion or once on screen, and a scroll
+ * sweep reveals anything the reader reaches. `onShown` runs once, when the
+ * element arrives or straight away when it was never hidden. Returns the
+ * cleanup, which reveals the element.
+ */
+export function revealOnArrival(element: HTMLElement, index = 0, onShown?: () => void): () => void {
+  let done = false;
+  const announce = () => { if (!done) { done = true; onShown?.(); } };
+  if (typeof window === "undefined") return () => undefined;
+
+  const show = () => {
+    element.dataset.reveal = "shown";
+    pending.delete(element);
+    if (pending.size === 0) stopSweeping();
+    announce();
+  };
+
+  /* No observer, or a visitor who asked for stillness: the element keeps the
+     revealed state it was rendered in. */
+  if (reducedMotion() || typeof IntersectionObserver !== "function") { announce(); return () => undefined; }
+
+  /* Already on screen, or scrolled past: never hidden. Somebody arriving from
+     a search result at the middle of a page is looking at this element now,
+     and an entrance it has already missed is just a blank space. */
+  const box = element.getBoundingClientRect();
+  if (box.top < window.innerHeight) { announce(); return () => undefined; }
+
+  element.dataset.reveal = "pending";
+  element.style.setProperty("--mm-reveal-i", String(index));
+  pending.add(element);
+  watchers.set(element, show);
+  startSweeping();
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      show();
+      observer.disconnect();
+    }
+  }, { rootMargin: ROOT_MARGIN });
+  observer.observe(element);
+
+  const motionQuery = typeof window.matchMedia === "function"
+    ? window.matchMedia("(prefers-reduced-motion: reduce)")
+    : null;
+  const onPreferenceChange = () => {
+    if (reducedMotion()) {
+      show();
+      observer.disconnect();
+    }
+  };
+  motionQuery?.addEventListener?.("change", onPreferenceChange);
+
+  return () => {
+    motionQuery?.removeEventListener?.("change", onPreferenceChange);
+    observer.disconnect();
+    watchers.delete(element);
+    /* Revealed on the way out, so an element that unmounts mid-reveal cannot
+       be remounted into a hidden state by a stale attribute. */
+    show();
+  };
+}
+
+/**
  * Marks an element to arrive as it is read.
  *
  * The element carries `data-reveal="shown"` at all times except the window
@@ -106,56 +176,7 @@ export function useReveal<T extends HTMLElement>(index = 0) {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    if (typeof window === "undefined") return;
-
-    const show = () => {
-      element.dataset.reveal = "shown";
-      pending.delete(element);
-      if (pending.size === 0) stopSweeping();
-    };
-
-    /* No observer, or a visitor who asked for stillness: the element keeps the
-       revealed state it was rendered in and this hook does nothing at all. */
-    if (reducedMotion() || typeof IntersectionObserver !== "function") return;
-
-    /* Already on screen, or scrolled past: never hidden. Somebody arriving from
-       a search result at the middle of a page is looking at this element now,
-       and an entrance it has already missed is just a blank space. */
-    const box = element.getBoundingClientRect();
-    if (box.top < window.innerHeight) return;
-
-    element.dataset.reveal = "pending";
-    element.style.setProperty("--mm-reveal-i", String(index));
-    pending.add(element);
-    startSweeping();
-
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        show();
-        observer.disconnect();
-      }
-    }, { rootMargin: ROOT_MARGIN });
-    observer.observe(element);
-
-    const motionQuery = typeof window.matchMedia === "function"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)")
-      : null;
-    const onPreferenceChange = () => {
-      if (reducedMotion()) {
-        show();
-        observer.disconnect();
-      }
-    };
-    motionQuery?.addEventListener?.("change", onPreferenceChange);
-
-    return () => {
-      motionQuery?.removeEventListener?.("change", onPreferenceChange);
-      observer.disconnect();
-      /* Revealed on the way out, so an element that unmounts mid-reveal cannot
-         be remounted into a hidden state by a stale attribute. */
-      show();
-    };
+    return revealOnArrival(element, index);
   }, [index]);
 
   return ref;

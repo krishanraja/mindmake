@@ -23,7 +23,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                   <h1><span class="mm-hero-line"><span class="mm-hero-row">Promote <span class="mm-hero-your">your</span> AI</span> <span class="mm-hero-row">from intern to</span> <span class="mm-hero-row">chief of staff.</span></span></h1>
                   <p class="hero-lede">The leaders who shape the next decade will have an AI that thinks like them. We build yours.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
-                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, running as a system you own.</small><i>↗</i></a>
+                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your private intelligence layer.</small><i>↗</i></a>
                     <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI revenue engine</strong><small>The pricing, positioning and team you'll need.</small><i>↗</i></a>
                   </div>${heroStartMarkup()}
                 </div>
@@ -45,7 +45,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                   <h1><span class="mm-hero-line"><span class="mm-hero-row">Promote <span class="mm-hero-your">your</span> AI</span> <span class="mm-hero-row">from intern to</span> <span class="mm-hero-row">chief of staff.</span></span></h1>
                   <p class="hero-lede">The leaders who shape the next decade will have an AI that thinks like them. We build yours.</p>
                   <div class="route-doors" role="group" aria-label="Choose a Mindmake route">
-                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your judgement, running as a system you own.</small><i>↗</i></a>
+                    <a href="/ai-brain" data-route-choice="brain"><span>Build your</span><strong>AI brain</strong><small>Your private intelligence layer.</small><i>↗</i></a>
                     <a href="/ai-gtm" data-route-choice="gtm"><span>Build your</span><strong>AI revenue engine</strong><small>The pricing, positioning and team you'll need.</small><i>↗</i></a>
                   </div>${heroStartMarkup()}
                 </div>

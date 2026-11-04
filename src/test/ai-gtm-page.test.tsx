@@ -44,8 +44,8 @@ describe("/ai-gtm on the server", () => {
        exist". */
     expect(html.match(/<h1\b/g)).toHaveLength(1);
     const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>"));
-    expect(text(h1).trim()).toBe("Make your pricing, positioning and team AI-native.");
-    const lede = body.indexOf("Your customers have changed how they buy.");
+    expect(text(h1).trim()).toBe("Build a growth strategy that survives AI, and a team that can manage agents.");
+    const lede = body.indexOf("We work with commercial leaders in media businesses");
     expect(lede).toBeGreaterThan(body.indexOf("<h1"));
     expect(body.indexOf("Where are you starting from?")).toBeGreaterThan(lede);
     expect(body.indexOf("You can feel it in four places.")).toBeGreaterThan(body.indexOf("Where are you starting from?"));

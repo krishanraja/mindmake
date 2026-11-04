@@ -72,9 +72,9 @@ const SHIFT = {
    is probably actually the top headline", and "I like leading with the
    urgency"). */
 const OPENING = {
-  heading: "Make your pricing, positioning and team",
-  accent: "AI-native.",
-  lede: "Your customers have changed how they buy. We change how you sell to match, then test it with real buyers.",
+  heading: "Build a growth strategy that survives AI, and a team that can manage",
+  accent: "agents.",
+  lede: "We work with commercial leaders in media businesses who need to make fast, reliable decisions on how to pivot their revenue and customer experience strategy for an AI world.",
   question: "Where are you starting from?",
 };
 
@@ -194,7 +194,7 @@ const LEVER_STEPS: LeverStep[] = LEVERS.map((key) => ({
 
 const PLAN = [
   { when: "Week 1", what: "We map all four", detail: "What AI changes for your product, price, positioning and people.", days: [1, 7] as const },
-  { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "And test it with real buyers.", days: [8, 28] as const },
+  { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "The gold standard testing frameworks being employed by the most successful peers of yours right now, sandboxed and tested. We extend the sprint until this is delivered.", days: [8, 28] as const },
   { when: "Day 30", what: "You keep it", detail: "The model, the evidence and anything we built.", days: [29, 30] as const },
 ];
 
@@ -280,7 +280,6 @@ export default function AiGtm() {
           steps={PLAN}
           keeps={KEEPS}
           menu={MENU}
-          note="We agree which of these go into your 30 days, and the fee, before work starts."
         >
           <ProofBand quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} story={copy.proof.story} />
           <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />

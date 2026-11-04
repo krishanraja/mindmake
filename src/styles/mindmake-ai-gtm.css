@@ -9,7 +9,7 @@
    the approved chapter surfaces set their text and paper in (the homepage
    chapters, /new-age-leadership and /ai-brain all use it), and the washes
    that keep text readable over film. Everything else reads a token. Key words
-   take the italic mint (the h1's "AI-native.").
+   take the upright mint (the h1's "AI-native.").
 
    Ruling (Krish, 2026-10-24): three sections, nothing pinned, nothing that
    changes size when a reader makes a choice. Every part that swaps (a lever
@@ -53,7 +53,7 @@
 .mm-site .mm-gtm :is(h1, h2, h3) { color: inherit; }
 .mm-site .mm-gtm :is(h1, h2) em {
   color: var(--mm-mint);
-  font-style: italic;
+  font-style: normal;
 }
 .mm-gtm :where(ul, ol) { margin: 0; padding: 0; list-style: none; }
 .mm-gtm .mm-on-paper {
@@ -286,6 +286,7 @@
 }
 .gtm-lever-way[data-active="false"] { visibility: hidden; opacity: 0; }
 .gtm-lever-was {
+  text-wrap: balance;
   color: var(--gtm-cream-3);
   font-size: 16px;
   line-height: 1.4;
@@ -606,7 +607,7 @@
 .gtm-quote {
   max-width: 1000px;
   margin: 0;
-  font: italic 400 clamp(24px, 2.6vw, 40px)/1.15 var(--mm-serif);
+  font: normal 400 clamp(24px, 2.6vw, 40px)/1.15 var(--mm-serif);
   letter-spacing: -.025em;
 }
 .gtm-proof-result {
@@ -691,4 +692,127 @@
   .mm-site .gtm-view-switch button,
   .gtm-door,
   .gtm-door-mark { transition: none; }
+}
+
+/* One section, one screen (Krish, 2026-11-04: "every section needs to fit on
+   a screen"). Measured at 1440x900, 1280x800, 390x844 and 360x780 below the
+   fixed masthead. On a desktop: less padding and smaller headings. On a phone
+   the four places, and the plan's deliverables, become one row to swipe, so a
+   section is one card tall rather than four. */
+.mm-gtm { --gtm-section: clamp(32px, 6vh, 64px); }
+.mm-site .gtm-opening h1 { max-width: 20ch; font-size: clamp(36px, min(5.2vw, 8.4vh), 82px); text-wrap: balance; }
+.gtm-opening-deck { max-width: 44ch; font-size: clamp(18px, min(1.6vw, 2.8vh), 24px); text-wrap: pretty; }
+.gtm-opening-body { row-gap: clamp(16px, 3vh, 36px); }
+.gtm-levers-body { gap: clamp(16px, 2.6vh, 30px); }
+.mm-site .gtm-levers-title { font-size: clamp(28px, min(3vw, 5.4vh), 48px); }
+.gtm-lever { margin-bottom: 12px; padding: clamp(14px, 1.6vw, 22px); }
+.gtm-lever-name { margin-bottom: 8px; }
+.gtm-lever-now { font-size: clamp(20px, min(1.7vw, 3vh), 26px); text-wrap: pretty; }
+.gtm-felt { margin-top: 10px; padding-top: 10px; text-wrap: pretty; }
+.mm-site .gtm-team-head h2 { font-size: clamp(28px, min(3.2vw, 5.4vh), 50px); text-wrap: balance; }
+.gtm-team-body { row-gap: clamp(14px, 2.4vh, 26px); }
+.mm-site .role-cell { padding-block: 9px; }
+.gtm-plan-body { gap: clamp(14px, 2.2vh, 24px); }
+.mm-site .gtm-plan-title { font-size: clamp(28px, min(3.2vw, 5.4vh), 50px); }
+.plan-days li { height: clamp(12px, 1.8vh, 20px); }
+.gtm-plan-detail { text-wrap: pretty; }
+.gtm-proof-figure { margin-top: 0; gap: 10px; padding-top: clamp(14px, 2vh, 22px); }
+.gtm-quote { font-size: clamp(21px, min(2vw, 3.4vh), 32px); text-wrap: pretty; }
+
+@media (max-width: 699px) {
+  .lever-steps {
+    grid-template-columns: none;
+    grid-template-rows: auto auto auto;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    margin-inline: calc(var(--mm-edge) * -1);
+    padding-inline: var(--mm-edge);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--mm-edge);
+    scrollbar-width: none;
+  }
+  .lever-steps::-webkit-scrollbar { display: none; }
+  .gtm-lever { margin-bottom: 0; scroll-snap-align: start; }
+  .gtm-door { padding-block: 10px; }
+  .gtm-plan-menu {
+    flex-wrap: nowrap;
+    margin-inline: calc(var(--mm-edge) * -1);
+    padding-inline: var(--mm-edge);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .gtm-plan-menu::-webkit-scrollbar { display: none; }
+  .gtm-plan-menu li { flex: 0 0 auto; white-space: nowrap; }
+  .gtm-plan-steps { row-gap: 12px; }
+  .mm-site .gtm-plan-what { font-size: 22px; }
+  .gtm-plan-detail { font-size: 15px; line-height: 1.4; }
+  .gtm-quote { font-size: 20px; }
+}
+@media (max-width: 699px) {
+  /* The team: each role's kind shows in its edge colour, so the small label
+     gives its room back; two columns stay. */
+  .mm-site .gtm-team-head h2 { font-size: clamp(26px, 7.4vw, 30px); }
+  .mm-site .role-cell { padding: 8px 10px; }
+  .gtm-team .role-kind { display: none; }
+  .role-title { font-size: 16px; }
+  .role-line { font-size: 12.5px; line-height: 1.3; }
+  .team-instrument { gap: 10px; padding: 10px; }
+  .decision-panel { padding: 12px 14px; }
+  .mm-site .decision-panel h3,
+  .decision-sizer-q { font-size: 18px; }
+  /* The plan: the day strip is decoration and the three steps swipe. */
+  .plan-days { display: none; }
+  .gtm-plan-steps {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    column-gap: 12px;
+    margin-inline: calc(var(--mm-edge) * -1);
+    padding-inline: var(--mm-edge);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--mm-edge);
+    scrollbar-width: none;
+  }
+  .gtm-plan-steps::-webkit-scrollbar { display: none; }
+  .gtm-plan-step { scroll-snap-align: start; padding: 12px 14px; border: 1px solid var(--gtm-line); }
+  .gtm-plan .mm-receipt-items { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gtm-plan .mm-receipt-items li { grid-template-columns: none; gap: 6px; padding: 10px 12px; border-top: 0; border-left: 1px solid rgba(19, 28, 23, .16); font-size: 16px; }
+  .gtm-plan .mm-receipt-items li:first-child { border-left: 0; }
+  .gtm-plan .mm-receipt-head { padding: 10px 12px; }
+}
+/* A desktop: what stays with you and the client's result sit side by side,
+   the receipt beside its proof. */
+@media (min-width: 900px) {
+  .gtm-plan-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(20px, 3vw, 48px); }
+  .gtm-plan-body > * { grid-column: 1 / -1; }
+  .gtm-plan-body > .mm-receipt { grid-column: 1; align-self: start; }
+  .gtm-plan-body > .gtm-proof-figure { grid-column: 2; padding-top: 0; border-top: 0; }
+  .gtm-plan-body > .mm-pairing { margin-top: 0; }
+  .decision-panel { padding-block: 14px; }
+  .team-instrument { gap: 10px; }
+}
+@media (max-width: 699px) {
+  .gtm-plan-body { gap: 12px; }
+  .gtm-plan .mm-receipt-tag { display: none; }
+  .gtm-plan-detail { font-size: 14.5px; }
+  .gtm-proof-figure { gap: 8px; }
+  .gtm-proof-who { gap: 4px 16px; }
+  .mm-pairing-line { font-size: 14px; }
+  .team-instrument-head { flex-wrap: nowrap; }
+  .gtm-team-tally { font-size: 12px; letter-spacing: .06em; }
+}
+@media (max-width: 699px) {
+  .mm-site .gtm-plan-title { font-size: 26px; }
+  .gtm-plan-step { padding: 10px 12px; }
+  .gtm-quote { font-size: 18px; line-height: 1.25; }
+  .gtm-proof-result { font-size: 15px; }
+  .gtm-plan .mm-receipt-items li { font-size: 15px; }
+  .gtm-plan .mm-receipt-check { width: 20px; height: 20px; }
+  .mm-site .decision-panel h3,
+  .decision-sizer-q { font-size: 17px; }
+  .gtm-decision-note { font-size: 13.5px; }
 }

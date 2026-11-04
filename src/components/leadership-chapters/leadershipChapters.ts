@@ -20,6 +20,9 @@ import voicePlate from "@/assets/stories/voice-pipe-r01-800.webp";
 import folioPlate from "@/assets/stories/shared-folio-r01-800.webp";
 import stencilPlate from "@/assets/stories/stencil-correction-r01-800.webp";
 import orreryPlate from "@/assets/stories/orrery-alignment-r01-800.webp";
+import receiverPlate from "@/assets/stories/one-way-receiver-r01-800.webp";
+import sightPlate from "@/assets/stories/method-sight-r01-800.webp";
+import switchPlate from "@/assets/stories/switch-panel-r01-800.webp";
 import { mountStoryFinder, storyFinderMarkup } from "./storyFinder";
 
 /**
@@ -66,10 +69,8 @@ export interface LeadershipStory {
   /** The client's result on the record, by its id in clientStories. */
   record?: string;
   quote?: { testimonialId: string; text: string };
-  /** A generated scene from the instrument room: mood, never evidence. */
-  scene?: string;
-  /** Where a story has no scene: where it started and where it ended, in the record's public words. */
-  figure?: { was: string; now: string };
+  /** A generated scene from the instrument room: mood, never evidence. Every story has one. */
+  scene: string;
 }
 
 /* Holds words on one line wherever they are set: "once a month" in the
@@ -113,14 +114,14 @@ export const leadershipStories: readonly LeadershipStory[] = [
     situation: `A senior insurance leader used to hear her industry's news by networking. She can do far less of that now, and cannot share customer data.`,
     happened: `We built her ${keep("a one-way")} feed: the world outside her business, brought to her. Nothing goes out, so no customer data leaves.`,
     outcome: `She feels more informed, and no customer data ever leaves her business.`,
-    figure: { was: "News picked up while networking", now: "Her market, brought to her" },
+    scene: receiverPlate,
   },
   {
     heading: `An investor buying companies now watches his market through his own method.`,
     situation: `An investor looking to buy companies reads the market with his own method. More investors are moving into his area.`,
     happened: `We turned his method into ${keep("a system")} that watches for the outside signals it looks for, so his reading of the market keeps up.`,
     outcome: `It flags the signals he looks for, so he can stay ahead as more investors move into his area.`,
-    figure: { was: "More investors crowding his area", now: "His method, running for him" },
+    scene: sightPlate,
   },
   {
     heading: `A CEO who read many newsletters every morning now gets one briefing.`,
@@ -218,7 +219,7 @@ export const leadershipStories: readonly LeadershipStory[] = [
     happened: `We tied every AI choice back to the business. Eleven of the fourteen tools stopped, and the budget stayed.`,
     outcome: `Its first working system went live inside 90 days.`,
     record: "business-first",
-    figure: { was: "Fourteen AI tools on the go", now: "Eleven stopped, and one working system live" },
+    scene: switchPlate,
   },
 ];
 

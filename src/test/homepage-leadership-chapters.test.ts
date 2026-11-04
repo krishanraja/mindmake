@@ -16,7 +16,7 @@ describe("the homepage in three sections", () => {
     expect(at('id="hs-problem-title"')).toBeGreaterThan(at('id="opening"'));
     expect(at('id="footer"')).toBeGreaterThan(at('id="hs-get-title"'));
     const sections = homepageSectionsMarkup();
-    const order = ["All new technologies need mindshifts from us.", "An AI chief of staff knows how you think.", "We build yours, and teach you to grow it in 30 days."].map((title) => sections.indexOf(title));
+    const order = ["Every new technology asks us to change how we think.", "An AI chief of staff knows how you think.", "We build yours with you in 30 days, and teach you to grow it."].map((title) => sections.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
     expect(sections.match(/<section\b/g)).toHaveLength(3);
     expect(sections).toContain('id="history"');
@@ -36,10 +36,10 @@ describe("the homepage in three sections", () => {
     const hero = heroStartMarkup();
     expect(hero).toContain('data-start-route="brain"');
     expect(hero).toContain("Start building your AI brain");
-    expect(hero).toContain("From OUR MEDIA CHANNEL:");
+    expect(hero).toContain("From our publication");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next decade will 10x themselves with AI, so they set the pace.");
+    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves ten times better, and set the pace.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {
@@ -64,14 +64,19 @@ describe("the homepage in three sections", () => {
     expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("shows the organisation still, and the practice scenes as pictures, with no film to play", () => {
+  it("shows the organisation still, and the practice scenes as three still tiles, with no film to play", () => {
     const sections = homepageSectionsMarkup();
     expect(sections).toContain('class="hybrid-organisation is-active"');
     expect(sections).toContain(organisationGridMarkup);
     expect(sections).not.toContain("<video");
     const root = document.createElement("div");
     root.innerHTML = sections;
-    expect(root.querySelectorAll('.hs-trio img[alt=""]')).toHaveLength(3);
+    /* Krish, 2026-11-04: the "When built right" carousel folds into the
+       "AI carries" line as three still tiles; no heading, no controls. */
+    expect(root.querySelectorAll('.hs-acts > li > img.hs-card-img[alt=""]')).toHaveLength(3);
+    expect([...root.querySelectorAll(".hs-acts b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
+    expect(root.querySelector(".hs-how [data-hs-rail]")).toBeNull();
+    expect(sections).not.toContain("When built right");
   });
 
   it("puts each era and each result on its own picture, decorative and loaded when near", () => {
@@ -92,13 +97,12 @@ describe("the homepage in three sections", () => {
     expect(new Set(results.map((image) => image.getAttribute("src"))).size).toBe(3);
   });
 
-  it("runs the eras and the practice scenes as carousels with a timeline of their stops, oldest first", () => {
+  it("runs the eras as a carousel with a timeline of their stops, oldest first", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
     const rails = [...root.querySelectorAll<HTMLElement>("[data-hs-rail]")];
-    expect(rails).toHaveLength(2);
+    expect(rails).toHaveLength(1);
     expect([...rails[0].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["370 BC", "1675", "1970s", "2000s"]);
-    expect([...rails[1].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["Notice", "Connect", "Prepare"]);
     for (const rail of rails) {
       expect(rail.querySelector('[data-hs-rail-step="-1"]')?.getAttribute("aria-label")).toMatch(/^Previous /);
       expect(rail.querySelector('[data-hs-rail-step="1"]')?.getAttribute("aria-label")).toMatch(/^Next /);

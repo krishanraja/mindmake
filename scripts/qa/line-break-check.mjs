@@ -71,7 +71,6 @@ const STATES = {
   "/": [
     { name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] },
     { name: "era rail", setup: '.hs-problem [data-hs-rail-go="0"]', controls: '.hs-problem [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-problem [data-hs-rail-track]", frames: [".hs-problem .hs-rail"] },
-    { name: "scene rail", setup: '.hs-how [data-hs-rail-go="0"]', controls: '.hs-how [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-how [data-hs-rail-track]", frames: [".hs-how .hs-rail"] },
   ],
   "/ai-brain": [
     { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },

@@ -2,7 +2,7 @@
 
 Status: approved-r3-live
 Working-copy status: matches main and production
-Updated: 26 October 2026.
+Updated: 4 November 2026.
 
 The latest application release is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
@@ -11,6 +11,24 @@ identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## S7: one screen per section, plain words, upright type (4 November 2026)
+
+Krish's review of the live site on 4 November 2026 (feedback ledger rows
+`S7-PICTURES-001` to `S7-WRAP-001`). Every story card in "Where would you
+start?" lies on its own picture (three new generated stills: the insurance
+leader, the investor and the broadcaster). The homepage's "When built right"
+carousel is gone; its three pictures are still tiles (Notices, Connects,
+Prepares) under the AI carries line. Every section on `/` and `/ai-brain`, and
+every `/ai-gtm` section on a desktop, fits one screen below the masthead at
+1440x900, 1280x800, 390x844 and 360x780; on phones the results, the four
+places, the plan steps and the two Brain panels swipe. Still open: the
+`/ai-gtm` plan section on phones (885px at 390x844, 947px at 360x780) and its
+team section at 360x780 (786px). Copy is rewritten in plain words from
+Krish's 3 November v0 edits, with the Brain framed around what the leader wants
+to be good at, improve and catch up on, and no company data needed. Nothing is
+set in italic. The one story library across both products (Krish's question of
+4 November) is proposed and waits on a rendered mock.
 
 ## S6: three sections on every page (24 October 2026)
 

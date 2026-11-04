@@ -37,10 +37,6 @@ export const SITUATIONS: readonly Situation[] = [
 ];
 
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-/* The last two words travel together from the first paint, so no card or
-   line ends on one word alone, in a rail or a sheet keepLastWords has not
-   reached yet. Quotes are left exactly as spoken. */
-const tail = (text: string) => text.replace(/ (\S+)$/, "\u00a0$1");
 const plain = (text: string) => text.replaceAll("\u00a0", " ");
 
 export const storyByStart = (stories: readonly LeadershipStory[], start: string) => {
@@ -55,23 +51,21 @@ export const storyByStart = (stories: readonly LeadershipStory[], start: string)
 const startLink = (door: "brain" | "gtm") =>
   `<a class="finder-start" href="/?start=${door}" data-finder-start="${door}" data-mm-native>${START_LABEL} <span aria-hidden="true">→</span></a>`;
 
-/* Where it started and where it ended, for a story with no scene. */
-const figureMarkup = (figure: NonNullable<LeadershipStory["figure"]>, extra = "") =>
-  `<span class="finder-figure${extra}" aria-hidden="true"><span class="finder-was"><i>Before</i><span>${tail(esc(figure.was))}</span></span><span class="finder-now"><i>After</i><span>${tail(esc(figure.now))}</span></span></span>`;
-
 function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
   const record = story.record ? clientStories.find((entry) => entry.id === story.record) : undefined;
   if (story.record && !record) throw new Error(`No result on the record with id "${story.record}"`);
   const voice = story.quote ? publishableTestimonials.find((entry) => entry.id === story.quote!.testimonialId) : undefined;
-  const plate = story.scene ? `<img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" />` : "";
-  const faceVisual = plate ? `<span class="finder-plate" aria-hidden="true">${plate}</span>` : story.figure ? figureMarkup(story.figure) : "";
-  const fullVisual = plate ? `<figure class="finder-full-plate" aria-hidden="true">${plate}</figure>` : story.figure ? figureMarkup(story.figure, " is-full") : "";
+  const plate = `<img src="${esc(story.scene)}" alt="" width="800" height="800" loading="lazy" decoding="async" />`;
+  /* The scene lies behind the whole card, clearest in the band at the top
+     where no words sit; the card's ink thickens under the words. */
+  const faceVisual = `<span class="finder-plate" aria-hidden="true">${plate}</span>`;
+  const fullVisual = `<figure class="finder-full-plate" aria-hidden="true">${plate}</figure>`;
   const quote = story.quote ? `<blockquote>"${story.quote.text}"${voice ? `<cite>${esc(voice.role)}</cite>` : ""}</blockquote>` : "";
   const proof = record ? `<p class="finder-record"><a class="finder-proof" href="/case-studies#story=${record.id}">The full story\u00a0<span aria-hidden="true">→</span></a></p>` : "";
-  const face = `<span class="finder-face">${faceVisual}<span class="finder-heading">${tail(story.heading)}</span><span class="finder-outcome">${tail(story.outcome)}</span></span>`;
+  const face = `<span class="finder-face">${faceVisual}<span class="finder-heading">${story.heading}</span><span class="finder-outcome">${story.outcome}</span></span>`;
   /* The heading and the outcome are said once, on the card; the sheet borrows
      them when it opens, so a page without scripts never says them twice. */
-  const full = `<div class="finder-full">${fullVisual ? `<div class="finder-full-media">${fullVisual}</div>` : ""}<div class="finder-full-text"><p>${tail(story.situation)}</p><p data-finder-happened>${tail(story.happened)}</p>${quote}${proof}${startLink(door)}</div></div>`;
+  const full = `<div class="finder-full"><div class="finder-full-media">${fullVisual}</div><div class="finder-full-text"><p>${story.situation}</p><p data-finder-happened>${story.happened}</p>${quote}${proof}${startLink(door)}</div></div>`;
   return `<li class="finder-card"><details data-finder-card="${id}"><summary>${face}</summary>${full}</details></li>`;
 }
 

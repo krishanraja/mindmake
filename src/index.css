@@ -217,6 +217,14 @@
   border-color: hsl(var(--border));
 }
 
+
+/* Upright type everywhere (Krish, 2026-11-04: "make them not italic").
+   Emphasis keeps its colour and stands upright. Zero specificity, so any
+   component that styles its own emphasis still wins. */
+:where(em, i, cite, var, dfn, address) {
+  font-style: normal;
+}
+
 body {
   /* The ink, not the shadcn --background token.
    *

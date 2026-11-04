@@ -41,8 +41,9 @@ describe("AI Brain stories", () => {
     expect(sameClient({ ...joined[0], record: "no-such-result" })).toBe(false);
   });
 
-  it("gives every story a scene or, where it has none, its before and after", () => {
-    for (const story of leadershipStories) expect(Boolean(story.scene) || Boolean(story.figure), story.heading).toBe(true);
+  it("puts every story on its own scene (Krish, 2026-11-04: every card has a picture)", () => {
+    for (const story of leadershipStories) expect(story.scene, story.heading).toMatch(/\.webp$/);
+    expect(new Set(leadershipStories.map((story) => story.scene)).size).toBe(leadershipStories.length);
   });
 
   it("files every story under exactly one of five situations, at least three to each", () => {

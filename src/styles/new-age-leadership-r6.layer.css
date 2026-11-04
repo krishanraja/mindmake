@@ -605,29 +605,42 @@
   display: none;
 }
 
+/* Every card lies on its scene (Krish, 2026-11-04: "make sure all cards have
+ * a background image"). The picture fills the card and shows clearest in the
+ * band at the top, where no words sit; from the heading down the ink is never
+ * thinner than 90%, so the words keep their contrast whatever the picture
+ * holds, as on the homepage's result cards. */
 .finder-face {
+  --finder-band: clamp(150px, 13vw, 200px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   height: 100%;
-  padding: 0 0 20px;
+  padding: var(--finder-band) 0 22px;
   border: 1px solid rgba(178, 138, 72, .5);
-  background: rgba(6, 17, 13, .55);
+  background: #0a1712;
   transition: border-color .2s ease;
+}
+
+.finder-face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(8, 20, 15, .12) 0, rgba(8, 20, 15, .4) calc(var(--finder-band) - 70px), rgba(8, 20, 15, .9) calc(var(--finder-band) - 8px), rgba(8, 20, 15, .94) 100%);
 }
 
 .finder-card summary:hover .finder-face {
   border-color: var(--brass);
 }
 
-/* The scene, or for a result its figure: the same frame either way, so a
- * rail that mixes the two keeps one rhythm. */
-.finder-plate,
-.finder-figure {
-  display: block;
-  aspect-ratio: 4 / 3;
-  margin-bottom: 6px;
-  overflow: hidden;
+.finder-plate {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
 }
 
 .finder-plate img {
@@ -635,12 +648,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 30%;
+  filter: saturate(.85);
 }
 
 /* The tallest heading in the situation sets every heading's height (the
  * finder measures it), so each card's outcome starts on the same line. */
 .finder-heading {
   min-height: var(--finder-heading-h, 0px);
+  text-wrap: pretty;
   padding: 0 18px;
   color: var(--paper);
   font: 400 clamp(22px, 1.9vw, 28px) / 1.1 var(--serif);
@@ -650,6 +666,7 @@
 /* What changed: one line, the same on the card and in the whole story. */
 .finder-outcome {
   position: relative;
+  text-wrap: pretty;
   padding: 0 18px 0 42px;
   color: var(--mint);
   font: 400 clamp(16px, 1.25vw, 18px) / 1.38 var(--serif);
@@ -659,50 +676,6 @@
   content: "→" / "";
   position: absolute;
   left: 18px;
-}
-
-/* Before and after, in the record's words. */
-.finder-figure {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 18px;
-  padding: 22px 20px;
-  border-bottom: 1px solid rgba(178, 138, 72, .32);
-  background:
-    radial-gradient(120% 90% at 0% 0%, rgba(178, 138, 72, .24), transparent 62%),
-    #0a1a14;
-}
-
-.finder-was,
-.finder-now {
-  display: grid;
-  gap: 7px;
-}
-
-.finder-figure i {
-  font: normal 10px / 1 var(--mono);
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-
-.finder-was {
-  color: rgba(234, 223, 200, .6);
-  font: 400 clamp(16px, 1.25vw, 19px) / 1.25 var(--serif);
-}
-
-.finder-was i {
-  color: rgba(234, 223, 200, .46);
-}
-
-.finder-now {
-  color: var(--mint);
-  font: 400 clamp(23px, 2vw, 31px) / 1.08 var(--serif);
-  letter-spacing: -.01em;
-}
-
-.finder-now i {
-  color: rgba(157, 240, 200, .66);
 }
 
 .finder-card .finder-full {
@@ -850,12 +823,6 @@
   height: auto;
 }
 
-.finder-figure.is-full {
-  aspect-ratio: auto;
-  min-height: 220px;
-  margin: 0;
-  border: 1px solid rgba(178, 138, 72, .45);
-}
 
 .finder-sheet .finder-proof,
 .finder-proof {
@@ -980,10 +947,12 @@
   }
 }
 
-/* Wide enough for a situation's three stories side by side, nothing to page. */
+/* A wide desktop: two stories and the edge of the next, so each card's words
+ * keep a comfortable measure instead of three or four words to a line
+ * (Krish, 2026-11-04: "reduce the aggressive text wrapping"). */
 @media (min-width: 1280px) {
   .finder-card {
-    flex-basis: calc((100% - 28px) / 3);
+    flex-basis: calc((100% - 14px) / 2.25);
   }
 
   .finder-heading {
@@ -1019,14 +988,8 @@
     flex: 0 0 auto;
   }
 
-  .finder-plate,
-  .finder-figure {
-    aspect-ratio: 3 / 2;
-  }
-
-  .finder-figure {
-    gap: 14px;
-    padding: 18px;
+  .finder-face {
+    --finder-band: 128px;
   }
 }
 
@@ -1045,18 +1008,8 @@
     margin-bottom: 14px;
   }
 
-  .finder-plate,
-  .finder-figure {
-    aspect-ratio: 2 / 1;
-  }
-
-  .finder-figure {
-    gap: 10px;
-    padding: 14px 18px;
-  }
-
-  .finder-now {
-    font-size: 21px;
+  .finder-face {
+    --finder-band: 96px;
   }
 }
 
@@ -1095,4 +1048,12 @@
   .finder-sheet {
     display: none;
   }
+}
+
+/* Upright type everywhere (Krish, 2026-11-04: "make them not italic"). The R5
+ * prototype set its emphasis in italic; it keeps its mint and stands upright. */
+em,
+i,
+cite {
+  font-style: normal;
 }

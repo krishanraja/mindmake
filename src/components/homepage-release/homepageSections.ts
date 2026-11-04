@@ -46,8 +46,17 @@ const ERAS = [
   { when: "2000s · Satnav", stop: "2000s", image: satnavImage, question: "If the device knows the route, will we lose our sense of direction?", answer: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
 ] as const;
 
-/** The practice scenes' own names, as the timeline under their carousel. */
-const SCENE_STOPS = ["Notice", "Connect", "Prepare"] as const;
+/**
+ * What the AI carries, shown: the three practice scenes as still tiles under
+ * the "AI carries / You keep" line (Krish, 2026-11-04: the "When built right"
+ * carousel "feels a bit out of place... I like the imagery"). No heading, no
+ * controls, nothing that moves or changes size.
+ */
+const ACTS = [
+  { word: "Notices", line: "It spots what has changed before you ask." },
+  { word: "Connects", line: "It checks new facts against what you already know." },
+  { word: "Prepares", line: "It hands you the work, ready for your decision." },
+] as const;
 
 /** A result's picture is its story's own scene on /ai-brain, found by its record. */
 const sceneOf = (record: string) => leadershipStories.find((story) => story.record === record)?.scene ?? "";
@@ -68,7 +77,7 @@ const startButton = () => `<button type="button" class="hs-start-button" data-st
 
 /** The hero's way in and the publication line, after the doors (desktop and phone). */
 export function heroStartMarkup() {
-  return `<div class="hs-start">${startButton()}<small class="hs-start-note">Free and private.</small></div><p class="hs-issue"><span class="hs-issue-label">From OUR MEDIA CHANNEL:</span> <a class="hs-issue-title" href="${esc(latestIssue.url)}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">${esc(latestIssue.title)}</a> <a class="hs-issue-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">Get it free, three times a week <span aria-hidden="true">↗</span></a></p>`;
+  return `<div class="hs-start">${startButton()}<small class="hs-start-note">Free and private.</small></div><p class="hs-issue"><span class="hs-issue-label">From our publication</span> <a class="hs-issue-title" href="${esc(latestIssue.url)}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">${esc(latestIssue.title)}</a> <a class="hs-issue-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">Get it free, three times a week <span aria-hidden="true">↗</span></a></p>`;
 }
 
 /** The subscribe link beside the menu in the homepage masthead (Krish, 2026-10-24). */
@@ -95,10 +104,10 @@ const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
   : `<li>${cardImage(sceneOf(item.record))}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
 
 export function homepageSectionsMarkup() {
-  const trio = leadershipScenes.map(([, poster, title, line], index) => `<li><img src="${esc(poster)}" alt="" width="640" height="400" loading="lazy" decoding="async" /><small>0${index + 1}</small><h4>${title}</h4><p>${line}</p></li>`).join("");
-  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">All new technologies need mindshifts from us.</h2><p class="hs-lede">History shows that we deny new technologies. With intelligence, that's the fastest route to becoming replaceable. The only option is to leverage it to improve us, instead of only seeking 'easier' with AI.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who keep their judgement and use it in the world came out ahead.</p></div></section>
-      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows how you think.</h2><p class="hs-lede">Your AI brain is a durable, private data layer that makes sure your AI tools get smarter over time, not more forgetful. They etch your taste, standards and judgement into memory so that you can trust it, and become a real AI-era leader.</p><div class="nal-page mm-home-leadership hs-org"><div class="hybrid-organisation is-active"><p class="instrument-label"><span></span>New-age leadership</p>${organisationGridMarkup}</div></div><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><h3 class="hs-subtitle">When built right, <em>AI is our biggest level-up.</em></h3><div class="hs-rail" data-hs-rail><ol class="hs-trio" data-hs-rail-track tabindex="0" aria-label="What it does, in three scenes">${trio}</ol>${railNav("scene", SCENE_STOPS)}</div></div></section>
-      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours, and teach you to grow it in 30 days.</h2><p class="hs-lede">Your AI brain doesn't need sensitive company data ingested - your ideas and habits are enough to start.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><p class="hs-proof-links"><a href="/ai-brain#stories">See where you would start</a> <a href="/case-studies">Success stories</a></p><div class="hs-start">${startButton()}</div></div></section>
+  const acts = leadershipScenes.map(([, poster], index) => `<li>${cardImage(poster)}<b>${ACTS[index].word}</b><span>${ACTS[index].line}</span></li>`).join("");
+  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change how we think.</h2><p class="hs-lede">History shows we resist new technology at first. With AI, resisting is the fastest way to become replaceable. The answer is to use it to make yourself better, not only to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
+      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows how you think.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter over time instead of forgetting. It holds what you want to be good at, your taste and your standards, so you can trust its answers.</p><div class="nal-page mm-home-leadership hs-org"><div class="hybrid-organisation is-active"><p class="instrument-label"><span></span>New-age leadership</p>${organisationGridMarkup}</div></div><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><ul class="hs-acts" aria-label="What the AI carries, in three steps">${acts}</ul></div></section>
+      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in 30 days, and teach you to grow it.</h2><p class="hs-lede">It does not need your company's sensitive data. Your goals, ideas and habits are enough to start.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><p class="hs-proof-links"><a href="/ai-brain#stories">See where you would start</a> <a href="/case-studies">Success stories</a></p><div class="hs-start">${startButton()}</div></div></section>
       `;
 }
 

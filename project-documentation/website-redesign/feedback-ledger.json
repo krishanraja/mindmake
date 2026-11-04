@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-11-04",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -1720,6 +1720,120 @@
         "src/components/mindmake/LeadBrief.tsx",
         "src/styles/mindmake-brief.css",
         "src/test/LeadBrief.test.tsx"
+      ]
+    },
+    {
+      "id": "S7-PICTURES-001",
+      "exactFeedback": "We need generated images for the two \"Where to Start\" cards, and make sure all \"Where to Start\" cards have a background image.",
+      "source": "Krish, 4 November 2026, reviewing the live site with two screenshots (the homepage's \"When built right\" trio and two text-only story cards on /ai-brain).",
+      "surface": "/ai-brain",
+      "section": "Where would you start?",
+      "device": "all",
+      "element": "story cards",
+      "classification": "correction",
+      "requiredOutcome": "Every story card in the finder lies on its own instrument-room picture, clearest in a band at the top and under at least 90% ink where words sit; the insurance leader, the investor and the broadcaster (the third card that had none) gain generated pictures.",
+      "acceptanceTest": "src/test/leadership-stories.test.ts: every story has its own .webp scene; every finder card renders .finder-plate behind .finder-face at 1440x900 and 390x844.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Three stills generated on Higgsfield (GPT Image 2.5, two variants each, 9 credits, two existing plates as style references): one-way-receiver, method-sight, switch-panel. The Before/After figure fallback is retired.",
+      "evidence": [
+        "src/assets/stories/one-way-receiver-r01-800.webp",
+        "src/assets/stories/method-sight-r01-800.webp",
+        "src/assets/stories/switch-panel-r01-800.webp",
+        "src/components/leadership-chapters/storyFinder.ts",
+        "src/styles/new-age-leadership-r6.layer.css"
+      ]
+    },
+    {
+      "id": "S7-LEVELUP-001",
+      "exactFeedback": "The \"One Built Right\" section feels a bit out of place... I like the imagery and think that it would be a shame if we lost it entirely, but I feel like this just adds a section.",
+      "source": "Krish, 4 November 2026, reviewing the live site with two screenshots (the homepage's \"When built right\" trio and two text-only story cards on /ai-brain).",
+      "surface": "/",
+      "section": "How it works",
+      "device": "all",
+      "element": "the When built right carousel",
+      "classification": "correction",
+      "requiredOutcome": "No \"When built right\" heading or carousel; the three practice pictures stay as three still tiles under the AI carries / You keep line (Notices, Connects, Prepares).",
+      "acceptanceTest": "src/test/homepage-leadership-chapters.test.ts: three .hs-acts tiles, no rail in .hs-how, no \"When built right\".",
+      "status": "implemented-awaiting-review",
+      "resolution": "Folded as chosen by Krish in session (\"Fold into the AI-carries line\").",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css"
+      ]
+    },
+    {
+      "id": "S7-ONESCREEN-001",
+      "exactFeedback": "Every section needs to fit on a screen, which it doesn't right now.",
+      "source": "Krish, 4 November 2026, reviewing the live site with two screenshots (the homepage's \"When built right\" trio and two text-only story cards on /ai-brain).",
+      "surface": "/, /ai-brain, /ai-gtm",
+      "section": "every section",
+      "device": "all",
+      "element": "section height",
+      "classification": "correction",
+      "requiredOutcome": "Each section is no taller than the screen below the fixed masthead at 1440x900, 1280x800, 390x844 and 360x780.",
+      "acceptanceTest": "Measured in Chromium after the build: every section on / and /ai-brain, and every /ai-gtm section on a desktop, fits; on /ai-gtm phones the plan section remains 885px at 390x844 and 947px at 360x780, and the team section 786px at 360x780 (open).",
+      "status": "implemented-awaiting-review",
+      "resolution": "Two-line headings, less section padding, the organisation beside the words on a desktop, receipt beside proof on /ai-gtm, and phone swipe rows for the results, the four places, the plan steps and the two Brain panels.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.css",
+        "src/styles/mindmake-brain-s6.css",
+        "src/styles/mindmake-ai-gtm.css"
+      ]
+    },
+    {
+      "id": "S7-PLAIN-001",
+      "exactFeedback": "Every sentence needs to be clear and able to be understood by anyone... reduce wording that suggests we build the brain on their work... the AI brain is more about what they want to be good at, what they want to be better at, what they're not the best at, what they feel behind on, and making their AI tool trustworthy for the decisions they need to make.",
+      "source": "Krish, 4 November 2026, reviewing the live site with two screenshots (the homepage's \"When built right\" trio and two text-only story cards on /ai-brain).",
+      "surface": "/, /ai-brain, /ai-gtm",
+      "section": "all copy",
+      "device": "all",
+      "element": "sentences",
+      "classification": "correction",
+      "requiredOutcome": "Plain sentences that keep the meaning of Krish's 3 November v0 edits; the Brain framed around what the leader wants to be good at, improve and catch up on, and trusting the AI for their decisions; no claim that it needs company data.",
+      "acceptanceTest": "Before/after table in the pull request; qa:plain-language passes; no banned words (\"leverage\").",
+      "status": "implemented-awaiting-review",
+      "resolution": "Rewritten lines listed in the pull request; \"leverage\", \"etch\", \"data layer\", \"ingested\" and \"OUR MEDIA CHANNEL\" removed.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.ts",
+        "scripts/qa/build-homepage-release.mjs",
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiGtm.tsx"
+      ]
+    },
+    {
+      "id": "S7-UPRIGHT-001",
+      "exactFeedback": "Remove all italic fonts. ... i mean make them not italic",
+      "source": "Krish, 4 November 2026, reviewing the live site with two screenshots (the homepage's \"When built right\" trio and two text-only story cards on /ai-brain).",
+      "surface": "every page",
+      "section": "all",
+      "device": "all",
+      "element": "emphasis",
+      "classification": "correction",
+      "requiredOutcome": "No text renders italic; emphasis keeps its colour and stands upright.",
+      "acceptanceTest": "No font-style: italic left in source stylesheets; a zero-specificity base rule sets em, i, cite upright.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Italic declarations set to normal in six source files; base rule in src/index.css and the R6 layer.",
+      "evidence": [
+        "src/index.css",
+        "src/styles/new-age-leadership-r6.layer.css"
+      ]
+    },
+    {
+      "id": "S7-WRAP-001",
+      "exactFeedback": "Fix up the stability of the components, reduce the aggressive text wrapping, and ensure that everything is aligned and stable visually.",
+      "source": "Krish, 4 November 2026, reviewing the live site with two screenshots (the homepage's \"When built right\" trio and two text-only story cards on /ai-brain).",
+      "surface": "/ai-brain, /",
+      "section": "story cards, tiles",
+      "device": "all",
+      "element": "text measure and alignment",
+      "classification": "correction",
+      "requiredOutcome": "Story cards hold a comfortable measure (two and a peek across a wide desktop), no forced word-gluing on the cards, equal card heights, and nothing changes size on a tap.",
+      "acceptanceTest": "qa:line-breaks passes at the four viewports, clicking every control.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Removed the static last-word gluing on story cards in favour of text-wrap: pretty plus the runtime keepLastWords; wider cards; tiles in a fixed grid.",
+      "evidence": [
+        "src/components/leadership-chapters/storyFinder.ts",
+        "src/styles/new-age-leadership-r6.layer.css"
       ]
     }
   ]

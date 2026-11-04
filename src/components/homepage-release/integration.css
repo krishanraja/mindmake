@@ -612,7 +612,7 @@ body.mm-homepage-active { margin: 0; }
    smaller than the era questions under it and its lede was the questions'
    serif in mint at reading size, so nothing marked the start of the chapter.
    The headline now leads the chapter's scale, the lede steps back to a quiet
-   cream, and the closing sentence stands on its own line in mint italic. */
+   cream, and the closing sentence stands on its own line in mint, upright. */
 .mm-homepage-release .r3-history .history-frame[data-bridge-treatment="contrast"] .bridge h2 { line-height: .96; letter-spacing: -.045em; text-wrap: balance; }
 .mm-homepage-release .r3-history .device-desktop .history-frame[data-bridge-treatment="contrast"] .bridge h2 { max-width: 26ch; font-size: clamp(32px, 3.7cqw, 60px); }
 .mm-homepage-release .r3-history .device-desktop .history-frame[data-bridge-treatment="contrast"] .bridge { width: 60%; }
@@ -624,7 +624,7 @@ body.mm-homepage-active { margin: 0; }
   margin-top: .45em;
   color: var(--mint);
   font-size: 1.3em;
-  font-style: italic;
+  font-style: normal;
   line-height: 1.15;
 }
 /* Short phones keep the order of scale but give the eras their room. */

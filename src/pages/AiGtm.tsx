@@ -73,8 +73,8 @@ const SHIFT = {
    urgency"). */
 const OPENING = {
   heading: "Build a growth strategy that survives AI, and a team that can manage",
-  accent: "agents.",
-  lede: "We work with commercial leaders in media businesses who need to make fast, reliable decisions on how to pivot their revenue and customer experience strategy for an AI world.",
+  accent: "AI agents.",
+  lede: "We work with commercial leaders in media businesses to decide, quickly and safely, how to change the way they make money and serve customers now that AI is here.",
   question: "Where are you starting from?",
 };
 
@@ -194,7 +194,7 @@ const LEVER_STEPS: LeverStep[] = LEVERS.map((key) => ({
 
 const PLAN = [
   { when: "Week 1", what: "We map all four", detail: "What AI changes for your product, price, positioning and people.", days: [1, 7] as const },
-  { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "The gold standard testing frameworks being employed by the most successful peers of yours right now, sandboxed and tested. We extend the sprint until this is delivered.", days: [8, 28] as const },
+  { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "We test it the way the most successful companies like yours test new ideas, safely and away from live customers. If it needs longer, we keep going until it is done.", days: [8, 28] as const },
   { when: "Day 30", what: "You keep it", detail: "The model, the evidence and anything we built.", days: [29, 30] as const },
 ];
 

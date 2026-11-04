@@ -1234,7 +1234,7 @@
 }
 .mm-proposal-time h4 { color: var(--mm-amber); }
 .mm-proposal-time p { margin: 0; font-size: 14.5px; line-height: 1.5; }
-.mm-proposal-honesty { margin-top: 16px; opacity: .72; font-style: italic; font-size: 13.5px; }
+.mm-proposal-honesty { margin-top: 16px; opacity: .72; font-style: normal; font-size: 13.5px; }
 .mm-proposal-next {
   margin-top: 12px;
   border-left: 2px solid var(--mmb-accent);

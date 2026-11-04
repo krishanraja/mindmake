@@ -31,7 +31,7 @@ export function PlanChapter({ heading, steps, keeps, menu, note, children }: {
   /** What the reader keeps on the last day, one item a line. */
   keeps: readonly string[];
   menu: readonly string[];
-  note: string;
+  note?: string;
   children?: ReactNode;
 }) {
   const work = steps.slice(0, -1);
@@ -58,7 +58,7 @@ export function PlanChapter({ heading, steps, keeps, menu, note, children }: {
         <ul className="gtm-plan-menu">
           {menu.map((entry) => <li key={entry}>{entry}</li>)}
         </ul>
-        <p className="gtm-plan-note">{note}</p>
+        {note ? <p className="gtm-plan-note">{note}</p> : null}
         <Receipt title="What stays with you" tag={`Yours to keep · ${last.when}`} items={keeps} />
         {children}
       </div>

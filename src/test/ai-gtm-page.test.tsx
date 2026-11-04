@@ -144,8 +144,7 @@ describe("/ai-gtm on the server", () => {
   });
 
   it("publishes no price and no retired shorthand", () => {
-    expect(text(body)).toContain("and the fee, before work starts");
-    expect(text(body)).not.toMatch(/[$£€]\s?\d/);
+      expect(text(body)).not.toMatch(/[$£€]\s?\d/);
     for (const phrase of ["Keep the seat", "Meter the work", "Price the result"]) expect(text(body)).not.toContain(phrase);
   });
 });

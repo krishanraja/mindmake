@@ -245,7 +245,9 @@ function storyMarkup(story: ClientStory, index: number) {
 
 export function CaseProofField({ stories }: { stories: ClientStory[] }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const styles = useMemo(() => scopeCss(proofFieldCss, ".mm-case-proof-s2"), []);
+  /* Upright type everywhere (Krish, 2026-11-04): the locked prototype set its
+     quotes in italic, so its emphasis is set upright after it, in place. */
+  const styles = useMemo(() => scopeCss(`${proofFieldCss}\n.expanded-copy blockquote, blockquote, blockquote *, em, i, cite { font-style: normal; }`, ".mm-case-proof-s2"), []);
   const markup = useMemo(() => stories.map(storyMarkup).join(""), [stories]);
 
   useEffect(() => {

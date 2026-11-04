@@ -1835,6 +1835,79 @@
         "src/components/leadership-chapters/storyFinder.ts",
         "src/styles/new-age-leadership-r6.layer.css"
       ]
+    },
+    {
+      "id": "S7-MOBILE-001",
+      "exactFeedback": "Mobile needs separate, mobile-first treatment with carousels and interaction design specific for mobile, which prevents huge vertical scrolling. I don't mind if they're not fully fitted. I just mind if we have tons of clumsy wording wrapping awkwardly... and loads of cards vertically stacked.",
+      "source": "Krish, 4 November 2026, after S7 (#267).",
+      "surface": "/, /ai-gtm, /ai-brain",
+      "section": "all",
+      "device": "mobile",
+      "element": "phone layout",
+      "classification": "correction",
+      "requiredOutcome": "On a phone, rows of cards swipe instead of stacking; no control label or list breaks awkwardly.",
+      "acceptanceTest": "qa:line-breaks passes at 390x844 and 360x780; screenshots reviewed.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The three steps (Notices, Connects, Prepares) are a swipe row with picture, word and line; the carries line is label over list; the /ai-gtm starting points are two slim rows; the view switch and the people count never wrap; the Brain's receipt rows are tight.",
+      "evidence": [
+        "src/components/homepage-release/homepageSections.css",
+        "src/styles/mindmake-ai-gtm.css",
+        "src/styles/mindmake-brain-s6.css"
+      ]
+    },
+    {
+      "id": "S7-ALIGN-001",
+      "exactFeedback": "Things should never be misaligned. I told you this.",
+      "source": "Krish, 4 November 2026, after S7 (#267).",
+      "surface": "/, /ai-brain, /ai-gtm, /case-studies",
+      "section": "all",
+      "device": "all",
+      "element": "left edges",
+      "classification": "correction",
+      "requiredOutcome": "Every page and section heading starts on the logo's left edge at every viewport.",
+      "acceptanceTest": "npm run qa:alignment: no heading more than 2px off the logo's edge at 1440x900, 1280x800, 390x844 and 360x780.",
+      "status": "implemented-awaiting-review",
+      "resolution": "New qa:alignment check; the homepage sections take the masthead's 4.4% and 5.13% edge; /ai-brain chapters, panels, finder and close take one --mm-logo-edge.",
+      "evidence": [
+        "scripts/qa/alignment-check.mjs",
+        "src/styles/mindmake.css",
+        "src/styles/mindmake-brain-s6.css"
+      ]
+    },
+    {
+      "id": "S7-NEWS-001",
+      "exactFeedback": "Some of the news is totally out of date. Update it.",
+      "source": "Krish, 4 November 2026, after S7 (#267).",
+      "surface": "/ai-gtm",
+      "section": "all",
+      "device": "all",
+      "element": "cited sources",
+      "classification": "correction",
+      "requiredOutcome": "Each of the four places cites a source from the last three months, saying no more than the source does.",
+      "acceptanceTest": "src/test/ai-gtm-page.test.tsx checks the sources and dates; each quote checked on the live page on 4 November 2026.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Zendesk 14 Sep 2026 (Industry Agents), Salesforce 03 Sep 2026 (pay only when issues are resolved; agents that qualify leads), Shopify 28 Oct 2026 (AI agents read Shopify Catalog). The People line now says \"qualify leads\", as Salesforce does.",
+      "evidence": [
+        "src/data/vnext/gtm-signals.json",
+        "src/pages/AiGtm.tsx"
+      ]
+    },
+    {
+      "id": "S7-UPRIGHT-002",
+      "exactFeedback": "Remove all italic fonts.",
+      "source": "Krish, 4 November 2026, after S7 (#267).",
+      "surface": "/case-studies",
+      "section": "all",
+      "device": "all",
+      "element": "client quotes",
+      "classification": "correction",
+      "requiredOutcome": "The case-study quotes stand upright.",
+      "acceptanceTest": "Rendered quote has computed font-style normal.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The locked prototype's italic quote rule is overridden in place.",
+      "evidence": [
+        "src/components/mindmake/locked/CaseProofField.tsx"
+      ]
     }
   ]
 }

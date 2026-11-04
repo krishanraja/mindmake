@@ -16,6 +16,12 @@ in this file is a reading on the date above it, not a baseline.
   pass over Krish's 3 November v0 copy; italics set upright everywhere; story
   cards lose their static last-word gluing and gain a wider measure. Ledger
   rows `S7-*`.
+- S7 follow-up: phone layouts mobile-first (swipe rows, no stacked
+  word-only tiles, no wrapping control labels), one left edge enforced by the
+  new `qa:alignment` check, the `/ai-gtm` sources refreshed to Zendesk
+  14 Sep, Salesforce 03 Sep and Shopify 28 Oct 2026, and the case-study quotes
+  upright. Ledger rows `S7-MOBILE-001`, `S7-ALIGN-001`, `S7-NEWS-001`,
+  `S7-UPRIGHT-002`.
 
 ## 2026-11-03
 

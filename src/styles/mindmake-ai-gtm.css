@@ -802,7 +802,7 @@
   .gtm-proof-figure { gap: 8px; }
   .gtm-proof-who { gap: 4px 16px; }
   .mm-pairing-line { font-size: 14px; }
-  .team-instrument-head { flex-wrap: nowrap; }
+  .team-instrument-head { flex-wrap: wrap; row-gap: 8px; }
   .gtm-team-tally { font-size: 12px; letter-spacing: .06em; }
 }
 @media (max-width: 699px) {
@@ -815,4 +815,14 @@
   .mm-site .decision-panel h3,
   .decision-sizer-q { font-size: 17px; }
   .gtm-decision-note { font-size: 13.5px; }
+}
+/* A phone, mobile-first (Krish, 2026-11-04): the two starting points sit side
+   by side as one switch, and no control's label breaks onto a second line. */
+@media (max-width: 699px) {
+  .gtm-doors { gap: 6px; }
+  .gtm-door { min-height: 48px; padding: 8px 14px; gap: 12px; }
+  .gtm-door-text b { font-size: 16px; }
+  .gtm-door-text small { display: none; }
+  .mm-site .gtm-view-switch button { white-space: nowrap; padding-inline: 12px; }
+  .gtm-team-tally, .gtm-team-tally * { white-space: nowrap; }
 }

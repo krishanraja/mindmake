@@ -27,7 +27,7 @@ const PAIRS = {
     label: "Build your AI revenue engine",
   },
   gtm: {
-    line: "Your revenue engine runs better on an AI brain.",
+    line: "Your revenue engine runs better on your AI brain.",
     to: "/ai-brain",
     label: "Build your AI brain",
   },

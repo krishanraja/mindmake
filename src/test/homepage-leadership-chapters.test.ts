@@ -16,7 +16,7 @@ describe("the homepage in three sections", () => {
     expect(at('id="hs-problem-title"')).toBeGreaterThan(at('id="opening"'));
     expect(at('id="footer"')).toBeGreaterThan(at('id="hs-get-title"'));
     const sections = homepageSectionsMarkup();
-    const order = ["Right now, your AI is an intern.", "An AI chief of staff knows how you think.", "We build yours, and teach you to grow it in 30 days."].map((title) => sections.indexOf(title));
+    const order = ["All new technologies need mindshifts from us.", "An AI chief of staff knows how you think.", "We build yours, and teach you to grow it in 30 days."].map((title) => sections.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
     expect(sections.match(/<section\b/g)).toHaveLength(3);
     expect(sections).toContain('id="history"');
@@ -39,7 +39,7 @@ describe("the homepage in three sections", () => {
     expect(hero).toContain("From OUR MEDIA CHANNEL:");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next decade will have an AI that thinks like them. We build yours.");
+    expect(homepageMarkup).toContain("The leaders who shape the next decade will 10x themselves with AI, so they set the pace.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {

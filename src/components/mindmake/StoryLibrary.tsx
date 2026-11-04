@@ -10,7 +10,7 @@ import "@/styles/new-age-leadership-r5.css";
  * products). One card, one sheet, one finder; a product page shows only its
  * own stories, and /case-studies shows both behind the choice of product.
  */
-export function StoryLibrary({ door, onStart, id = "stories", intro }: { door: "brain" | "gtm" | "all"; onStart: (door: "brain" | "gtm") => void; id?: string; intro?: { title: string; lede: string } }) {
+export function StoryLibrary({ door, onStart, id = "stories", intro }: { door: "brain" | "gtm" | "library"; onStart: (door: "brain" | "gtm") => void; id?: string; intro?: { title: string; lede: string } }) {
   const ref = useRef<HTMLDivElement>(null);
   const startRef = useRef(onStart);
   startRef.current = onStart;

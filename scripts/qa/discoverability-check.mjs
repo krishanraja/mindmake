@@ -19,7 +19,7 @@ const expectedRoutes = [...staticPages.map(page => page.path), ...posts.map(post
 const out = resolve(root, "artifacts/homepage-release");
 await mkdir(out, { recursive: true });
 const report = { at: new Date().toISOString(), origin, revision: process.env.QA_REVISION || "unbound", scope: "Read-only metadata and asset audit; media/third-party requests blocked. Not visual or conversion QA.", expectedRoutes, routes: [], assets: [], failures: [] };
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {});
 report.localDirectoryIndex = directoryIndex;
 const context = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 } });
 // Parsing <title> does not invoke its JS setter. SEO's effect always does,

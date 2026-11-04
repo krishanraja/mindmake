@@ -37,9 +37,9 @@ export const staticPages = [
   },
   {
     path: "/case-studies",
-    title: "Success stories",
-    description: "Eight verified stories about the work Mindmake helped customers change and what happened next.",
-    headline: "Success stories.",
+    title: "What you can do with it",
+    description: "Real things leaders now do with their AI brain or AI revenue engine, and every result on the record.",
+    headline: "What you can do with it.",
     still: "film-04",
   },
   {

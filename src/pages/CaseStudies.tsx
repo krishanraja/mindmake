@@ -43,12 +43,12 @@ export default function CaseStudies() {
     <MindmakeShell onStart={openBrief} mainClassName="mm-case-route">
       <SEO
         title="What you can do with it"
-        description="Eight verified stories about the work Mindmake helped customers change and what happened next."
+        description="Real things leaders now do with their AI brain or AI revenue engine, and every result on the record."
         canonical="/case-studies"
         jsonLd={jsonLd}
       />
 
-      <StoryLibrary door="all" onStart={(door) => openBrief(door)} intro={{ title: "What you can do with it.", lede: "Real things leaders now do with their AI brain or AI revenue engine. Pick one to see what fits you." }} />
+      <StoryLibrary door="library" onStart={(door) => openBrief(door)} intro={{ title: "What you can do with it.", lede: "Real things leaders now do with their AI brain or AI revenue engine. Pick one to see what fits you." }} />
 
       <CaseProofField stories={clientStories} />
 

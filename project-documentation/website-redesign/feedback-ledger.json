@@ -1908,6 +1908,28 @@
       "evidence": [
         "src/components/mindmake/locked/CaseProofField.tsx"
       ]
+    },
+    {
+      "id": "S7-LIBRARY-001",
+      "exactFeedback": "It's a little bit weird how there are success stories and there are also \"what you can do with an AI brain.\" I think they're both essentially the same thing, but for two different products... \"Stories\" is not the right word for this. It needs to be more plain English. These are what a user can do if they have these things.",
+      "source": "Krish, 4 November 2026; mock v2 approved verbatim: \"approved, merge the mock\".",
+      "surface": "/case-studies, /ai-brain, /ai-gtm, /",
+      "section": "the story finder",
+      "device": "all",
+      "element": "one library sorted by product",
+      "classification": "correction",
+      "requiredOutcome": "One library and one card format. /case-studies is \"What you can do with it.\" and opens with a filled switch (AI brain / AI revenue engine) above that product's situations; /ai-brain shows only brain situations; /ai-gtm shows only revenue-engine situations in place of the single testimonial; the menu says \"What you can do\"; the homepage's two links become one.",
+      "acceptanceTest": "src/test/ai-gtm-page.test.tsx and src/test/brain-narrative.test.ts check each page's situations; qa:alignment passes on /case-studies with the heading inside the finder.",
+      "status": "implemented-awaiting-review",
+      "resolution": "storyFinderMarkup takes door brain, gtm or library (left out, every situation shows, as on /new-age-leadership); StoryLibrary mounts it on React pages; the result archive below becomes \"Every result on the record.\"; shared language results is \"What you can do\". Open: the sellable-expertise result has no example card yet.",
+      "evidence": [
+        "src/components/leadership-chapters/storyFinder.ts",
+        "src/components/mindmake/StoryLibrary.tsx",
+        "src/pages/CaseStudies.tsx",
+        "src/pages/AiGtm.tsx",
+        "src/pages/AiBrainLocked.tsx",
+        "quality/website-redesign/homepage-handoff.v1.json"
+      ]
     }
   ]
 }

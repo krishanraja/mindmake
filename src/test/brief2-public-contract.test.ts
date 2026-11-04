@@ -573,7 +573,7 @@ describe("the conversion contract", () => {
       "Build your AI brain",
       "Build your AI revenue engine",
       "Home",
-      "Success stories",
+      "What you can do",
       "Ideas you can use",
       "Questions we get asked",
       "About us",

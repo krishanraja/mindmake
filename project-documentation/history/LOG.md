@@ -5,6 +5,18 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-04
+
+- S7 from Krish's review of the live site: every finder story card on its own
+  picture (three stills generated on Higgsfield, GPT Image 2.5, two variants
+  each, 9 credits: `one-way-receiver`, `method-sight`, `switch-panel`; the
+  Before/After figure fallback retired); the homepage "When built right"
+  carousel folded into three still tiles; sections fitted to one screen at
+  four viewports (open: `/ai-gtm` plan and team on phones); a plain-language
+  pass over Krish's 3 November v0 copy; italics set upright everywhere; story
+  cards lose their static last-word gluing and gain a wider measure. Ledger
+  rows `S7-*`.
+
 ## 2026-11-03
 
 - reconciled at `85a5c0e`: NOW.md gained the DoThinkDo feedback form (`/feedback/dtd`), its unticked quote permission and the `/alumni` prerender; 06_CURRENT_STATE.md gained the quote-permission sentence. Stamps on CLAUDE.md, 02, 04 and 07 were not re-verified and were left for a person.

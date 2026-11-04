@@ -49,7 +49,7 @@ h1{font-family:Georgia,"Times New Roman",serif;letter-spacing:-.04em;max-width:1
 .proof strong{display:block;font-family:Georgia,"Times New Roman",serif;font-size:26px;line-height:1.15;letter-spacing:-.02em}
 .time{margin-top:34px;border-left:4px solid #b96743;padding-left:18px}
 .time .label{color:#b96743}
-.honesty{margin-top:30px;font-style:italic;color:#3d4a47}
+.honesty{margin-top:30px;font-style: normal;color:#3d4a47}
 .next{margin-top:26px;border:1px solid #0b756c;padding:18px 20px;background:#fffdf8}
 .foot{margin-top:56px;padding-top:16px;border-top:1px solid rgba(13,25,41,.22);color:#5d6562;font-size:13px}
 .foot p{margin:0 0 6px}

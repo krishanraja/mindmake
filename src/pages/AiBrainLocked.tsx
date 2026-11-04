@@ -17,6 +17,7 @@ import { readingProgress, sequenceProgress, stepStates } from "@/components/mind
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
+import { buildOnScroll } from "@/lib/scrollBuild";
 import { START_LABEL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
@@ -459,9 +460,28 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
       },
     }) : () => undefined;
 
+    /* The page builds as it is read, like the homepage (Krish, 2026-11-04,
+       src/lib/scrollBuild.ts): headings arrive and a hand marks their key
+       words, ledes follow a sentence at a time, then the cards. The chapters'
+       own scrub (instruments rising, steps lighting) is untouched. */
+    const unbuildChapters = buildOnScroll(root, {
+      sections: ".chapter[data-phase]",
+      title: ".chapter-copy > h1, .chapter-copy > h2, .beat-copy > h2",
+      lede: ".chapter-copy > p, .beat-copy > p",
+      splitLede: true,
+    });
+    const close = root.closest("main")?.querySelector<HTMLElement>(".brain-close");
+    const unbuildClose = close ? buildOnScroll(close, {
+      sections: ".brain-finder, .brain-close-body",
+      title: ".finder-question",
+      items: ".finder-card, .mm-receipt-items li, .mm-pairing",
+    }) : () => undefined;
+
     return () => {
       root.removeEventListener("click", onClick);
       unmountFinder();
+      unbuildChapters();
+      unbuildClose();
     };
   }, [rootRef, finderRef, startRef]);
 }

@@ -6,8 +6,7 @@ import { leadershipScenes, leadershipStories, organisationGridMarkup } from "@/c
 import latestIssue from "@/data/latestIssue.json";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
-import { revealOnArrival } from "@/hooks/useReveal";
-import { loopPath, underlinePath } from "@/lib/scribble";
+import { buildOnScroll } from "@/lib/scrollBuild";
 
 /**
  * The homepage after its opening, in three sections (Ruling, Krish,
@@ -185,81 +184,13 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
-  const unbuild = buildOnScroll(root);
+  /* Each section builds as the reader reaches it (src/lib/scrollBuild.ts). */
+  const unbuild = buildOnScroll(root, {
+    sections: ".hs-section",
+    title: ".hs-title",
+    lede: ".hs-lede",
+    splitLede: true,
+    items: ".hs-eras > li, .hs-proof > li, .hs-acts > li, .hs-inner > .hs-org, .hs-inner > .hs-carries, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-start, .hs-rail-nav",
+  });
   return () => { abort.abort(); unbuild(); };
-}
-
-/**
- * Each section builds as the reader reaches it (Krish, 2026-11-04: "the
- * homepage feels like it needs to build and animate on scroll... it feels
- * like intense homework"). The heading arrives and a hand marks its key words,
- * then the lede one sentence at a time, then the cards one after another.
- * Every piece goes through the site's one entrance primitive
- * (src/hooks/useReveal.ts), so nothing is hidden without an observer, under
- * reduced motion or once on screen, and nothing pins or changes size.
- */
-function buildOnScroll(root: HTMLElement) {
-  const cleanups: Array<() => void> = [];
-  const arrive = (el: Element | null, order: number, onShown?: () => void) => {
-    if (el instanceof HTMLElement) cleanups.push(revealOnArrival(el, order, onShown));
-  };
-  root.querySelectorAll<HTMLElement>(".hs-section").forEach((section) => {
-    const title = section.querySelector<HTMLElement>(".hs-title");
-    arrive(title, 0, () => title && drawMarks(title));
-    /* The lede, a sentence at a time. */
-    const lede = section.querySelector<HTMLElement>(".hs-lede");
-    if (lede) {
-      const sentences = (lede.textContent ?? "").match(/[^.!?]+[.!?]+["”’]?\s*/g) ?? [];
-      if (sentences.length > 1 && !lede.querySelector("[data-hs-sentence]")) {
-        lede.textContent = "";
-        sentences.forEach((sentence, index) => {
-          const span = document.createElement("span");
-          span.dataset.hsSentence = "";
-          span.textContent = sentence;
-          lede.append(span);
-          arrive(span, 2 + index * 3);
-        });
-      } else arrive(lede, 2);
-    }
-    section.querySelectorAll(".hs-eras > li, .hs-proof > li, .hs-acts > li").forEach((card, index) => arrive(card, 3 + Math.min(index, 3)));
-    section.querySelectorAll(".hs-inner > .hs-org, .hs-inner > .hs-carries, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-start, .hs-rail-nav").forEach((el) => arrive(el, 4));
-  });
-  return () => cleanups.forEach((cleanup) => cleanup());
-}
-
-/**
- * A hand marks the heading's key words once it has arrived: a loop around one,
- * an underline beneath the other (the content engine's scribble, src/lib/scribble.ts).
- * The mark is decoration over words that are already there, so it is hidden
- * from assistive technology and drawn once; reduced motion shows it drawn.
- */
-function drawMarks(title: HTMLElement) {
-  title.querySelectorAll<HTMLElement>("[data-hs-mark]").forEach((mark, index) => {
-    if (mark.querySelector("svg")) return;
-    const box = mark.getBoundingClientRect();
-    if (!box.width) return;
-    const kind = mark.dataset.hsMark === "loop" ? "loop" : "underline";
-    const fontSize = parseFloat(getComputedStyle(mark).fontSize) || 40;
-    const scale = fontSize / 40;
-    const pad = kind === "loop" ? Math.round(fontSize * 0.45) : Math.round(fontSize * 0.3);
-    const w = box.width + pad * 2, h = box.height + pad * 2;
-    const target = { x: pad, y: pad, w: box.width, h: box.height };
-    const d = kind === "loop" ? loopPath(target, `${mark.textContent}-${index}`) : underlinePath({ ...target, y: pad - fontSize * 0.08 }, `${mark.textContent}-${index}`, scale);
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "hs-mark-ink");
-    svg.setAttribute("aria-hidden", "true");
-    svg.setAttribute("viewBox", `0 0 ${w.toFixed(1)} ${h.toFixed(1)}`);
-    svg.setAttribute("width", w.toFixed(1));
-    svg.setAttribute("height", h.toFixed(1));
-    svg.style.left = `${-pad}px`;
-    svg.style.top = `${-pad}px`;
-    svg.style.setProperty("--hs-mark-delay", `${450 + index * 350}ms`);
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("d", d);
-    path.setAttribute("pathLength", "1");
-    path.style.strokeWidth = `${Math.max(2, 2.6 * scale).toFixed(1)}px`;
-    svg.append(path);
-    mark.append(svg);
-    requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add("is-drawn")));
-  });
 }

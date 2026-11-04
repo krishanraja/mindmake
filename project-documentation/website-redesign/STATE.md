@@ -35,7 +35,9 @@ edge, enforced by `qa:alignment`. The homepage builds as it is read (approved by
 recording, 4 November 2026): each heading arrives and a hand underlines or
 circles its key words ("how we think", "chief of staff", "30 days"), the
 lede follows a sentence at a time, then the cards; everything stays readable
-if no animation runs.
+if no animation runs. `/ai-brain` and `/ai-gtm` build the same way through
+`src/lib/scrollBuild.ts` (/ai-brain keeps its own scrub), and the hero's
+underline under "your" is hand-drawn (approved 4 November 2026).
 
 ## S6: three sections on every page (24 October 2026)
 

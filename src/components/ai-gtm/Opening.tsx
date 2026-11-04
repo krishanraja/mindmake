@@ -1,3 +1,4 @@
+import { Marked, type MarkSpec } from "@/components/mindmake/Marked";
 import type { ReactNode } from "react";
 import { track } from "@/lib/analytics";
 
@@ -14,8 +15,10 @@ import { track } from "@/lib/analytics";
  * The films on this page loop, so the reader can pause them here (WCAG 2.2.2),
  * as they can on /new-age-leadership and /ai-brain.
  */
-export function Opening({ heading, accent, lede, startLabel, startNote, onStart, film, paused, onToggleMotion }: {
+export function Opening({ heading, mark, accent, lede, startLabel, startNote, onStart, film, paused, onToggleMotion }: {
   heading: string;
+  /** A phrase in the heading a hand marks as it arrives. */
+  mark?: MarkSpec;
   accent: string;
   lede: string;
   startLabel: string;
@@ -30,7 +33,7 @@ export function Opening({ heading, accent, lede, startLabel, startNote, onStart,
       {film}
       <div className="gtm-opening-body mm-container">
         <div className="gtm-opening-copy">
-          <h1 id="page-title">{heading} <em>{accent}</em></h1>
+          <h1 id="page-title"><Marked text={heading} mark={mark} /> <em>{accent}</em></h1>
           <p className="gtm-opening-deck">{lede}</p>
           <div className="gtm-start">
             <button

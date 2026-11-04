@@ -23,6 +23,7 @@ import orreryPlate from "@/assets/stories/orrery-alignment-r01-800.webp";
 import receiverPlate from "@/assets/stories/one-way-receiver-r01-800.webp";
 import sightPlate from "@/assets/stories/method-sight-r01-800.webp";
 import switchPlate from "@/assets/stories/switch-panel-r01-800.webp";
+import boundFolioPlate from "@/assets/stories/bound-folio-r01-800.webp";
 import { mountStoryFinder, storyFinderMarkup } from "./storyFinder";
 
 /**
@@ -220,6 +221,17 @@ export const leadershipStories: readonly LeadershipStory[] = [
     outcome: `Its first working system went live inside 90 days.`,
     record: "business-first",
     scene: switchPlate,
+  },
+  /* The advisory firm's result on the record (Krish, 2026-11-04: add the
+     card it was missing), in the record's and the partner's own words. */
+  {
+    heading: `A respected advisory firm turned its expertise into an offer people could buy.`,
+    situation: `The partners at a media advisory firm had expertise everyone respected, but nothing a client could simply buy.`,
+    happened: `We turned their ideas into one clear offer and a plan to launch it.`,
+    outcome: `Their expertise became an offer people could buy.`,
+    record: "sellable-expertise",
+    quote: { testimonialId: "media-advisory-partner", text: "He turned the pitch into something sellable, which then evolved our pitch." },
+    scene: boundFolioPlate,
   },
 ];
 

@@ -190,7 +190,7 @@ describe("the new-age leadership chapters, shared with /new-age-leadership", () 
     const root = document.createElement("div");
     root.innerHTML = leadershipChaptersMarkup();
     expect(root.querySelectorAll("[data-finder-panel][hidden]")).toHaveLength(0);
-    expect(root.querySelectorAll("details[data-finder-card] .finder-full")).toHaveLength(17);
+    expect(root.querySelectorAll("details[data-finder-card] .finder-full")).toHaveLength(18);
     root.querySelectorAll<HTMLAnchorElement>("[data-finder-start]").forEach((link) => expect(link.getAttribute("href")).toMatch(/^\/\?start=(brain|gtm)$/));
   });
 

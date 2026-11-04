@@ -22,17 +22,17 @@ describe("AI Brain stories", () => {
     for (const story of leadershipStories) expect(story.situation, story.heading).toBeTruthy();
   });
 
-  it("is one client to a card: seventeen stories, each with the outcome it led to", () => {
+  it("is one client to a card: eighteen stories, each with the outcome it led to", () => {
     /* Fifteen, then two more on 24 October 2026: the insurance leader and the
        investor, both in "Seeing what is changing", from Krish's own account. */
-    expect(leadershipStories).toHaveLength(17);
-    expect(new Set(leadershipStories.map((story) => story.heading)).size).toBe(17);
+    expect(leadershipStories).toHaveLength(18);
+    expect(new Set(leadershipStories.map((story) => story.heading)).size).toBe(18);
     for (const story of leadershipStories) expect(story.outcome, story.heading).toBeTruthy();
   });
 
   it("joins a story to a result on the record only where the quote is that same client's", () => {
     const joined = leadershipStories.filter((story) => story.record);
-    expect(joined.map((story) => story.record).sort()).toEqual(["business-first", "day-one", "hand-back", "market-moves", "own-system", "simple-product", "team-decides"]);
+    expect(joined.map((story) => story.record).sort()).toEqual(["business-first", "day-one", "hand-back", "market-moves", "own-system", "sellable-expertise", "simple-product", "team-decides"]);
     for (const story of joined) expect(sameClient(story), story.heading).toBe(true);
     /* Negative control: the right words under the wrong client fail. */
     const swapped = { ...joined[0], quote: { testimonialId: "media-cro", text: "He doesn't want to loiter." } };
@@ -48,7 +48,7 @@ describe("AI Brain stories", () => {
 
   it("files every story under exactly one of five situations, at least three to each", () => {
     expect(SITUATIONS).toHaveLength(5);
-    expect(SITUATIONS.map((situation) => situation.cards.length)).toEqual([3, 5, 3, 3, 3]);
+    expect(SITUATIONS.map((situation) => situation.cards.length)).toEqual([3, 5, 3, 3, 4]);
     const filed = SITUATIONS.flatMap((situation) => {
       expect(situation.cards.length, situation.label).toBeGreaterThanOrEqual(3);
       return situation.cards.map((start) => storyByStart(leadershipStories, start));
@@ -92,14 +92,14 @@ describe("AI Brain stories", () => {
     const human = markup.slice(markup.indexOf('<section class="human-proof'), markup.indexOf('<div class="proof-return">'));
     const plain = human.replaceAll("\u00a0", " ");
     const cards = human.match(/<li class="finder-card">/g) ?? [];
-    expect(cards).toHaveLength(17);
+    expect(cards).toHaveLength(18);
     for (const story of leadershipStories) {
       expect(plain.split(`<span class="finder-heading">${story.heading.replaceAll("\u00a0", " ")}</span>`)).toHaveLength(2);
       expect(plain).toContain(`<span class="finder-outcome">${story.outcome.replaceAll("\u00a0", " ")}</span>`);
     }
     for (const situation of SITUATIONS) expect(human).toContain(`<h3 class="finder-situation">${situation.label}</h3>`);
     const proofs = [...human.matchAll(/href="\/case-studies#story=([^"]+)"/g)].map((m) => m[1]);
-    expect(proofs).toHaveLength(7);
+    expect(proofs).toHaveLength(8);
     for (const id of proofs) expect(clientStories.map((entry) => entry.id)).toContain(id);
     expect(human).not.toMatch(/success story/i);
     expect(human).not.toContain(" hidden");

@@ -165,7 +165,7 @@ recorded word for word in [feedback-ledger.json](feedback-ledger.json); the
 request itself lives in private planning documents and is not copied here.
 
 Sources that still serve the stories: `src/components/leadership-chapters/leadershipChapters.ts`
-holds the seventeen stories and `storyFinder.ts` the chooser, for `/ai-brain`
+holds the eighteen stories and `storyFinder.ts` the chooser, for `/ai-brain`
 and `/new-age-leadership` alike; the chooser's styles are section 10 of
 `src/styles/new-age-leadership-r6.layer.css`, compiled into the generated
 `new-age-leadership-r5.css`. Proof rules are in `04_PROOF.md`, "The AI Brain

@@ -1930,6 +1930,25 @@
         "src/pages/AiBrainLocked.tsx",
         "quality/website-redesign/homepage-handoff.v1.json"
       ]
+    },
+    {
+      "id": "S7-EXPERTISE-001",
+      "exactFeedback": "yes, generate the expertise picture and add it",
+      "source": "Krish, 4 November 2026.",
+      "surface": "/case-studies, /ai-gtm",
+      "section": "Making the big AI calls",
+      "device": "all",
+      "element": "story card",
+      "classification": "correction",
+      "requiredOutcome": "The sellable-expertise result has its own card on its own picture, in the record's and the partner's own words.",
+      "acceptanceTest": "src/test/leadership-stories.test.ts: eighteen stories, eight results on the record joined, the partner's quote an exact substring of the testimonial.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Picture generated on Higgsfield (GPT Image 2.5, two variants, 3 credits): bound-folio. Filed second under Making the big AI calls, apart from the broadcaster, whose picture shares its room. Story pictures now frame the middle of the scene in the card's band and fade below it.",
+      "evidence": [
+        "src/assets/stories/bound-folio-r01-800.webp",
+        "src/components/leadership-chapters/leadershipChapters.ts",
+        "src/components/leadership-chapters/storyFinder.ts"
+      ]
     }
   ]
 }

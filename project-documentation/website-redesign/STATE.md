@@ -31,7 +31,11 @@ set in italic. The one library across both products is live: `/case-studies` is 
 you can do with it." (menu: "What you can do") with an AI brain / AI revenue
 engine switch, and each product page shows only its own situations
 (approved by Krish, 4 November 2026). Every heading sits on the logo's left
-edge, enforced by `qa:alignment`.
+edge, enforced by `qa:alignment`. The homepage builds as it is read (approved by Krish from a phone
+recording, 4 November 2026): each heading arrives and a hand underlines or
+circles its key words ("how we think", "chief of staff", "30 days"), the
+lede follows a sentence at a time, then the cards; everything stays readable
+if no animation runs.
 
 ## S6: three sections on every page (24 October 2026)
 

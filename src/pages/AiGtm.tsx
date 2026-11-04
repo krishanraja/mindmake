@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
@@ -10,6 +10,7 @@ import { TurnBand } from "@/components/ai-gtm/TurnBand";
 import { PlanChapter } from "@/components/ai-gtm/PlanChapter";
 import { TeamChapter, type TeamCopy } from "@/components/ai-gtm/TeamChapter";
 import { StoryLibrary } from "@/components/mindmake/StoryLibrary";
+import { buildOnScroll } from "@/lib/scrollBuild";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { START_LABEL_GTM, START_SUBLABEL } from "@/lib/publicLinks";
 import signals from "@/data/vnext/gtm-signals.json";
@@ -223,6 +224,20 @@ export default function AiGtm() {
     root.dataset.motionPaused = String(next);
     root.dispatchEvent(new Event("mm:motion"));
   };
+  /* The page builds as it is read, like the homepage (owner, 2026-11-04,
+     src/lib/scrollBuild.ts): headings arrive and a hand marks their key
+     words, then the lede, then the cards in turn. The lede arrives whole
+     here, because its words are React's. */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    return buildOnScroll(root, {
+      sections: "[data-gtm-chapter]",
+      title: "h1, h2",
+      lede: ".gtm-opening-deck",
+      items: ".gtm-doors, .gtm-lever, .team-instrument, .decision-panel, .gtm-plan-step, .gtm-plan-menu, .mm-receipt, .finder-card, .mm-pairing",
+    });
+  }, []);
   const copy = MODES[mode];
   const chooseMode = (next: Mode) => {
     setMode(next);
@@ -235,6 +250,7 @@ export default function AiGtm() {
       <div ref={rootRef} className="mm-gtm" data-mode={mode}>
         <Opening
           heading={OPENING.heading}
+          mark={{ phrase: "survives AI", kind: "underline" }}
           accent={OPENING.accent}
           lede={OPENING.lede}
           startLabel={START_LABEL_GTM}
@@ -251,6 +267,7 @@ export default function AiGtm() {
 
         <LeverChapter
           heading="You can feel it in four places."
+          mark={{ phrase: "four places", kind: "loop" }}
           steps={LEVER_STEPS}
           mode={mode}
           backdrop={(
@@ -277,6 +294,7 @@ export default function AiGtm() {
 
         <PlanChapter
           heading="One go-to-market move in 30 days"
+          mark={{ phrase: "30 days", kind: "loop" }}
           steps={PLAN}
           keeps={KEEPS}
           menu={MENU}

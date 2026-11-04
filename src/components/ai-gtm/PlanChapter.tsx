@@ -1,3 +1,4 @@
+import { Marked, type MarkSpec } from "@/components/mindmake/Marked";
 import type { CSSProperties, ReactNode } from "react";
 import { Receipt } from "@/components/mindmake/Receipt";
 import { Unbroken } from "./Unbroken";
@@ -25,8 +26,10 @@ const DAYS = Array.from({ length: 30 }, (_, index) => index + 1);
  * page follow as `children`, at the point where the reader has understood the
  * offer and wants to see it work.
  */
-export function PlanChapter({ heading, steps, keeps, menu, note, children }: {
+export function PlanChapter({ heading, mark, steps, keeps, menu, note, children }: {
   heading: string;
+  /** A phrase in the heading a hand marks as it arrives. */
+  mark?: MarkSpec;
   steps: readonly PlanStep[];
   /** What the reader keeps on the last day, one item a line. */
   keeps: readonly string[];
@@ -39,7 +42,7 @@ export function PlanChapter({ heading, steps, keeps, menu, note, children }: {
   return (
     <section className="gtm-plan" data-gtm-chapter="plan" aria-labelledby="gtm-plan-title">
       <div className="gtm-plan-body mm-container">
-        <h2 id="gtm-plan-title" className="gtm-plan-title"><Unbroken text={heading} /></h2>
+        <h2 id="gtm-plan-title" className="gtm-plan-title"><Marked text={heading} mark={mark} render={(part) => <Unbroken text={part} />} /></h2>
         <ol className="plan-days" aria-hidden="true">
           {DAYS.map((day) => {
             const stretch = steps.findIndex((item) => day >= item.days[0] && day <= item.days[1]);

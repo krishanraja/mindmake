@@ -213,3 +213,7 @@
 .mm-locked-brain .pair-panel:last-child { padding-right: var(--mm-logo-edge); }
 .brain-close-body { padding-inline: var(--mm-logo-edge); }
 
+
+/* Hand-drawn marks (src/lib/scrollBuild.ts): mint on the dark and clay
+   grounds, the deep green on the paper and amber panels. */
+.mm-locked-brain .pair-panel { --mark-ink: #2f6b4c; }

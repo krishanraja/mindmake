@@ -1873,3 +1873,23 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
    edge, so it adds none of its own and takes the page's ground. */
 .mm-site .mm-container .nal-page.brain-finder { --edge: 0px; }
 .mm-site .mm-container .nal-page.brain-finder .story-finder { padding-block: clamp(20px, 3vh, 36px); background: transparent; }
+
+/* Hand-drawn marks on a heading's key words, on every page that builds as it
+   is read (src/lib/scrollBuild.ts; the content engine's scribble). The words
+   never move: the mark is an overlay drawn once. Mint by default; a section
+   on paper sets --mark-ink to its deep green. */
+[data-hs-mark] { position: relative; white-space: nowrap; }
+.hs-mark-ink { position: absolute; overflow: visible; pointer-events: none; }
+.hs-mark-ink path {
+  fill: none;
+  stroke: var(--mark-ink, #9ff1c9);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset .75s cubic-bezier(.05, .7, .1, 1) var(--hs-mark-delay, 450ms);
+}
+.hs-mark-ink.is-drawn path { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .hs-mark-ink path { transition: none; stroke-dashoffset: 0; }
+}

@@ -37,6 +37,7 @@ const HOLD = 5500;
 /* How long the outgoing line lingers over the incoming one before it is removed. */
 const CROSS = 800;
 
+let underlines = 0;
 const row = (words: Row) => {
   const node = document.createElement("span");
   node.className = "mm-hero-row";
@@ -45,6 +46,8 @@ const row = (words: Row) => {
     if (index % 2) {
       const mark = document.createElement("span");
       mark.className = "mm-hero-your";
+      /* One of three hand-drawn underlines, so consecutive headlines differ. */
+      mark.dataset.ul = String(++underlines % 3);
       mark.textContent = part;
       node.append(mark);
     } else node.append(part);

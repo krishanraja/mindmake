@@ -628,29 +628,8 @@
   .mm-homepage-release .hs-acts span { display: block; font-size: 16px; line-height: 1.35; text-wrap: pretty; }
 }
 
-/* The hand-drawn marks on each heading's key words (homepageSections.ts,
-   drawMarks; the content engine's scribble). The words never move: the mark
-   is an overlay drawn once, mint on the dark sections and deep green on paper. */
-.mm-homepage-release .hs-mark { position: relative; white-space: nowrap; }
-.mm-homepage-release .hs-mark-ink {
-  position: absolute;
-  overflow: visible;
-  pointer-events: none;
-}
-.mm-homepage-release .hs-mark-ink path {
-  fill: none;
-  stroke: var(--hs-mint);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset .75s cubic-bezier(.05, .7, .1, 1) var(--hs-mark-delay, 450ms);
-}
-.mm-homepage-release .hs-how .hs-mark-ink path { stroke: var(--hs-mint-d); }
-.mm-homepage-release .hs-mark-ink.is-drawn path { stroke-dashoffset: 0; }
-@media (prefers-reduced-motion: reduce) {
-  .mm-homepage-release .hs-mark-ink path { transition: none; stroke-dashoffset: 0; }
-}
+/* The marks on paper take the deep green (src/styles/mindmake.css owns the rest). */
+.mm-homepage-release .hs-how { --mark-ink: var(--hs-mint-d); }
 
 /* The eras' pictures show (Krish, 2026-11-04: "the history card images are
    not really visible"). The ink stays at 90% and more only where the

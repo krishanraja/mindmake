@@ -1,3 +1,4 @@
+import { Marked, type MarkSpec } from "@/components/mindmake/Marked";
 import type { ReactNode } from "react";
 import { Unbroken } from "./Unbroken";
 
@@ -29,8 +30,10 @@ export interface LeverStep {
  * card, so changing the answer above never changes a card's size; the one not
  * chosen is hidden from sight and from assistive technology.
  */
-export function LeverChapter({ heading, steps, mode, backdrop, children }: {
+export function LeverChapter({ heading, mark, steps, mode, backdrop, children }: {
   heading: string;
+  /** A phrase in the heading a hand marks as it arrives. */
+  mark?: MarkSpec;
   steps: readonly LeverStep[];
   mode: string;
   backdrop: ReactNode;
@@ -41,7 +44,7 @@ export function LeverChapter({ heading, steps, mode, backdrop, children }: {
       {backdrop}
       <div className="gtm-levers-body mm-container">
         {children}
-        <h2 id="gtm-levers-title" className="gtm-levers-title">{heading}</h2>
+        <h2 id="gtm-levers-title" className="gtm-levers-title"><Marked text={heading} mark={mark} /></h2>
         <div className="lever-steps">
           {steps.map((item) => (
             <article key={item.key} className="gtm-lever" aria-label={item.name}>

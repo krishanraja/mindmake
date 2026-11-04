@@ -43,12 +43,14 @@ describe("/ai-gtm on the server", () => {
        of the old opening, and the "add an AI tool" section "doesn't need to
        exist". */
     expect(html.match(/<h1\b/g)).toHaveLength(1);
-    const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>"));
+    /* The hand-drawn mark's span (2026-11-04) wraps words inside the line, so
+       it is read as part of the text, not as a break. */
+    const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>")).replace(/<\/?span[^>]*data-hs-mark[^>]*>|<\/span>(?=,)/g, "");
     expect(text(h1).trim()).toBe("Build a growth strategy that survives AI, and a team that can manage AI agents.");
     const lede = body.indexOf("We work with commercial leaders in media businesses");
     expect(lede).toBeGreaterThan(body.indexOf("<h1"));
     expect(body.indexOf("Where are you starting from?")).toBeGreaterThan(lede);
-    expect(body.indexOf("You can feel it in four places.")).toBeGreaterThan(body.indexOf("Where are you starting from?"));
+    expect(body.indexOf("You can feel it in ")).toBeGreaterThan(body.indexOf("Where are you starting from?"));
     expect(text(body)).not.toContain("You could add an AI tool");
     expect(text(body)).not.toContain("The deals would go to whoever changed the rest.");
   });

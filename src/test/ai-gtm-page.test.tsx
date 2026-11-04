@@ -45,7 +45,7 @@ describe("/ai-gtm on the server", () => {
     expect(html.match(/<h1\b/g)).toHaveLength(1);
     /* The hand-drawn mark's span (2026-11-04) wraps words inside the line, so
        it is read as part of the text, not as a break. */
-    const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>")).replace(/<\/?span[^>]*data-hs-mark[^>]*>|<\/span>(?=,)/g, "");
+    const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>")).replace(/<span[^>]*data-hs-mark[^>]*>([^<]*)<\/span>/g, "$1");
     expect(text(h1).trim()).toBe("Build a growth strategy that survives AI, and a team that can manage AI agents.");
     const lede = body.indexOf("We work with commercial leaders in media businesses");
     expect(lede).toBeGreaterThan(body.indexOf("<h1"));

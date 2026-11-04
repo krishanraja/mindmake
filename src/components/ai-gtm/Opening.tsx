@@ -33,7 +33,7 @@ export function Opening({ heading, mark, accent, lede, startLabel, startNote, on
       {film}
       <div className="gtm-opening-body mm-container">
         <div className="gtm-opening-copy">
-          <h1 id="page-title"><Marked text={heading} mark={mark} /> <em>{accent}</em></h1>
+          <h1 id="page-title"><Marked text={heading} mark={mark} /> <em><Marked text={accent} mark={mark} /></em></h1>
           <p className="gtm-opening-deck">{lede}</p>
           <div className="gtm-start">
             <button

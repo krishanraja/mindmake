@@ -1,14 +1,14 @@
 /**
- * Hand-drawn marks: a loop around a word or a quick underline beneath it.
+ * Hand-drawn marks: a quick double underline beneath a phrase.
  *
  * Ported from the content engine's scribble device
  * (krishanraja/content-engine, apps/renderer/src/engine/kit/scribblePath.ts,
  * "Approved H/build.py geometry"), so the site's marks are drawn by the same
  * hand as the videos': the same seeded wobble, the same Catmull-Rom smoothing,
- * the same overshooting second pass on an underline. Only the loop and the
- * underline come across; the engine's arrow, bracket, tick and cross stay
- * there. Pixels here are the mark's own box, not a 1080-wide canvas, so the
- * wobble scales with the type (`scale`).
+ * the same second pass on an underline. Only the underline comes across;
+ * the engine's loop, arrow, bracket, tick and cross stay there. Pixels here
+ * are the mark's own box, not a 1080-wide canvas, so the wobble scales with
+ * the type (`scale`).
  */
 type Point = readonly [number, number];
 
@@ -39,46 +39,6 @@ function smooth(pts: Point[]): string {
 }
 
 export type Box = { x: number; y: number; w: number; h: number };
-
-/** A loop around a box: a slightly squared ellipse that overruns its start, as a pen does. */
-export function loopPath(target: Box, seed: string, turns = 1.16): string {
-  const rng = random(seed);
-  const cx = target.x + target.w / 2, cy = target.y + target.h / 2;
-  const u: Point = [target.w * 0.53, 0], v: Point = [0, target.h * 0.74];
-  const ph = [rng() * 6.28, rng() * 6.28, rng() * 6.28];
-  const pts: Point[] = [], steps = 44, sq = 2;
-  for (let i = 0; i <= Math.floor(steps * turns); i++) {
-    const t = i / steps, a = -2.3 + 2 * Math.PI * t;
-    const w = 1 + 0.05 * Math.sin(2 * a + ph[0]) + 0.035 * Math.sin(3 * a + ph[1]) + 0.02 * Math.sin(5 * a + ph[2]);
-    const g = 1 + 0.13 * t, c = Math.cos(a), s = Math.sin(a);
-    const x = w * g * Math.sign(c) * Math.abs(c) ** (2 / sq), y = w * g * Math.sign(s) * Math.abs(s) ** (2 / sq);
-    pts.push([cx + x * u[0] + y * v[0], cy + x * u[1] + y * v[1]]);
-  }
-  return smooth(pts);
-}
-
-/**
- * A loop that keeps inside the room it is given (Krish, 2026-11-04: marks
- * never cross other words): a squarer pen loop with semi-axes `a` and `b`
- * about a centre, overrunning its start a little, as a pen does, but never
- * stepping outside its box. `fits` says whether such a loop still rings a
- * phrase of half-width `hw` and half-height `hh`.
- */
-const LOOP_POWER = 3;
-export const loopFits = (a: number, b: number, hw: number, hh: number) =>
-  a > hw && b > hh && (hw / a) ** LOOP_POWER + (hh / b) ** LOOP_POWER <= 0.97;
-export function fittedLoopPath(cx: number, cy: number, a: number, b: number, seed: string): string {
-  const rng = random(seed);
-  const ph = [rng() * 6.28, rng() * 6.28];
-  const pts: Point[] = [], steps = 56, turns = 1.1;
-  for (let i = 0; i <= Math.floor(steps * turns); i++) {
-    const t = i / steps, ang = -2.3 + 2 * Math.PI * t;
-    const r = 0.955 + 0.03 * t + 0.012 * Math.sin(2 * ang + ph[0]) + 0.008 * Math.sin(3 * ang + ph[1]);
-    const c = Math.cos(ang), s = Math.sin(ang);
-    pts.push([cx + r * a * Math.sign(c) * Math.abs(c) ** (2 / LOOP_POWER), cy + r * b * Math.sign(s) * Math.abs(s) ** (2 / LOOP_POWER)]);
-  }
-  return smooth(pts);
-}
 
 /**
  * A double underline beneath a box, as a pen draws one (Krish, 2026-11-04:

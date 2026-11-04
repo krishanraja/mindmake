@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type MarkSpec = { phrase: string; kind: "underline" | "loop" };
+export type MarkSpec = { phrase: string; kind: "underline" };
 
 /**
  * A heading's text with one phrase set for a hand-drawn mark (Krish,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { underlinePath } from "@/lib/scribble";
-import { markKind } from "@/lib/scrollBuild";
+import { onLastLine } from "@/lib/scrollBuild";
 
 describe("hand-drawn marks", () => {
   it("draws a double underline as two separate left-to-right strokes", () => {
@@ -13,9 +13,8 @@ describe("hand-drawn marks", () => {
     }
   });
 
-  it("circles a phrase instead of underlining it when more of the heading sits below", () => {
-    expect(markKind("underline", { bottom: 100 }, { bottom: 160 }, 48)).toBe("loop");
-    expect(markKind("underline", { bottom: 158 }, { bottom: 160 }, 48)).toBe("underline");
-    expect(markKind("loop", { bottom: 158 }, { bottom: 160 }, 48)).toBe("loop");
+  it("marks a phrase only when nothing of the heading sits below it", () => {
+    expect(onLastLine({ bottom: 100 }, { bottom: 160 }, 48)).toBe(false);
+    expect(onLastLine({ bottom: 158 }, { bottom: 160 }, 48)).toBe(true);
   });
 });

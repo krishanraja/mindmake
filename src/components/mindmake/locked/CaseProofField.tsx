@@ -620,7 +620,7 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
         <div className="site-head-space" aria-hidden="true" />
         <section className="field-intro">
           <div>
-            <h1 id="fieldTitle">Success stories.</h1>
+            <h2 id="fieldTitle">Every result on the record.</h2>
           </div>
         </section>
         <section className="proof-field" aria-label="Eight client stories" data-copy-boundary>

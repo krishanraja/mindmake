@@ -79,7 +79,7 @@ export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; extern
   { label: "Build your AI revenue engine", short: "Build your AI revenue", href: "/ai-gtm" },
   /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
      page's own title matches its label, so the click lands where it said. */
-  { label: "Success stories", href: "/case-studies" },
+  { label: "What you can do", href: "/case-studies" },
   /* Quick AI tips (/answers) merged into this page on 2026-09-25 (Krish);
      /answers now sends the reader here. */
   { label: "Ideas you can use", href: "/blog" },

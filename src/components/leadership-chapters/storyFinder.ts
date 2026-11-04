@@ -72,16 +72,33 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
 export interface StoryFinderMarkupOptions {
   /** The "What your AI Brain makes possible" label. /ai-brain leaves it out: the page already says so. */
   kicker?: boolean;
+  /**
+   * Which product's stories (proposal for Krish, 2026-11-04: one library, one
+   * card, sorted by product; approved 4 November 2026). A product page shows
+   * only its own; "library" is /case-studies, which opens with the choice of
+   * product. Left out, every situation shows with no choice, as on
+   * /new-age-leadership.
+   */
+  door?: "brain" | "gtm" | "library";
+  /** A page heading and line set inside the finder, so they share its one left edge and its ground. */
+  intro?: { title: string; lede: string };
 }
 
-export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true }: StoryFinderMarkupOptions = {}) {
-  const tabs = SITUATIONS.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}">${s.label}</button>`).join("");
-  const panels = SITUATIONS.map((s, i) => {
+const DOOR_LABEL = { brain: "AI brain", gtm: "AI revenue engine" } as const;
+
+export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true, door, intro }: StoryFinderMarkupOptions = {}) {
+  const shown = door === "brain" || door === "gtm" ? SITUATIONS.filter((s) => s.door === door) : SITUATIONS;
+  const first = shown[0]?.door ?? "brain";
+  const tabs = shown.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}" data-finder-door="${s.door}"${door === "library" && s.door !== first ? " hidden" : ""}>${s.label}</button>`).join("");
+  const doors = door === "library" ? `<div class="finder-doors" role="group" aria-label="What do you want to build?">${(["brain", "gtm"] as const).map((d) => `<button type="button" data-finder-pick="${d}" aria-pressed="${d === first}">${DOOR_LABEL[d]}</button>`).join("")}</div>` : "";
+  const panels = shown.map((s, i) => {
     const cards = s.cards.map((start, n) => card(storyByStart(stories, start), s.door, `${s.id}-${n + 1}`)).join("");
     return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${s.label}</h3><ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> of ${s.cards.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div></div>`;
   }).join("");
   const label = kicker ? `<p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p>` : "";
-  return `<div class="story-finder" data-story-finder>${label}<h2 class="finder-question">Where would you start?</h2><div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
+  const question = door === "library" ? "What do you want to build?" : "Where would you start?";
+  const head = intro ? `<div class="finder-intro"><h1 id="library-title">${esc(intro.title)}</h1><p>${esc(intro.lede)}</p></div>` : "";
+  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2>${doors}<div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
 }
 
 export interface StoryFinderOptions {
@@ -118,15 +135,27 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart }: StoryF
     tabs[index]?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
   };
   panels.forEach((panel, i) => { panel.toggleAttribute("inert", i !== 0); });
+  /* The library's first choice: which product. Its situations are the only
+     tabs shown, and the first of them opens. */
+  const picks = [...finder.querySelectorAll<HTMLButtonElement>("[data-finder-pick]")];
+  picks.forEach((pick) => pick.addEventListener("click", () => {
+    const door = pick.dataset.finderPick;
+    picks.forEach((other) => other.setAttribute("aria-pressed", String(other === pick)));
+    tabs.forEach((tab) => { tab.hidden = tab.dataset.finderDoor !== door; });
+    select(tabs.findIndex((tab) => tab.dataset.finderDoor === door));
+  }, { signal }));
   tabs.forEach((tab, i) => {
     tab.addEventListener("click", () => select(i), { signal });
     tab.addEventListener("keydown", (event) => {
       const step = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 0;
-      if (event.key === "Home") { event.preventDefault(); select(0, true); return; }
-      if (event.key === "End") { event.preventDefault(); select(tabs.length - 1, true); return; }
+      /* Only the chosen product's situations are tabs the reader can reach. */
+      const shown = tabs.map((_, n) => n).filter((n) => !tabs[n].hidden);
+      const at = shown.indexOf(i);
+      if (event.key === "Home") { event.preventDefault(); select(shown[0], true); return; }
+      if (event.key === "End") { event.preventDefault(); select(shown[shown.length - 1], true); return; }
       if (!step) return;
       event.preventDefault();
-      select((i + step + tabs.length) % tabs.length, true);
+      select(shown[(at + step + shown.length) % shown.length], true);
     }, { signal });
   });
 

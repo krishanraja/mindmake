@@ -63,7 +63,7 @@ type BrainItem = (typeof fixture.items)[number];
 // the checks depend on.
 const chapterTitles = ["opening-title", "you-title", "sharper-title", "business-title", "memory-title", "record-title", "built-title"];
 /** The finder's stories, moved here from the homepage (Ruling, Krish, 2026-10-24: "it is the most practical. outlook, output for what an AI brain makes possible, but, having said that, I think this might belong on the AI brain page"). The page already says what it is about, so the finder carries no label of its own. */
-const finderMarkup = storyFinderMarkup(leadershipStories, { kicker: false });
+const finderMarkup = storyFinderMarkup(leadershipStories, { kicker: false, door: "brain" });
 /** What stays with you, as the receipt: the approved brain steps (01_CANON.md). */
 const KEEPS = ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."] as const;
 /** Where the month's steps light: this far down the screen, well clear of the action bar. */

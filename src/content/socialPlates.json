@@ -22,8 +22,8 @@
   },
   "/case-studies": {
     "file": "/social/case-studies.jpg",
-    "version": "7958053b",
-    "headline": "Success stories.",
+    "version": "66b41554",
+    "headline": "What you can do with it.",
     "claim": "",
     "still": "film-04"
   },
@@ -160,6 +160,34 @@
     "claim": "",
     "still": "film-05"
   },
+  "/answers/ai-that-knows-how-you-decide-who-can-build-it": {
+    "file": "/social/answer-ai-that-knows-how-you-decide-who-can-build-it.jpg",
+    "version": "fa20a0d2",
+    "headline": "Who can build an AI that knows how you decide?",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/data-company-value-when-ai-can-do-the-analysis": {
+    "file": "/social/answer-data-company-value-when-ai-can-do-the-analysis.jpg",
+    "version": "6db8591d",
+    "headline": "What is a data company worth when AI can do the analysis?",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/how-to-know-an-ai-project-is-working-before-you-spend-more": {
+    "file": "/social/answer-how-to-know-an-ai-project-is-working-before-you-spend-more.jpg",
+    "version": "941bb81f",
+    "headline": "How do you know an AI project is working before you spend more?",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/pe-backed-media-business-where-to-start-with-ai": {
+    "file": "/social/answer-pe-backed-media-business-where-to-start-with-ai.jpg",
+    "version": "d58d2174",
+    "headline": "Where should a PE-backed media business start with AI?",
+    "claim": "",
+    "still": "film-02"
+  },
   "/answers/ai-system-learns-from-corrections": {
     "file": "/social/answer-ai-system-learns-from-corrections.jpg",
     "version": "01aa5797",
@@ -220,34 +248,6 @@
     "file": "/social/answer-total-addressable-revenue-ai-products-publishing.jpg",
     "version": "9bfee8f6",
     "headline": "Total addressable revenue for AI products in publishing: calculate it from your P&L, not a market report",
-    "claim": "",
-    "still": "film-02"
-  },
-  "/answers/ai-that-knows-how-you-decide-who-can-build-it": {
-    "file": "/social/answer-ai-that-knows-how-you-decide-who-can-build-it.jpg",
-    "version": "fa20a0d2",
-    "headline": "Who can build an AI that knows how you decide?",
-    "claim": "",
-    "still": "film-02"
-  },
-  "/answers/pe-backed-media-business-where-to-start-with-ai": {
-    "file": "/social/answer-pe-backed-media-business-where-to-start-with-ai.jpg",
-    "version": "d58d2174",
-    "headline": "Where should a PE-backed media business start with AI?",
-    "claim": "",
-    "still": "film-02"
-  },
-  "/answers/data-company-value-when-ai-can-do-the-analysis": {
-    "file": "/social/answer-data-company-value-when-ai-can-do-the-analysis.jpg",
-    "version": "6db8591d",
-    "headline": "What is a data company worth when AI can do the analysis?",
-    "claim": "",
-    "still": "film-02"
-  },
-  "/answers/how-to-know-an-ai-project-is-working-before-you-spend-more": {
-    "file": "/social/answer-how-to-know-an-ai-project-is-working-before-you-spend-more.jpg",
-    "version": "941bb81f",
-    "headline": "How do you know an AI project is working before you spend more?",
     "claim": "",
     "still": "film-02"
   }

@@ -9,7 +9,7 @@ import { LeverChapter, type LeverStep } from "@/components/ai-gtm/LeverChapter";
 import { TurnBand } from "@/components/ai-gtm/TurnBand";
 import { PlanChapter } from "@/components/ai-gtm/PlanChapter";
 import { TeamChapter, type TeamCopy } from "@/components/ai-gtm/TeamChapter";
-import { ProofBand } from "@/components/ai-gtm/ProofBand";
+import { StoryLibrary } from "@/components/mindmake/StoryLibrary";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { START_LABEL_GTM, START_SUBLABEL } from "@/lib/publicLinks";
 import signals from "@/data/vnext/gtm-signals.json";
@@ -281,7 +281,7 @@ export default function AiGtm() {
           keeps={KEEPS}
           menu={MENU}
         >
-          <ProofBand quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} story={copy.proof.story} />
+          <StoryLibrary door="gtm" onStart={(door) => openBrief(door)} />
           <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
         </PlanChapter>
       </div>

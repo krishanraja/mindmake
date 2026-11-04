@@ -27,8 +27,11 @@ places, the plan steps and the two Brain panels swipe. Still open: the
 team section at 360x780 (786px). Copy is rewritten in plain words from
 Krish's 3 November v0 edits, with the Brain framed around what the leader wants
 to be good at, improve and catch up on, and no company data needed. Nothing is
-set in italic. The one story library across both products (Krish's question of
-4 November) is proposed and waits on a rendered mock.
+set in italic. The one library across both products is live: `/case-studies` is "What
+you can do with it." (menu: "What you can do") with an AI brain / AI revenue
+engine switch, and each product page shows only its own situations
+(approved by Krish, 4 November 2026). Every heading sits on the logo's left
+edge, enforced by `qa:alignment`.
 
 ## S6: three sections on every page (24 October 2026)
 

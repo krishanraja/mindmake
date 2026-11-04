@@ -22,6 +22,10 @@ in this file is a reading on the date above it, not a baseline.
   14 Sep, Salesforce 03 Sep and Shopify 28 Oct 2026, and the case-study quotes
   upright. Ledger rows `S7-MOBILE-001`, `S7-ALIGN-001`, `S7-NEWS-001`,
   `S7-UPRIGHT-002`.
+- One library, approved by Krish on 4 November 2026 ("approved, merge the
+  mock"): /case-studies is "What you can do with it." with an AI brain / AI
+  revenue engine switch, each product page shows only its own situations,
+  the menu says "What you can do". Ledger row `S7-LIBRARY-001`.
 
 ## 2026-11-03
 

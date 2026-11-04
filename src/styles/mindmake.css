@@ -1869,3 +1869,7 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   .mm-site:not(.mm-route-leadership) { --mm-logo-edge: max(calc(min(100vw, 390px) * .0513), var(--mm-safe-left), var(--mm-safe-right)); }
 }
 .mm-site .nal-page.brain-finder { --edge: var(--mm-logo-edge); }
+/* Inside a page container the finder already stands on the container's
+   edge, so it adds none of its own and takes the page's ground. */
+.mm-site .mm-container .nal-page.brain-finder { --edge: 0px; }
+.mm-site .mm-container .nal-page.brain-finder .story-finder { padding-block: clamp(20px, 3vh, 36px); background: transparent; }

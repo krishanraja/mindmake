@@ -77,7 +77,8 @@ describe("/ai-gtm on the server", () => {
     for (const item of ["Pricing model and buyer test", "Positioning and messaging", "AI-native org chart", "Working agents", "Product marketing launch kit", "AI market read"]) {
       expect(text(body)).toContain(item);
     }
-    expect(body).not.toContain("<details");
+    /* The only <details> are the story cards, which open in place without scripts. */
+    expect(body.replaceAll(/<details data-finder-card[\s\S]*?<\/details>/g, "")).not.toContain("<details");
   });
 
   it("carries both of each seat's states, so a reader without scripts sees the team change", () => {
@@ -112,17 +113,13 @@ describe("/ai-gtm on the server", () => {
     ]);
   });
 
-  it("quotes the result in quotation marks, with the outcome and the attribution beneath", () => {
-    const quote = "We set up an AI-native go-to-market system that made us rethink who we hire and what they do.";
-    const flat = text(body);
-    expect(flat).toContain(quote);
-    const after = text(body.slice(body.indexOf("gtm-quote")));
-    const at = after.indexOf("We set up an AI-native");
-    const who = after.indexOf("Chief Revenue Officer, data-infrastructure company");
-    const outcome = after.indexOf("A new sales path led to a paid test");
-    expect(outcome).toBeGreaterThan(at);
-    expect(who).toBeGreaterThan(outcome);
-    expect(body).toContain('href="/case-studies#story=market-moves"');
+  it("shows what leaders do with a revenue engine, and only those (Krish, 2026-11-04: one library, sorted by product)", () => {
+    /* The single testimonial gave way to the revenue engine's own situations. */
+    const tabs = [...body.matchAll(/data-finder-tab="([a-z]+)"/g)].map((match) => match[1]);
+    expect(tabs).toEqual(["team", "calls"]);
+    expect(body).not.toContain("data-finder-pick");
+    expect(text(body)).toContain("Teams working on the same account");
+    expect(body).toContain('href="/case-studies#story=team-decides"');
   });
 
   /* The acronym GTM leaves public copy (Krish, 2026-10-15); the page says
@@ -163,7 +160,6 @@ describe("/ai-gtm in the browser", () => {
 
     fireEvent.click(screen.getByLabelText(/I'm building an AI-native business/));
     expect(screen.getByText("Your first commercial team can be mostly agents.")).toBeTruthy();
-    expect(document.querySelector(".gtm-quote")!.textContent).toContain("We had a brilliant product nobody could buy");
     expect(contexts.at(-1)).toBe("I'm building an AI-native business");
     /* The four places now speak to the chosen starting point, in the same
        cells: the founder's ways are the ones shown, and no card gained or lost

@@ -32,12 +32,14 @@ you can do with it." (menu: "What you can do") with an AI brain / AI revenue
 engine switch, and each product page shows only its own situations
 (approved by Krish, 4 November 2026). Every heading sits on the logo's left
 edge, enforced by `qa:alignment`. The homepage builds as it is read (approved by Krish from a phone
-recording, 4 November 2026): each heading arrives and a hand underlines or
-circles its key words ("how we think", "chief of staff", "30 days"), the
-lede follows a sentence at a time, then the cards; everything stays readable
-if no animation runs. `/ai-brain` and `/ai-gtm` build the same way through
-`src/lib/scrollBuild.ts` (/ai-brain keeps its own scrub), and the hero's
-underline under "your" is hand-drawn (approved 4 November 2026).
+recording, 4 November 2026): each heading arrives and, a second later, a quick
+pen draws two strokes under its closing words, only ever under the heading's
+last line so no mark crosses other words ("how we think", "how you think",
+"30 days"); the lede follows a sentence at a time, then the cards; everything
+stays readable if no animation runs. `/ai-brain` and `/ai-gtm` build the same
+way through `src/lib/scrollBuild.ts` (/ai-brain keeps its own scrub), and the
+hero's underline under "your" is hand-drawn and revealed along its shape
+(approved 4 November 2026).
 
 ## S6: three sections on every page (24 October 2026)
 

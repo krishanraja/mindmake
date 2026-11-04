@@ -2012,6 +2012,29 @@
         "src/components/homepage-release/integration.css",
         "src/components/homepage-release/heroRotation.ts"
       ]
+    },
+    {
+      "id": "S7-SCROLL-003",
+      "exactFeedback": "The horizontal lines expand weirdly out from the left, as opposed to looking like they're being drawn in real time. ... The double line should be like someone is literally drawing two lines one after the other with a pen. ... We can't have underlines that overlap other text like this. ... Every single hand-drawn line or circle should come in a second later than it does ... the lines just animate too slowly. People don't draw that slowly.",
+      "source": "Krish, 4 November 2026; chose \"Underline last line only\" over circles; approved the faster pen: \"faster pen is good\".",
+      "surface": "/, /ai-brain, /ai-gtm",
+      "section": "every marked heading; the hero headline",
+      "device": "all",
+      "element": "hand-drawn marks",
+      "classification": "correction",
+      "requiredOutcome": "Each mark is two pen strokes drawn left to right one after the other, quickly, a second after the heading lands, under the heading's last line only, never across other words; the hero underline is revealed along its shape, never stretched.",
+      "acceptanceTest": "src/test/scribble-marks.test.ts, src/test/ai-gtm-page.test.tsx; qa:line-breaks, qa:alignment, qa:first-visit pass; a crossing check of every mark against every word of its heading at 1440, 1280, 390 and 360 found none; in-page stroke timing 0.22s per stroke; recordings reviewed by Krish.",
+      "status": "implemented-awaiting-review",
+      "resolution": "underlinePath returns two separate strokes; drawMarks draws only under a heading's last line, times each stroke to its length (0.22 to 0.45s, 60ms lift) and starts 1.45s after arrival; marks moved to closing phrases (\"can answer\", \"how you think\", \"AI agents\"); loops removed; the hero underline is a clip-revealed ::after.",
+      "evidence": [
+        "src/lib/scribble.ts",
+        "src/lib/scrollBuild.ts",
+        "src/styles/mindmake.css",
+        "src/components/homepage-release/integration.css",
+        "src/components/homepage-release/homepageSections.ts",
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/pages/AiGtm.tsx"
+      ]
     }
   ]
 }

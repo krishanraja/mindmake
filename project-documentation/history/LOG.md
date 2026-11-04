@@ -7,6 +7,12 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-11-04
 
+- The homepage builds on scroll, approved by Krish from a phone recording
+  ("merge"): heading, then the lede a sentence at a time, then the cards,
+  through the one entrance primitive (`revealOnArrival` in useReveal.ts); a
+  hand marks each heading's key words with the content engine's scribble
+  geometry (`src/lib/scribble.ts`); shorter ledes; era pictures visible; the
+  hero's foot on a phone is one publication link. Ledger row `S7-SCROLL-001`.
 - First-visit speed (Krish: pictures took up to ten seconds on his phone). On
   Slow 4G at 390x844 the slowest picture went from 9.7 s to 1.6 s on
   /ai-brain and from 3.3 s to 1.7 s on the homepage; pictures sent to phones

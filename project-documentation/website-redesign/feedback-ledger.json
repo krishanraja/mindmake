@@ -1970,6 +1970,26 @@
         "scripts/media/make-responsive.mjs",
         "vercel.json"
       ]
+    },
+    {
+      "id": "S7-SCROLL-001",
+      "exactFeedback": "The homepage feels like it needs to build and animate on scroll, its a tough experience right now, it feels like intense homework, particularly these 2 areas with lots of text in succession - and the history card images are not really visible either. ... can we maybe have key words in each section title underlined and circled by \"hand\" during scroll? ... perhaps we can find a way of slightly shortening some of the subheadings?",
+      "source": "Krish, 4 November 2026; the phone recording approved verbatim: \"merge\".",
+      "surface": "/",
+      "section": "all three sections and the hero's foot",
+      "device": "all",
+      "element": "scroll build, heading marks, ledes, era pictures",
+      "classification": "correction",
+      "requiredOutcome": "Each section builds as it is reached (heading, the lede a sentence at a time, then the cards); a hand underlines or circles each heading's key words; ledes are shorter; the era pictures show above the question; the hero's foot on a phone is one two-line publication link. Readable if no animation runs.",
+      "acceptanceTest": "src/test/reveal-contract.test.tsx (one entrance primitive) and src/test/homepage-leadership-chapters.test.ts; qa:line-breaks, qa:card-contrast and qa:first-visit pass; phone recording reviewed by Krish.",
+      "status": "implemented-awaiting-review",
+      "resolution": "useReveal.ts exports revealOnArrival for plain-DOM surfaces; homepageSections.ts builds each section through it; src/lib/scribble.ts ports the content engine's loop and underline geometry; \"how we think\" underlined, \"chief of staff\" and \"30 days\" circled.",
+      "evidence": [
+        "src/hooks/useReveal.ts",
+        "src/lib/scribble.ts",
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css"
+      ]
     }
   ]
 }

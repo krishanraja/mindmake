@@ -6,6 +6,8 @@ import { leadershipScenes, leadershipStories, organisationGridMarkup } from "@/c
 import latestIssue from "@/data/latestIssue.json";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
+import { revealOnArrival } from "@/hooks/useReveal";
+import { loopPath, underlinePath } from "@/lib/scribble";
 
 /**
  * The homepage after its opening, in three sections (Ruling, Krish,
@@ -115,9 +117,9 @@ const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
 
 export function homepageSectionsMarkup() {
   const acts = leadershipScenes.map(([, poster], index) => `<li>${cardImage(poster)}<b>${ACTS[index].word}</b><span>${ACTS[index].line}</span></li>`).join("");
-  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change how we think.</h2><p class="hs-lede">History shows we resist new technology at first. With AI, resisting is the fastest way to become replaceable. The answer is to use it to make yourself better, not only to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
-      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows how you think.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter over time instead of forgetting. It holds what you want to be good at, your taste and your standards, so you can trust its answers.</p><div class="nal-page mm-home-leadership hs-org"><div class="hybrid-organisation is-active"><p class="instrument-label"><span></span>New-age leadership</p>${organisationGridMarkup}</div></div><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><ul class="hs-acts" aria-label="What the AI carries, in three steps">${acts}</ul></div></section>
-      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in 30 days, and teach you to grow it.</h2><p class="hs-lede">It does not need your company's sensitive data. Your goals, ideas and habits are enough to start.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><p class="hs-proof-links"><a href="/case-studies">See what you can do with it</a></p><div class="hs-start">${startButton()}</div></div></section>
+  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable. Use it to make yourself better, not just to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
+      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI <span class="hs-mark" data-hs-mark="loop">chief of staff</span> knows how you think.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter instead of forgetting. It holds your goals, taste and standards, so you can trust its answers.</p><div class="nal-page mm-home-leadership hs-org"><div class="hybrid-organisation is-active"><p class="instrument-label"><span></span>New-age leadership</p>${organisationGridMarkup}</div></div><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><ul class="hs-acts" aria-label="What the AI carries, in three steps">${acts}</ul></div></section>
+      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="loop">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><p class="hs-proof-links"><a href="/case-studies">See what you can do with it</a></p><div class="hs-start">${startButton()}</div></div></section>
       `;
 }
 
@@ -183,5 +185,81 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
-  return () => abort.abort();
+  const unbuild = buildOnScroll(root);
+  return () => { abort.abort(); unbuild(); };
+}
+
+/**
+ * Each section builds as the reader reaches it (Krish, 2026-11-04: "the
+ * homepage feels like it needs to build and animate on scroll... it feels
+ * like intense homework"). The heading arrives and a hand marks its key words,
+ * then the lede one sentence at a time, then the cards one after another.
+ * Every piece goes through the site's one entrance primitive
+ * (src/hooks/useReveal.ts), so nothing is hidden without an observer, under
+ * reduced motion or once on screen, and nothing pins or changes size.
+ */
+function buildOnScroll(root: HTMLElement) {
+  const cleanups: Array<() => void> = [];
+  const arrive = (el: Element | null, order: number, onShown?: () => void) => {
+    if (el instanceof HTMLElement) cleanups.push(revealOnArrival(el, order, onShown));
+  };
+  root.querySelectorAll<HTMLElement>(".hs-section").forEach((section) => {
+    const title = section.querySelector<HTMLElement>(".hs-title");
+    arrive(title, 0, () => title && drawMarks(title));
+    /* The lede, a sentence at a time. */
+    const lede = section.querySelector<HTMLElement>(".hs-lede");
+    if (lede) {
+      const sentences = (lede.textContent ?? "").match(/[^.!?]+[.!?]+["”’]?\s*/g) ?? [];
+      if (sentences.length > 1 && !lede.querySelector("[data-hs-sentence]")) {
+        lede.textContent = "";
+        sentences.forEach((sentence, index) => {
+          const span = document.createElement("span");
+          span.dataset.hsSentence = "";
+          span.textContent = sentence;
+          lede.append(span);
+          arrive(span, 2 + index * 3);
+        });
+      } else arrive(lede, 2);
+    }
+    section.querySelectorAll(".hs-eras > li, .hs-proof > li, .hs-acts > li").forEach((card, index) => arrive(card, 3 + Math.min(index, 3)));
+    section.querySelectorAll(".hs-inner > .hs-org, .hs-inner > .hs-carries, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-start, .hs-rail-nav").forEach((el) => arrive(el, 4));
+  });
+  return () => cleanups.forEach((cleanup) => cleanup());
+}
+
+/**
+ * A hand marks the heading's key words once it has arrived: a loop around one,
+ * an underline beneath the other (the content engine's scribble, src/lib/scribble.ts).
+ * The mark is decoration over words that are already there, so it is hidden
+ * from assistive technology and drawn once; reduced motion shows it drawn.
+ */
+function drawMarks(title: HTMLElement) {
+  title.querySelectorAll<HTMLElement>("[data-hs-mark]").forEach((mark, index) => {
+    if (mark.querySelector("svg")) return;
+    const box = mark.getBoundingClientRect();
+    if (!box.width) return;
+    const kind = mark.dataset.hsMark === "loop" ? "loop" : "underline";
+    const fontSize = parseFloat(getComputedStyle(mark).fontSize) || 40;
+    const scale = fontSize / 40;
+    const pad = kind === "loop" ? Math.round(fontSize * 0.45) : Math.round(fontSize * 0.3);
+    const w = box.width + pad * 2, h = box.height + pad * 2;
+    const target = { x: pad, y: pad, w: box.width, h: box.height };
+    const d = kind === "loop" ? loopPath(target, `${mark.textContent}-${index}`) : underlinePath({ ...target, y: pad - fontSize * 0.08 }, `${mark.textContent}-${index}`, scale);
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "hs-mark-ink");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("viewBox", `0 0 ${w.toFixed(1)} ${h.toFixed(1)}`);
+    svg.setAttribute("width", w.toFixed(1));
+    svg.setAttribute("height", h.toFixed(1));
+    svg.style.left = `${-pad}px`;
+    svg.style.top = `${-pad}px`;
+    svg.style.setProperty("--hs-mark-delay", `${450 + index * 350}ms`);
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", d);
+    path.setAttribute("pathLength", "1");
+    path.style.strokeWidth = `${Math.max(2, 2.6 * scale).toFixed(1)}px`;
+    svg.append(path);
+    mark.append(svg);
+    requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add("is-drawn")));
+  });
 }

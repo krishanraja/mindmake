@@ -122,7 +122,7 @@
     "scripts/qa/build-new-age-r5-styles.mjs": "e50939a2552f4aa55d3045bed433a593b1aefc2923e5a015af75e5bf37b6c097",
     "scripts/qa/card-contrast-check.mjs": "92de960bc495905b349329e29fdd3628ef855c1fbb5d3c0c1f0f6cc6859bebdf",
     "scripts/qa/current-documentation-check.mjs": "74e5bdd034580920cea9aa793a43728bb2996ad6766dfa3dafc87427ddde70d2",
-    "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
+    "scripts/qa/discoverability-check.mjs": "3df8fb684a766d908fce60e2af7f0a60368130d21a6bac9843896d0f6b79ad0c",
     "scripts/qa/full-route-continuity-check.mjs": "9463e9aee4b5a109cd359d150bc19553839fef04899781bd66705ef45dec7c55",
     "scripts/qa/homepage-release-adapter-check.mjs": "84f6c1db90590d0340ad6dbea37b3774d3e301d57dc88f7af6ff17b081e24249",
     "scripts/qa/homepage-release-browser-check.mjs": "d0281311668a0e498adae8e1ec8ad1d76be40d17464a1eb65ad45280c135fb2b",

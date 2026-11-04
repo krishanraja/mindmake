@@ -60,7 +60,7 @@ describe("/ai-gtm on the server", () => {
       "Your buyers are being offered software that does the whole job.",
       "Your buyers can already pay some software for each result it delivers.",
       "Your next buyer may ask an AI assistant for a shortlist before they visit your website.",
-      "Agents, software that works on its own, now answer customers and find leads.",
+      "Agents, software that works on its own, now answer customers and qualify leads.",
     ]) {
       expect(text(body)).toContain(felt);
     }
@@ -104,11 +104,11 @@ describe("/ai-gtm on the server", () => {
   it("cites a dated public source for every lever", () => {
     const start = body.indexOf('data-gtm-chapter="levers"');
     const levers = text(body.slice(start, body.indexOf("</section>", start)));
-    expect(levers.match(/(Zendesk|HubSpot|Shopify) · \d{1,2} [A-Z][a-z]{2} 2026/g)).toEqual([
-      "Zendesk · 19 May 2026",
-      "HubSpot · 13 Apr 2026",
-      "Shopify · 24 Mar 2026",
-      "HubSpot · 13 Apr 2026",
+    expect(levers.match(/(Zendesk|Salesforce|Shopify) · \d{1,2} [A-Z][a-z]{2} 2026/g)).toEqual([
+      "Zendesk · 14 Sep 2026",
+      "Salesforce · 03 Sep 2026",
+      "Shopify · 28 Oct 2026",
+      "Salesforce · 03 Sep 2026",
     ]);
   });
 

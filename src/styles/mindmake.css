@@ -1860,3 +1860,12 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
 @media (max-width: 767px) {
   .mm-menu-routes .mm-route-tail { display: none; }
 }
+
+/* The story finder starts where the logo starts, on every page that carries
+   it (Ruling, Krish, 2026-11-04: "Things should never be misaligned"). */
+.mm-site { --mm-logo-edge: var(--mm-header-inline, var(--mm-edge)); }
+@media (max-width: 700px) {
+  /* On a phone the logo sits on the chrome's own gutter. */
+  .mm-site:not(.mm-route-leadership) { --mm-logo-edge: max(calc(min(100vw, 390px) * .0513), var(--mm-safe-left), var(--mm-safe-right)); }
+}
+.mm-site .nal-page.brain-finder { --edge: var(--mm-logo-edge); }

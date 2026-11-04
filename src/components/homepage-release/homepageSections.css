@@ -18,7 +18,10 @@
   --hs-mint: #9ff1c9;
   --hs-mint-d: #2f6b4c;
   --hs-amber: #e0a44a;
-  --hs-edge: clamp(22px, 4.4vw, 72px);
+  /* The masthead's own edge, so the logo and every heading share one line
+     (Krish, 2026-11-04: "Things should never be misaligned"): 4.4% of the
+     width on a desktop, 5.13% on a phone (integration.css). */
+  --hs-edge: 4.4vw;
   padding: clamp(72px, 12vh, 136px) var(--hs-edge);
   background: var(--hs-ink);
   color: var(--hs-cream);
@@ -589,4 +592,38 @@
   .mm-homepage-release .hs-section { padding-block: 18px 22px; }
   .mm-homepage-release .hs-era { min-height: 196px; }
   .mm-homepage-release .hs-era-a { font-size: 15px; line-height: 1.38; }
+}
+/* A phone (Krish, 2026-11-04: mobile-first, no clumsy wrapping): each half of
+   the carries line is its label over its list, never a list broken mid-way. */
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-carries { display: grid; gap: 8px; }
+  .mm-homepage-release .hs-carries span { display: grid; gap: 2px; }
+  .mm-homepage-release .hs-carries b { margin: 0; }
+  .mm-homepage-release .hs-proof-links { gap: 0 24px; }
+  .mm-homepage-release .hs-proof-links a { min-height: 40px; }
+}
+@media (max-width: 700px) {
+  .mm-homepage-release .hs-section { --hs-edge: 5.13vw; }
+}
+/* What the AI carries, on a phone (Krish, 2026-11-04: three word-only squares
+   "doesn't work visually"): one row to swipe, each step its picture, its word
+   and its line, the next step showing at the edge. */
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-acts {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 74%;
+    gap: 10px;
+    margin: 0 calc(var(--hs-edge) * -1);
+    padding: 0 var(--hs-edge);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--hs-edge);
+    scrollbar-width: none;
+  }
+  .mm-homepage-release .hs-acts::-webkit-scrollbar { display: none; }
+  .mm-homepage-release .hs-acts > li { scroll-snap-align: start; min-height: 150px; padding: 14px 16px; gap: 6px; }
+  .mm-homepage-release .hs-acts > li::before { background: linear-gradient(180deg, rgba(13, 28, 22, .1) 0, rgba(13, 28, 22, .55) 36%, rgba(13, 28, 22, .92) 62%, rgba(13, 28, 22, .94) 100%); }
+  .mm-homepage-release .hs-acts span { display: block; font-size: 16px; line-height: 1.35; text-wrap: pretty; }
 }

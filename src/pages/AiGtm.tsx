@@ -43,21 +43,21 @@ type Mode = "established" | "founder";
 
    Each lever cites the source whose recorded observation supports it, and each
    felt line says no more than that source does (gtm-signals.json carries the
-   observation and its limit): Zendesk sells software as a workforce that does
-   the service job; HubSpot's agents answer customers and recommend leads, and
-   are paid for per resolved conversation and per lead; Shopify puts merchants'
-   products inside AI assistants. The People line is where the page first says
+   observation and its limit; refreshed 4 November 2026): Zendesk's agents
+   complete service workflows from start to finish; Salesforce charges for its
+   service agent only when an issue is resolved, and its sales agents prospect
+   and qualify leads; Shopify puts merchants' products inside AI agents. The People line is where the page first says
    "agents", so it says what one is. */
 const LEVERS = ["product", "price", "positioning", "people"] as const;
 const LEVER_NAMES = { product: "Product", price: "Price", positioning: "Positioning", people: "People" } as const;
 const SIGNAL_FOR = { product: signals.service, price: signals.pricing, positioning: signals.commerce, people: signals.pricing } as const;
-const SOURCE_NAME = { product: "Zendesk", price: "HubSpot", positioning: "Shopify", people: "HubSpot" } as const;
+const SOURCE_NAME = { product: "Zendesk", price: "Salesforce", positioning: "Shopify", people: "Salesforce" } as const;
 
 const FELT = {
   product: "Your buyers are being offered software that does the whole job.",
   price: "Your buyers can already pay some software for each result it delivers.",
   positioning: "Your next buyer may ask an AI assistant for a shortlist before they visit your website.",
-  people: "Agents, software that works on its own, now answer customers and find leads.",
+  people: "Agents, software that works on its own, now answer customers and qualify leads.",
 } as const;
 
 const SHIFT = {

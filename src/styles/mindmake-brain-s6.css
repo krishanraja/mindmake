@@ -167,7 +167,7 @@
   .mm-locked-brain .pair-panel { scroll-snap-align: start; }
   .mm-locked-brain .pair-panel,
   .mm-locked-brain .pair-panel:first-child,
-  .mm-locked-brain .pair-panel:last-child { gap: 1rem; padding: 1.5rem 1rem; }
+  .mm-locked-brain .pair-panel:last-child { gap: 1rem; padding: 1.5rem var(--mm-logo-edge); }
   .mm-locked-brain .pair .chapter-copy > h2 { font-size: clamp(2rem, 8.6vw, 2.5rem); }
   .mm-locked-brain .pair .chapter-copy > p { font-size: 1rem; line-height: 1.4; }
   .mm-site .mm-locked-brain .pair :is(.brain-stage, .record-machine) { height: 40vh; min-height: 290px; }
@@ -179,7 +179,7 @@
   .mm-locked-brain .month-stack .leaf p { font-size: 1.02rem; line-height: 1.3; }
   .mm-locked-brain .beat-tabs { gap: 0 1rem; }
   .mm-locked-brain .beat-tab { font-size: .68rem; letter-spacing: .06em; }
-  .brain-close-body { padding-inline: 1rem; }
+  .brain-close-body { padding-inline: var(--mm-logo-edge); }
 }
 @media (max-width: 380px) {
   .mm-locked-brain :is(.beat-copy, .built .chapter-copy, .pair .chapter-copy) > p { font-size: .95rem; }
@@ -199,3 +199,17 @@
 @media (prefers-reduced-motion: reduce) {
   .mm-locked-brain :is(.beat-copy, .beat, .beat-tab, .beat-step) { transition: none; }
 }
+/* A phone: what stays with you as three tight rows, not three tall cards. */
+@media (max-width: 760px) {
+  .brain-close .mm-receipt-items li { gap: 10px; padding: 10px 14px; font-size: 16px; }
+  .brain-close .mm-receipt-head { padding: 10px 14px; }
+}
+
+/* One left edge (Ruling, Krish, 2026-11-04: "Things should never be
+   misaligned"): every chapter, the finder and the close start where the logo
+   starts, the shell's --mm-edge, at every width. */
+.mm-site .mm-locked-brain .chapter:not(.pair) { padding-inline: var(--mm-logo-edge); }
+.mm-locked-brain .pair-panel:first-child { padding-left: var(--mm-logo-edge); }
+.mm-locked-brain .pair-panel:last-child { padding-right: var(--mm-logo-edge); }
+.brain-close-body { padding-inline: var(--mm-logo-edge); }
+

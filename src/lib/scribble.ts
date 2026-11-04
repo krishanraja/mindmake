@@ -57,22 +57,51 @@ export function loopPath(target: Box, seed: string, turns = 1.16): string {
   return smooth(pts);
 }
 
-/** An underline beneath a box: one wavering stroke out, a flick, and a second pass back. */
-export function underlinePath(target: Box, seed: string, scale = 1): string {
+/**
+ * A loop that keeps inside the room it is given (Krish, 2026-11-04: marks
+ * never cross other words): a squarer pen loop with semi-axes `a` and `b`
+ * about a centre, overrunning its start a little, as a pen does, but never
+ * stepping outside its box. `fits` says whether such a loop still rings a
+ * phrase of half-width `hw` and half-height `hh`.
+ */
+const LOOP_POWER = 3;
+export const loopFits = (a: number, b: number, hw: number, hh: number) =>
+  a > hw && b > hh && (hw / a) ** LOOP_POWER + (hh / b) ** LOOP_POWER <= 0.97;
+export function fittedLoopPath(cx: number, cy: number, a: number, b: number, seed: string): string {
   const rng = random(seed);
-  const x0 = target.x, x1 = target.x + target.w, y = target.y + target.h + 6 * scale;
-  const length = x1 - x0;
-  const amp = 3.2 * scale, ph = rng() * 6.28;
-  const stroke = (off: number, a0: number, over: number) => {
-    const pts: Point[] = [], n = Math.max(12, Math.floor(length / 22));
+  const ph = [rng() * 6.28, rng() * 6.28];
+  const pts: Point[] = [], steps = 56, turns = 1.1;
+  for (let i = 0; i <= Math.floor(steps * turns); i++) {
+    const t = i / steps, ang = -2.3 + 2 * Math.PI * t;
+    const r = 0.955 + 0.03 * t + 0.012 * Math.sin(2 * ang + ph[0]) + 0.008 * Math.sin(3 * ang + ph[1]);
+    const c = Math.cos(ang), s = Math.sin(ang);
+    pts.push([cx + r * a * Math.sign(c) * Math.abs(c) ** (2 / LOOP_POWER), cy + r * b * Math.sign(s) * Math.abs(s) ** (2 / LOOP_POWER)]);
+  }
+  return smooth(pts);
+}
+
+/**
+ * A double underline beneath a box, as a pen draws one (Krish, 2026-11-04:
+ * "like someone is literally drawing two lines one after the other with a
+ * pen"): two separate strokes, both left to right, the second a little lower
+ * and set slightly off the first. Each wavers gently and drifts a touch, as a
+ * hand does; nothing joins them, so the pen lifts between the two.
+ */
+export function underlinePath(target: Box, seed: string, scale = 1): [string, string] {
+  const rng = random(seed);
+  const x0 = target.x, length = target.w, y = target.y + target.h + 6 * scale;
+  const amp = 1.6 * scale, ph = rng() * 6.28;
+  const stroke = (off: number, a0: number, start: number, end: number, drift: number) => {
+    const pts: Point[] = [], n = Math.max(10, Math.floor(length / 26));
     for (let i = 0; i <= n; i++) {
-      const t = i / n, s = -over + t * (length + 2 * over);
-      const wob = amp * Math.sin(t * 2.5 * 2 * Math.PI + ph + a0) * (0.55 + 0.45 * Math.sin(t * 3.1 + a0));
-      pts.push([x0 + s, y + wob + off]);
+      const t = i / n, s = start + t * (length + end - start);
+      const wob = amp * Math.sin(t * 1.6 * 2 * Math.PI + ph + a0) * (0.6 + 0.4 * Math.sin(t * 2.7 + a0));
+      pts.push([x0 + s, y + off + wob - drift * t]);
     }
-    return pts;
+    return smooth(pts);
   };
-  const first = stroke(0, 0.3, 6 * scale);
-  const end = first[first.length - 1];
-  return smooth([...first, [end[0] + 8 * scale, end[1] + amp * 1.2], ...stroke(amp * 2.3, 1.9, 2 * scale).reverse()]);
+  return [
+    stroke(0, 0.3, -5 * scale, 4 * scale, 2.4 * scale),
+    stroke(amp * 3.4, 1.9, 4 * scale, -2 * scale, 1.2 * scale),
+  ];
 }

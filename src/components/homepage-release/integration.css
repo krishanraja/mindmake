@@ -658,21 +658,33 @@ body.mm-homepage-active { margin: 0; }
    instead of the current precise straight underlines"): one wavering stroke
    that lifts at its end, from the content engine's scribble geometry
    (src/lib/scribble.ts), in three variants so the six headlines are not
-   stamped alike. It stretches to the word and is revealed left to right by
-   the same draw and undraw as before. */
+   stamped alike. It lies at its full shape under the word and a pen draws
+   it: revealed left to right, never stretched out from the left (Krish,
+   2026-11-04: "expand weirdly out from the left, as opposed to looking like
+   they're being drawn in real time"). */
 .mm-homepage-release .r3-opening h1 .mm-hero-your {
   --hero-ul: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M2.0 16.6 C4.0 16.4 10.2 15.8 14.3 15.3 C18.3 14.8 22.4 14.1 26.5 13.7 C30.6 13.4 34.7 13.3 38.8 13.3 C42.8 13.3 46.9 13.8 51.0 14.0 C55.1 14.1 59.2 14.2 63.3 14.3 C67.3 14.5 71.4 14.8 75.5 14.9 C79.6 15.0 83.7 15.2 87.8 15.1 C91.8 14.9 95.9 14.4 100.0 14.1 C104.1 13.8 108.2 13.6 112.3 13.4 C116.3 13.1 120.4 12.8 124.5 12.7 C128.6 12.6 132.7 12.9 136.8 12.7 C140.8 12.6 144.9 12.1 149.0 11.9 C153.1 11.8 157.2 12.1 161.3 11.9 C165.3 11.7 169.4 11.1 173.5 10.9 C177.6 10.7 181.7 10.9 185.8 10.7 C189.8 10.5 196.0 10.0 198.0 9.9' fill='none' stroke='%239df0c8' stroke-width='3' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  position: relative;
   padding-bottom: .1em;
-  background: var(--hero-ul) 0 100% / 100% .3em no-repeat;
+}
+.mm-homepage-release .r3-opening h1 .mm-hero-your::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: .3em;
+  background: var(--hero-ul) 0 100% / 100% 100% no-repeat;
+  pointer-events: none;
 }
 .mm-homepage-release .r3-opening h1 .mm-hero-your[data-ul="1"] { --hero-ul: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M2.0 15.7 C4.0 15.9 10.2 16.8 14.3 16.9 C18.3 17.0 22.4 16.8 26.5 16.5 C30.6 16.2 34.7 15.7 38.8 15.1 C42.8 14.4 46.9 13.2 51.0 12.7 C55.1 12.2 59.2 12.0 63.3 12.1 C67.3 12.2 71.4 12.9 75.5 13.4 C79.6 13.8 83.7 14.4 87.8 14.8 C91.8 15.3 95.9 16.1 100.0 16.2 C104.1 16.2 108.2 15.6 112.3 15.3 C116.3 14.9 120.4 14.4 124.5 13.8 C128.6 13.2 132.7 12.4 136.8 11.8 C140.8 11.3 144.9 10.8 149.0 10.6 C153.1 10.4 157.2 10.5 161.3 10.6 C165.3 10.8 169.4 11.4 173.5 11.6 C177.6 11.7 181.7 11.8 185.8 11.6 C189.8 11.4 196.0 10.7 198.0 10.5' fill='none' stroke='%239df0c8' stroke-width='3' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); }
 .mm-homepage-release .r3-opening h1 .mm-hero-your[data-ul="2"] { --hero-ul: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M2.0 17.1 C4.0 17.2 10.2 17.6 14.3 17.3 C18.3 17.0 22.4 15.8 26.5 15.3 C30.6 14.7 34.7 14.3 38.8 13.8 C42.8 13.3 46.9 12.1 51.0 12.0 C55.1 11.9 59.2 12.8 63.3 13.2 C67.3 13.6 71.4 13.9 75.5 14.3 C79.6 14.6 83.7 15.3 87.8 15.5 C91.8 15.7 95.9 15.8 100.0 15.5 C104.1 15.2 108.2 14.4 112.3 13.9 C116.3 13.5 120.4 13.1 124.5 12.8 C128.6 12.4 132.7 12.0 136.8 11.8 C140.8 11.5 144.9 11.2 149.0 11.2 C153.1 11.2 157.2 11.5 161.3 11.6 C165.3 11.7 169.4 11.9 173.5 11.8 C177.6 11.7 181.7 11.1 185.8 10.9 C189.8 10.6 196.0 10.3 198.0 10.2' fill='none' stroke='%239df0c8' stroke-width='3' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); }
 @media (prefers-reduced-motion: no-preference) {
-  .mm-homepage-release .r3-opening h1 .mm-hero-your { animation: mm-hero-your-draw .9s cubic-bezier(.65, 0, .25, 1) .9s both; }
+  .mm-homepage-release .r3-opening h1 .mm-hero-your::after { animation: mm-hero-your-draw .9s cubic-bezier(.4, .1, .5, .95) 1.9s both; }
 }
 @keyframes mm-hero-your-draw {
-  from { background-size: 0% .3em; }
-  to { background-size: 100% .3em; }
+  from { clip-path: inset(-50% 100% -50% 0); }
+  to { clip-path: inset(-50% 0 -50% 0); }
 }
 
 /* The hero headline (Krish, 2026-09-27): three fixed lines, the same for
@@ -697,17 +709,17 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-opening h1 .mm-hero-outgoing .mm-hero-row {
     animation: mm-hero-row-out .5s cubic-bezier(.25, .6, .3, 1) calc(var(--row, 0) * 45ms) both;
   }
-  .mm-homepage-release .r3-opening h1 .mm-hero-outgoing .mm-hero-your {
+  .mm-homepage-release .r3-opening h1 .mm-hero-outgoing .mm-hero-your::after {
     animation: mm-hero-your-undraw .35s cubic-bezier(.25, .6, .3, 1) both;
   }
   .mm-homepage-release .r3-opening h1 .mm-hero-line.is-entering .mm-hero-row {
     animation: mm-hero-row-in 1s cubic-bezier(.16, 1, .3, 1) calc(420ms + var(--row, 0) * 90ms) both;
   }
-  .mm-homepage-release .r3-opening h1 .mm-hero-line.is-entering .mm-hero-your { animation-delay: 1.2s; animation-duration: 1s; }
+  .mm-homepage-release .r3-opening h1 .mm-hero-line.is-entering .mm-hero-your::after { animation-delay: 2.2s; animation-duration: 1s; }
 }
 @keyframes mm-hero-your-undraw {
-  from { background-size: 100% .3em; background-position: 100% 100%; }
-  to { background-size: 0% .3em; background-position: 100% 100%; }
+  from { clip-path: inset(-50% 0 -50% 0); }
+  to { clip-path: inset(-50% 0 -50% 100%); }
 }
 @keyframes mm-hero-row-out {
   from { opacity: 1; transform: none; }

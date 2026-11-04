@@ -36,6 +36,7 @@
   color: var(--hs-cream-2);
   font: 400 clamp(18px, 1.6vw, 23px) / 1.45 var(--r3-serif);
 }
+.mm-homepage-release .hs-problem .hs-lede { max-width: 910px; }
 .mm-homepage-release .hs-subtitle {
   margin: clamp(18px, 3vh, 32px) 0 0;
   font: 400 clamp(24px, 2.2vw, 34px) / 1.12 var(--r3-serif);

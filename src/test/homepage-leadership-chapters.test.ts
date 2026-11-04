@@ -39,7 +39,7 @@ describe("the homepage in three sections", () => {
     expect(hero).toContain("From OUR MEDIA CHANNEL:");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next decade will have an AI that thinks like them. We build yours.");
+    expect(homepageMarkup).toContain("The leaders who shape the next decade will 10x themselves with AI, so they set the pace.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {

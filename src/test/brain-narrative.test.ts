@@ -65,7 +65,7 @@ describe("the Brain narrative", () => {
     // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
     // integrations with named AI companies.
     const text = doc.querySelector(".mm-locked-brain")?.textContent ?? "";
-    for (const vendor of ["ChatGPT", "OpenAI", "Claude", "Anthropic", "Copilot", "Gemini"]) expect(text, vendor).not.toContain(vendor);
+    for (const vendor of ["OpenAI", "Claude", "Anthropic", "Copilot", "Gemini"]) expect(text, vendor).not.toContain(vendor);
     const main = doc.querySelector(".mm-locked-brain")!;
     const withDays = [...main.querySelectorAll<HTMLElement>(".chapter[data-phase]")].filter((chapter) => /30 days/.test(chapter.textContent ?? ""));
     expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);

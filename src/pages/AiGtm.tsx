@@ -14,12 +14,15 @@ import { buildOnScroll } from "@/lib/scrollBuild";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { START_LABEL_GTM, START_SUBLABEL } from "@/lib/publicLinks";
 import signals from "@/data/vnext/gtm-signals.json";
+import orreryPlate from "@/assets/stories/orrery-alignment-r01-800.webp";
+import boundFolioPlate from "@/assets/stories/bound-folio-r01-800.webp";
 import quietWorkshopFilm from "@/assets/films/sep2026/quiet-workshop-growth-loop-r01-20s-720p-web-sealed.mp4";
 import signalsArriveFilm from "@/assets/films/sep2026/signals-arrive-loop-r01-20s-720p-web-sealed.mp4";
 import quietWorkshopPoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/quiet-workshop-growth-loop-r01-20s-720p-web-sealed-poster.webp";
 import signalsArrivePoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/signals-arrive-loop-r01-20s-720p-web-sealed-poster.webp";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-ai-gtm.css";
+import "@/styles/mindmake-calm-s8.css";
 
 /* The AI revenue engine page, in three sections (owner ruling, 2026-10-24:
    every page answers what problem it solves, how it solves it, and what the
@@ -119,6 +122,7 @@ const MODES: Record<Mode, {
         ],
       },
       tally: { today: "27 people · 0 agents", native: "11 people · 5 agent roles" },
+      count: { today: { people: 27, agents: 0 }, native: { people: 11, agents: 5 } },
       decisions: {
         lead: "How do you set targets when part of the team is software?",
         sales: "When agents do the research and first drafts, do you cover more accounts or run a smaller team?",
@@ -165,6 +169,7 @@ const MODES: Record<Mode, {
         ],
       },
       tally: { today: "1 founder · 1 hire planned", native: "2 people · 4 agent roles" },
+      count: { today: { people: 1, agents: 0 }, native: { people: 2, agents: 4 } },
       decisions: {
         lead: "Which calls must only you make, and which can agents take today?",
         hire: "Is your first hire a seller, or someone who runs the agents that sell?",
@@ -235,7 +240,7 @@ export default function AiGtm() {
       sections: "[data-gtm-chapter]",
       title: "h1, h2",
       lede: ".gtm-opening-deck",
-      items: ".gtm-doors, .gtm-lever, .team-instrument, .decision-panel, .gtm-plan-step, .gtm-plan-menu, .mm-receipt, .finder-card, .mm-pairing",
+      items: ".gtm-doors, .gtm-lever, .team-side, .decision-panel, .gtm-plan-step, .gtm-plan-menu li, .s8-keeps li, .finder-card, .mm-pairing",
     });
   }, []);
   const copy = MODES[mode];
@@ -290,6 +295,7 @@ export default function AiGtm() {
           onPick={setPicked}
           decisionLabel="The decision you'll face"
           decisionNote="We work through decisions like this with you in week 1."
+          plate={<img src={orreryPlate} alt="" loading="lazy" decoding="async" />}
         />
 
         <PlanChapter
@@ -297,11 +303,20 @@ export default function AiGtm() {
           mark={{ phrase: "30 days", kind: "underline" }}
           steps={PLAN}
           keeps={KEEPS}
+          keepsTitle="What stays with you"
           menu={MENU}
-        >
-          <StoryLibrary door="gtm" onStart={(door) => openBrief(door)} />
-          <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
-        </PlanChapter>
+          menuIcons={["price", "message", "org", "agent", "launch", "radar"]}
+          plate={<img src={boundFolioPlate} alt="" loading="lazy" decoding="async" />}
+        />
+
+        {/* Ruling (owner, 2026-11-04, mock approved): where to start is its
+            own section, after the offer, with the way in and the other page. */}
+        <section className="gtm-begin gtm-s8 s8-body s8-green" data-gtm-chapter="start" aria-label="Where would you start?">
+          <div className="mm-container">
+            <StoryLibrary door="gtm" onStart={(door) => openBrief(door)} />
+            <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
+          </div>
+        </section>
       </div>
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} initialContext={copy.tab} />
     </MindmakeShell>

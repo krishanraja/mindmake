@@ -2035,6 +2035,35 @@
         "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
         "src/pages/AiGtm.tsx"
       ]
+    },
+    {
+      "id": "S8-CALM-001",
+      "exactFeedback": "This What Stays With You section on the AI revenue page looks awful and just sticks out like a sore thumb. And in general, why does this UX exist for all of the pages where I can't tell where a new section actually begins. ... Just overall, there are so many components everywhere. ... it does just look like lots of paragraphs of text now. What do you recommend ... How can we visually compensate for so many words with different tactics? ... my complexity feedback is only about the brain and the revenue pages.",
+      "source": "Krish, 4 November 2026; the now-and-planned mocks approved: \"faster pen is good, the rest of it looks good. If there's anything we can do on mobile to lessen the vertical scrolling without losing important content, let me know. With it, complete this merge to main.\"",
+      "surface": "/ai-gtm, /ai-brain, / (chief of staff section)",
+      "section": "every section after the opening on /ai-gtm and /ai-brain; the homepage chief of staff section",
+      "device": "all",
+      "element": "section starts, one big thing per section, icons, disclosure",
+      "classification": "correction",
+      "requiredOutcome": "Each section opens clearly (a picture with its heading, or its own ground) and carries one big thing; lists become icons, flows and tiles in one icon set; detail is one tap away, never deleted; phones scroll less without losing content.",
+      "acceptanceTest": "src/test/ai-gtm-page.test.tsx, src/test/brain-narrative.test.ts, src/test/homepage-leadership-chapters.test.ts; qa:line-breaks (now opening \"See every role\" before pressing every switch and seat), qa:alignment, qa:first-visit, qa:homepage-release:pre-merge, qa:card-contrast pass; desktop and phone screenshots reviewed.",
+      "status": "implemented-awaiting-review",
+      "resolution": "src/lib/icons.ts and Icon.tsx give one icon set; Plate.tsx opens sections on a picture; /ai-gtm: four swaps with icons and \"Why now\", team as today beside AI-native with the decision in view and the seats behind \"See every role\", the month with icons, the builds as tiles, the keeps as three marks, where to start as its own section; /ai-brain: the beats' instruments without panels and with icons, goals and the record as two sections, goals on a picture, the record's counts, promises and uses as icons with the live record behind a tap, the month on a picture with four stops; homepage: one picture and a three-step flow, the organisation linked to /new-age-leadership. Phones: shorter plates, swipes, two-up tiles and counts side by side.",
+      "evidence": [
+        "src/lib/icons.ts",
+        "src/components/mindmake/Icon.tsx",
+        "src/components/mindmake/Plate.tsx",
+        "src/styles/mindmake-calm-s8.css",
+        "src/components/ai-gtm/LeverChapter.tsx",
+        "src/components/ai-gtm/TeamChapter.tsx",
+        "src/components/ai-gtm/PlanChapter.tsx",
+        "src/pages/AiGtm.tsx",
+        "src/pages/AiBrainLocked.tsx",
+        "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+        "src/components/homepage-release/homepageSections.ts",
+        "src/components/homepage-release/homepageSections.css",
+        "scripts/qa/line-break-check.mjs"
+      ]
     }
   ]
 }

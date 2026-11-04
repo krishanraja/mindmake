@@ -49,8 +49,12 @@ describe("/ai-gtm on the server", () => {
     expect(text(h1).trim()).toBe("Build a growth strategy that survives AI, and a team that can manage AI agents.");
     const lede = body.indexOf("We work with commercial leaders in media businesses");
     expect(lede).toBeGreaterThan(body.indexOf("<h1"));
-    expect(body.indexOf("Where are you starting from?")).toBeGreaterThan(lede);
-    expect(body.indexOf("You can feel it in ")).toBeGreaterThan(body.indexOf("Where are you starting from?"));
+    /* Ruling (2026-11-04, mock approved): the four places open on their own
+       picture and heading, and the question of where the reader starts sits
+       under that heading, before the first place. */
+    expect(body.indexOf("You can feel it in ")).toBeGreaterThan(lede);
+    expect(body.indexOf("Where are you starting from?")).toBeGreaterThan(body.indexOf("You can feel it in "));
+    expect(body.indexOf('class="gtm-lever"')).toBeGreaterThan(body.indexOf("Where are you starting from?"));
     expect(text(body)).not.toContain("You could add an AI tool");
     expect(text(body)).not.toContain("The deals would go to whoever changed the rest.");
   });
@@ -79,8 +83,13 @@ describe("/ai-gtm on the server", () => {
     for (const item of ["Pricing model and buyer test", "Positioning and messaging", "AI-native org chart", "Working agents", "Product marketing launch kit", "AI market read"]) {
       expect(text(body)).toContain(item);
     }
-    /* The only <details> are the story cards, which open in place without scripts. */
-    expect(body.replaceAll(/<details data-finder-card[\s\S]*?<\/details>/g, "")).not.toContain("<details");
+    /* Ruling (2026-11-04, mock approved): detail sits one tap away ("Why now",
+       "How we test", "See every role"), but the builds are never folded away. */
+    const menu = body.slice(body.indexOf("gtm-plan-menu"), body.indexOf("</ul>", body.indexOf("gtm-plan-menu")));
+    expect(menu).not.toContain("<details");
+    for (const fold of body.match(/<details(?! data-finder-card)[\s\S]*?<\/details>/g) ?? []) {
+      expect(fold).not.toContain("Pricing model and buyer test");
+    }
   });
 
   it("carries both of each seat's states, so a reader without scripts sees the team change", () => {
@@ -92,7 +101,7 @@ describe("/ai-gtm on the server", () => {
 
   it("writes each seat's decision into the seat, so a reader who cannot pick one still reads them all", () => {
     const start = body.indexOf('data-gtm-chapter="team"');
-    const board = body.slice(start, body.indexOf("decision-panel", start));
+    const board = body.slice(body.indexOf("team-board", start), body.indexOf("</section>", start));
     for (const decision of [
       "How do you set targets when part of the team is software?",
       "Who is accountable when an agent turns away a lead that would have bought?",

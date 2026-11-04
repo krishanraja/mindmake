@@ -1894,3 +1894,7 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
 @media (prefers-reduced-motion: reduce) {
   .hs-mark-ink path { transition: none; stroke-dashoffset: 0; }
 }
+
+/* The site's one icon set (src/lib/icons.ts): one pen, no fills. */
+.mm-icon { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.mm-icon-big { width: 40px; height: 40px; stroke-width: 1.35; }

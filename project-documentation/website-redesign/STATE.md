@@ -12,6 +12,19 @@ relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
 
+## S8: one idea per section on the product pages (4 November 2026)
+
+`/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry
+one idea per section, approved by Krish from now-and-planned mocks: each
+section opens on a full-width picture with its heading (`Plate`), or on its
+own ground, and shows one big thing (the four swaps, today beside the
+AI-native team, the month, the questions, the ideas, the record's counts);
+lists are icons, flows and tiles from one set (`src/lib/icons.ts`); the
+detail is one tap away ("Why now", "How we test", "See every role", "See the
+live record"), never removed. Phones keep the content with shorter plates,
+swipes and two-up tiles. The other pages are unchanged by Krish's choice.
+Styles: `src/styles/mindmake-calm-s8.css`. Ledger row `S8-CALM-001`.
+
 ## S7: one screen per section, plain words, upright type (4 November 2026)
 
 Krish's review of the live site on 4 November 2026 (feedback ledger rows

@@ -12,7 +12,10 @@ import lockedDocument from "../../prototypes/website-redesign-recovery/brain-sig
    ten seconds on a phone (Krish, 2026-11-04). */
 import evidencePoster from "@/assets/responsive/evidence-connects-poster-w1280.webp";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
-import { Receipt } from "@/components/mindmake/Receipt";
+import { Icon } from "@/components/mindmake/Icon";
+import goalsPlate from "@/assets/films/sep2026/opportunities-resolve-poster.webp";
+import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
+import type { IconName } from "@/lib/icons";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
@@ -24,6 +27,7 @@ import "@/styles/mindmake-locked-brain.css";
 import "@/styles/mindmake-brain-refinements.css";
 import "@/styles/mindmake-brain-narrative.css";
 import "@/styles/mindmake-brain-s6.css";
+import "@/styles/mindmake-calm-s8.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -69,6 +73,9 @@ const chapterTitles = ["opening-title", "you-title", "sharper-title", "business-
 const finderMarkup = storyFinderMarkup(leadershipStories, { kicker: false, door: "brain" });
 /** What stays with you, as the receipt: the approved brain steps (01_CANON.md). */
 const KEEPS = ["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."] as const;
+/* Ruling (owner, 2026-11-04, mock approved): what stays with you is three
+   marks in a row, not a receipt box. */
+const KEEP_ICON: readonly IconName[] = ["graph", "proven", "rise"];
 /** Where the month's steps light: this far down the screen, well clear of the action bar. */
 const READING_LINE = 0.72;
 
@@ -81,6 +88,8 @@ function prepareMarkup() {
   });
   markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4", evidenceFilm);
   markup = replaceLockedAsset(markup, "./media/evidence-connects-poster.png", evidencePoster);
+  markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/opportunities-resolve-poster.webp", goalsPlate);
+  markup = replaceLockedAsset(markup, "../../../src/assets/stories/punched-cards-r01-800.webp", monthPlate);
   return markup;
 }
 
@@ -474,7 +483,7 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
     const unbuildClose = close ? buildOnScroll(close, {
       sections: ".brain-finder, .brain-close-body",
       title: ".finder-question",
-      items: ".finder-card, .mm-receipt-items li, .mm-pairing",
+      items: ".finder-card, .s8-keeps li, .mm-pairing",
     }) : () => undefined;
 
     return () => {
@@ -503,7 +512,12 @@ export default function AiBrainLocked() {
       <div className="brain-close">
         <div ref={finderRef} id="stories" className="nal-page brain-finder" dangerouslySetInnerHTML={{ __html: finderMarkup }} />
         <div className="brain-close-body">
-          <Receipt title="What stays with you" tag="Yours to keep · Day 30" items={KEEPS} />
+          <div className="s8-keeps-block">
+            <h3 className="s8-label">What stays with you · Yours to keep · Day 30</h3>
+            <ul className="s8-keeps">
+              {KEEPS.map((entry, index) => <li key={entry}><Icon name={KEEP_ICON[index]} className="mm-icon mm-icon-big" />{entry}</li>)}
+            </ul>
+          </div>
           <PairingBridge route="brain" onStart={() => openBrief("brain")} startLabel={START_LABEL} />
         </div>
       </div>

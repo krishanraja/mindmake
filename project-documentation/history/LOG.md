@@ -7,6 +7,11 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-11-04
 
+- /ai-gtm, /ai-brain and the homepage's chief of staff section become calmer,
+  approved by Krish from now-and-planned mocks ("the rest of it looks good"):
+  each section opens on its picture or its own ground with one big thing,
+  one icon set (`src/lib/icons.ts`), detail one tap away, fewer boxes, and
+  less scrolling on phones. Ledger row `S8-CALM-001`.
 - The hand-drawn marks draw like a pen, approved by Krish ("faster pen is good"):
   two quick strokes left to right, one after the other, a second after the
   heading lands, only under a heading's last line so no mark crosses other

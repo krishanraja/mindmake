@@ -1,3 +1,4 @@
+import { filmsMayLoad } from "@/lib/filmGate";
 import { useEffect } from "react";
 import type { RefObject } from "react";
 
@@ -63,6 +64,11 @@ export function useLockedMotion(rootRef: RefObject<HTMLElement>) {
         return;
       }
 
+      /* Films wait for the page's pictures and skip slow lines (src/lib/filmGate.ts). */
+      if (!(await filmsMayLoad())) {
+        nextScene.dataset.motionState = "poster";
+        return;
+      }
       if (!nextVideo.src && nextVideo.dataset.src) {
         nextVideo.src = nextVideo.dataset.src;
         nextVideo.load();

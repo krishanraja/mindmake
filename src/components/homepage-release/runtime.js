@@ -1,8 +1,10 @@
 // Generated delivery adapter. Approved source remains unchanged.
 import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
-import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07.webp";
+import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07-w1280.webp";
 import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4";
+import asset4 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-720p-phone.mp4";
+import { playWhenFilmsMayLoad } from "@/lib/filmGate";
 export function mountHomepageRuntime(root, { onStart }) {
   const abort = new AbortController();
   const observers = new Set();
@@ -87,7 +89,7 @@ export function mountHomepageRuntime(root, { onStart }) {
 
   const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
-    else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});
+    else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) playWhenFilmsMayLoad(video, () => !reducedMotion.matches && !abort.signal.aborted);
   });
   listen(reducedMotion, 'change', syncMotionMedia);
   syncMotionMedia();

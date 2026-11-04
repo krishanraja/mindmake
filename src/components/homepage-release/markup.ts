@@ -1,8 +1,9 @@
 // Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.
 import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
-import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07.webp";
+import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r07-w1280.webp";
 import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4";
+import asset4 from "../../assets/films/sep2026/archive-engine-hero-loop-r07-16s-720p-phone.mp4";
 import { heroStartMarkup, homepageSectionsMarkup, mastheadSubscribeMarkup } from "@/components/homepage-release/homepageSections";
 export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the story</a>
     <main id="site" data-release="homepage-integrated-candidate-r3" aria-label="Mindmake homepage">
@@ -15,7 +16,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 ${mastheadSubscribeMarkup()}<button class="menu-control" type="button" aria-label="Open navigation"><b>Menu</b><i aria-hidden="true"></i></button>
               </header>
               <section class="hero-stage">
-                <video data-mm-poster="true" muted="" loop="" playsinline="" preload="metadata" poster="${asset2}" aria-hidden="true">
+                <video data-mm-poster="true" muted="" loop="" playsinline="" preload="none" poster="${asset2}" aria-hidden="true">
                   <source src="${asset3}" type="video/mp4" media="(min-width: 701px)">
                 </video>
                 <div class="film-wash" aria-hidden="true"></div>
@@ -37,8 +38,8 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 ${mastheadSubscribeMarkup()}<button class="menu-control" type="button" aria-label="Open navigation"><b>Menu</b><i aria-hidden="true"></i></button>
               </header>
               <section class="hero-stage">
-                <video data-mm-poster="true" muted="" loop="" playsinline="" preload="metadata" poster="${asset2}" aria-hidden="true">
-                  <source src="${asset3}" type="video/mp4" media="(max-width: 700px)">
+                <video data-mm-poster="true" muted="" loop="" playsinline="" preload="none" poster="${asset2}" aria-hidden="true">
+                  <source src="${asset4}" type="video/mp4" media="(max-width: 700px)">
                 </video>
                 <div class="film-wash" aria-hidden="true"></div>
                 <div class="hero-copy">

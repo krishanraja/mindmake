@@ -1949,6 +1949,27 @@
         "src/components/leadership-chapters/leadershipChapters.ts",
         "src/components/leadership-chapters/storyFinder.ts"
       ]
+    },
+    {
+      "id": "S7-SPEED-001",
+      "exactFeedback": "Some of the images take up to 10 seconds to load on a user's first visit. That is completely unacceptable.",
+      "source": "Krish, 4 November 2026, on his phone over LTE.",
+      "surface": "/, /ai-brain, /ai-gtm, /case-studies",
+      "section": "all",
+      "device": "mobile",
+      "element": "pictures and films",
+      "classification": "correction",
+      "requiredOutcome": "On a phone's first visit over Slow 4G every picture finishes within 2.5 s of its request, the first picture within 3 s, no film downloads before the page has loaded, and no picture sent to a phone is over 150 KB.",
+      "acceptanceTest": "npm run qa:first-visit (Chromium, 390x844, cache off, Slow 4G). Negative control: production before this change fails it 12 times (the /ai-brain poster 901 KB, finished at 10.2 s; the homepage film downloading from 0.8 s).",
+      "status": "implemented-awaiting-review",
+      "resolution": "Width variants and blurred placeholders for every card picture (scripts/media/make-responsive.mjs, srcset in homepageSections.ts and storyFinder.ts); the /ai-brain poster as a 33 KB webp; the homepage poster at 1280 wide and a 0.8 MB 720p film for phones; every film waits for the page's load and an idle moment and skips slow or data-saving lines (src/lib/filmGate.ts); content-hashed /assets cached for a year.",
+      "evidence": [
+        "scripts/qa/first-visit-check.mjs",
+        "src/lib/filmGate.ts",
+        "src/lib/responsiveImages.ts",
+        "scripts/media/make-responsive.mjs",
+        "vercel.json"
+      ]
     }
   ]
 }

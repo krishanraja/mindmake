@@ -11,7 +11,10 @@ in this file is a reading on the date above it, not a baseline.
   approved by Krish from now-and-planned mocks ("the rest of it looks good"):
   each section opens on its picture or its own ground with one big thing,
   one icon set (`src/lib/icons.ts`), detail one tap away, fewer boxes, and
-  less scrolling on phones. Ledger row `S8-CALM-001`.
+  less scrolling on phones. Ledger row `S8-CALM-001`. A phone trim followed
+  (shorter plates, starting points side by side, two-up steps): /ai-gtm
+  4,710 to 4,079px and /ai-brain 5,430 to 5,028px at 390 wide; before the
+  change they were 3,674 and 4,314px.
 - The hand-drawn marks draw like a pen, approved by Krish ("faster pen is good"):
   two quick strokes left to right, one after the other, a second after the
   heading lands, only under a heading's last line so no mark crosses other

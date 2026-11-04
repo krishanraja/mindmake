@@ -16,7 +16,7 @@ describe("the homepage in three sections", () => {
     expect(at('id="hs-problem-title"')).toBeGreaterThan(at('id="opening"'));
     expect(at('id="footer"')).toBeGreaterThan(at('id="hs-get-title"'));
     const sections = homepageSectionsMarkup();
-    const order = ["Right now, your AI is an intern.", "An AI chief of staff knows how you think.", "We build yours, and teach you to grow it in 30 days."].map((title) => sections.indexOf(title));
+    const order = ["All new technologies need mindshifts from us.", "An AI chief of staff knows how you think.", "We build yours, and teach you to grow it in 30 days."].map((title) => sections.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
     expect(sections.match(/<section\b/g)).toHaveLength(3);
     expect(sections).toContain('id="history"');

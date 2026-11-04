@@ -94,7 +94,8 @@ export function drawMarks(title: HTMLElement) {
        literally drawing two lines one after the other with a pen"): each takes
        as long as a steady pen needs for its length, and the second begins
        once the pen has lifted. */
-    const duration = Math.min(900, Math.max(400, 350 + box.width / 1.4));
+    /* A quick hand (Krish, 2026-11-04: "People don't draw that slowly"). */
+    const duration = Math.min(450, Math.max(220, 180 + box.width / 3.5));
     strokes.forEach((d) => {
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("d", d);
@@ -103,7 +104,7 @@ export function drawMarks(title: HTMLElement) {
       path.style.setProperty("--stroke-delay", `${Math.round(start)}ms`);
       path.style.setProperty("--stroke-dur", `${Math.round(duration)}ms`);
       svg.append(path);
-      start += duration + 90;
+      start += duration + 60;
     });
     start += 160;
     mark.append(svg);

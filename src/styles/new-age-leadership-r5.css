@@ -1197,10 +1197,16 @@
   border-color: var(--brass);
 }
 
+/* The picture fills the band and a little below it, framed on its middle,
+ * where each scene's subject sits; the room around it is shared by every
+ * scene and would make neighbouring cards look alike. */
 .nal-page .finder-plate {
   position: absolute;
-  inset: 0;
+  inset: 0 0 auto;
+  height: calc(var(--finder-band) + 90px);
   z-index: -2;
+  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
+  mask-image: linear-gradient(180deg, #000 60%, transparent);
 }
 
 .nal-page .finder-plate img {
@@ -1208,7 +1214,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 30%;
+  object-position: 50% 72%;
   filter: saturate(.85);
 }
 

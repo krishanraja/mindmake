@@ -33,7 +33,7 @@ export const SITUATIONS: readonly Situation[] = [
   { id: "change", label: "Seeing what is changing", door: "brain", cards: ["An insurance leader", "An investor buying", "A CEO who read many newsletters", "A leader who only heard from inside", "A change in market pricing"] },
   { id: "hands", label: "Getting hands-on again", door: "brain", cards: ["A head of operations", "Someone new to AI", "A CRO who hates the numbers"] },
   { id: "team", label: "Keeping your team in step", door: "gtm", cards: ["Teams working on the same account", "One person corrected it once", "A team's account plans"] },
-  { id: "calls", label: "Making the big AI calls", door: "gtm", cards: ["Two quarters of argument", "A publisher weighing up", "A broadcaster stopped"] },
+  { id: "calls", label: "Making the big AI calls", door: "gtm", cards: ["Two quarters of argument", "A respected advisory firm", "A publisher weighing up", "A broadcaster stopped"] },
 ];
 
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");

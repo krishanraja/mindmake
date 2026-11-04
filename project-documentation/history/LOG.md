@@ -26,6 +26,10 @@ in this file is a reading on the date above it, not a baseline.
   mock"): /case-studies is "What you can do with it." with an AI brain / AI
   revenue engine switch, each product page shows only its own situations,
   the menu says "What you can do". Ledger row `S7-LIBRARY-001`.
+- The advisory firm's result (sellable-expertise) gains its card and picture
+  (Higgsfield, 3 credits, `bound-folio`), the second under "Making the big
+  AI calls". Every result on the record now has a card. Ledger row
+  `S7-EXPERTISE-001`.
 
 ## 2026-11-03
 

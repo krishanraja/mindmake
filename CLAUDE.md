@@ -26,7 +26,7 @@ is three sections: the problem, how it works, and what the reader gets and how
 they know it works. Between the R3 opening and footer the homepage carries
 src/components/homepage-release/homepageSections.ts, injected by the
 generator; nothing on it pins. The AI Brain stories are a chooser on /ai-brain
-that never pins: seventeen stories in five situations, the whole story in a
+that never pins: eighteen stories in five situations, the whole story in a
 sheet. /new-age-leadership keeps its pinned chapters from
 src/components/leadership-chapters/. No word may sit alone on a line and no
 swapping component may change size when a reader makes a choice

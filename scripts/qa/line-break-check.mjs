@@ -79,8 +79,10 @@ const STATES = {
   ],
   "/ai-gtm": [
     { name: "starting point", controls: ".gtm-door", frames: [".lever-steps"] },
-    { name: "team", controls: ".gtm-view-switch button", frames: [".gtm-team-body"] },
-    { name: "seat", controls: ".role-cell:not(:disabled)", frames: [".gtm-team-body"] },
+    /* The seats sit behind "See every role" (2026-11-04); open it, then press
+       every switch and seat as before. */
+    { name: "team", setup: ".team-roles:not([open]) > summary", controls: ".gtm-view-switch button", frames: [".gtm-team-body"] },
+    { name: "seat", setup: ".team-roles:not([open]) > summary", controls: ".role-cell:not(:disabled)", frames: [".gtm-team-body"] },
   ],
   "/new-age-leadership": [{ name: "finder", controls: "[data-finder-tab]", frames: [".story-finder"] }],
 };

@@ -1,0 +1,237 @@
+/* S8: one idea per section (Krish, 2026-11-04: "there are so many components
+   everywhere", then the mock approved: "the rest of it looks good"). Every
+   rebuilt section begins on a full-width picture with its heading on it, then
+   carries its one big thing on a single surface: no boxes round words, one
+   icon set, detail one tap away. Loaded after a page's own stylesheet; every
+   rule is scoped to a rebuilt section (`.gtm-s8`) or to the shared pieces
+   (`.mm-plate`, `.mm-icon`, `.s8-*`). */
+
+
+/* Where a section begins: its picture, its heading. */
+.mm-plate { position: relative; isolation: isolate; display: flex; align-items: flex-end; min-height: clamp(260px, 44vh, 460px); overflow: hidden; background: var(--mm-ink, #07110e); }
+.mm-plate-media { position: absolute; inset: 0; z-index: -2; }
+.mm-plate-media > img, .mm-plate-media video { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.62) saturate(.92); }
+.mm-plate-media > .gtm-film { position: absolute; inset: 0; z-index: auto; }
+.mm-plate::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7, 17, 14, 0) 22%, rgba(7, 17, 14, .9)); }
+.mm-plate-head { position: relative; width: 100%; padding-block: 0 clamp(26px, 5vh, 52px); }
+.mm-site .mm-plate-head h2 { max-width: 16ch; margin: 0; color: #efe6d3; font-size: clamp(36px, 5vw, 70px); font-weight: 390; line-height: 1.02; letter-spacing: -.035em; text-wrap: balance; }
+
+/* One surface per section. */
+.s8-body { padding-block: clamp(36px, 7vh, 84px) clamp(56px, 10vh, 120px); }
+.s8-paper { background: var(--gtm-paper, #ebe2cf); color: var(--mm-tx-d, #1b2a23); }
+.s8-dark { background: #0d1d17; color: #efe6d3; }
+.s8-green { background: #11291f; color: #efe6d3; }
+.mm-site .s8-label, .s8-label { margin: 0; font: 500 12px/1.2 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--mm-mint-d, #2f6b4c); }
+.s8-dark .s8-label, .s8-green .s8-label { color: var(--mm-mint, #9df0c8); }
+
+/* The detail one tap away. */
+.s8-more { margin-top: 14px; }
+.s8-more > summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; list-style: none; cursor: pointer; font: 500 12px/1.2 var(--mm-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mm-mint-d, #2f6b4c); }
+.s8-dark .s8-more > summary, .s8-green .s8-more > summary { color: var(--mm-mint, #9df0c8); }
+.s8-more > summary::-webkit-details-marker { display: none; }
+.s8-more > summary .mm-icon { width: 16px; height: 16px; transition: transform .2s ease; }
+.s8-more[open] > summary .mm-icon { transform: rotate(45deg); }
+
+/* /ai-gtm, the four places: swaps on paper, no glass cards. */
+.mm-gtm .gtm-s8.gtm-levers { padding-block: 0; background: none; overflow: visible; }
+.mm-gtm .gtm-s8.gtm-levers::before { content: none; }
+.mm-gtm .gtm-s8 .gtm-levers-body { display: block; }
+.mm-gtm .gtm-s8 .gtm-doors { margin-bottom: clamp(28px, 5vh, 52px); }
+.mm-gtm .gtm-s8 .lever-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(18px, 2.2vw, 34px); }
+.mm-gtm .gtm-s8 .gtm-lever { grid-template-rows: subgrid; grid-row: span 3; margin: 0; padding: 22px 0 0; border-top: 2px solid var(--mm-mint-d, #2f6b4c); background: none; }
+.mm-gtm .gtm-s8 .gtm-lever-name { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; color: var(--mm-mint-d, #2f6b4c); }
+.mm-gtm .gtm-s8 .gtm-lever-was { color: rgba(27, 42, 35, .6); }
+.mm-gtm .gtm-s8 .gtm-lever-now { color: var(--mm-tx-d, #1b2a23); font-size: clamp(22px, 1.8vw, 27px); line-height: 1.18; }
+.mm-gtm .gtm-s8 .gtm-felt { margin-top: 4px; padding-top: 0; border-top: 0; color: rgba(27, 42, 35, .78); }
+.mm-site .mm-gtm .gtm-s8 .gtm-source { color: var(--mm-mint-d, #2f6b4c); }
+.mm-gtm .gtm-s8 .gtm-door { border-color: rgba(27, 42, 35, .22); background: none; color: var(--mm-tx-d, #1b2a23); }
+.mm-gtm .gtm-s8 .gtm-door[data-active="true"] { border-color: var(--mm-mint-d, #2f6b4c); background: rgba(47, 107, 76, .08); }
+.mm-gtm .gtm-s8 .gtm-doors-question { color: var(--mm-tx-d, #1b2a23); }
+
+/* /ai-gtm, the team: today beside AI-native, then the question it raises. */
+.mm-gtm .gtm-s8.gtm-team { padding-block: 0; background: none; }
+.mm-gtm .gtm-s8 .gtm-team-body { display: block; }
+.mm-gtm .gtm-s8 .team-compare { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(18px, 4vw, 64px); align-items: start; }
+.mm-gtm .gtm-s8 .team-count { margin: 0; color: #efe6d3; font: 390 clamp(52px, 7vw, 104px)/.95 var(--mm-serif); letter-spacing: -.04em; }
+.mm-gtm .gtm-s8 .team-count span { color: var(--mm-mint, #9df0c8); }
+.mm-gtm .gtm-s8 .team-count small { display: block; margin-top: 12px; color: var(--mm-mint, #9df0c8); font: 500 12px/1.3 var(--mm-mono); letter-spacing: .09em; text-transform: uppercase; }
+.mm-gtm .gtm-s8 .team-marks { display: flex; flex-wrap: wrap; gap: 8px; max-width: 340px; margin: 22px 0 0; color: #efe6d3; }
+.mm-gtm .gtm-s8 .team-marks i { width: 13px; height: 13px; border: 1.5px solid currentColor; border-radius: 50%; opacity: .8; }
+.mm-gtm .gtm-s8 .team-marks .mm-icon { width: 20px; height: 20px; margin: -3.5px 0; color: var(--mm-mint, #9df0c8); }
+.mm-gtm .gtm-s8 .team-compare-arrow { align-self: center; width: 40px; height: 40px; color: rgba(239, 230, 211, .5); }
+.mm-gtm .gtm-s8 .team-rest { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); margin-top: clamp(40px, 7vh, 72px); padding-top: 26px; border-top: 1px solid rgba(239, 230, 211, .15); align-items: start; }
+.mm-gtm .gtm-s8 .decision-panel { margin: 0; padding: 0; border: 0; background: none; color: #efe6d3; }
+.mm-gtm .gtm-s8 .decision-copy h3, .mm-gtm .gtm-s8 .decision-sizer-q { margin-top: 12px; color: #efe6d3; font: 390 clamp(26px, 2.6vw, 38px)/1.16 var(--mm-serif); letter-spacing: -.02em; }
+.mm-gtm .gtm-s8 .decision-sizer-q { display: block; }
+.mm-gtm .gtm-s8 .gtm-decision-role, .mm-gtm .gtm-s8 .decision-sizer-role { color: var(--mm-mint, #9df0c8); font: 500 12px/1.3 var(--mm-mono); letter-spacing: .09em; text-transform: uppercase; }
+.mm-gtm .gtm-s8 .gtm-decision-note { margin-top: 14px; color: rgba(239, 230, 211, .66); font-size: 16px; }
+.mm-gtm .gtm-s8 .team-roles { margin-top: 0; }
+.mm-gtm .gtm-s8 .team-roles .team-instrument { margin-top: 12px; }
+
+/* /ai-gtm, the month: bar, stretches with icons, builds as tiles, keeps as marks. */
+.mm-gtm .gtm-s8.gtm-plan { padding-block: 0; background: none; }
+.mm-gtm .gtm-s8.gtm-plan::before { content: none; }
+.mm-gtm .gtm-s8 .gtm-plan-body { display: block; }
+.mm-gtm .gtm-s8 .gtm-plan-steps { display: grid; grid-template-columns: 7fr 21fr 2fr; gap: clamp(14px, 2vw, 32px); margin: 20px 0 0; padding: 0; list-style: none; }
+.mm-gtm .gtm-s8 .gtm-plan-step { margin: 0; padding: 0; border: 0; background: none; color: var(--mm-tx-d, #1b2a23); }
+.mm-gtm .gtm-s8 .gtm-plan-when { display: flex; align-items: center; gap: 10px; color: var(--mm-mint-d, #2f6b4c); font: 500 12px/1.2 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.mm-gtm .gtm-s8 .gtm-plan-what { margin-top: 12px; color: var(--mm-tx-d, #1b2a23); font: 400 clamp(22px, 2vw, 30px)/1.18 var(--mm-serif); }
+.mm-gtm .gtm-s8 .gtm-plan-detail { margin-top: 8px; color: rgba(27, 42, 35, .78); font-size: 17px; max-width: 46ch; }
+.mm-gtm .gtm-s8 .gtm-plan-last { justify-self: end; }
+.mm-gtm .gtm-s8 .s8-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin: clamp(40px, 7vh, 72px) 0 0; padding: 0; list-style: none; }
+.mm-gtm .gtm-s8 .s8-tiles li { display: flex; flex-direction: column; gap: 14px; min-height: 128px; margin: 0; padding: 18px 16px; border: 1px solid rgba(27, 42, 35, .16); background: none; color: var(--mm-tx-d, #1b2a23); font: 400 17px/1.25 var(--mm-serif); }
+.mm-gtm .gtm-s8 .s8-tiles .mm-icon { color: var(--mm-mint-d, #2f6b4c); }
+/* What stays with you: three marks in a row, on either page. */
+.s8-keeps-block { margin-top: clamp(40px, 7vh, 72px); }
+.brain-close .s8-keeps-block { margin-top: 0; }
+.s8-keeps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 44px); margin: 16px 0 0; padding: 0; list-style: none; }
+.s8-keeps li { display: flex; align-items: center; gap: 14px; color: var(--mm-tx-d, #1b2a23); font: 400 clamp(20px, 1.8vw, 24px)/1.25 var(--mm-serif, "Newsreader", Georgia, serif); }
+.s8-keeps .mm-icon { color: var(--mm-mint-d, #2f6b4c); }
+.brain-close .s8-keeps li { color: #eadfc9; }
+.brain-close .s8-keeps .mm-icon, .brain-close .s8-label { color: #91e8bc; }
+
+/* The month on paper: work in deep green, the rest of the month lighter, the
+   last days, what the reader keeps, in ink. */
+.mm-gtm .gtm-s8 .plan-days li { border-color: var(--mm-mint-d, #2f6b4c); background-color: var(--mm-mint-d, #2f6b4c); }
+.mm-gtm .gtm-s8 .plan-days li[data-stretch="1"] { border-color: rgba(47, 107, 76, .4); background-color: rgba(47, 107, 76, .32); }
+.mm-gtm .gtm-s8 .plan-days li[data-stretch="2"] { border-color: var(--mm-tx-d, #1b2a23); background-color: var(--mm-tx-d, #1b2a23); }
+
+/* /ai-gtm, where to start: its own section. */
+.mm-gtm .gtm-begin { color: #efe6d3; }
+
+@media (max-width: 1023px) {
+  .mm-gtm .gtm-s8 .lever-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mm-gtm .gtm-s8 .s8-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mm-gtm .gtm-s8 .team-rest { grid-template-columns: 1fr; }
+}
+
+/* Phones: less scrolling, nothing lost (Krish, 2026-11-04: "lessen the
+   vertical scrolling without losing important content"). Shorter plates;
+   swaps swipe; the team's two counts stay side by side; the stretches and
+   the builds sit in compact rows; what stays with you is one short list. */
+@media (max-width: 699px) {
+  .mm-plate { min-height: clamp(220px, 34svh, 300px); }
+  .mm-site .mm-plate-head h2 { font-size: clamp(32px, 9vw, 40px); }
+  .s8-body { padding-block: 28px 52px; }
+  .mm-gtm .gtm-s8 .lever-steps { grid-template-columns: none; grid-auto-columns: 82%; }
+  .mm-gtm .gtm-s8 .team-compare { grid-template-columns: 1fr 1fr; gap: 18px; }
+  .mm-gtm .gtm-s8 .team-compare-arrow { display: none; }
+  .mm-gtm .gtm-s8 .team-count { font-size: clamp(44px, 13vw, 56px); }
+  .mm-gtm .gtm-s8 .team-count small { font-size: 10.5px; letter-spacing: .05em; }
+  .mm-gtm .gtm-s8 .team-marks { gap: 5px; margin-top: 14px; }
+  .mm-gtm .gtm-s8 .team-marks i { width: 9px; height: 9px; }
+  .mm-gtm .gtm-s8 .team-marks .mm-icon { width: 15px; height: 15px; margin: -3px 0; }
+  .mm-gtm .gtm-s8 .team-rest { margin-top: 28px; padding-top: 20px; }
+  .mm-gtm .gtm-s8 .plan-days { display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); grid-template-rows: none; grid-auto-flow: row; column-gap: 2px; row-gap: 0; }
+  .mm-gtm .gtm-s8 .plan-days li { height: 12px; margin-left: 0; }
+  .mm-gtm .gtm-s8 .gtm-plan-steps { grid-template-columns: 1fr; grid-auto-flow: row; gap: 18px; margin-inline: 0; padding-inline: 0; overflow: visible; }
+  .mm-gtm .gtm-s8 .gtm-plan-step { padding: 0; border: 0; }
+  .mm-gtm .gtm-s8 .gtm-plan-last { justify-self: start; }
+  .mm-gtm .gtm-s8 .s8-tiles { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 32px; }
+  .mm-gtm .gtm-s8 .s8-tiles li { flex-direction: row; align-items: center; gap: 10px; min-height: 0; padding: 12px 10px; font-size: 15px; }
+  .mm-gtm .gtm-s8 .s8-tiles .mm-icon-big { width: 26px; height: 26px; }
+  .s8-keeps-block { margin-top: 32px; }
+  .s8-keeps { grid-template-columns: 1fr; gap: 10px; }
+  .s8-keeps .mm-icon-big { width: 28px; height: 28px; }
+  .s8-keeps li { font-size: 19px; }
+}
+
+/* ---------- /ai-brain (Krish, 2026-11-04, mock approved) ----------
+   The story's three beats keep their tabs and their brick ground, but each
+   beat's instrument becomes its one big thing without a panel: the five
+   questions as a list read at a glance, the decision as a flow, the four
+   places with their questions. Goals and the record become two sections, the
+   goals opening on a picture; the live record is one tap away; the month
+   opens on a picture and its four stops sit in a row. */
+.mm-locked-brain .leaf > .mm-icon { color: var(--mint, #91e8bc); }
+.mm-site .mm-locked-brain .beat-instruments .leaf-stack,
+.mm-site .mm-locked-brain .beat-instruments .lever-field { height: auto; min-height: 0; border: 0; background: none; box-shadow: none; overflow: visible; }
+.mm-site .mm-locked-brain .beat-instruments .leaf-stack::before,
+.mm-site .mm-locked-brain .beat-instruments .leaf-stack .leaf::before { content: none; }
+.mm-site .mm-locked-brain .question-stack .leaf { display: grid; grid-template-columns: 40px 11rem minmax(0, 1fr); column-gap: 1.1rem; align-items: center; padding: 1rem 0; border-top: 1px solid rgba(234, 223, 201, .16); background: none; }
+.mm-site .mm-locked-brain .question-stack .leaf:last-child { border-bottom: 1px solid rgba(234, 223, 201, .16); }
+.mm-site .mm-locked-brain .question-stack .leaf > .mm-icon { width: 34px; height: 34px; stroke-width: 1.35; }
+.mm-site .mm-locked-brain .question-stack .leaf > span { font-size: .62rem; }
+.mm-site .mm-locked-brain .question-stack .leaf > p { margin: 0; font-size: clamp(1.4rem, 2.2vw, 2.1rem); }
+.mm-site .mm-locked-brain .decision-stack { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: auto; gap: 1.2rem; }
+.mm-site .mm-locked-brain .decision-stack .leaf { display: flex; gap: .55rem; padding: 1rem 0 0; border-top: 2px solid rgba(234, 223, 201, .2); background: none; justify-content: flex-start; }
+.mm-site .mm-locked-brain .decision-stack .leaf[data-role="moved"] { border-top-color: var(--brass-light, #e0bd78); }
+.mm-site .mm-locked-brain .decision-stack .leaf[data-role="call"] { border-top-color: var(--mint, #91e8bc); }
+.mm-site .mm-locked-brain .decision-stack .leaf > .mm-icon, .mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 36px; height: 36px; stroke-width: 1.35; }
+.mm-site .mm-locked-brain .decision-stack .leaf > p, .mm-site .mm-locked-brain .lever-list .leaf > p { margin: 0; font-size: clamp(1.2rem, 1.6vw, 1.6rem); line-height: 1.15; }
+.mm-site .mm-locked-brain .lever-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
+.mm-site .mm-locked-brain .lever-list .leaf { display: flex; gap: .55rem; padding: 1rem 0 0; border-top: 1px solid rgba(234, 223, 201, .2); background: none; justify-content: flex-start; }
+
+/* Goals and the record: two sections, one after the other. */
+.mm-site .mm-locked-brain .chapter.pair { grid-template-columns: 1fr; grid-auto-flow: row; overflow: visible; background: none; }
+.mm-locked-brain .pair-panel, .mm-locked-brain .pair-panel:first-child, .mm-locked-brain .pair-panel:last-child { padding: clamp(2.5rem, 7vh, 5rem) max(4vw, calc((100vw - 1600px) / 2)) clamp(3.5rem, 10vh, 7rem); }
+.mm-locked-brain .pair-panel.memory { grid-template-areas: "plate" "lede" "stage"; padding-top: 0; gap: 0; background: #11291f; }
+.mm-locked-brain .pair-panel.memory > .chapter-copy { display: contents; }
+.mm-locked-brain .s8-plate-media { position: relative; overflow: hidden; }
+.mm-locked-brain .s8-plate-media img { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.6) saturate(.92); }
+.mm-locked-brain .s8-plate-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 17, 14, 0) 22%, rgba(7, 17, 14, .9)); }
+.mm-locked-brain .pair-panel.memory > .s8-plate-media { grid-area: plate; height: clamp(260px, 44vh, 460px); margin-inline: calc(-1 * max(4vw, calc((100vw - 1600px) / 2))); }
+.mm-site .mm-locked-brain .pair-panel.memory > .chapter-copy > h2 { grid-area: plate; z-index: 1; align-self: end; margin: 0 0 clamp(26px, 5vh, 52px); max-width: 16ch; color: #efe6d3; font-size: clamp(2.3rem, 5vw, 4.4rem); }
+.mm-locked-brain .pair-panel.memory > .chapter-copy > p { grid-area: lede; margin-top: clamp(1.6rem, 4vh, 2.6rem); color: rgba(239, 230, 211, .82); }
+.mm-site .mm-locked-brain .pair-panel.memory .brain-stage { grid-area: stage; margin-top: clamp(1.6rem, 4vh, 2.6rem); height: min(56vh, 520px); border: 0; background: none; box-shadow: none; }
+.mm-locked-brain .pair-panel.living-record { background: #ebe2cf; color: #1b2a23; }
+.mm-locked-brain .pair-panel.living-record::before, .mm-locked-brain .pair-panel.living-record::after { content: none; }
+.mm-site .mm-locked-brain .pair-panel.living-record .chapter-copy > h2 { color: #1b2a23; }
+.s8-promises { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 3vw, 2.8rem); margin: clamp(1.4rem, 3vh, 2rem) 0 0; padding: 0; list-style: none; }
+.s8-promises li { display: flex; align-items: flex-start; gap: .9rem; font: 400 clamp(1rem, 1.25vw, 1.15rem)/1.4 "Newsreader", Georgia, serif; }
+.s8-promises .mm-icon { color: #2f6b4c; }
+.mm-site .mm-locked-brain .pair .record-machine { height: auto; min-height: 0; display: block; overflow: visible; border: 0; background: none; box-shadow: none; color: #1b2a23; }
+.mm-locked-brain .living-record .record-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; border: 0; }
+.mm-locked-brain .living-record .record-counts span { display: block; padding: .8rem 0 0; border: 0; border-top: 2px solid #2f6b4c; color: #2f6b4c; font: 500 .72rem/1.2 "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.mm-locked-brain .living-record .record-counts b { display: block; margin-bottom: .4rem; color: #1b2a23; font: 390 clamp(3.2rem, 6vw, 5.6rem)/.95 "Newsreader", Georgia, serif; letter-spacing: -.03em; text-transform: none; }
+.mm-locked-brain .living-record .record-ports { position: static; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: clamp(1.8rem, 4vh, 2.8rem) 0 0; padding: 0; border: 0; background: none; }
+.mm-locked-brain .living-record .record-ports li { position: static; display: flex; flex-direction: column; gap: .8rem; padding: 1.1rem 1rem; border: 1px solid rgba(27, 42, 35, .16); background: none; color: #1b2a23; font: 400 1.05rem/1.25 "Newsreader", Georgia, serif; letter-spacing: 0; text-transform: none; opacity: 1; transform: none; animation: none; }
+.mm-locked-brain .living-record .record-ports .mm-icon { color: #2f6b4c; }
+.mm-locked-brain .living-record .record-ports li span, .mm-locked-brain .living-record .record-counts b { color: #1b2a23; opacity: 1; }
+.mm-locked-brain .living-record .record-ports li::before, .mm-locked-brain .living-record .record-ports li::after { content: none; }
+.mm-locked-brain .record-live { margin-top: 1rem; }
+.mm-locked-brain .record-live > summary { color: #2f6b4c; }
+.mm-locked-brain .record-live[open] .reel-window { height: 280px; margin-top: .8rem; background: #08140f; }
+.mm-locked-brain .record-live .record-controls { background: #08140f; color: var(--paper); }
+
+/* The story on one clay ground, its questions readable at full strength. */
+.mm-site .mm-locked-brain .chapter.you { background: #6f382f; }
+.mm-locked-brain .chapter:is(.you, .built)::before, .mm-locked-brain .chapter:is(.you, .built)::after, .mm-locked-brain .chapter:is(.you, .built) .chapter-copy::before { content: none; }
+.mm-site .mm-locked-brain .beat-instruments .leaf { opacity: 1; color: #efe6d3; }
+
+/* The month: on its picture, then four stops in a row. */
+.mm-site .mm-locked-brain .chapter.built { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "plate" "lede" "link" "stage"; align-items: start; gap: 0; height: auto; min-height: 0; padding: 0 max(4vw, calc((100vw - 1600px) / 2)) clamp(3.5rem, 10vh, 7rem); background: #0d1d17; color: #efe6d3; clip-path: none; }
+.mm-site .mm-locked-brain .chapter.built > .s8-plate-media { grid-area: plate; height: clamp(260px, 44vh, 460px); margin-inline: calc(-1 * max(4vw, calc((100vw - 1600px) / 2))); }
+.mm-site .mm-locked-brain .chapter.built > .chapter-copy { display: contents; }
+.mm-site .mm-locked-brain .built .chapter-copy > h2 { grid-area: plate; z-index: 1; align-self: end; max-width: 16ch; margin: 0 0 clamp(26px, 5vh, 52px); color: #efe6d3; }
+.mm-site .mm-locked-brain .built .chapter-copy > p { grid-area: lede; max-width: 46rem; margin-top: clamp(1.6rem, 4vh, 2.6rem); }
+.mm-site .mm-locked-brain .built .built-link { grid-area: link; justify-self: start; margin-top: 1rem; }
+.mm-site .mm-locked-brain .built .month-field { grid-area: stage; height: auto; min-height: 0; margin-top: clamp(1.6rem, 4vh, 2.6rem); border: 0; background: none; box-shadow: none; }
+.mm-site .mm-locked-brain .month-stack { height: auto; min-height: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: auto; gap: 1.2rem; border: 0; background: none; box-shadow: none; overflow: visible; }
+.mm-site .mm-locked-brain .month-stack::before, .mm-site .mm-locked-brain .month-stack .leaf::before { content: none; }
+.mm-site .mm-locked-brain .month-stack .leaf { gap: .55rem; padding: 1rem 0 0; border-top: 2px solid rgba(145, 232, 188, .5); background: none; justify-content: flex-start; }
+.mm-site .mm-locked-brain .month-stack .leaf > .mm-icon { width: 30px; height: 30px; }
+.mm-site .mm-locked-brain .month-stack .leaf > p { margin: 0; font-size: clamp(1.05rem, 1.3vw, 1.3rem); line-height: 1.3; }
+
+@media (max-width: 760px) {
+  .mm-site .mm-locked-brain .question-stack .leaf { grid-template-columns: 30px minmax(0, 1fr); row-gap: .2rem; padding: .7rem 0; }
+  .mm-site .mm-locked-brain .question-stack .leaf > .mm-icon { grid-row: 1 / span 2; width: 26px; height: 26px; }
+  .mm-site .mm-locked-brain .question-stack .leaf > p { font-size: 1.3rem; }
+  .mm-site .mm-locked-brain .decision-stack, .mm-site .mm-locked-brain .lever-list { grid-template-columns: 1fr 1fr; gap: .9rem; }
+  .mm-site .mm-locked-brain .decision-stack .leaf > p, .mm-site .mm-locked-brain .lever-list .leaf > p { font-size: 1.1rem; }
+  .mm-site .mm-locked-brain .decision-stack .leaf > .mm-icon, .mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 26px; height: 26px; }
+  .mm-locked-brain .pair-panel, .mm-locked-brain .pair-panel:first-child, .mm-locked-brain .pair-panel:last-child { padding: 1.75rem var(--mm-logo-edge) 3rem; }
+  .mm-locked-brain .pair-panel.memory { padding-top: 0; }
+  .mm-locked-brain .pair-panel.memory > .s8-plate-media, .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { height: clamp(220px, 34svh, 300px); margin-inline: calc(-1 * var(--mm-logo-edge)); }
+  .mm-site .mm-locked-brain .pair-panel.memory .brain-stage { height: 46vh; min-height: 300px; }
+  .s8-promises { grid-template-columns: 1fr; gap: .8rem; }
+  .s8-promises .mm-icon-big { width: 28px; height: 28px; }
+  .mm-locked-brain .living-record .record-counts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; }
+  .mm-locked-brain .living-record .record-counts b { font-size: 2.4rem; }
+  .mm-locked-brain .living-record .record-counts span { font-size: .55rem; letter-spacing: .04em; }
+  .mm-locked-brain .living-record .record-ports { grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .mm-locked-brain .living-record .record-ports li { flex-direction: row; align-items: center; gap: .6rem; padding: .7rem; font-size: .95rem; }
+  .mm-locked-brain .living-record .record-ports .mm-icon-big { width: 24px; height: 24px; }
+  .mm-site .mm-locked-brain .chapter.built { padding: 0 var(--mm-logo-edge) 3rem; }
+  .mm-site .mm-locked-brain .month-stack { grid-template-columns: 1fr 1fr; gap: .9rem; }
+}

@@ -2,7 +2,9 @@ import writingImage from "../../../prototypes/website-redesign-recovery/new-age-
 import loomImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
 import calculatorImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
 import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
-import { leadershipScenes, leadershipStories, organisationGridMarkup } from "@/components/leadership-chapters/leadershipChapters";
+import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
+import receiverImage from "@/assets/stories/one-way-receiver-r01-800.webp";
+import { iconSvg, type IconName } from "@/lib/icons";
 import latestIssue from "@/data/latestIssue.json";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
@@ -54,11 +56,11 @@ const ERAS = [
  * carousel "feels a bit out of place... I like the imagery"). No heading, no
  * controls, nothing that moves or changes size.
  */
-const ACTS = [
-  { word: "Notices", line: "It spots what has changed before you ask." },
-  { word: "Connects", line: "It checks new facts against what you already know." },
-  { word: "Prepares", line: "It hands you the work, ready for your decision." },
-] as const;
+const ACTS: ReadonlyArray<{ word: string; line: string; icon: IconName }> = [
+  { word: "Notices", line: "It spots what has changed before you ask.", icon: "notice" },
+  { word: "Connects", line: "It checks new facts against what you already know.", icon: "connect" },
+  { word: "Prepares", line: "It hands you the work, ready for your decision.", icon: "prepare" },
+];
 
 /** A result's picture is its story's own scene on /ai-brain, found by its record. */
 const sceneOf = (record: string) => leadershipStories.find((story) => story.record === record)?.scene ?? "";
@@ -115,9 +117,13 @@ const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
   : `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
 
 export function homepageSectionsMarkup() {
-  const acts = leadershipScenes.map(([, poster], index) => `<li>${cardImage(poster)}<b>${ACTS[index].word}</b><span>${ACTS[index].line}</span></li>`).join("");
+  /* Ruling (owner, 2026-11-04, mock approved): one picture and one flow. The
+     three steps sit on one line with their icons, top-aligned; what the AI
+     carries and what you keep is the caption under them; the organisation is
+     told in full on /new-age-leadership. */
+  const acts = ACTS.map((act) => `<li>${iconSvg(act.icon, "mm-icon mm-icon-big")}<b>${act.word}</b><span>${act.line}</span></li>`).join("");
   return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable. Use it to make yourself better, not just to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
-      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows <span class="hs-mark" data-hs-mark="underline">how you think</span>.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter instead of forgetting. It holds your goals, taste and standards, so you can trust its answers.</p><div class="nal-page mm-home-leadership hs-org"><div class="hybrid-organisation is-active"><p class="instrument-label"><span></span>New-age leadership</p>${organisationGridMarkup}</div></div><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><ul class="hs-acts" aria-label="What the AI carries, in three steps">${acts}</ul></div></section>
+      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows <span class="hs-mark" data-hs-mark="underline">how you think</span>.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter instead of forgetting. It holds your goals, taste and standards, so you can trust its answers.</p><ol class="hs-flow" aria-label="What the AI carries, in three steps">${acts}</ol><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><p class="hs-how-link"><a href="/new-age-leadership">How the hybrid organisation works</a></p><figure class="hs-how-figure">${cardImage(receiverImage, 800, "(max-width: 760px) 92vw, 40vw")}</figure></div></section>
       <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><p class="hs-proof-links"><a href="/case-studies">See what you can do with it</a></p><div class="hs-start">${startButton()}</div></div></section>
       `;
 }
@@ -190,7 +196,7 @@ export function mountHomepageSections(root: HTMLElement) {
     title: ".hs-title",
     lede: ".hs-lede",
     splitLede: true,
-    items: ".hs-eras > li, .hs-proof > li, .hs-acts > li, .hs-inner > .hs-org, .hs-inner > .hs-carries, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-start, .hs-rail-nav",
+    items: ".hs-eras > li, .hs-proof > li, .hs-flow > li, .hs-inner > .hs-how-figure, .hs-inner > .hs-carries, .hs-inner > .hs-how-link, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-start, .hs-rail-nav",
   });
   return () => { abort.abort(); unbuild(); };
 }

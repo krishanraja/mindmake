@@ -67,17 +67,18 @@ describe("the homepage in three sections", () => {
     expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("shows the organisation still, and the practice scenes as three still tiles, with no film to play", () => {
+  it("shows one picture and the three steps as a flow with their icons, with no film to play", () => {
+    /* Krish, 2026-11-04 (mock approved): one picture and one flow; the
+       organisation is told in full on /new-age-leadership, linked here. */
     const sections = homepageSectionsMarkup();
-    expect(sections).toContain('class="hybrid-organisation is-active"');
-    expect(sections).toContain(organisationGridMarkup);
+    expect(sections).not.toContain('class="hybrid-organisation');
     expect(sections).not.toContain("<video");
     const root = document.createElement("div");
     root.innerHTML = sections;
-    /* Krish, 2026-11-04: the "When built right" carousel folds into the
-       "AI carries" line as three still tiles; no heading, no controls. */
-    expect(root.querySelectorAll('.hs-acts > li > img.hs-card-img[alt=""]')).toHaveLength(3);
-    expect([...root.querySelectorAll(".hs-acts b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
+    expect([...root.querySelectorAll(".hs-flow > li > b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
+    expect(root.querySelectorAll('.hs-flow > li > svg.mm-icon[aria-hidden="true"]')).toHaveLength(3);
+    expect(root.querySelectorAll('.hs-how .hs-how-figure img.hs-card-img[alt=""]')).toHaveLength(1);
+    expect(root.querySelector('.hs-how a[href="/new-age-leadership"]')?.textContent).toBe("How the hybrid organisation works");
     expect(root.querySelector(".hs-how [data-hs-rail]")).toBeNull();
     expect(sections).not.toContain("When built right");
   });

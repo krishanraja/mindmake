@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-03
-head: 85a5c0e
+as_of: 2026-11-05
+head: a2cba1f
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-03)
+## Where it is right now (as of 2026-11-05)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -59,7 +59,7 @@ opening and the footer the homepage carries "Right now, your AI is an intern."
 (the four eras, a carousel on their pictures), "A chief of staff knows how you
 think." (the organisation and a carousel of practice scenes) and "Built on
 your real work. Yours to keep."; nothing on it pins. The AI Brain stories are a
-chooser on `/ai-brain` that never pins: seventeen stories in five situations,
+chooser on `/ai-brain` that never pins: eighteen stories in five situations,
 the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
 Generate the adapter from the immutable R3 source, never reconstruct it from
 older components.
@@ -76,6 +76,21 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-04: after Krish's review of the live site (S7, PRs #265 to #269),
+  the story cards lie on their own pictures, every section fits one screen,
+  copy is in plain words, nothing is set in italic, and one library,
+  "What you can do with it.", serves both products on `/case-studies`.
+  The homepage and then `/ai-brain` and `/ai-gtm` build as they are read, with
+  a quick pen drawing two strokes under each heading's last line, approved
+  from phone recordings ("Merge"). Every heading sits on the logo's left edge,
+  enforced by `qa:alignment`.
+- 2026-11-04: Krish on first visits: "Some of the images take up to 10 seconds
+  to load on a user's first visit. That is completely unacceptable." Pictures
+  are now sized to the screen and films wait their turn (`qa:first-visit`,
+  PR #271). Then S8 (#275, #276): `/ai-gtm`, `/ai-brain` and the chief of staff
+  section carry one idea per section, approved from now-and-planned mocks
+  ("the rest of it looks good"), with icons, detail one tap away and shorter
+  phone pages (`/ai-gtm` 4,710 to 4,079px at 390 wide). Ledger row `S8-CALM-001`.
 - 2026-11-02: a feedback form for DoThinkDo staff went live at `/feedback/dtd`
   (PRs #258 to #264), unlisted and noindex, one screen at a time, speaking as
   Krish. It was reworked six times in a day from his live use: Next sat below
@@ -107,32 +122,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   page memory only, null otherwise), and `/privacy` section 2 says so, on
   Krish's yes ("Yes do number two"). Migration, `submit-mindmake-brief` v24
   and PR #255, in that order.
-- 2026-10-28: Google Analytics hears the brief's steps (`brief_open`,
-  `brief_step`, `brief_submit`, fixed names only) after Allow, and a growth
-  placement's `utm_source=growth-<path>&utm_medium=referral` is held in page
-  memory until the banner is answered, never on the device, dropped on
-  Decline. `/start` keeps its query string in the client as at the edge. No
-  visible text changed.
-- 2026-10-26: the documentation was audited against the live site on Krish's
-  instruction ("ensure the documentation is 100% up to scratch, and that an AI
-  agent reading the documentation cannot possibly misinterpret or read stale
-  version of this business"). `06_CURRENT_STATE.md` was rewritten to current
-  truth only, and it and the accepted state were archived verbatim in
-  `history/ARCHIVE.md`; the canon's copy table, the North Star's placement and
-  proof lines, the README, CLAUDE.md's gates, the runbook and the design
-  contract now match what mindmake.co serves. No site code or copy changed.
-- 2026-10-24: every page became three sections (S6, #245). Krish's ruling:
-  every page says "what problem it solves, how it solves it, and what the
-  reader gets and how they know it works", with the spine "intern to chief of
-  staff" and a bold, visionary tone. The homepage's pinned history, reach,
-  practice, stories, returned-hour and route chapters left it; `/ai-brain`
-  gained a one-panel opening, a seventeen-story finder and a receipt;
-  `/ai-gtm` lost every pin. The way in is one button, "Start building your AI
-  brain", replacing "Get your free AI brief".
-  A second ruling: no word alone on a line, and no component that changes size
-  when a reader makes a choice, so `qa:line-breaks` now covers 1280 and 360
-  wide, clicks every swapping control and fails size changes. Its 25 `S6-*`
-  feedback rows were accepted on 26 October 2026.
 
 ## What is next and what is waiting on Krish
 

@@ -5,6 +5,14 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-05
+
+- reconciled at `a2cba1f`: NOW.md gained the S7 and S8 changes of 4 November and the first-visit image fix; the story count in NOW.md and 06_CURRENT_STATE.md corrected from seventeen to eighteen to match STATE.md and the code. Stamps on CLAUDE.md, 00, 01, 02, 04, 04 records and 07 were not re-verified and were left for a person. The North Star check line is dated 2026-10-28 and was left, because only a session that re-read the North Star can re-date it.
+- rolled from NOW.md: 2026-10-28, Google Analytics hears the brief's steps (`brief_open`, `brief_step`, `brief_submit`, fixed names only) after Allow; a growth placement's utm tag is held in page memory until the banner is answered and dropped on Decline.
+- rolled from NOW.md: 2026-10-26, the documentation was audited against the live site on Krish's instruction; `06_CURRENT_STATE.md` rewritten to current truth, originals archived verbatim in `history/ARCHIVE.md`. No site code or copy changed.
+- rolled from NOW.md: 2026-10-24, every page became three sections (S6, #245): problem, how it works, what the reader gets and how they know. Pinned homepage chapters left; `/ai-brain` gained a one-panel opening, a story finder and a receipt; `/ai-gtm` lost every pin; the one button became "Start building your AI brain". Second ruling: no word alone on a line and no component that changes size on a choice, so `qa:line-breaks` covers 1280 and 360 wide. Its 25 `S6-*` rows were accepted on 26 October 2026.
+
+
 ## 2026-11-04
 
 - /ai-gtm, /ai-brain and the homepage's chief of staff section become calmer,

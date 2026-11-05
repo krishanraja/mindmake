@@ -63,7 +63,7 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   to keep." with three results on their stories' pictures; then the footer.
   Nothing on it pins, and the opening grows to hold everything it carries.
 - `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
-  Brain holds beside private to you, the 30 days, the story chooser (seventeen
+  Brain holds beside private to you, the 30 days, the story chooser (eighteen
   stories in five situations, never pinned, the whole story in a sheet), "What
   stays with you" and one line to the revenue engine.
 - `/ai-gtm`: "Make your pricing, positioning and team AI-native." in three

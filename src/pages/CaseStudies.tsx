@@ -5,9 +5,10 @@ import { Instrument } from "@/components/mindmake/Instrument";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { LeaderCount } from "@/components/mindmake/LeaderCount";
+import { LogoRail } from "@/components/mindmake/LogoRail";
 import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
 import { StoryLibrary } from "@/components/mindmake/StoryLibrary";
-import { attendeeBrands, clientStories } from "@/data/rebuildProof";
+import { clientStories } from "@/data/rebuildProof";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
@@ -65,13 +66,7 @@ export default function CaseStudies() {
               <Instrument kind="rail" className="mm-head-mark" />
               <LeaderCount />
             </h3>
-            <div className="mm-logo-rail">
-              {attendeeBrands.map((brand) => (
-                <div className="mm-logo-cell" key={brand.name}>
-                  <img src={brand.logo} alt={brand.name} loading="lazy" />
-                </div>
-              ))}
-            </div>
+            <LogoRail />
           </div>
         </div>
       </section>

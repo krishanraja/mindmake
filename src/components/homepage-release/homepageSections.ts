@@ -6,6 +6,7 @@ import { leadershipStories } from "@/components/leadership-chapters/leadershipCh
 import receiverImage from "@/assets/stories/one-way-receiver-r01-800.webp";
 import { iconSvg, type IconName } from "@/lib/icons";
 import latestIssue from "@/data/latestIssue.json";
+import { publishableTestimonials } from "@/data/testimonials";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
@@ -77,6 +78,21 @@ const PROOF = [
   },
 ] as const;
 
+/**
+ * A few voices under the results, one at a time (Krish, 2026-11-06: some of
+ * the quotes at the foot of the homepage, "non-obtrusive and minimalist", to
+ * send more people to the full range of results). Short AI-era voices only,
+ * clients and outcomes as on the homepage since 5 September 2026, each the
+ * approved excerpt read from src/data/testimonials.ts, never retyped. The
+ * line ends in the way to all of them on /case-studies.
+ */
+const VOICE_IDS = ["coaching-founder", "saas-gtm", "divekar", "fintech-founder", "scaleup-ops"] as const;
+const VOICES = VOICE_IDS.map((id) => {
+  const found = publishableTestimonials.find((entry) => entry.id === id);
+  if (!found) throw new Error(`No publishable testimonial with id "${id}"`);
+  return { quote: found.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role };
+});
+
 const startButton = () => `<button type="button" class="hs-start-button" data-start-route="brain" data-mm-primary>${START_LABEL} <span aria-hidden="true">→</span></button>`;
 
 /** The hero's way in and the publication line, after the doors (desktop and phone). */
@@ -124,7 +140,7 @@ export function homepageSectionsMarkup() {
   const acts = ACTS.map((act) => `<li>${iconSvg(act.icon, "mm-icon mm-icon-big")}<b>${act.word}</b><span>${act.line}</span></li>`).join("");
   return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable. Use it to make yourself better, not just to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
       <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows <span class="hs-mark" data-hs-mark="underline">how you think</span>.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter instead of forgetting. It holds your goals, taste and standards, so you can trust its answers.</p><ol class="hs-flow" aria-label="What the AI carries, in three steps">${acts}</ol><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><p class="hs-how-link"><a href="/new-age-leadership">How the hybrid organisation works</a></p><figure class="hs-how-figure">${cardImage(receiverImage, 800, "(max-width: 760px) 92vw, 40vw")}</figure></div></section>
-      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><p class="hs-proof-links"><a href="/case-studies">See what you can do with it</a></p><div class="hs-start">${startButton()}</div></div></section>
+      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><ul class="hs-proof">${PROOF.map(proofMarkup).join("")}</ul><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link" href="/case-studies">See every result <span aria-hidden="true">→</span></a></div><div class="hs-start">${startButton()}</div></div></section>
       `;
 }
 
@@ -179,6 +195,32 @@ function mountRail(rail: HTMLElement, signal: AbortSignal, reduced: boolean) {
 }
 
 /**
+ * The voices take turns in one place: every voice shares one cell, so the line
+ * is always the height of the longest and a turn moves nothing. A voice holds
+ * for seven seconds, waits while a pointer or focus rests on the line or the
+ * line is off screen, and never turns with reduced motion or without script.
+ */
+function mountVoices(root: HTMLElement, signal: AbortSignal, reduced: boolean) {
+  const items = [...root.querySelectorAll<HTMLElement>(".hs-voices-stack > li")];
+  if (reduced || items.length < 2) return;
+  let at = 0;
+  let held = false;
+  const hold = (value: boolean) => () => { held = value; };
+  root.addEventListener("pointerenter", hold(true), { signal });
+  root.addEventListener("pointerleave", hold(false), { signal });
+  root.addEventListener("focusin", hold(true), { signal });
+  root.addEventListener("focusout", hold(false), { signal });
+  const onScreen = () => { const box = root.getBoundingClientRect(); return box.bottom > 0 && box.top < innerHeight; };
+  const timer = setInterval(() => {
+    if (held || !onScreen() || document.hidden) return;
+    items[at].classList.remove("is-on");
+    at = (at + 1) % items.length;
+    items[at].classList.add("is-on");
+  }, 7000);
+  signal.addEventListener("abort", () => clearInterval(timer));
+}
+
+/**
  * The eras turn on a tap: the question gives way to what actually happened,
  * in the same place, so a tile never changes size. Without script a tile shows
  * both, and each carousel is a row to swipe (homepageSections.css).
@@ -190,13 +232,14 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
+  root.querySelectorAll<HTMLElement>("[data-hs-voices]").forEach((voices) => mountVoices(voices, abort.signal, reduced));
   /* Each section builds as the reader reaches it (src/lib/scrollBuild.ts). */
   const unbuild = buildOnScroll(root, {
     sections: ".hs-section",
     title: ".hs-title",
     lede: ".hs-lede",
     splitLede: true,
-    items: ".hs-eras > li, .hs-proof > li, .hs-flow > li, .hs-inner > .hs-how-figure, .hs-inner > .hs-carries, .hs-inner > .hs-how-link, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-start, .hs-rail-nav",
+    items: ".hs-eras > li, .hs-proof > li, .hs-flow > li, .hs-inner > .hs-how-figure, .hs-inner > .hs-carries, .hs-inner > .hs-how-link, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-voices, .hs-inner > .hs-start, .hs-rail-nav",
   });
   return () => { abort.abort(); unbuild(); };
 }

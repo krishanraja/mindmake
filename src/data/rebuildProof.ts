@@ -3,6 +3,19 @@ import { testimonials } from "@/data/testimonials";
 import bbcLogo from "@/assets/brands/bbc.svg";
 import hearstLogo from "@/assets/brands/hearst.svg";
 import condeNastLogo from "@/assets/brands/conde-nast.svg";
+import walmartLogo from "@/assets/brands/walmart.svg";
+import pepsicoLogo from "@/assets/brands/pepsico.webp";
+import pgLogo from "@/assets/brands/pg.webp";
+import bmwLogo from "@/assets/brands/bmw.svg";
+import boeingLogo from "@/assets/brands/boeing.svg";
+import pfizerLogo from "@/assets/brands/pfizer.svg";
+import visaLogo from "@/assets/brands/visa.svg";
+import amexLogo from "@/assets/brands/american-express.svg";
+import goldmanLogo from "@/assets/brands/goldman-sachs.svg";
+import deloitteLogo from "@/assets/brands/deloitte.svg";
+import pwcLogo from "@/assets/brands/pwc.svg";
+import lorealLogo from "@/assets/brands/loreal.svg";
+import adidasLogo from "@/assets/brands/adidas.svg";
 
 /**
  * The diagram a story gets, and the numbers in it.
@@ -64,11 +77,31 @@ export type ClientStory = {
   };
 };
 
-export const attendeeBrands = [
+/**
+ * The sixteen approved attendee brands (04_PROOF.md), media first. Attendance,
+ * never clients. Official artwork from each brand's own kit (Brandfetch,
+ * 6 November 2026), shown as one flat mark by the rail's filter. P&G's roundel
+ * is knocked out so its letters read through the flat mark, as BMW's quarters
+ * do. `scale` lifts a round or stacked mark to the optical size of a wordmark.
+ */
+export const attendeeBrands: ReadonlyArray<{ name: string; logo: string; scale?: number }> = [
   { name: "BBC", logo: bbcLogo },
   { name: "Hearst", logo: hearstLogo },
   { name: "Condé Nast", logo: condeNastLogo },
-] as const;
+  { name: "Walmart", logo: walmartLogo },
+  { name: "PepsiCo", logo: pepsicoLogo, scale: 1.25 },
+  { name: "P&G", logo: pgLogo, scale: 1.45 },
+  { name: "BMW", logo: bmwLogo, scale: 1.45 },
+  { name: "Boeing", logo: boeingLogo },
+  { name: "Pfizer", logo: pfizerLogo, scale: 1.3 },
+  { name: "Visa", logo: visaLogo },
+  { name: "American Express", logo: amexLogo, scale: 0.7 },
+  { name: "Goldman Sachs", logo: goldmanLogo, scale: 1.35 },
+  { name: "Deloitte", logo: deloitteLogo },
+  { name: "PwC", logo: pwcLogo, scale: 1.25 },
+  { name: "L'Oréal", logo: lorealLogo },
+  { name: "Adidas", logo: adidasLogo, scale: 1.2 },
+];
 
 /**
  * What a story quotes, read from the thirty-three rather than written twice.

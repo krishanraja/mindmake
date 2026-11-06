@@ -1780,30 +1780,47 @@
 
 .mm-attendance { margin-top: clamp(30px, 5vh, 48px); }
 .mm-logo-rail {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  gap: 1px;
+  --mm-logo-h: clamp(24px, 3vh, 30px);
+  --mm-logo-cell: clamp(150px, 15vw, 210px);
   margin-top: 12px;
   border: 1px solid var(--mm-line);
   border-radius: 3px;
-  background: var(--mm-line);
+  background: var(--mm-ink2);
+  overflow: hidden;
+  /* The row fades at both edges so the loop has no visible seam. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
+.mm-logo-track { display: flex; width: max-content; }
+.mm-logo-track ul { display: flex; margin: 0; padding: 0; list-style: none; }
 .mm-logo-cell {
   display: grid;
   place-items: center;
-  background: var(--mm-ink2);
-  padding: clamp(12px, 1.6vw, 18px);
+  flex: 0 0 var(--mm-logo-cell);
+  height: calc(var(--mm-logo-h) * 1.5 + clamp(24px, 3.2vw, 36px));
+  border-right: 1px solid var(--mm-line);
+  padding: 0 clamp(14px, 1.6vw, 22px);
 }
 .mm-logo-rail img {
   width: auto;
   max-width: 100%;
-  height: clamp(26px, 3.4vh, 34px);
+  height: var(--mm-logo-h);
   /* The marks are dark by default, so they are lifted to the page's text
      colour rather than recoloured. */
   filter: brightness(0) invert(1);
   opacity: .62;
   object-fit: contain;
+}
+/* Sixteen brands, one loop: the track moves by exactly one copy's width. */
+@media (prefers-reduced-motion: no-preference) {
+  .mm-logo-track { animation: mm-logo-drift 64s linear infinite; }
+  .mm-logo-rail:hover .mm-logo-track { animation-play-state: paused; }
+}
+@keyframes mm-logo-drift { to { transform: translateX(-50%); } }
+/* Still: one pass of the sixteen, swiped by hand. */
+@media (prefers-reduced-motion: reduce) {
+  .mm-logo-rail { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .mm-logo-copy { display: none !important; }
 }
 
 /* A shape card names itself in its heading, then says what it is in one line. */

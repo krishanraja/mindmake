@@ -231,8 +231,9 @@ for (const engineName of asked) {
     fail(!opening.motionShown || !/motion/iu.test(opening.motionLabel || ""), `${label}: the film control has no readable label (${opening.motionLabel})`);
 
     /* The AI Brain stories: a chooser of five situations that never pins
-       (Krish, 16 October 2026: "Approved, ship it"), seventeen stories since
-       S6 (Krish approved the two new ones on 24 October 2026). The situations
+       (Krish, 16 October 2026: "Approved, ship it"), eighteen stories since
+       Krish approved the advisory firm's card on 4 November 2026 ("yes,
+       generate the expertise picture and add it"). The situations
        share one place so choosing one never resizes the chooser: the unchosen
        ones stay laid out, invisible and inert, so "shown" means visible. */
     const finder = await page.evaluate(() => {
@@ -249,7 +250,7 @@ for (const engineName of asked) {
       };
     });
     fail(!finder, `${label}: the AI Brain stories are missing`);
-    fail(finder && (!finder.live || finder.tabs !== 5 || finder.cards !== 17 || finder.shownPanels !== 1), `${label}: the AI Brain stories are not five situations of seventeen stories, one shown (${JSON.stringify(finder)})`);
+    fail(finder && (!finder.live || finder.tabs !== 5 || finder.cards !== 18 || finder.shownPanels !== 1), `${label}: the AI Brain stories are not five situations of eighteen stories, one shown (${JSON.stringify(finder)})`);
     fail(finder?.pinned, `${label}: the AI Brain stories pin`);
     const forward = await sweep(page, height, "forward");
     const reverse = await sweep(page, height, "reverse");

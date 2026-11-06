@@ -135,7 +135,7 @@
     "scripts/qa/new-age-r5-production-check.mjs": "28b29a8b58436573a7c4d6615251cdfdd8a74b25df07e824b4881d928f8f112d",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "scripts/qa/record-route-lock-r47.mjs": "a3687c7a5effe1d4de5a1dac8847178bc253b384df1c8760ccc951f0282be7db",
-    "scripts/qa/release-route-smoke.mjs": "6a42f8649e16e8fdfa42ba0e29fee02a25e062ec849dd9ed9396b84d7715bb2f",
+    "scripts/qa/release-route-smoke.mjs": "459ce73f16af3bdf8533ebfdc9044fac45f2122ab211283b273b91abe712f5cc",
     "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",

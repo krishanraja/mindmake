@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Current as of 28 October 2026. This file owns live identities, what was
+Current as of 6 November 2026. This file owns live identities, what was
 verified and when, and the known limits. It is current delivery truth, not a
 changelog: superseded lines live only in [history/LOG.md](history/LOG.md), and
 the whole text this file replaced on 26 October 2026 is kept verbatim in
@@ -18,7 +18,17 @@ Accepted surface and change guards: website-redesign/STATE.md.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Production follows main, so every commit there deploys, documentation
   included; GitHub's deployment record names the deployment for each commit.
-- Latest application release: PR #256, the brief's "Keep the private brief"
+- Latest application release: PR #277 (merge `9353eba`, 6 November 2026),
+  all 16 attendee brands on the `/case-studies` rail, one client voice at a
+  time at the homepage's foot and every homepage section after the opening
+  fitting below the masthead on a desktop, on Krish's request ("Merge
+  everything to main."), then the fix forward that loads the rail's marks
+  eagerly, since the post-merge Chromium run found marks past the rail's
+  clipped edge never loading. Production read back on 6 November 2026: the
+  voices line and the new marks served, and every homepage section measured
+  within the screen at 1280x720, 1536x730, 1866x900 and 1920x1080. Rollback:
+  the preceding production, `9ca19c4`. No backend change.
+- PR #256 (28 October 2026): the brief's "Keep the private brief"
   at the bottom right, bigger and pulsing with no line beneath it, and the
   analytics question asked inside the brief, merged on 28 October 2026 on
   Krish's approval (his words: "I also want the green button in the bottom

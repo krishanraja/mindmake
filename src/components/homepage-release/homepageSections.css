@@ -382,6 +382,66 @@
 }
 .mm-homepage-release .hs-proof-links a:hover { text-decoration-color: currentColor; }
 
+/* A few voices under the results, one at a time, and the way to all of them.
+   One quiet line on a hairline: the quote in the serif, who said it in the
+   mono, the link at the end. Every voice shares one cell, so the line is the
+   height of the longest and a turn moves nothing (homepageSections.ts). */
+.mm-homepage-release .hs-voices {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px 32px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hs-line);
+}
+.mm-homepage-release .hs-voices-stack { display: grid; margin: 0; padding: 0; list-style: none; }
+.mm-homepage-release .hs-voices-stack > li {
+  grid-area: 1 / 1;
+  align-self: center;
+  min-width: 0;
+  color: var(--hs-cream-2);
+  font: 400 clamp(17px, 1.35vw, 20px) / 1.4 var(--r3-serif);
+  text-wrap: balance;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .6s ease, visibility 0s linear .6s;
+}
+.mm-homepage-release .hs-voices-stack > li.is-on { opacity: 1; visibility: visible; transition: opacity .6s ease .3s, visibility 0s; }
+.mm-homepage-release .hs-voices q { color: var(--hs-cream); quotes: "\201C" "\201D"; }
+.mm-homepage-release .hs-voices-who {
+  display: inline-block;
+  margin-left: 10px;
+  color: var(--hs-cream-3);
+  font: 400 11.5px / 1.4 var(--r3-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.mm-homepage-release .hs-voices-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  color: var(--hs-mint);
+  font: 400 12px / 1 var(--r3-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: rgba(159, 241, 201, .4);
+  white-space: nowrap;
+}
+.mm-homepage-release .hs-voices-link:hover { text-decoration-color: currentColor; }
+.mm-homepage-release .hs-voices-link:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-homepage-release .hs-voices-stack > li { transition: none; }
+}
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-voices { grid-template-columns: minmax(0, 1fr); gap: 2px; padding-top: 10px; }
+  .mm-homepage-release .hs-voices-stack > li { font-size: 15.5px; }
+  .mm-homepage-release .hs-voices-who { display: block; margin: 4px 0 0; font-size: 10.5px; }
+  .mm-homepage-release .hs-voices-link { min-height: 40px; }
+}
+
 /* The way in, in the hero and at the end. */
 .mm-homepage-release .hs-start { display: grid; justify-items: start; gap: 8px; }
 .mm-homepage-release .r3-opening .hs-start { margin-top: 16px; }
@@ -533,9 +593,32 @@
   .mm-homepage-release .hs-how .hs-inner > :not(.hs-how-figure) { grid-column: 1; }
   .mm-homepage-release .hs-how .hs-how-figure { grid-column: 2; grid-row: 1 / span 5; align-self: center; }
   .mm-homepage-release .hs-get .hs-inner { grid-template-columns: auto 1fr; align-items: center; column-gap: 32px; }
-  .mm-homepage-release .hs-get .hs-inner > :not(.hs-start):not(.hs-proof-links) { grid-column: 1 / -1; }
+  .mm-homepage-release .hs-get .hs-inner > :not(.hs-start):not(.hs-proof-links):not(.hs-voices) { grid-column: 1 / -1; }
   .mm-homepage-release .hs-get .hs-inner > .hs-start { grid-column: 1; grid-row: 4; }
-  .mm-homepage-release .hs-get .hs-proof-links { grid-column: 2; grid-row: 4; }
+  .mm-homepage-release .hs-get .hs-proof-links,
+  .mm-homepage-release .hs-get .hs-voices { grid-column: 2; grid-row: 4; }
+  /* Beside the way in, the voices need no rule above them. */
+  .mm-homepage-release .hs-get .hs-voices { padding: 0 0 0 28px; border-top: 0; border-left: 1px solid var(--hs-line); }
+}
+
+/* No section taller than the screen below the masthead on a desktop (Krish,
+   2026-11-06: "no section should be bigger than a desktop screen on desktop.
+   This is imperative."). At 1866x900 the how section's picture, drawn 4:5 in
+   its column, stood 976px tall. Measured on the built page from 1280x620 to
+   2560x1440: the padding and gaps follow the screen's height, headings take
+   one line where it fits, the picture bands shorten on a short screen, and
+   the how picture is never taller than the room the section has. */
+@media (min-width: 1024px) {
+  .mm-homepage-release .hs-section { padding-block: clamp(24px, 4.5vh, 64px); }
+  .mm-homepage-release .hs-inner { gap: clamp(10px, 2vh, 22px); }
+  .mm-homepage-release .hs-title { max-width: none; font-size: clamp(30px, min(3.4vw, 6vh), 58px); }
+  .mm-homepage-release .hs-era { --hs-band: clamp(72px, 16vh, 150px); min-height: 0; }
+  .mm-homepage-release .hs-proof > li { --hs-band: clamp(56px, 11vh, 130px); }
+  .mm-homepage-release .hs-how-figure .hs-card-img { max-height: calc(100svh - var(--masthead) - 2 * clamp(24px, 4.5vh, 64px)); }
+  /* The opening's way in and publication line close up on a short screen,
+     so at 1536x730 the subscribe line no longer falls below the fold. */
+  .mm-homepage-release .r3-opening .hs-start { margin-top: clamp(6px, 1.4vh, 16px); }
+  .mm-homepage-release .hs-issue { margin-top: clamp(8px, 1.6vh, 20px); padding-top: clamp(8px, 1.4vh, 14px); }
 }
 
 /* A phone: the three results swipe in one row, like the eras, and the

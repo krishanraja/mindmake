@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { LeaderCount } from "@/components/mindmake/LeaderCount";
+import { LogoRail } from "@/components/mindmake/LogoRail";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { StoryIndex } from "@/components/mindmake/StoryIndex";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
-import { attendeeBrands } from "@/data/rebuildProof";
 import filmFourPoster from "@/assets/films/aug2026/film-04-poster.jpg";
 import filmFourPosterWebp from "@/assets/films/aug2026/film-04-poster.webp";
 import filmFourLoop from "@/assets/films/aug2026/film-04-loop.mp4";
@@ -84,15 +84,7 @@ export function ProofVoices() {
             <Instrument kind="drawer" className="mm-head-mark" />
             <LeaderCount />
           </h3>
-          <div className="mm-logo-rail">
-            {attendeeBrands.map((brand) => (
-              /* The cell carries the background; only the image is filtered,
-                 because a filter applies to an element's own background too. */
-              <div className="mm-logo-cell" key={brand.name}>
-                <img src={brand.logo} alt={brand.name} loading="lazy" />
-              </div>
-            ))}
-          </div>
+          <LogoRail />
         </div>
 
         <p className="mm-voices-more">

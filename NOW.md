@@ -76,6 +76,14 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-06: Krish asked for more logos, homepage quotes that send readers to
+  the results, and "no section should be bigger than a desktop screen on
+  desktop. This is imperative." The `/case-studies` rail now carries all 16
+  approved attendee brands as a slow loop; the homepage's last section carries
+  one client voice at a time beside the way in, ending in "See every result";
+  and every homepage section after the opening fits below the masthead from
+  1280x620 to 2560x1440 (the how picture had stood 976px tall at 1866x900).
+  Below about 680px of window height the R3 opening keeps its own floor.
 - 2026-11-04: after Krish's review of the live site (S7, PRs #265 to #269),
   the story cards lie on their own pictures, every section fits one screen,
   copy is in plain words, nothing is set in italic, and one library,

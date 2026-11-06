@@ -78,6 +78,13 @@ use official artwork with the attendance qualifier, no client implication and
 no logo links. Motion stops for reduced-motion users. Preserve the accepted
 homepage rather than inserting an earlier proof-stack design.
 
+Since 6 November 2026 (Krish: "add more logos to the carousel") the rail under
+the count on `/case-studies` carries all 16, media first, as one slow loop that
+pauses under a pointer and stands still, swipeable, with reduced motion
+(`src/components/mindmake/LogoRail.tsx`). The 13 added marks are each brand's
+own artwork from its Brandfetch kit, drawn as one flat mark; P&G's roundel and
+BMW's blue quarters are knocked out so the flat mark still reads.
+
 ## Verified client outcome stories, exactly 8
 
 The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that. The internal engagement records behind these stories are in `04_PROOF_RECORDS.md`.

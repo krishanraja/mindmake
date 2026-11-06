@@ -19,7 +19,10 @@ export function LogoRail() {
         <img
           src={brand.logo}
           alt={copy ? "" : brand.name}
-          loading="lazy"
+          /* Eager: the marks wait outside the rail's clipped edge, where a
+             lazy image never starts loading, and pop in as they drift on.
+             Sixteen small marks, about 53KB in all. */
+          loading="eager"
           decoding="async"
           style={brand.scale ? { height: `calc(var(--mm-logo-h) * ${brand.scale})` } : undefined}
         />

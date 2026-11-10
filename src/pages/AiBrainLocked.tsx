@@ -17,11 +17,11 @@ import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import type { IconName } from "@/lib/icons";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import { mountLiquidBrain } from "@/components/mindmake/locked/liquidBrain";
+import { sourceLine } from "@/components/mindmake/locked/brainRecord";
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
 import { buildOnScroll } from "@/lib/scrollBuild";
-import { stackSections } from "@/lib/sectionStack";
 import { START_LABEL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
@@ -80,7 +80,7 @@ const KEEPS = ["Your brain, built out.", "The systems that amplify you, proven."
    marks in a row, not a receipt box. */
 const KEEP_ICON: readonly IconName[] = ["graph", "proven", "rise"];
 /** How long each entry of the live record stays in front, long enough to read its line. */
-const RECORD_DWELL = 3200;
+const RECORD_DWELL = 6000;
 /** Where the month's steps light: this far down the screen. */
 const READING_LINE = 0.72;
 
@@ -238,22 +238,15 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         nodeById.set(item.id, button);
       });
 
-      /* The ideas sit on a living mass (owner, 2026-11-10), which turns to
-         the next idea by itself until the reader picks one. While it turns by
-         itself the reading is not announced every few seconds; once the reader
-         picks, it is. */
+      /* The ideas sit on a living mass (owner, 2026-11-10). It stays on the
+         idea it opens with until the reader picks another: turning by itself
+         replaced the reading before anyone could read it. */
       liquid = mountLiquidBrain(field, {
         ideas: fixture.items.map((item) => ({ id: item.id, x: item.x, y: item.y, settled: isSettled(item) })),
         relationships: fixture.relationships,
         nodes: nodeById,
         initial: selectedId,
         reduced: reducedMotion.matches || renderFinal,
-        onAdvance: (id) => {
-          const item = itemById.get(id);
-          if (!item) return;
-          inspector?.setAttribute("aria-live", "off");
-          selectMeaning(item);
-        },
       });
       cleanups.push(() => liquid?.destroy());
 
@@ -296,7 +289,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     const records = [
       ...fixture.items.map((item) => ({ kind: "Idea", id: item.id, title: item.title, detail: plainStatements[item.id] ?? item.statement })),
       ...fixture.relationships.map((relationship) => ({ kind: "Connection", id: relationship.id, title: `${itemById.get(relationship.from)?.title ?? relationship.from} → ${itemById.get(relationship.to)?.title ?? relationship.to}`, detail: relationship.meaning })),
-      ...fixture.sources.map((source) => ({ kind: "Source", id: source.id, title: source.label, detail: source.assertion })),
+      ...fixture.sources.map((source) => ({ kind: "Source", id: source.id, title: source.label, detail: sourceLine(source) })),
       ...fixture.corrections.map((correction) => ({ kind: "Change", id: correction.id, title: itemById.get(correction.item_ref)?.title ?? correction.item_ref, detail: correction.summary })),
     ];
     const counts = [fixture.items.length, fixture.relationships.length, fixture.sources.length, fixture.corrections.length];
@@ -307,7 +300,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     const nextButton = q<HTMLButtonElement>("#nextRecordS2");
     let current = renderFinal ? 2 : 0;
     let timer = 0;
-    let recordPaused = reducedMotion.matches || renderFinal;
+    /* The record waits for the reader to press Play (owner, 2026-11-10): it
+       used to run from page load, off screen too, so visitors arrived mid-way. */
+    let recordPaused = true;
 
     records.forEach((record) => {
       const card = document.createElement("li");
@@ -486,7 +481,6 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const unmountFinder = finder ? mountStoryFinder(finder, {
       reduced,
-      deck: true,
       onStart: (door) => {
         track("scoping_request", { source: "story_finder", route: door });
         startRef.current(door);
@@ -510,25 +504,11 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
       items: ".finder-card, .s8-keeps li, .mm-pairing",
     }) : () => undefined;
 
-    /* Each section is laid on the one before as it is read (Krish,
-       2026-11-10), the close included; inside the goals and record section
-       the record is laid on the goals. The Brain's wrapper steps aside so
-       its chapters and the close are one pile. */
-    const stacking = !reduced;
-    if (stacking) root.classList.add("is-stacked");
-    const pair = root.querySelector<HTMLElement>(".chapter.pair");
-    const unstack = stackSections([
-      [...root.querySelectorAll<HTMLElement>(":scope > .chapter[data-phase]"), ...(close ? [close] : [])],
-      pair ? [...pair.querySelectorAll<HTMLElement>(":scope > .pair-panel")] : [],
-    ]);
-
     return () => {
       root.removeEventListener("click", onClick);
       unmountFinder();
       unbuildChapters();
       unbuildClose();
-      unstack();
-      root.classList.remove("is-stacked");
     };
   }, [rootRef, finderRef, startRef]);
 }

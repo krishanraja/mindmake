@@ -37,8 +37,13 @@ export interface LiquidBrainOptions {
   /** The idea buttons, by id, which the brain positions over the mass. */
   nodes: Map<string, HTMLElement>;
   initial: string;
+  /**
+   * Turn to the next idea by itself. Off by default (owner, 2026-11-10: the
+   * reading was replaced every few seconds before anyone could read it).
+   */
+  tour?: boolean;
   /** Called when the brain moves on to the next idea by itself. */
-  onAdvance: (id: string) => void;
+  onAdvance?: (id: string) => void;
   reduced: boolean;
 }
 
@@ -190,10 +195,10 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
       .forEach(({ p }, j) => { p.ex = Math.cos(angle) * reach * (1 - j / k * 0.5); p.ey = Math.sin(angle) * reach * (1 - j / k * 0.5); p.until = t + 1800 + random() * 900; });
   };
   const step = (t: number) => {
-    if (!pinned && t - lastSwitch > 3600) {
+    if (options.tour && !pinned && t - lastSwitch > 3600) {
       lastSwitch = t;
       active = order[(order.indexOf(active) + 1) % order.length];
-      options.onAdvance(active);
+      options.onAdvance?.(active);
     }
     if (t - lastSearch > 2600) { lastSearch = t; search(t); }
     const age = touch ? t - touch.t0 : Infinity;

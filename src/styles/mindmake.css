@@ -1754,15 +1754,6 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   from { opacity: 0; transform: translate3d(0, 14px, 0); }
   to { opacity: 1; transform: none; }
 }
-/* Sections laid on one another as they are read (src/lib/sectionStack.ts).
-   The arriving sheet casts a soft shadow up over the one it covers; the
-   covered one is trimmed to rounded corners while it settles back. */
-.mm-stacking .mm-sheet-over { box-shadow: 0 -28px 60px rgba(3, 8, 6, .38); }
-.mm-stacking .mm-sheet[data-sheet-covered] { will-change: transform, filter; }
-/* The Brain's own wrapper steps aside while stacking, so its chapters and
-   the close that follows them are one pile. */
-.mm-stacking .mm-locked-brain.is-stacked { display: contents; }
-
 /* A heading arrives behind a sweeping bar, a line at a time
    (src/lib/scrollBuild.ts, wipeLines), so it takes no fade of its own. */
 .hs-wipe[data-reveal="shown"] { animation: none; }

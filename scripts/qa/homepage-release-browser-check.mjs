@@ -41,21 +41,8 @@ const settle = page => page.evaluate(() => new Promise(resolve => requestAnimati
 const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 390, height: 844 }, { width: 360, height: 780 }, { width: 412, height: 741 }];
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 
-/* Sections are laid on one another as they are read (S9-ALIVE-001): a
-   control is reached the way a reader reaches it, with its section uncovered. */
-const reach = async (page, locator) => {
-  await locator.scrollIntoViewIfNeeded();
-  await locator.evaluate((node) => {
-    const sheet = node.closest('.mm-sheet');
-    const next = sheet?.nextElementSibling;
-    if (!next?.classList.contains('mm-sheet')) return;
-    for (let i = 0; i < 8; i++) { const over = innerHeight - next.getBoundingClientRect().top; if (over <= 0.5) break; scrollBy({ top: -over, behavior: 'instant' }); }
-  });
-  await settle(page);
-};
-
 const openAndClose = async (page, label, locator) => {
-  await reach(page, locator);
+  await locator.scrollIntoViewIfNeeded();
   await locator.click();
   await page.waitForFunction(() => new URL(location.href).searchParams.get('start') === 'brain', null, { timeout: 10000 }).catch(() => {});
   assert(new URL(page.url()).searchParams.get('start') === 'brain', `${label}: opens the brief at the AI brain's door`);
@@ -101,26 +88,19 @@ try {
           observed.order = order;
           assert(order.every((top, i) => top !== null && (i === 0 || top > order[i - 1])), `${label}: opening, three sections and footer in order (${order.join(', ')})`);
 
-          /* Ruling (owner, 2026-11-10, S9-ALIVE-001): the sections after the
-             opening are laid on one another as they are read, so the only
-             things that may hold are those whole sections, marked as sheets
-             by src/lib/sectionStack.ts. Nothing inside a section pins, the
-             opening never holds (its masthead is fixed inside it), and a
-             section still moves with the page until the moment it is held. */
-          const sticky = await page.evaluate(() => [...document.querySelectorAll('.mm-homepage-release main *')].filter(node => getComputedStyle(node).position === 'sticky' && !(node.matches('.hs-section.mm-sheet'))).map(node => node.className || node.tagName));
-          assert(!sticky.length, `${label}: nothing but whole sections laid as sheets is sticky (${sticky.slice(0, 3).join(', ')})`);
-          const openingPosition = await page.evaluate(() => getComputedStyle(document.querySelector('.r3-opening')).position);
-          assert(openingPosition !== 'sticky', `${label}: the opening never holds`);
+          /* Nothing pins: each section moves exactly as far as the page does. */
+          const sticky = await page.evaluate(() => [...document.querySelectorAll('.mm-homepage-release main *')].filter(node => getComputedStyle(node).position === 'sticky').map(node => node.className || node.tagName));
+          assert(!sticky.length, `${label}: nothing on the page is sticky (${sticky.slice(0, 3).join(', ')})`);
           for (const selector of ['.hs-problem', '.hs-how', '.hs-get']) {
             const section = page.locator(selector);
-            /* From well below its hold, it moves exactly as far as the page does. */
-            await page.evaluate((sel) => { const node = document.querySelector(sel); scrollTo({ top: node.getBoundingClientRect().top + scrollY - innerHeight + 40, behavior: 'instant' }); }, selector);
+            await section.scrollIntoViewIfNeeded();
+            await page.evaluate(() => scrollBy({ top: -120, behavior: 'instant' }));
             await settle(page);
             const before = await section.evaluate(node => node.getBoundingClientRect().top);
             await page.evaluate(() => scrollBy({ top: 200, behavior: 'instant' }));
             await settle(page);
             const after = await section.evaluate(node => node.getBoundingClientRect().top);
-            assert(Math.abs((before - after) - 200) < 3, `${label}: ${selector} moves with the page until it is held (${Math.round(before)} to ${Math.round(after)})`);
+            assert(Math.abs((before - after) - 200) < 3, `${label}: ${selector} moves with the page, never pinned (${Math.round(before)} to ${Math.round(after)})`);
           }
 
           /* The opening holds everything it carries: its last line ends
@@ -142,7 +122,7 @@ try {
           const tiles = page.locator('[data-hs-era]');
           assert(await tiles.count() === 4, `${label}: four eras`);
           const eras = page.locator('.hs-eras');
-          await reach(page, eras);
+          await eras.scrollIntoViewIfNeeded();
           const height = await eras.evaluate(node => node.getBoundingClientRect().height);
           for (let i = 0; i < 4; i++) {
             await tiles.nth(i).click();
@@ -155,7 +135,6 @@ try {
           /* The eras' carousel pages through time, oldest to newest. */
           const step = page.locator('.hs-problem [data-hs-rail-step="1"]');
           if (await step.isVisible()) {
-            await reach(page, step);
             for (let i = 0; i < 6 && await step.isEnabled(); i++) { await step.click(); await page.waitForTimeout(400); }
             assert(!(await step.isEnabled()), `${label}: the eras' carousel reaches its end`);
             assert(await page.locator('.hs-problem [data-hs-rail-go="3"]').getAttribute('aria-current') === 'true', `${label}: the last era is the current stop at the end`);

@@ -2083,6 +2083,23 @@
         "qa:line-breaks passes on /ai-brain at 1440x900, 1280x800, 390x844 and 360x780 after the Brain's stage became a real box",
         "desktop and phone screenshots of the Brain, the record, the stacked sections, the heading wipe and the phone deck reviewed in the session"
       ]
+    },
+    {
+      "id": "S9-AUDIT-001",
+      "exactFeedback": "Watch this video (use content-watcher repo if you need). We've created some serious ux issues. Map every single one. AI brain has not just glitches but serious problems with how a user experiences the brain, and how the information presents itself in a very basic way",
+      "source": "Krish, 10 November 2026, with a 106-second Android phone recording (Drive, Recording_20261110_160546.mp4) of /ai-brain, /, /ai-gtm, /case-studies and /blog after S9; decisions the same day: 'Gentle settle, no pinning', 'One connected Brain', 'Swipe deck, no pinning', 'Keep it, fixed'.",
+      "surface": "/, /ai-brain, /ai-gtm, /case-studies, /blog",
+      "section": "every S9 change: section stacking, the Brain and record, the story deck, the heading wipe, the floating button",
+      "device": "all, worst on phones",
+      "element": "section stacking, liquid Brain, record reel, story deck, heading wipe, floating button",
+      "classification": "correction",
+      "requiredOutcome": "No section pins or covers another; nothing goes blank; the Brain panel is never dimmed while read; one phone layout for the goals and record; the Brain does not turn by itself; the record does not run unasked; CTRL never appears; then the settle, swipe deck, fixed wipe and button fixes; then a connected Brain mocked for approval.",
+      "acceptanceTest": "src/test/brain-narrative.test.ts (CTRL never shown, record in view); qa:homepage-release:pre-merge back to 'nothing pins'; qa:line-breaks; phone-size scroll down and back up on /, /ai-brain and /ai-gtm with no sticky element and no overlap; Krish re-records the same route.",
+      "status": "open",
+      "resolution": "Stage 1a: src/lib/sectionStack.ts removed with its wiring and CSS; story rail restored on phones; S6 phone swipe removed so the pair stacks; liquidBrain tour off by default; record starts paused and holds each entry 6 seconds; SRC-004 shown in plain words without CTRL (brainRecord.ts); homepage gate restored to its pre-S9 form. Stages 1b, 2 and 3 follow per the plan.",
+      "evidence": [
+        "Audit of the recording, a live walk and code: 96 issues (3 P0, 17 P1, 34 P2, 42 P3), 82 adversarially verified, 3 refuted and dropped, 14 added by a completeness pass."
+      ]
     }
   ]
 }

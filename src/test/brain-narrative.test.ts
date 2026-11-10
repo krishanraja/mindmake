@@ -5,6 +5,7 @@ import { render as serverRender } from "@/entry-server";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import fixture from "@/data/vnext/brain-fixture.json";
 import { blogPosts } from "@/data/blogPosts";
+import { sourceLine } from "@/components/mindmake/locked/brainRecord";
 
 /**
  * /ai-brain after S6 (Krish, 2026-10-24), which put the S4 narrative and its S5
@@ -57,6 +58,16 @@ describe("the Brain narrative", () => {
     expect([...close.querySelectorAll(".s8-keeps li")].map((item) => item.textContent?.trim())).toEqual(["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."]);
     expect(close.querySelectorAll("[data-mm-primary]")).toHaveLength(1);
     expect([...close.querySelectorAll<HTMLAnchorElement>(".mm-pairing-link")].map((link) => link.getAttribute("href"))).toEqual(["/ai-gtm"]);
+  });
+
+  it("never names CTRL in anything the record shows (Ruling, owner, 2026-10-24; audit RECORD-13)", () => {
+    const shown = [
+      ...fixture.sources.flatMap((source) => [source.label, sourceLine(source)]),
+      ...fixture.relationships.map((relationship) => relationship.meaning),
+      ...fixture.corrections.map((correction) => correction.summary),
+      ...fixture.items.map((item) => item.title),
+    ];
+    for (const line of shown) expect(line, line).not.toMatch(/\bCTRL\b/);
   });
 
   it("shows the live record, names no AI companies, and says 30 days only where it builds", () => {

@@ -699,6 +699,11 @@ html {
 /* /new-age-leadership names its own edge at every width, phones included. */
 .mm-site.mm-route-leadership .mm-header > .mm-container { padding-inline: var(--mm-header-inline); }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
+/* On a phone the menu takes the same edge as the logo and the page, as on
+   every other page (audit OTHER-09). */
+@media (max-width: 700px) {
+  .mm-site.mm-route-brain .mm-menu { padding-inline: var(--mm-edge); }
+}
 /* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
    and these mirror it, including the two narrow overrides. That file is
    generated from the approved prototype, so the mirror lives here. The route
@@ -875,6 +880,9 @@ html {
   text-decoration: none;
   transition: color .12s ease;
 }
+/* The page the reader is on: the approved menu's rule mark (audit CRIT-07). */
+.mm-menu-routes a[aria-current="page"] { padding-left: clamp(12px, 1.1vw, 20px); color: #9df0c8; }
+.mm-menu-routes a[aria-current="page"]::before { content: ""; position: absolute; left: 0; width: 1px; height: 55%; background: #9df0c8; }
 .mm-menu-routes a::after {
   position: absolute;
   right: 0;
@@ -1273,6 +1281,24 @@ html {
   }
   .mm-blog-filters::-webkit-scrollbar { display: none; }
   .mm-blog-filters button { flex: none; white-space: nowrap; }
+  /* The row fades out at its right edge, so a chip beyond the screen reads
+     as a swipe away rather than cut off; the end padding lets the last chip
+     clear the fade (audit OTHER-06). */
+  .mm-blog-filters:has(> :nth-child(3)) {
+    padding-inline-end: calc(var(--mm-gutter, 16px) + 32px);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+  }
+}
+/* The story finder's situations on a phone: the same fade where the chips
+   run past the screen (audit DECK-07). The row itself is the approved
+   scroller from new-age-leadership-r5.css. */
+@media (max-width: 620px) {
+  .mm-site .nal-page .finder-tabs {
+    padding-inline-end: calc(var(--edge, 16px) + 32px);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+  }
 }
 .mm-blog-filters button {
   min-height: 44px;
@@ -1900,7 +1926,10 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   stroke: var(--mark-ink, #9ff1c9);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1;
+  /* The gap outruns the path, so no dash starts at its far end: a dash of
+     no length there still takes a round cap, and showed as a dot under the
+     last word before the pen arrived (audit GTM-02). */
+  stroke-dasharray: 1 2;
   stroke-dashoffset: 1;
   /* An even pen speed, stroke by stroke (src/lib/scrollBuild.ts times each). */
   transition: stroke-dashoffset var(--stroke-dur, 350ms) cubic-bezier(.4, .1, .5, .95) var(--stroke-delay, 1450ms);

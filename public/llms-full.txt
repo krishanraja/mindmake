@@ -153,7 +153,7 @@ Plenty of people will offer to build you a custom AI. Five questions separate a 
 
 Mindmake is a small AI and commercial strategy practice. It builds a leader their own AI brain, so the AI they already use stops being generic and starts working the way they do. The work starts with one paid proof: one decision or capability, built as a working first version, used on real work, and kept by the leader when the work ends.
 
-There are two ways in. [Build your AI brain](/ai-brain) starts with the leader's own judgement. [Build your AI revenue engine](/ai-gtm) starts with the business's pricing, positioning, product and people.
+There are two ways in. [Build your AI brain](/ai-brain) starts with the leader's own judgement. [Build your AI business](/ai-gtm) starts with the business's pricing, positioning, product and people.
 
 [Success stories](/case-studies) holds the verified client stories, in the clients' own words.
 
@@ -212,7 +212,7 @@ Pick one product line and ask four questions about it. What do we make that a bu
 
 ## Where Mindmake fits
 
-Mindmake is a small AI and commercial strategy practice. [Build your AI revenue engine](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. The work starts with one paid proof, scoped and priced privately. The verified client stories are on [Success stories](/case-studies).
+Mindmake is a small AI and commercial strategy practice. [Build your AI business](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. The work starts with one paid proof, scoped and priced privately. The verified client stories are on [Success stories](/case-studies).
 
 Where we stand on this:
 - When anyone's AI can produce the analysis, the value moves to three places: the rights to the data, the place in the decision, and the judgement about what it means.
@@ -264,7 +264,7 @@ The easiest way to pass these checks is to start small. Pick one decision or cap
 
 ## Where Mindmake fits
 
-Mindmake is a small AI and commercial strategy practice, and this is how its work is built. Each piece of work starts with one paid proof: one decision or capability, built as a working first version, used on real work and kept by the leader when the work ends. It can start from the leader's own judgement, with [Build your AI brain](/ai-brain), or from the business's pricing, positioning, product and people, with [Build your AI revenue engine](/ai-gtm). The verified client stories are on [Success stories](/case-studies).
+Mindmake is a small AI and commercial strategy practice, and this is how its work is built. Each piece of work starts with one paid proof: one decision or capability, built as a working first version, used on real work and kept by the leader when the work ends. It can start from the leader's own judgement, with [Build your AI brain](/ai-brain), or from the business's pricing, positioning, product and people, with [Build your AI business](/ai-gtm). The verified client stories are on [Success stories](/case-studies).
 
 Where we stand on this:
 - A proof counts as working when the client will stand behind it.
@@ -318,7 +318,7 @@ That gives the board something to test rather than a plan to trust, and it gives
 
 ## Where Mindmake fits
 
-Mindmake is a small AI and commercial strategy practice. [Build your AI revenue engine](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. [Build your AI brain](/ai-brain) builds a leader their own AI that holds their standards and judgement. Either way the work starts with one paid proof, scoped and priced privately, and the verified client stories are on [Success stories](/case-studies).
+Mindmake is a small AI and commercial strategy practice. [Build your AI business](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. [Build your AI brain](/ai-brain) builds a leader their own AI that holds their standards and judgement. Either way the work starts with one paid proof, scoped and priced privately, and the verified client stories are on [Success stories](/case-studies).
 
 Where we stand on this:
 - AI creates value at three levels: help with the task, bring what matters, and extend what the leader can do. The third is the one worth paying for.

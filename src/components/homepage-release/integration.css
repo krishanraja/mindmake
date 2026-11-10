@@ -739,9 +739,14 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors { margin-top: clamp(32px, 8svh, 72px); }
 }
 
-/* The phone menu reads "Build your AI revenue", matching "Build your AI
-   brain" (Krish, 2026-10-15). Below 768px the menu's type grows with the
-   screen and the full name breaks across lines; the rest of it hides there. */
+/* A menu label too long for a phone can carry a tail that hides below 768px,
+   where the menu's type grows with the screen. None does today: the
+   revenue page's "Build your AI revenue engine" used it until every link
+   became "Build your AI business" (Krish, 2026-11-10). */
 @media (max-width: 767px) {
   .mm-homepage-release .r3-navigation .primary-routes .mm-route-tail { display: none; }
 }
+
+/* The page the reader is on, in the approved menu's rule style (audit CRIT-07). */
+.mm-homepage-release .r3-navigation .primary-routes a[aria-current="page"] { padding-left: clamp(12px, 1.1vw, 20px); color: var(--mint, #9df0c8); }
+.mm-homepage-release .r3-navigation .primary-routes a[aria-current="page"]::before { content: ""; position: absolute; left: 0; width: 1px; height: 55%; background: var(--mint, #9df0c8); }

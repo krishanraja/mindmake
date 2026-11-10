@@ -35,7 +35,8 @@ export const START_PATH = "/?start=1";
  *
  * Ruling (Krish, 2026-10-24): the way in names what the reader is building, not
  * the document, so it reads as the start of the real thing: "Start building
- * your AI brain", and on /ai-gtm "Start building your AI revenue engine". The
+ * your AI brain", and on /ai-gtm "Start building your AI business" (the name
+ * every link to that page uses, Krish, 2026-11-10). The
  * line beneath it says what the first step really is, so the free step is never
  * mistaken for the brain itself.
  *
@@ -45,7 +46,7 @@ export const START_PATH = "/?start=1";
  * button books, because nothing in the flow books a session.
  */
 export const START_LABEL = "Start building your AI brain";
-export const START_LABEL_GTM = "Start building your AI revenue engine";
+export const START_LABEL_GTM = "Start building your AI business";
 export const START_SUBLABEL = "Free and private. It starts with a read of your business.";
 
 /**
@@ -73,10 +74,10 @@ export const CONTACT_EMAIL = "krish@mindmake.co";
 export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string; short?: string }> = [
   { label: "Home", href: "/" },
   { label: "Build your AI brain", href: "/ai-brain" },
-  /* On a phone the menu reads "Build your AI revenue", matching "Build your
-     AI brain" (Krish, 2026-10-15): the rest of the label hides at 767px and
-     below, where the full name no longer fits one line. */
-  { label: "Build your AI revenue engine", short: "Build your AI revenue", href: "/ai-gtm" },
+  /* Every link to /ai-gtm reads "Build your AI business" (Krish, 2026-11-10),
+     the name the homepage's door already used; the page keeps its own title.
+     It fits one line on a phone, so it needs no short form. */
+  { label: "Build your AI business", href: "/ai-gtm" },
   /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
      page's own title matches its label, so the click lands where it said. */
   { label: "What you can do", href: "/case-studies" },

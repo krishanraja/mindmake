@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { Fragment, useState, type CSSProperties, type ReactNode } from "react";
 import { Icon } from "@/components/mindmake/Icon";
 import { Plate } from "@/components/mindmake/Plate";
 import { Unbroken } from "./Unbroken";
@@ -76,7 +76,10 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
     <div className="team-side" data-side={which}>
       <p className="team-count">
         {copy.count[which].people}{copy.count[which].agents ? <span> + {copy.count[which].agents}</span> : null}
-        <small>{VIEW_NAMES[which]} · {copy.tally[which]}</small>
+        {/* Each phrase stays whole; a line may only break between them (audit CRIT-10). */}
+        <small>{[VIEW_NAMES[which], ...copy.tally[which].split(" · ")].map((part, index, parts) => (
+          <Fragment key={part}>{index ? " " : null}<span className="gtm-nowrap">{part}{index < parts.length - 1 ? " ·" : null}</span></Fragment>
+        ))}</small>
       </p>
       <p className="team-marks" aria-hidden="true">
         {Array.from({ length: copy.count[which].people }, (_, index) => <i key={`p${index}`} />)}
@@ -106,12 +109,12 @@ export function TeamChapter({ copy, picked, onPick, decisionLabel, decisionNote,
             <article className="decision-panel" aria-live="polite" aria-labelledby="gtm-decision-title">
               <div className="decision-stack">
                 <div className="decision-copy">
-                  <p className="gtm-decision-role">{decisionLabel} as {role.title}.</p>
+                  <p className="gtm-decision-role">{decisionLabel} as <span className="gtm-nowrap">{role.title}</span>.</p>
                   <h3 id="gtm-decision-title">{decision}</h3>
                 </div>
                 {every.map((seat) => (
                   <div key={`${seat.id}-${seat.title}`} className="decision-copy decision-sizer" aria-hidden="true">
-                    <span className="decision-sizer-role">{decisionLabel} as {seat.title}.</span>
+                    <span className="decision-sizer-role">{decisionLabel} as <span className="gtm-nowrap">{seat.title}</span>.</span>
                     <span className="decision-sizer-q">{copy.decisions[seat.id] ?? copy.decisions.lead}</span>
                   </div>
                 ))}

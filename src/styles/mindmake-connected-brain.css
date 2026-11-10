@@ -237,6 +237,34 @@
   .mm-site .mm-locked-brain:is(*, .mm-alive) :is(.rests-source, .rests-change) { font-size: .78rem; line-height: 1.35; }
 }
 
+/* ---------- Page polish (S9 stage 4) ---------- */
+/* The explaining words are never smaller than 12px: the month's step labels
+   were 8px, the questions' labels and the record's totals under 12 (audit
+   BRAIN-15). On a phone the four totals sit two by two so their names fit. */
+.mm-site .mm-locked-brain:is(*, .mm-alive) .chapter :is(.leaf, .lever-call) > span,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2:is(.is-active, :hover, :focus-visible) span { font-size: .75rem; }
+@media (min-width: 761px) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) :is(.brain-region, .pair-panel.memory .brain-key) { font-size: .75rem; }
+}
+@media (max-width: 760px) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.2rem; }
+}
+/* On a phone the hero's orbits keep their rings but no dot travels them: at
+   that size every path crossed the words and the way in (audit BRAIN-21). */
+@media (max-width: 760px), (orientation: landscape) and (max-height: 500px) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .opening .orbit::after { content: none; }
+}
+/* The month's thirty days sit under the four steps they belong to: each day
+   is placed at its own --t along the row, so day 30 stands over Day 30, not
+   over After (audit OTHER-10). The four steps are side by side above 760px. */
+@media (min-width: 761px) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .month-days { position: relative; display: block; height: 13px; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .month-days i { position: absolute; top: 50%; left: calc(var(--t) / .76 * 100%); margin: 0; transform: translate(-50%, -50%); }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .month-days i:nth-child(8),
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .month-days i:nth-child(29) { margin: 0; }
+}
+
 /* Without scripting the Brain takes the listing's height. Last in the file, so
    no laptop or phone height for the picture can win over it. */
 @media (scripting: none) {

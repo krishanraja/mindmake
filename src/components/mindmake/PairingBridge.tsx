@@ -24,7 +24,7 @@ const PAIRS = {
   brain: {
     line: "Running a revenue team? An AI brain gives your revenue engine something to run on.",
     to: "/ai-gtm",
-    label: "Build your AI revenue engine",
+    label: "Build your AI business",
   },
   gtm: {
     line: "Your revenue engine runs better on your AI brain.",

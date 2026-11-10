@@ -439,7 +439,7 @@ export function CommercialDecisionBalance({ context, onStart }: CommercialDecisi
           <p className="mm-decision-balance-lede">Start with your judgement or your route to market. Both lead to one paid proof.</p>
           <nav className="mm-decision-balance-offer-links" aria-label="Mindmake offers">
             <Link to="/ai-brain"><small>Build your</small><strong>AI brain</strong><i aria-hidden="true">↗</i></Link>
-            <Link to="/ai-gtm"><small>Build your</small><strong>AI go-to-market</strong><i aria-hidden="true">↗</i></Link>
+            <Link to="/ai-gtm"><small>Build your</small><strong>AI business</strong><i aria-hidden="true">↗</i></Link>
           </nav>
           <p className="mm-decision-balance-contract">One real decision or capability becomes a working first version. We use it on real work. You keep the system, its proof and standards.</p>
           <p className="mm-decision-balance-boundary">Scope, duration and fee are agreed privately in writing before work starts.</p>

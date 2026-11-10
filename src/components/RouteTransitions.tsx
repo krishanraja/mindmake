@@ -75,7 +75,7 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
       if (url && !samePage(url)) void preload?.(url.pathname)?.catch(() => {});
     };
 
-    const go = async (to: string, pathname: string) => {
+    const go = async (to: string, pathname: string, menu: Element | null = null) => {
       /* Wait for the page's code, but never make a click feel ignored. */
       await Promise.race([
         Promise.resolve(preload?.(pathname)).catch(() => {}),
@@ -88,6 +88,11 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
         return;
       }
       running.current?.skipTransition();
+      /* The menu that was clicked leaves its words out of the old picture:
+         it used to stay frozen on screen after the address changed, then
+         cross over the new page (audit OTHER-01). Its ground stays, so the
+         new page sets in over a calm screen. */
+      menu?.setAttribute("data-mm-leaving", "");
       const rule = document.createElement("div");
       rule.className = "mm-route-rule";
       rule.setAttribute("aria-hidden", "true");
@@ -109,6 +114,7 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
       (transition as ViewTransition & { updateCallbackDone?: Promise<void> }).updateCallbackDone?.catch(() => {});
       transition.finished.finally(() => {
         rule.remove();
+        menu?.removeAttribute("data-mm-leaving");
         document.documentElement.classList.remove("mm-route-changing");
         if (running.current === transition) running.current = null;
       });
@@ -122,7 +128,8 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
          then sees the event handled and stands down. Nothing is stopped: every
          other listener on the link, analytics and menus included, still runs. */
       event.preventDefault();
-      void go(url.pathname + url.search + url.hash, url.pathname);
+      const menu = (event.target as Element | null)?.closest?.("#mindmake-menu.is-open, .r3-navigation.is-open") ?? null;
+      void go(url.pathname + url.search + url.hash, url.pathname, menu);
     };
 
     document.addEventListener("click", click, true);

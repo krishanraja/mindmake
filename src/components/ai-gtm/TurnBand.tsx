@@ -1,3 +1,5 @@
+import { Unbroken } from "./Unbroken";
+
 export interface Door<M extends string> {
   mode: M;
   label: string;
@@ -27,7 +29,7 @@ export function TurnBand<M extends string>({ question, doors, mode, onMode }: {
           <input type="radio" name="gtm-business" value={door.mode} checked={door.mode === mode} onChange={() => onMode(door.mode)} />
           <span className="gtm-door-mark" aria-hidden="true" />
           <span className="gtm-door-text">
-            <b>{door.label}</b>
+            <b><Unbroken text={door.label} /></b>
             <small>{door.small}</small>
           </span>
         </label>

@@ -135,12 +135,15 @@ describe("public route resilience", () => {
     });
   });
 
-  it("lists every answer page with the question it answers", () => {
+  it("lists every answer page with the question it answers, or its description where the title already asks it", () => {
     renderWithAppProviders(<Blog />, "/blog");
 
     for (const answer of answers) {
       expect(screen.getByRole("heading", { name: answer.title })).toBeInTheDocument();
-      expect(screen.getByText(asQuestion(answer.targetQuery))).toBeInTheDocument();
+      /* A title that is itself a question shows the page's description: the
+         search question under it only said the title again (audit OTHER-04). */
+      if (answer.title.trim().endsWith("?")) expect(screen.getByText(answer.description)).toBeInTheDocument();
+      else expect(screen.getByText(asQuestion(answer.targetQuery))).toBeInTheDocument();
       expect(screen.getByRole("link", { name: new RegExp(answer.title.slice(0, 30), "i") }))
         .toHaveAttribute("href", `/answers/${answer.slug}`);
     }

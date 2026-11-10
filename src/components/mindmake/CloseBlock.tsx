@@ -57,7 +57,7 @@ interface CloseBlockProps {
 /** The two doors, by the names the canon gives them. */
 const DOORS: ReadonlyArray<{ route: BriefRoute; label: string }> = [
   { route: "brain", label: "Build your AI brain" },
-  { route: "gtm", label: "Build your AI revenue engine" },
+  { route: "gtm", label: "Build your AI business" },
 ];
 
 export function CloseBlock({ claim, body, onStart, ground, instrument, panelId, fork }: CloseBlockProps) {
@@ -65,7 +65,10 @@ export function CloseBlock({ claim, body, onStart, ground, instrument, panelId, 
     <section className={`mm-close${ground === "raise" ? " mm-on-raise" : ""}`}>
       <div className="mm-container">
         <Instrument kind={instrument} className="mm-close-mark" />
-        <ScrubText className="mm-claim" text={claim} />
+        {/* The unlit words stay readable (5:1) while the line fills; at the
+            default 0.22 the closing heading was illegible until half way up
+            the screen (audit OTHER-07). */}
+        <ScrubText className="mm-claim" text={claim} dim={0.6} />
         {body && <p>{body}</p>}
 
         {panelId ? (

@@ -1,7 +1,7 @@
 import { type MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar } from "@/components/mindmake/SiteActionBar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
@@ -171,7 +171,9 @@ export function MindmakeShell({
               {label}
             </a>
           ) : (
-            <Link key={href} to={href}>{short && label.startsWith(short) ? <span>{short}<span className="mm-route-tail">{label.slice(short.length)}</span></span> : label}</Link>
+            /* The page the reader is on is marked (aria-current), in the
+               approved menu's own rule style (audit CRIT-07). */
+            <NavLink key={href} to={href} end={href === "/"}>{short && label.startsWith(short) ? <span>{short}<span className="mm-route-tail">{label.slice(short.length)}</span></span> : label}</NavLink>
           ))}
         </nav>
         <button className="mm-menu-start" type="button" onClick={startFromMenu}>

@@ -93,3 +93,9 @@
    returns it to its own designed opacity over the fade. */
 [data-mm-media] { transition: opacity .75s cubic-bezier(.22, 1, .36, 1); }
 [data-mm-media="pending"] { opacity: 0; }
+
+/* A menu link: the menu's words leave the old picture, its ground stays, so
+   the menu is never frozen over the new page (audit OTHER-01). */
+#mindmake-menu[data-mm-leaving] > *,
+.r3-navigation[data-mm-leaving] :is(.menu-surface, .site-masthead) { visibility: hidden; }
+.r3-navigation[data-mm-leaving] { visibility: visible; opacity: 1; transition: none; }

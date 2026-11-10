@@ -302,7 +302,7 @@ export function CommercialContinuity({ context, onStart }: CommercialContinuityP
                   </Link>
                   <Link to="/ai-gtm" aria-current={context === "gtm" ? "page" : undefined}>
                     <span>Build your</span>
-                    <strong>AI go-to-market</strong>
+                    <strong>AI business</strong>
                   </Link>
                 </nav>
               </header>

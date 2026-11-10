@@ -205,3 +205,12 @@
 /* Hand-drawn marks (src/lib/scrollBuild.ts): mint on the dark and clay
    grounds, the deep green on the paper and amber panels. */
 .mm-locked-brain .pair-panel { --mark-ink: #2f6b4c; }
+
+/* A phone on its side has about 360px of height: the heading takes one line
+   and the way in stays on the first screen (audit CRIT-05). Portrait phones
+   and laptops keep the approved two-line heading. */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .opening { grid-template-columns: minmax(0, 36rem); align-content: center; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .opening h1 { max-width: none; font-size: 2.6rem; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .opening-copy > p { max-width: 36rem; margin: .7rem 0; font-size: 1rem; }
+}

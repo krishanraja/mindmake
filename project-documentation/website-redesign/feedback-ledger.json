@@ -2123,6 +2123,26 @@
         "qa:reading-flow passes on /, /ai-brain and /ai-gtm at Pixel 7, 360x780, Pixel 7 landscape and 1440x900 plus reduced motion: the tour holds each idea at least five seconds on screen and stops on a pick; its blank-screen measure now counts a framed photograph, with a negative control.",
         "qa:homepage-release:pre-merge, qa:nojs on /ai-brain (the Brain lists its ideas by cluster without scripting), qa:approved-routes and its self-test, qa:homepage-handoff, qa:material-review:self-test, qa:plain-language, typecheck, lint, 742 unit tests and the build pass; laptop, phone and no-script screenshots reviewed."
       ]
+    },
+    {
+      "id": "S9-POLISH-001",
+      "exactFeedback": "Why don't you just fix all the small issues? / use whichever name is in the nav / sorry hang on,that doesnt mean the entire page will be renamed does it? ai-gtm is legacy to ai businss / (choice) Build your AI business",
+      "source": "Krish, 10 November 2026, after stage 3 of the S9 repair; the naming answer chose every link to /ai-gtm reading 'Build your AI business', with the page keeping its own title and headline.",
+      "surface": "/, /ai-brain, /ai-gtm, /case-studies, /blog, every menu",
+      "section": "the issues left from the S9 audit (S9-AUDIT-001) that predate S9 or were not covered by stages 1 to 3",
+      "device": "all",
+      "element": "link names to /ai-gtm, carousels and chip rows, menus, labels, captions, charts and small text",
+      "classification": "correction",
+      "requiredOutcome": "Every issue still present is fixed or, where it needs Krish's words or a new control, listed for him; one name on every link to /ai-gtm; nothing else on the pages changes.",
+      "acceptanceTest": "src/test/homepage-leadership-chapters.test.ts (the results rail), src/test/primary-routes-parity.test.ts (one name in both menus), src/test/route-resilience.test.tsx (tips titled as questions); qa:line-breaks, qa:reading-flow, qa:homepage-release:pre-merge, qa:nojs, qa:card-contrast; screenshots reviewed.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Fixed: GTM-02, GTM-03 (one line from 360px; a clean two-line break at 320), CRIT-05, CRIT-09, CRIT-10, CRIT-11, the AI-native doors; BRAIN-15, BRAIN-19, BRAIN-21, RECORD-11, DECK-07, DECK-08, OTHER-10, CRIT-12; HOME-02, HOME-03, HOME-04, OTHER-01, OTHER-09, CRIT-07 (current page; the arrows unchanged); OTHER-02, OTHER-03, OTHER-04, OTHER-05, OTHER-06, OTHER-07, OTHER-08 (phones); CRIT-08 (links). Already gone: CRIT-03. Left as ruled or for Krish: CRIT-13 (the 4000+ count-up, 04_PROOF.md), CRIT-06 (beats on a tap, S6), CRIT-04 (no page-wide motion pause on /ai-brain), the menu's arrow on every route, the page title and headline of /ai-gtm, the brief's preview label and the /case-studies lede, and the US spelling 'center' in one answer title that matches its search phrase.",
+      "evidence": [
+        "Four read-only audits re-checked every open issue against the current build: 33 still happened, CRIT-03 (Back and Forward) was already gone in production.",
+        "Every link and button to /ai-gtm reads Build your AI business on both menus, the page's way in, the pairing, close and story-door links, /new-age-leadership and the answer articles; the homepage release regenerated from its generator.",
+        "qa:line-breaks passes on every route at 1440, 1280, 390 and 360, tapping all twenty Brain ideas and the new lever, results and stops controls; qa:reading-flow, qa:homepage-release:pre-merge, qa:nojs (5 pages, 23 answers), qa:card-contrast, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, typecheck, lint, 742 unit tests and the build pass.",
+        "Screenshots reviewed at Pixel 7, 360 and 320 phones and 1440: the results rail and its stops, the record totals, the closing labels, the comparison chart, the chip fades, the menu's current page, the month's days under their steps and the /ai-gtm doors, tiles, lever controls and captions."
+      ]
     }
   ]
 }

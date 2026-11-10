@@ -280,10 +280,21 @@ body { margin: 0; background: #0a100d; }
   display: flex; justify-content: space-between; gap: 14px; margin: 12px 0 0;
   color: var(--mut); font-family: var(--mono); font-size: 9.5px; line-height: 1.45;
 }
-.mm-fig > p:last-child span { flex: 1 1 0; }
-.mm-fig > p:last-child span:last-child { text-align: right; color: var(--tx-2); }
+/* Only the two labels themselves: the no-break span keepLastWords.ts puts
+   inside a label is not a label, and took the second label's colour. */
+.mm-fig > p:last-child > span { flex: 1 1 0; }
+.mm-fig > p:last-child > span:last-child { text-align: right; color: var(--tx-2); }
 .mm-fig-bar { display: block; height: 10px; border-radius: 1px; transition: width .28s ease; }
-.mm-fig-bar.is-was { background: var(--ink-3); border: 1px solid var(--line); }
+/* The before bar is drawn in the muted ink, so it reads against the ground
+   (it was 1.2:1, near the ground itself), and each label sits under its own
+   bar: at opposite ends of one row, the after label stood far from its bar
+   (audit OTHER-03). */
+.mm-fig-bar.is-was { background: var(--mut); border: 1px solid var(--mut); }
+.mm-fig-span { display: flex; flex-direction: column; }
+.mm-fig-span > p:last-child { display: contents; }
+.mm-fig-span > p:last-child > span:first-child { order: 1; flex: none; margin-top: 6px; text-align: left; }
+.mm-fig-span > .mm-fig-bar.is-now { order: 2; }
+.mm-fig-span > p:last-child > span:last-child { order: 3; flex: none; margin-top: 6px; text-align: left; }
 .mm-fig-bar.is-now { background: var(--mint); }
 .mm-fig-span .mm-fig-bar + .mm-fig-bar { margin-top: 10px; }
 .mm-fig-marks { display: flex; flex-wrap: wrap; gap: 5px; }

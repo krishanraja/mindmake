@@ -496,7 +496,7 @@ export function CommercialProofglass({ context, onStart }: CommercialProofglassP
           <p className="mm-proofglass-offer">Build an AI brain or AI-native go-to-market system around one consequential decision or capability. Use the working first version. Keep what works.</p>
           <nav className="mm-proofglass-doors" aria-label="Mindmake offers">
             <Link to="/ai-brain"><small>Build your</small><strong>AI brain</strong><i aria-hidden="true">↗</i></Link>
-            <Link to="/ai-gtm"><small>Build your</small><strong>AI go-to-market</strong><i aria-hidden="true">↗</i></Link>
+            <Link to="/ai-gtm"><small>Build your</small><strong>AI business</strong><i aria-hidden="true">↗</i></Link>
           </nav>
           <div className="mm-proofglass-actions">
             <button ref={startRef} className="mm-proofglass-start" type="button" data-mm-primary onClick={openDecision}>

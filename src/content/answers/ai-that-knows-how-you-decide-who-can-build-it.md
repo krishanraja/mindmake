@@ -52,7 +52,7 @@ Plenty of people will offer to build you a custom AI. Five questions separate a 
 
 Mindmake is a small AI and commercial strategy practice. It builds a leader their own AI brain, so the AI they already use stops being generic and starts working the way they do. The work starts with one paid proof: one decision or capability, built as a working first version, used on real work, and kept by the leader when the work ends.
 
-There are two ways in. [Build your AI brain](/ai-brain) starts with the leader's own judgement. [Build your AI revenue engine](/ai-gtm) starts with the business's pricing, positioning, product and people.
+There are two ways in. [Build your AI brain](/ai-brain) starts with the leader's own judgement. [Build your AI business](/ai-gtm) starts with the business's pricing, positioning, product and people.
 
 [Success stories](/case-studies) holds the verified client stories, in the clients' own words.
 

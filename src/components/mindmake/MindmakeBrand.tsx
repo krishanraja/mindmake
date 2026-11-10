@@ -39,10 +39,17 @@ export function BrandMarks({ instance }: { instance: string }) {
 
 export function MindmakeBrand({ compact = false }: { compact?: boolean }) {
   const location = useLocation();
-  const home = location.pathname === "/" ? "#top" : "/#top";
+  /* The homepage, at its top. It linked to /#top, but the homepage has no
+     #top, so from another page the logo landed wherever the reader had been
+     (audit HOME-02); on the homepage itself it scrolls back up. */
+  const onHome = (event: React.MouseEvent) => {
+    if (location.pathname !== "/") return;
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  };
 
   return (
-    <Link className={`mm-brand${compact ? " is-compact" : ""}`} to={home} aria-label="Mindmake home">
+    <Link className={`mm-brand${compact ? " is-compact" : ""}`} to="/" onClick={onHome} aria-label="Mindmake home">
       <BrandMarks instance={compact ? "foot" : "head"} />
     </Link>
   );

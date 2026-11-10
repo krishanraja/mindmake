@@ -23,6 +23,14 @@
 .s8-green { background: #11291f; color: #efe6d3; }
 .mm-site .s8-label, .s8-label { margin: 0; font: 500 12px/1.2 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--mm-mint-d, #2f6b4c); }
 .s8-dark .s8-label, .s8-green .s8-label { color: var(--mm-mint, #9df0c8); }
+/* A run of labels breaks only between labels, never inside one, and on a
+   narrow screen stacks them without the separators: a break left a "·"
+   hanging at the end of a line (audit CRIT-12). */
+.s8-label-run > span:not(.s8-label-sep) { white-space: nowrap; }
+@media (max-width: 480px) {
+  .s8-label-run > span:not(.s8-label-sep) { display: block; }
+  .s8-label-run > .s8-label-sep { display: none; }
+}
 
 /* The detail one tap away. */
 .s8-more { margin-top: 14px; }
@@ -47,6 +55,7 @@
 .mm-gtm .gtm-s8 .gtm-door { border-color: rgba(27, 42, 35, .22); background: none; color: var(--mm-tx-d, #1b2a23); }
 .mm-gtm .gtm-s8 .gtm-door[data-active="true"] { border-color: var(--mm-mint-d, #2f6b4c); background: rgba(47, 107, 76, .08); }
 .mm-gtm .gtm-s8 .gtm-doors-question { color: var(--mm-tx-d, #1b2a23); }
+.mm-gtm .gtm-s8 .gtm-lever-nav { display: none; }
 
 /* /ai-gtm, the team: today beside AI-native, then the question it raises. */
 .mm-gtm .gtm-s8.gtm-team { padding-block: 0; background: none; }
@@ -79,7 +88,7 @@
 .mm-gtm .gtm-s8 .gtm-plan-detail { margin-top: 8px; color: rgba(27, 42, 35, .78); font-size: 17px; max-width: 46ch; }
 .mm-gtm .gtm-s8 .gtm-plan-last { justify-self: end; }
 .mm-gtm .gtm-s8 .s8-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin: clamp(40px, 7vh, 72px) 0 0; padding: 0; list-style: none; }
-.mm-gtm .gtm-s8 .s8-tiles li { display: flex; flex-direction: column; gap: 14px; min-height: 128px; margin: 0; padding: 18px 16px; border: 1px solid rgba(27, 42, 35, .16); background: none; color: var(--mm-tx-d, #1b2a23); font: 400 17px/1.25 var(--mm-serif); }
+.mm-gtm .gtm-s8 .s8-tiles li { display: flex; flex-direction: column; gap: 14px; min-height: 128px; margin: 0; padding: 18px 0 0; border: 0; border-top: 1px solid rgba(27, 42, 35, .16); background: none; color: var(--mm-tx-d, #1b2a23); font: 400 17px/1.25 var(--mm-serif); }
 .mm-gtm .gtm-s8 .s8-tiles .mm-icon { color: var(--mm-mint-d, #2f6b4c); }
 /* What stays with you: three marks in a row, on either page. */
 .s8-keeps-block { margin-top: clamp(40px, 7vh, 72px); }
@@ -121,6 +130,13 @@
   .mm-gtm .gtm-s8 .gtm-door b { font-size: 14px; line-height: 1.25; }
   .mm-gtm .gtm-s8 .gtm-door small { display: none; }
   .mm-gtm .gtm-s8 .lever-steps { grid-template-columns: none; grid-auto-columns: 82%; }
+  /* Where the reader is in the row of four, and a way on (audit CRIT-09). */
+  .mm-gtm .gtm-s8 .gtm-lever-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav ol { display: flex; margin: 0; padding: 0; list-style: none; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav button { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--mm-mint-d, #2f6b4c); font: 500 18px/1 var(--mm-grotesque); cursor: pointer; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav button:disabled { opacity: .35; cursor: default; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav ol button::before { content: ""; width: 8px; height: 8px; border: 1.5px solid currentColor; border-radius: 50%; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav ol button[aria-current="true"]::before { background: currentColor; }
   .mm-gtm .gtm-s8 .team-compare { grid-template-columns: 1fr 1fr; gap: 18px; }
   .mm-gtm .gtm-s8 .team-compare-arrow { display: none; }
   .mm-gtm .gtm-s8 .team-count { font-size: clamp(44px, 13vw, 56px); }
@@ -138,7 +154,7 @@
   .mm-gtm .gtm-s8 .gtm-plan-step { padding: 0; border: 0; }
   .mm-gtm .gtm-s8 .gtm-plan-last { justify-self: start; }
   .mm-gtm .gtm-s8 .s8-tiles { grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 24px; }
-  .mm-gtm .gtm-s8 .s8-tiles li { flex-direction: row; align-items: center; gap: 10px; min-height: 0; padding: 12px 10px; font-size: 15px; }
+  .mm-gtm .gtm-s8 .s8-tiles li { flex-direction: row; align-items: center; gap: 10px; min-height: 0; padding: 12px 0; font-size: 15px; }
   .mm-gtm .gtm-s8 .s8-tiles .mm-icon-big { width: 26px; height: 26px; }
   .s8-keeps-block { margin-top: 24px; }
   .s8-keeps { grid-template-columns: 1fr; gap: 10px; }
@@ -193,6 +209,9 @@
 .mm-site .mm-locked-brain .pair .record-machine { height: auto; min-height: 0; display: block; overflow: visible; border: 0; background: none; box-shadow: none; color: #1b2a23; }
 .mm-locked-brain .living-record .record-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; border: 0; }
 .mm-locked-brain .living-record .record-counts span { display: block; padding: .8rem 0 0; border: 0; border-top: 2px solid #2f6b4c; color: #2f6b4c; font: 500 .72rem/1.2 "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+/* The generated sheet clears the last total's border; whichever chunk loads
+   first, all four keep the same rule and line up (audit RECORD-11). */
+.mm-locked-brain .living-record .record-counts span:last-child { border-top: 2px solid #2f6b4c; }
 .mm-locked-brain .living-record .record-counts b { display: block; margin-bottom: .4rem; color: #1b2a23; font: 390 clamp(3.2rem, 6vw, 5.6rem)/.95 "Newsreader", Georgia, serif; letter-spacing: -.03em; text-transform: none; }
 .mm-locked-brain .living-record .record-ports { position: static; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: clamp(1.8rem, 4vh, 2.8rem) 0 0; padding: 0; border: 0; background: none; }
 .mm-locked-brain .living-record .record-ports li { position: static; display: flex; flex-direction: column; gap: .8rem; padding: 1.1rem 1rem; border: 1px solid rgba(27, 42, 35, .16); background: none; color: #1b2a23; font: 400 1.05rem/1.25 "Newsreader", Georgia, serif; letter-spacing: 0; text-transform: none; opacity: 1; transform: none; animation: none; }

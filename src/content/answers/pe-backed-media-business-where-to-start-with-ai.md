@@ -49,4 +49,4 @@ That gives the board something to test rather than a plan to trust, and it gives
 
 ## Where Mindmake fits
 
-Mindmake is a small AI and commercial strategy practice. [Build your AI revenue engine](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. [Build your AI brain](/ai-brain) builds a leader their own AI that holds their standards and judgement. Either way the work starts with one paid proof, scoped and priced privately, and the verified client stories are on [Success stories](/case-studies).
+Mindmake is a small AI and commercial strategy practice. [Build your AI business](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. [Build your AI brain](/ai-brain) builds a leader their own AI that holds their standards and judgement. Either way the work starts with one paid proof, scoped and priced privately, and the verified client stories are on [Success stories](/case-studies).

@@ -46,4 +46,4 @@ The easiest way to pass these checks is to start small. Pick one decision or cap
 
 ## Where Mindmake fits
 
-Mindmake is a small AI and commercial strategy practice, and this is how its work is built. Each piece of work starts with one paid proof: one decision or capability, built as a working first version, used on real work and kept by the leader when the work ends. It can start from the leader's own judgement, with [Build your AI brain](/ai-brain), or from the business's pricing, positioning, product and people, with [Build your AI revenue engine](/ai-gtm). The verified client stories are on [Success stories](/case-studies).
+Mindmake is a small AI and commercial strategy practice, and this is how its work is built. Each piece of work starts with one paid proof: one decision or capability, built as a working first version, used on real work and kept by the leader when the work ends. It can start from the leader's own judgement, with [Build your AI brain](/ai-brain), or from the business's pricing, positioning, product and people, with [Build your AI business](/ai-gtm). The verified client stories are on [Success stories](/case-studies).

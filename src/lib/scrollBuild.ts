@@ -31,16 +31,23 @@ export interface BuildSelectors {
 
 export function buildOnScroll(root: HTMLElement, selectors: BuildSelectors): () => void {
   const cleanups: Array<() => void> = [];
+  const still = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const arrive = (el: Element | null, order: number, onShown?: () => void) => {
     if (el instanceof HTMLElement && el.dataset.reveal === undefined) cleanups.push(revealOnArrival(el, order, onShown));
   };
   root.querySelectorAll<HTMLElement>(selectors.sections).forEach((section) => {
-    section.querySelectorAll<HTMLElement>(selectors.title).forEach((title) => {
+    const titles = [...section.querySelectorAll<HTMLElement>(selectors.title)];
+    /* The body waits for its heading to be written (audit WIPE-01). */
+    if (titles.length && !still) {
+      section.style.setProperty("--mm-reveal-after", `${WIPE_BODY_WAIT_MS}ms`);
+      cleanups.push(() => section.style.removeProperty("--mm-reveal-after"));
+    }
+    titles.forEach((title) => {
       title.classList.add("hs-wipe");
       arrive(title, 0, () => {
-        /* Only a heading that was actually waiting below the fold is wiped
+        /* Only a heading that was actually waiting below the fold is written
            in; one already on screen is never hidden, even for a moment. */
-        if (title.dataset.reveal === "shown") wipeLines(title);
+        if (title.dataset.reveal === "shown") cleanups.push(wipeLines(title));
         drawMarks(title);
       });
     });
@@ -67,63 +74,132 @@ export function buildOnScroll(root: HTMLElement, selectors: BuildSelectors): () 
   return () => cleanups.forEach((cleanup) => cleanup());
 }
 
+/** How long one line takes to write, and the gap before the next line starts. */
+export const WIPE_LINE_MS = 280;
+export const WIPE_STAGGER_MS = 70;
+/** How long the body waits for its heading: the first line is written by then. */
+export const WIPE_BODY_WAIT_MS = 300;
+
 /**
- * A heading arrives line by line behind a block of colour (owner, 2026-11-10,
- * after the 21st.dev text block animation: "have the text blocks animate
- * with something like" it, adapted rather than copied). Each line is covered
- * by a bar that sweeps in from the left, the words appear under it, and the
- * bar leaves to the right; the lines follow one another down the heading.
- *
- * No library and no change to the heading's own markup: the lines are found
- * from the text's own boxes, the bars sit in a layer beside the heading, and
- * the heading is uncovered by a clip that drops a line at a time. Mint on a
- * dark ground, the deep green on paper, so the bar is always Mindmake's
- * answer colour. Called only for a heading that was waiting below the fold.
+ * Whether a heading can be wiped in: only one the reader can actually see,
+ * and only once. A heading inside a hidden beat, an inert or aria-hidden
+ * container, or with no size is never wiped (audit WIPE-02, 2026-11-10: bars
+ * appeared for headings nobody could see).
  */
-export function wipeLines(title: HTMLElement) {
-  const host = (title.offsetParent as HTMLElement | null) ?? document.body;
+export function canWipe(title: HTMLElement): boolean {
+  if (title.dataset.wiped !== undefined) return false;
+  if (title.closest('[inert], [aria-hidden="true"], [hidden], [data-active="false"]')) return false;
+  if (!title.offsetWidth || !title.offsetHeight) return false;
+  const check = (title as HTMLElement & { checkVisibility?: (options: object) => boolean }).checkVisibility;
+  if (typeof check === "function" && !check.call(title, { opacityProperty: true, visibilityProperty: true })) return false;
+  return true;
+}
+
+/** The heading's lines, in its own box: top, bottom, left and right offsets. */
+function lineBoxes(title: HTMLElement) {
   const range = document.createRange();
   range.selectNodeContents(title);
+  const box = title.getBoundingClientRect();
   const fontSize = parseFloat(getComputedStyle(title).fontSize) || 40;
   const lines: Array<{ top: number; bottom: number; left: number; right: number }> = [];
-  [...range.getClientRects()].filter((rect) => rect.width > 1 && rect.height > 1).forEach((rect) => {
-    const line = lines.find((entry) => Math.abs(entry.top - rect.top) < fontSize * 0.5);
-    if (line) { line.left = Math.min(line.left, rect.left); line.right = Math.max(line.right, rect.right); line.bottom = Math.max(line.bottom, rect.bottom); }
-    else lines.push({ top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right });
+  const rects = typeof range.getClientRects === "function" ? [...range.getClientRects()] : [];
+  rects.filter((rect) => rect.width > 1 && rect.height > 1).forEach((rect) => {
+    const top = rect.top - box.top, bottom = rect.bottom - box.top, left = rect.left - box.left, right = rect.right - box.left;
+    const line = lines.find((entry) => Math.abs(entry.top - top) < fontSize * 0.5);
+    if (line) { line.left = Math.min(line.left, left); line.right = Math.max(line.right, right); line.bottom = Math.max(line.bottom, bottom); }
+    else lines.push({ top, bottom, left, right });
   });
   range.detach?.();
-  if (!lines.length) return;
-  lines.sort((a, b) => a.top - b.top);
-  const box = title.getBoundingClientRect();
-  const hostBox = host.getBoundingClientRect();
-  const offsetX = host === document.body ? window.scrollX : host.scrollLeft - host.clientLeft;
-  const offsetY = host === document.body ? window.scrollY : host.scrollTop - host.clientTop;
+  return { lines: lines.sort((x, y) => x.top - y.top), fontSize };
+}
+
+/**
+ * A heading is written in, a line at a time (owner, 2026-11-10, adapted from
+ * the 21st.dev text block animation, then fixed after the phone review: "Keep
+ * it, fixed"). A narrow bar of Mindmake's answer colour runs along each line
+ * like a pen's nib, and the words appear behind it; the next line starts just
+ * after. The heading arrives before its body (the body waits
+ * WIPE_BODY_WAIT_MS), the whole heading is written in well under a second,
+ * and nothing is left behind.
+ *
+ * The words are uncovered by one clip on the heading, a staircase that grows
+ * along each line, so the markup is never changed. The bars sit in a layer
+ * beside the heading, placed from layout offsets so a transform elsewhere
+ * cannot move them. Returns a cancel that stops it and leaves the heading
+ * whole. Called only for a heading that was waiting below the fold.
+ */
+export function wipeLines(title: HTMLElement): () => void {
+  if (!canWipe(title)) return () => undefined;
+  const { lines, fontSize } = lineBoxes(title);
+  if (!lines.length) return () => undefined;
+  title.dataset.wiped = "";
+  const host = (title.offsetParent as HTMLElement | null) ?? document.body;
+  const width = title.offsetWidth;
+  /* The title's place inside the layer's host, from layout values. */
+  let originX = title.offsetLeft, originY = title.offsetTop;
+  if (host === document.body) {
+    const box = title.getBoundingClientRect();
+    originX = box.left + window.scrollX;
+    originY = box.top + window.scrollY;
+  }
   const [r, g, b] = (getComputedStyle(title).color.match(/\d+(\.\d+)?/g) ?? ["0", "0", "0"]).map(Number);
-  const light = (r * 299 + g * 587 + b * 114) / 1000 > 140;
-  const colour = light ? "#91e8bc" : "#2f6b4c";
+  const colour = (r * 299 + g * 587 + b * 114) / 1000 > 140 ? "#91e8bc" : "#2f6b4c";
   const layer = document.createElement("div");
   layer.className = "hs-wipe-layer";
   layer.setAttribute("aria-hidden", "true");
   host.append(layer);
-  const reveal = (bottom: number) => {
-    title.style.clipPath = `inset(-0.3em -1em ${Math.max(0, box.bottom - bottom).toFixed(1)}px -1em)`;
-  };
-  reveal(box.top - 1);
-  const D = 460, STAGGER = 120;
-  const timers: number[] = [];
-  lines.forEach((line, index) => {
+  /* Rows meet halfway between lines, so the staircase has no gaps; the first
+     and last rows reach well past the glyphs so no tip or tail is cut. */
+  const rows = lines.map((line, index) => ({
+    ...line,
+    rowTop: index === 0 ? -fontSize : (lines[index - 1].bottom + line.top) / 2,
+    rowBottom: index === lines.length - 1 ? title.offsetHeight + fontSize : (line.bottom + lines[index + 1].top) / 2,
+  }));
+  const nibWidth = Math.max(3, Math.round(fontSize * 0.12));
+  const bars = rows.map((row) => {
     const bar = document.createElement("span");
-    bar.style.cssText = `position:absolute;left:${(line.left - hostBox.left + offsetX).toFixed(1)}px;top:${(line.top - hostBox.top + offsetY).toFixed(1)}px;width:${(line.right - line.left).toFixed(1)}px;height:${(line.bottom - line.top).toFixed(1)}px;background:${colour};transform:scaleX(0);transform-origin:left center;`;
+    bar.style.cssText = `position:absolute;top:${(originY + row.top).toFixed(1)}px;height:${(row.bottom - row.top).toFixed(1)}px;width:${nibWidth}px;left:${(originX + row.left).toFixed(1)}px;background:${colour};border-radius:${nibWidth}px;opacity:0;`;
     layer.append(bar);
-    bar.animate?.([
-      { transform: "scaleX(0)", transformOrigin: "left center", offset: 0, easing: "cubic-bezier(.7, 0, .3, 1)" },
-      { transform: "scaleX(1)", transformOrigin: "left center", offset: 0.5 },
-      { transform: "scaleX(1)", transformOrigin: "right center", offset: 0.5001, easing: "cubic-bezier(.7, 0, .3, 1)" },
-      { transform: "scaleX(0)", transformOrigin: "right center", offset: 1 },
-    ], { duration: D * 2, delay: index * STAGGER, fill: "both" });
-    timers.push(window.setTimeout(() => reveal(index === lines.length - 1 ? box.bottom + fontSize : line.bottom + 2), index * STAGGER + D));
+    return bar;
   });
-  timers.push(window.setTimeout(() => { layer.remove(); title.style.removeProperty("clip-path"); }, (lines.length - 1) * STAGGER + D * 2 + 40));
+  const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+  const clip = (reach: number[]) => {
+    const points: string[] = [`${-fontSize}px ${rows[0].rowTop}px`];
+    rows.forEach((row, index) => {
+      const x = reach[index];
+      points.push(`${x.toFixed(1)}px ${row.rowTop.toFixed(1)}px`, `${x.toFixed(1)}px ${row.rowBottom.toFixed(1)}px`);
+    });
+    points.push(`${-fontSize}px ${rows[rows.length - 1].rowBottom.toFixed(1)}px`);
+    title.style.clipPath = `polygon(${points.join(", ")})`;
+  };
+  let frame = 0;
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    cancelAnimationFrame(frame);
+    layer.remove();
+    title.style.removeProperty("clip-path");
+  };
+  const start = performance.now();
+  const total = WIPE_LINE_MS + WIPE_STAGGER_MS * (rows.length - 1);
+  const tick = (now: number) => {
+    const elapsed = now - start;
+    const reach = rows.map((row, index) => {
+      const t = Math.max(0, Math.min(1, (elapsed - index * WIPE_STAGGER_MS) / WIPE_LINE_MS));
+      const x = t >= 1 ? width + fontSize : row.left + (row.right - row.left) * ease(t);
+      const bar = bars[index];
+      bar.style.opacity = t > 0 && t < 1 ? "1" : "0";
+      bar.style.left = `${(originX + Math.min(x, row.right) - nibWidth / 2).toFixed(1)}px`;
+      return t <= 0 ? row.left - 1 : x;
+    });
+    clip(reach);
+    if (elapsed >= total) { finish(); return; }
+    frame = requestAnimationFrame(tick);
+  };
+  clip(rows.map((row) => row.left - 1));
+  frame = requestAnimationFrame(tick);
+  return finish;
 }
 
 /**

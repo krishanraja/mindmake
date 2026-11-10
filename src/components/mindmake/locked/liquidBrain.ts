@@ -127,7 +127,10 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   const g = goo.getContext("2d");
   const n = net.getContext("2d");
 
+  /* The goo is blurred anyway, so it is drawn at one pixel per CSS pixel; the
+     lines and dots on top keep the screen's sharpness (audit PERF-02). */
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const gooDpr = 1;
   let W = 0, H = 0, s = 1, ox = 0, oy = 0;
   const random = seeded(20261110);
   const N = 230;
@@ -152,7 +155,8 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   const size = () => {
     W = field.clientWidth; H = field.clientHeight;
     if (!W || !H) return;
-    for (const canvas of [goo, net]) { canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); }
+    goo.width = Math.round(W * gooDpr); goo.height = Math.round(H * gooDpr);
+    net.width = Math.round(W * dpr); net.height = Math.round(H * dpr);
     s = Math.min(W / 1000, H / 800) * 0.96;
     ox = (W - 1000 * s) / 2; oy = (H - 800 * s) / 2 - 40 * s;
     place();
@@ -164,23 +168,11 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
     return [((event.clientX - rect.left) * (W / rect.width) - ox) / s, ((event.clientY - rect.top) * (H / rect.height) - oy) / s];
   };
   let mouse: [number, number] | null = null;
-  const TOUCH_MS = 1300;
-  let touch: { x: number; y: number; t0: number } | null = null;
-  /* A finger cannot hover, and a swipe over the brain must still scroll the
-     page, so a touch is a splash: the mass bursts from the finger and closes
-     back around it. A tap on an idea is the idea's own button. */
-  const down = (event: PointerEvent) => {
-    if (event.pointerType === "mouse") return;
-    const [x, y] = toBrain(event);
-    touch = { x, y, t0: performance.now() };
-    for (const p of particles) {
-      const dx = p.x - x, dy = p.y - y, d = Math.hypot(dx, dy);
-      if (d < 190 && d > 0) { const k = (190 - d) * 0.22; p.vx += dx / d * k; p.vy += dy / d * k; }
-    }
-  };
+  /* A touch does nothing to the mass: a tap on an idea is the idea's own
+     button, and a swipe over the Brain scrolls the page (audit BRAIN-12: the
+     splash replaced information with an effect). */
   const move = (event: PointerEvent) => { if (event.pointerType === "mouse") mouse = toBrain(event); };
   const leave = (event: PointerEvent) => { if (event.pointerType === "mouse") mouse = null; };
-  field.addEventListener("pointerdown", down, { passive: true });
   field.addEventListener("pointermove", move, { passive: true });
   field.addEventListener("pointerleave", leave, { passive: true });
 
@@ -201,9 +193,6 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
       options.onAdvance?.(active);
     }
     if (t - lastSearch > 2600) { lastSearch = t; search(t); }
-    const age = touch ? t - touch.t0 : Infinity;
-    if (touch && age > TOUCH_MS) touch = null;
-    const pull = age < 180 ? 0 : age < TOUCH_MS ? 1 - (age - 180) / (TOUCH_MS - 180) : 0;
     const seat = seats.get(active);
     for (const p of particles) {
       if (p.until && t > p.until) { p.ex = p.ey = 0; p.until = 0; }
@@ -213,14 +202,13 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
          attention visibly moves with the reading. */
       if (seat) { const dx = seat[0] - p.x, dy = seat[1] - p.y, d = Math.hypot(dx, dy); if (d < 140 && d > 0) { p.vx += dx / d * (140 - d) * 0.0025; p.vy += dy / d * (140 - d) * 0.0025; } }
       if (mouse) { const dx = mouse[0] - p.x, dy = mouse[1] - p.y, d = Math.hypot(dx, dy); if (d < 160 && d > 0) { p.vx += dx / d * (160 - d) * 0.012; p.vy += dy / d * (160 - d) * 0.012; } }
-      if (pull > 0 && touch) { const dx = touch.x - p.x, dy = touch.y - p.y, d = Math.hypot(dx, dy); if (d < 200 && d > 0) { p.vx += dx / d * (200 - d) * 0.014 * pull; p.vy += dy / d * (200 - d) * 0.014 * pull; } }
       p.vx *= 0.86; p.vy *= 0.86; p.x += p.vx; p.y += p.vy;
     }
   };
 
   function draw(t: number) {
     if (!g || !n || !W) return;
-    g.setTransform(dpr * s, 0, 0, dpr * s, dpr * ox, dpr * oy);
+    g.setTransform(gooDpr * s, 0, 0, gooDpr * s, gooDpr * ox, gooDpr * oy);
     g.clearRect(-ox / s, -oy / s, W / s, H / s);
     g.fillStyle = "#245a42";
     for (const p of particles) { g.beginPath(); g.arc(p.x, p.y, p.r, 0, 6.283); g.fill(); }
@@ -236,24 +224,6 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
       glow.addColorStop(1, `rgba(${tone}, 0)`);
       n.fillStyle = glow;
       n.beginPath(); n.arc(seat[0], seat[1], 170, 0, 6.283); n.fill();
-    }
-    const splash = touch ? Math.max(0, 1 - (t - touch.t0) / TOUCH_MS) : 0;
-    if (splash > 0 && touch) {
-      const glow = n.createRadialGradient(touch.x, touch.y, 0, touch.x, touch.y, 150);
-      glow.addColorStop(0, `rgba(${MINT}, ${0.35 * splash})`);
-      glow.addColorStop(1, `rgba(${MINT}, 0)`);
-      n.fillStyle = glow;
-      n.beginPath(); n.arc(touch.x, touch.y, 150, 0, 6.283); n.fill();
-    }
-    /* The mass's own fibres: faint, lighting near the chosen idea. */
-    n.lineWidth = 1 / s;
-    for (let i = 0; i < particles.length; i++) for (let j = i + 1; j < particles.length; j++) {
-      const a = particles[i], b = particles[j], dx = a.x - b.x, dy = a.y - b.y;
-      if (dx * dx + dy * dy > 2600) continue;
-      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
-      const hot = seat ? Math.hypot(mx - seat[0], my - seat[1]) < 140 : false;
-      n.strokeStyle = hot ? `rgba(${tone}, .5)` : "rgba(239, 230, 211, .07)";
-      n.beginPath(); n.moveTo(a.x, a.y); n.lineTo(b.x, b.y); n.stroke();
     }
     n.strokeStyle = "rgba(8, 20, 15, .7)"; n.lineWidth = 3.4; n.lineCap = "round";
     for (const f of FOLDS) { n.beginPath(); n.moveTo(f[0], f[1]); n.bezierCurveTo(f[2], f[3], f[4], f[5], f[6], f[7]); n.stroke(); }
@@ -274,15 +244,36 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
 
   let raf = 0;
   let running = false;
-  const loop = (t: number) => { if (!running) return; step(t); draw(t); raf = requestAnimationFrame(loop); };
+  /* The physics steps at a fixed 60 a second whatever the screen's refresh
+     rate, so a 120 Hz phone does not run it at double speed (audit
+     PERF-03); after a pause (a hidden tab, a section off screen) it resumes
+     where it was instead of catching up. */
+  const STEP_MS = 1000 / 60;
+  let clock = 0, lastFrame = 0, carry = 0;
+  const loop = (now: number) => {
+    if (!running) return;
+    const elapsed = lastFrame ? Math.min(now - lastFrame, STEP_MS * 3) : STEP_MS;
+    lastFrame = now;
+    carry += elapsed;
+    while (carry >= STEP_MS) { clock += STEP_MS; step(clock); carry -= STEP_MS; }
+    draw(clock);
+    raf = requestAnimationFrame(loop);
+  };
+  let onScreen = false;
+  const decideRunning = () => {
+    const was = running;
+    running = onScreen && !reduced && !document.hidden;
+    if (running && !was) { lastFrame = 0; raf = requestAnimationFrame(loop); }
+    if (!running && was) cancelAnimationFrame(raf);
+  };
+  document.addEventListener("visibilitychange", decideRunning);
   const resize = new ResizeObserver(size);
   resize.observe(field);
   if (reduced) particles.forEach((p) => { p.x = p.hx; p.y = p.hy; });
   size();
   const visibility = new IntersectionObserver(([entry]) => {
-    const was = running;
-    running = entry.isIntersecting && !reduced;
-    if (running && !was) raf = requestAnimationFrame(loop);
+    onScreen = entry.isIntersecting;
+    decideRunning();
   });
   visibility.observe(field);
 
@@ -291,14 +282,14 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
     select(id: string, byReader: boolean) {
       active = id;
       if (byReader) pinned = true;
-      if (reduced || !running) draw(performance.now());
+      if (reduced || !running) draw(clock);
     },
     destroy() {
       running = false;
       cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", decideRunning);
       visibility.disconnect();
       resize.disconnect();
-      field.removeEventListener("pointerdown", down);
       field.removeEventListener("pointermove", move);
       field.removeEventListener("pointerleave", leave);
       field.classList.remove("is-liquid");

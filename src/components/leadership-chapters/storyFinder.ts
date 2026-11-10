@@ -188,6 +188,8 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     };
     const nav = panel.querySelector<HTMLElement>(".finder-nav");
     const paint = () => {
+      /* The phone deck owns the count and the arrows while it runs. */
+      if (finder.classList.contains("is-deck")) return;
       if (!rail.clientWidth) return;
       const i = current();
       /* Where several cards show at once the count names all of them, so a
@@ -219,6 +221,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     };
     painters[panels.indexOf(panel)] = () => { equalise(); paint(); };
     const go = (step: number) => {
+      if (finder.classList.contains("is-deck")) return;
       const i = Math.max(0, Math.min(cards.length - 1, current() + step));
       rail.scrollTo?.({ left: cards[i].offsetLeft - rail.offsetLeft, behavior: reduced ? "auto" : "smooth" });
     };
@@ -276,121 +279,143 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     onStart(start.dataset.finderStart === "gtm" ? "gtm" : "brain");
   }, { signal });
 
-  const undeck = deck && !reduced ? mountDeck(finder, tabs, panels, signal) : () => undefined;
+  const undeck = deck ? mountDeck(finder, tabs, panels, signal) : () => undefined;
 
   return () => { abort.abort(); undeck(); close(); finder.classList.remove("is-live"); };
 }
 
-/** How far the reader scrolls, in screens, while the stories stack. The same for every situation, so choosing one never changes the page's length. */
-const DECK_SCREENS = 1.5;
-/** The share of that scroll the cards take to arrive; the rest lets the last one be read before the page moves on. */
-const DECK_TRAVEL = 0.84;
+/** Earlier stories that stay visible above the current one. */
+export const DECK_PEEKS = 2;
+/** A horizontal drag this long (CSS px) moves to the next or previous story. */
+export const DECK_SWIPE_PX = 56;
+
+/** Each card's place in the deck: behind the current one (by depth), current, or still to come. */
+export function deckStates(count: number, index: number) {
+  return Array.from({ length: count }, (_, k) => k < index
+    ? { state: "past" as const, depth: index - k }
+    : k === index ? { state: "current" as const, depth: 0 } : { state: "next" as const, depth: 0 });
+}
+
+/** Whether a finished drag moves the deck: -1 back, 1 on, 0 stay. A short fast flick counts. */
+export function swipeIntent(dx: number, dy: number, ms: number): -1 | 0 | 1 {
+  if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return 0;
+  const fast = ms > 0 && Math.abs(dx) / ms > 0.5;
+  if (Math.abs(dx) < DECK_SWIPE_PX && !fast) return 0;
+  return dx < 0 ? 1 : -1;
+}
 
 /**
- * The stories as a deck on a phone. Adapted from the sticky stacking cards,
- * not copied: the finder holds under the masthead for a fixed stretch of
- * scroll while each story rises over the one before, and the ones beneath
- * settle back a step at a time, smaller and dimmer, their tops still showing,
- * so the reader always sees how many are behind the one in front. Choosing a
- * situation keeps the same stretch and the same place in it; the arrows move
- * the page to the next card's place, so they still work with a thumb.
+ * The stories as a deck on a phone (Ruling, owner, 2026-11-10: "Swipe deck,
+ * no pinning", after the scroll-pinned deck sliced stories and let cards show
+ * through one another). The current story sits on top, whole and solid; the
+ * ones already read stay visible above it, a step smaller and darker each,
+ * so the reader always sees how far through they are. A sideways swipe or the
+ * arrows move one story; the page itself always scrolls normally, and the
+ * finder is one height whichever situation is chosen.
  *
- * Only on a phone and only with motion allowed: a laptop, a reader who asked
- * for stillness, and a page without script all keep the rail.
+ * Only below 761px and only with script; a laptop and a page without script
+ * keep the rail. Under reduced motion the deck still works, without travel.
  */
 function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLElement[], signal: AbortSignal) {
   const phone = window.matchMedia?.("(max-width: 760px)");
   if (!phone) return () => undefined;
-  const stage = document.createElement("div");
-  stage.className = "finder-stage";
-  const moved = [...finder.children].filter((child) => !(child instanceof HTMLDialogElement));
+  const index = new Map<HTMLElement, number>(panels.map((panel) => [panel, 0]));
   let live = false;
-  let frame = 0;
-  const masthead = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--mm-header-height")) || 64;
 
-  const activePanel = () => panels.find((panel) => panel.classList.contains("is-active")) ?? panels[0];
-  const geometry = () => {
-    const length = window.innerHeight * DECK_SCREENS;
-    const top = finder.getBoundingClientRect().top + window.scrollY;
-    return { length, start: top - masthead() - 8 };
-  };
-  const paint = () => {
-    frame = 0;
-    if (!live) return;
-    const { length, start } = geometry();
-    const p = Math.max(0, Math.min(1, (window.scrollY - start) / length));
-    panels.forEach((panel) => {
-      const cards = [...panel.querySelectorAll<HTMLElement>("[data-finder-rail] > .finder-card")];
-      const n = cards.length;
-      const at = n > 1 ? Math.min(n - 1, (p / DECK_TRAVEL) * (n - 1)) : 0;
-      cards.forEach((card, k) => {
-        const arriving = k === 0 ? 1 : Math.max(0, Math.min(1, at - (k - 1)));
-        const depth = Math.max(0, Math.min(n, at - k));
-        const lift = arriving < 1 ? (1 - arriving) * 108 : 0;
-        card.style.zIndex = String(k + 1);
-        card.style.transform = arriving < 1
-          ? `translate3d(0, ${lift.toFixed(2)}%, 0)`
-          : `translate3d(0, ${(-12 * depth).toFixed(1)}px, 0) scale(${Math.max(0.84, 1 - 0.055 * depth).toFixed(4)})`;
-        card.style.filter = depth > 0.01 ? `brightness(${Math.max(0.45, 1 - 0.2 * depth).toFixed(3)})` : "";
-        card.toggleAttribute("inert", Math.round(at) !== k && panel === activePanel());
-      });
-      const count = panel.querySelector<HTMLElement>("[data-finder-at]");
-      if (count) count.textContent = String(Math.round(at) + 1);
-      const nav = panel.querySelector<HTMLElement>(".finder-nav");
-      if (nav) nav.style.visibility = n > 1 ? "" : "hidden";
-      panel.querySelector("[data-finder-prev]")?.toggleAttribute("disabled", Math.round(at) <= 0);
-      panel.querySelector("[data-finder-next]")?.toggleAttribute("disabled", Math.round(at) >= n - 1);
+  const cardsOf = (panel: HTMLElement) => [...panel.querySelectorAll<HTMLElement>("[data-finder-rail] > .finder-card")];
+  const paint = (panel: HTMLElement) => {
+    const cards = cardsOf(panel);
+    const at = Math.max(0, Math.min(cards.length - 1, index.get(panel) ?? 0));
+    index.set(panel, at);
+    deckStates(cards.length, at).forEach(({ state, depth }, k) => {
+      const card = cards[k];
+      card.dataset.deck = state;
+      card.style.setProperty("--depth", String(Math.min(depth, DECK_PEEKS + 1)));
+      card.style.zIndex = String(k + 1);
+      card.style.removeProperty("translate");
+      card.toggleAttribute("inert", state !== "current");
     });
+    const count = panel.querySelector<HTMLElement>("[data-finder-at]");
+    if (count) count.textContent = String(at + 1);
+    const nav = panel.querySelector<HTMLElement>(".finder-nav");
+    if (nav) nav.style.visibility = cards.length > 1 ? "" : "hidden";
+    panel.querySelector("[data-finder-prev]")?.toggleAttribute("disabled", at <= 0);
+    panel.querySelector("[data-finder-next]")?.toggleAttribute("disabled", at >= cards.length - 1);
   };
-  const request = () => { if (!frame) frame = requestAnimationFrame(paint); };
-  /* The arrows move the page, not the card, so the deck and the scroll can never disagree. */
-  const go = (step: number) => (event: Event) => {
-    if (!live) return;
-    event.stopImmediatePropagation();
-    const panel = activePanel();
-    const n = panel.querySelectorAll("[data-finder-rail] > .finder-card").length;
-    if (n < 2) return;
-    const { length, start } = geometry();
-    const p = Math.max(0, Math.min(1, (window.scrollY - start) / length));
-    const at = Math.round(Math.min(n - 1, (p / DECK_TRAVEL) * (n - 1)));
-    const target = Math.max(0, Math.min(n - 1, at + step));
-    window.scrollTo({ top: start + (target / (n - 1)) * DECK_TRAVEL * length + 2, behavior: "smooth" });
+  const go = (panel: HTMLElement, step: number) => {
+    index.set(panel, (index.get(panel) ?? 0) + step);
+    paint(panel);
   };
+
+  panels.forEach((panel) => {
+    const rail = panel.querySelector<HTMLElement>("[data-finder-rail]");
+    /* The arrows take the deck's step before the rail's own handler runs. */
+    const arrow = (step: number) => (event: Event) => {
+      if (!live) return;
+      event.stopImmediatePropagation();
+      go(panel, step);
+    };
+    panel.querySelector("[data-finder-prev]")?.addEventListener("click", arrow(-1), { capture: true, signal });
+    panel.querySelector("[data-finder-next]")?.addEventListener("click", arrow(1), { capture: true, signal });
+    if (!rail) return;
+    /* A sideways drag moves the current story with the finger; a vertical
+       one is the page's, untouched (touch-action: pan-y in the CSS). */
+    let drag: { x: number; y: number; t: number; id: number; moved: boolean } | null = null;
+    let swallowClick = false;
+    rail.addEventListener("pointerdown", (event) => {
+      if (!live || (event.pointerType === "mouse" && event.button !== 0)) return;
+      drag = { x: event.clientX, y: event.clientY, t: performance.now(), id: event.pointerId, moved: false };
+    }, { signal });
+    rail.addEventListener("pointermove", (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+      if (!drag.moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) drag.moved = true;
+      const current = rail.querySelector<HTMLElement>('.finder-card[data-deck="current"]');
+      if (drag.moved && current) current.style.translate = `${dx.toFixed(0)}px 0`;
+    }, { signal });
+    const release = (event: PointerEvent) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+      const moved = drag.moved;
+      const step = event.type === "pointercancel" ? 0 : swipeIntent(dx, dy, performance.now() - drag.t);
+      drag = null;
+      if (moved) swallowClick = true;
+      if (step) go(panel, step); else paint(panel);
+    };
+    rail.addEventListener("pointerup", release, { signal });
+    rail.addEventListener("pointercancel", release, { signal });
+    rail.addEventListener("click", (event) => {
+      if (!swallowClick) return;
+      swallowClick = false;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }, { capture: true, signal });
+  });
+  /* A new situation starts at its first story. */
+  tabs.forEach((tab, i) => tab.addEventListener("click", () => {
+    if (!live || !panels[i]) return;
+    index.set(panels[i], 0);
+    paint(panels[i]);
+  }, { signal }));
 
   const enter = () => {
     if (live) return;
     live = true;
     finder.classList.add("is-deck");
-    moved.forEach((child) => stage.append(child));
-    finder.prepend(stage);
-    finder.style.height = `${stage.offsetHeight + window.innerHeight * DECK_SCREENS}px`;
-    paint();
+    panels.forEach(paint);
   };
   const leave = () => {
     if (!live) return;
     live = false;
     finder.classList.remove("is-deck");
-    moved.forEach((child) => finder.insertBefore(child, stage));
-    stage.remove();
-    finder.style.removeProperty("height");
-    panels.forEach((panel) => panel.querySelectorAll<HTMLElement>(".finder-card").forEach((card) => {
-      for (const property of ["z-index", "transform", "filter"]) card.style.removeProperty(property);
+    panels.forEach((panel) => cardsOf(panel).forEach((card) => {
+      delete card.dataset.deck;
+      for (const property of ["--depth", "z-index", "translate"]) card.style.removeProperty(property);
       card.removeAttribute("inert");
     }));
   };
   const decide = () => (phone.matches ? enter() : leave());
-  /* The stage's height can change as pictures and fonts arrive; the stretch is laid out again then. */
-  const resize = () => { if (live) { finder.style.height = `${stage.offsetHeight + window.innerHeight * DECK_SCREENS}px`; request(); } };
-  const observer = typeof ResizeObserver === "function" ? new ResizeObserver(resize) : null;
-  observer?.observe(stage);
-  panels.forEach((panel) => {
-    panel.querySelector("[data-finder-prev]")?.addEventListener("click", go(-1), { capture: true, signal });
-    panel.querySelector("[data-finder-next]")?.addEventListener("click", go(1), { capture: true, signal });
-  });
-  tabs.forEach((tab) => tab.addEventListener("click", () => requestAnimationFrame(paint), { signal }));
-  window.addEventListener("scroll", request, { passive: true, signal });
-  window.addEventListener("resize", () => { decide(); resize(); }, { passive: true, signal });
   phone.addEventListener?.("change", decide, { signal } as AddEventListenerOptions);
   decide();
-  return () => { observer?.disconnect(); if (frame) cancelAnimationFrame(frame); leave(); };
+  return () => leave();
 }

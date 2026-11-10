@@ -7,6 +7,7 @@ import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
 import { mountHomepageSections } from "@/components/homepage-release/homepageSections";
 import { mountHeroRotation } from "@/components/homepage-release/heroRotation";
+import { settleSections } from "@/lib/sectionSettle";
 import "@/styles/mindmake.css";
 import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
@@ -44,6 +45,10 @@ export default function Index() {
       },
     });
     const unmountSections = mountHomepageSections(root);
+    /* Each section eases back as it leaves (Ruling, owner, 2026-11-10:
+       "Gentle settle, no pinning"). Not the opening: the approved masthead is
+       fixed inside it, and a scale would carry the masthead with it. */
+    const unsettle = settleSections([...root.querySelectorAll<HTMLElement>(".hs-section")]);
     const unrotate = mountHeroRotation(root);
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
@@ -60,6 +65,7 @@ export default function Index() {
       root.removeEventListener("click", measure);
       unrotate();
       unmountSections();
+      unsettle();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");
       document.body.classList.remove("mm-homepage-active");

@@ -22,6 +22,7 @@ import { leadershipStories } from "@/components/leadership-chapters/leadershipCh
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
 import { buildOnScroll } from "@/lib/scrollBuild";
+import { settleSections } from "@/lib/sectionSettle";
 import { START_LABEL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
@@ -106,7 +107,25 @@ const isSettled = (item: BrainItem) => item.standing === "accepted" || item.stan
 // The inspector's label names the picked idea's standing, in the colour the
 // graph already gives it: the leader's own settled calls, or the Brain's
 // reading, which stays a reading until the leader agrees it.
-const standingLabel = (item: BrainItem) => (isSettled(item) ? "Agreed by you" : "Your Brain's reading");
+const standingLabel = (item: BrainItem) => (isSettled(item) ? "Agreed" : "The Brain's reading");
+
+/* What each connection does, in plain words, so a connection reads as a
+   sentence rather than an arrow (audit RECORD-08, 2026-11-10). */
+const RELATION_WORDS: Record<string, string> = {
+  supports: "supports",
+  constrains: "limits",
+  qualifies: "refines",
+  develops: "develops",
+  creates_need_for: "creates a need for",
+  in_tension_with: "pulls against",
+  expresses: "expresses",
+  requires: "needs",
+  protects: "protects",
+  tests: "tests",
+  example_of: "is an example of",
+  holds_open: "keeps open",
+  is_outcome_of: "comes from",
+};
 
 // Whether two ideas share a connection, in either direction.
 const linked = (a: string, b?: string) => fixture.relationships.some((relationship) => (relationship.from === a && relationship.to === b) || (relationship.to === a && relationship.from === b));
@@ -288,7 +307,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
 
     const records = [
       ...fixture.items.map((item) => ({ kind: "Idea", id: item.id, title: item.title, detail: plainStatements[item.id] ?? item.statement })),
-      ...fixture.relationships.map((relationship) => ({ kind: "Connection", id: relationship.id, title: `${itemById.get(relationship.from)?.title ?? relationship.from} → ${itemById.get(relationship.to)?.title ?? relationship.to}`, detail: relationship.meaning })),
+      ...fixture.relationships.map((relationship) => ({ kind: "Connection", id: relationship.id, title: `${itemById.get(relationship.from)?.title ?? relationship.from} ${RELATION_WORDS[relationship.type] ?? "connects to"} ${itemById.get(relationship.to)?.title ?? relationship.to}`, detail: relationship.meaning })),
       ...fixture.sources.map((source) => ({ kind: "Source", id: source.id, title: source.label, detail: sourceLine(source) })),
       ...fixture.corrections.map((correction) => ({ kind: "Change", id: correction.id, title: itemById.get(correction.item_ref)?.title ?? correction.item_ref, detail: correction.summary })),
     ];
@@ -337,7 +356,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         reel.style.setProperty("--reel-shift", `${currentCentre - reel.scrollHeight / 2}px`);
       }
       const index = q<HTMLElement>("#recordIndexS2");
-      if (index) index.textContent = `${current + 1} of ${records.length}`;
+      if (index) index.textContent = `Entry ${current + 1} of ${records.length}`;
       /* The count above names what kind of entry is being written, so the
          numbers and the reel read as one record (owner, 2026-11-10: "make
          that live record animation even clearer"). */
@@ -481,6 +500,7 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const unmountFinder = finder ? mountStoryFinder(finder, {
       reduced,
+      deck: true,
       onStart: (door) => {
         track("scoping_request", { source: "story_finder", route: door });
         startRef.current(door);
@@ -501,14 +521,18 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
     const unbuildClose = close ? buildOnScroll(close, {
       sections: ".brain-finder, .brain-close-body",
       title: ".finder-question",
-      items: ".finder-card, .s8-keeps li, .mm-pairing",
+      items: ".finder-panels, .s8-keeps li, .mm-pairing",
     }) : () => undefined;
+    /* Each section eases back as it leaves (Ruling, owner, 2026-11-10:
+       "Gentle settle, no pinning"). */
+    const unsettle = settleSections([...root.querySelectorAll<HTMLElement>(":scope > .chapter[data-phase]"), ...(close ? [close] : [])]);
 
     return () => {
       root.removeEventListener("click", onClick);
       unmountFinder();
       unbuildChapters();
       unbuildClose();
+      unsettle();
     };
   }, [rootRef, finderRef, startRef]);
 }

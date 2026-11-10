@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import { setBottomReserve } from "@/lib/bottomReserve";
+import { overlapsContent } from "@/lib/actionBarOverlap";
 
 /**
  * The way in, pinned to the bottom of the screen.
@@ -49,7 +50,7 @@ export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
       const y = window.scrollY;
       const delta = y - lastY;
       lastY = y;
-      if (!narrow.matches) { setTucked(false); return; }
+      if (!narrow.matches || barRef.current?.contains(document.activeElement)) { setTucked(false); return; }
       window.clearTimeout(settle);
       if (delta > 3) setTucked(true);
       else if (delta < -3) setTucked(false);
@@ -69,31 +70,61 @@ export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
      which is how the foot of /ai-gtm ended up showing three at once and how the
      try-it panel ended up competing with a bar offering something else.
      Anything that is a way in carries data-mm-primary. The bar's own action
-     deliberately does not: it would see itself and never appear. */
+     deliberately does not: it would see itself and never appear.
+
+     It also steps aside whenever it would sit on something the reader could
+     tap or look at: a link, an arrow, a story card, a picture (audit BAR-02,
+     2026-11-10: on /blog and /case-studies it covered links and story
+     titles). It comes back once that spot has been clear for a moment, so it
+     does not flicker over a list of links. */
+  const [blocked, setBlocked] = useState(false);
   useEffect(() => {
+    let frame = 0;
+    let clearSince = 0;
+    let clearTimer = 0;
+    const masthead = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--mm-header-height")) || 64;
     const decide = () => {
+      frame = 0;
+      const top = masthead();
       const hero = document.querySelector("[data-mm-hero]");
-      const past = hero ? hero.getBoundingClientRect().bottom < 0 : window.scrollY > window.innerHeight * 0.8;
-      /* Any part of it on screen, with no grace margin. A margin here means a
-         band of scroll positions where the page's own button is visible and the
-         bar is still up, which is exactly the two-ways-in this is meant to
-         prevent; the bar is fixed to the bottom of the screen, so a close-block
-         button entering from below arrives underneath it and standing down at
-         that moment is the correct behaviour rather than a flicker. */
+      const past = hero ? hero.getBoundingClientRect().bottom < top : window.scrollY > window.innerHeight * 0.8;
+      /* Any part of it on screen below the masthead, with no grace margin: a
+         margin here means a band of scroll where the page's own button is
+         visible and the bar is still up, which is the two-ways-in this is
+         meant to prevent. */
       const competing = [...document.querySelectorAll("[data-mm-primary]")].some((el) => {
         const box = el.getBoundingClientRect();
-        return box.bottom > 0 && box.top < window.innerHeight;
+        return box.bottom > top && box.top < window.innerHeight && box.width > 0;
       });
       setShown(past && !competing);
+      const bar = barRef.current;
+      if (!bar || bar.contains(document.activeElement)) { setBlocked(false); return; }
+      const over = overlapsContent(bar);
+      window.clearTimeout(clearTimer);
+      if (over) { clearSince = 0; setBlocked(true); return; }
+      if (!clearSince) clearSince = performance.now();
+      const wait = 120 - (performance.now() - clearSince);
+      if (wait <= 0) setBlocked(false);
+      else clearTimer = window.setTimeout(() => { frame = frame || requestAnimationFrame(decide); }, wait);
     };
+    const request = () => { if (!frame) frame = requestAnimationFrame(decide); };
     decide();
-    window.addEventListener("scroll", decide, { passive: true });
-    window.addEventListener("resize", decide);
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
     return () => {
-      window.removeEventListener("scroll", decide);
-      window.removeEventListener("resize", decide);
+      window.removeEventListener("scroll", request);
+      window.removeEventListener("resize", request);
+      if (frame) cancelAnimationFrame(frame);
+      window.clearTimeout(clearTimer);
     };
   }, []);
+
+  /* Not focusable, and not announced, while it is off screen or stepped aside. */
+  const visible = shown && !blocked && !tucked;
+  useEffect(() => {
+    const bar = barRef.current;
+    if (bar) bar.inert = !visible;
+  }, [visible]);
 
   /* Its own height, published for the footer to reserve. Measured rather than
      written down: the number used to live in two stylesheets as `76px`, with a
@@ -124,12 +155,12 @@ export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
   }, [shown]);
 
   return (
-    <div ref={barRef} className={`mm-action-bar${shown ? " is-shown" : ""}${tucked ? " is-tucked" : ""}`} aria-hidden={!shown}>
+    <div ref={barRef} className={`mm-action-bar${shown && !blocked ? " is-shown" : ""}${tucked ? " is-tucked" : ""}`} aria-hidden={!visible}>
       <div className="mm-action-bar-inner">
         <button
           className="mm-button"
           type="button"
-          tabIndex={shown ? 0 : -1}
+          tabIndex={visible ? 0 : -1}
           onClick={() => {
             track("scoping_request", { source: "action_bar" });
             onStart();
@@ -141,3 +172,4 @@ export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
     </div>
   );
 }
+

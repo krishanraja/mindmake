@@ -89,7 +89,7 @@ export interface StoryFinderMarkupOptions {
   intro?: { title: string; lede: string };
 }
 
-const DOOR_LABEL = { brain: "AI brain", gtm: "AI revenue engine" } as const;
+const DOOR_LABEL = { brain: "AI brain", gtm: "AI business" } as const;
 
 export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true, door, intro }: StoryFinderMarkupOptions = {}) {
   const shown = door === "brain" || door === "gtm" ? SITUATIONS.filter((s) => s.door === door) : SITUATIONS;

@@ -45,4 +45,4 @@ Pick one product line and ask four questions about it. What do we make that a bu
 
 ## Where Mindmake fits
 
-Mindmake is a small AI and commercial strategy practice. [Build your AI revenue engine](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. The work starts with one paid proof, scoped and priced privately. The verified client stories are on [Success stories](/case-studies).
+Mindmake is a small AI and commercial strategy practice. [Build your AI business](/ai-gtm) rebuilds a business's pricing, positioning, product and people for AI, then tests the change with real buyers. The work starts with one paid proof, scoped and priced privately. The verified client stories are on [Success stories](/case-studies).

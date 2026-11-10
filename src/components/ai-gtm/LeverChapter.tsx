@@ -2,7 +2,7 @@ import { Icon } from "@/components/mindmake/Icon";
 import { Marked, type MarkSpec } from "@/components/mindmake/Marked";
 import { Plate } from "@/components/mindmake/Plate";
 import type { IconName } from "@/lib/icons";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Unbroken } from "./Unbroken";
 
 export interface LeverWay {
@@ -44,6 +44,31 @@ export function LeverChapter({ heading, mark, steps, mode, backdrop, children }:
   backdrop: ReactNode;
   children?: ReactNode;
 }) {
+  const railRef = useRef<HTMLDivElement>(null);
+  const [at, setAt] = useState(0);
+  /* On a phone the row shows where the reader is and moves one place at a
+     time (audit CRIT-09); on a wider screen the four sit in a grid and the
+     controls are not drawn. Only the row scrolls, never the page. */
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    let frame = 0;
+    const paint = () => {
+      const max = rail.scrollWidth - rail.clientWidth;
+      setAt(max > 0 ? Math.round((rail.scrollLeft / max) * (steps.length - 1)) : 0);
+    };
+    const onScroll = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(paint); };
+    rail.addEventListener("scroll", onScroll, { passive: true });
+    return () => { cancelAnimationFrame(frame); rail.removeEventListener("scroll", onScroll); };
+  }, [steps.length]);
+  const go = (index: number) => {
+    const rail = railRef.current;
+    const card = rail?.children[Math.max(0, Math.min(steps.length - 1, index))] as HTMLElement | undefined;
+    const first = rail?.firstElementChild as HTMLElement | null;
+    if (!rail || !card || !first) return;
+    const still = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    rail.scrollTo({ left: card.offsetLeft - first.offsetLeft, behavior: still ? "auto" : "smooth" });
+  };
   return (
     <section className="gtm-levers gtm-s8" data-gtm-chapter="levers" aria-labelledby="gtm-levers-title">
       <Plate media={backdrop}>
@@ -52,7 +77,7 @@ export function LeverChapter({ heading, mark, steps, mode, backdrop, children }:
       <div className="gtm-levers-body s8-body s8-paper mm-on-paper">
         <div className="mm-container">
           {children}
-          <div className="lever-steps s8-swipe">
+          <div ref={railRef} className="lever-steps s8-swipe">
             {steps.map((item) => (
               <article key={item.key} className="gtm-lever" aria-label={item.name}>
                 <span className="gtm-lever-name" aria-hidden="true"><Icon name={LEVER_ICON[item.key] ?? "product"} className="mm-icon mm-icon-big" />{item.name}</span>
@@ -75,6 +100,15 @@ export function LeverChapter({ heading, mark, steps, mode, backdrop, children }:
                 </details>
               </article>
             ))}
+          </div>
+          <div className="gtm-lever-nav">
+            <button type="button" aria-label="Previous place" disabled={at === 0} onClick={() => go(at - 1)}><span aria-hidden="true">←</span></button>
+            <ol>
+              {steps.map((item, index) => (
+                <li key={item.key}><button type="button" aria-label={item.name} aria-current={index === at ? "true" : undefined} onClick={() => go(index)} /></li>
+              ))}
+            </ol>
+            <button type="button" aria-label="Next place" disabled={at === steps.length - 1} onClick={() => go(at + 1)}><span aria-hidden="true">→</span></button>
           </div>
         </div>
       </div>

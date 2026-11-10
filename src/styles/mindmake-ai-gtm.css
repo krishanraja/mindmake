@@ -718,6 +718,13 @@
 .gtm-plan-detail { text-wrap: pretty; }
 .gtm-proof-figure { margin-top: 0; gap: 10px; padding-top: clamp(14px, 2vh, 22px); }
 .gtm-quote { font-size: clamp(21px, min(2vw, 3.4vh), 32px); text-wrap: pretty; }
+/* A phone on its side has about 360px of height: the way in stays on the
+   first screen (audit CRIT-05). */
+@media (orientation: landscape) and (max-height: 500px) {
+  .gtm-opening { padding-top: calc(var(--mm-header-height) + 16px); }
+  .gtm-opening-deck { margin-top: 12px; }
+  .gtm-start { margin-top: 16px; }
+}
 
 @media (max-width: 699px) {
   .lever-steps {

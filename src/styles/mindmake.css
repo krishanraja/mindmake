@@ -1900,7 +1900,10 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   stroke: var(--mark-ink, #9ff1c9);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1;
+  /* The gap outruns the path, so no dash starts at its far end: a dash of
+     no length there still takes a round cap, and showed as a dot under the
+     last word before the pen arrived (audit GTM-02). */
+  stroke-dasharray: 1 2;
   stroke-dashoffset: 1;
   /* An even pen speed, stroke by stroke (src/lib/scrollBuild.ts times each). */
   transition: stroke-dashoffset var(--stroke-dur, 350ms) cubic-bezier(.4, .1, .5, .95) var(--stroke-delay, 1450ms);

@@ -18,14 +18,15 @@ describe("primary routes parity", () => {
     expect(PRIMARY_ROUTES.map(({ href, label }) => ({ href, label }))).toEqual(r3);
   });
 
-  it("shortens the revenue engine to Build your AI revenue on a phone, the same way on both menus (Krish, 2026-10-15)", () => {
+  it("names /ai-gtm Build your AI business in full on both menus, on every screen (Krish, 2026-11-10)", () => {
     const markup = read("src/components/homepage-release/markup.ts");
     const route = PRIMARY_ROUTES.find(({ href }) => href === "/ai-gtm");
-    expect(route?.short).toBe("Build your AI revenue");
-    const tail = route!.label.slice(route!.short!.length);
+    expect(route?.label).toBe("Build your AI business");
+    expect(route?.short).toBeUndefined();
     for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) {
-      expect(nav).toContain(`<a href="/ai-gtm"><span>${route!.short}<span class="mm-route-tail">${tail}</span></span></a>`);
+      expect(nav).toContain('<a href="/ai-gtm">Build your AI business</a>');
     }
+    /* The short-form mechanism stays for any later label too long for a phone. */
     expect(read("src/components/mindmake/MindmakeShell.tsx")).toContain('className="mm-route-tail"');
     expect(read("src/components/homepage-release/integration.css")).toMatch(/@media \(max-width: 767px\) \{\s*\.mm-homepage-release \.r3-navigation \.primary-routes \.mm-route-tail \{ display: none; \}/);
     expect(read("src/styles/mindmake.css")).toMatch(/@media \(max-width: 767px\) \{\s*\.mm-menu-routes \.mm-route-tail \{ display: none; \}/);

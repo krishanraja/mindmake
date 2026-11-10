@@ -47,6 +47,7 @@
 .mm-gtm .gtm-s8 .gtm-door { border-color: rgba(27, 42, 35, .22); background: none; color: var(--mm-tx-d, #1b2a23); }
 .mm-gtm .gtm-s8 .gtm-door[data-active="true"] { border-color: var(--mm-mint-d, #2f6b4c); background: rgba(47, 107, 76, .08); }
 .mm-gtm .gtm-s8 .gtm-doors-question { color: var(--mm-tx-d, #1b2a23); }
+.mm-gtm .gtm-s8 .gtm-lever-nav { display: none; }
 
 /* /ai-gtm, the team: today beside AI-native, then the question it raises. */
 .mm-gtm .gtm-s8.gtm-team { padding-block: 0; background: none; }
@@ -79,7 +80,7 @@
 .mm-gtm .gtm-s8 .gtm-plan-detail { margin-top: 8px; color: rgba(27, 42, 35, .78); font-size: 17px; max-width: 46ch; }
 .mm-gtm .gtm-s8 .gtm-plan-last { justify-self: end; }
 .mm-gtm .gtm-s8 .s8-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin: clamp(40px, 7vh, 72px) 0 0; padding: 0; list-style: none; }
-.mm-gtm .gtm-s8 .s8-tiles li { display: flex; flex-direction: column; gap: 14px; min-height: 128px; margin: 0; padding: 18px 16px; border: 1px solid rgba(27, 42, 35, .16); background: none; color: var(--mm-tx-d, #1b2a23); font: 400 17px/1.25 var(--mm-serif); }
+.mm-gtm .gtm-s8 .s8-tiles li { display: flex; flex-direction: column; gap: 14px; min-height: 128px; margin: 0; padding: 18px 0 0; border: 0; border-top: 1px solid rgba(27, 42, 35, .16); background: none; color: var(--mm-tx-d, #1b2a23); font: 400 17px/1.25 var(--mm-serif); }
 .mm-gtm .gtm-s8 .s8-tiles .mm-icon { color: var(--mm-mint-d, #2f6b4c); }
 /* What stays with you: three marks in a row, on either page. */
 .s8-keeps-block { margin-top: clamp(40px, 7vh, 72px); }
@@ -121,6 +122,13 @@
   .mm-gtm .gtm-s8 .gtm-door b { font-size: 14px; line-height: 1.25; }
   .mm-gtm .gtm-s8 .gtm-door small { display: none; }
   .mm-gtm .gtm-s8 .lever-steps { grid-template-columns: none; grid-auto-columns: 82%; }
+  /* Where the reader is in the row of four, and a way on (audit CRIT-09). */
+  .mm-gtm .gtm-s8 .gtm-lever-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav ol { display: flex; margin: 0; padding: 0; list-style: none; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav button { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--mm-mint-d, #2f6b4c); font: 500 18px/1 var(--mm-grotesque); cursor: pointer; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav button:disabled { opacity: .35; cursor: default; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav ol button::before { content: ""; width: 8px; height: 8px; border: 1.5px solid currentColor; border-radius: 50%; }
+  .mm-gtm .gtm-s8 .gtm-lever-nav ol button[aria-current="true"]::before { background: currentColor; }
   .mm-gtm .gtm-s8 .team-compare { grid-template-columns: 1fr 1fr; gap: 18px; }
   .mm-gtm .gtm-s8 .team-compare-arrow { display: none; }
   .mm-gtm .gtm-s8 .team-count { font-size: clamp(44px, 13vw, 56px); }
@@ -138,7 +146,7 @@
   .mm-gtm .gtm-s8 .gtm-plan-step { padding: 0; border: 0; }
   .mm-gtm .gtm-s8 .gtm-plan-last { justify-self: start; }
   .mm-gtm .gtm-s8 .s8-tiles { grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 24px; }
-  .mm-gtm .gtm-s8 .s8-tiles li { flex-direction: row; align-items: center; gap: 10px; min-height: 0; padding: 12px 10px; font-size: 15px; }
+  .mm-gtm .gtm-s8 .s8-tiles li { flex-direction: row; align-items: center; gap: 10px; min-height: 0; padding: 12px 0; font-size: 15px; }
   .mm-gtm .gtm-s8 .s8-tiles .mm-icon-big { width: 26px; height: 26px; }
   .s8-keeps-block { margin-top: 24px; }
   .s8-keeps { grid-template-columns: 1fr; gap: 10px; }

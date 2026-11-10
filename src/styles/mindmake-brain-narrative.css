@@ -498,17 +498,17 @@
 @media (min-width: 761px) and (min-height: 521px) {
   .mm-site .mm-locked-brain .chapter:not(.opening) {
     --brain-foot: clamp(2rem, 5vh, 4.8rem);
-    padding-bottom: calc(var(--brain-foot) + var(--mm-bar-reserve, 0px) + var(--mm-cookie-reserve, 0px));
+    padding-bottom: calc(var(--brain-foot) + var(--mm-cookie-reserve, 0px));
     transition: padding-bottom .2s ease;
   }
   /* No instrument is taller than the band it centres in, so a short laptop
      with the notice still up never tucks a panel's foot under the bar. */
   .mm-site .mm-locked-brain .chapter:not(.opening) :is(.brain-stage, .record-machine, .leaf-stack:not(.month-stack), .month-field, .lever-field) {
-    max-height: calc(100svh - var(--mm-header-height, 68px) - var(--mm-bar-reserve, 0px) - var(--mm-cookie-reserve, 0px) - clamp(2rem, 5vh, 4.8rem) * 2);
+    max-height: calc(100svh - var(--mm-header-height, 68px) - var(--mm-cookie-reserve, 0px) - clamp(2rem, 5vh, 4.8rem) * 2);
   }
   /* The rail centres in the same band the chapters do. */
   .mm-site .mm-locked-brain .phase-rail {
-    top: calc((100svh + var(--mm-header-height, 68px) - var(--mm-bar-reserve, 0px) - var(--mm-cookie-reserve, 0px)) / 2);
+    top: calc((100svh + var(--mm-header-height, 68px) - var(--mm-cookie-reserve, 0px)) / 2);
     transition: top .2s ease;
   }
 }

@@ -2,7 +2,7 @@
 
 Status: approved-r3-live
 Working-copy status: matches main and production
-Updated: 4 November 2026.
+Updated: 10 November 2026.
 
 The latest application release is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
@@ -11,6 +11,26 @@ identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## S9: a more alive site (10 November 2026)
+
+Built from Krish's request of 10 November 2026 (ledger row `S9-ALIVE-001`)
+and merged on his instruction the same day ("merge to main"); the ledger row
+stays awaiting his review of the live pages. On `/ai-brain` the goals section's
+picture is the Brain itself, a living mass (`liquidBrain.ts`) carrying the
+twenty ideas and eighteen connections, mint where the leader agreed an idea
+and amber while it is the Brain's reading; it turns to the next idea until
+the reader picks one, and the reading sits under it. The record loses its
+four work tiles and shows the live reel in view, its counts lighting for the
+kind of entry being written. The action bar is a floating button: no band,
+no section reserve, and on a phone it steps aside while the reader scrolls
+down. On all three pages each section after the opening is laid over the one
+before (`sectionStack.ts`; the homepage opening is not, because the approved
+masthead is fixed inside it) and headings arrive a line at a time behind a
+bar (`scrollBuild.ts`). On a phone the stories in "Where would you start?"
+stack as the reader scrolls (`mountDeck`). This reverses two earlier rules at
+Krish's request: sections and the story chooser now hold while read. Nothing
+is hidden without script or under reduced motion.
 
 ## S8: one idea per section on the product pages (4 November 2026)
 

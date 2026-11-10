@@ -35,7 +35,15 @@ export function buildOnScroll(root: HTMLElement, selectors: BuildSelectors): () 
     if (el instanceof HTMLElement && el.dataset.reveal === undefined) cleanups.push(revealOnArrival(el, order, onShown));
   };
   root.querySelectorAll<HTMLElement>(selectors.sections).forEach((section) => {
-    section.querySelectorAll<HTMLElement>(selectors.title).forEach((title) => arrive(title, 0, () => drawMarks(title)));
+    section.querySelectorAll<HTMLElement>(selectors.title).forEach((title) => {
+      title.classList.add("hs-wipe");
+      arrive(title, 0, () => {
+        /* Only a heading that was actually waiting below the fold is wiped
+           in; one already on screen is never hidden, even for a moment. */
+        if (title.dataset.reveal === "shown") wipeLines(title);
+        drawMarks(title);
+      });
+    });
     if (selectors.lede) {
       section.querySelectorAll<HTMLElement>(selectors.lede).forEach((lede) => {
         const sentences = (lede.textContent ?? "").match(/[^.!?]+[.!?]+["”’]?\s*/g) ?? [];
@@ -57,6 +65,65 @@ export function buildOnScroll(root: HTMLElement, selectors: BuildSelectors): () 
     }
   });
   return () => cleanups.forEach((cleanup) => cleanup());
+}
+
+/**
+ * A heading arrives line by line behind a block of colour (owner, 2026-11-10,
+ * after the 21st.dev text block animation: "have the text blocks animate
+ * with something like" it, adapted rather than copied). Each line is covered
+ * by a bar that sweeps in from the left, the words appear under it, and the
+ * bar leaves to the right; the lines follow one another down the heading.
+ *
+ * No library and no change to the heading's own markup: the lines are found
+ * from the text's own boxes, the bars sit in a layer beside the heading, and
+ * the heading is uncovered by a clip that drops a line at a time. Mint on a
+ * dark ground, the deep green on paper, so the bar is always Mindmake's
+ * answer colour. Called only for a heading that was waiting below the fold.
+ */
+export function wipeLines(title: HTMLElement) {
+  const host = (title.offsetParent as HTMLElement | null) ?? document.body;
+  const range = document.createRange();
+  range.selectNodeContents(title);
+  const fontSize = parseFloat(getComputedStyle(title).fontSize) || 40;
+  const lines: Array<{ top: number; bottom: number; left: number; right: number }> = [];
+  [...range.getClientRects()].filter((rect) => rect.width > 1 && rect.height > 1).forEach((rect) => {
+    const line = lines.find((entry) => Math.abs(entry.top - rect.top) < fontSize * 0.5);
+    if (line) { line.left = Math.min(line.left, rect.left); line.right = Math.max(line.right, rect.right); line.bottom = Math.max(line.bottom, rect.bottom); }
+    else lines.push({ top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right });
+  });
+  range.detach?.();
+  if (!lines.length) return;
+  lines.sort((a, b) => a.top - b.top);
+  const box = title.getBoundingClientRect();
+  const hostBox = host.getBoundingClientRect();
+  const offsetX = host === document.body ? window.scrollX : host.scrollLeft - host.clientLeft;
+  const offsetY = host === document.body ? window.scrollY : host.scrollTop - host.clientTop;
+  const [r, g, b] = (getComputedStyle(title).color.match(/\d+(\.\d+)?/g) ?? ["0", "0", "0"]).map(Number);
+  const light = (r * 299 + g * 587 + b * 114) / 1000 > 140;
+  const colour = light ? "#91e8bc" : "#2f6b4c";
+  const layer = document.createElement("div");
+  layer.className = "hs-wipe-layer";
+  layer.setAttribute("aria-hidden", "true");
+  host.append(layer);
+  const reveal = (bottom: number) => {
+    title.style.clipPath = `inset(-0.3em -1em ${Math.max(0, box.bottom - bottom).toFixed(1)}px -1em)`;
+  };
+  reveal(box.top - 1);
+  const D = 460, STAGGER = 120;
+  const timers: number[] = [];
+  lines.forEach((line, index) => {
+    const bar = document.createElement("span");
+    bar.style.cssText = `position:absolute;left:${(line.left - hostBox.left + offsetX).toFixed(1)}px;top:${(line.top - hostBox.top + offsetY).toFixed(1)}px;width:${(line.right - line.left).toFixed(1)}px;height:${(line.bottom - line.top).toFixed(1)}px;background:${colour};transform:scaleX(0);transform-origin:left center;`;
+    layer.append(bar);
+    bar.animate?.([
+      { transform: "scaleX(0)", transformOrigin: "left center", offset: 0, easing: "cubic-bezier(.7, 0, .3, 1)" },
+      { transform: "scaleX(1)", transformOrigin: "left center", offset: 0.5 },
+      { transform: "scaleX(1)", transformOrigin: "right center", offset: 0.5001, easing: "cubic-bezier(.7, 0, .3, 1)" },
+      { transform: "scaleX(0)", transformOrigin: "right center", offset: 1 },
+    ], { duration: D * 2, delay: index * STAGGER, fill: "both" });
+    timers.push(window.setTimeout(() => reveal(index === lines.length - 1 ? box.bottom + fontSize : line.bottom + 2), index * STAGGER + D));
+  });
+  timers.push(window.setTimeout(() => { layer.remove(); title.style.removeProperty("clip-path"); }, (lines.length - 1) * STAGGER + D * 2 + 40));
 }
 
 /**

@@ -7,6 +7,7 @@ import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
 import { mountHomepageSections } from "@/components/homepage-release/homepageSections";
 import { mountHeroRotation } from "@/components/homepage-release/heroRotation";
+import { stackSections } from "@/lib/sectionStack";
 import "@/styles/mindmake.css";
 import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
@@ -44,6 +45,11 @@ export default function Index() {
       },
     });
     const unmountSections = mountHomepageSections(root);
+    /* The sections after the opening are laid on one another as they are
+       read (owner, 2026-11-10). The opening is not one of the sheets: the
+       approved R3 masthead is fixed inside it, and a held or tilted opening
+       would carry the masthead with it. */
+    const unstack = stackSections([[...root.querySelectorAll<HTMLElement>(".hs-section")]]);
     const unrotate = mountHeroRotation(root);
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
@@ -60,6 +66,7 @@ export default function Index() {
       root.removeEventListener("click", measure);
       unrotate();
       unmountSections();
+      unstack();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");
       document.body.classList.remove("mm-homepage-active");

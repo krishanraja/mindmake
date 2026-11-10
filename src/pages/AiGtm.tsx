@@ -11,6 +11,7 @@ import { PlanChapter } from "@/components/ai-gtm/PlanChapter";
 import { TeamChapter, type TeamCopy } from "@/components/ai-gtm/TeamChapter";
 import { StoryLibrary } from "@/components/mindmake/StoryLibrary";
 import { buildOnScroll } from "@/lib/scrollBuild";
+import { stackSections } from "@/lib/sectionStack";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { START_LABEL_GTM, START_SUBLABEL } from "@/lib/publicLinks";
 import signals from "@/data/vnext/gtm-signals.json";
@@ -236,12 +237,15 @@ export default function AiGtm() {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    return buildOnScroll(root, {
+    const unbuild = buildOnScroll(root, {
       sections: "[data-gtm-chapter]",
       title: "h1, h2",
       lede: ".gtm-opening-deck",
       items: ".gtm-doors, .gtm-lever, .team-side, .decision-panel, .gtm-plan-step, .gtm-plan-menu li, .s8-keeps li, .finder-card, .mm-pairing",
     });
+    /* Each section is laid on the one before as it is read (owner, 2026-11-10). */
+    const unstack = stackSections([[...root.querySelectorAll<HTMLElement>(":scope > [data-gtm-chapter]")]]);
+    return () => { unbuild(); unstack(); };
   }, []);
   const copy = MODES[mode];
   const chooseMode = (next: Mode) => {
@@ -313,7 +317,7 @@ export default function AiGtm() {
             own section, after the offer, with the way in and the other page. */}
         <section className="gtm-begin gtm-s8 s8-body s8-green" data-gtm-chapter="start" aria-label="Where would you start?">
           <div className="mm-container">
-            <StoryLibrary door="gtm" onStart={(door) => openBrief(door)} />
+            <StoryLibrary door="gtm" deck onStart={(door) => openBrief(door)} />
             <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
           </div>
         </section>

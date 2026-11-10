@@ -18,8 +18,9 @@ import { setBottomReserve } from "@/lib/bottomReserve";
  * `data-mm-hero`) has scrolled away above the reader, or, on a page without
  * one, until the reader has left the first screen. It stands down entirely
  * whenever any of the page's own primary actions is on screen, so a reader
- * never sees two ways in at once. It reserves its measured height at the foot
- * of the page, so it never covers the last thing somebody is reading.
+ * never sees two ways in at once. It floats rather than taking a band of the
+ * screen, and reserves its measured height only at the foot of the page, so
+ * it never covers the last thing somebody is reading.
  *
  * The rules live in `mindmake.css` beside the `--mm-bar-reserve` token that
  * the footer reads.
@@ -32,7 +33,34 @@ interface SiteActionBarProps {
 
 export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
   const [shown, setShown] = useState(false);
+  const [tucked, setTucked] = useState(false);
   const barRef = useRef<HTMLDivElement>(null);
+
+  /* A floating button, not a band (owner, 2026-11-10): on a phone it steps
+     aside while the reader scrolls down through a section, so it never sits
+     on the words they are reading, and comes back as soon as they stop or
+     turn back up. A laptop keeps it in the corner, clear of the measure. */
+  useEffect(() => {
+    const narrow = window.matchMedia?.("(max-width: 767px)");
+    if (!narrow) return;
+    let lastY = window.scrollY;
+    let settle = 0;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      lastY = y;
+      if (!narrow.matches) { setTucked(false); return; }
+      window.clearTimeout(settle);
+      if (delta > 3) setTucked(true);
+      else if (delta < -3) setTucked(false);
+      settle = window.setTimeout(() => setTucked(false), 520);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settle);
+    };
+  }, []);
 
   /* Shown once the page's own first way in has gone above the reader (or,
      where a page has none, after the first screen), and hidden again whenever
@@ -96,7 +124,7 @@ export function SiteActionBar({ onStart, label }: SiteActionBarProps) {
   }, [shown]);
 
   return (
-    <div ref={barRef} className={`mm-action-bar${shown ? " is-shown" : ""}`} aria-hidden={!shown}>
+    <div ref={barRef} className={`mm-action-bar${shown ? " is-shown" : ""}${tucked ? " is-tucked" : ""}`} aria-hidden={!shown}>
       <div className="mm-action-bar-inner">
         <button
           className="mm-button"

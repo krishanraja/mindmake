@@ -1,0 +1,26 @@
+/* The stories as a deck on a phone (storyFinder.ts, mountDeck; Krish,
+   2026-11-10). The finder holds under the masthead while each story rises
+   over the one before; the ones beneath settle back with their tops still
+   showing. Only the class the script adds turns this on, so a page without
+   script, a laptop and a reader who asked for stillness keep the rail. */
+@media (max-width: 760px) {
+  .nal-page .story-finder.is-deck > .finder-stage {
+    position: sticky;
+    top: calc(var(--mm-header-height, 64px) + 8px);
+  }
+  .nal-page .story-finder.is-deck .finder-rail {
+    display: grid;
+    overflow: hidden;
+    padding-top: 30px;
+    scroll-snap-type: none;
+    overscroll-behavior-x: auto;
+  }
+  .nal-page .story-finder.is-deck .finder-rail > .finder-card {
+    grid-area: 1 / 1;
+    width: 100%;
+    flex: none;
+    transform-origin: 50% 0;
+    will-change: transform;
+    box-shadow: 0 -14px 34px rgba(3, 8, 6, .45);
+  }
+}

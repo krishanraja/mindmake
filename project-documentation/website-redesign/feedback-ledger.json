@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-11-04",
+  "updatedAt": "2026-11-10",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -2063,6 +2063,25 @@
         "src/components/homepage-release/homepageSections.ts",
         "src/components/homepage-release/homepageSections.css",
         "scripts/qa/line-break-check.mjs"
+      ]
+    },
+    {
+      "id": "S9-ALIVE-001",
+      "exactFeedback": "Can we change the AI brain visual to match the liquid animation on the Krish Raja site? But obviously, this needs to be specific to MindMake. Also, can we figure out a more elegant way of having the call to action pinned? Right now, it just makes the screen smaller, which is annoying. Because then all the sections don't fit on one screen, which is one thing I asked you to do. Also, let's get rid of the board paper, client reply, next post, and team brief, and just have the animation, which currently cuts off. Let's figure out how to make that live record animation even clearer. Finally, how can we use this card-animation style attached for the Where would you start? cards, particularly on mobile? We could also make the hero-scroll-animation attached work for all the 3 pages for all sections, and have the text blocks animate with something like the text block animation? Don't just copy-paste it all. Feel like you should figure out how you can adapt it all together for a much more alive feeling website.",
+      "source": "Krish, 10 November 2026, with screenshots of /ai-brain and three 21st.dev references (images scrolling animation, hero scroll animation, text block animation).",
+      "surface": "/, /ai-brain, /ai-gtm",
+      "section": "the goals and record section on /ai-brain; Where would you start? on /ai-brain and /ai-gtm; every section after the opening on all three pages; the action bar on every shell page",
+      "device": "all",
+      "element": "the Brain visual, the live record, the action bar, the story cards, section transitions, heading entrances",
+      "classification": "correction",
+      "requiredOutcome": "The Brain is a living mass in Mindmake's colours with the twenty ideas and eighteen connections on it; the record shows its live reel with no work tiles and reads as one thing; the way in floats instead of taking a band of the screen; on a phone the stories stack as the reader scrolls; sections lay over one another as they are read; headings arrive line by line behind a bar of colour. Nothing hidden from no-script or reduced-motion readers, and no section changes size on a choice.",
+      "acceptanceTest": "src/test/brain-narrative.test.ts; qa:line-breaks, qa:homepage-release:pre-merge, qa:approved-routes, typecheck, lint, full unit suite and build pass; desktop and phone screenshots reviewed.",
+      "status": "implemented-awaiting-review",
+      "resolution": "src/components/mindmake/locked/liquidBrain.ts (the mass, seeded, mint for agreed ideas and amber for the Brain's reading, the real connections drawn, turning to the next idea until the reader picks one); src/styles/mindmake-alive-brain.css (words beside the Brain on a laptop, under it on a phone, the reading under the Brain; the record always in view, its counts lighting for the kind being written, each entry held 3.2 seconds with a line that fills); SiteActionBar.tsx and mindmake.css (a floating button, no band and no section reserve, stepping aside on a phone while the reader scrolls down); storyFinder.ts mountDeck and mindmake-deck.css (the stories stack over a fixed stretch of scroll on a phone, the same length for every situation); src/lib/sectionStack.ts (each section held and laid over by the next, settling back smaller, tilted a degree and dimmed; the homepage opening is not a sheet because the approved masthead is fixed inside it); scrollBuild.ts wipeLines (headings arrive a line at a time behind a mint or deep green bar, only when they were waiting below the fold). Record entries of kind Evidence are now called Source, to match the count above them.",
+      "evidence": [
+        "src/test/brain-narrative.test.ts passes with the record's tiles gone and its reel in view",
+        "qa:line-breaks passes on /ai-brain at 1440x900, 1280x800, 390x844 and 360x780 after the Brain's stage became a real box",
+        "desktop and phone screenshots of the Brain, the record, the stacked sections, the heading wipe and the phone deck reviewed in the session"
       ]
     }
   ]

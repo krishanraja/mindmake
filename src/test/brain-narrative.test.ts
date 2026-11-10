@@ -59,10 +59,14 @@ describe("the Brain narrative", () => {
     expect([...close.querySelectorAll<HTMLAnchorElement>(".mm-pairing-link")].map((link) => link.getAttribute("href"))).toEqual(["/ai-gtm"]);
   });
 
-  it("names the work the record reaches, not AI companies, and says 30 days only where it builds", () => {
+  it("shows the live record, names no AI companies, and says 30 days only where it builds", () => {
     const doc = page();
-    const ports = [...doc.querySelectorAll("#living-record .record-ports li")].map((port) => port.textContent?.trim());
-    expect(ports).toEqual(["Board paper", "Client reply", "Next post", "Team brief"]);
+    /* Ruling (owner, 2026-11-10): the four work tiles are gone and the live
+       record is always in view, its counts naming the kind being written. */
+    expect(doc.querySelectorAll("#living-record .record-ports")).toHaveLength(0);
+    expect(doc.querySelector("#living-record details")).toBeNull();
+    expect(doc.querySelector("#living-record .record-live #recordReelS2")).not.toBeNull();
+    expect([...doc.querySelectorAll<HTMLElement>("#living-record .record-counts [data-kind]")].map((count) => count.dataset.kind)).toEqual(["Idea", "Connection", "Source", "Change"]);
     // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
     // integrations with named AI companies.
     const text = doc.querySelector(".mm-locked-brain")?.textContent ?? "";

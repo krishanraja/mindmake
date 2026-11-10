@@ -1141,26 +1141,30 @@ html {
   position: fixed;
   left: 0;
   right: 0;
-  /* On the bottom edge itself, never stacked on the analytics notice (Ruling,
-     Krish, 2026-10-24: the bar stacked on the notice was "horrible" and made
-     four controls compete). On a laptop the notice is a card in the bar's own
-     band, on the left, while the one button is on the right; on a phone the
-     notice docks under the masthead. */
+  /* A floating button, not a band (owner, 2026-11-10: the band "just makes
+     the screen smaller ... then all the sections don't fit on one screen").
+     The bar itself is transparent and lets every touch through; only the
+     button takes one. Nothing reserves room for it above the footer's last
+     line, so a section keeps the whole screen. It stays clear of the
+     analytics notice, which keeps its own card on the left of a laptop and
+     docks under the masthead on a phone. */
   bottom: 0;
   z-index: 40;
   display: flex;
   justify-content: center;
-  border-top: 1px solid var(--mm-line);
-  background: rgba(10, 16, 13, .94);
-  backdrop-filter: blur(8px);
-  /* The bar is always the thing on the bottom edge, so it clears the home
-     indicator itself. No gate here can see this: Playwright does not emulate
-     a safe-area inset. */
-  padding: 10px var(--mm-edge) calc(10px + var(--mm-safe-bottom));
-  transform: translateY(110%);
-  transition: transform .2s ease;
+  border-top: 0;
+  background: none;
+  pointer-events: none;
+  /* The button clears the home indicator itself. No gate here can see this:
+     Playwright does not emulate a safe-area inset. */
+  padding: 0 var(--mm-edge) calc(18px + var(--mm-safe-bottom));
+  transform: translateY(calc(100% + 24px));
+  transition: transform .32s cubic-bezier(.22, .8, .2, 1);
 }
 .mm-action-bar.is-shown { transform: translateY(0); }
+/* On a phone it steps out of the way while the reader is scrolling down and
+   comes back the moment they stop or turn back up. */
+.mm-action-bar.is-shown.is-tucked { transform: translateY(calc(100% + 24px)); }
 /* One action, on the shell's measure, so it lands under the page's own right
    edge and clear of the notice's card on the left. */
 .mm-action-bar-inner {
@@ -1171,13 +1175,16 @@ html {
   justify-content: flex-end;
   gap: 16px;
 }
-/* It reserves its own measured height in --mm-bar-reserve, which the
-   footer reads and adds to the strip's, so it never covers the last thing
-   being read and the two reserves cannot cancel each other. */
+.mm-action-bar .mm-button {
+  pointer-events: auto;
+  box-shadow: 0 14px 34px rgba(4, 10, 7, .42), 0 0 0 1px rgba(145, 232, 188, .3);
+}
+/* It reserves its own measured height in --mm-bar-reserve, which only the
+   footer reads, so the last line of the page is never under it. */
 @media (max-width: 767px) {
-  /* A phone gets the action full width and nothing else beside it. */
+  /* A phone gets the action centred, at its own width. */
   .mm-action-bar-inner { justify-content: center; }
-  .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
+  .mm-action-bar .mm-button { max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mm-action-bar { transition: none; }
@@ -1747,6 +1754,20 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   from { opacity: 0; transform: translate3d(0, 14px, 0); }
   to { opacity: 1; transform: none; }
 }
+/* Sections laid on one another as they are read (src/lib/sectionStack.ts).
+   The arriving sheet casts a soft shadow up over the one it covers; the
+   covered one is trimmed to rounded corners while it settles back. */
+.mm-stacking .mm-sheet-over { box-shadow: 0 -28px 60px rgba(3, 8, 6, .38); }
+.mm-stacking .mm-sheet[data-sheet-covered] { will-change: transform, filter; }
+/* The Brain's own wrapper steps aside while stacking, so its chapters and
+   the close that follows them are one pile. */
+.mm-stacking .mm-locked-brain.is-stacked { display: contents; }
+
+/* A heading arrives behind a sweeping bar, a line at a time
+   (src/lib/scrollBuild.ts, wipeLines), so it takes no fade of its own. */
+.hs-wipe[data-reveal="shown"] { animation: none; }
+.hs-wipe-layer { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; pointer-events: none; z-index: 3; }
+
 /* Belt and braces, and the one that survives a stylesheet loading late: a
    visitor who asked for stillness is never handed a hidden element even if the
    hook has already marked one. */

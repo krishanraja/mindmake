@@ -3,6 +3,7 @@ import { leadershipStories } from "@/components/leadership-chapters/leadershipCh
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
 import "@/styles/new-age-leadership-r5.css";
+import "@/styles/mindmake-deck.css";
 
 /**
  * The one story library (proposal for Krish, 2026-11-04: "success stories"
@@ -10,7 +11,7 @@ import "@/styles/new-age-leadership-r5.css";
  * products). One card, one sheet, one finder; a product page shows only its
  * own stories, and /case-studies shows both behind the choice of product.
  */
-export function StoryLibrary({ door, onStart, id = "stories", intro }: { door: "brain" | "gtm" | "library"; onStart: (door: "brain" | "gtm") => void; id?: string; intro?: { title: string; lede: string } }) {
+export function StoryLibrary({ door, onStart, id = "stories", intro, deck = false }: { door: "brain" | "gtm" | "library"; onStart: (door: "brain" | "gtm") => void; id?: string; intro?: { title: string; lede: string }; deck?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const startRef = useRef(onStart);
   startRef.current = onStart;
@@ -20,11 +21,12 @@ export function StoryLibrary({ door, onStart, id = "stories", intro }: { door: "
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     return mountStoryFinder(ref.current, {
       reduced,
+      deck,
       onStart: (to) => {
         track("scoping_request", { source: "story_finder", route: to });
         startRef.current(to);
       },
     });
-  }, [markup]);
+  }, [markup, deck]);
   return <div ref={ref} id={id} className="nal-page brain-finder mm-story-library" dangerouslySetInnerHTML={{ __html: markup }} />;
 }

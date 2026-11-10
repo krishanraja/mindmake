@@ -13,14 +13,15 @@ import lockedDocument from "../../prototypes/website-redesign-recovery/brain-sig
 import evidencePoster from "@/assets/responsive/evidence-connects-poster-w1280.webp";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import { Icon } from "@/components/mindmake/Icon";
-import goalsPlate from "@/assets/films/sep2026/opportunities-resolve-poster.webp";
 import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import type { IconName } from "@/lib/icons";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
+import { mountLiquidBrain } from "@/components/mindmake/locked/liquidBrain";
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
 import { buildOnScroll } from "@/lib/scrollBuild";
+import { stackSections } from "@/lib/sectionStack";
 import { START_LABEL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
@@ -28,6 +29,8 @@ import "@/styles/mindmake-brain-refinements.css";
 import "@/styles/mindmake-brain-narrative.css";
 import "@/styles/mindmake-brain-s6.css";
 import "@/styles/mindmake-calm-s8.css";
+import "@/styles/mindmake-alive-brain.css";
+import "@/styles/mindmake-deck.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -76,7 +79,9 @@ const KEEPS = ["Your brain, built out.", "The systems that amplify you, proven."
 /* Ruling (owner, 2026-11-04, mock approved): what stays with you is three
    marks in a row, not a receipt box. */
 const KEEP_ICON: readonly IconName[] = ["graph", "proven", "rise"];
-/** Where the month's steps light: this far down the screen, well clear of the action bar. */
+/** How long each entry of the live record stays in front, long enough to read its line. */
+const RECORD_DWELL = 3200;
+/** Where the month's steps light: this far down the screen. */
 const READING_LINE = 0.72;
 
 function prepareMarkup() {
@@ -88,7 +93,6 @@ function prepareMarkup() {
   });
   markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4", evidenceFilm);
   markup = replaceLockedAsset(markup, "./media/evidence-connects-poster.png", evidencePoster);
-  markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/opportunities-resolve-poster.webp", goalsPlate);
   markup = replaceLockedAsset(markup, "../../../src/assets/stories/punched-cards-r01-800.webp", monthPlate);
   return markup;
 }
@@ -177,6 +181,14 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
     };
 
+    let liquid: ReturnType<typeof mountLiquidBrain> | null = null;
+    const pickMeaning = (item: BrainItem) => {
+      root.dataset.meaningTouched = "true";
+      inspector?.setAttribute("aria-live", "polite");
+      selectMeaning(item);
+      liquid?.select(item.id, true);
+    };
+
     // Every idea title stays on one line at one size. The size is set once
     // from the longest title that fits the panel, never per selection.
     const inspector = q<HTMLElement>("#meaningInspectorS2");
@@ -201,22 +213,8 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     window.addEventListener("resize", fitTitles);
     cleanups.push(() => window.removeEventListener("resize", fitTitles));
 
+    const nodeById = new Map<string, HTMLElement>();
     if (field && svg) {
-      fixture.relationships.forEach((relationship) => {
-        const from = itemById.get(relationship.from);
-        const to = itemById.get(relationship.to);
-        if (!from || !to) return;
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", String(from.x));
-        line.setAttribute("y1", String(from.y));
-        line.setAttribute("x2", String(to.x));
-        line.setAttribute("y2", String(to.y));
-        line.dataset.from = from.id;
-        line.dataset.to = to.id;
-        if (from.id === selectedId || to.id === selectedId) line.classList.add("is-focus");
-        svg.append(line);
-      });
-
       fixture.items.forEach((item) => {
         const button = document.createElement("button");
         button.type = "button";
@@ -233,11 +231,31 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         const label = document.createElement("span");
         label.textContent = item.title;
         button.append(label);
-        const click = () => { root.dataset.meaningTouched = "true"; selectMeaning(item); };
+        const click = () => pickMeaning(item);
         button.addEventListener("click", click);
         cleanups.push(() => button.removeEventListener("click", click));
         field.append(button);
+        nodeById.set(item.id, button);
       });
+
+      /* The ideas sit on a living mass (owner, 2026-11-10), which turns to
+         the next idea by itself until the reader picks one. While it turns by
+         itself the reading is not announced every few seconds; once the reader
+         picks, it is. */
+      liquid = mountLiquidBrain(field, {
+        ideas: fixture.items.map((item) => ({ id: item.id, x: item.x, y: item.y, settled: isSettled(item) })),
+        relationships: fixture.relationships,
+        nodes: nodeById,
+        initial: selectedId,
+        reduced: reducedMotion.matches || renderFinal,
+        onAdvance: (id) => {
+          const item = itemById.get(id);
+          if (!item) return;
+          inspector?.setAttribute("aria-live", "off");
+          selectMeaning(item);
+        },
+      });
+      cleanups.push(() => liquid?.destroy());
 
       // The compact graph deliberately keeps every idea at a 44px keyboard
       // target. On the narrowest phone those target circles can overlap even
@@ -269,8 +287,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         if (!item) return;
         event.preventDefault();
         event.stopPropagation();
-        root.dataset.meaningTouched = "true";
-        selectMeaning(item);
+        pickMeaning(item);
       };
       field.addEventListener("click", selectNearestMeaning, true);
       cleanups.push(() => field.removeEventListener("click", selectNearestMeaning, true));
@@ -279,7 +296,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     const records = [
       ...fixture.items.map((item) => ({ kind: "Idea", id: item.id, title: item.title, detail: plainStatements[item.id] ?? item.statement })),
       ...fixture.relationships.map((relationship) => ({ kind: "Connection", id: relationship.id, title: `${itemById.get(relationship.from)?.title ?? relationship.from} → ${itemById.get(relationship.to)?.title ?? relationship.to}`, detail: relationship.meaning })),
-      ...fixture.sources.map((source) => ({ kind: "Evidence", id: source.id, title: source.label, detail: source.assertion })),
+      ...fixture.sources.map((source) => ({ kind: "Source", id: source.id, title: source.label, detail: source.assertion })),
       ...fixture.corrections.map((correction) => ({ kind: "Change", id: correction.id, title: itemById.get(correction.item_ref)?.title ?? correction.item_ref, detail: correction.summary })),
     ];
     const counts = [fixture.items.length, fixture.relationships.length, fixture.sources.length, fixture.corrections.length];
@@ -295,6 +312,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     records.forEach((record) => {
       const card = document.createElement("li");
       card.className = "record-card";
+      card.dataset.kind = record.kind;
       const kind = document.createElement("span");
       kind.textContent = record.kind;
       const copy = document.createElement("div");
@@ -325,13 +343,18 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       }
       const index = q<HTMLElement>("#recordIndexS2");
       if (index) index.textContent = `${current + 1} of ${records.length}`;
+      /* The count above names what kind of entry is being written, so the
+         numbers and the reel read as one record (owner, 2026-11-10: "make
+         that live record animation even clearer"). */
+      const kindNow = records[current]?.kind;
+      root.querySelectorAll<HTMLElement>(".record-counts [data-kind]").forEach((count) => count.toggleAttribute("data-current", count.dataset.kind === kindNow));
       // Each record that lands reaches all four tools: the ports light in
       // turn, by colour and opacity only. Alternating the name restarts it.
       if (!reducedMotion.matches && !renderFinal) root.dataset.portPulse = root.dataset.portPulse === "a" ? "b" : "a";
     };
     const nextRecord = () => { current = (current + 1) % records.length; paint(); };
     const stopTimer = () => { if (timer) window.clearInterval(timer); timer = 0; };
-    const startTimer = () => { stopTimer(); if (!recordPaused && !renderFinal) timer = window.setInterval(nextRecord, 1800); };
+    const startTimer = () => { stopTimer(); if (!recordPaused && !renderFinal) timer = window.setInterval(nextRecord, RECORD_DWELL); };
     const updateRecordControls = () => {
       root.dataset.recordPaused = recordPaused ? "true" : "false";
       if (pauseButton) {
@@ -463,6 +486,7 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const unmountFinder = finder ? mountStoryFinder(finder, {
       reduced,
+      deck: true,
       onStart: (door) => {
         track("scoping_request", { source: "story_finder", route: door });
         startRef.current(door);
@@ -486,11 +510,25 @@ function useBrainSections(rootRef: React.RefObject<HTMLDivElement>, finderRef: R
       items: ".finder-card, .s8-keeps li, .mm-pairing",
     }) : () => undefined;
 
+    /* Each section is laid on the one before as it is read (Krish,
+       2026-11-10), the close included; inside the goals and record section
+       the record is laid on the goals. The Brain's wrapper steps aside so
+       its chapters and the close are one pile. */
+    const stacking = !reduced;
+    if (stacking) root.classList.add("is-stacked");
+    const pair = root.querySelector<HTMLElement>(".chapter.pair");
+    const unstack = stackSections([
+      [...root.querySelectorAll<HTMLElement>(":scope > .chapter[data-phase]"), ...(close ? [close] : [])],
+      pair ? [...pair.querySelectorAll<HTMLElement>(":scope > .pair-panel")] : [],
+    ]);
+
     return () => {
       root.removeEventListener("click", onClick);
       unmountFinder();
       unbuildChapters();
       unbuildClose();
+      unstack();
+      root.classList.remove("is-stacked");
     };
   }, [rootRef, finderRef, startRef]);
 }

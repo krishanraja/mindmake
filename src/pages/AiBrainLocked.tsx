@@ -18,6 +18,7 @@ import type { IconName } from "@/lib/icons";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import { mountLiquidBrain } from "@/components/mindmake/locked/liquidBrain";
 import { sourceLine } from "@/components/mindmake/locked/brainRecord";
+import { CLUSTERS, clusterSeats, restsOn } from "@/components/mindmake/locked/connectedBrain";
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
@@ -32,6 +33,7 @@ import "@/styles/mindmake-brain-s6.css";
 import "@/styles/mindmake-calm-s8.css";
 import "@/styles/mindmake-alive-brain.css";
 import "@/styles/mindmake-deck.css";
+import "@/styles/mindmake-connected-brain.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -175,6 +177,58 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       if (output) output.textContent = evidenceMessages[safeState];
     };
 
+    /* What the chosen idea rests on (the connected Brain, mock for Krish's
+       approval, 2026-11-10): its connections, each one a way to the idea it
+       touches, its sources and its changes. */
+    const renderRests = (host: HTMLElement, id: string) => {
+      const rests = restsOn(fixture, id);
+      host.replaceChildren();
+      const group = (label: string) => {
+        const block = document.createElement("div");
+        block.className = "rests-group";
+        const name = document.createElement("p");
+        name.className = "rests-label";
+        name.textContent = label;
+        block.append(name);
+        host.append(block);
+        return block;
+      };
+      if (rests.connections.length) {
+        const block = group("Connected to");
+        const list = document.createElement("div");
+        list.className = "rests-chips";
+        rests.connections.forEach((connection) => {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "rests-chip";
+          chip.dataset.go = connection.otherId;
+          chip.textContent = connection.text;
+          list.append(chip);
+        });
+        block.append(list);
+      }
+      if (rests.sources.length) {
+        const block = group(`Rests on ${rests.sources.length === 1 ? "one source" : `${rests.sources.length} sources`}`);
+        const list = document.createElement("ul");
+        list.className = "rests-sources";
+        rests.sources.slice(0, 1).forEach((source) => {
+          const row = document.createElement("li");
+          const label = document.createElement("span");
+          label.textContent = source.label;
+          row.append(label, document.createTextNode(` ${source.line}`));
+          list.append(row);
+        });
+        block.append(list);
+      }
+      if (rests.changes.length) {
+        const block = group("Changed by you");
+        const line = document.createElement("p");
+        line.className = "rests-change";
+        line.textContent = rests.changes[0];
+        block.append(line);
+      }
+    };
+
     const selectMeaning = (item: BrainItem) => {
       field?.querySelectorAll<HTMLElement>(".meaning-node-s2").forEach((node) => {
         const active = node.dataset.id === item.id;
@@ -198,14 +252,25 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       });
       if (title) title.textContent = item.title;
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
+      const rests = q<HTMLElement>("#brainRestsS2");
+      if (rests) renderRests(rests, item.id);
+      const kindWord = q<HTMLElement>("#inspectorTypeS2");
+      if (kindWord) kindWord.textContent = restsOn(fixture, item.id).kind;
     };
 
     let liquid: ReturnType<typeof mountLiquidBrain> | null = null;
+    const tourButton = q<HTMLButtonElement>("#brainTourS2");
+    const showTour = (on: boolean) => {
+      if (!tourButton) return;
+      tourButton.textContent = on ? "Pause the tour" : "Play the tour";
+      tourButton.setAttribute("aria-pressed", on ? "false" : "true");
+    };
     const pickMeaning = (item: BrainItem) => {
       root.dataset.meaningTouched = "true";
       inspector?.setAttribute("aria-live", "polite");
       selectMeaning(item);
       liquid?.select(item.id, true);
+      showTour(false);
     };
 
     // Every idea title stays on one line at one size. The size is set once
@@ -260,14 +325,70 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       /* The ideas sit on a living mass (owner, 2026-11-10). It stays on the
          idea it opens with until the reader picks another: turning by itself
          replaced the reading before anyone could read it. */
+      /* The seven clusters, named on the picture (mock). */
+      CLUSTERS.forEach((cluster) => {
+        const label = document.createElement("span");
+        label.className = "brain-region";
+        label.setAttribute("aria-hidden", "true");
+        label.textContent = cluster.name;
+        field.append(label);
+        nodeById.set(`label:${cluster.id}`, label);
+      });
       liquid = mountLiquidBrain(field, {
         ideas: fixture.items.map((item) => ({ id: item.id, x: item.x, y: item.y, settled: isSettled(item) })),
         relationships: fixture.relationships,
         nodes: nodeById,
+        seats: clusterSeats(fixture),
         initial: selectedId,
+        tour: !(reducedMotion.matches || renderFinal),
+        tourMs: 7000,
+        onAdvance: (id) => {
+          const item = itemById.get(id);
+          if (!item) return;
+          inspector?.setAttribute("aria-live", "off");
+          selectMeaning(item);
+        },
         reduced: reducedMotion.matches || renderFinal,
       });
       cleanups.push(() => liquid?.destroy());
+
+      /* The tour can be paused and played again; picking an idea ends it. */
+      let touring = !(reducedMotion.matches || renderFinal);
+      if (tourButton) tourButton.hidden = !touring;
+      showTour(touring);
+      const toggleTour = () => { touring = tourButton?.getAttribute("aria-pressed") === "true"; liquid?.setTour(touring); showTour(touring); };
+      tourButton?.addEventListener("click", toggleTour);
+      cleanups.push(() => tourButton?.removeEventListener("click", toggleTour));
+
+      /* A connection is a way to the idea it touches. */
+      const restsHost = q<HTMLElement>("#brainRestsS2");
+      const follow = (event: MouseEvent) => {
+        const chip = (event.target as HTMLElement).closest<HTMLElement>("[data-go]");
+        const item = chip ? itemById.get(chip.dataset.go ?? "") : undefined;
+        if (item) pickMeaning(item);
+      };
+      restsHost?.addEventListener("click", follow);
+      cleanups.push(() => restsHost?.removeEventListener("click", follow));
+      /* The reading is as tall as its longest idea, so choosing never moves the page. */
+      if (restsHost) {
+        renderRests(restsHost, selectedId);
+        const size = () => {
+          restsHost.style.removeProperty("min-height");
+          const probe = restsHost.cloneNode(false) as HTMLElement;
+          probe.removeAttribute("id");
+          probe.setAttribute("aria-hidden", "true");
+          probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${restsHost.offsetWidth}px`;
+          restsHost.parentElement?.append(probe);
+          let tallest = 0;
+          fixture.items.forEach((item) => { renderRests(probe, item.id); tallest = Math.max(tallest, probe.offsetHeight); });
+          probe.remove();
+          if (tallest) restsHost.style.minHeight = `${tallest}px`;
+        };
+        size();
+        void document.fonts?.ready.then(size);
+        window.addEventListener("resize", size);
+        cleanups.push(() => window.removeEventListener("resize", size));
+      }
 
       // The compact graph deliberately keeps every idea at a 44px keyboard
       // target. On the narrowest phone those target circles can overlap even

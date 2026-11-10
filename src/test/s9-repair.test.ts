@@ -151,11 +151,12 @@ describe("the liquid Brain", () => {
     }
   });
 
-  it("never turns by itself and draws no per-pair fibres", async () => {
+  it("turns only when asked to tour, and draws no per-pair fibres", async () => {
     const { readFileSync } = await import("node:fs");
     const { resolve } = await import("node:path");
     const source = readFileSync(resolve(__dirname, "../components/mindmake/locked/liquidBrain.ts"), "utf8");
-    expect(source).toContain("options.tour && !pinned");
+    expect(source).toContain("let touring = Boolean(options.tour)");
+    expect(source).toContain("touring && !pinned");
     expect(source).not.toMatch(/for \(let j = i \+ 1; j < particles\.length/);
     expect(source).not.toContain("pointerdown");
   });

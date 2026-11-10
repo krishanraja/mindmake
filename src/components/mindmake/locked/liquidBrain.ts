@@ -44,6 +44,10 @@ export interface LiquidBrainOptions {
   tour?: boolean;
   /** Called when the brain moves on to the next idea by itself. */
   onAdvance?: (id: string) => void;
+  /** How long the tour stays on each idea. */
+  tourMs?: number;
+  /** Where each idea (and any label) sits, in the brain's 1000 x 820 space, instead of the fixture layout. */
+  seats?: Map<string, [number, number]>;
   reduced: boolean;
 }
 
@@ -101,7 +105,9 @@ function seeded(seed: number) {
 
 export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions) {
   const { ideas, relationships, nodes, reduced } = options;
-  const seats = seatIdeas(ideas);
+  const seats = options.seats ?? seatIdeas(ideas);
+  let touring = Boolean(options.tour);
+  const tourMs = options.tourMs ?? 3600;
   const settledById = new Map(ideas.map((idea) => [idea.id, idea.settled]));
   const order = ideas.map((idea) => idea.id);
   let active = options.initial;
@@ -187,7 +193,7 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
       .forEach(({ p }, j) => { p.ex = Math.cos(angle) * reach * (1 - j / k * 0.5); p.ey = Math.sin(angle) * reach * (1 - j / k * 0.5); p.until = t + 1800 + random() * 900; });
   };
   const step = (t: number) => {
-    if (options.tour && !pinned && t - lastSwitch > 3600) {
+    if (touring && !pinned && t - lastSwitch > tourMs) {
       lastSwitch = t;
       active = order[(order.indexOf(active) + 1) % order.length];
       options.onAdvance?.(active);
@@ -278,6 +284,8 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   visibility.observe(field);
 
   return {
+    /** Start or stop the tour; the reader's own pick still ends it for good. */
+    setTour(on: boolean) { touring = on; lastSwitch = clock; },
     /** The reader chose an idea: the brain follows it and stops turning by itself. */
     select(id: string, byReader: boolean) {
       active = id;

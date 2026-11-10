@@ -5,10 +5,14 @@
       whole section fits one screen and nothing is cut off.
    2. The four work tiles are gone; the live record is always in view.
    3. The record reads as one thing: the count above lights for the kind of
-      entry being written, and the entry in front is large and legible. */
+      entry being written, and the entry in front is large and legible.
+   Every rule carries one class more than the S8 rules it replaces
+   (`:is(*, .mm-alive)`), because the production bundle does not keep this
+   file after mindmake-calm-s8.css; equal specificity let S8's plate layout
+   win live on 10 November 2026. */
 
 /* ---------- The goals: words beside the living Brain ---------- */
-.mm-site .mm-locked-brain .pair-panel.memory {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory {
   display: grid;
   grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
   grid-template-rows: auto 1fr;
@@ -20,11 +24,11 @@
   /* The hidden overflow was for the picture this panel no longer has. */
   overflow: visible;
 }
-.mm-site .mm-locked-brain .pair-panel.memory > .chapter-copy > h2 { grid-area: title; align-self: start; margin: 0; max-width: 13ch; }
-.mm-site .mm-locked-brain .pair-panel.memory > .chapter-copy > p { grid-area: lede; margin-top: clamp(1.2rem, 3vh, 2rem); }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory > .chapter-copy > h2 { grid-area: title; align-self: start; margin: 0; max-width: 13ch; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory > .chapter-copy > p { grid-area: lede; margin-top: clamp(1.2rem, 3vh, 2rem); }
 /* The Brain and, under it, the reading of the idea it is on: the verdict
    sits where the reader acts. */
-.mm-site .mm-locked-brain .pair-panel.memory .brain-stage {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-stage {
   grid-area: stage;
   display: flex;
   flex-direction: column;
@@ -33,7 +37,7 @@
   margin: 0;
   overflow: visible;
 }
-.mm-site .mm-locked-brain .pair-panel.memory .brain-field {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-field {
   position: relative;
   flex: 1 1 auto;
   min-height: 0;
@@ -43,7 +47,7 @@
   overflow: visible;
   touch-action: pan-y;
 }
-.mm-site .mm-locked-brain .pair-panel.memory .plain-inspector {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector {
   flex: 0 0 auto;
   margin-top: .6rem;
   padding: 1rem 0 0;
@@ -51,27 +55,27 @@
   border-top: 1px solid rgba(239, 230, 211, .16);
   background: none;
 }
-.mm-site .mm-locked-brain .pair-panel.memory .plain-inspector p { text-wrap: balance; }
-.mm-site .mm-locked-brain .pair-panel.memory::before,
-.mm-site .mm-locked-brain .pair-panel.memory::after,
-.mm-site .mm-locked-brain .brain-field.is-liquid::before,
-.mm-site .mm-locked-brain .brain-field.is-liquid::after { content: none; display: none; }
-.mm-locked-brain .brain-field.is-liquid > svg#relationshipFieldS2,
-.mm-locked-brain .brain-field.is-liquid > .field-focus { display: none; }
-.mm-locked-brain .brain-field .liquid-defs { position: absolute; width: 0; height: 0; }
-.mm-locked-brain .brain-field :is(.liquid-goo, .liquid-net) { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector p { text-wrap: balance; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory::before,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory::after,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid::before,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid::after { content: none; display: none; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid > svg#relationshipFieldS2,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid > .field-focus { display: none; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field .liquid-defs { position: absolute; width: 0; height: 0; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field :is(.liquid-goo, .liquid-net) { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
 /* The ideas: mint where the leader has agreed it, amber while it is still
    the Brain's reading. Choosing one changes colour and glow, never size. */
-.mm-site .mm-locked-brain .brain-field.is-liquid .meaning-node-s2 { z-index: 2; }
-.mm-site .mm-locked-brain .brain-field.is-liquid .meaning-node-s2.is-active[data-standing="settled"]::before {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2 { z-index: 2; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2.is-active[data-standing="settled"]::before {
   border-color: var(--mint, #91e8bc);
   background: var(--mint, #91e8bc);
   box-shadow: 0 0 0 5px rgba(145, 232, 188, .28), 0 0 22px rgba(145, 232, 188, .55);
 }
-.mm-site .mm-locked-brain .brain-field.is-liquid .meaning-node-s2 span { opacity: 0 !important; animation: none !important; clip-path: none !important; }
-.mm-site .mm-locked-brain .brain-field.is-liquid .meaning-node-s2::after { animation: none !important; }
-.mm-site .mm-locked-brain .brain-field.is-liquid .meaning-node-s2:is(.is-active, :hover, :focus-visible) span {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2 span { opacity: 0 !important; animation: none !important; clip-path: none !important; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2::after { animation: none !important; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2:is(.is-active, :hover, :focus-visible) span {
   opacity: 1 !important;
   left: 26px;
   width: max-content;
@@ -82,27 +86,27 @@
   color: #efe6d3;
   font-size: .62rem;
 }
-.mm-site .mm-locked-brain .brain-field.is-liquid .meaning-node-s2[data-standing="working"]:not(.is-active)::before {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2[data-standing="working"]:not(.is-active)::before {
   border: 1px solid rgba(224, 189, 120, .9);
   background: rgba(224, 189, 120, .32);
 }
 
 /* ---------- The record: always in view, one thing to read ---------- */
-.mm-site .mm-locked-brain .living-record .record-live { margin-top: clamp(1.2rem, 3vh, 2rem); }
-.mm-site .mm-locked-brain .living-record .record-counts span { transition: border-color .3s ease, color .3s ease, opacity .3s ease; opacity: .55; }
-.mm-site .mm-locked-brain .living-record .record-counts span[data-current] { opacity: 1; border-top-width: 4px; padding-top: calc(.8rem - 2px); }
-.mm-site .mm-locked-brain .living-record .record-counts span[data-kind="Change"][data-current] { border-top-color: #9a6a1f; color: #7d5414; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-live { margin-top: clamp(1.2rem, 3vh, 2rem); }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span { transition: border-color .3s ease, color .3s ease, opacity .3s ease; opacity: .55; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span[data-current] { opacity: 1; border-top-width: 4px; padding-top: calc(.8rem - 2px); }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span[data-kind="Change"][data-current] { border-top-color: #9a6a1f; color: #7d5414; }
 
-.mm-site .mm-locked-brain .living-record .reel-window {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-window {
   position: relative;
   height: clamp(190px, 26vh, 250px);
   overflow: hidden;
   border-radius: 14px 14px 0 0;
   background: #0b1712;
 }
-.mm-site .mm-locked-brain .living-record .reel-line,
-.mm-site .mm-locked-brain .living-record .reel-focus { display: none; }
-.mm-site .mm-locked-brain .living-record .record-reel {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-line,
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-focus { display: none; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-reel {
   position: absolute;
   inset: 50% 0 auto;
   margin: 0;
@@ -111,7 +115,7 @@
   transform: translateY(calc(-50% - var(--reel-shift, 0px)));
   transition: transform .7s cubic-bezier(.22, .8, .2, 1);
 }
-.mm-site .mm-locked-brain .living-record .record-card {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card {
   display: grid;
   grid-template-columns: 7.5rem minmax(0, 1fr);
   column-gap: 1.2rem;
@@ -125,9 +129,9 @@
   transform: none;
   transition: opacity .5s ease;
 }
-.mm-site .mm-locked-brain .living-record .record-card.is-near { opacity: .5; }
-.mm-site .mm-locked-brain .living-record .record-card.is-current { opacity: 1; }
-.mm-site .mm-locked-brain .living-record .record-card > span {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card.is-near { opacity: .5; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card.is-current { opacity: 1; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card > span {
   justify-self: start;
   padding: .3rem .55rem;
   border: 1px solid currentColor;
@@ -137,9 +141,9 @@
   letter-spacing: .1em;
   text-transform: uppercase;
 }
-.mm-site .mm-locked-brain .living-record .record-card[data-kind="Change"] > span { color: #e0bd78; }
-.mm-site .mm-locked-brain .living-record .record-card[data-kind="Source"] > span { color: #efe6d3; }
-.mm-site .mm-locked-brain .living-record .record-card strong {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card[data-kind="Change"] > span { color: #e0bd78; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card[data-kind="Source"] > span { color: #efe6d3; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card strong {
   display: block;
   color: #efe6d3;
   font: 400 clamp(1.05rem, 1.35vw, 1.3rem)/1.25 "Newsreader", Georgia, serif;
@@ -147,17 +151,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.mm-site .mm-locked-brain .living-record .record-card small {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card small {
   display: block;
   margin-top: .3rem;
   color: rgba(239, 230, 211, .74);
   font: 400 .92rem/1.4 "Source Serif 4", Georgia, serif;
 }
-.mm-site .mm-locked-brain .living-record .record-card:not(.is-current) small { display: none; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card:not(.is-current) small { display: none; }
 
 /* The controls sit on the same dark ground, with a thin line that fills while
    an entry is in front, so the reader can see the record moving on. */
-.mm-site .mm-locked-brain .living-record .record-controls {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls {
   position: relative;
   display: flex;
   align-items: center;
@@ -167,9 +171,9 @@
   background: #0b1712;
   color: #efe6d3;
 }
-.mm-site .mm-locked-brain .living-record .record-controls p { display: flex; align-items: center; gap: .6rem; margin: 0 auto 0 0; font: 500 .72rem/1 "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
-.mm-site .mm-locked-brain .living-record .record-controls small { color: rgba(239, 230, 211, .6); }
-.mm-site .mm-locked-brain .living-record .record-controls::before {
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls p { display: flex; align-items: center; gap: .6rem; margin: 0 auto 0 0; font: 500 .72rem/1 "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls small { color: rgba(239, 230, 211, .6); }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
@@ -184,23 +188,23 @@
 @keyframes mm-record-dwell-b { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 @media (max-width: 760px) {
-  .mm-site .mm-locked-brain .pair-panel.memory {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
     grid-template-areas: "title" "lede" "stage";
     padding-top: 1.6rem;
   }
-  .mm-site .mm-locked-brain .pair-panel.memory .brain-stage { height: auto; margin-top: .6rem; }
-  .mm-site .mm-locked-brain .pair-panel.memory .brain-field { flex: none; height: 300px; }
-  .mm-site .mm-locked-brain .pair-panel.memory .plain-inspector { margin-top: .4rem; padding-top: .9rem; }
-  .mm-site .mm-locked-brain .living-record .reel-window { height: 210px; }
-  .mm-site .mm-locked-brain .living-record .record-card { grid-template-columns: minmax(0, 1fr); row-gap: .45rem; padding: .75rem 0; }
-  .mm-site .mm-locked-brain .living-record .record-card strong { white-space: normal; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-stage { height: auto; margin-top: .6rem; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-field { flex: none; height: 300px; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector { margin-top: .4rem; padding-top: .9rem; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-window { height: 210px; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card { grid-template-columns: minmax(0, 1fr); row-gap: .45rem; padding: .75rem 0; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card strong { white-space: normal; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mm-site .mm-locked-brain .living-record .record-reel,
-  .mm-site .mm-locked-brain .living-record .record-card,
-  .mm-site .mm-locked-brain .living-record .record-counts span { transition: none; }
-  .mm-site .mm-locked-brain .living-record .record-controls::before { display: none; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-reel,
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card,
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span { transition: none; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls::before { display: none; }
 }

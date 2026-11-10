@@ -185,7 +185,7 @@
     "src/lib/seoCollector.ts": "cc10e62fdda955aee1fb516207d15ba739f6c2bc616d12ed289c251eb277869f",
     "src/pages/About.tsx": "54f35fb7f400b33327b62ba0b04c5c84df42e2161fa285747098a374443a016f",
     "src/pages/AiBrain.tsx": "f4be6e70fb121061a51edeb50e037b96af88296edc4c7f21decca6227285e607",
-    "src/pages/AiBrainLocked.tsx": "dbe780957024871fe2ff779dc1f69e490cdf2718577c83db4d00bce09c7141dc",
+    "src/pages/AiBrainLocked.tsx": "132330e10ba1228f75381798a44e90ad11e47917b11f26c7d6dc2c721a394652",
     "src/pages/AiGtm.tsx": "1f297a6d8e434e911bf23f253224ada0be1b35ca2a8dbd5e79d59e5397e7e2dd",
     "src/pages/Answer.tsx": "913a10c69bb16f05180f4df1dc34b49c2fe31596f6b08ff9eca9eb3ec71d432e",
     "src/pages/Blog.tsx": "fe9f149d87d9398325669738046d9a5411242ae52f3d7f714f7ccd6de88699fd",

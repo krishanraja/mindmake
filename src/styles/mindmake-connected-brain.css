@@ -117,7 +117,7 @@
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-close:hover,
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-close:focus-visible { color: #efe6d3; background: rgba(239, 230, 211, .08); }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-name { margin: 0; color: #efe6d3; font: 400 1.08rem/1.25 "Newsreader", Georgia, serif; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-body { display: grid; gap: .75rem; padding-right: 26px; }
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; padding-right: 26px; }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .rests-label {
   margin: 0 0 .35rem;
   color: var(--mint, #91e8bc);
@@ -179,6 +179,45 @@
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector { margin-top: .2rem; padding-top: .7rem; }
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory #inspectorStatementS2,
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector .mm-stable-ghost { font-size: 1.12rem; }
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .rests-chip { font-size: .82rem; }
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail { width: calc(100% - 8px); padding: 12px 14px 14px; }
+  /* The card, compressed for a phone (Krish, 2026-11-10: "these need to
+     be more compressed on mobile"): tighter padding, the connections in
+     one swipeable row, and the source and change held to two lines. */
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail { width: calc(100% - 8px); padding: 10px 12px 12px; border-radius: 18px; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-close { top: 2px; right: 2px; width: 32px; height: 32px; font-size: 1.2rem; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-body { gap: .5rem; padding-right: 24px; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-name { font-size: .98rem; line-height: 1.2; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .rests-label { margin-bottom: .25rem; font-size: .58rem; letter-spacing: .07em; }
+  /* Connections sit in one row the reader swipes along, rather than a
+     stack of pills: the card keeps one line for them however many there
+     are, and the next one peeks in at the edge to say there is more. */
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .rests-chips {
+    flex-wrap: nowrap;
+    gap: .3rem;
+    margin-right: -36px;
+    padding-right: 36px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent);
+  }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .rests-chips::-webkit-scrollbar { display: none; }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .rests-chip {
+    flex: none;
+    min-height: 32px;
+    padding: .2rem .6rem;
+    white-space: nowrap;
+    font-size: .8rem;
+    line-height: 1.2;
+    scroll-snap-align: start;
+  }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) :is(.rests-source, .rests-change) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: .78rem;
+    line-height: 1.35;
+  }
 }

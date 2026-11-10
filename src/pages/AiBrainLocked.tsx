@@ -207,7 +207,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
           chip.append(verb, document.createTextNode(` ${connection.title}`));
           list.append(chip);
         });
-        group("Connected to").append(list);
+        group(rests.connections.length === 1 ? "Connected to one idea" : `Connected to ${rests.connections.length} ideas`).append(list);
       }
       const source = rests.sources[0];
       if (source) {

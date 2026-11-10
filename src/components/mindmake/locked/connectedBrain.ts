@@ -1,14 +1,15 @@
 /**
  * The connected Brain (Krish, 2026-11-10: "One connected Brain", chosen after
- * the S9 audit found the Brain said nothing to a first-time visitor). MOCK for
- * approval.
+ * the S9 audit found the Brain said nothing to a first-time visitor, and
+ * approved after three rounds of mocks).
  *
  * Everything shown comes from the fixture, nothing is invented: each idea's
  * cluster (where it sits on the Brain),
  * the sources it rests on, its connections and what each one means, and the
  * changes made to it. Round 2 (Krish, 2026-11-10): cluster names approved,
  * words "as simple as possible", the liquid mass kept, and the details float
- * over the Brain on a click so the section stays one screen long.
+ * over the Brain on a click so the section stays one screen long. Round 3:
+ * the card compressed on a phone.
  */
 import { sourceLine } from "./brainRecord";
 
@@ -71,18 +72,71 @@ export const plainChanges: Readonly<Record<string, string>> = {
   "COR-003": "From a faster AI user to a builder of judgement other people can use.",
 };
 
-/** Seats every idea around its cluster's centre, and a label above each cluster. Keys "label:<cluster>" are the labels. */
-export function clusterSeats(fixture: BrainFixture): Map<string, [number, number]> {
+/** Where spreading may move an idea: inside the brain's silhouette. */
+const SPREAD_BOX = { left: 150, right: 850, top: 120, bottom: 720 } as const;
+
+/**
+ * Pushes ideas apart until no two are closer than minGap (in brain units),
+ * moving each pair the least it can, and keeps them inside the brain. The
+ * seats are made for the laptop picture; on a phone the same picture is a
+ * quarter of the size and the ideas of one cluster sat 16 to 24px apart,
+ * closer than a fingertip can choose between (S9 stage 3, 2026-11-10).
+ */
+export function spreadPoints(points: Array<[number, number]>, minGap: number): Array<[number, number]> {
+  const out = points.map(([x, y]) => [x, y] as [number, number]);
+  if (minGap <= 0) return out;
+  for (let round = 0; round < 400; round += 1) {
+    let worst = 0;
+    for (let i = 0; i < out.length; i += 1) {
+      for (let j = i + 1; j < out.length; j += 1) {
+        let dx = out[j][0] - out[i][0], dy = out[j][1] - out[i][1], d = Math.hypot(dx, dy);
+        if (d >= minGap) continue;
+        if (d < 0.01) { dx = 1; dy = 0; d = 1; }
+        const push = (minGap - d) / 2 + 0.01;
+        out[i][0] -= (dx / d) * push; out[i][1] -= (dy / d) * push;
+        out[j][0] += (dx / d) * push; out[j][1] += (dy / d) * push;
+        worst = Math.max(worst, minGap - d);
+      }
+    }
+    for (const point of out) {
+      point[0] = Math.min(SPREAD_BOX.right, Math.max(SPREAD_BOX.left, point[0]));
+      point[1] = Math.min(SPREAD_BOX.bottom, Math.max(SPREAD_BOX.top, point[1]));
+    }
+    if (worst < 0.5) break;
+  }
+  return out;
+}
+
+/**
+ * Seats every idea around its cluster's centre, and a label above each
+ * cluster. Keys "label:<cluster>" are the labels. With a minGap the ideas are
+ * spread apart first, and each label moves with its cluster.
+ */
+export function clusterSeats(fixture: BrainFixture, minGap = 0): Map<string, [number, number]> {
   const seats = new Map<string, [number, number]>();
+  const ids: string[] = [];
+  const base: Array<[number, number]> = [];
+  const labels: Array<{ cluster: string; at: [number, number]; members: number[] }> = [];
   for (const cluster of CLUSTERS) {
     const members = fixture.items.filter((item) => item.cluster === cluster.id);
     const [cx, cy] = cluster.centre;
     const radius = members.length > 1 ? 52 : 0;
+    const memberIndexes: number[] = [];
     members.forEach((item, index) => {
       const angle = -Math.PI / 2 + (index / Math.max(1, members.length)) * Math.PI * 2 + (members.length === 2 ? Math.PI / 2 : 0);
-      seats.set(item.id, [cx + Math.cos(angle) * radius, cy + 18 + Math.sin(angle) * radius * 0.8]);
+      memberIndexes.push(ids.length);
+      ids.push(item.id);
+      base.push([cx + Math.cos(angle) * radius, cy + 18 + Math.sin(angle) * radius * 0.8]);
     });
-    seats.set(`label:${cluster.id}`, [cx, cy - (members.length > 1 ? 52 : 26)]);
+    labels.push({ cluster: cluster.id, at: [cx, cy - (members.length > 1 ? 52 : 26)], members: memberIndexes });
+  }
+  const spread = spreadPoints(base, minGap);
+  ids.forEach((id, index) => seats.set(id, spread[index]));
+  for (const label of labels) {
+    const shift = label.members.length
+      ? label.members.reduce(([sx, sy], index) => [sx + spread[index][0] - base[index][0], sy + spread[index][1] - base[index][1]], [0, 0]).map((total) => total / label.members.length)
+      : [0, 0];
+    seats.set(`label:${label.cluster}`, [label.at[0] + shift[0], label.at[1] + shift[1]]);
   }
   return seats;
 }

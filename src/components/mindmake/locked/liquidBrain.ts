@@ -46,8 +46,13 @@ export interface LiquidBrainOptions {
   onAdvance?: (id: string) => void;
   /** How long the tour stays on each idea. */
   tourMs?: number;
-  /** Where each idea (and any label) sits, in the brain's 1000 x 820 space, instead of the fixture layout. */
-  seats?: Map<string, [number, number]>;
+  /**
+   * Where each idea (and any label) sits, in the brain's 1000 x 820 space,
+   * instead of the fixture layout. A function is asked again whenever the
+   * Brain changes size, with the least distance (in those units) that keeps
+   * neighbouring ideas MIN_TAP_GAP pixels apart on screen.
+   */
+  seats?: Map<string, [number, number]> | ((minGap: number) => Map<string, [number, number]>);
   reduced: boolean;
 }
 
@@ -103,9 +108,13 @@ function seeded(seed: number) {
   return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
 }
 
+/** The least distance between two ideas on screen, in CSS pixels: room for a fingertip to choose (WCAG asks 24). */
+export const MIN_TAP_GAP = 28;
+
 export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions) {
   const { ideas, relationships, nodes, reduced } = options;
-  const seats = options.seats ?? seatIdeas(ideas);
+  const seatsFor = typeof options.seats === "function" ? options.seats : null;
+  let seats: Map<string, [number, number]> = seatsFor ? seatsFor(0) : (options.seats as Map<string, [number, number]> | undefined) ?? seatIdeas(ideas);
   let touring = Boolean(options.tour);
   const tourMs = options.tourMs ?? 3600;
   const settledById = new Map(ideas.map((idea) => [idea.id, idea.settled]));
@@ -150,12 +159,49 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   }
   homes.forEach(([x, y]) => particles.push({ x: x + (random() - 0.5) * 500, y: y + (random() - 0.5) * 500, vx: 0, vy: 0, hx: x, hy: y, ex: 0, ey: 0, r: 21 + random() * 12, ph: random() * 6.28, until: 0 }));
 
+  const put = (node: HTMLElement, x: number, y: number) => {
+    node.style.setProperty("--x", `${(x / W * 100).toFixed(2)}%`);
+    node.style.setProperty("--y", `${(y / H * 100).toFixed(2)}%`);
+  };
   const place = () => {
+    if (!W || !H) return;
+    const dots: Array<[number, number]> = [];
     nodes.forEach((node, id) => {
       const seat = seats.get(id);
-      if (!seat || !W || !H) return;
-      node.style.setProperty("--x", `${((ox + seat[0] * s) / W * 100).toFixed(2)}%`);
-      node.style.setProperty("--y", `${((oy + seat[1] * s) / H * 100).toFixed(2)}%`);
+      if (!seat || id.startsWith("label:")) return;
+      const x = ox + seat[0] * s, y = oy + seat[1] * s;
+      dots.push([x, y]);
+      put(node, x, y);
+    });
+    /* Each label ("label:<cluster>") takes the free spot nearest its seat,
+       clear of every idea's dot and of the labels already placed, so a dot
+       never sits on a cluster's name (on a phone the names are wide next to
+       the picture and used to run under the dots). */
+    const taken: Array<{ l: number; r: number; t: number; b: number }> = [];
+    nodes.forEach((node, id) => {
+      const seat = seats.get(id);
+      if (!seat || !id.startsWith("label:")) return;
+      const lx = ox + seat[0] * s, ly = oy + seat[1] * s;
+      const w = node.offsetWidth, h = node.offsetHeight;
+      if (!w || !h) { put(node, lx, ly); return; }
+      const rise = h + 2;
+      let best = { x: lx, y: ly, box: { l: lx - w / 2, r: lx + w / 2, t: ly - h / 2, b: ly + h / 2 } };
+      let bestScore = Infinity;
+      const spots: Array<[number, number]> = [];
+      for (const dy of [0, -0.5, 0.5, -1, 1, -1.5, 1.5, -2, 2]) for (const dx of [0, -0.25, 0.25, -0.5, 0.5, -0.75, 0.75]) spots.push([dx * w, dy * rise]);
+      /* A name is never cut by the Brain's edge: each spot is moved inside
+         it first, so a cramped Brain prefers a dot over a lost word. */
+      const inside = (value: number, size: number, limit: number) => Math.min(limit - size / 2 - 3, Math.max(size / 2 + 3, value));
+      for (const [dx, dy] of spots) {
+        const x = inside(lx + dx, w, W), y = inside(ly + dy, h, H);
+        const box = { l: x - w / 2, r: x + w / 2, t: y - h / 2, b: y + h / 2 };
+        const covered = dots.filter(([px, py]) => px > box.l - 7 && px < box.r + 7 && py > box.t - 7 && py < box.b + 7).length;
+        const crossed = taken.filter((other) => box.r > other.l && box.l < other.r && box.b > other.t && box.t < other.b).length;
+        const score = covered * 10 + crossed * 10 + Math.hypot(x - lx, y - ly) / 100;
+        if (score < bestScore) { bestScore = score; best = { x, y, box }; }
+      }
+      taken.push(best.box);
+      put(node, best.x, best.y);
     });
   };
   const size = () => {
@@ -165,6 +211,7 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
     net.width = Math.round(W * dpr); net.height = Math.round(H * dpr);
     s = Math.min(W / 1000, H / 800) * 0.96;
     ox = (W - 1000 * s) / 2; oy = (H - 800 * s) / 2 - 40 * s;
+    if (seatsFor) seats = seatsFor(MIN_TAP_GAP / s);
     place();
     if (reduced || !running) draw(performance.now());
   };
@@ -269,7 +316,9 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   const decideRunning = () => {
     const was = running;
     running = onScreen && !reduced && !document.hidden;
-    if (running && !was) { lastFrame = 0; raf = requestAnimationFrame(loop); }
+    /* Coming back on screen restarts the tour's dwell, so the idea a reader
+       returns to stays its full time rather than what was left of it. */
+    if (running && !was) { lastFrame = 0; lastSwitch = clock; raf = requestAnimationFrame(loop); }
     if (!running && was) cancelAnimationFrame(raf);
   };
   document.addEventListener("visibilitychange", decideRunning);
@@ -277,6 +326,10 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   resize.observe(field);
   if (reduced) particles.forEach((p) => { p.x = p.hx; p.y = p.hy; });
   size();
+  /* The cluster names are measured to find them a free spot, so they are
+     placed again once the web font has replaced the fallback. */
+  let alive = true;
+  void document.fonts?.ready.then(() => { if (alive) place(); });
   const visibility = new IntersectionObserver(([entry]) => {
     onScreen = entry.isIntersecting;
     decideRunning();
@@ -284,8 +337,8 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   visibility.observe(field);
 
   return {
-    /** Start or stop the tour; the reader's own pick still ends it for good. */
-    setTour(on: boolean) { touring = on; lastSwitch = clock; },
+    /** Start or stop the tour. A reader's pick ends it until they press Play again. */
+    setTour(on: boolean) { touring = on; if (on) pinned = false; lastSwitch = clock; },
     /** The reader chose an idea: the brain follows it and stops turning by itself. */
     select(id: string, byReader: boolean) {
       active = id;
@@ -293,6 +346,7 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
       if (reduced || !running) draw(clock);
     },
     destroy() {
+      alive = false;
       running = false;
       cancelAnimationFrame(raf);
       document.removeEventListener("visibilitychange", decideRunning);

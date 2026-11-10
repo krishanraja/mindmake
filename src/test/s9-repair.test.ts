@@ -151,18 +151,19 @@ describe("the liquid Brain", () => {
     }
   });
 
-  it("turns only when asked to tour, and draws no per-pair fibres", async () => {
+  it("turns only when asked to tour, stops on a pick, plays again on request, and draws no per-pair fibres", async () => {
     const { readFileSync } = await import("node:fs");
     const { resolve } = await import("node:path");
     const source = readFileSync(resolve(__dirname, "../components/mindmake/locked/liquidBrain.ts"), "utf8");
     expect(source).toContain("let touring = Boolean(options.tour)");
     expect(source).toContain("touring && !pinned");
+    expect(source).toContain("if (on) pinned = false");
     expect(source).not.toMatch(/for \(let j = i \+ 1; j < particles\.length/);
     expect(source).not.toContain("pointerdown");
   });
 });
 
-describe("the connected Brain (mock, round 2)", () => {
+describe("the connected Brain", () => {
   it("names every cluster, words every connection both ways, and puts every change in plain words", async () => {
     const { CLUSTERS, RELATION_WORDS, RELATION_WORDS_BACK, plainChanges, restsOn } = await import("@/components/mindmake/locked/connectedBrain");
     for (const item of fixture.items) expect(CLUSTERS.some((cluster) => cluster.id === item.cluster), item.id).toBe(true);
@@ -177,5 +178,30 @@ describe("the connected Brain (mock, round 2)", () => {
       for (const line of shown) expect(line, `${item.id}: ${line}`).not.toMatch(/\bCTRL\b/);
     }
     expect(restsOn(fixture, "BI-010").connections).toHaveLength(5);
+  });
+
+  it("spreads the ideas far enough apart for a fingertip on a small Brain, and leaves the laptop picture alone", async () => {
+    const { clusterSeats } = await import("@/components/mindmake/locked/connectedBrain");
+    const { MIN_TAP_GAP } = await import("@/components/mindmake/locked/liquidBrain");
+    const ideas = (seats: Map<string, [number, number]>) => [...seats].filter(([id]) => !id.startsWith("label:"));
+    const nearest = (seats: Map<string, [number, number]>) => {
+      const points = ideas(seats).map(([, point]) => point);
+      let least = Infinity;
+      for (let i = 0; i < points.length; i += 1) for (let j = i + 1; j < points.length; j += 1) least = Math.min(least, Math.hypot(points[i][0] - points[j][0], points[i][1] - points[j][1]));
+      return least;
+    };
+    const laptop = clusterSeats(fixture);
+    /* At a laptop scale (0.69) the seats already clear the gap, so nothing moves. */
+    expect(clusterSeats(fixture, MIN_TAP_GAP / 0.69)).toEqual(laptop);
+    /* A 360 x 780 phone draws the brain at 0.24; a 320 wide one at about 0.21. */
+    for (const scale of [0.31, 0.24, 0.21]) {
+      const phone = clusterSeats(fixture, MIN_TAP_GAP / scale);
+      expect(nearest(phone) * scale, `scale ${scale}`).toBeGreaterThanOrEqual(MIN_TAP_GAP - 0.5);
+      for (const [, [x, y]] of ideas(phone)) {
+        expect(x).toBeGreaterThanOrEqual(150); expect(x).toBeLessThanOrEqual(850);
+        expect(y).toBeGreaterThanOrEqual(120); expect(y).toBeLessThanOrEqual(720);
+      }
+      expect(phone.size).toBe(laptop.size);
+    }
   });
 });

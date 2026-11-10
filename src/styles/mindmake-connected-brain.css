@@ -1,12 +1,14 @@
-/* The connected Brain (MOCK for Krish's approval, 2026-11-10; ledger
-   S9-AUDIT-001, Stage 2). Loaded after mindmake-alive-brain.css.
+/* The connected Brain (approved by Krish, 2026-11-10, after three rounds of
+   mocks; ledger S9-AUDIT-001). Loaded after mindmake-alive-brain.css.
    - The seven clusters are named on the picture.
    - The reading sits beside the Brain on a laptop and directly under it on a
      phone: agreed or the Brain's reading, its cluster, the plain sentence
      large, the idea's own name small.
    - What the idea rests on floats over the Brain on a click, bobbling in
      from the chosen idea (round 2, 2026-11-10), so the section is one screen.
-   - The record's reel gives way to the reading (the same data, shown once). */
+   - On a phone the card is compressed (round 3): its connections sit in one
+     row the reader swipes along.
+   - The record's reel is gone: the reading shows the same data, once. */
 
 /* ---------- Laptop: the reading beside the Brain ---------- */
 @media (min-width: 761px) {
@@ -163,8 +165,26 @@
 }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-tour[hidden] { display: none; }
 
-/* ---------- The record: the reading now carries what the reel showed ---------- */
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-live { display: none; }
+/* ---------- Without scripting: the ideas listed by cluster ---------- */
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-nojs {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: .7rem;
+  margin: 0;
+  padding: 1.2rem;
+  list-style: none;
+  color: rgba(239, 230, 211, .86);
+  font: 400 .92rem/1.4 "Source Serif 4", Georgia, serif;
+}
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-nojs b {
+  display: block;
+  margin-bottom: .15rem;
+  color: var(--mint, #91e8bc);
+  font: 500 .68rem/1.2 "IBM Plex Mono", monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 
 /* ---------- Phone ---------- */
 @media (max-width: 760px) {
@@ -181,7 +201,9 @@
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector .mm-stable-ghost { font-size: 1.12rem; }
   /* The card, compressed for a phone (Krish, 2026-11-10: "these need to
      be more compressed on mobile"): tighter padding, the connections in
-     one swipeable row, and the source and change held to two lines. */
+     one swipeable row. The source and the change keep every word: a
+     shortened line would be text a reader cannot reach (the no-cut-off rule,
+     2026-09-25). */
   .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail { width: calc(100% - 8px); padding: 10px 12px 12px; border-radius: 18px; }
   .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-close { top: 2px; right: 2px; width: 32px; height: 32px; font-size: 1.2rem; }
   .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-detail-body { gap: .5rem; padding-right: 24px; }
@@ -212,12 +234,11 @@
     line-height: 1.2;
     scroll-snap-align: start;
   }
-  .mm-site .mm-locked-brain:is(*, .mm-alive) :is(.rests-source, .rests-change) {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    font-size: .78rem;
-    line-height: 1.35;
-  }
+  .mm-site .mm-locked-brain:is(*, .mm-alive) :is(.rests-source, .rests-change) { font-size: .78rem; line-height: 1.35; }
+}
+
+/* Without scripting the Brain takes the listing's height. Last in the file, so
+   no laptop or phone height for the picture can win over it. */
+@media (scripting: none) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-field { height: auto; min-height: 0; overflow: visible; }
 }

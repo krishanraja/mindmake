@@ -70,13 +70,14 @@ describe("the Brain narrative", () => {
     for (const line of shown) expect(line, line).not.toMatch(/\bCTRL\b/);
   });
 
-  it("shows the live record, names no AI companies, and says 30 days only where it builds", () => {
+  it("keeps the record's totals without a reel, names no AI companies, and says 30 days only where it builds", () => {
     const doc = page();
-    /* Ruling (owner, 2026-11-10): the four work tiles are gone and the live
-       record is always in view, its counts naming the kind being written. */
+    /* Ruling (owner, 2026-11-10): the four work tiles are gone, and with the
+       connected Brain approved the reel goes too, because the Brain's own
+       reading shows the same record once. The totals stay. */
     expect(doc.querySelectorAll("#living-record .record-ports")).toHaveLength(0);
     expect(doc.querySelector("#living-record details")).toBeNull();
-    expect(doc.querySelector("#living-record .record-live #recordReelS2")).not.toBeNull();
+    expect(doc.querySelector("#living-record .record-live, #recordReelS2, #pauseRecordS2")).toBeNull();
     expect([...doc.querySelectorAll<HTMLElement>("#living-record .record-counts [data-kind]")].map((count) => count.dataset.kind)).toEqual(["Idea", "Connection", "Source", "Change"]);
     // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
     // integrations with named AI companies.
@@ -85,6 +86,18 @@ describe("the Brain narrative", () => {
     const main = doc.querySelector(".mm-locked-brain")!;
     const withDays = [...main.querySelectorAll<HTMLElement>(".chapter[data-phase]")].filter((chapter) => /30 days/.test(chapter.textContent ?? ""));
     expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);
+  });
+
+  it("lists every idea by its cluster for a reader without scripting", async () => {
+    const { CLUSTERS } = await import("@/components/mindmake/locked/connectedBrain");
+    const html = serverRender("/ai-brain");
+    const listing = html.match(/<noscript><ul class="brain-nojs">([\s\S]*?)<\/ul><\/noscript>/);
+    expect(listing).not.toBeNull();
+    const list = new DOMParser().parseFromString(`<ul>${listing![1]}</ul>`, "text/html");
+    expect([...list.querySelectorAll("li > b")].map((name) => name.textContent)).toEqual(CLUSTERS.map((cluster) => cluster.name));
+    const text = list.body.textContent ?? "";
+    for (const item of fixture.items) expect(text, item.id).toContain(item.title);
+    expect(html.match(/class="brain-nojs"/g)).toHaveLength(1);
   });
 
   it("links the month to the long read, which exists", () => {

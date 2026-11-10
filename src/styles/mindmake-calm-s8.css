@@ -23,6 +23,14 @@
 .s8-green { background: #11291f; color: #efe6d3; }
 .mm-site .s8-label, .s8-label { margin: 0; font: 500 12px/1.2 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--mm-mint-d, #2f6b4c); }
 .s8-dark .s8-label, .s8-green .s8-label { color: var(--mm-mint, #9df0c8); }
+/* A run of labels breaks only between labels, never inside one, and on a
+   narrow screen stacks them without the separators: a break left a "·"
+   hanging at the end of a line (audit CRIT-12). */
+.s8-label-run > span:not(.s8-label-sep) { white-space: nowrap; }
+@media (max-width: 480px) {
+  .s8-label-run > span:not(.s8-label-sep) { display: block; }
+  .s8-label-run > .s8-label-sep { display: none; }
+}
 
 /* The detail one tap away. */
 .s8-more { margin-top: 14px; }
@@ -201,6 +209,9 @@
 .mm-site .mm-locked-brain .pair .record-machine { height: auto; min-height: 0; display: block; overflow: visible; border: 0; background: none; box-shadow: none; color: #1b2a23; }
 .mm-locked-brain .living-record .record-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; border: 0; }
 .mm-locked-brain .living-record .record-counts span { display: block; padding: .8rem 0 0; border: 0; border-top: 2px solid #2f6b4c; color: #2f6b4c; font: 500 .72rem/1.2 "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+/* The generated sheet clears the last total's border; whichever chunk loads
+   first, all four keep the same rule and line up (audit RECORD-11). */
+.mm-locked-brain .living-record .record-counts span:last-child { border-top: 2px solid #2f6b4c; }
 .mm-locked-brain .living-record .record-counts b { display: block; margin-bottom: .4rem; color: #1b2a23; font: 390 clamp(3.2rem, 6vw, 5.6rem)/.95 "Newsreader", Georgia, serif; letter-spacing: -.03em; text-transform: none; }
 .mm-locked-brain .living-record .record-ports { position: static; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: clamp(1.8rem, 4vh, 2.8rem) 0 0; padding: 0; border: 0; background: none; }
 .mm-locked-brain .living-record .record-ports li { position: static; display: flex; flex-direction: column; gap: .8rem; padding: 1.1rem 1rem; border: 1px solid rgba(27, 42, 35, .16); background: none; color: #1b2a23; font: 400 1.05rem/1.25 "Newsreader", Georgia, serif; letter-spacing: 0; text-transform: none; opacity: 1; transform: none; animation: none; }

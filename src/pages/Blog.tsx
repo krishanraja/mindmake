@@ -86,11 +86,15 @@ const Blog = () => {
             <Link key={idea.href} className="mm-idea-entry" to={idea.href}>
               <article>
                 <h2>{idea.title}</h2>
-                <p>{idea.line}</p>
+                {/* A tip titled as a question shows its own description: its
+                    search question only said the title again (audit OTHER-04). */}
+                <p>{idea.kind === "tip" && idea.title.trim().endsWith("?") ? idea.description : idea.line}</p>
                 <footer>
                   <span>
-                    {kindLabels[idea.kind]} · {subjectLabels[idea.subject]} · {writtenOn(idea.publishedAt)}
-                    {idea.readingTime ? ` · ${idea.readingTime} min read` : ""}
+                    {/* Each item stays on one line, so a line breaks only after a
+                        "·", never inside a date (audit OTHER-05). */}
+                    {[kindLabels[idea.kind], subjectLabels[idea.subject], writtenOn(idea.publishedAt), idea.readingTime ? `${idea.readingTime} min read` : ""]
+                      .filter(Boolean).map((part) => part.replace(/ /g, "\u00a0")).join(" · ")}
                   </span>
                   <strong>{idea.kind === "tip" ? "Read the answer" : "Read the idea"} <ArrowRight aria-hidden="true" /></strong>
                 </footer>

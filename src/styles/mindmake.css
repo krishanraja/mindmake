@@ -1273,6 +1273,24 @@ html {
   }
   .mm-blog-filters::-webkit-scrollbar { display: none; }
   .mm-blog-filters button { flex: none; white-space: nowrap; }
+  /* The row fades out at its right edge, so a chip beyond the screen reads
+     as a swipe away rather than cut off; the end padding lets the last chip
+     clear the fade (audit OTHER-06). */
+  .mm-blog-filters:has(> :nth-child(3)) {
+    padding-inline-end: calc(var(--mm-gutter, 16px) + 32px);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+  }
+}
+/* The story finder's situations on a phone: the same fade where the chips
+   run past the screen (audit DECK-07). The row itself is the approved
+   scroller from new-age-leadership-r5.css. */
+@media (max-width: 620px) {
+  .mm-site .nal-page .finder-tabs {
+    padding-inline-end: calc(var(--edge, 16px) + 32px);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+  }
 }
 .mm-blog-filters button {
   min-height: 44px;

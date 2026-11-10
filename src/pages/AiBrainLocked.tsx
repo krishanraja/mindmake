@@ -644,7 +644,7 @@ export default function AiBrainLocked() {
         <div ref={finderRef} id="stories" className="nal-page brain-finder" dangerouslySetInnerHTML={{ __html: finderMarkup }} />
         <div className="brain-close-body">
           <div className="s8-keeps-block">
-            <h3 className="s8-label">What stays with you · Yours to keep · Day 30</h3>
+            <h3 className="s8-label s8-label-run"><span>What stays with you</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Yours to keep</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Day 30</span></h3>
             <ul className="s8-keeps">
               {KEEPS.map((entry, index) => <li key={entry}><Icon name={KEEP_ICON[index]} className="mm-icon mm-icon-big" />{entry}</li>)}
             </ul>

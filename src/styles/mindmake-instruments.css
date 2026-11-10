@@ -2343,13 +2343,14 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 .mm-fig-holder { display: block; }
 .mm-fig { border: 1px solid var(--mm-line); border-radius: 3px; background: var(--mm-ink); padding: 16px 17px; }
 .mm-fig > p:last-child { display: flex; justify-content: space-between; gap: 14px; margin-top: 12px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 9.5px; line-height: 1.45; }
-.mm-fig > p:last-child span { flex: 1 1 0; }
-.mm-fig > p:last-child span:last-child { text-align: right; color: var(--mm-tx2); }
+.mm-fig > p:last-child > span { flex: 1 1 0; }
+.mm-fig > p:last-child > span:last-child { text-align: right; color: var(--mm-tx2); }
 
 .mm-fig-row { display: flex; align-items: center; gap: 10px; }
 .mm-fig-row + .mm-fig-row { margin-top: 10px; }
 .mm-fig-bar { display: block; height: 10px; border-radius: 1px; transition: width .18s linear; }
-.mm-fig-bar.is-was { background: var(--mm-ink3); border: 1px solid var(--mm-line); }
+/* Drawn in the muted ink so it reads against the ground (audit OTHER-03). */
+.mm-fig-bar.is-was { background: var(--mm-mut); border: 1px solid var(--mm-mut); }
 .mm-fig-bar.is-now { background: var(--mm-mint-bright); }
 .mm-fig-row b { flex: 0 0 auto; color: var(--mm-tx2); font-family: var(--mm-mono); font-size: 11px; font-weight: 400; }
 

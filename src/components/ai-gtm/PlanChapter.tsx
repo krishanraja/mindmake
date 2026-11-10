@@ -88,7 +88,7 @@ export function PlanChapter({ heading, mark, steps, keeps, menu, menuIcons, keep
           </ul>
           {note ? <p className="gtm-plan-note">{note}</p> : null}
           <div className="s8-keeps-block">
-            <h3 className="s8-label">{keepsTitle} · Yours to keep · {last.when}</h3>
+            <h3 className="s8-label s8-label-run"><span>{keepsTitle}</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Yours to keep</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>{last.when}</span></h3>
             <ul className="s8-keeps">
               {keeps.map((entry, index) => <li key={entry}><Icon name={KEEP_ICON[index] ?? "built"} className="mm-icon mm-icon-big" />{entry}</li>)}
             </ul>

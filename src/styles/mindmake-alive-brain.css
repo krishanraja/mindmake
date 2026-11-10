@@ -78,7 +78,9 @@
   background: var(--mint, #91e8bc);
   box-shadow: 0 0 0 5px rgba(145, 232, 188, .28), 0 0 22px rgba(145, 232, 188, .55);
 }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2 span { opacity: 0 !important; animation: none !important; clip-path: none !important; }
+/* The label switches in the same frame as the highlight: a fade let the old
+   name linger beside the new dot (audit BRAIN-19). */
+.mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2 span { opacity: 0 !important; animation: none !important; clip-path: none !important; transition: none; }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2::after { animation: none !important; }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-field.is-liquid .meaning-node-s2:is(.is-active, :hover, :focus-visible) span {
   opacity: 1 !important;

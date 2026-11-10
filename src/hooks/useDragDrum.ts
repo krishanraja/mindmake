@@ -92,6 +92,10 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
   const pointer = useRef({ id: -1, x: 0, time: 0 });
   const touched = useRef(false);
   const centred = useRef(0);
+  /* How long the drum has rested on its card, and whether the move under way
+     is the drum's own rather than a hand's. */
+  const rest = useRef(0);
+  const ambient = useRef(false);
   const [index, setIndex] = useState(0);
   const [held, setHeld] = useState(false);
   /* An effect rather than a check for `window`, so the first client render
@@ -119,7 +123,7 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
          that hand's action is still playing out. The drift crosses a card every
          nineteen seconds, and buzzing at somebody who put the phone down twenty
          seconds ago is a device that appears to be broken. */
-      if (touched.current && !reduced && mode.current !== "drift") navigator.vibrate?.(7);
+      if (touched.current && !reduced && mode.current !== "drift" && !ambient.current) navigator.vibrate?.(7);
     }
   }, [clamp, pitch, reduced, write]);
 
@@ -161,13 +165,27 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
             velocity.current = 0;
             target.current = null;
             mode.current = "drift";
+            ambient.current = false;
+            rest.current = 0;
           }
-        } else {
-          /* Drift. It reverses at the ends rather than stopping, which on a
-             drum this long is a direction change nobody will be here to see. */
-          offset.current += heading.current * drift * dt;
-          if (offset.current <= -span) { offset.current = -span; heading.current = 1; }
-          if (offset.current >= 0) { offset.current = 0; heading.current = -1; }
+        } else if (drift > 0 && pitch > 0) {
+          /* Drift. The drum rests on a whole card, then springs one card on,
+             at the same average pace the old continuous slide kept, reversing
+             at the ends. Sliding without a pause meant that on a phone, where
+             the frame holds one card, no quote was ever whole (audit OTHER-02). */
+          rest.current += dt;
+          if (rest.current >= pitch / drift) {
+            rest.current = 0;
+            let to = nearest(offset.current + heading.current * pitch);
+            if (Math.abs(to - offset.current) < 1) {
+              heading.current = -heading.current;
+              to = nearest(offset.current + heading.current * pitch);
+            }
+            ambient.current = true;
+            velocity.current = 0;
+            target.current = to;
+            mode.current = "snap";
+          }
         }
         paint();
       }
@@ -176,7 +194,7 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
 
     frame = requestAnimationFrame(run);
     return () => cancelAnimationFrame(frame);
-  }, [drift, nearest, paint, reduced, span]);
+  }, [drift, nearest, paint, pitch, reduced, span]);
 
   const onPointerDown = useCallback((event: React.PointerEvent) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -187,6 +205,8 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
     mode.current = "drag";
     velocity.current = 0;
     target.current = null;
+    ambient.current = false;
+    rest.current = 0;
     if (event.pointerType === "touch") touched.current = true;
     pointer.current = { id: event.pointerId, x: event.clientX, time: performance.now() };
     (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
@@ -234,6 +254,8 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
     velocity.current = 0;
     target.current = to;
     mode.current = "snap";
+    ambient.current = false;
+    rest.current = 0;
   }, [clamp, paint, pitch, reduced]);
 
   const onKeyDown = useCallback((event: React.KeyboardEvent) => {
@@ -248,6 +270,8 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
     velocity.current = 0;
     target.current = to;
     mode.current = "snap";
+    ambient.current = false;
+    rest.current = 0;
   }, [clamp, paint, pitch, reduced]);
 
   /**
@@ -262,6 +286,8 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
     velocity.current = 0;
     target.current = null;
     mode.current = "drift";
+    ambient.current = false;
+    rest.current = 0;
     paint();
   }, [nearest, paint]);
 

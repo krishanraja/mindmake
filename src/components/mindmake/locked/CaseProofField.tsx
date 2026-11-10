@@ -102,8 +102,12 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
   ${root} .field-intro{padding-inline:0}
 }
 @media(max-width:860px){
-  ${root} .site-head-space{height:var(--mm-header-height)}
-  ${root} .proof-shell{grid-template-rows:var(--mm-header-height) auto minmax(0,1fr) auto auto}
+  /* No blank band under the pager on a phone (audit OTHER-08): the masthead's
+     space is kept by scroll-margin rather than a spacer, which only mattered
+     with the results scrolled to the very top. */
+  ${root}{scroll-margin-top:var(--mm-header-height)}
+  ${root} .site-head-space{height:0;min-height:0}
+  ${root} .proof-shell{grid-template-rows:0 auto minmax(0,1fr) auto auto}
   ${root} .field-intro{width:calc(100% - (2 * max(var(--mm-gutter),var(--mm-safe-left),var(--mm-safe-right))));margin-inline:auto;padding-inline:0}
   ${root} .expanded-head h2{overflow-wrap:anywhere}
   ${root} .mobile-dock{padding-bottom:calc(env(safe-area-inset-bottom,0px) + var(--mm-cookie-reserve,0px))}
@@ -120,7 +124,7 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
      a card is never shorter than its four bands plus the smallest figure
      plate, so on a short phone the page grows by the difference instead of
      the figure being squeezed out through its own frame. */
-  ${root} .proof-shell{height:auto;min-height:max(560px,calc(100svh - 76px))}
+  ${root} .proof-shell{height:auto;min-height:max(496px,calc(100svh - 76px - var(--mm-header-height)))}
   ${root} .proof-field{height:auto;min-height:var(--card-floor,0px)}
 }`;
 }

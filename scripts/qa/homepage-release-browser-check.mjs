@@ -123,12 +123,15 @@ try {
           assert(await tiles.count() === 4, `${label}: four eras`);
           const eras = page.locator('.hs-eras');
           await eras.scrollIntoViewIfNeeded();
-          const height = await eras.evaluate(node => node.getBoundingClientRect().height);
+          /* Layout height, not painted height: a section easing back as it
+             leaves the top (src/lib/sectionSettle.ts) scales its paint by up
+             to 3% without changing any component's size. */
+          const height = await eras.evaluate(node => node.offsetHeight);
           for (let i = 0; i < 4; i++) {
             await tiles.nth(i).click();
             await settle(page);
             assert(await tiles.nth(i).getAttribute('aria-pressed') === 'true', `${label}: era ${i + 1} turns`);
-            const now = await eras.evaluate(node => node.getBoundingClientRect().height);
+            const now = await eras.evaluate(node => node.offsetHeight);
             assert(Math.abs(now - height) <= 1, `${label}: era ${i + 1} turns without resizing the four (${Math.round(height)} to ${Math.round(now)})`);
             await tiles.nth(i).click();
           }

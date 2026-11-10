@@ -1159,9 +1159,11 @@ html {
      Playwright does not emulate a safe-area inset. */
   padding: 0 var(--mm-edge) calc(18px + var(--mm-safe-bottom));
   transform: translateY(calc(100% + 24px));
-  transition: transform .32s cubic-bezier(.22, .8, .2, 1);
+  /* Hidden for real once it has slid away, so nothing can tap or reach it. */
+  visibility: hidden;
+  transition: transform .32s cubic-bezier(.22, .8, .2, 1), visibility 0s linear .32s;
 }
-.mm-action-bar.is-shown { transform: translateY(0); }
+.mm-action-bar.is-shown { transform: translateY(0); visibility: visible; transition: transform .32s cubic-bezier(.22, .8, .2, 1), visibility 0s; }
 /* On a phone it steps out of the way while the reader is scrolling down and
    comes back the moment they stop or turn back up. */
 .mm-action-bar.is-shown.is-tucked { transform: translateY(calc(100% + 24px)); }
@@ -1748,14 +1750,15 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
    for the rest of the page's life and quietly outrank anything that wanted to
    move it later. */
 [data-reveal="shown"] {
-  animation: mm-arrive .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-i, 0) * 70ms) backwards;
+  animation: mm-arrive .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-after, 0ms) + var(--mm-reveal-i, 0) * 70ms) backwards;
 }
 @keyframes mm-arrive {
   from { opacity: 0; transform: translate3d(0, 14px, 0); }
   to { opacity: 1; transform: none; }
 }
-/* A heading arrives behind a sweeping bar, a line at a time
-   (src/lib/scrollBuild.ts, wipeLines), so it takes no fade of its own. */
+/* A heading is written in a line at a time (src/lib/scrollBuild.ts,
+   wipeLines), so it takes no fade of its own; its section's body waits for
+   it through --mm-reveal-after. */
 .hs-wipe[data-reveal="shown"] { animation: none; }
 .hs-wipe-layer { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; pointer-events: none; z-index: 3; }
 

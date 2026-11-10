@@ -1,26 +1,55 @@
-/* The stories as a deck on a phone (storyFinder.ts, mountDeck; Krish,
-   2026-11-10). The finder holds under the masthead while each story rises
-   over the one before; the ones beneath settle back with their tops still
-   showing. Only the class the script adds turns this on, so a page without
-   script, a laptop and a reader who asked for stillness keep the rail. */
+/* The stories as a swipe deck on a phone (storyFinder.ts, mountDeck; Ruling,
+   owner, 2026-11-10: "Swipe deck, no pinning"). The current story is on top,
+   whole and solid; up to two already read sit above it, each a step smaller
+   and darker; the rest wait out of sight. Every card shares one cell, so the
+   finder is one height for every situation and every card. Only the class the
+   script adds turns this on: a laptop and a page without script keep the rail. */
 @media (max-width: 760px) {
-  .nal-page .story-finder.is-deck > .finder-stage {
-    position: sticky;
-    top: calc(var(--mm-header-height, 64px) + 8px);
-  }
   .nal-page .story-finder.is-deck .finder-rail {
+    --peek: 14px;
     display: grid;
     overflow: hidden;
-    padding-top: 30px;
+    padding-top: calc(var(--peek) * 2);
     scroll-snap-type: none;
     overscroll-behavior-x: auto;
+    touch-action: pan-y;
   }
   .nal-page .story-finder.is-deck .finder-rail > .finder-card {
+    position: relative;
     grid-area: 1 / 1;
     width: 100%;
     flex: none;
     transform-origin: 50% 0;
-    will-change: transform;
-    box-shadow: 0 -14px 34px rgba(3, 8, 6, .45);
+    background: #0a1712;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), translate .2s ease, visibility 0s linear .42s;
   }
+  /* Solid faces: nothing of a card underneath ever shows through. */
+  .nal-page .story-finder.is-deck .finder-card :is(details, summary, .finder-face) { background-color: #0a1712; }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="current"] {
+    transform: none;
+    visibility: inherit;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), translate .2s ease, visibility 0s;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="past"] {
+    transform: translateY(calc(var(--depth) * var(--peek) * -1)) scale(calc(1 - var(--depth) * .045));
+    visibility: inherit;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), visibility 0s;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="past"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #050c09;
+    opacity: calc(var(--depth) * .32);
+    pointer-events: none;
+  }
+  /* Beyond the two that peek, a story read long ago is out of sight. */
+  .nal-page .story-finder.is-deck .finder-card[data-deck="past"][style*="--depth: 3"] { visibility: hidden; }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="next"] {
+    transform: translateX(108%);
+    visibility: hidden;
+  }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .nal-page .story-finder.is-deck .finder-rail > .finder-card { transition: none; }
 }

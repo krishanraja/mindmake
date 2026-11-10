@@ -32,6 +32,25 @@ the reader presses Play; and keeps CTRL off the record (one source line now has
 plain words, `src/components/mindmake/locked/brainRecord.ts`). The homepage gate
 is back to "nothing pins".
 
+Stage 1b puts the chosen replacements in. Sections on all three pages ease back
+a little as they leave the top (`src/lib/sectionSettle.ts`: a 3% scale from the
+foot and a dimmer light, nothing pinned, nothing overlapping, still under the
+page's motion pause and reduced motion). The phone story deck is a swipe deck
+(`mountDeck` in `storyFinder.ts`, `mindmake-deck.css`): solid cards, the ones
+already read peeking above, one story per swipe or arrow, the page scrolling
+normally, one height for every situation. Headings are written in a line at a
+time behind a thin nib, before their body, never when hidden and never twice
+(`scrollBuild.ts`). The floating button steps aside wherever it would sit on a
+link, a picture, a heading or the Brain's reading, and cannot be reached while
+hidden (`src/lib/actionBarOverlap.ts`). The Brain runs at a steady speed with
+no per-frame pair pass and no touch splash, pauses with the tab, and carries
+"An example Brain" with a key for Agreed and The Brain's reading; the record
+counts "Entry N of 51", wraps its titles, and says what each connection does.
+`npm run qa:reading-flow` (`scripts/qa/reading-flow-check.mjs`) scrolls /,
+/ai-brain and /ai-gtm down and back up at phone, small phone, landscape and
+laptop sizes and fails on any of these defects returning. The connected Brain
+is next, as a mock for Krish's approval.
+
 ## S8: one idea per section on the product pages (4 November 2026)
 
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry

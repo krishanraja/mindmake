@@ -699,6 +699,11 @@ html {
 /* /new-age-leadership names its own edge at every width, phones included. */
 .mm-site.mm-route-leadership .mm-header > .mm-container { padding-inline: var(--mm-header-inline); }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
+/* On a phone the menu takes the same edge as the logo and the page, as on
+   every other page (audit OTHER-09). */
+@media (max-width: 700px) {
+  .mm-site.mm-route-brain .mm-menu { padding-inline: var(--mm-edge); }
+}
 /* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
    and these mirror it, including the two narrow overrides. That file is
    generated from the approved prototype, so the mirror lives here. The route
@@ -875,6 +880,9 @@ html {
   text-decoration: none;
   transition: color .12s ease;
 }
+/* The page the reader is on: the approved menu's rule mark (audit CRIT-07). */
+.mm-menu-routes a[aria-current="page"] { padding-left: clamp(12px, 1.1vw, 20px); color: #9df0c8; }
+.mm-menu-routes a[aria-current="page"]::before { content: ""; position: absolute; left: 0; width: 1px; height: 55%; background: #9df0c8; }
 .mm-menu-routes a::after {
   position: absolute;
   right: 0;

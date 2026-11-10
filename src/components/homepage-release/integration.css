@@ -746,3 +746,7 @@ body.mm-homepage-active { margin: 0; }
 @media (max-width: 767px) {
   .mm-homepage-release .r3-navigation .primary-routes .mm-route-tail { display: none; }
 }
+
+/* The page the reader is on, in the approved menu's rule style (audit CRIT-07). */
+.mm-homepage-release .r3-navigation .primary-routes a[aria-current="page"] { padding-left: clamp(12px, 1.1vw, 20px); color: var(--mint, #9df0c8); }
+.mm-homepage-release .r3-navigation .primary-routes a[aria-current="page"]::before { content: ""; position: absolute; left: 0; width: 1px; height: 55%; background: var(--mint, #9df0c8); }

@@ -86,7 +86,9 @@
   cursor: pointer;
   touch-action: manipulation;
 }
-.mm-homepage-release .hs-rail-step:not(:disabled):hover { border-color: var(--hs-rail-lit); color: var(--hs-rail-lit); }
+@media (hover: hover) and (pointer: fine) {
+  .mm-homepage-release .hs-rail-step:not(:disabled):hover { border-color: var(--hs-rail-lit); color: var(--hs-rail-lit); }
+}
 .mm-homepage-release .hs-rail-step:disabled { opacity: .35; cursor: default; }
 .mm-homepage-release .hs-rail-step:focus-visible,
 .mm-homepage-release .hs-rail-stops button:focus-visible { outline: 2px solid var(--hs-rail-lit); outline-offset: 2px; }
@@ -196,7 +198,11 @@
   z-index: -1;
   background: linear-gradient(0deg, rgba(13, 28, 22, .93) 0, rgba(13, 28, 22, .9) 240px, rgba(13, 28, 22, .55) 310px, rgba(13, 28, 22, .4) 100%);
 }
-.mm-homepage-release .hs-era:hover { border-color: var(--hs-mint); }
+/* Only a real pointer hovers: a finger's last tap left the next era card
+   looking chosen (audit HOME-03). */
+@media (hover: hover) and (pointer: fine) {
+  .mm-homepage-release .hs-era:hover { border-color: var(--hs-mint); }
+}
 .mm-homepage-release .hs-era:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
 .mm-homepage-release .hs-era[aria-pressed="true"] { border-color: var(--hs-mint); }
 .mm-homepage-release .hs-era-when {
@@ -759,4 +765,13 @@
   .mm-homepage-release .hs-flow .mm-icon-big { width: 30px; height: 30px; }
   .mm-homepage-release .hs-flow b { font-size: 10.5px; letter-spacing: .06em; }
   .mm-homepage-release .hs-flow span { font-size: 14.5px; }
+}
+
+/* The three results are a rail on a phone, with the eras' arrows and stops
+   under them (audit HOME-04); on a wider screen they stand in one row and the
+   controls are not drawn. */
+@media (min-width: 761px) {
+  .mm-homepage-release .hs-proof-rail { display: block; }
+  .mm-homepage-release .hs-proof[data-hs-rail-track] { grid-auto-flow: row; margin: 0; padding: 0; overflow: visible; scroll-snap-type: none; }
+  .mm-homepage-release .hs-proof-rail > .hs-rail-nav { display: none; }
 }

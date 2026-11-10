@@ -105,8 +105,11 @@ describe("the homepage in three sections", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
     const rails = [...root.querySelectorAll<HTMLElement>("[data-hs-rail]")];
-    expect(rails).toHaveLength(1);
+    /* The eras, and since 10 November 2026 the three results on a phone (audit HOME-04). */
+    expect(rails).toHaveLength(2);
     expect([...rails[0].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["370 BC", "1675", "1970s", "2000s"]);
+    expect([...rails[1].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["1", "2", "3"]);
+    expect(rails[1].querySelectorAll(".hs-proof > li")).toHaveLength(3);
     for (const rail of rails) {
       expect(rail.querySelector('[data-hs-rail-step="-1"]')?.getAttribute("aria-label")).toMatch(/^Previous /);
       expect(rail.querySelector('[data-hs-rail-step="1"]')?.getAttribute("aria-label")).toMatch(/^Next /);

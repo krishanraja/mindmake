@@ -231,7 +231,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
        where it was, so focus sat on a card mostly off screen (audit DECK-08). */
     rail.addEventListener("focusin", (event) => {
       if (finder.classList.contains("is-deck")) return;
-      (event.target as HTMLElement).closest<HTMLElement>(".finder-card")?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+      (event.target as HTMLElement).closest<HTMLElement>(".finder-card")?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
     }, { signal });
     let frame = 0;
     rail.addEventListener("scroll", () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(paint); }, { passive: true, signal });

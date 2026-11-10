@@ -72,6 +72,30 @@ totals stay. Without scripting the Brain lists its ideas by cluster.
 `qa:line-breaks` now taps all twenty ideas at every size, and
 `qa:reading-flow` checks the tour is slow and stops on a pick.
 
+Stage 4 (Krish, 10 November 2026: "Why don't you just fix all the small
+issues?", ledger `S9-POLISH-001`) re-checked every issue left from the audit
+against the live build and fixed the ones that still happened. Every link and
+button to /ai-gtm now says "Build your AI business" (Krish's choice; the page
+keeps its own title and headline). /ai-gtm: no dot under a heading before its
+mark draws, the way in on the first screen of a phone on its side, arrows and
+dots under the four places on a phone, team captions broken only between
+phrases, the Day 30 builds as a list rather than buttons. /ai-brain: explaining
+words at least 12px, labels that switch with the highlight, no orbit dot over
+the hero's words on a phone, every record total ruled, the month's days under
+their steps, a hanging separator gone from the closing labels, and a story card
+reached by Tab brought into view. The homepage's results swipe with the eras'
+arrows and stops on a phone; the logo goes to the top of the homepage; a
+finger's last tap no longer leaves an era card looking chosen; the menu marks
+the page the reader is on and no longer freezes over the next page. On
+/case-studies the testimonials rest on a whole card before moving on, the
+comparison's before bar is visible with each label under its bar, the closing
+heading stays readable while it fills, and the blank band under the pager is
+gone on phones. On /blog dates never break, a tip titled as a question shows
+its description, and the chip rows fade where they run past the screen. Left
+as ruled: the 4000+ count-up (04_PROOF.md), beats 2 and 3 shown on a tap (S6),
+the menu's ↗ on every route (the approved design), and no page-wide motion
+pause on /ai-brain yet (a new control, for Krish to decide).
+
 ## S8: one idea per section on the product pages (4 November 2026)
 
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry

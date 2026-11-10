@@ -10,6 +10,7 @@ import { publishableTestimonials } from "@/data/testimonials";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
+import { DECK_PEEKS, deckStates, swipeIntent } from "@/components/leadership-chapters/storyFinder";
 
 /**
  * The homepage after its opening, in three sections (Ruling, Krish,
@@ -140,7 +141,7 @@ export function homepageSectionsMarkup() {
   const acts = ACTS.map((act) => `<li>${iconSvg(act.icon, "mm-icon mm-icon-big")}<b>${act.word}</b><span>${act.line}</span></li>`).join("");
   return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable. Use it to make yourself better, not just to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
       <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows <span class="hs-mark" data-hs-mark="underline">how you think</span>.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter instead of forgetting. It holds your goals, taste and standards, so you can trust its answers.</p><ol class="hs-flow" aria-label="What the AI carries, in three steps">${acts}</ol><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><p class="hs-how-link"><a href="/new-age-leadership">How the hybrid organisation works</a></p><figure class="hs-how-figure">${cardImage(receiverImage, 800, "(max-width: 760px) 92vw, 40vw")}</figure></div></section>
-      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><div class="hs-rail hs-proof-rail" data-hs-rail><ul class="hs-proof" data-hs-rail-track>${PROOF.map(proofMarkup).join("")}</ul>${railNav("result", PROOF.map((_, index) => String(index + 1)))}</div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link" href="/case-studies">See every result <span aria-hidden="true">→</span></a></div><div class="hs-start">${startButton()}</div></div></section>
+      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><div class="hs-proof-deck" data-hs-deck><ul class="hs-proof" data-hs-deck-track>${PROOF.map(proofMarkup).join("")}</ul><div class="hs-deck-nav"><button type="button" data-hs-deck-step="-1" aria-label="Previous result" disabled>←</button><p><span data-hs-deck-at>1</span> of ${PROOF.length}</p><button type="button" data-hs-deck-step="1" aria-label="Next result">→</button></div></div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link" href="/case-studies">See every result <span aria-hidden="true">→</span></a></div><div class="hs-start">${startButton()}</div></div></section>
       `;
 }
 
@@ -149,6 +150,82 @@ export function homepageSectionsMarkup() {
  * cards are mostly in view are lit, the arrows stop at either end, and where
  * every card already fits the controls go but keep their room.
  */
+/**
+ * The three results as the stories' swipe deck, with the same cards and the
+ * same movement on every screen (owner, 2026-11-10: "the horizontal card
+ * animation ... on this and the success story pages", "Same style and
+ * movement on desktop"). The current result is on top; the ones already read
+ * peek above it, a step smaller and darker; a sideways swipe or the arrows
+ * move one result, and the page always scrolls normally. The deck arrives as
+ * one piece, never card by card, so no card's arrival overrides its place in
+ * the stack. Without script the three stay a row (homepageSections.css).
+ */
+function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
+  const track = deck.querySelector<HTMLElement>("[data-hs-deck-track]");
+  if (!track) return;
+  const cards = [...track.children] as HTMLElement[];
+  const counter = deck.querySelector<HTMLElement>("[data-hs-deck-at]");
+  const prev = deck.querySelector<HTMLButtonElement>('[data-hs-deck-step="-1"]');
+  const next = deck.querySelector<HTMLButtonElement>('[data-hs-deck-step="1"]');
+  let at = 0;
+  const paint = () => {
+    at = Math.max(0, Math.min(cards.length - 1, at));
+    deckStates(cards.length, at).forEach(({ state, depth }, k) => {
+      const card = cards[k];
+      card.dataset.deck = state;
+      card.style.setProperty("--depth", String(Math.min(depth, DECK_PEEKS + 1)));
+      card.style.zIndex = String(k + 1);
+      card.style.removeProperty("translate");
+      card.toggleAttribute("inert", state !== "current");
+    });
+    if (counter) counter.textContent = String(at + 1);
+    if (prev) prev.disabled = at <= 0;
+    if (next) next.disabled = at >= cards.length - 1;
+  };
+  const go = (step: number) => { at += step; paint(); };
+  prev?.addEventListener("click", () => go(-1), { signal });
+  next?.addEventListener("click", () => go(1), { signal });
+  let drag: { x: number; y: number; t: number; id: number; moved: boolean } | null = null;
+  let swallowClick = false;
+  track.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    drag = { x: event.clientX, y: event.clientY, t: performance.now(), id: event.pointerId, moved: false };
+  }, { signal });
+  track.addEventListener("pointermove", (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+    if (!drag.moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) drag.moved = true;
+    if (drag.moved) cards[at].style.translate = `${dx.toFixed(0)}px 0`;
+  }, { signal });
+  const release = (event: PointerEvent) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+    const moved = drag.moved;
+    const step = event.type === "pointercancel" ? 0 : swipeIntent(dx, dy, performance.now() - drag.t);
+    drag = null;
+    if (moved) swallowClick = true;
+    if (step) go(step); else paint();
+  };
+  track.addEventListener("pointerup", release, { signal });
+  track.addEventListener("pointercancel", release, { signal });
+  track.addEventListener("click", (event) => {
+    if (!swallowClick) return;
+    swallowClick = false;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }, { capture: true, signal });
+  deck.classList.add("is-deck");
+  paint();
+  signal.addEventListener("abort", () => {
+    deck.classList.remove("is-deck");
+    cards.forEach((card) => {
+      delete card.dataset.deck;
+      for (const property of ["--depth", "z-index", "translate"]) card.style.removeProperty(property);
+      card.removeAttribute("inert");
+    });
+  });
+}
+
 function mountRail(rail: HTMLElement, signal: AbortSignal, reduced: boolean) {
   const track = rail.querySelector<HTMLElement>("[data-hs-rail-track]");
   const nav = rail.querySelector<HTMLElement>("[data-hs-rail-nav]");
@@ -232,6 +309,7 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
+  root.querySelectorAll<HTMLElement>("[data-hs-deck]").forEach((deck) => mountProofDeck(deck, abort.signal));
   root.querySelectorAll<HTMLElement>("[data-hs-voices]").forEach((voices) => mountVoices(voices, abort.signal, reduced));
   /* Each section builds as the reader reaches it (src/lib/scrollBuild.ts). */
   const unbuild = buildOnScroll(root, {
@@ -239,7 +317,7 @@ export function mountHomepageSections(root: HTMLElement) {
     title: ".hs-title",
     lede: ".hs-lede",
     splitLede: true,
-    items: ".hs-eras > li, .hs-proof > li, .hs-flow > li, .hs-inner > .hs-how-figure, .hs-inner > .hs-carries, .hs-inner > .hs-how-link, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-voices, .hs-inner > .hs-start, .hs-rail-nav",
+    items: ".hs-eras > li, .hs-proof-deck, .hs-flow > li, .hs-inner > .hs-how-figure, .hs-inner > .hs-carries, .hs-inner > .hs-how-link, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-voices, .hs-inner > .hs-start, .hs-rail-nav",
   });
   return () => { abort.abort(); unbuild(); };
 }

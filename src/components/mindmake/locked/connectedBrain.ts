@@ -1,12 +1,14 @@
 /**
  * The connected Brain (Krish, 2026-11-10: "One connected Brain", chosen after
  * the S9 audit found the Brain said nothing to a first-time visitor). MOCK for
- * approval: the names and plain words below are proposals Krish decides.
+ * approval.
  *
  * Everything shown comes from the fixture, nothing is invented: each idea's
- * cluster (where it sits on the Brain), its kind (what sort of idea it is),
+ * cluster (where it sits on the Brain),
  * the sources it rests on, its connections and what each one means, and the
- * changes made to it.
+ * changes made to it. Round 2 (Krish, 2026-11-10): cluster names approved,
+ * words "as simple as possible", the liquid mass kept, and the details float
+ * over the Brain on a click so the section stays one screen long.
  */
 import { sourceLine } from "./brainRecord";
 
@@ -17,7 +19,7 @@ export interface BrainFixture {
   corrections: Array<{ id: string; item_ref: string; summary: string }>;
 }
 
-/** The seven clusters in the fixture, named in plain words and placed on the brain (1000 x 820 space). Names are proposals. */
+/** The seven clusters in the fixture, named in plain words (approved by Krish, 2026-11-10) and placed on the brain (1000 x 820 space). */
 export const CLUSTERS: ReadonlyArray<{ id: string; name: string; centre: [number, number] }> = [
   { id: "self", name: "Who you are becoming", centre: [320, 290] },
   { id: "taste", name: "Your taste", centre: [560, 200] },
@@ -28,30 +30,7 @@ export const CLUSTERS: ReadonlyArray<{ id: string; name: string; centre: [number
   { id: "work", name: "How the work gets done", centre: [700, 575] },
 ];
 
-/** What kind of idea each is, as the reader would say it. Proposals. */
-export const KIND_WORDS: Readonly<Record<string, string>> = {
-  becoming: "Who you are becoming",
-  edge: "Your edge",
-  value: "Something you value",
-  standard: "A standard you hold",
-  belief: "Something you believe",
-  boundary: "A line you hold",
-  method: "How you work",
-  tension: "A tension you are working through",
-  frontier: "Where you want to get better",
-  learning: "Something you learned",
-  ambition: "What you want to build",
-  identity: "Who you build with",
-  example: "An example",
-  purpose: "Why you do it",
-  anti_standard: "Something you refuse",
-  taste: "Your taste",
-  decision: "A call you made",
-  hypothesis: "Something you are testing",
-  experiment: "An experiment",
-};
-
-/** What each connection does, in plain words. */
+/** What each connection does, in plain words, said from the idea that does it. */
 export const RELATION_WORDS: Readonly<Record<string, string>> = {
   supports: "supports",
   constrains: "limits",
@@ -66,6 +45,30 @@ export const RELATION_WORDS: Readonly<Record<string, string>> = {
   example_of: "is an example of",
   holds_open: "keeps open",
   is_outcome_of: "comes from",
+};
+
+/** The same connection said from the other end. */
+export const RELATION_WORDS_BACK: Readonly<Record<string, string>> = {
+  supports: "supported by",
+  constrains: "limited by",
+  qualifies: "refined by",
+  develops: "developed by",
+  creates_need_for: "needed because of",
+  in_tension_with: "pulls against",
+  expresses: "expressed by",
+  requires: "needed by",
+  protects: "protected by",
+  tests: "tested by",
+  example_of: "shown by",
+  holds_open: "kept open by",
+  is_outcome_of: "leads to",
+};
+
+/** The three changes in the fixture, in plain words (as the ideas already have them). */
+export const plainChanges: Readonly<Record<string, string>> = {
+  "COR-001": "Only work that reaches the outside world needs your sign-off; internal drafts can stay with AI.",
+  "COR-002": "Your own capability is how the company gains, not a goal that competes with it.",
+  "COR-003": "From a faster AI user to a builder of judgement other people can use.",
 };
 
 /** Seats every idea around its cluster's centre, and a label above each cluster. Keys "label:<cluster>" are the labels. */
@@ -85,9 +88,9 @@ export function clusterSeats(fixture: BrainFixture): Map<string, [number, number
 }
 
 export interface RestsOn {
-  kind: string;
+  cluster: string;
   sources: Array<{ label: string; line: string }>;
-  connections: Array<{ otherId: string; text: string }>;
+  connections: Array<{ otherId: string; verb: string; title: string }>;
   changes: string[];
 }
 
@@ -95,23 +98,18 @@ export interface RestsOn {
 export function restsOn(fixture: BrainFixture, id: string): RestsOn {
   const item = fixture.items.find((entry) => entry.id === id);
   const title = (other: string) => fixture.items.find((entry) => entry.id === other)?.title ?? other;
-  if (!item) return { kind: "", sources: [], connections: [], changes: [] };
+  if (!item) return { cluster: "", sources: [], connections: [], changes: [] };
   return {
-    kind: KIND_WORDS[item.type] ?? "",
+    cluster: CLUSTERS.find((cluster) => cluster.id === item.cluster)?.name ?? "",
     sources: item.source_refs
       .map((ref) => fixture.sources.find((source) => source.id === ref))
       .filter((source): source is BrainFixture["sources"][number] => Boolean(source))
       .map((source) => ({ label: source.label, line: sourceLine(source) })),
     connections: fixture.relationships
       .filter((relationship) => relationship.from === id || relationship.to === id)
-      .map((relationship) => {
-        const verb = RELATION_WORDS[relationship.type] ?? "connects to";
-        return relationship.from === id
-          ? { otherId: relationship.to, text: `${capitalise(verb)} ${title(relationship.to)}` }
-          : { otherId: relationship.from, text: `${title(relationship.from)} ${verb} this` };
-      }),
-    changes: fixture.corrections.filter((correction) => correction.item_ref === id).map((correction) => correction.summary),
+      .map((relationship) => relationship.from === id
+        ? { otherId: relationship.to, verb: RELATION_WORDS[relationship.type] ?? "connects to", title: title(relationship.to) }
+        : { otherId: relationship.from, verb: RELATION_WORDS_BACK[relationship.type] ?? "connected to", title: title(relationship.from) }),
+    changes: fixture.corrections.filter((correction) => correction.item_ref === id).map((correction) => plainChanges[correction.id] ?? correction.summary),
   };
 }
-
-const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);

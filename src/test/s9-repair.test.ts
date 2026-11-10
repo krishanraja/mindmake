@@ -161,3 +161,21 @@ describe("the liquid Brain", () => {
     expect(source).not.toContain("pointerdown");
   });
 });
+
+describe("the connected Brain (mock, round 2)", () => {
+  it("names every cluster, words every connection both ways, and puts every change in plain words", async () => {
+    const { CLUSTERS, RELATION_WORDS, RELATION_WORDS_BACK, plainChanges, restsOn } = await import("@/components/mindmake/locked/connectedBrain");
+    for (const item of fixture.items) expect(CLUSTERS.some((cluster) => cluster.id === item.cluster), item.id).toBe(true);
+    for (const relationship of fixture.relationships) {
+      expect(RELATION_WORDS[relationship.type], relationship.type).toBeTruthy();
+      expect(RELATION_WORDS_BACK[relationship.type], relationship.type).toBeTruthy();
+    }
+    for (const correction of fixture.corrections) expect(plainChanges[correction.id], correction.id).toBeTruthy();
+    for (const item of fixture.items) {
+      const rests = restsOn(fixture, item.id);
+      const shown = [rests.cluster, ...rests.connections.flatMap((c) => [c.verb, c.title]), ...rests.sources.flatMap((s) => [s.label, s.line]), ...rests.changes];
+      for (const line of shown) expect(line, `${item.id}: ${line}`).not.toMatch(/\bCTRL\b/);
+    }
+    expect(restsOn(fixture, "BI-010").connections).toHaveLength(5);
+  });
+});

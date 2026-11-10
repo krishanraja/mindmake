@@ -11,6 +11,11 @@
    file after mindmake-calm-s8.css; equal specificity let S8's plate layout
    win live on 10 November 2026. */
 
+/* Goals, then the record: one panel after the other at every width, as S8
+   set it. An S6 rule of equal weight put them side by side, and which won
+   depended on stylesheet order (audit BRAIN-02, 2026-11-10). */
+.mm-site .mm-locked-brain:is(*, .mm-alive) .chapter.pair { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; overflow: visible; }
+
 /* ---------- The goals: words beside the living Brain ---------- */
 .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory {
   display: grid;
@@ -92,6 +97,10 @@
 }
 
 /* ---------- The record: always in view, one thing to read ---------- */
+/* The record's machine takes its content's height on every arrival: an S6
+   rule and an S8 rule of equal weight disagreed, and which won depended on
+   which stylesheet chunk loaded last (audit BRAIN-02, 2026-11-10). */
+.mm-site .mm-locked-brain:is(*, .mm-alive) .pair .record-machine { height: auto; min-height: 0; max-height: none; overflow: visible; }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-live { margin-top: clamp(1.2rem, 3vh, 2rem); }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span { transition: border-color .3s ease, color .3s ease, opacity .3s ease; opacity: .55; }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span[data-current] { opacity: 1; border-top-width: 4px; padding-top: calc(.8rem - 2px); }
@@ -182,8 +191,8 @@
   transform-origin: left center;
   transform: scaleX(0);
 }
-.mm-site .mm-locked-brain[data-port-pulse="a"]:not([data-record-paused="true"]) .living-record .record-controls::before { animation: mm-record-dwell-a 3.2s linear forwards; }
-.mm-site .mm-locked-brain[data-port-pulse="b"]:not([data-record-paused="true"]) .living-record .record-controls::before { animation: mm-record-dwell-b 3.2s linear forwards; }
+.mm-site .mm-locked-brain[data-port-pulse="a"]:not([data-record-paused="true"]) .living-record .record-controls::before { animation: mm-record-dwell-a 6s linear forwards; }
+.mm-site .mm-locked-brain[data-port-pulse="b"]:not([data-record-paused="true"]) .living-record .record-controls::before { animation: mm-record-dwell-b 6s linear forwards; }
 @keyframes mm-record-dwell-a { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes mm-record-dwell-b { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 

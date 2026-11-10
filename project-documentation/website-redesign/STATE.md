@@ -12,10 +12,11 @@ relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
 
-## S9: a more alive site (10 November 2026, awaiting Krish's review)
+## S9: a more alive site (10 November 2026)
 
-Built from Krish's request of 10 November 2026 (ledger row `S9-ALIVE-001`),
-on a branch for his review, not merged. On `/ai-brain` the goals section's
+Built from Krish's request of 10 November 2026 (ledger row `S9-ALIVE-001`)
+and merged on his instruction the same day ("merge to main"); the ledger row
+stays awaiting his review of the live pages. On `/ai-brain` the goals section's
 picture is the Brain itself, a living mass (`liquidBrain.ts`) carrying the
 twenty ideas and eighteen connections, mint where the leader agreed an idea
 and amber while it is the Brain's reading; it turns to the next idea until

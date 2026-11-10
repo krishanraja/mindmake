@@ -94,10 +94,18 @@ try {
     const tiles = await page.locator("[data-hs-era]").count();
     for (let i = 0; i < tiles; i++) for (const face of ["question", "answer"]) cards.push({ locator: page.locator("[data-hs-era]").nth(i), name: `era ${i + 1}, ${face}`, face });
     const results = await page.locator(".hs-proof > li").count();
-    for (let i = 0; i < results; i++) cards.push({ locator: page.locator(".hs-proof > li").nth(i), name: `result ${i + 1}` });
+    for (let i = 0; i < results; i++) cards.push({ locator: page.locator(".hs-proof > li").nth(i), name: `result ${i + 1}`, result: i });
     if (tiles !== 4 || results !== 3) failures.push(`${viewport.width}x${viewport.height}: expected four eras and three results, found ${tiles} and ${results}`);
     for (const card of cards) {
       if (card.face) await card.locator.evaluate((node, face) => node.setAttribute("aria-pressed", String(face === "answer")), card.face);
+      /* The results are a swipe deck (2026-11-10): each is read where the
+         reader reads it, on top, so the deck is stepped to it first. */
+      if (card.result !== undefined && await page.locator(".hs-proof-deck.is-deck").count()) {
+        while (await card.locator.getAttribute("data-deck") === "next") {
+          await page.locator('.hs-proof-deck [data-hs-deck-step="1"]').click();
+          await page.waitForTimeout(500);
+        }
+      }
       await card.locator.scrollIntoViewIfNeeded();
       await page.waitForTimeout(150);
       for (const line of await measure(page, card.locator)) {

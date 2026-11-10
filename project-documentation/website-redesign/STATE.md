@@ -51,6 +51,27 @@ counts "Entry N of 51", wraps its titles, and says what each connection does.
 laptop sizes and fails on any of these defects returning. The connected Brain
 is next, as a mock for Krish's approval.
 
+Stages 2 and 3 are the connected Brain, approved by Krish on 10 November 2026
+after three rounds of mocks (ledger `S9-BRAIN-001`). The twenty ideas sit in
+seven named clusters on the liquid mass (`src/components/mindmake/locked/connectedBrain.ts`):
+Who you are becoming, Your taste, Where it leads, How you judge, Where you are
+growing, How you use AI, How the work gets done. The reading beside or under
+the Brain says Agreed or The Brain's reading, the cluster, the plain sentence
+and the idea's name. Picking an idea floats a card over the Brain from that
+idea: what it connects to (each connection a way to the other idea, said in
+plain words from this side), the source it comes from and any change the
+leader made, so the section stays one screen. On a phone the card is
+compressed and its connections sit in one row the reader swipes along; every
+word of the source and change is shown. A slow tour holds each idea seven
+seconds while the Brain is on screen, stops when the reader picks one and
+plays again on request; reduced motion has no tour. On a small Brain the ideas
+are spread at least 28px apart so a fingertip can choose between them, and
+each cluster's name takes the free spot nearest its cluster inside the Brain.
+The record's reel is gone (the reading shows the same record once); its
+totals stay. Without scripting the Brain lists its ideas by cluster.
+`qa:line-breaks` now taps all twenty ideas at every size, and
+`qa:reading-flow` checks the tour is slow and stops on a pick.
+
 ## S8: one idea per section on the product pages (4 November 2026)
 
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry

@@ -18,7 +18,8 @@
  *
  * Then, per page: the floating button never sits on a link or a picture; a
  * return to the tab moves nothing; a heading's wipe leaves nothing behind;
- * the Brain does not turn by itself and its two panels stack; and on a phone
+ * the Brain's tour holds each idea long enough to read and stops for good
+ * once the reader picks one, and its two panels stack; and on a phone
  * the story deck keeps one height, has solid cards, moves one story per swipe
  * and ignores a vertical scroll. A reduced-motion pass checks no section is
  * eased at all.
@@ -73,9 +74,16 @@ const observe = (selector) => {
     previousBottom = Math.max(previousBottom, box.bottom);
   });
   let text = 0;
+  const MEDIA = "img, picture, video, canvas, svg";
   for (let x = 0.2; x < 1; x += 0.3) for (let y = 0.25; y < 1; y += 0.25) {
-    const el = document.elementFromPoint(innerWidth * x, vh * y);
-    if (el && getComputedStyle(el).visibility !== "hidden" && ((el.textContent ?? "").trim().length > 0 || el.closest("img, picture, video, canvas, svg, figure"))) text += 1;
+    const px = innerWidth * x, py = vh * y;
+    const el = document.elementFromPoint(px, py);
+    if (!el || getComputedStyle(el).visibility === "hidden") continue;
+    /* A picture counts when the point is on it, whether the point lands on
+       the picture itself or on the frame drawn over it (the /ai-brain month
+       plate is a frame over its photograph). */
+    const under = (media) => { const box = media.getBoundingClientRect(); return px >= box.left && px <= box.right && py >= box.top && py <= box.bottom; };
+    if ((el.textContent ?? "").trim().length > 0 || el.closest(`${MEDIA}, figure`) || [...el.querySelectorAll(MEDIA)].some(under)) text += 1;
   }
   return { sticky, bad, text, y: Math.round(scrollY) };
 };
@@ -134,10 +142,25 @@ for (const profile of PROFILES) {
       if (Math.abs(after - before) > 2) fail(where, `returning to the tab moved the page from ${before} to ${after}`);
 
       if (route === "/ai-brain") {
-        const first = await page.evaluate(() => document.querySelector(".meaning-node-s2.is-active")?.dataset.id);
+        /* The connected Brain (2026-11-10) may tour its ideas slowly while it
+           is on screen. Each idea must stay long enough to read, and a reader's
+           pick must stop the tour: it used to turn every 3.6s and replace the
+           reading before anyone could read it (audit BRAIN-05). */
+        const active = () => page.evaluate(() => document.querySelector(".meaning-node-s2.is-active")?.dataset.id);
+        await page.evaluate(() => document.querySelector("#meaningFieldS2")?.scrollIntoView({ block: "center" }));
+        const first = await active();
         await page.waitForTimeout(5000);
-        const later = await page.evaluate(() => document.querySelector(".meaning-node-s2.is-active")?.dataset.id);
-        if (first !== later) fail(where, `the Brain turned by itself from ${first} to ${later}`);
+        const later = await active();
+        if (first !== later) fail(where, `the Brain moved from ${first} to ${later} within 5s, too soon to read`);
+        const picked = await page.evaluate(() => {
+          const node = [...document.querySelectorAll(".meaning-node-s2:not(.is-active)")].at(-1);
+          node?.click();
+          return node?.dataset.id;
+        });
+        await page.waitForTimeout(7600);
+        const held = await active();
+        if (picked && held !== picked) fail(where, `the Brain's tour carried on after the reader picked ${picked} (now ${held})`);
+        await page.keyboard.press("Escape");
         const stacked = await page.evaluate(() => {
           const memory = document.querySelector("#memory")?.getBoundingClientRect();
           const record = document.querySelector("#living-record")?.getBoundingClientRect();
@@ -211,6 +234,18 @@ for (const profile of PROFILES) {
     }
     await context.close();
   }
+}
+
+/* Negative control for the blank screen: an empty screen must count as
+   blank, and a photograph whose frame takes the point must not. */
+{
+  const control = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await control.setContent(`<style>body{margin:0;background:#08140f}</style><div style="height:2000px"></div>`);
+  const empty = await control.evaluate(observe, "section");
+  await control.setContent(`<style>body{margin:0}</style><div style="position:relative;height:844px"><div class="frame" style="position:absolute;inset:0"><img style="width:100%;height:100%;display:block;pointer-events:none" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Crect width='10' height='10' fill='%23345'/%3E%3C/svg%3E"></div></div>`);
+  const framed = await control.evaluate(observe, "section");
+  if (empty.text !== 0 || framed.text === 0) fail("control", `expected an empty screen blank and a framed photograph not, saw ${empty.text} and ${framed.text}`);
+  await control.close();
 }
 
 await browser.close();

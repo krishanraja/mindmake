@@ -66,7 +66,9 @@ const VIEWPORTS = [{ name: "desktop", width: 1440, height: 900 }, { name: "lapto
    group with ifOverflows is a carousel that only needs its controls where its
    row is wider than the screen; where every card fits it is not swept. A group
    that finds its frame but clicks nothing fails: a renamed selector must never
-   pass in silence. */
+   pass in silence. A group with `between` presses that key before each
+   control: the Brain's ideas each open a card over the picture, and Escape
+   closes it so the next idea is not under it. */
 const STATES = {
   "/": [
     { name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] },
@@ -74,6 +76,10 @@ const STATES = {
   ],
   "/ai-brain": [
     { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },
+    /* Every idea of the connected Brain (S9 stage 3, 2026-11-10): its card
+       floats over the picture, so the section must not change size, and the
+       card's words are measured like the rest of the page. */
+    { name: "ideas", controls: "#meaningFieldS2 .meaning-node-s2", between: "Escape", frames: ["#inside"] },
     { name: "finder", controls: ".brain-finder [data-finder-tab]", frames: [".brain-finder .story-finder"] },
     { name: "finder rail", setup: '.brain-finder [data-finder-tab="change"]', controls: ".brain-finder .finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".brain-finder .story-finder"] },
   ],
@@ -103,10 +109,6 @@ const measure = () => {
     return parts.join(" > ");
   };
   const blockish = (el) => !/^(inline|contents|none)$/.test(getComputedStyle(el).display);
-  /* Windows that things move through by design, each reached by its own
-     controls, like a scroller: the living record's reel on /ai-brain, whose
-     records pass through it and whose Next shows each one whole. */
-  const MOVING_WINDOWS = ".reel-window";
   const problems = [];
 
   /* Text: the innermost blocks that hold words directly. */
@@ -129,7 +131,7 @@ const measure = () => {
       }
     }
     /* Clipped: the nearest ancestor that hides overflow, unless a scroller
-       or a moving window comes first; the root's clip is the viewport. Across
+       comes first; the root's clip is the viewport. Across
        and, since 24 October 2026, down: the opening hid its last line below
        its own foot on a short phone, and only the across check existed. The
        page itself scrolls down, so the root never clips downwards. A fixed
@@ -138,7 +140,7 @@ const measure = () => {
       if (getComputedStyle(el).position === "fixed") return null;
       for (let node = el.parentElement; node; node = node.parentElement) {
         const style = getComputedStyle(node);
-        if (/auto|scroll/.test(style[axis]) || node.matches(MOVING_WINDOWS)) return null;
+        if (/auto|scroll/.test(style[axis])) return null;
         if (/hidden|clip/.test(style[axis])) return node;
         if (style.position === "fixed") return null;
       }
@@ -227,6 +229,7 @@ async function sweep(page, groups, report, swept = {}) {
         if (group.repeat) break;
         continue;
       }
+      if (group.between) { await page.keyboard.press(group.between); await page.waitForTimeout(120); }
       await control.scrollIntoViewIfNeeded();
       /* A control under fixed chrome (the action bar, the notice) can be
          neither seen nor pressed, and a click there lands on the chrome. */

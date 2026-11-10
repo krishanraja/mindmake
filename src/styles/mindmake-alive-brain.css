@@ -114,106 +114,12 @@
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-key-item::before { content: ""; width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--mint, #91e8bc); background: rgba(145, 232, 188, .55); }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .brain-key-item[data-standing="working"]::before { border-color: #e0bd78; background: rgba(224, 189, 120, .45); }
 .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector > span { font-size: .74rem; letter-spacing: .06em; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls small { font-size: .74rem; }
 
-/* ---------- The record: always in view, one thing to read ---------- */
+/* ---------- The record's totals ---------- */
 /* The record's machine takes its content's height on every arrival: an S6
    rule and an S8 rule of equal weight disagreed, and which won depended on
    which stylesheet chunk loaded last (audit BRAIN-02, 2026-11-10). */
 .mm-site .mm-locked-brain:is(*, .mm-alive) .pair .record-machine { height: auto; min-height: 0; max-height: none; overflow: visible; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-live { margin-top: clamp(1.2rem, 3vh, 2rem); }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span { transition: border-color .3s ease, color .3s ease, opacity .3s ease; opacity: .55; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span[data-current] { opacity: 1; border-top-width: 4px; padding-top: calc(.8rem - 2px); }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span[data-kind="Change"][data-current] { border-top-color: #9a6a1f; color: #7d5414; }
-
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-window {
-  position: relative;
-  height: clamp(190px, 26vh, 250px);
-  overflow: hidden;
-  border-radius: 14px 14px 0 0;
-  background: #0b1712;
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-line,
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-focus { display: none; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-reel {
-  position: absolute;
-  inset: 50% 0 auto;
-  margin: 0;
-  padding: 0 clamp(1rem, 2.4vw, 1.8rem);
-  list-style: none;
-  transform: translateY(calc(-50% - var(--reel-shift, 0px)));
-  transition: transform .7s cubic-bezier(.22, .8, .2, 1);
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card {
-  display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1fr);
-  column-gap: 1.2rem;
-  align-items: baseline;
-  margin: 0;
-  padding: .9rem 0;
-  border: 0;
-  border-bottom: 1px solid rgba(239, 230, 211, .08);
-  background: none;
-  opacity: .28;
-  transform: none;
-  transition: opacity .5s ease;
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card.is-near { opacity: .5; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card.is-current { opacity: 1; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card > span {
-  justify-self: start;
-  padding: .3rem .55rem;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  color: var(--mint, #91e8bc);
-  font: 500 .66rem/1 "IBM Plex Mono", monospace;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card[data-kind="Change"] > span { color: #e0bd78; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card[data-kind="Source"] > span { color: #efe6d3; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card strong {
-  display: block;
-  color: #efe6d3;
-  font: 400 clamp(1.05rem, 1.35vw, 1.3rem)/1.25 "Newsreader", Georgia, serif;
-  /* Titles wrap rather than being cut off (audit RECORD-03). */
-  white-space: normal;
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card small {
-  display: block;
-  margin-top: .3rem;
-  color: rgba(239, 230, 211, .74);
-  font: 400 .92rem/1.4 "Source Serif 4", Georgia, serif;
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card:not(.is-current) small { display: none; }
-
-/* The controls sit on the same dark ground, with a thin line that fills while
-   an entry is in front, so the reader can see the record moving on. */
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  padding: .7rem clamp(1rem, 2.4vw, 1.8rem);
-  border-radius: 0 0 14px 14px;
-  background: #0b1712;
-  color: #efe6d3;
-}
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls p { display: flex; align-items: center; gap: .6rem; margin: 0 auto 0 0; font: 500 .72rem/1 "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls small { color: rgba(239, 230, 211, .6); }
-.mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 2px;
-  background: var(--mint, #91e8bc);
-  transform-origin: left center;
-  transform: scaleX(0);
-}
-.mm-site .mm-locked-brain[data-port-pulse="a"]:not([data-record-paused="true"]) .living-record .record-controls::before { animation: mm-record-dwell-a 6s linear forwards; }
-.mm-site .mm-locked-brain[data-port-pulse="b"]:not([data-record-paused="true"]) .living-record .record-controls::before { animation: mm-record-dwell-b 6s linear forwards; }
-@keyframes mm-record-dwell-a { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@keyframes mm-record-dwell-b { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 @media (max-width: 760px) {
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory {
@@ -225,13 +131,4 @@
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-stage { height: auto; margin-top: .6rem; }
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .brain-field { flex: none; height: 300px; }
   .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.memory .plain-inspector { margin-top: .4rem; padding-top: .9rem; }
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .reel-window { height: 210px; }
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card { grid-template-columns: minmax(0, 1fr); row-gap: .45rem; padding: .75rem 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-reel,
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-card,
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts span { transition: none; }
-  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-controls::before { display: none; }
 }

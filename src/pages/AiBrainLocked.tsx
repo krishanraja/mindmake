@@ -17,7 +17,7 @@ import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import type { IconName } from "@/lib/icons";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import { mountLiquidBrain } from "@/components/mindmake/locked/liquidBrain";
-import { sourceLine } from "@/components/mindmake/locked/brainRecord";
+import { CLUSTERS, clusterSeats, restsOn } from "@/components/mindmake/locked/connectedBrain";
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import { mountStoryFinder, storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 import { track } from "@/lib/analytics";
@@ -32,6 +32,7 @@ import "@/styles/mindmake-brain-s6.css";
 import "@/styles/mindmake-calm-s8.css";
 import "@/styles/mindmake-alive-brain.css";
 import "@/styles/mindmake-deck.css";
+import "@/styles/mindmake-connected-brain.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -80,8 +81,6 @@ const KEEPS = ["Your brain, built out.", "The systems that amplify you, proven."
 /* Ruling (owner, 2026-11-04, mock approved): what stays with you is three
    marks in a row, not a receipt box. */
 const KEEP_ICON: readonly IconName[] = ["graph", "proven", "rise"];
-/** How long each entry of the live record stays in front, long enough to read its line. */
-const RECORD_DWELL = 6000;
 /** Where the month's steps light: this far down the screen. */
 const READING_LINE = 0.72;
 
@@ -95,7 +94,20 @@ function prepareMarkup() {
   markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4", evidenceFilm);
   markup = replaceLockedAsset(markup, "./media/evidence-connects-poster.png", evidencePoster);
   markup = replaceLockedAsset(markup, "../../../src/assets/stories/punched-cards-r01-800.webp", monthPlate);
-  return markup;
+  const field = '<div class="field-focus" aria-hidden="true"></div>';
+  if (markup.split(field).length - 1 !== 1) throw new Error("The Brain page must carry exactly one field focus.");
+  return markup.replace(field, `${field}${noScriptBrain()}`);
+}
+
+/* Without scripting the Brain has no ideas to draw, so its twenty ideas are
+   listed by cluster instead, from the same fixture the picture uses. */
+function noScriptBrain() {
+  const escape = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const groups = CLUSTERS.map((cluster) => {
+    const titles = fixture.items.filter((item) => item.cluster === cluster.id).map((item) => escape(item.title));
+    return titles.length ? `<li><b>${escape(cluster.name)}</b> ${titles.join(", ")}</li>` : "";
+  }).join("");
+  return `<noscript><ul class="brain-nojs">${groups}</ul></noscript>`;
 }
 
 const lockedMarkup = prepareMarkup();
@@ -108,24 +120,6 @@ const isSettled = (item: BrainItem) => item.standing === "accepted" || item.stan
 // graph already gives it: the leader's own settled calls, or the Brain's
 // reading, which stays a reading until the leader agrees it.
 const standingLabel = (item: BrainItem) => (isSettled(item) ? "Agreed" : "The Brain's reading");
-
-/* What each connection does, in plain words, so a connection reads as a
-   sentence rather than an arrow (audit RECORD-08, 2026-11-10). */
-const RELATION_WORDS: Record<string, string> = {
-  supports: "supports",
-  constrains: "limits",
-  qualifies: "refines",
-  develops: "develops",
-  creates_need_for: "creates a need for",
-  in_tension_with: "pulls against",
-  expresses: "expresses",
-  requires: "needs",
-  protects: "protects",
-  tests: "tests",
-  example_of: "is an example of",
-  holds_open: "keeps open",
-  is_outcome_of: "comes from",
-};
 
 // Whether two ideas share a connection, in either direction.
 const linked = (a: string, b?: string) => fixture.relationships.some((relationship) => (relationship.from === a && relationship.to === b) || (relationship.to === a && relationship.from === b));
@@ -175,6 +169,55 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       if (output) output.textContent = evidenceMessages[safeState];
     };
 
+    /* What the chosen idea rests on (the connected Brain, round 2, 2026-11-10):
+       its connections, each one a way to the idea it touches, one source and
+       the change made to it, in the simplest words. */
+    const renderRests = (host: HTMLElement, id: string) => {
+      const rests = restsOn(fixture, id);
+      host.replaceChildren();
+      const group = (label: string) => {
+        const block = document.createElement("div");
+        block.className = "rests-group";
+        const name = document.createElement("p");
+        name.className = "rests-label";
+        name.textContent = label;
+        block.append(name);
+        host.append(block);
+        return block;
+      };
+      if (rests.connections.length) {
+        const list = document.createElement("div");
+        list.className = "rests-chips";
+        rests.connections.forEach((connection) => {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "rests-chip";
+          chip.dataset.go = connection.otherId;
+          const verb = document.createElement("span");
+          verb.className = "rests-verb";
+          verb.textContent = connection.verb;
+          chip.append(verb, document.createTextNode(` ${connection.title}`));
+          list.append(chip);
+        });
+        group(rests.connections.length === 1 ? "Connected to one idea" : `Connected to ${rests.connections.length} ideas`).append(list);
+      }
+      const source = rests.sources[0];
+      if (source) {
+        const line = document.createElement("p");
+        line.className = "rests-source";
+        const label = document.createElement("span");
+        label.textContent = source.label;
+        line.append(label, document.createTextNode(` ${source.line}`));
+        group(rests.sources.length === 1 ? "From one source" : `From ${rests.sources.length} sources`).append(line);
+      }
+      if (rests.changes.length) {
+        const line = document.createElement("p");
+        line.className = "rests-change";
+        line.textContent = rests.changes[0];
+        group("You changed it").append(line);
+      }
+    };
+
     const selectMeaning = (item: BrainItem) => {
       field?.querySelectorAll<HTMLElement>(".meaning-node-s2").forEach((node) => {
         const active = node.dataset.id === item.id;
@@ -198,14 +241,26 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       });
       if (title) title.textContent = item.title;
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
+      const cluster = q<HTMLElement>("#inspectorTypeS2");
+      if (cluster) cluster.textContent = restsOn(fixture, item.id).cluster;
     };
 
     let liquid: ReturnType<typeof mountLiquidBrain> | null = null;
+    const tourButton = q<HTMLButtonElement>("#brainTourS2");
+    const showTour = (on: boolean) => {
+      if (!tourButton) return;
+      tourButton.textContent = on ? "Pause the tour" : "Play the tour";
+      tourButton.setAttribute("aria-pressed", on ? "false" : "true");
+    };
+    let openDetail: (id: string) => void = () => undefined;
+    let closeDetail: (returnFocus?: boolean) => void = () => undefined;
     const pickMeaning = (item: BrainItem) => {
       root.dataset.meaningTouched = "true";
       inspector?.setAttribute("aria-live", "polite");
       selectMeaning(item);
       liquid?.select(item.id, true);
+      showTour(false);
+      openDetail(item.id);
     };
 
     // Every idea title stays on one line at one size. The size is set once
@@ -260,14 +315,132 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       /* The ideas sit on a living mass (owner, 2026-11-10). It stays on the
          idea it opens with until the reader picks another: turning by itself
          replaced the reading before anyone could read it. */
+      /* The seven clusters, named on the picture. */
+      CLUSTERS.forEach((cluster) => {
+        const label = document.createElement("span");
+        label.className = "brain-region";
+        label.setAttribute("aria-hidden", "true");
+        label.textContent = cluster.name;
+        field.append(label);
+        nodeById.set(`label:${cluster.id}`, label);
+      });
       liquid = mountLiquidBrain(field, {
         ideas: fixture.items.map((item) => ({ id: item.id, x: item.x, y: item.y, settled: isSettled(item) })),
         relationships: fixture.relationships,
         nodes: nodeById,
+        seats: (minGap) => clusterSeats(fixture, minGap),
         initial: selectedId,
+        tour: !(reducedMotion.matches || renderFinal),
+        tourMs: 7000,
+        onAdvance: (id) => {
+          const item = itemById.get(id);
+          if (!item) return;
+          inspector?.setAttribute("aria-live", "off");
+          closeDetail();
+          selectMeaning(item);
+        },
         reduced: reducedMotion.matches || renderFinal,
       });
       cleanups.push(() => liquid?.destroy());
+
+      /* The tour can be paused and played again; picking an idea stops it,
+         and Play starts it again from that idea. */
+      let touring = !(reducedMotion.matches || renderFinal);
+      if (tourButton) tourButton.hidden = !touring;
+      showTour(touring);
+      const toggleTour = () => {
+        touring = tourButton?.getAttribute("aria-pressed") === "true";
+        if (touring) closeDetail();
+        liquid?.setTour(touring);
+        showTour(touring);
+      };
+      tourButton?.addEventListener("click", toggleTour);
+      cleanups.push(() => tourButton?.removeEventListener("click", toggleTour));
+
+      /* What an idea rests on floats over the Brain when the reader picks it
+         (Krish, 2026-11-10: "an overlay that fluidly bobbles about upon
+         click", so the section stays one screen long). It grows out of the
+         chosen idea, sits beside it inside the picture, follows the reader
+         along a connection, and closes on its button, Escape or a tap on the
+         Brain's open ground. */
+      const detail = document.createElement("div");
+      detail.className = "brain-detail";
+      detail.setAttribute("role", "group");
+      detail.setAttribute("aria-label", "What this idea rests on");
+      detail.hidden = true;
+      const closeButton = document.createElement("button");
+      closeButton.type = "button";
+      closeButton.className = "brain-detail-close";
+      closeButton.setAttribute("aria-label", "Close");
+      closeButton.textContent = "×";
+      const detailBody = document.createElement("div");
+      detailBody.className = "brain-detail-body";
+      detail.append(closeButton, detailBody);
+      field.append(detail);
+      let detailFor = "";
+      const place = (id: string) => {
+        const node = nodeById.get(id);
+        if (!node) return;
+        const width = field.clientWidth, height = field.clientHeight;
+        const x = (parseFloat(node.style.getPropertyValue("--x")) / 100) * width;
+        const y = (parseFloat(node.style.getPropertyValue("--y")) / 100) * height;
+        const w = detail.offsetWidth, h = detail.offsetHeight;
+        const left = Math.max(8, Math.min(width - w - 8, x - w / 2));
+        const below = y + 22, above = y - 22 - h;
+        let top = below + h <= height - 6 ? below : above >= 6 ? above : Math.max(6, Math.min(height - h - 6, y - h / 2));
+        /* On a small phone the card can be taller than the Brain: it then
+           rides up over the words above rather than leaving the screen. */
+        const fieldTop = field.getBoundingClientRect().top;
+        const masthead = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--mm-header-height")) || 64;
+        if (fieldTop + top + h > window.innerHeight - 8) top = window.innerHeight - 8 - h - fieldTop;
+        if (fieldTop + top < masthead + 8) top = masthead + 8 - fieldTop;
+        detail.style.left = `${left.toFixed(0)}px`;
+        detail.style.top = `${top.toFixed(0)}px`;
+        detail.style.transformOrigin = `${(x - left).toFixed(0)}px ${(y - top).toFixed(0)}px`;
+      };
+      openDetail = (id: string) => {
+        detailFor = id;
+        renderRests(detailBody, id);
+        const name = document.createElement("p");
+        name.className = "brain-detail-name";
+        name.textContent = itemById.get(id)?.title ?? "";
+        detailBody.prepend(name);
+        detail.hidden = false;
+        detail.classList.remove("is-leaving", "is-open");
+        place(id);
+        void detail.offsetWidth;
+        detail.classList.add("is-open");
+      };
+      let closing = 0;
+      closeDetail = (returnFocus = false) => {
+        if (detail.hidden) return;
+        detail.classList.remove("is-open");
+        detail.classList.add("is-leaving");
+        window.clearTimeout(closing);
+        closing = window.setTimeout(() => { if (detail.classList.contains("is-leaving")) detail.hidden = true; }, reducedMotion.matches ? 0 : 260);
+        if (returnFocus) nodeById.get(detailFor)?.focus();
+      };
+      const onDetailClick = (event: MouseEvent) => {
+        event.stopPropagation();
+        if ((event.target as HTMLElement).closest(".brain-detail-close")) { closeDetail(true); return; }
+        const chip = (event.target as HTMLElement).closest<HTMLElement>("[data-go]");
+        const item = chip ? itemById.get(chip.dataset.go ?? "") : undefined;
+        if (item) pickMeaning(item);
+      };
+      detail.addEventListener("click", onDetailClick);
+      cleanups.push(() => detail.removeEventListener("click", onDetailClick));
+      const onGround = (event: MouseEvent) => {
+        if (!(event.target as HTMLElement).closest(".meaning-node-s2, .brain-detail")) closeDetail();
+      };
+      field.addEventListener("click", onGround);
+      cleanups.push(() => field.removeEventListener("click", onGround));
+      const onKey = (event: KeyboardEvent) => { if (event.key === "Escape" && !detail.hidden) closeDetail(true); };
+      document.addEventListener("keydown", onKey);
+      cleanups.push(() => document.removeEventListener("keydown", onKey));
+      const onResize = () => { if (!detail.hidden && detailFor) place(detailFor); };
+      window.addEventListener("resize", onResize);
+      cleanups.push(() => window.removeEventListener("resize", onResize));
+      cleanups.push(() => { window.clearTimeout(closing); detail.remove(); });
 
       // The compact graph deliberately keeps every idea at a 44px keyboard
       // target. On the narrowest phone those target circles can overlap even
@@ -305,90 +478,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       cleanups.push(() => field.removeEventListener("click", selectNearestMeaning, true));
     }
 
-    const records = [
-      ...fixture.items.map((item) => ({ kind: "Idea", id: item.id, title: item.title, detail: plainStatements[item.id] ?? item.statement })),
-      ...fixture.relationships.map((relationship) => ({ kind: "Connection", id: relationship.id, title: `${itemById.get(relationship.from)?.title ?? relationship.from} ${RELATION_WORDS[relationship.type] ?? "connects to"} ${itemById.get(relationship.to)?.title ?? relationship.to}`, detail: relationship.meaning })),
-      ...fixture.sources.map((source) => ({ kind: "Source", id: source.id, title: source.label, detail: sourceLine(source) })),
-      ...fixture.corrections.map((correction) => ({ kind: "Change", id: correction.id, title: itemById.get(correction.item_ref)?.title ?? correction.item_ref, detail: correction.summary })),
-    ];
+    /* The record's totals, from the fixture they count. */
     const counts = [fixture.items.length, fixture.relationships.length, fixture.sources.length, fixture.corrections.length];
     root.querySelectorAll<HTMLElement>(".record-counts b").forEach((count, index) => { count.textContent = String(counts[index]); });
-    const reel = q<HTMLOListElement>("#recordReelS2");
-    const complete = q<HTMLElement>("#completeRecordS2");
-    const pauseButton = q<HTMLButtonElement>("#pauseRecordS2");
-    const nextButton = q<HTMLButtonElement>("#nextRecordS2");
-    let current = renderFinal ? 2 : 0;
-    let timer = 0;
-    /* The record waits for the reader to press Play (owner, 2026-11-10): it
-       used to run from page load, off screen too, so visitors arrived mid-way. */
-    let recordPaused = true;
-
-    records.forEach((record) => {
-      const card = document.createElement("li");
-      card.className = "record-card";
-      card.dataset.kind = record.kind;
-      const kind = document.createElement("span");
-      kind.textContent = record.kind;
-      const copy = document.createElement("div");
-      const title = document.createElement("strong");
-      title.textContent = record.title;
-      const detail = document.createElement("small");
-      detail.textContent = record.detail;
-      copy.append(title, detail);
-      card.append(kind, copy);
-      reel?.append(card);
-      const accessible = document.createElement("p");
-      accessible.textContent = `${record.kind}, ${record.id}: ${record.title}. ${record.detail}`;
-      complete?.append(accessible);
-    });
-
-    const cards = reel ? [...reel.children] as HTMLElement[] : [];
-    const paint = () => {
-      cards.forEach((card, index) => {
-        const distance = Math.abs(index - current);
-        card.classList.toggle("is-current", distance === 0);
-        card.classList.toggle("is-near", distance === 1);
-        card.setAttribute("aria-hidden", distance > 2 ? "true" : "false");
-      });
-      const currentCard = cards[current];
-      if (reel && currentCard) {
-        const currentCentre = currentCard.offsetTop + currentCard.offsetHeight / 2;
-        reel.style.setProperty("--reel-shift", `${currentCentre - reel.scrollHeight / 2}px`);
-      }
-      const index = q<HTMLElement>("#recordIndexS2");
-      if (index) index.textContent = `Entry ${current + 1} of ${records.length}`;
-      /* The count above names what kind of entry is being written, so the
-         numbers and the reel read as one record (owner, 2026-11-10: "make
-         that live record animation even clearer"). */
-      const kindNow = records[current]?.kind;
-      root.querySelectorAll<HTMLElement>(".record-counts [data-kind]").forEach((count) => count.toggleAttribute("data-current", count.dataset.kind === kindNow));
-      // Each record that lands reaches all four tools: the ports light in
-      // turn, by colour and opacity only. Alternating the name restarts it.
-      if (!reducedMotion.matches && !renderFinal) root.dataset.portPulse = root.dataset.portPulse === "a" ? "b" : "a";
-    };
-    const nextRecord = () => { current = (current + 1) % records.length; paint(); };
-    const stopTimer = () => { if (timer) window.clearInterval(timer); timer = 0; };
-    const startTimer = () => { stopTimer(); if (!recordPaused && !renderFinal) timer = window.setInterval(nextRecord, RECORD_DWELL); };
-    const updateRecordControls = () => {
-      root.dataset.recordPaused = recordPaused ? "true" : "false";
-      if (pauseButton) {
-        pauseButton.textContent = recordPaused ? "Play" : "Pause";
-        pauseButton.setAttribute("aria-pressed", recordPaused ? "true" : "false");
-      }
-      const state = q<HTMLElement>("#recordStateS2");
-      if (state) state.textContent = recordPaused ? "Record paused" : "Live record";
-    };
-    const toggleRecord = () => { recordPaused = !recordPaused; updateRecordControls(); startTimer(); };
-    const manuallyAdvance = () => { nextRecord(); startTimer(); };
-    pauseButton?.addEventListener("click", toggleRecord);
-    nextButton?.addEventListener("click", manuallyAdvance);
-    window.addEventListener("resize", paint);
-    cleanups.push(() => pauseButton?.removeEventListener("click", toggleRecord));
-    cleanups.push(() => nextButton?.removeEventListener("click", manuallyAdvance));
-    cleanups.push(() => window.removeEventListener("resize", paint));
-    updateRecordControls();
-    paint();
-    startTimer();
 
     const chapters = [...root.querySelectorAll<HTMLElement>(".chapter[data-phase]")];
     const links = [...root.querySelectorAll<HTMLElement>("[data-phase-link]")];
@@ -448,12 +540,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     return () => {
       cleanups.forEach((cleanup) => cleanup());
       sequences.forEach((sequence) => sequence.querySelectorAll<HTMLElement>("[data-step]").forEach((step) => { delete step.dataset.stepState; }));
-      stopTimer();
       if (buildFrame) window.cancelAnimationFrame(buildFrame);
       field?.querySelectorAll(".meaning-node-s2").forEach((node) => node.remove());
       while (svg?.firstChild) svg.removeChild(svg.firstChild);
-      while (reel?.firstChild) reel.removeChild(reel.firstChild);
-      while (complete?.firstChild) complete.removeChild(complete.firstChild);
     };
   }, [rootRef]);
 }

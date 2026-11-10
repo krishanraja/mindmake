@@ -120,7 +120,7 @@
     "scripts/qa/approved-route-lock-update.mjs": "1012fab1254733cb208cbbef8de8522cd2826ccab3bd8e42e18d0ce5dc5168e4",
     "scripts/qa/build-homepage-release.mjs": "ec025209230f84233df309cf523d7cdfbc5f30a02b919737e926cb1c4e170b35",
     "scripts/qa/build-new-age-r5-styles.mjs": "e50939a2552f4aa55d3045bed433a593b1aefc2923e5a015af75e5bf37b6c097",
-    "scripts/qa/card-contrast-check.mjs": "92de960bc495905b349329e29fdd3628ef855c1fbb5d3c0c1f0f6cc6859bebdf",
+    "scripts/qa/card-contrast-check.mjs": "fa797e7e2c4f922c1f23f9a222948a492b5bc59f9aada024ee6e401cf31fa82d",
     "scripts/qa/current-documentation-check.mjs": "74e5bdd034580920cea9aa793a43728bb2996ad6766dfa3dafc87427ddde70d2",
     "scripts/qa/discoverability-check.mjs": "3df8fb684a766d908fce60e2af7f0a60368130d21a6bac9843896d0f6b79ad0c",
     "scripts/qa/full-route-continuity-check.mjs": "9463e9aee4b5a109cd359d150bc19553839fef04899781bd66705ef45dec7c55",

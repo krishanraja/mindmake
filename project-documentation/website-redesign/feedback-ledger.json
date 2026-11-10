@@ -2143,6 +2143,25 @@
         "qa:line-breaks passes on every route at 1440, 1280, 390 and 360, tapping all twenty Brain ideas and the new lever, results and stops controls; qa:reading-flow, qa:homepage-release:pre-merge, qa:nojs (5 pages, 23 answers), qa:card-contrast, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, typecheck, lint, 742 unit tests and the build pass.",
         "Screenshots reviewed at Pixel 7, 360 and 320 phones and 1440: the results rail and its stops, the record totals, the closing labels, the comparison chart, the chip fades, the menu's current page, the month's days under their steps and the /ai-gtm doors, tiles, lever controls and captions."
       ]
+    },
+    {
+      "id": "S9-DECK-001",
+      "exactFeedback": "We weren't able to have the horizontal card animation? On this and the success story pages / (choice) Phones, both places, but make the cards the same style and momentum / Same style and movement on desktop*",
+      "source": "Krish, 10 November 2026, with a screenshot of the homepage's three results at 1440; asked where the swipe deck should go.",
+      "surface": "/, /case-studies, /ai-brain, /ai-gtm",
+      "section": "the homepage's results (What you get); the stories on /case-studies; Where would you start? on /ai-brain and /ai-gtm",
+      "device": "all",
+      "element": "the swipe deck of story cards",
+      "classification": "correction",
+      "requiredOutcome": "One swipe deck, the same cards and the same movement, on phones and laptops: the homepage's results and the /case-studies stories join the stories on /ai-brain and /ai-gtm. Nothing pins; the page scrolls normally; the deck keeps one height; without script the cards stay a row.",
+      "acceptanceTest": "src/test/homepage-leadership-chapters.test.ts (the results deck); qa:reading-flow checks every deck at every size; qa:line-breaks presses through the homepage's and /case-studies' decks; qa:card-contrast reads each result on top of the deck; screenshots at Pixel 7 and 1440.",
+      "status": "implemented-awaiting-review",
+      "resolution": "storyFinder.ts mountDeck runs on every screen; mindmake-deck.css applies at every width, one card wide (520px) on a laptop; CaseStudies.tsx passes deck to StoryLibrary; homepageSections.ts renders the results as a deck (mountProofDeck, the same states, swipe threshold and arrows as the story deck) and homepageSections.css gives the results the story card's face and the deck's movement.",
+      "evidence": [
+        "qa:reading-flow passes with every deck checked at Pixel 7, 360x780, Pixel 7 landscape and 1440x900 (one height across situations and doors, solid cards, one card per swipe or arrow, a vertical scroll ignored), /case-studies included.",
+        "qa:line-breaks passes on every route at 1440, 1280, 390 and 360, pressing through the homepage results deck and the /case-studies doors, situations and stories deck; qa:homepage-release:pre-merge, qa:nojs, qa:card-contrast (148 lines, worst 1.32 of the minimum), the repository gates, typecheck, lint, 742 unit tests and the build pass.",
+        "Screenshots at Pixel 7 and 1440: the homepage's results and the /case-studies and /ai-brain stories show the same card and the same stack, with the card already read peeking above."
+      ]
     }
   ]
 }

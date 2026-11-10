@@ -96,6 +96,22 @@ as ruled: the 4000+ count-up (04_PROOF.md), beats 2 and 3 shown on a tap (S6),
 the menu's ↗ on every route (the approved design), and no page-wide motion
 pause on /ai-brain yet (a new control, for Krish to decide).
 
+Stage 5 (Krish, 10 November 2026: "We weren't able to have the horizontal
+card animation? On this and the success story pages", then "Phones, both
+places, but make the cards the same style and momentum" and "Same style and
+movement on desktop", ledger `S9-DECK-001`): the swipe deck runs on every
+screen, not only phones, wherever it is used. The stories on /ai-brain,
+/ai-gtm and now /case-studies, and the homepage's three results, are one
+deck: the current card on top, whole and solid, the ones already read peeking
+above it a step smaller and darker, one card per swipe or arrow, the page
+scrolling normally and the deck one height whatever is chosen. On a laptop
+the deck is one card wide (520px). The homepage's results take the story
+card's face: the scene in a band at the top, a brass rule, the story large
+and the outcome in mint after an arrow (`mountProofDeck` in
+`homepageSections.ts`). Without script the results stay a row and the
+stories a rail. `qa:reading-flow` checks every deck at every size, and
+`qa:line-breaks` presses through the homepage's and /case-studies' decks.
+
 ## S8: one idea per section on the product pages (4 November 2026)
 
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry

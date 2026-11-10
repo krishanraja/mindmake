@@ -767,11 +767,111 @@
   .mm-homepage-release .hs-flow span { font-size: 14.5px; }
 }
 
-/* The three results are a rail on a phone, with the eras' arrows and stops
-   under them (audit HOME-04); on a wider screen they stand in one row and the
-   controls are not drawn. */
-@media (min-width: 761px) {
-  .mm-homepage-release .hs-proof-rail { display: block; }
-  .mm-homepage-release .hs-proof[data-hs-rail-track] { grid-auto-flow: row; margin: 0; padding: 0; overflow: visible; scroll-snap-type: none; }
-  .mm-homepage-release .hs-proof-rail > .hs-rail-nav { display: none; }
+/* The three results as the stories' swipe deck, on every screen (owner,
+   2026-11-10: "the horizontal card animation", "Same style and movement on
+   desktop"; mountProofDeck in homepageSections.ts). The same movement as the
+   story deck (mindmake-deck.css): the current result on top, whole and solid;
+   those already read peek above it, a step smaller and darker; the next ones
+   wait out of sight; one cell, so the deck is one height for every result.
+   Only the class the script adds turns it on: without script the three stay
+   a row, and on a phone a row to swipe. */
+.mm-homepage-release .hs-deck-nav { display: none; }
+.mm-homepage-release .hs-proof-deck.is-deck { width: 100%; max-width: 520px; }
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof {
+  --peek: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto;
+  grid-auto-flow: row;
+  margin: 0;
+  padding: calc(var(--peek) * 2) 0 0;
+  overflow: hidden;
+  scroll-snap-type: none;
+  overscroll-behavior-x: auto;
+  touch-action: pan-y;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
+  grid-area: 1 / 1;
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
+  width: 100%;
+  margin: 0;
+  transform-origin: 50% 0;
+  transition: transform .42s cubic-bezier(.22, .8, .2, 1), translate .2s ease, visibility 0s linear .42s;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="current"] {
+  transform: none;
+  visibility: inherit;
+  transition: transform .42s cubic-bezier(.22, .8, .2, 1), translate .2s ease, visibility 0s;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"] {
+  transform: translateY(calc(var(--depth) * var(--peek) * -1)) scale(calc(1 - var(--depth) * .045));
+  visibility: inherit;
+  transition: transform .42s cubic-bezier(.22, .8, .2, 1), visibility 0s;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #050c09;
+  opacity: calc(var(--depth) * .32);
+  pointer-events: none;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"][style*="--depth: 3"] { visibility: hidden; }
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"] { transform: translateX(108%); visibility: hidden; }
+/* The same card as the stories' deck (new-age-leadership-r5.css, the finder
+   face): the scene in a band at the top that fades into the card, a brass
+   rule round it, the story large and the outcome in mint after an arrow. */
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
+  --hs-band: clamp(150px, 13vw, 200px);
+  row-gap: 12px;
+  padding: var(--hs-band) 0 22px;
+  border: 1px solid rgba(178, 138, 72, .5);
+  background: #0a1712;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li::before {
+  background: linear-gradient(180deg, rgba(8, 20, 15, .12) 0, rgba(8, 20, 15, .4) calc(var(--hs-band) - 70px), rgba(8, 20, 15, .9) calc(var(--hs-band) - 8px), rgba(8, 20, 15, .94) 100%);
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li > .hs-card-img {
+  inset: 0 0 auto;
+  height: calc(var(--hs-band) + 90px);
+  object-position: 50% 72%;
+  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
+  mask-image: linear-gradient(180deg, #000 60%, transparent);
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-story {
+  padding: 0 18px;
+  font: 400 clamp(22px, 1.9vw, 28px) / 1.1 var(--r3-serif);
+  letter-spacing: -.01em;
+  text-wrap: pretty;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-outcome {
+  position: relative;
+  padding: 0 18px 0 42px;
+  border-top: 0;
+  font: 400 clamp(16px, 1.25vw, 18px) / 1.38 var(--r3-serif);
+  text-wrap: pretty;
+}
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-outcome::before { content: "→" / ""; position: absolute; left: 18px; }
+.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-who { padding: 0 18px; }
+/* The story deck's own controls: back, where the reader is, and on. */
+.mm-homepage-release .hs-proof-deck.is-deck .hs-deck-nav { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+.mm-homepage-release .hs-deck-nav p { margin: 0; color: var(--hs-cream); font: 500 13px/1 var(--r3-mono, "IBM Plex Mono", monospace); letter-spacing: .06em; }
+.mm-homepage-release .hs-deck-nav button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(234, 223, 200, .24);
+  background: transparent;
+  color: var(--hs-cream);
+  font: 18px / 1 var(--r3-sans, Archivo, Arial, sans-serif);
+  cursor: pointer;
+}
+.mm-homepage-release .hs-deck-nav button[disabled] { opacity: .35; cursor: default; }
+.mm-homepage-release .hs-deck-nav button:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm-homepage-release .hs-deck-nav button:not([disabled]):hover { border-color: var(--hs-mint); color: var(--hs-mint); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li { transition: none; }
 }

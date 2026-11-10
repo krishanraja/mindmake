@@ -73,6 +73,13 @@ const STATES = {
   "/": [
     { name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] },
     { name: "era rail", setup: '.hs-problem [data-hs-rail-go="0"]', controls: '.hs-problem [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-problem [data-hs-rail-track]", frames: [".hs-problem .hs-rail"] },
+    /* The results as the stories' swipe deck, on every screen (2026-11-10). */
+    { name: "results deck", controls: '.hs-proof-deck [data-hs-deck-step="1"]', repeat: 4, frames: [".hs-proof-deck"] },
+  ],
+  "/case-studies": [
+    { name: "doors", controls: "[data-finder-pick]", frames: [".story-finder"] },
+    { name: "situations", controls: "[data-finder-tab]:not([hidden])", frames: [".story-finder"] },
+    { name: "stories deck", controls: ".finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".story-finder"] },
   ],
   "/ai-brain": [
     { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },

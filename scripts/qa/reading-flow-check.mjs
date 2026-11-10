@@ -19,9 +19,10 @@
  * Then, per page: the floating button never sits on a link or a picture; a
  * return to the tab moves nothing; a heading's wipe leaves nothing behind;
  * the Brain's tour holds each idea long enough to read and stops for good
- * once the reader picks one, and its two panels stack; and on a phone
- * the story deck keeps one height, has solid cards, moves one story per swipe
- * and ignores a vertical scroll. A reduced-motion pass checks no section is
+ * once the reader picks one, and its two panels stack; and on every screen
+ * each swipe deck (the stories on /ai-brain, /ai-gtm and /case-studies, the
+ * homepage's results) keeps one height, has solid cards, moves one card per
+ * arrow or swipe and ignores a vertical scroll. A reduced-motion pass checks no section is
  * eased at all.
  *
  * `--base` points at a running server (production readback:
@@ -47,6 +48,65 @@ const PROFILES = [
   { name: "1440x900", options: { viewport: { width: 1440, height: 900 } }, phone: false },
 ];
 const ROUTES = ["/", "/ai-brain", "/ai-gtm"];
+/* Where each page's swipe deck is, and its controls. */
+const FINDER_DECK = { root: ".story-finder", cards: ".finder-panel.is-active .finder-card", at: ".finder-panel.is-active [data-finder-at]", next: ".finder-panel.is-active [data-finder-next]", tabs: "[data-finder-tab]" };
+const DECKS = { "/": { root: ".hs-proof-deck", cards: ".hs-proof-deck [data-hs-deck-track] > li", at: ".hs-proof-deck [data-hs-deck-at]", next: '.hs-proof-deck [data-hs-deck-step="1"]' }, "/ai-brain": FINDER_DECK, "/ai-gtm": FINDER_DECK };
+
+/** The deck runs, keeps one height whatever is chosen, has solid cards, moves one card per arrow or sideways swipe, and ignores a vertical scroll. */
+async function checkDeck(page, context, where, deck, touch) {
+  const state = await page.evaluate((selector) => {
+    const root = document.querySelector(selector);
+    if (!root) return { missing: true };
+    root.scrollIntoView({ block: "center" });
+    return { live: root.classList.contains("is-deck") };
+  }, deck.root);
+  if (state.missing || !state.live) { fail(where, "the swipe deck is not running"); return; }
+  await page.waitForTimeout(500);
+  const heights = await page.evaluate(async ({ root, tabs, doors }) => {
+    const out = [document.querySelector(root).offsetHeight];
+    const frame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    for (const door of doors ? [...document.querySelectorAll(doors)] : [null]) {
+      if (door) { door.click(); await frame(); }
+      for (const tab of tabs ? [...document.querySelectorAll(tabs)].filter((t) => !t.hidden) : []) { tab.click(); await frame(); out.push(document.querySelector(root).offsetHeight); }
+    }
+    if (doors) document.querySelector(doors)?.click();
+    if (tabs) document.querySelector(tabs)?.click();
+    return out;
+  }, deck);
+  if (new Set(heights).size > 1) fail(where, `the deck changes height: ${heights.join(", ")}`);
+  const solid = await page.evaluate((cards) => [...document.querySelectorAll(cards)].every((card) => {
+    const colour = getComputedStyle(card).backgroundColor;
+    return !/rgba\(.*,\s*0(\.\d+)?\)$/.test(colour) && colour !== "transparent";
+  }), deck.cards);
+  if (!solid) fail(where, "a deck card is see-through");
+  const index = () => page.evaluate((at) => document.querySelector(at)?.textContent, deck.at);
+  const start = await index();
+  if (!touch) {
+    await page.locator(deck.next).first().click();
+    await page.waitForTimeout(500);
+    const moved = await index();
+    if (Number(moved) !== Number(start) + 1) fail(where, `the arrow moved the deck from ${start} to ${moved}`);
+    return;
+  }
+  const card = page.locator(`${deck.cards}[data-deck="current"]`).first();
+  await card.scrollIntoViewIfNeeded();
+  const box = await card.boundingBox();
+  const cdp = await context.newCDPSession(page);
+  const swipe = async (dx, dy) => {
+    const x0 = box.x + box.width * (dx < 0 ? 0.8 : 0.2), y0 = box.y + box.height / 2;
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: x0, y: y0 }] });
+    for (let i = 1; i <= 8; i += 1) { await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x0 + (dx * i) / 8, y: y0 + (dy * i) / 8 }] }); await page.waitForTimeout(16); }
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await page.waitForTimeout(500);
+  };
+  await swipe(-140, 0);
+  const moved = await index();
+  if (Number(moved) !== Number(start) + 1) fail(where, `a left swipe moved the deck from ${start} to ${moved}`);
+  await swipe(0, -120);
+  const still = await index();
+  if (still !== moved) fail(where, `a vertical scroll moved the deck from ${moved} to ${still}`);
+  await cdp.detach();
+}
 const SECTIONS = { "/": ".hs-section", "/ai-brain": ".mm-locked-brain > .chapter[data-phase], .brain-close", "/ai-gtm": ".mm-gtm > [data-gtm-chapter]" };
 
 const failures = [];
@@ -188,52 +248,24 @@ for (const profile of PROFILES) {
         }
       }
 
-      /* The phone story deck. */
-      if (profile.phone && route !== "/" && profile.name !== "pixel7-landscape") {
-        const deck = await page.evaluate(() => {
-          const finder = document.querySelector(".story-finder");
-          if (!finder) return { missing: true };
-          finder.scrollIntoView({ block: "center" });
-          return { live: finder.classList.contains("is-deck") };
-        });
-        if (deck.missing || !deck.live) { fail(where, "the story deck is not running on a phone"); continue; }
-        await page.waitForTimeout(500);
-        const heights = await page.evaluate(async () => {
-          const out = [];
-          for (const tab of document.querySelectorAll("[data-finder-tab]")) { tab.click(); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); out.push(document.querySelector(".story-finder").offsetHeight); }
-          document.querySelector("[data-finder-tab]")?.click();
-          return out;
-        });
-        if (new Set(heights).size > 1) fail(where, `the deck changes height across situations: ${heights.join(", ")}`);
-        const solid = await page.evaluate(() => [...document.querySelectorAll(".finder-panel.is-active .finder-card")].every((card) => {
-          const colour = getComputedStyle(card).backgroundColor;
-          return !/rgba\(.*,\s*0(\.\d+)?\)$/.test(colour) && colour !== "transparent";
-        }));
-        if (!solid) fail(where, "a deck card is see-through");
-        const index = () => page.evaluate(() => document.querySelector(".finder-panel.is-active [data-finder-at]")?.textContent);
-        const card = page.locator('.finder-panel.is-active .finder-card[data-deck="current"]');
-        await card.scrollIntoViewIfNeeded();
-        const box = await card.boundingBox();
-        const cdp = await context.newCDPSession(page);
-        const swipe = async (dx, dy) => {
-          const x0 = box.x + box.width * (dx < 0 ? 0.8 : 0.2), y0 = box.y + box.height / 2;
-          await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: x0, y: y0 }] });
-          for (let i = 1; i <= 8; i += 1) { await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x0 + (dx * i) / 8, y: y0 + (dy * i) / 8 }] }); await page.waitForTimeout(16); }
-          await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
-          await page.waitForTimeout(500);
-        };
-        const start = await index();
-        await swipe(-140, 0);
-        const moved = await index();
-        if (Number(moved) !== Number(start) + 1) fail(where, `a left swipe moved the deck from ${start} to ${moved}`);
-        await swipe(0, -120);
-        const still = await index();
-        if (still !== moved) fail(where, `a vertical scroll moved the deck from ${moved} to ${still}`);
-        await cdp.detach();
-      }
+      /* The swipe deck, on every screen (owner, 2026-11-10: "Same style and
+         movement on desktop"): the stories on /ai-brain and /ai-gtm, the
+         homepage's results. */
+      if (DECKS[route]) await checkDeck(page, context, where, DECKS[route], profile.phone);
     }
     await context.close();
   }
+}
+
+/* The stories on /case-studies are the same deck, with its doors as well as
+   its situations; the page is not scrolled step by step here, only its deck. */
+for (const profile of PROFILES) {
+  const context = await browser.newContext({ ...profile.options });
+  await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); } catch {} });
+  const page = await context.newPage();
+  await page.goto(BASE + "/case-studies", { waitUntil: "networkidle" });
+  await checkDeck(page, context, `${profile.name} /case-studies`, { ...FINDER_DECK, doors: "[data-finder-pick]" }, profile.phone);
+  await context.close();
 }
 
 /* Negative control for the blank screen: an empty screen must count as

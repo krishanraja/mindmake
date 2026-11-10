@@ -49,7 +49,7 @@ export default function CaseStudies() {
         jsonLd={jsonLd}
       />
 
-      <StoryLibrary door="library" onStart={(door) => openBrief(door)} intro={{ title: "What you can do with it.", lede: "Real things leaders now do with their AI brain or AI revenue engine. Pick one to see what fits you." }} />
+      <StoryLibrary door="library" deck onStart={(door) => openBrief(door)} intro={{ title: "What you can do with it.", lede: "Real things leaders now do with their AI brain or AI revenue engine. Pick one to see what fits you." }} />
 
       <CaseProofField stories={clientStories} />
 

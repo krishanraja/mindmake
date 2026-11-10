@@ -1,10 +1,11 @@
-/* The stories as a swipe deck on a phone (storyFinder.ts, mountDeck; Ruling,
-   owner, 2026-11-10: "Swipe deck, no pinning"). The current story is on top,
-   whole and solid; up to two already read sit above it, each a step smaller
-   and darker; the rest wait out of sight. Every card shares one cell, so the
-   finder is one height for every situation and every card. Only the class the
-   script adds turns this on: a laptop and a page without script keep the rail. */
-@media (max-width: 760px) {
+/* The stories as a swipe deck (storyFinder.ts, mountDeck; Ruling, owner,
+   2026-11-10: "Swipe deck, no pinning", then "Same style and movement on
+   desktop"). The current story is on top, whole and solid; up to two already
+   read sit above it, each a step smaller and darker; the rest wait out of
+   sight. Every card shares one cell, so the finder is one height for every
+   situation and every card. Only the class the script adds turns this on: a
+   page without script keeps the rail. On a laptop the deck is one card wide. */
+@media all {
   .nal-page .story-finder.is-deck .finder-rail {
     --peek: 14px;
     display: grid;
@@ -50,6 +51,9 @@
     visibility: hidden;
   }
 }
-@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .nal-page .story-finder.is-deck .finder-rail > .finder-card { transition: none; }
+}
+@media (min-width: 761px) {
+  .nal-page .story-finder.is-deck .finder-rail { max-width: 520px; }
 }

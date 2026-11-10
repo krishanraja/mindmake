@@ -319,12 +319,11 @@ export function swipeIntent(dx: number, dy: number, ms: number): -1 | 0 | 1 {
  * arrows move one story; the page itself always scrolls normally, and the
  * finder is one height whichever situation is chosen.
  *
- * Only below 761px and only with script; a laptop and a page without script
- * keep the rail. Under reduced motion the deck still works, without travel.
+ * On every screen, the same cards and the same movement (owner, 2026-11-10:
+ * "Same style and movement on desktop"); only a page without script keeps
+ * the rail. Under reduced motion the deck still works, without travel.
  */
 function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLElement[], signal: AbortSignal) {
-  const phone = window.matchMedia?.("(max-width: 760px)");
-  if (!phone) return () => undefined;
   const index = new Map<HTMLElement, number>(panels.map((panel) => [panel, 0]));
   let live = false;
 
@@ -420,8 +419,6 @@ function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLE
       card.removeAttribute("inert");
     }));
   };
-  const decide = () => (phone.matches ? enter() : leave());
-  phone.addEventListener?.("change", decide, { signal } as AddEventListenerOptions);
-  decide();
+  enter();
   return () => leave();
 }

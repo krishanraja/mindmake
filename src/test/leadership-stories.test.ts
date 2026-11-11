@@ -23,11 +23,16 @@ describe("AI Brain stories", () => {
   });
 
   it("is one client to a card: eighteen stories, each with the outcome it led to", () => {
-    /* Fifteen, then two more on 24 October 2026: the insurance leader and the
+    /* Fifteen, then two more on 24 October 2026: the fintech leader (first
+       written up as insurance, corrected by Krish on 11 November 2026) and the
        investor, both in "Seeing what is changing", from Krish's own account. */
     expect(leadershipStories).toHaveLength(18);
     expect(new Set(leadershipStories.map((story) => story.heading)).size).toBe(18);
     for (const story of leadershipStories) expect(story.outcome, story.heading).toBeTruthy();
+    /* Krish, 2026-11-11: "This is actually a fintech leader". */
+    const leader = leadershipStories.find((story) => story.heading.startsWith("A fintech leader"));
+    expect(leader?.situation).toMatch(/^A senior fintech leader/);
+    expect(JSON.stringify(leadershipStories)).not.toMatch(/insurance/i);
   });
 
   it("joins a story to a result on the record only where the quote is that same client's", () => {

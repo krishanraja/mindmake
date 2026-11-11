@@ -30,7 +30,7 @@ describe("the Brain narrative", () => {
     const chapters = [...doc.querySelectorAll<HTMLElement>(".mm-locked-brain .chapter[data-phase]")];
     expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "inside", "built"]);
     expect([...doc.querySelectorAll<HTMLElement>("#you .beat")].map((beat) => beat.id)).toEqual(["questions", "sharper", "business"]);
-    expect([...doc.querySelectorAll<HTMLElement>("#inside .pair-panel")].map((panel) => panel.id)).toEqual(["memory", "living-record"]);
+    expect([...doc.querySelectorAll<HTMLElement>("#inside .pair-panel")].map((panel) => panel.id)).toEqual(["memory", "how-you-think"]);
     expect(doc.querySelector("h1")?.textContent?.trim()).toBe("An AI that thinks like you.");
     expect(doc.querySelector(".phase-rail")).toBeNull();
     expect(doc.querySelector(".chapter-number")).toBeNull();
@@ -70,15 +70,16 @@ describe("the Brain narrative", () => {
     for (const line of shown) expect(line, line).not.toMatch(/\bCTRL\b/);
   });
 
-  it("keeps the record's totals without a reel, names no AI companies, and says 30 days only where it builds", () => {
+  it("carries how it thinks in the place of the retired record, names no AI companies, and says 30 days only where it builds", () => {
     const doc = page();
-    /* Ruling (owner, 2026-11-10): the four work tiles are gone, and with the
-       connected Brain approved the reel goes too, because the Brain's own
-       reading shows the same record once. The totals stay. */
-    expect(doc.querySelectorAll("#living-record .record-ports")).toHaveLength(0);
-    expect(doc.querySelector("#living-record details")).toBeNull();
-    expect(doc.querySelector("#living-record .record-live, #recordReelS2, #pauseRecordS2")).toBeNull();
-    expect([...doc.querySelectorAll<HTMLElement>("#living-record .record-counts [data-kind]")].map((count) => count.dataset.kind)).toEqual(["Idea", "Connection", "Source", "Change"]);
+    /* Ruling (Krish, 2026-11-11): "Private to you, and yours to keep." goes,
+       because the page says it elsewhere, and the homepage's "An AI chief of
+       staff knows how you think." takes its place. */
+    expect(doc.querySelector("#living-record, #record-title, .record-counts")).toBeNull();
+    expect(doc.body.textContent).not.toContain("Private to you, and");
+    expect(doc.querySelector("#how-you-think #how-title")?.textContent).toBe("An AI chief of staff knows how you think.");
+    expect([...doc.querySelectorAll("#how-you-think .cos-flow b")].map((b) => b.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
+    expect(doc.querySelector('#how-you-think a[href="/new-age-leadership"]')).not.toBeNull();
     // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
     // integrations with named AI companies.
     const text = doc.querySelector(".mm-locked-brain")?.textContent ?? "";
@@ -148,6 +149,10 @@ describe("the Brain's voice", () => {
     ["src/pages/AiBrainLocked.tsx", stripComments(read("src/pages/AiBrainLocked.tsx"))],
     [MARKUP, stripComments(read(MARKUP))],
     ["brain-fixture (displayed fields)", displayedFixture],
+    /* The moved section's own words. Its approved heading is the one place the
+       page says "chief of staff" (Krish, 2026-11-11); everything else in it
+       meets every rule here. */
+    ["src/components/mindmake/chiefOfStaff.ts", stripComments(read("src/components/mindmake/chiefOfStaff.ts")).replace("An AI chief of staff knows", "")],
   ];
 
   // Owner-approved exceptions (Krish, 2026-11-11): these exact opening lines

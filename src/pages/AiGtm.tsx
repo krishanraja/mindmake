@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { SEO } from "@/components/SEO";
-import { CompareLine } from "@/components/mindmake/CompareLine";
+import { CompareNudge } from "@/components/mindmake/CompareNudge";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
@@ -218,6 +218,7 @@ const MENU = [
 export default function AiGtm() {
   const { briefOpen, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
   const rootRef = useRef<HTMLDivElement>(null);
+  const beginRef = useRef<HTMLDivElement>(null);
   useLockedMotion(rootRef);
 
   const [mode, setMode] = useState<Mode>("established");
@@ -321,9 +322,9 @@ export default function AiGtm() {
         {/* Ruling (owner, 2026-11-04, mock approved): where to start is its
             own section, after the offer, with the way in and the other page. */}
         <section className="gtm-begin gtm-s8 s8-body s8-green" data-gtm-chapter="start" aria-label="Where would you start?">
-          <div className="mm-container">
+          <div ref={beginRef} className="mm-container">
             <StoryLibrary door="gtm" deck onStart={(door) => openBrief(door)} />
-            <CompareLine page="gtm" />
+            <CompareNudge page="gtm" host={beginRef} />
             <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
           </div>
         </section>

@@ -12,7 +12,7 @@ import lockedDocument from "../../prototypes/website-redesign-recovery/brain-sig
    ten seconds on a phone (Krish, 2026-11-04). */
 import evidencePoster from "@/assets/responsive/evidence-connects-poster-w1280.webp";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
-import { CompareLine } from "@/components/mindmake/CompareLine";
+import { CompareNudge } from "@/components/mindmake/CompareNudge";
 import { Icon } from "@/components/mindmake/Icon";
 import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import type { IconName } from "@/lib/icons";
@@ -631,6 +631,7 @@ export default function AiBrainLocked() {
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       <div className="brain-close">
         <div ref={finderRef} id="stories" className="nal-page brain-finder" dangerouslySetInnerHTML={{ __html: finderMarkup }} />
+        <CompareNudge page="brain" host={finderRef} />
         <div className="brain-close-body">
           <div className="s8-keeps-block">
             <h3 className="s8-label s8-label-run"><span>What stays with you</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Yours to keep</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Day 30</span></h3>
@@ -638,7 +639,6 @@ export default function AiBrainLocked() {
               {KEEPS.map((entry, index) => <li key={entry}><Icon name={KEEP_ICON[index]} className="mm-icon mm-icon-big" />{entry}</li>)}
             </ul>
           </div>
-          <CompareLine page="brain" />
           <PairingBridge route="brain" onStart={() => openBrief("brain")} startLabel={START_LABEL} />
         </div>
       </div>

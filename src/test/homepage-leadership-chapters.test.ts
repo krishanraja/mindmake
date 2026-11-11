@@ -39,10 +39,11 @@ describe("the homepage in three sections", () => {
     const hero = heroStartMarkup();
     expect(hero).toContain('data-start-route="brain"');
     expect(hero).toContain("Start building your AI brain");
-    expect(hero).toContain("From our publication");
+    expect(hero).toContain("From our media channel");
+    expect(hero).not.toContain("Free and private.");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves ten times better, and set the pace.");
+    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves 10x better, and set the new pace.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {
@@ -78,7 +79,8 @@ describe("the homepage in three sections", () => {
     expect([...root.querySelectorAll(".hs-flow > li > b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
     expect(root.querySelectorAll('.hs-flow > li > svg.mm-icon[aria-hidden="true"]')).toHaveLength(3);
     expect(root.querySelectorAll('.hs-how .hs-how-figure img.hs-card-img[alt=""]')).toHaveLength(1);
-    expect(root.querySelector('.hs-how a[href="/new-age-leadership"]')?.textContent).toBe("How the hybrid organisation works");
+    expect(root.querySelector('.hs-how a[href="/new-age-leadership"]')).toBeNull();
+    expect(sections).not.toContain("Every time, the people who kept their own judgement");
     expect(root.querySelector(".hs-how [data-hs-rail]")).toBeNull();
     expect(sections).not.toContain("When built right");
   });

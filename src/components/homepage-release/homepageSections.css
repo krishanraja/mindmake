@@ -875,3 +875,53 @@
 @media (prefers-reduced-motion: reduce) {
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li { transition: none; }
 }
+
+/* On a wide screen the results to come fan out to the right of the current
+   one, as the story deck does (mindmake-deck.css; owner, 2026-11-11: "more
+   spread out and visible throughout the section"): each a step smaller and
+   darker, pressed to come to the front; the ones read slide away left. */
+@media (min-width: 761px) {
+  .mm-homepage-release .hs-proof-deck.is-deck { max-width: none; }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof { padding-top: 0; justify-items: start; }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
+    width: min(520px, 100%);
+    transform-origin: 0 50%;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s linear .42s;
+  }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="current"] {
+    opacity: 1;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s;
+  }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"] {
+    transform: translateX(calc(var(--ahead) * var(--fan-step, 0px))) scale(calc(1 - var(--ahead) * .06));
+    visibility: inherit;
+    cursor: pointer;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, visibility 0s;
+  }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: #050c09;
+    opacity: calc(var(--ahead) * .22);
+    pointer-events: none;
+    transition: opacity .25s ease;
+  }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"][style*="--ahead: 4"] { visibility: hidden; }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"],
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"][style*="--depth: 3"] {
+    transform: translateX(-6%) scale(.94);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .3s ease, visibility 0s linear .42s;
+  }
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"]::after { content: none; }
+}
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"]:hover::after { opacity: calc(var(--ahead) * .12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li,
+  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck] { transition: none; }
+}

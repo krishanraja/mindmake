@@ -54,6 +54,52 @@
 @media (prefers-reduced-motion: reduce) {
   .nal-page .story-finder.is-deck .finder-rail > .finder-card { transition: none; }
 }
+/* On a wide screen the cards to come fan out to the right of the current
+   one across the whole column, each a step smaller and darker, so the reader
+   sees the palette of stories there is (owner, 2026-11-11). The step comes
+   from the script (--fan-step, paintDeckCards in storyFinder.ts), so the fan
+   fills the column and never passes its edge. A fanned card comes to the
+   front when pressed; the ones already read slide away to the left. */
 @media (min-width: 761px) {
-  .nal-page .story-finder.is-deck .finder-rail { max-width: 520px; }
+  .nal-page .story-finder.is-deck .finder-rail { padding-top: 0; justify-items: start; }
+  .nal-page .story-finder.is-deck .finder-rail > .finder-card {
+    width: min(520px, 100%);
+    transform-origin: 0 50%;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s linear .42s;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="current"] {
+    opacity: 1;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="next"] {
+    transform: translateX(calc(var(--ahead) * var(--fan-step, 0px))) scale(calc(1 - var(--ahead) * .06));
+    visibility: inherit;
+    cursor: pointer;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, visibility 0s;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="next"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #050c09;
+    opacity: calc(var(--ahead) * .22);
+    pointer-events: none;
+    transition: opacity .25s ease;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="next"][style*="--ahead: 4"] { visibility: hidden; }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="past"],
+  .nal-page .story-finder.is-deck .finder-card[data-deck="past"][style*="--depth: 3"] {
+    transform: translateX(-6%) scale(.94);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .3s ease, visibility 0s linear .42s;
+  }
+  .nal-page .story-finder.is-deck .finder-card[data-deck="past"]::after { content: none; }
+}
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
+  .nal-page .story-finder.is-deck .finder-card[data-deck="next"]:hover::after { opacity: calc(var(--ahead) * .12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nal-page .story-finder.is-deck .finder-rail > .finder-card,
+  .nal-page .story-finder.is-deck .finder-card[data-deck] { transition: none; }
 }

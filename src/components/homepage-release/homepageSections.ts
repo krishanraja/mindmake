@@ -10,7 +10,7 @@ import { publishableTestimonials } from "@/data/testimonials";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
-import { DECK_PEEKS, deckStates, swipeIntent } from "@/components/leadership-chapters/storyFinder";
+import { DECK_WIDE, paintDeckCards, swipeIntent } from "@/components/leadership-chapters/storyFinder";
 
 /**
  * The homepage after its opening, in three sections (Ruling, Krish,
@@ -168,16 +168,11 @@ function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
   const prev = deck.querySelector<HTMLButtonElement>('[data-hs-deck-step="-1"]');
   const next = deck.querySelector<HTMLButtonElement>('[data-hs-deck-step="1"]');
   let at = 0;
+  const wide = window.matchMedia?.(DECK_WIDE);
   const paint = () => {
     at = Math.max(0, Math.min(cards.length - 1, at));
-    deckStates(cards.length, at).forEach(({ state, depth }, k) => {
-      const card = cards[k];
-      card.dataset.deck = state;
-      card.style.setProperty("--depth", String(Math.min(depth, DECK_PEEKS + 1)));
-      card.style.zIndex = String(k + 1);
-      card.style.removeProperty("translate");
-      card.toggleAttribute("inert", state !== "current");
-    });
+    /* On a wide screen the results to come fan out to the right (2026-11-11). */
+    paintDeckCards(cards, at, Boolean(wide?.matches), track);
     if (counter) counter.textContent = String(at + 1);
     if (prev) prev.disabled = at <= 0;
     if (next) next.disabled = at >= cards.length - 1;
@@ -209,20 +204,30 @@ function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
   track.addEventListener("pointerup", release, { signal });
   track.addEventListener("pointercancel", release, { signal });
   track.addEventListener("click", (event) => {
-    if (!swallowClick) return;
-    swallowClick = false;
-    event.preventDefault();
-    event.stopImmediatePropagation();
+    if (swallowClick) {
+      swallowClick = false;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    /* A result fanned out to the right comes to the front when pressed. */
+    const card = (event.target as Element | null)?.closest?.("[data-hs-deck-track] > li") as HTMLElement | null;
+    if (!card || card.dataset.deck === "current") return;
+    at = cards.indexOf(card);
+    paint();
   }, { capture: true, signal });
+  wide?.addEventListener?.("change", paint, { signal } as AddEventListenerOptions);
+  addEventListener("resize", paint, { passive: true, signal });
   deck.classList.add("is-deck");
   paint();
   signal.addEventListener("abort", () => {
     deck.classList.remove("is-deck");
     cards.forEach((card) => {
       delete card.dataset.deck;
-      for (const property of ["--depth", "z-index", "translate"]) card.style.removeProperty(property);
+      for (const property of ["--depth", "--ahead", "z-index", "translate"]) card.style.removeProperty(property);
       card.removeAttribute("inert");
     });
+    track.style.removeProperty("--fan-step");
   });
 }
 

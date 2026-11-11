@@ -2180,6 +2180,25 @@
         "Phone recording (Pixel 7, built site): the tour stepped BI-003 to BI-004 after 8s, held BI-010 for 8s with its card open, and moved on to BI-011 within 8.5s of closing the card.",
         "qa:reading-flow passes at Pixel 7, 360x780, Pixel 7 landscape and 1440x900 plus reduced motion, with the new checks; typecheck, lint, 743 unit tests, the build and the repository gates pass; on a 360x780 phone the Brain is 231px (was 200px) and the section still ends at 743 of 780px."
       ]
+    },
+    {
+      "id": "S9-FAN-001",
+      "exactFeedback": "I think all the \"Where would you start?\" cards on desktop need to be more spread out and visible throughout the section, but animate beautifully in the way that they do (so that the user can see there's a palette of different options and cards there, rather than hiding them all under one card). And then, secondly the sections in the private-to-you screen grab should all just be one section that fits one desktop screen. / (choices) Fan to the right; All four; Its own full screen / merge to main when done, fast forward all the long checks",
+      "source": "Krish, 11 November 2026, with laptop screenshots of the homepage results, Private to you, and Where would you start? on /ai-brain and /ai-gtm.",
+      "surface": "/, /ai-brain, /ai-gtm, /case-studies",
+      "section": "the story decks and the homepage results; Private to you on /ai-brain",
+      "device": "laptop and wider (761px and up)",
+      "element": "the swipe deck; the living record panel",
+      "classification": "correction",
+      "requiredOutcome": "On a laptop the cards to come are visible, fanned to the right of the current card with the same movement, on all four decks; Private to you is one section that fills one laptop screen. Phones unchanged.",
+      "acceptanceTest": "src/test/s9-repair.test.ts (fanStep keeps the fan inside the rail); a browser probe at 1920, 1440 and 1280 (all three cards visible, nothing past the rail, a pressed fanned card comes to the front, Private to you exactly one screen); screenshots. The long browser gates were skipped at the owner's instruction.",
+      "status": "implemented-awaiting-review",
+      "resolution": "storyFinder.ts: fanStep, paintDeckCards and a press on a fanned card in mountDeck; homepageSections.ts mountProofDeck uses the same; mindmake-deck.css and homepageSections.css fan the cards from 761px; mindmake-connected-brain.css gives the living record one screen and larger totals.",
+      "evidence": [
+        "Browser probe on the built site at 1920x1080, 1440x900 and 1280x800: on /ai-brain, /ai-gtm, /case-studies and the homepage all three cards are visible with a fan step of 126 to 208px and none passes the rail; pressing the last fanned card makes it current without opening it; Pixel 7 shows no fanned card.",
+        "Private to you measures exactly one screen below the masthead (834px at 1440x900, 734px at 1280x800) with no sideways overflow.",
+        "typecheck, lint, 749 unit tests, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:material-review:self-test and qa:plain-language pass. Skipped at the owner's instruction: qa:line-breaks, qa:reading-flow, qa:homepage-release:pre-merge, qa:nojs and qa:card-contrast."
+      ]
     }
   ]
 }

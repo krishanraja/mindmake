@@ -302,6 +302,44 @@ export function deckStates(count: number, index: number) {
     : k === index ? { state: "current" as const, depth: 0 } : { state: "next" as const, depth: 0 });
 }
 
+/** On a wide screen, how many cards still to come fan out beside the current one. */
+export const DECK_FAN = 3;
+/** The width at which the deck fans to the right instead of stacking upwards. */
+export const DECK_WIDE = "(min-width: 761px)";
+
+/**
+ * How far apart the fanned cards sit (CSS px): they spread across the room the
+ * rail has beside the current card, never past its edge (so no word is
+ * clipped), and never so far apart that they stop reading as one deck.
+ */
+export function fanStep(railWidth: number, cardWidth: number, count: number): number {
+  const shown = Math.min(DECK_FAN, Math.max(1, count - 1));
+  const room = Math.max(0, railWidth - cardWidth) / shown;
+  return Math.round(Math.max(0, Math.min(room, cardWidth * 0.4)));
+}
+
+/**
+ * Puts each card in its place in the deck. On a phone the cards already read
+ * peek above the current one; on a wide screen the cards to come fan out to
+ * its right (owner, 2026-11-11: "more spread out and visible throughout the
+ * section ... so that the user can see there's a palette of different
+ * options"), each a step smaller and darker, and stay reachable.
+ */
+export function paintDeckCards(cards: HTMLElement[], at: number, wide: boolean, rail?: HTMLElement | null) {
+  const count = cards.length;
+  deckStates(count, at).forEach(({ state, depth }, k) => {
+    const card = cards[k];
+    const ahead = state === "next" ? k - at : 0;
+    card.dataset.deck = state;
+    card.style.setProperty("--depth", String(Math.min(depth, DECK_PEEKS + 1)));
+    card.style.setProperty("--ahead", String(Math.min(ahead, DECK_FAN + 1)));
+    card.style.zIndex = String(state === "current" ? count + 1 : state === "next" ? count - ahead : k + 1);
+    card.style.removeProperty("translate");
+    card.toggleAttribute("inert", wide ? state === "past" || ahead > DECK_FAN : state !== "current");
+  });
+  if (rail && wide && cards[at]) rail.style.setProperty("--fan-step", `${fanStep(rail.clientWidth, cards[at].offsetWidth, count)}px`);
+}
+
 /** Whether a finished drag moves the deck: -1 back, 1 on, 0 stay. A short fast flick counts. */
 export function swipeIntent(dx: number, dy: number, ms: number): -1 | 0 | 1 {
   if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return 0;
@@ -325,6 +363,7 @@ export function swipeIntent(dx: number, dy: number, ms: number): -1 | 0 | 1 {
  */
 function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLElement[], signal: AbortSignal) {
   const index = new Map<HTMLElement, number>(panels.map((panel) => [panel, 0]));
+  const wide = window.matchMedia?.(DECK_WIDE);
   let live = false;
 
   const cardsOf = (panel: HTMLElement) => [...panel.querySelectorAll<HTMLElement>("[data-finder-rail] > .finder-card")];
@@ -332,14 +371,10 @@ function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLE
     const cards = cardsOf(panel);
     const at = Math.max(0, Math.min(cards.length - 1, index.get(panel) ?? 0));
     index.set(panel, at);
-    deckStates(cards.length, at).forEach(({ state, depth }, k) => {
-      const card = cards[k];
-      card.dataset.deck = state;
-      card.style.setProperty("--depth", String(Math.min(depth, DECK_PEEKS + 1)));
-      card.style.zIndex = String(k + 1);
-      card.style.removeProperty("translate");
-      card.toggleAttribute("inert", state !== "current");
-    });
+    const rail = panel.querySelector<HTMLElement>("[data-finder-rail]");
+    paintDeckCards(cards, at, Boolean(wide?.matches), rail);
+    /* A situation shown only now has no width yet: place its fan next frame. */
+    if (wide?.matches && rail && !rail.clientWidth) requestAnimationFrame(() => { if (live && rail.clientWidth) paintDeckCards(cards, index.get(panel) ?? 0, true, rail); });
     const count = panel.querySelector<HTMLElement>("[data-finder-at]");
     if (count) count.textContent = String(at + 1);
     const nav = panel.querySelector<HTMLElement>(".finder-nav");
@@ -390,10 +425,20 @@ function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLE
     rail.addEventListener("pointerup", release, { signal });
     rail.addEventListener("pointercancel", release, { signal });
     rail.addEventListener("click", (event) => {
-      if (!swallowClick) return;
-      swallowClick = false;
+      if (swallowClick) {
+        swallowClick = false;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+      /* A card fanned out to the right comes to the front when pressed; the
+         card in front still opens its whole story. */
+      const card = (event.target as Element | null)?.closest?.<HTMLElement>(".finder-card");
+      if (!live || !card || card.dataset.deck === "current") return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      index.set(panel, cardsOf(panel).indexOf(card));
+      paint(panel);
     }, { capture: true, signal });
   });
   /* A new situation starts at its first story. */
@@ -413,12 +458,17 @@ function mountDeck(finder: HTMLElement, tabs: HTMLButtonElement[], panels: HTMLE
     if (!live) return;
     live = false;
     finder.classList.remove("is-deck");
-    panels.forEach((panel) => cardsOf(panel).forEach((card) => {
-      delete card.dataset.deck;
-      for (const property of ["--depth", "z-index", "translate"]) card.style.removeProperty(property);
-      card.removeAttribute("inert");
-    }));
+    panels.forEach((panel) => {
+      panel.querySelector<HTMLElement>("[data-finder-rail]")?.style.removeProperty("--fan-step");
+      cardsOf(panel).forEach((card) => {
+        delete card.dataset.deck;
+        for (const property of ["--depth", "--ahead", "z-index", "translate"]) card.style.removeProperty(property);
+        card.removeAttribute("inert");
+      });
+    });
   };
+  wide?.addEventListener?.("change", () => { if (live) panels.forEach(paint); }, { signal } as AddEventListenerOptions);
+  addEventListener("resize", () => { if (live) panels.forEach(paint); }, { passive: true, signal });
   enter();
   return () => leave();
 }

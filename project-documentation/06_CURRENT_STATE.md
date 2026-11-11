@@ -75,8 +75,8 @@ owns the accepted detail and `01_CANON.md` the exact copy.
 - `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
   Brain holds beside private to you, the 30 days, the story chooser (eighteen
   stories in five situations, never pinned, the whole story in a sheet, as a
-  swipe deck on every screen), "What stays with you" and one line to the
-  revenue engine. Since 10 November 2026 the goals section's picture is one
+  swipe deck on every screen), "What stays with you", "Instead of…" (see
+  below) and one line to the revenue engine. Since 10 November 2026 the goals section's picture is one
   connected Brain: twenty ideas in seven named clusters on a liquid mass, with
   a reading and a floating card per idea; it holds still until the reader
   picks or presses Play (detail in `website-redesign/STATE.md`, S9).
@@ -84,6 +84,10 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   sections on the r47 rebuild (`AI-GTM-R47-OWNER-REVIEW-001`, accepted:
   "I approve the /ai-gtm rebuild"); nothing pins; **Start building your AI
   revenue engine**.
+- Both offer pages (Krish, 2026-11-11): "Instead of…" directly above the way
+  in, one select of the routes a visitor would otherwise take, what each leaves
+  them with beside what Mindmake leaves them, and "See all side by side" as a
+  full-screen board on a phone. `03_DESIGN_CONTRACT.md` owns the rules.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".

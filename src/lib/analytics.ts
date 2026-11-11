@@ -24,7 +24,10 @@ export type MindmakeEvent =
   | "substack_click"
   /* A dead end that offered a person, and one that a person was asked for. */
   | "handoff_offer"
-  | "handoff_request";
+  | "handoff_request"
+  /* The "Instead of…" comparison on the two offer pages. */
+  | "compare_pick"
+  | "compare_board_open";
 
 type EventProps = Record<string, string | number | boolean>;
 

@@ -27,7 +27,8 @@ export type MindmakeEvent =
   | "handoff_request"
   /* The "Instead of…" comparison on the two offer pages. */
   | "compare_pick"
-  | "compare_board_open";
+  | "compare_board_open"
+  | "compare_nudge_open";
 
 type EventProps = Record<string, string | number | boolean>;
 

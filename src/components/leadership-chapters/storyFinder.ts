@@ -103,7 +103,7 @@ export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker 
   const label = kicker ? `<p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p>` : "";
   const question = door === "library" ? "What do you want to build?" : "Where would you start?";
   const head = intro ? `<div class="finder-intro"><h1 id="library-title">${esc(intro.title)}</h1><p>${esc(intro.lede)}</p></div>` : "";
-  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2>${doors}<div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
+  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2>${door === "brain" || door === "gtm" ? `<div class="finder-compare" data-compare-slot></div>` : ""}${doors}<div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
 }
 
 export interface StoryFinderOptions {

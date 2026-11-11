@@ -149,7 +149,7 @@ Styles: `src/styles/mindmake-calm-s8.css`. Ledger row `S8-CALM-001`.
 
 Krish's review of the live site on 4 November 2026 (feedback ledger rows
 `S7-PICTURES-001` to `S7-WRAP-001`). Every story card in "Where would you
-start?" lies on its own picture (three new generated stills: the insurance
+start?" lies on its own picture (three new generated stills: the fintech
 leader, the investor and the broadcaster). The homepage's "When built right"
 carousel is gone; its three pictures are still tiles (Notices, Connects,
 Prepares) under the AI carries line. Every section on `/` and `/ai-brain`, and
@@ -217,9 +217,11 @@ component that changes size when a reader makes a choice.
   Allow and Decline; `PairingBridge` is the page's way in and one line to the
   other page.
 
-The two new stories (the insurance leader and the investor, from his own
+The two new stories (the fintech leader and the investor, from his own
 account, in `leadershipChapters.ts`) are approved as written (Krish, 24
-October 2026: "Both story wordings approved as written."). Krish gave the go to merge on 24 October 2026 ("Go: merge S6 to main and read production back."); `06_CURRENT_STATE.md` owns the release readback. The line under the button names
+October 2026: "Both story wordings approved as written."); the first was
+written up as an insurance leader until Krish corrected it on 11 November
+2026 ("This is actually a fintech leader"). Krish gave the go to merge on 24 October 2026 ("Go: merge S6 to main and read production back."); `06_CURRENT_STATE.md` owns the release readback. The line under the button names
 no time; inside the brief the first step says it "takes only a few minutes"
 (Krish's own words, 2026-10-24), a time that is not measured. The publication line names one issue read from the publication's
 feed at build time (`scripts/fetch-latest-issue.mjs`) and calls it "From Make

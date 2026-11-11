@@ -2309,6 +2309,23 @@
         "Finder ground rgba(0, 0, 0, 0) on /ai-gtm at all four sizes.",
         "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
       ]
+    },
+    {
+      "id": "S9-STORY-FINTECH-001",
+      "exactFeedback": "This is actually a fintech leader",
+      "source": "Krish, 11 November 2026, with a phone screenshot of the card \"An insurance leader who networks less now still hears what her market says.\" on /case-studies.",
+      "surface": "/ai-brain, /case-studies, /new-age-leadership",
+      "section": "Seeing what is changing",
+      "device": "all",
+      "element": "the first story card and its sheet",
+      "classification": "correction",
+      "requiredOutcome": "The story names the client's industry as fintech: the card, its sheet and every current record that describes it.",
+      "acceptanceTest": "src/test/leadership-stories.test.ts (the heading starts \"A fintech leader\", the situation \"A senior fintech leader\", and no story says insurance); qa:line-breaks on the built site; the card read back on production.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Heading \"A fintech leader who networks less now still hears what her market says.\" and situation \"A senior fintech leader used to hear her industry's news by networking.\"; the rest of the approved wording is unchanged. Corrected in 04_PROOF.md and website-redesign/STATE.md; S6-STORIES-NEW-001 keeps Krish's original words, which named an insurance company.",
+      "evidence": [
+        "src/test/leadership-stories.test.ts passes with the new guard; the required gates run before merge and their results are in the pull request."
+      ]
     }
   ]
 }

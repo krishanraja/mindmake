@@ -108,11 +108,13 @@ export const leadershipStories: readonly LeadershipStory[] = [
   /* Seeing what is changing. The first two are Krish's own account of each
      engagement (Krish, 2026-10-24), anonymous at role level like the rest;
      neither has a result on the record, so neither carries a quote or a
-     case-study link. The insurance leader may not hand over customer data, so
-     her story says plainly that nothing leaves her business. */
+     case-study link. The fintech leader may not hand over customer data, so
+     her story says plainly that nothing leaves her business. She was first
+     written up as an insurance leader; Krish corrected it on 11 November
+     2026: "This is actually a fintech leader". */
   {
-    heading: `An insurance leader who networks less now still hears what ${keep("her market")} says.`,
-    situation: `A senior insurance leader used to hear her industry's news by networking. She can do far less of that now, and cannot share customer data.`,
+    heading: `A fintech leader who networks less now still hears what ${keep("her market")} says.`,
+    situation: `A senior fintech leader used to hear her industry's news by networking. She can do far less of that now, and cannot share customer data.`,
     happened: `We built her ${keep("a one-way")} feed: the world outside her business, brought to her. Nothing goes out, so no customer data leaves.`,
     outcome: `She feels more informed, and no customer data ever leaves her business.`,
     scene: receiverPlate,

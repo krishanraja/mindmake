@@ -31,7 +31,7 @@ interface Situation {
 
 export const SITUATIONS: readonly Situation[] = [
   { id: "ideas", label: "Getting your ideas out", door: "brain", cards: ["A founder who posted", "A CEO who hates writing", "Leadership updates become"] },
-  { id: "change", label: "Seeing what is changing", door: "brain", cards: ["An insurance leader", "An investor buying", "A CEO who read many newsletters", "A leader who only heard from inside", "A change in market pricing"] },
+  { id: "change", label: "Seeing what is changing", door: "brain", cards: ["A fintech leader", "An investor buying", "A CEO who read many newsletters", "A leader who only heard from inside", "A change in market pricing"] },
   { id: "hands", label: "Getting hands-on again", door: "brain", cards: ["A head of operations", "Someone new to AI", "A CRO who hates the numbers"] },
   { id: "team", label: "Keeping your team in step", door: "gtm", cards: ["Teams working on the same account", "One person corrected it once", "A team's account plans"] },
   { id: "calls", label: "Making the big AI calls", door: "gtm", cards: ["Two quarters of argument", "A respected advisory firm", "A publisher weighing up", "A broadcaster stopped"] },

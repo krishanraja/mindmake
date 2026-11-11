@@ -200,7 +200,9 @@ this file does not keep a second copy.
   stays on `/case-studies`), and the stories "Work nobody owns" and
   "Founder-led content".
 - Added on 24 October 2026 from Krish's own account in the S6 session, first
-  under "Seeing what is changing": a senior insurance leader who networks less
+  under "Seeing what is changing": a senior fintech leader (written up as
+  insurance until Krish corrected it on 11 November 2026: "This is actually a
+  fintech leader") who networks less
   now and receives the outside world one way, with no customer data leaving
   her business, and an investor buying companies whose own method now watches
   his market. Both are anonymous at role level and carry no figure. Krish

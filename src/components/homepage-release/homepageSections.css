@@ -585,26 +585,16 @@
 .mm-homepage-release .hs-era { min-height: clamp(260px, 38vh, 360px); }
 .mm-homepage-release .hs-rail { gap: 12px; }
 .mm-homepage-release .hs-proof > li { --hs-band: clamp(84px, 13vh, 130px); }
-.mm-homepage-release .hs-get .hs-inner > .hs-start { display: inline-grid; }
 .mm-homepage-release .hs-get .hs-proof-links { align-items: center; }
 
-/* The how section on a desktop: the words and the flow beside one picture
-   (Krish, 2026-11-04, mock approved). */
+/* The close on a desktop: the heading and its line on the left, the orb's
+   question beside them, then the results and the band across the width. */
 @media (min-width: 1024px) {
-  .mm-homepage-release .hs-how .hs-inner {
-    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
-    column-gap: clamp(32px, 5vw, 88px);
-    align-items: center;
-  }
-  .mm-homepage-release .hs-how .hs-inner > :not(.hs-how-figure) { grid-column: 1; }
-  .mm-homepage-release .hs-how .hs-how-figure { grid-column: 2; grid-row: 1 / span 5; align-self: center; }
-  .mm-homepage-release .hs-get .hs-inner { grid-template-columns: auto 1fr; align-items: center; column-gap: 32px; }
-  .mm-homepage-release .hs-get .hs-inner > :not(.hs-start):not(.hs-proof-links):not(.hs-voices) { grid-column: 1 / -1; }
-  .mm-homepage-release .hs-get .hs-inner > .hs-start { grid-column: 1; grid-row: 4; }
-  .mm-homepage-release .hs-get .hs-proof-links,
-  .mm-homepage-release .hs-get .hs-voices { grid-column: 2; grid-row: 4; }
-  /* Beside the way in, the voices need no rule above them. */
-  .mm-homepage-release .hs-get .hs-voices { padding: 0 0 0 28px; border-top: 0; border-left: 1px solid var(--hs-line); }
+  .mm-homepage-release .hs-get .hs-inner { grid-template-columns: minmax(0, 1fr) auto; column-gap: clamp(32px, 5vw, 88px); align-items: start; }
+  .mm-homepage-release .hs-get .hs-inner > * { grid-column: 1 / -1; }
+  .mm-homepage-release .hs-get .hs-inner > .hs-title,
+  .mm-homepage-release .hs-get .hs-inner > .hs-lede { grid-column: 1; }
+  .mm-homepage-release .hs-get .hs-inner > .hs-choose { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 }
 
 /* No section taller than the screen below the masthead on a desktop (Krish,
@@ -926,4 +916,75 @@
 @media (prefers-reduced-motion: reduce) {
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li,
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck] { transition: none; }
+}
+
+/* ---------- Where to start: a floating piece of the living Brain ---------- */
+.mm-homepage-release .hs-choose { --orb: 84px; display: flex; align-items: center; gap: 16px; }
+.mm-homepage-release .hs-choose-orb { position: relative; flex: none; width: var(--orb); height: calc(var(--orb) + 22px); }
+.mm-homepage-release .hs-choose-body { position: absolute; top: 4px; left: 0; width: var(--orb); height: var(--orb); overflow: visible; }
+.mm-homepage-release .hs-choose-body canvas { position: absolute; pointer-events: none; }
+.mm-homepage-release .hs-choose-body .mm-orb-mass { position: absolute; inset: 0; filter: drop-shadow(0 0 1px rgba(157, 240, 200, .55)) drop-shadow(0 0 14px rgba(127, 227, 180, .42)); }
+.mm-homepage-release .hs-choose-body .mm-orb-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.mm-homepage-release .hs-choose-shadow { position: absolute; left: 18%; bottom: 0; width: 64%; height: 10px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, .55), rgba(0, 0, 0, 0)); }
+@media (prefers-reduced-motion: no-preference) {
+  .mm-homepage-release .hs-choose-body { animation: hs-orb-float 5.6s ease-in-out infinite; }
+  .mm-homepage-release .hs-choose-shadow { animation: hs-orb-shadow 5.6s ease-in-out infinite; }
+}
+@keyframes hs-orb-float { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-5px); } }
+@keyframes hs-orb-shadow { 0%, 100% { transform: scaleX(1); opacity: .9; } 50% { transform: scaleX(.72); opacity: .45; } }
+.mm-homepage-release .hs-choose-bubble {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(157, 240, 200, .22);
+  border-radius: 16px;
+  background: rgba(6, 15, 11, .82);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .3);
+}
+.mm-homepage-release .hs-choose-bubble::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid rgba(157, 240, 200, .22);
+  border-left: 1px solid rgba(157, 240, 200, .22);
+  background: rgb(6, 15, 11);
+  transform: translateY(-50%) rotate(45deg);
+}
+.mm-homepage-release .hs-choose-q { margin: 0; color: var(--hs-cream); font: 400 clamp(18px, 1.5vw, 21px) / 1.2 var(--r3-serif); letter-spacing: -.01em; }
+.mm-homepage-release .hs-choose-doors { display: flex; flex-wrap: wrap; gap: 8px; }
+.mm-homepage-release .hs-choose-door {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 14px;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 1px solid rgba(157, 240, 200, .38);
+  border-radius: 10px;
+  color: var(--hs-cream);
+  text-decoration: none;
+  transition: border-color .12s ease, background-color .12s ease;
+}
+.mm-homepage-release .hs-choose-door b { color: var(--hs-mint); font: 600 15px / 1.15 Archivo, Arial, sans-serif; }
+.mm-homepage-release .hs-choose-door span { grid-column: 1; color: var(--hs-cream-3); font: 400 10.5px / 1.3 var(--r3-mono); letter-spacing: .1em; text-transform: uppercase; }
+.mm-homepage-release .hs-choose-door i { grid-column: 2; grid-row: 1 / span 2; color: var(--hs-mint); font-style: normal; }
+.mm-homepage-release .hs-choose-door:hover { border-color: var(--hs-mint); background: rgba(159, 241, 201, .08); }
+.mm-homepage-release .hs-choose-door:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
+/* The band is only about exploring what leaders built. */
+.mm-homepage-release .hs-voices-link.hs-explore {
+  padding: 0 18px;
+  border: 1px solid rgba(159, 241, 201, .55);
+  border-radius: 2px;
+  text-decoration: none;
+}
+.mm-homepage-release .hs-voices-link.hs-explore:hover { background: rgba(159, 241, 201, .08); border-color: var(--hs-mint); }
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-choose { --orb: 64px; gap: 12px; align-items: flex-start; }
+  .mm-homepage-release .hs-choose-bubble::before { top: 34px; }
+  .mm-homepage-release .hs-choose-doors { display: grid; }
+  .mm-homepage-release .hs-choose-door { min-height: 48px; }
 }

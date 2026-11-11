@@ -56,9 +56,11 @@ Keep the accepted composition, copy, imagery, controls and responsive choices.
 Since S6 (24 October 2026) every page is three sections: the problem, how it
 works, and what the reader gets and how they know it works. Between the R3
 opening and the footer the homepage carries "Right now, your AI is an intern."
-(the four eras, a carousel on their pictures), "A chief of staff knows how you
-think." (the organisation and a carousel of practice scenes) and "Built on
-your real work. Yours to keep."; nothing on it pins. The AI Brain stories are a
+(the four eras, a carousel on their pictures) and "We build yours with you in
+30 days." (results, a floating Brain orb asking where to start, and a band
+for exploring what leaders built); "An AI chief of staff knows how you think."
+moved to `/ai-brain` on 11 November 2026; nothing on the homepage pins. No
+section is taller than a desktop screen (`qa:section-heights`). The AI Brain stories are a
 chooser on `/ai-brain` that never pins: eighteen stories in five situations,
 the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
 Generate the adapter from the immutable R3 source, never reconstruct it from
@@ -76,6 +78,12 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
+  chief of staff knows how you think." took its place. The homepage close lost
+  its button: a floating Brain orb asks "Where do you want to start?" (with
+  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
+  only about exploring what leaders built. No section is taller than a desktop
+  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
 - 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, under "Where would
   you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
   found too much page). A bubble's caption turns through the routes a visitor

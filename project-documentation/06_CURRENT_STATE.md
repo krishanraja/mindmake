@@ -66,14 +66,16 @@ owns the accepted detail and `01_CANON.md` the exact copy.
 - `/`: the R3 opening (film, a headline that turns through six lines and rests
   on "Promote your AI from intern to chief of staff.", both doors, **Start
   building your AI brain** with "Free and private. It starts with a read of
-  your business." beneath, and a publication line), then three sections:
-  "Right now, your AI is an intern." with the four eras as a carousel on their
-  pictures, "A chief of staff knows how you think." with the organisation and
-  the three practice scenes as a carousel, and "Built on your real work. Yours
-  to keep." with three results on their stories' pictures; then the footer.
+  your business." beneath, and a publication line), then two sections (since
+  11 November 2026): "Right now, your AI is an intern." with the four eras as
+  a carousel on their pictures, and "We build yours with you in 30 days." with
+  three results on their stories' pictures, a floating Brain orb asking where
+  to start (yourself, to /ai-brain, or your business, to /ai-gtm) and a band
+  only about exploring what leaders built; then the footer.
   Nothing on it pins, and the opening grows to hold everything it carries.
 - `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
-  Brain holds beside private to you, the 30 days, the story chooser (eighteen
+  Brain holds and "An AI chief of staff knows how you think." (moved from the
+  homepage on 11 November 2026, replacing "Private to you"), the 30 days, the story chooser (eighteen
   stories in five situations, never pinned, the whole story in a sheet, as a
   swipe deck on every screen), "What stays with you" and one line to the
   revenue engine. Since 10 November 2026 the goals section's picture is one

@@ -883,8 +883,10 @@
 @media (min-width: 761px) {
   .mm-homepage-release .hs-proof-deck.is-deck { max-width: none; }
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof { padding-top: 0; justify-items: start; }
+  /* Bigger cards, and the fan reaches the section's far edge (owner,
+     2026-11-11: "use the full width of the section on desktop"). */
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
-    width: min(520px, 100%);
+    width: clamp(360px, 44%, 680px);
     transform-origin: 0 50%;
     transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s linear .42s;
   }

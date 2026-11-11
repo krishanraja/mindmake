@@ -150,12 +150,23 @@ describe("the Brain's voice", () => {
     ["brain-fixture (displayed fields)", displayedFixture],
   ];
 
+  // Owner-approved exceptions (Krish, 2026-11-11): these exact opening lines
+  // are kept verbatim; the guardrails still apply to every other line.
+  const APPROVED_EXCEPTIONS = [
+    "An AI brain starts from you, not tasks.",
+    "it becomes your $200k chief of staff.",
+  ];
+  const withoutApproved = (copy: string) =>
+    APPROVED_EXCEPTIONS.reduce((text, line) => text.split(line).join(""), copy);
+
   it.each(surfaces)("uses no banned framing in %s", (_surface, copy) => {
-    for (const word of BANNED) expect(copy, word).not.toMatch(new RegExp(`\\b${word}\\b`, "i"));
+    const checked = withoutApproved(copy);
+    for (const word of BANNED) expect(checked, word).not.toMatch(new RegExp(`\\b${word}\\b`, "i"));
   });
 
   it.each(surfaces)("uses no antithesis template in %s", (_surface, copy) => {
-    for (const pattern of ANTITHESIS) expect(copy, String(pattern)).not.toMatch(pattern);
+    const checked = withoutApproved(copy);
+    for (const pattern of ANTITHESIS) expect(checked, String(pattern)).not.toMatch(pattern);
   });
 
   it.each(surfaces)("uses no em or en dash as punctuation in %s", (_surface, copy) => {

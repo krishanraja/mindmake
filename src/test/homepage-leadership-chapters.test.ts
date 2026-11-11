@@ -41,10 +41,11 @@ describe("the homepage in three sections", () => {
     const hero = heroStartMarkup();
     expect(hero).toContain('data-start-route="brain"');
     expect(hero).toContain("Start building your AI brain");
-    expect(hero).toContain("From our publication");
+    expect(hero).toContain("From our media channel");
+    expect(hero).not.toContain("Free and private.");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves ten times better, and set the pace.");
+    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves 10x better, and set the new pace.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {

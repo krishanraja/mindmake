@@ -246,12 +246,6 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     };
 
     let liquid: ReturnType<typeof mountLiquidBrain> | null = null;
-    const tourButton = q<HTMLButtonElement>("#brainTourS2");
-    const showTour = (on: boolean) => {
-      if (!tourButton) return;
-      tourButton.textContent = on ? "Pause the tour" : "Play the tour";
-      tourButton.setAttribute("aria-pressed", on ? "false" : "true");
-    };
     let openDetail: (id: string) => void = () => undefined;
     let closeDetail: (returnFocus?: boolean) => void = () => undefined;
     const pickMeaning = (item: BrainItem) => {
@@ -259,7 +253,6 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       inspector?.setAttribute("aria-live", "polite");
       selectMeaning(item);
       liquid?.select(item.id, true);
-      showTour(false);
       openDetail(item.id);
     };
 
@@ -343,19 +336,13 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       });
       cleanups.push(() => liquid?.destroy());
 
-      /* The tour can be paused and played again; picking an idea stops it,
-         and Play starts it again from that idea. */
-      let touring = !(reducedMotion.matches || renderFinal);
-      if (tourButton) tourButton.hidden = !touring;
-      showTour(touring);
-      const toggleTour = () => {
-        touring = tourButton?.getAttribute("aria-pressed") === "true";
-        if (touring) closeDetail();
-        liquid?.setTour(touring);
-        showTour(touring);
-      };
-      tourButton?.addEventListener("click", toggleTour);
-      cleanups.push(() => tourButton?.removeEventListener("click", toggleTour));
+      /* The tour just keeps going, with no button (owner, 2026-11-11: "it
+         just keeps going ... until I press something and then press out of
+         it. It still keeps going, which is a good thing"). Picking an idea
+         holds it while that idea's card is open; closing the card lets it
+         carry on from there, after a full stay on the idea shown. Reduced
+         motion has no tour. */
+      const touring = !(reducedMotion.matches || renderFinal);
 
       /* What an idea rests on floats over the Brain when the reader picks it
          (Krish, 2026-11-10: "an overlay that fluidly bobbles about upon
@@ -419,6 +406,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         window.clearTimeout(closing);
         closing = window.setTimeout(() => { if (detail.classList.contains("is-leaving")) detail.hidden = true; }, reducedMotion.matches ? 0 : 260);
         if (returnFocus) nodeById.get(detailFor)?.focus();
+        if (touring) liquid?.setTour(true);
       };
       const onDetailClick = (event: MouseEvent) => {
         event.stopPropagation();

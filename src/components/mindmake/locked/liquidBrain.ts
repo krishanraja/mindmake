@@ -337,7 +337,7 @@ export function mountLiquidBrain(field: HTMLElement, options: LiquidBrainOptions
   visibility.observe(field);
 
   return {
-    /** Start or stop the tour. A reader's pick ends it until they press Play again. */
+    /** Hold the tour, or let it carry on from the idea shown after a full stay. A reader's pick holds it until this is called with true. */
     setTour(on: boolean) { touring = on; if (on) pinned = false; lastSwitch = clock; },
     /** The reader chose an idea: the brain follows it and stops turning by itself. */
     select(id: string, byReader: boolean) {

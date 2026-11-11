@@ -202,10 +202,13 @@ for (const profile of PROFILES) {
       if (Math.abs(after - before) > 2) fail(where, `returning to the tab moved the page from ${before} to ${after}`);
 
       if (route === "/ai-brain") {
-        /* The connected Brain (2026-11-10) may tour its ideas slowly while it
-           is on screen. Each idea must stay long enough to read, and a reader's
-           pick must stop the tour: it used to turn every 3.6s and replace the
-           reading before anyone could read it (audit BRAIN-05). */
+        /* The connected Brain (2026-11-10) tours its ideas slowly while it is
+           on screen. Each idea must stay long enough to read, a reader's pick
+           holds the tour while its card is open, and closing the card lets it
+           carry on (owner, 2026-11-11: "It still keeps going, which is a good
+           thing"). There is no tour button. It used to turn every 3.6s and
+           replace the reading before anyone could read it (audit BRAIN-05). */
+        if (await page.locator(".brain-tour, #brainTourS2").count()) fail(where, "the Brain still shows a tour button");
         const active = () => page.evaluate(() => document.querySelector(".meaning-node-s2.is-active")?.dataset.id);
         await page.evaluate(() => document.querySelector("#meaningFieldS2")?.scrollIntoView({ block: "center" }));
         const first = await active();
@@ -219,8 +222,14 @@ for (const profile of PROFILES) {
         });
         await page.waitForTimeout(7600);
         const held = await active();
-        if (picked && held !== picked) fail(where, `the Brain's tour carried on after the reader picked ${picked} (now ${held})`);
+        if (picked && held !== picked) fail(where, `the Brain's tour moved on while the card for ${picked} was open (now ${held})`);
         await page.keyboard.press("Escape");
+        if (!reduced && picked) {
+          /* Closed, the tour carries on after a full stay on the idea shown. */
+          let resumed = false;
+          for (let i = 0; i < 20 && !resumed; i += 1) { await page.waitForTimeout(500); resumed = (await active()) !== picked; }
+          if (!resumed) fail(where, `the Brain's tour did not carry on within 10s of closing the card for ${picked}`);
+        }
         const stacked = await page.evaluate(() => {
           const memory = document.querySelector("#memory")?.getBoundingClientRect();
           const record = document.querySelector("#living-record")?.getBoundingClientRect();

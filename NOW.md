@@ -76,6 +76,12 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-11: "Instead of…" on `/ai-brain` and `/ai-gtm`, above the way in:
+  pick the route you would otherwise take and see what it leaves you with
+  beside what Mindmake does; the full board opens full screen on a phone and
+  closes back to the same pixel. Aimed at the North Star (cash collected, U4):
+  it answers "I could just do X" where the visitor decides. Measure with the
+  `compare_pick` and `compare_board_open` events against starts.
 - 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
   floating way in, sections stacked over one another) and broke the reading by
   evening. Krish's phone recording: "an audit mapped 96 issues, three of them

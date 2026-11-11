@@ -12,6 +12,7 @@ import lockedDocument from "../../prototypes/website-redesign-recovery/brain-sig
    ten seconds on a phone (Krish, 2026-11-04). */
 import evidencePoster from "@/assets/responsive/evidence-connects-poster-w1280.webp";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
+import { CompareLine } from "@/components/mindmake/CompareLine";
 import { Icon } from "@/components/mindmake/Icon";
 import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import type { IconName } from "@/lib/icons";
@@ -637,6 +638,7 @@ export default function AiBrainLocked() {
               {KEEPS.map((entry, index) => <li key={entry}><Icon name={KEEP_ICON[index]} className="mm-icon mm-icon-big" />{entry}</li>)}
             </ul>
           </div>
+          <CompareLine page="brain" />
           <PairingBridge route="brain" onStart={() => openBrief("brain")} startLabel={START_LABEL} />
         </div>
       </div>

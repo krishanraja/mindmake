@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { SEO } from "@/components/SEO";
+import { CompareLine } from "@/components/mindmake/CompareLine";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
@@ -322,6 +323,7 @@ export default function AiGtm() {
         <section className="gtm-begin gtm-s8 s8-body s8-green" data-gtm-chapter="start" aria-label="Where would you start?">
           <div className="mm-container">
             <StoryLibrary door="gtm" deck onStart={(door) => openBrief(door)} />
+            <CompareLine page="gtm" />
             <PairingBridge route="gtm" onStart={() => openBrief("gtm")} startLabel={START_LABEL_GTM} />
           </div>
         </section>

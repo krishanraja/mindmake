@@ -102,6 +102,21 @@ describe("the swipe deck", () => {
   });
 });
 
+describe("the fanned deck on a wide screen", () => {
+  it("spreads the cards to come across the room beside the current card, never past the rail", async () => {
+    const { fanStep, DECK_FAN } = await import("@/components/leadership-chapters/storyFinder");
+    expect(fanStep(877, 520, 3)).toBe(179);
+    /* Never further apart than 40% of a card, so they still read as one deck. */
+    expect(fanStep(1600, 520, 3)).toBe(208);
+    expect(fanStep(400, 520, 3)).toBe(0);
+    for (const [rail, card, count] of [[780, 520, 3], [1058, 520, 4], [818, 520, 8]]) {
+      const step = fanStep(rail, card, count);
+      const shown = Math.min(DECK_FAN, count - 1);
+      expect(shown * step + card, `${rail}/${count}`).toBeLessThanOrEqual(rail);
+    }
+  });
+});
+
 describe("the floating button", () => {
   const bar = () => {
     const wrap = document.createElement("div");

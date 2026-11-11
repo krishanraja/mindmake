@@ -252,6 +252,21 @@
   .mm-site .mm-locked-brain:is(*, .mm-alive) .month-days i:nth-child(29) { margin: 0; }
 }
 
+/* "Private to you" is one section that fills one laptop screen (owner,
+   2026-11-11: "should all just be one section that fits one desktop
+   screen"): the heading, the three promises and the four totals sit
+   together in the middle of it, with nothing of the Brain above or the
+   month below on the same screen. A phone keeps its own flow. */
+@media (min-width: 761px) {
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .pair-panel.living-record {
+    min-height: calc(100svh - var(--mm-header-height, 66px));
+    align-content: center;
+    row-gap: clamp(2rem, 6vh, 4.5rem);
+  }
+  /* The totals carry the screen: larger, so the section reads as one piece. */
+  .mm-site .mm-locked-brain:is(*, .mm-alive) .living-record .record-counts b { font-size: clamp(4.4rem, 12vh, 8.5rem); }
+}
+
 /* Without scripting the Brain takes the listing's height. Last in the file, so
    no laptop or phone height for the picture can win over it. */
 @media (scripting: none) {

@@ -118,6 +118,15 @@ is on screen, holds while an idea's card is open, and carries on from that
 idea once the card closes; reduced motion has no tour. On a phone the key's
 freed row went to the Brain.
 
+On a laptop the story decks fan out (Krish, 11 November 2026: "more spread out
+and visible throughout the section", ledger `S9-FAN-001`): the current card in
+front, up to three of the next fanned to its right across the column, each a
+step smaller and darker, never past its edge (`fanStep`, `paintDeckCards` in
+`storyFinder.ts`); pressing a fanned card brings it to the front, and the ones
+read slide away left. All four decks: /ai-brain, /ai-gtm, /case-studies and the
+homepage results. Phones keep the upward stack. "Private to you" is its own
+section filling one laptop screen, its totals larger.
+
 ## S8: one idea per section on the product pages (4 November 2026)
 
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry

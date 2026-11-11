@@ -76,7 +76,7 @@ describe("the homepage in three sections", () => {
     expect(sections).not.toContain("<video");
     const root = document.createElement("div");
     root.innerHTML = sections;
-    expect([...root.querySelectorAll(".hs-flow > li > b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
+    expect([...root.querySelectorAll(".hs-flow > li > b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "LEARNS"]);
     expect(root.querySelectorAll('.hs-flow > li > svg.mm-icon[aria-hidden="true"]')).toHaveLength(3);
     expect(root.querySelectorAll('.hs-how .hs-how-figure img.hs-card-img[alt=""]')).toHaveLength(1);
     expect(root.querySelector('.hs-how a[href="/new-age-leadership"]')).toBeNull();

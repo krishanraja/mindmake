@@ -172,7 +172,7 @@ function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
   const paint = () => {
     at = Math.max(0, Math.min(cards.length - 1, at));
     /* On a wide screen the results to come fan out to the right (2026-11-11). */
-    paintDeckCards(cards, at, Boolean(wide?.matches), track);
+    paintDeckCards(cards, at, Boolean(wide?.matches), track, { fill: true });
     if (counter) counter.textContent = String(at + 1);
     if (prev) prev.disabled = at <= 0;
     if (next) next.disabled = at >= cards.length - 1;

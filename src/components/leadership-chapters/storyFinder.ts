@@ -310,10 +310,14 @@ export const DECK_WIDE = "(min-width: 761px)";
 /**
  * How far apart the fanned cards sit (CSS px): they spread across the room the
  * rail has beside the current card, never past its edge (so no word is
- * clipped), and never so far apart that they stop reading as one deck.
+ * clipped), and never so far apart that they stop reading as one deck. With
+ * `fill`, the fan reaches the rail's edge exactly, the last card's own scale
+ * counted (the homepage's results, owner, 2026-11-11: "use the full width of
+ * the section on desktop").
  */
-export function fanStep(railWidth: number, cardWidth: number, count: number): number {
+export function fanStep(railWidth: number, cardWidth: number, count: number, fill = false): number {
   const shown = Math.min(DECK_FAN, Math.max(1, count - 1));
+  if (fill) return Math.floor(Math.max(0, railWidth - cardWidth * (1 - shown * 0.06)) / shown);
   const room = Math.max(0, railWidth - cardWidth) / shown;
   return Math.round(Math.max(0, Math.min(room, cardWidth * 0.4)));
 }
@@ -325,7 +329,7 @@ export function fanStep(railWidth: number, cardWidth: number, count: number): nu
  * section ... so that the user can see there's a palette of different
  * options"), each a step smaller and darker, and stay reachable.
  */
-export function paintDeckCards(cards: HTMLElement[], at: number, wide: boolean, rail?: HTMLElement | null) {
+export function paintDeckCards(cards: HTMLElement[], at: number, wide: boolean, rail?: HTMLElement | null, { fill = false }: { fill?: boolean } = {}) {
   const count = cards.length;
   deckStates(count, at).forEach(({ state, depth }, k) => {
     const card = cards[k];
@@ -337,7 +341,7 @@ export function paintDeckCards(cards: HTMLElement[], at: number, wide: boolean, 
     card.style.removeProperty("translate");
     card.toggleAttribute("inert", wide ? state === "past" || ahead > DECK_FAN : state !== "current");
   });
-  if (rail && wide && cards[at]) rail.style.setProperty("--fan-step", `${fanStep(rail.clientWidth, cards[at].offsetWidth, count)}px`);
+  if (rail && wide && cards[at]) rail.style.setProperty("--fan-step", `${fanStep(rail.clientWidth, cards[at].offsetWidth, fill ? count - at : count, fill)}px`);
 }
 
 /** Whether a finished drag moves the deck: -1 back, 1 on, 0 stay. A short fast flick counts. */

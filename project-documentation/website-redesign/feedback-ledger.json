@@ -2199,6 +2199,24 @@
         "Private to you measures exactly one screen below the masthead (834px at 1440x900, 734px at 1280x800) with no sideways overflow.",
         "typecheck, lint, 749 unit tests, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:material-review:self-test and qa:plain-language pass. Skipped at the owner's instruction: qa:line-breaks, qa:reading-flow, qa:homepage-release:pre-merge, qa:nojs and qa:card-contrast."
       ]
+    },
+    {
+      "id": "S9-FAN-002",
+      "exactFeedback": "On second thoughts, let's just use the full width of the section on desktop. juts on the homepage / (choice) Fan across the full width",
+      "source": "Krish, 11 November 2026, with a screenshot of the live homepage fan on a wide laptop.",
+      "surface": "/",
+      "section": "What you get (the three results)",
+      "device": "laptop and wider (761px and up)",
+      "element": "the results' fanned deck",
+      "classification": "correction",
+      "requiredOutcome": "On the homepage the fanned results reach across the section edge to edge on a laptop, with bigger cards and the same movement; the story decks elsewhere and phones unchanged.",
+      "acceptanceTest": "src/test/s9-repair.test.ts (the fill step reaches the rail's edge); a browser probe at 1920, 1440 and 1280; screenshots. The long browser gates were skipped, as the owner asked on the previous change.",
+      "status": "implemented-awaiting-review",
+      "resolution": "fanStep gains a fill mode and paintDeckCards passes it; mountProofDeck fills; the homepage card is clamp(360px, 44%, 680px) wide on a laptop.",
+      "evidence": [
+        "Browser probe on the built site: the homepage fan's last card ends 1 to 2px from the section's right edge at 1920x1080 (cards 680px), 1440x900 (578px) and 1280x800 (514px), all three visible; pressing the last card brings it to the front; /ai-brain's step is unchanged (208, 179, 130px); Pixel 7 shows no fanned card.",
+        "typecheck, lint, 752 unit tests, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:material-review:self-test and qa:plain-language pass."
+      ]
     }
   ]
 }

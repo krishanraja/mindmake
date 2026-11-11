@@ -126,6 +126,11 @@ step smaller and darker, never past its edge (`fanStep`, `paintDeckCards` in
 read slide away left. All four decks: /ai-brain, /ai-gtm, /case-studies and the
 homepage results. Phones keep the upward stack. "Private to you" is its own
 section filling one laptop screen, its totals larger.
+On the homepage only, the results' fan spans the section's full width on a
+laptop (Krish, 11 November 2026: "use the full width of the section on
+desktop. just on the homepage", ledger `S9-FAN-002`): bigger cards (44% of the
+section, 360 to 680px) and a step that brings the last card to the far edge
+(`fanStep` with `fill`).
 
 ## S8: one idea per section on the product pages (4 November 2026)
 

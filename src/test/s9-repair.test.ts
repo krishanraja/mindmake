@@ -117,6 +117,21 @@ describe("the fanned deck on a wide screen", () => {
   });
 });
 
+describe("the homepage's fan across the full width", () => {
+  it("reaches the section's far edge exactly, the last card's scale counted", async () => {
+    const { fanStep } = await import("@/components/leadership-chapters/storyFinder");
+    for (const rail of [1167, 1313, 1600]) {
+      const card = Math.min(680, Math.max(360, rail * 0.44));
+      const step = fanStep(rail, card, 3, true);
+      const lastRight = 2 * step + card * (1 - 2 * 0.06);
+      expect(lastRight, `${rail}`).toBeLessThanOrEqual(rail);
+      expect(rail - lastRight, `${rail}`).toBeLessThan(2);
+    }
+    /* With one card left to come, that card reaches the edge. */
+    expect(fanStep(1313, 578, 2, true) + 578 * 0.94).toBeGreaterThan(1311);
+  });
+});
+
 describe("the floating button", () => {
   const bar = () => {
     const wrap = document.createElement("div");

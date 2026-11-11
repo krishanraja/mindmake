@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Current as of 6 November 2026. This file owns live identities, what was
+Current as of 10 November 2026. This file owns live identities, what was
 verified and when, and the known limits. It is current delivery truth, not a
 changelog: superseded lines live only in [history/LOG.md](history/LOG.md), and
 the whole text this file replaced on 26 October 2026 is kept verbatim in
@@ -74,8 +74,12 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   Nothing on it pins, and the opening grows to hold everything it carries.
 - `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
   Brain holds beside private to you, the 30 days, the story chooser (eighteen
-  stories in five situations, never pinned, the whole story in a sheet), "What
-  stays with you" and one line to the revenue engine.
+  stories in five situations, never pinned, the whole story in a sheet, as a
+  swipe deck on every screen), "What stays with you" and one line to the
+  revenue engine. Since 10 November 2026 the goals section's picture is one
+  connected Brain: twenty ideas in seven named clusters on a liquid mass, with
+  a reading and a floating card per idea; it holds still until the reader
+  picks or presses Play (detail in `website-redesign/STATE.md`, S9).
 - `/ai-gtm`: "Make your pricing, positioning and team AI-native." in three
   sections on the r47 rebuild (`AI-GTM-R47-OWNER-REVIEW-001`, accepted:
   "I approve the /ai-gtm rebuild"); nothing pins; **Start building your AI
@@ -103,10 +107,10 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   Mindmake's materials (wording version `dtd-quote-consent-v1`); the email
   records yes with name, yes anonymous or no, and the exact sentence agreed.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
-  Navigation labels: Home, Build your AI brain, Build your AI revenue engine,
-  Success stories, Ideas you can use, Questions we get asked, About us and
+  Navigation labels: Home, Build your AI brain, Build your AI business (the
+  name every link to `/ai-gtm` now uses, Krish, 2026-11-10), Success stories, Ideas you can use, Questions we get asked, About us and
   Media, and the one action, Start building your AI brain (Start building your
-  AI revenue engine on `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM` in
+  AI business on `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM` in
   `src/lib/publicLinks.ts`).
 - www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to
   mindmake.co preserving path and query. Canonical non-root routes omit

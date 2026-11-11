@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-07
-head: 34e1f91
+as_of: 2026-11-11
+head: fcfa5e7
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -22,7 +22,7 @@ standards, judgement and memory. Two doors, Build your AI brain and Build your
 AI revenue engine, lead to one privately scoped paid proof. The headline turns
 through six lines and opens on **Promote your AI from intern to chief of
 staff.** The way in is **Start building your AI brain** (**Start building your AI
-revenue engine** on `/ai-gtm`). The publication, **Make Your
+business** on `/ai-gtm`). The publication, **Make Your
 Mind Up** at https://makeyourmindup.ai, is for readers not ready yet. CTRL, the
 product the work runs on, is in a private pilot with leaders. The whole account
 is "Mindmake in one page" in
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-07)
+## Where it is right now (as of 2026-11-11)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -75,6 +75,19 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 42 metadata assets.
 
 ## What changed recently
+
+- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
+  floating way in, sections stacked over one another) and broke the reading by
+  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
+  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
+  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
+  the story deck became a swipe deck on every screen, including the homepage's
+  results and `/case-studies` (Krish: "Same style and movement on desktop");
+  the Brain became one connected Brain of twenty ideas in seven clusters,
+  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
+  "Build your AI business". Krish: "Why don't you just fix all the small
+  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
+  these defects returning.
 
 - 2026-11-06: Krish asked for more logos, homepage quotes that send readers to
   the results, and "no section should be bigger than a desktop screen on
@@ -117,19 +130,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   to the prerendered homepage. It and `/feedback/dtd` are now prerendered as
   unlisted pages; the sitemap is still 36 URLs and the route lock was
   regenerated for the intended `prerender.mjs` and `vercel.json` edits.
-- 2026-10-28: the brief's "Keep the private brief" sits at the bottom right
-  of the preview card, bigger and pulsing, with no line beneath it, and the
-  brief's first screen asks for analytics consent itself when none is stored,
-  because a brief opened from a `?start=1` link covered the page notice
-  (PR #256; Krish: "I also want the green button in the bottom right, bigger,
-  pulsing and without the accompanying text beneath it." and "Ask inside the
-  brief"). Ledger rows `BRIEF-KEEP-001` and `BRIEF-CONSENT-001` await his
-  review of the result.
-- 2026-10-28: the brief request records which growth placement it came from
-  (`utm_source=growth-<path>`, `utm_medium=referral`, from the tag held in
-  page memory only, null otherwise), and `/privacy` section 2 says so, on
-  Krish's yes ("Yes do number two"). Migration, `submit-mindmake-brief` v24
-  and PR #255, in that order.
 
 ## What is next and what is waiting on Krish
 

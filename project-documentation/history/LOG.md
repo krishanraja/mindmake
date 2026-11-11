@@ -5,6 +5,12 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-11
+
+- reconciled at `fcfa5e7`: NOW.md gained the S9 alive-site release and its same-day repair (10 November, PRs #281 to #287); 06_CURRENT_STATE.md gained the connected Brain, the swipe deck and the "Build your AI business" label. Stamps on CLAUDE.md, 00, 01, 02, 04, 04 records and 07 were not re-verified and were left for a person. The North Star check line is dated 2026-10-28 and was left, because only a session that re-read the North Star can re-date it.
+- rolled from NOW.md: 2026-10-28, the brief's "Keep the private brief" moved to the bottom right of the preview card, bigger and pulsing with no line beneath, and the brief's first screen asks for analytics consent itself when none is stored, because a `?start=1` brief covered the page notice (PR #256; Krish: "I also want the green button in the bottom right, bigger, pulsing and without the accompanying text beneath it." and "Ask inside the brief"). Ledger rows `BRIEF-KEEP-001` and `BRIEF-CONSENT-001` await his review.
+- rolled from NOW.md: 2026-10-28, the brief request records which growth placement it came from (`utm_source=growth-<path>`, `utm_medium=referral`, from the tag held in page memory only, null otherwise), and `/privacy` section 2 says so, on Krish's yes ("Yes do number two"). Migration, `submit-mindmake-brief` v24 and PR #255, in that order.
+
 ## 2026-11-05
 
 - reconciled at `a2cba1f`: NOW.md gained the S7 and S8 changes of 4 November and the first-visit image fix; the story count in NOW.md and 06_CURRENT_STATE.md corrected from seventeen to eighteen to match STATE.md and the code. Stamps on CLAUDE.md, 00, 01, 02, 04, 04 records and 07 were not re-verified and were left for a person. The North Star check line is dated 2026-10-28 and was left, because only a session that re-read the North Star can re-date it.

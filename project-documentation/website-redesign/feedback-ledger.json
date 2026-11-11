@@ -2275,8 +2275,8 @@
     },
     {
       "id": "S9-SHEETS-001",
-      "exactFeedback": "Now that we've moved one of the sections out from the homepage, the homepage needs more visual distinction between sections. Each section just blends into the next and looks like one endless section. I had tried to implement a card-based animation but you removed that because it was too complicated I think. Is there no middle ground or visual distinction we can implement?",
-      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site.",
+      "exactFeedback": "Now that we've moved one of the sections out from the homepage, the homepage needs more visual distinction between sections. Each section just blends into the next and looks like one endless section. I had tried to implement a card-based animation but you removed that because it was too complicated I think. Is there no middle ground or visual distinction we can implement? / Glitch",
+      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site. Then \"Glitch\", with a phone screenshot of the live homepage after the release, the same day.",
       "surface": "/",
       "section": "both sections after the opening",
       "device": "all",
@@ -2285,10 +2285,11 @@
       "requiredOutcome": "Each homepage section reads as its own sheet, without the sticky stacking removed on 10 November: nothing pins, nothing covers words.",
       "acceptanceTest": "A browser probe at the four sizes measures each seam's clearance from the words above it and that no section is sticky; qa:section-heights; qa:card-contrast; screenshots.",
       "status": "implemented-awaiting-review",
-      "resolution": "Every section was the same ink (rgb 6,17,13). Each section is now a sheet with a rounded top edge lapping the padding of the one before, a shadow cast upwards and a mint hairline, on alternating grounds (#0b1812, then the deep green #11291f); the existing settle reads as one sheet sliding over the last.",
+      "resolution": "Every section was the same ink (rgb 6,17,13). Each section is now a sheet with a rounded top edge lapping the padding of the one before, a shadow cast upwards and a mint hairline, on alternating grounds (#0b1812, then the deep green #11291f); the existing settle reads as one sheet sliding over the last. The release drew a straight line across the first sheet, 22px (phone) and 28px (laptop) under its rounded top: R3's own 1px divider along the opening's foot (page.css, .r3-section::after, z-index 20) painted above the sheet (z-index 1). The opening cannot hold its layers below the sheets (the fixed masthead lives inside it), so that divider is switched off; the sheet's edge marks the seam. qa:reading-flow now fails anything of the section before that paints over a sheet's lap, and checks the first sheet against the opening, which it had skipped.",
       "evidence": [
         "Seams clear the words above by 13 to 132px at 1440x900, 1280x800, 390x844 and 360x780; both sections position relative, none sticky.",
-        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
+        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request.",
+        "Glitch fix: the extended qa:reading-flow check flags production at 1440x900, 1280x800, Pixel 7 and 360x780 (\"r3-section::after (z-index 20) ... paints over its lapped edge\") and passes with the fix; seam crops before (production) and after (built fix) at the four sizes show the line gone."
       ]
     },
     {

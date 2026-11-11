@@ -49,6 +49,13 @@
 .mm-homepage-release .hs-get { --hs-ground: #11291f; --hs-rail-ground: var(--hs-ground); z-index: 2; background: var(--hs-ground); }
 /* The section a sheet lies over keeps the lapped strip clear of its words. */
 .mm-homepage-release .hs-problem .hs-inner { padding-bottom: var(--hs-sheet-lap); }
+/* The opening's own divider (R3's 1px rule along every section's foot, at
+   z-index 20) marked where it ended; the first sheet's edge does that now.
+   Left in, it drew a straight line across the sheet just under its rounded
+   top (Krish, 2026-11-11: "Glitch"). The opening cannot hold its layers
+   below the sheets instead: the fixed masthead lives inside it.
+   qa:reading-flow fails anything that paints over a sheet's lap. */
+.mm-homepage-release .r3-opening::after { content: none; }
 @media (max-width: 760px) {
   .mm-homepage-release .hs-section { --hs-sheet-lap: 22px; }
 }

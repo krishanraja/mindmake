@@ -13,8 +13,9 @@
  * - no section is tilted or clipped, and a section is eased back (scaled or
  *   dimmed) only once its foot has risen past 40% of the screen;
  * - no section overlaps the one before it, except the homepage's sheets
- *   (owner, 2026-11-11), each of which may lap the one before by its own
- *   declared --hs-sheet-lap and no further, and never over a word of it;
+ *   (owner, 2026-11-11), each of which may lap what lies before it (for the
+ *   first, the opening) by its own declared --hs-sheet-lap and no further,
+ *   never over a word of it, and with nothing of it painted over the lap;
  * - the screen is not blank (words or a picture on it);
  * - the page did not move by itself.
  *
@@ -123,18 +124,61 @@ const observe = (selector) => {
   const sections = [...document.querySelectorAll(selector)];
   const bad = [];
   let previousBottom = -Infinity;
-  let previous = null;
-  /* The lowest edge of any word in a section, so a lap can be held to padding. */
+  /* Fixed chrome (the homepage's masthead lives inside its opening) is meant
+     to sit above the page, so the lap checks leave it out. */
+  const inFixed = (node, root) => {
+    for (let a = node; a && a !== root.parentElement; a = a.parentElement) if (getComputedStyle(a).position === "fixed") return true;
+    return false;
+  };
+  /* The lowest edge of any word a section shows (inside its own box), so a
+     lap can be held to padding. */
   const lowestWord = (node) => {
     let low = -Infinity;
+    const foot = node.getBoundingClientRect().bottom;
     const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
     for (let t = walker.nextNode(); t; t = walker.nextNode()) {
-      if (!t.textContent.trim() || getComputedStyle(t.parentElement).visibility === "hidden") continue;
+      if (!t.textContent.trim() || getComputedStyle(t.parentElement).visibility === "hidden" || inFixed(t.parentElement, node)) continue;
       const range = document.createRange();
       range.selectNodeContents(t);
-      for (const r of range.getClientRects()) if (r.width && r.height) low = Math.max(low, r.bottom);
+      for (const r of range.getClientRects()) if (r.width && r.height && r.top < foot) low = Math.max(low, r.bottom);
     }
     return low;
+  };
+  /* Anything of the section before that paints above a sheet inside the strip
+     the sheet laps (owner, 2026-11-11, "Glitch": the opening's own 1px divider,
+     at z-index 20, drew a line across the first sheet 22px below its edge).
+     An element paints in the layer of its outermost stacking context within
+     that section; it shows over the sheet when that layer's z-index is higher
+     than the sheet's and its box reaches into the strip. */
+  const formsLayer = (cs) => (cs.position !== "static" && cs.zIndex !== "auto") || parseFloat(cs.opacity) < 1 || cs.transform !== "none" || cs.filter !== "none" || cs.isolation === "isolate" || cs.mixBlendMode !== "normal";
+  const paints = (cs) => (cs.backgroundColor !== "rgba(0, 0, 0, 0)" && cs.backgroundColor !== "transparent") || cs.backgroundImage !== "none" || cs.boxShadow !== "none"
+    || ["Top", "Right", "Bottom", "Left"].some((side) => parseFloat(cs[`border${side}Width`]) > 0 && cs[`border${side}Style`] !== "none");
+  const pseudoBox = (owner, cs) => {
+    const r = owner.getBoundingClientRect();
+    const h = parseFloat(cs.height);
+    if (cs.bottom !== "auto" && Number.isFinite(h)) { const foot = r.bottom - parseFloat(cs.bottom); return { top: foot - h, bottom: foot }; }
+    if (cs.top !== "auto" && Number.isFinite(h)) { const head = r.top + parseFloat(cs.top); return { top: head, bottom: head + h }; }
+    return { top: r.top, bottom: r.bottom };
+  };
+  const paintedOver = (before, sheet, top, bottom) => {
+    const sheetZ = parseInt(getComputedStyle(sheet).zIndex, 10) || 0;
+    if (formsLayer(getComputedStyle(before))) return "";
+    for (const el of [before, ...before.querySelectorAll("*")]) {
+      if (!el.getClientRects().length || el.closest("dialog") || inFixed(el, before)) continue;
+      let layer = null;
+      for (let a = el; a && a !== before; a = a.parentElement) { const acs = getComputedStyle(a); if (formsLayer(acs)) layer = acs.zIndex === "auto" ? 0 : parseInt(acs.zIndex, 10); }
+      for (const which of [null, "::before", "::after"]) {
+        const cs = getComputedStyle(el, which);
+        if (which && (cs.content === "none" || cs.content === "normal")) continue;
+        if (cs.display === "none" || cs.visibility === "hidden" || !paints(cs)) continue;
+        const z = layer ?? (which && formsLayer(cs) ? (cs.zIndex === "auto" ? 0 : parseInt(cs.zIndex, 10)) : 0);
+        if (z <= sheetZ) continue;
+        const r = which ? pseudoBox(el, cs) : el.getBoundingClientRect();
+        if (r.bottom <= top + 0.5 || r.top >= bottom - 0.5) continue;
+        return `${String(el.className).split(" ")[0] || el.tagName.toLowerCase()}${which ?? ""} (z-index ${z})`;
+      }
+    }
+    return "";
   };
   sections.forEach((section, index) => {
     const style = getComputedStyle(section);
@@ -147,9 +191,18 @@ const observe = (selector) => {
     if (eased && box.bottom > vh * 0.4 + 2) bad.push(`section ${index} eased while its foot is at ${Math.round(box.bottom)} of ${vh}`);
     const lap = parseFloat(style.getPropertyValue("--hs-sheet-lap")) || 0;
     if (box.top < previousBottom - 1 - lap) bad.push(`section ${index} overlaps the one before by ${Math.round(previousBottom - box.top)}px`);
-    else if (previous && box.top < previousBottom - 1 && lowestWord(previous) > box.top + 1) bad.push(`section ${index} laps a word of the one before (${Math.round(lowestWord(previous) - box.top)}px under it)`);
+    /* A sheet lies over the element before it on the page: for the first
+       sheet that is the opening, which is not in the list above. */
+    const before = lap ? section.previousElementSibling : null;
+    const under = before?.getBoundingClientRect();
+    if (before && under && box.top < under.bottom - 1) {
+      if (under.bottom - box.top > lap + 1) bad.push(`section ${index} laps the one before by ${Math.round(under.bottom - box.top)}px, more than its ${lap}px`);
+      const word = lowestWord(before);
+      if (word > box.top + 1) bad.push(`section ${index} laps a word of the one before (${Math.round(word - box.top)}px under it)`);
+      const over = paintedOver(before, section, box.top, under.bottom);
+      if (over) bad.push(`section ${index}: ${over} of the one before paints over its lapped edge`);
+    }
     previousBottom = Math.max(previousBottom, box.bottom);
-    previous = section;
   });
   let text = 0;
   const MEDIA = "img, picture, video, canvas, svg";

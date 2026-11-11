@@ -18,61 +18,101 @@
 .finder-compare:empty { display: none; }
 .finder-compare { margin: 14px 0 6px; }
 
-/* ---------- The nudge ---------- */
+/* ---------- The nudge: a floating piece of the Brain and its caption ---------- */
 .mm-site .mm-nudge {
+  --orb: 84px;
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   max-width: 100%;
-  min-height: 48px;
+  /* The orb, its float and its shadow, reserved: nothing here ever resizes. */
+  min-height: calc(var(--orb) + 22px);
   margin: 0;
-  padding: 6px 18px 6px 6px;
-  border: 1px solid var(--cmp-rule);
-  border-radius: 999px;
-  background: rgba(6, 17, 13, .45);
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--cmp-fg);
   font: 400 17px/1.25 "Newsreader", Georgia, serif;
   letter-spacing: -.01em;
   text-align: left;
   text-transform: none;
   cursor: pointer;
-  transition: border-color .12s ease, background-color .12s ease;
 }
-@media (hover: hover) and (pointer: fine) {
-  .mm-site .mm-nudge:hover { border-color: var(--cmp-accent-dim); background: var(--cmp-accent-wash); }
+.mm-site .mm-nudge:focus-visible { outline: 2px solid var(--cmp-accent); outline-offset: 6px; border-radius: 999px; }
+.mm-orb { position: relative; flex: none; width: var(--orb); height: calc(var(--orb) + 22px); }
+.mm-orb-body {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: var(--orb);
+  height: var(--orb);
+  overflow: visible;
 }
-.mm-site .mm-nudge:focus-visible { outline: 2px solid var(--cmp-accent); outline-offset: 3px; }
-.mm-nudge-bubble {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
+.mm-orb-body canvas { position: absolute; pointer-events: none; }
+.mm-orb-mass { position: absolute; inset: 0; filter: drop-shadow(0 0 1px rgba(157, 240, 200, .55)) drop-shadow(0 0 14px rgba(127, 227, 180, .42)); }
+.mm-orb-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.mm-orb-shadow {
+  position: absolute;
+  left: 18%;
+  bottom: 0;
+  width: 64%;
+  height: 10px;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #c9f8e0 0%, #7fe3b4 46%, #3e8e68 100%);
-  box-shadow: 0 0 0 0 rgba(127, 227, 180, .35);
-  color: var(--cmp-accent-ink);
-  font: 700 17px/1 "Archivo", Arial, sans-serif;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, .55), rgba(0, 0, 0, 0));
 }
 @media (prefers-reduced-motion: no-preference) {
-  .mm-nudge-bubble { animation: mm-nudge-float 7.2s ease-in-out infinite, mm-nudge-ring 3.6s ease-out infinite; }
-  .mm-nudge.is-seen .mm-nudge-bubble { animation: none; }
+  .mm-orb-body { animation: mm-orb-float 5.6s ease-in-out infinite; }
+  .mm-orb-shadow { animation: mm-orb-shadow 5.6s ease-in-out infinite; }
+  .mm-site .mm-nudge:hover .mm-orb-body { animation-duration: 3.2s; }
+  .mm-site .mm-nudge:hover .mm-orb-shadow { animation-duration: 3.2s; }
 }
-/* A drop of liquid holding its place: a few pixels of drift, a soft change of shape. */
-@keyframes mm-nudge-float {
-  0%, 100% { transform: translate(0, 0) scale(1); border-radius: 50%; }
-  25% { transform: translate(2px, -3px) scale(1.04); border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%; }
-  50% { transform: translate(-1px, 2px) scale(.98); border-radius: 54% 46% 47% 53% / 47% 55% 45% 53%; }
-  75% { transform: translate(-3px, -1px) scale(1.03); border-radius: 48% 52% 55% 45% / 54% 48% 52% 46%; }
+/* Floating: the orb rises and the shadow beneath spreads and fades. */
+@keyframes mm-orb-float { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-5px); } }
+@keyframes mm-orb-shadow { 0%, 100% { transform: scaleX(1); opacity: .9; } 50% { transform: scaleX(.72); opacity: .45; } }
+
+/* The caption: a speech bubble from the orb. */
+.mm-nudge-text {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: .3em;
+  min-width: 0;
+  padding: 11px 16px;
+  border: 1px solid var(--cmp-rule);
+  border-radius: 16px;
+  background: rgba(6, 15, 11, .82);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .28);
+  transition: border-color .12s ease;
 }
-@keyframes mm-nudge-ring {
-  0% { box-shadow: 0 0 0 0 rgba(127, 227, 180, .32); }
-  70%, 100% { box-shadow: 0 0 0 10px rgba(127, 227, 180, 0); }
+.mm-nudge-text::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid var(--cmp-rule);
+  border-left: 1px solid var(--cmp-rule);
+  background: rgb(6, 15, 11);
+  transform: translateY(-50%) rotate(45deg);
+  transition: border-color .12s ease;
 }
-.mm-nudge-text { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: .3em; min-width: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .mm-site .mm-nudge:hover .mm-nudge-text,
+  .mm-site .mm-nudge:hover .mm-nudge-text::before { border-color: var(--cmp-accent-dim); }
+}
 .mm-nudge-lead { color: var(--cmp-fg2); white-space: nowrap; }
 /* Every phrase in one cell: the caption is always the longest phrase's width. */
-.mm-nudge-slot { display: inline-grid; color: var(--cmp-accent); white-space: nowrap; }
+.mm-nudge-slot {
+  display: inline-grid;
+  color: var(--cmp-accent);
+  white-space: nowrap;
+  background: linear-gradient(var(--cmp-accent), var(--cmp-accent)) 0 100% / 0 1px no-repeat;
+  transition: background-size .2s ease;
+}
+.mm-site .mm-nudge:is(:hover, :focus-visible) .mm-nudge-slot { background-size: 100% 1px; }
 .mm-nudge-slot > span { grid-area: 1 / 1; opacity: 0; transform: translateY(.45em); visibility: hidden; }
 .mm-nudge-slot > span[data-on] { opacity: 1; transform: none; visibility: visible; }
 @media (prefers-reduced-motion: no-preference) {
@@ -185,7 +225,8 @@ html.mm-compare-locked, html.mm-compare-locked body { overflow: hidden; overscro
 
 /* ---------- Phones: the whole screen, still no scroll ---------- */
 @media (max-width: 600px) {
-  .mm-site .mm-nudge { font-size: 16px; padding-right: 14px; }
+  .mm-site .mm-nudge { --orb: 68px; gap: 12px; font-size: 16px; }
+  .mm-nudge-text { padding: 9px 13px; }
   .mm-compare-sheet { width: 100%; height: 100%; max-height: none; border: 0; border-radius: 0; }
   .mm-compare-inner { gap: 10px; min-height: 100%; align-content: start; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
   .mm-compare-head { flex-wrap: nowrap; }

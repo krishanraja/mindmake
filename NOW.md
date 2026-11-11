@@ -77,7 +77,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 ## What changed recently
 
 - 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, under "Where would
-  you start?" (it replaced the same day's inline "Instead of…", which Krish
+  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
   found too much page). A bubble's caption turns through the routes a visitor
   is weighing; tapping opens the comparison set to that route, full screen on
   a phone, closing back to the same pixel. Aimed at the North Star (cash

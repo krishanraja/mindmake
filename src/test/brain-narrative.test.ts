@@ -88,6 +88,13 @@ describe("the Brain narrative", () => {
     expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);
   });
 
+  it("tours with no button, holding while a card is open and carrying on after (owner, 2026-11-11)", () => {
+    expect(page().querySelector("#brainTourS2, .brain-tour")).toBeNull();
+    const source = read("src/pages/AiBrainLocked.tsx");
+    expect(source).toContain("if (touring) liquid?.setTour(true);");
+    expect(source).not.toMatch(/Play the tour|Pause the tour/);
+  });
+
   it("lists every idea by its cluster for a reader without scripting", async () => {
     const { CLUSTERS } = await import("@/components/mindmake/locked/connectedBrain");
     const html = serverRender("/ai-brain");

@@ -2162,6 +2162,24 @@
         "qa:line-breaks passes on every route at 1440, 1280, 390 and 360, pressing through the homepage results deck and the /case-studies doors, situations and stories deck; qa:homepage-release:pre-merge, qa:nojs, qa:card-contrast (148 lines, worst 1.32 of the minimum), the repository gates, typecheck, lint, 742 unit tests and the build pass.",
         "Screenshots at Pixel 7 and 1440: the homepage's results and the /case-studies and /ai-brain stories show the same card and the same stack, with the card already read peeking above."
       ]
+    },
+    {
+      "id": "S9-TOUR-001",
+      "exactFeedback": "Get rid of the \"Play the Tour\" button. It's not really needed anywhere. / Pretty sure it just keeps going right now, which I like, until I press something and then press out of it. It still keeps going, which is a good thing. / (choice) Just the button",
+      "source": "Krish, 11 November 2026, with a phone screenshot of mindmake.co/ai-brain showing the key and the button.",
+      "surface": "/ai-brain",
+      "section": "the goals and record section (#inside), the Brain's key",
+      "device": "all",
+      "element": "the tour button and the tour",
+      "classification": "correction",
+      "requiredOutcome": "No tour button anywhere; the tour keeps going while the Brain is on screen, holds while an idea's card is open and carries on after the card closes; reduced motion has no tour; the section stays one screen on a phone.",
+      "acceptanceTest": "src/test/brain-narrative.test.ts (no button, the tour carries on after a close); qa:reading-flow (no button, the tour holds while a card is open and carries on within 10s of closing it); qa:line-breaks on /ai-brain; a phone recording.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The button is gone from the locked markup, AiBrainLocked.tsx and mindmake-connected-brain.css; closing a card calls liquid.setTour(true) (no motion change under reduced motion); the key's freed row (33px) goes to the Brain on a phone.",
+      "evidence": [
+        "Phone recording (Pixel 7, built site): the tour stepped BI-003 to BI-004 after 8s, held BI-010 for 8s with its card open, and moved on to BI-011 within 8.5s of closing the card.",
+        "qa:reading-flow passes at Pixel 7, 360x780, Pixel 7 landscape and 1440x900 plus reduced motion, with the new checks; typecheck, lint, 743 unit tests, the build and the repository gates pass; on a 360x780 phone the Brain is 231px (was 200px) and the section still ends at 743 of 780px."
+      ]
     }
   ]
 }

@@ -112,6 +112,12 @@ and the outcome in mint after an arrow (`mountProofDeck` in
 stories a rail. `qa:reading-flow` checks every deck at every size, and
 `qa:line-breaks` presses through the homepage's and /case-studies' decks.
 
+The Brain's tour has no button (Krish, 11 November 2026: "Get rid of the
+'Play the Tour' button", ledger `S9-TOUR-001`). It keeps going while the Brain
+is on screen, holds while an idea's card is open, and carries on from that
+idea once the card closes; reduced motion has no tour. On a phone the key's
+freed row went to the Brain.
+
 ## S8: one idea per section on the product pages (4 November 2026)
 
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry

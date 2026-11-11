@@ -114,6 +114,36 @@
       }catch(e){}})();
     </script>
 
+    <!-- A tap on the way in before the page has started (owner, 2026-11-11:
+         "Start building your AI business button no longer works"). The pages
+         are prerendered, so the button is on screen about four seconds before
+         it answers on a mid-range phone, and a tap in that gap did nothing.
+         This keeps that one tap: it marks the control pressed and remembers
+         the door, and the page opens the brief there as soon as it starts
+         (src/lib/earlyStart.ts), then removes this. Only on the pages whose
+         brief opens in place, only the controls that open it, and only a
+         plain tap, so every other click and link is untouched. -->
+    <script>
+      (function(){try{
+        var w=window,d=document,p=location.pathname.replace(/\/+$/,"");
+        if(w.__mmEarly||!/^(|\/ai-brain|\/ai-gtm|\/about|\/case-studies)$/.test(p))return;
+        var S="[data-early-start],[data-start-route],[data-finder-start],[data-brain-start],.mm-menu-start,.mm-action-bar .mm-button,.mm-nudge";
+        var e={door:"",compare:false,el:null,done:false};
+        e.fn=function(v){
+          var c=v.target&&v.target.closest&&v.target.closest(S);
+          if(!c||v.button!==0||v.metaKey||v.ctrlKey||v.shiftKey||v.altKey)return;
+          v.preventDefault();v.stopPropagation();
+          if(c.matches(".mm-nudge")){e.compare=true;e.door="";}
+          else{var r=c.getAttribute("data-early-start")||c.getAttribute("data-start-route")||c.getAttribute("data-finder-start")||(c.hasAttribute("data-brain-start")?"brain":"");
+            e.door=r==="brain"||r==="gtm"?r:p==="/ai-gtm"?"gtm":p==="/ai-brain"?"brain":"home";e.compare=false;}
+          if(e.el){e.el.removeAttribute("data-early-pressed");e.el.removeAttribute("aria-busy");}
+          e.el=c;c.setAttribute("data-early-pressed","");c.setAttribute("aria-busy","true");
+        };
+        d.addEventListener("click",e.fn,true);
+        w.__mmEarly=e;
+      }catch(x){}})();
+    </script>
+
     <title>Promote your AI from intern to chief of staff. | Mindmake</title>
     <meta name="title" content="Promote your AI from intern to chief of staff. | Mindmake" />
     <meta name="description" content="Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake." />

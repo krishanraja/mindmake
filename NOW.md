@@ -78,13 +78,22 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-11, Krish's phone review: a tap on the way in before the page has
+  started is kept ("Start building your AI business button no longer works":
+  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
+  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
+  would you start?" on its own raised surface, ending in "See how we compare
+  →"; homepage sections are sheets laid over one another on alternating
+  grounds, nothing pinned; the chooser says "Your AI business"; /ai-gtm's
+  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
+  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
 - 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
   chief of staff knows how you think." took its place. The homepage close lost
   its button: a floating Brain orb asks "Where do you want to start?" (with
   yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
   only about exploring what leaders built. No section is taller than a desktop
   screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
-- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, under "Where would
+- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
   you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
   found too much page). A bubble's caption turns through the routes a visitor
   is weighing; tapping opens the comparison set to that route, full screen on
@@ -127,25 +136,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   section carry one idea per section, approved from now-and-planned mocks
   ("the rest of it looks good"), with icons, detail one tap away and shorter
   phone pages (`/ai-gtm` 4,710 to 4,079px at 390 wide). Ledger row `S8-CALM-001`.
-- 2026-11-02: a feedback form for DoThinkDo staff went live at `/feedback/dtd`
-  (PRs #258 to #264), unlisted and noindex, one screen at a time, speaking as
-  Krish. It was reworked six times in a day from his live use: Next sat below
-  the fold at 1536x730, 1280x620, 1100x560 and 360x780, so the card now never
-  exceeds the window; a Let's go tap made before hydration reloaded onto the
-  welcome, so an inline script keeps it; two-gap starters were "fiddly" and
-  glitchy, so starters are one-gap openings and the server refuses an
-  unfinished sentence. Responses are emailed, nothing is stored.
-- 2026-11-02: the form asks permission to quote, unticked. Krish first asked
-  for a pre-ticked box; a pre-ticked box is not valid consent under UK GDPR
-  (the brief's publication choice is unticked for the same reason), so he
-  chose an unticked box beside the name, with no name meaning anonymous
-  attribution. The server accepts yes only against `dtd-quote-consent-v1`.
-- 2026-11-02: `/alumni` was served the homepage first with JavaScript off
-  ("Promote your AI from intern to chief of staff."), because it was rewritten
-  to the prerendered homepage. It and `/feedback/dtd` are now prerendered as
-  unlisted pages; the sitemap is still 36 URLs and the route lock was
-  regenerated for the intended `prerender.mjs` and `vercel.json` edits.
-
 ## What is next and what is waiting on Krish
 
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The

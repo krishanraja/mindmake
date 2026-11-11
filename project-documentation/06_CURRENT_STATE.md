@@ -70,8 +70,10 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   11 November 2026): "Right now, your AI is an intern." with the four eras as
   a carousel on their pictures, and "We build yours with you in 30 days." with
   three results on their stories' pictures, a floating Brain orb asking where
-  to start (yourself, to /ai-brain, or your business, to /ai-gtm) and a band
-  only about exploring what leaders built; then the footer.
+  to start (yourself, "Your AI brain", to /ai-brain, or your business, "Your
+  AI business", to /ai-gtm) and a band only about exploring what leaders
+  built; then the footer. Since 11 November 2026 each section is a sheet laid
+  over the one before, on alternating grounds.
   Nothing on it pins, and the opening grows to hold everything it carries.
 - `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
   Brain holds and "An AI chief of staff knows how you think." (moved from the
@@ -85,11 +87,15 @@ owns the accepted detail and `01_CANON.md` the exact copy.
 - `/ai-gtm`: "Make your pricing, positioning and team AI-native." in three
   sections on the r47 rebuild (`AI-GTM-R47-OWNER-REVIEW-001`, accepted:
   "I approve the /ai-gtm rebuild"); nothing pins; **Start building your AI
-  revenue engine**.
-- Both offer pages (Krish, 2026-11-11): "Prefer to …?" under "Where would
-  you start?", a bubble whose caption turns through the routes a visitor is
-  weighing; it opens the comparison set to that route, with the full board one
-  tap away. `03_DESIGN_CONTRACT.md` owns the rules.
+  business** (its stories end in the same words since 11 November 2026).
+- Both offer pages (Krish, 2026-11-11): "Prefer to …?" above "Where would
+  you start?", riding the seam with the section before, a bubble whose
+  caption turns through the routes a visitor is weighing and ends in "See how
+  we compare →"; it opens the comparison set to that route, with the full
+  board one tap away. `03_DESIGN_CONTRACT.md` owns the rules.
+- Every way in that opens the brief in place keeps a tap made before the page
+  has started and opens the brief as the page starts (11 November 2026,
+  `src/lib/earlyStart.ts`); before, a tap in those seconds did nothing.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".

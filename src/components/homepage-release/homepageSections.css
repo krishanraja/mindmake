@@ -26,6 +26,32 @@
   background: var(--hs-ink);
   color: var(--hs-cream);
 }
+/* Each section is a sheet laid over the one before (Krish, 2026-11-11: "Each
+   section just blends into the next and looks like one endless section ... Is
+   there no middle ground or visual distinction we can implement?"). The
+   middle ground between one flat ground and the stack S9 tried on 10 November
+   (sticky sheets that covered, tilted and dimmed one another, and broke the
+   reading): the look of a stack with none of the holding. A sheet's rounded
+   top edge sits over the last few pixels of the section before, which are its
+   padding, so nothing is covered; it casts its shadow up onto it, carries a
+   mint hairline, and the grounds alternate between ink and the deep green.
+   Nothing is sticky. The settle that eases a section back as it leaves
+   (src/lib/sectionSettle.ts) now reads as one sheet sliding over the last. */
+.mm-homepage-release .hs-section {
+  --hs-sheet-lap: 28px;
+  position: relative;
+  margin-top: calc(-1 * var(--hs-sheet-lap));
+  border-radius: var(--hs-sheet-lap) var(--hs-sheet-lap) 0 0;
+  /* The shadow falls only upwards, onto the section it lies over. */
+  box-shadow: 0 -24px 40px -16px rgba(0, 0, 0, .62), inset 0 1px 0 rgba(157, 240, 200, .18);
+}
+.mm-homepage-release .hs-problem { --hs-ground: #0b1812; --hs-rail-ground: var(--hs-ground); z-index: 1; background: var(--hs-ground); }
+.mm-homepage-release .hs-get { --hs-ground: #11291f; --hs-rail-ground: var(--hs-ground); z-index: 2; background: var(--hs-ground); }
+/* The section a sheet lies over keeps the lapped strip clear of its words. */
+.mm-homepage-release .hs-problem .hs-inner { padding-bottom: var(--hs-sheet-lap); }
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-section { --hs-sheet-lap: 22px; }
+}
 .mm-homepage-release .hs-inner { display: grid; gap: clamp(18px, 3vh, 28px); max-width: 1600px; margin: 0 auto; }
 .mm-homepage-release .hs-title {
   max-width: 18ch;

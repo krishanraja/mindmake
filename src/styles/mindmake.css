@@ -515,6 +515,13 @@ html {
   .mm-button:hover { background: #96eec5; box-shadow: 0 0 0 4px var(--mm-mint-wash); }
 }
 .mm-button:active { background: var(--mm-mint-dim); transform: translateY(1px); }
+/* A way in tapped before the page has started (src/lib/earlyStart.ts): it
+   stays pressed until the brief opens, so the tap is seen to have landed. */
+[data-early-pressed] { box-shadow: 0 0 0 3px rgba(157, 240, 200, .38); cursor: progress; }
+@media (prefers-reduced-motion: no-preference) {
+  [data-early-pressed] { animation: mm-early-pressed .9s ease-in-out infinite alternate; }
+}
+@keyframes mm-early-pressed { to { opacity: .62; } }
 /* The action voice is Archivo in sentence case, as on the AI Brain page and the
    homepage. Two classes because `.mm-site button { font: inherit }` would
    otherwise hand a <button> the body setting while an <a> kept the mono. */

@@ -632,8 +632,8 @@ export default function AiBrainLocked() {
       <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       <div className="brain-close">
+        <CompareNudge page="brain" />
         <div ref={finderRef} id="stories" className="nal-page brain-finder" dangerouslySetInnerHTML={{ __html: finderMarkup }} />
-        <CompareNudge page="brain" host={finderRef} />
         <div className="brain-close-body">
           <div className="s8-keeps-block">
             <h3 className="s8-label s8-label-run"><span>What stays with you</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Yours to keep</span><span className="s8-label-sep" aria-hidden="true"> · </span><span>Day 30</span></h3>

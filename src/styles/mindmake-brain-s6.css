@@ -139,10 +139,14 @@
 
 /* ---------- 3. The finder, what stays with you and the way in ---------- */
 .brain-close {
-  background: #06110d;
+  /* The finder's own ground, carried up behind "Prefer to …?", which now
+     opens the section above the question (2026-11-11), so the two share one
+     surface; the close below keeps its own. */
+  background: linear-gradient(135deg, #10241b, #06110d 70%) #06110d;
   color: #eadfc9;
 }
-.brain-close .nal-page { background: transparent; }
+.brain-close .nal-page,
+.brain-close .nal-page .story-finder { background: transparent; }
 .brain-close-body {
   display: grid;
   gap: clamp(1.6rem, 3vh, 2.4rem);

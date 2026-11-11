@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { CompareNudge } from "@/components/mindmake/CompareNudge";
@@ -7,21 +6,23 @@ import { leadershipStories } from "@/components/leadership-chapters/leadershipCh
 import { storyFinderMarkup } from "@/components/leadership-chapters/storyFinder";
 
 /**
- * "Prefer to …?" under "Where would you start?" on /ai-brain and /ai-gtm.
+ * "Prefer to …?" above "Where would you start?" on /ai-brain and /ai-gtm
+ * (Krish, 2026-11-11).
  *
- * The rules that matter: the nudge appears only on those two pages, the route
- * on screen when tapped is the one the comparison opens on, the grades stay
- * honest, the copy carries no em dashes or company names, and closing puts the
- * reader back where they were with focus on the nudge.
+ * The rules that matter: the nudge sits before the question and says what a
+ * tap does, the route on screen when tapped is the one the comparison opens
+ * on, a tap before the page started is kept, the grades stay honest, the copy
+ * carries no em dashes or company names, and closing puts the reader back
+ * where they were with focus on the nudge.
  */
 afterEach(() => cleanup());
 
+/* As the two pages lay it out: the nudge, then the finder. */
 function Harness({ page }: { page: "brain" | "gtm" }) {
-  const host = useRef<HTMLDivElement>(null);
   return (
     <>
-      <div ref={host} dangerouslySetInnerHTML={{ __html: storyFinderMarkup(leadershipStories, { kicker: false, door: page }) }} />
-      <CompareNudge page={page} host={host} />
+      <CompareNudge page={page} />
+      <div dangerouslySetInnerHTML={{ __html: storyFinderMarkup(leadershipStories, { kicker: false, door: page }) }} />
     </>
   );
 }
@@ -50,18 +51,20 @@ describe("compare data", () => {
 });
 
 describe("CompareNudge", () => {
-  it("has a slot only on the two offer pages' finders", () => {
-    expect(storyFinderMarkup(leadershipStories, { door: "brain" })).toContain("data-compare-slot");
-    expect(storyFinderMarkup(leadershipStories, { door: "gtm" })).toContain("data-compare-slot");
-    expect(storyFinderMarkup(leadershipStories, { door: "library" })).not.toContain("data-compare-slot");
-    expect(storyFinderMarkup(leadershipStories)).not.toContain("data-compare-slot");
+  it("is rendered by the page, not mounted into the finder", () => {
+    for (const door of ["brain", "gtm", "library", undefined] as const) {
+      expect(storyFinderMarkup(leadershipStories, { door })).not.toMatch(/data-compare-slot|finder-compare/);
+    }
   });
 
-  it("sits under the question and opens on the route on screen", () => {
+  it("sits above the question, says what a tap does and opens on the route on screen", () => {
     const data = COMPARE.brain;
     const { container } = render(<Harness page="brain" />);
     const nudge = screen.getByRole("button", { name: /Prefer another route/ });
-    expect(nudge.closest("[data-compare-slot]")).not.toBeNull();
+    const question = container.querySelector(".finder-question")!;
+    expect(nudge.closest(".mm-compare-float")).not.toBeNull();
+    expect(nudge.compareDocumentPosition(question) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector(".mm-nudge-go")?.textContent).toBe("See how we compare →");
     // The floating piece of the Brain paints into the orb, inside the button.
     expect(nudge.querySelector(".mm-orb .mm-orb-body canvas.mm-orb-goo")).not.toBeNull();
     expect(container.querySelector(".mm-nudge-slot [data-on]")?.textContent).toBe(`${data.alts[data.initial][4]}?`);
@@ -113,5 +116,24 @@ describe("CompareNudge", () => {
     expect(nudge.className).toContain("is-seen");
     expect(scrollTo).not.toHaveBeenCalled();
     scrollTo.mockRestore();
+  });
+
+  it("opens the comparison for a tap made before the page started", () => {
+    const fn = vi.fn();
+    window.__mmEarly = { door: "", compare: true, el: null, done: false, fn };
+    // The page opens it while mounting, before a test could stub the element.
+    const proto = HTMLDialogElement.prototype as HTMLDialogElement & { showModal?: () => void };
+    const had = Object.getOwnPropertyDescriptor(proto, "showModal");
+    proto.showModal = vi.fn(function (this: HTMLDialogElement) { this.setAttribute("open", ""); });
+    try {
+      const { container } = render(<Harness page="gtm" />);
+      const dialog = container.querySelector("dialog.mm-compare-sheet") as HTMLDialogElement;
+      expect(dialog.hasAttribute("open")).toBe(true);
+      expect(window.__mmEarly?.compare).toBe(false);
+    } finally {
+      if (had) Object.defineProperty(proto, "showModal", had); else Reflect.deleteProperty(proto, "showModal");
+      delete window.__mmEarly;
+      document.documentElement.classList.remove("mm-compare-locked");
+    }
   });
 });

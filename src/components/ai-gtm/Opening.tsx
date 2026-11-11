@@ -41,6 +41,7 @@ export function Opening({ heading, mark, accent, lede, startLabel, startNote, on
               className="mm-button"
               data-mm-primary
               data-mm-hero
+              data-early-start="gtm"
               onClick={() => {
                 track("scoping_request", { source: "hero", route: "gtm" });
                 onStart();

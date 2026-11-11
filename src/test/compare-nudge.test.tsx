@@ -62,6 +62,8 @@ describe("CompareNudge", () => {
     const { container } = render(<Harness page="brain" />);
     const nudge = screen.getByRole("button", { name: /Prefer another route/ });
     expect(nudge.closest("[data-compare-slot]")).not.toBeNull();
+    // The floating piece of the Brain paints into the orb, inside the button.
+    expect(nudge.querySelector(".mm-orb .mm-orb-body canvas.mm-orb-goo")).not.toBeNull();
     expect(container.querySelector(".mm-nudge-slot [data-on]")?.textContent).toBe(`${data.alts[data.initial][4]}?`);
     // Every phrase shares one cell, so turning never changes the caption's width.
     expect(container.querySelectorAll(".mm-nudge-slot > span")).toHaveLength(data.alts.length);

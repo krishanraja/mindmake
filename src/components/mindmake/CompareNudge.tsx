@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { COMPARE, GRADE_WORD, type Grade } from "@/data/compareBoard";
 import { track } from "@/lib/analytics";
+import { mountLiquidOrb, type LiquidOrb } from "@/components/mindmake/locked/liquidOrb";
 import "@/styles/mindmake-compare.css";
 
 /**
@@ -64,7 +65,20 @@ export function CompareNudge({ page, host }: { page: "brain" | "gtm"; host: RefO
   const triggerRef = useRef<HTMLButtonElement>(null);
   const savedY = useRef(0);
   const paused = useRef(false);
+  const [orbHost, setOrbHost] = useState<HTMLSpanElement | null>(null);
+  const orb = useRef<LiquidOrb | null>(null);
   const chosen = data.alts[pick];
+
+  // A small piece of the living Brain, floating where the nudge sits.
+  useEffect(() => {
+    if (!orbHost) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    orb.current = mountLiquidOrb(orbHost, { reduced, size: () => orbHost.getBoundingClientRect().width || 76 });
+    return () => { orb.current?.destroy(); orb.current = null; };
+  }, [orbHost]);
+  useEffect(() => { if (turn) orb.current?.pulse(); }, [turn]);
+  useEffect(() => { orb.current?.setPaused(open); }, [open]);
+  useEffect(() => { if (seen) orb.current?.calm(); }, [seen]);
 
   // The finder is server-rendered markup; the nudge mounts into its empty slot.
   useEffect(() => {
@@ -128,11 +142,18 @@ export function CompareNudge({ page, host }: { page: "brain" | "gtm"; host: RefO
       aria-label="Prefer another route? Compare it with Mindmake"
       onClick={openOverlay}
       onPointerEnter={() => { paused.current = true; }}
-      onPointerLeave={() => { paused.current = false; }}
+      onPointerMove={(event) => {
+        const box = orbHost?.getBoundingClientRect();
+        if (box) orb.current?.setHover([event.clientX - box.left, event.clientY - box.top]);
+      }}
+      onPointerLeave={() => { paused.current = false; orb.current?.setHover(null); }}
       onFocus={() => { paused.current = true; }}
       onBlur={() => { paused.current = false; }}
     >
-      <span className="mm-nudge-bubble" aria-hidden="true">?</span>
+      <span className="mm-orb" aria-hidden="true">
+        <span ref={setOrbHost} className="mm-orb-body" />
+        <span className="mm-orb-shadow" />
+      </span>
       <span className="mm-nudge-text" aria-hidden="true">
         <span className="mm-nudge-lead">Prefer to</span>{" "}
         <span className="mm-nudge-slot">

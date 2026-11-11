@@ -267,3 +267,16 @@
   .mm-site .mm-locked-brain .built .month-field { margin-top: 1.1rem; }
   .mm-site .mm-locked-brain .month-stack { grid-template-columns: 1fr 1fr; gap: .9rem; }
 }
+
+/* No section taller than a desktop screen (Krish, 2026-11-06 and again
+   2026-11-11: "Ensure every section's height is no taller than a desktop
+   screen size"; npm run qa:section-heights). On a desktop the picture band
+   over each section scales with the screen's height and the bodies close a
+   little sooner, so band, heading and body fit one screen at 1280x800 and
+   1440x900. Phones keep their own rules above. */
+@media (min-width: 961px) {
+  .mm-plate { min-height: clamp(180px, 24vh, 300px); }
+  .mm-locked-brain .pair-panel.memory > .s8-plate-media,
+  .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { height: clamp(180px, 24vh, 300px); }
+  .s8-body { padding-block: clamp(28px, 5vh, 64px) clamp(36px, 6vh, 80px); }
+}

@@ -3,19 +3,19 @@ import loomImage from "../../../prototypes/website-redesign-recovery/new-age-lea
 import calculatorImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
 import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
-import receiverImage from "@/assets/stories/one-way-receiver-r01-800.webp";
-import { iconSvg, type IconName } from "@/lib/icons";
 import latestIssue from "@/data/latestIssue.json";
 import { publishableTestimonials } from "@/data/testimonials";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
+import { track } from "@/lib/analytics";
+import { mountLiquidOrb } from "@/components/mindmake/locked/liquidOrb";
 import { DECK_WIDE, paintDeckCards, swipeIntent } from "@/components/leadership-chapters/storyFinder";
 
 /**
- * The homepage after its opening, in three sections (Ruling, Krish,
- * 2026-10-24: "drastically simplify everything here to be probably three
- * sections"; every page answers what problem it solves, how it solves it, and
+ * The homepage after its opening, in two sections since 2026-11-11 (three
+ * from Ruling, Krish, 2026-10-24: "drastically simplify everything here to be
+ * probably three sections"; every page answers what problem it solves, how it solves it, and
  * what the reader gets and how they know it works).
  *
  * 1. The problem: right now your AI is an intern, and we have been here
@@ -23,12 +23,14 @@ import { DECK_WIDE, paintDeckCards, swipeIntent } from "@/components/leadership-
  *    from that chapter, in a carousel swiped through time from left to right;
  *    a tile turns on a tap; nothing pins ("keeping a user here for so long
  *    through the scroll... is not worth it").
- * 2. How it works: a chief of staff knows how you think. The organisation from
- *    the reach chapter and the three practice scenes in a carousel of their
- *    own; the returned hour becomes one line ("a great message... not worth a
- *    full section").
- * 3. What you get: three true results, each on its story's own picture, the
- *    stories on /ai-brain, and the way in.
+ * 2. What you get: three true results, each on its story's own picture, then
+ *    a floating piece of the living Brain asking where to start (yourself or
+ *    your business), and a band that is only about exploring what leaders
+ *    built (Krish, 2026-11-11: the section's button went, "the call to action
+ *    is now taken care of by the floating blob orb").
+ *
+ * "An AI chief of staff knows how you think." moved to /ai-brain on
+ * 2026-11-11 (src/components/mindmake/chiefOfStaff.ts).
  *
  * The carousels and pictures follow Krish's review on the phone, 24 October
  * 2026: "make these cards a carousel, which the user obviously knows they have
@@ -52,17 +54,6 @@ const ERAS = [
   { when: "2000s · Satnav", stop: "2000s", image: satnavImage, question: "If the device knows the route, will we lose our sense of direction?", answer: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
 ] as const;
 
-/**
- * What the AI carries, shown: the three practice scenes as still tiles under
- * the "AI carries / You keep" line (Krish, 2026-11-04: the "When built right"
- * carousel "feels a bit out of place... I like the imagery"). No heading, no
- * controls, nothing that moves or changes size.
- */
-const ACTS: ReadonlyArray<{ word: string; line: string; icon: IconName }> = [
-  { word: "Notices", line: "It spots what has changed before you ask.", icon: "notice" },
-  { word: "Connects", line: "It checks new facts against what you already know.", icon: "connect" },
-  { word: "Prepares", line: "It hands you the work, ready for your decision.", icon: "prepare" },
-];
 
 /** A result's picture is its story's own scene on /ai-brain, found by its record. */
 const sceneOf = (record: string) => leadershipStories.find((story) => story.record === record)?.scene ?? "";
@@ -133,15 +124,18 @@ const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
   ? `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
   : `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
 
+/**
+ * Where to start, asked by a floating piece of the living Brain (Krish,
+ * 2026-11-11: the orb "show up on the 'We build yours with you in 30 days'
+ * section and ask the user if they want to start with themselves (AI Brain) or
+ * their business (AI revenue)"). The two answers are real links, so the reader
+ * lands on one of the two pages with or without script; the orb only paints.
+ */
+const chooserMarkup = () => `<div class="hs-choose" data-hs-choose><span class="hs-choose-orb" aria-hidden="true"><span class="hs-choose-body" data-hs-orb></span><span class="hs-choose-shadow"></span></span><div class="hs-choose-bubble" role="group" aria-labelledby="hs-choose-q"><p id="hs-choose-q" class="hs-choose-q">Where do you want to start?</p><div class="hs-choose-doors"><a class="hs-choose-door" href="/ai-brain" data-choose="brain"><b>With yourself</b><span>Your AI brain</span><i aria-hidden="true">→</i></a><a class="hs-choose-door" href="/ai-gtm" data-choose="gtm"><b>With your business</b><span>Your AI revenue engine</span><i aria-hidden="true">→</i></a></div></div></div>`;
+
 export function homepageSectionsMarkup() {
-  /* Ruling (owner, 2026-11-04, mock approved): one picture and one flow. The
-     three steps sit on one line with their icons, top-aligned; what the AI
-     carries and what you keep is the caption under them; the organisation is
-     told in full on /new-age-leadership. */
-  const acts = ACTS.map((act) => `<li>${iconSvg(act.icon, "mm-icon mm-icon-big")}<b>${act.word}</b><span>${act.line}</span></li>`).join("");
   return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable. Use it to make yourself better, not just to make things easier.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div><p class="hs-close">Every time, the people who kept their own judgement and put it to work came out ahead.</p></div></section>
-      <section class="hs-section hs-how" aria-labelledby="hs-how-title"><div class="hs-inner"><h2 id="hs-how-title" class="hs-title">An AI chief of staff knows <span class="hs-mark" data-hs-mark="underline">how you think</span>.</h2><p class="hs-lede">Your AI brain is a private memory for your AI tools, so they get smarter instead of forgetting. It holds your goals, taste and standards, so you can trust its answers.</p><ol class="hs-flow" aria-label="What the AI carries, in three steps">${acts}</ol><p class="hs-carries"><span><b>AI carries</b> gather, connect, compare, monitor, prepare</span> <span><b>You keep</b> taste, judgement, relationships, the decision</span></p><p class="hs-how-link"><a href="/new-age-leadership">How the hybrid organisation works</a></p><figure class="hs-how-figure">${cardImage(receiverImage, 800, "(max-width: 760px) 92vw, 40vw")}</figure></div></section>
-      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p><div class="hs-proof-deck" data-hs-deck><ul class="hs-proof" data-hs-deck-track>${PROOF.map(proofMarkup).join("")}</ul><div class="hs-deck-nav"><button type="button" data-hs-deck-step="-1" aria-label="Previous result" disabled>←</button><p><span data-hs-deck-at>1</span> of ${PROOF.length}</p><button type="button" data-hs-deck-step="1" aria-label="Next result">→</button></div></div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link" href="/case-studies">See every result <span aria-hidden="true">→</span></a></div><div class="hs-start">${startButton()}</div></div></section>
+      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough.</p>${chooserMarkup()}<div class="hs-proof-deck" data-hs-deck><ul class="hs-proof" data-hs-deck-track>${PROOF.map(proofMarkup).join("")}</ul><div class="hs-deck-nav"><button type="button" data-hs-deck-step="-1" aria-label="Previous result" disabled>←</button><p><span data-hs-deck-at>1</span> of ${PROOF.length}</p><button type="button" data-hs-deck-step="1" aria-label="Next result">→</button></div></div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link hs-explore" href="/case-studies">Explore what leaders built <span aria-hidden="true">→</span></a></div></div></section>
       `;
 }
 
@@ -316,13 +310,17 @@ export function mountHomepageSections(root: HTMLElement) {
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
   root.querySelectorAll<HTMLElement>("[data-hs-deck]").forEach((deck) => mountProofDeck(deck, abort.signal));
   root.querySelectorAll<HTMLElement>("[data-hs-voices]").forEach((voices) => mountVoices(voices, abort.signal, reduced));
+  const orbs = [...root.querySelectorAll<HTMLElement>("[data-hs-orb]")].map((host) => mountLiquidOrb(host, { reduced, size: () => host.getBoundingClientRect().width || 84 }));
+  root.querySelectorAll<HTMLAnchorElement>("[data-choose]").forEach((door) => {
+    door.addEventListener("click", () => track("door_click", { source: "orb", to: door.getAttribute("href") ?? "" }), { signal: abort.signal });
+  });
   /* Each section builds as the reader reaches it (src/lib/scrollBuild.ts). */
   const unbuild = buildOnScroll(root, {
     sections: ".hs-section",
     title: ".hs-title",
     lede: ".hs-lede",
     splitLede: true,
-    items: ".hs-eras > li, .hs-proof-deck, .hs-flow > li, .hs-inner > .hs-how-figure, .hs-inner > .hs-carries, .hs-inner > .hs-how-link, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-voices, .hs-inner > .hs-start, .hs-rail-nav",
+    items: ".hs-eras > li, .hs-proof-deck, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-voices, .hs-inner > .hs-choose, .hs-rail-nav",
   });
-  return () => { abort.abort(); unbuild(); };
+  return () => { abort.abort(); unbuild(); orbs.forEach((orb) => orb.destroy()); };
 }

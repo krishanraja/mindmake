@@ -19,9 +19,11 @@ describe("the homepage in three sections", () => {
        the order is read from the words, without the marks' own tags. */
     const sections = homepageSectionsMarkup();
     const words = sections.replace(/<span class="hs-mark"[^>]*>([^<]*)<\/span>/g, "$1");
-    const order = ["Every new technology asks us to change how we think.", "An AI chief of staff knows how you think.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
+    const order = ["Every new technology asks us to change how we think.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
-    expect(sections.match(/<section\b/g)).toHaveLength(3);
+    expect(sections.match(/<section\b/g)).toHaveLength(2);
+    /* Krish, 2026-11-11: the chief of staff section moved to /ai-brain. */
+    expect(words).not.toContain("An AI chief of staff knows how you think.");
     expect(sections).toContain('id="history"');
   });
 
@@ -67,20 +69,20 @@ describe("the homepage in three sections", () => {
     expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("shows one picture and the three steps as a flow with their icons, with no film to play", () => {
-    /* Krish, 2026-11-04 (mock approved): one picture and one flow; the
-       organisation is told in full on /new-age-leadership, linked here. */
-    const sections = homepageSectionsMarkup();
-    expect(sections).not.toContain('class="hybrid-organisation');
-    expect(sections).not.toContain("<video");
+  it("asks where to start from a floating piece of the Brain, and leaves the band to the stories", () => {
+    /* Krish, 2026-11-11: the orb on "We build yours with you in 30 days."
+       asks whether to start with yourself or your business and takes the
+       reader to one of the two pages; the section's own button goes, and the
+       band is only about exploring what leaders built. */
     const root = document.createElement("div");
-    root.innerHTML = sections;
-    expect([...root.querySelectorAll(".hs-flow > li > b")].map((word) => word.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
-    expect(root.querySelectorAll('.hs-flow > li > svg.mm-icon[aria-hidden="true"]')).toHaveLength(3);
-    expect(root.querySelectorAll('.hs-how .hs-how-figure img.hs-card-img[alt=""]')).toHaveLength(1);
-    expect(root.querySelector('.hs-how a[href="/new-age-leadership"]')?.textContent).toBe("How the hybrid organisation works");
-    expect(root.querySelector(".hs-how [data-hs-rail]")).toBeNull();
-    expect(sections).not.toContain("When built right");
+    root.innerHTML = homepageSectionsMarkup();
+    const get = root.querySelector(".hs-get")!;
+    const doors = [...get.querySelectorAll<HTMLAnchorElement>(".hs-choose [data-choose]")];
+    expect(doors.map((door) => door.getAttribute("href"))).toEqual(["/ai-brain", "/ai-gtm"]);
+    expect(doors.map((door) => door.querySelector("b")?.textContent)).toEqual(["With yourself", "With your business"]);
+    expect(get.querySelector(".hs-choose [data-hs-orb]")).not.toBeNull();
+    expect(get.querySelector(".hs-start-button, [data-mm-primary]")).toBeNull();
+    expect(get.querySelector(".hs-voices .hs-explore")?.getAttribute("href")).toBe("/case-studies");
   });
 
   it("puts each era and each result on its own picture, decorative and loaded when near", () => {

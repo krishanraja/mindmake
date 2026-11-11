@@ -81,17 +81,17 @@ try {
           const observed = { label, viewport };
 
           assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Promote your AI from intern to chief of staff.', `${label}: approved opening`);
-          const order = await page.evaluate(() => ['#opening', '#hs-problem-title', '#hs-how-title', '#hs-get-title', '#footer'].map(selector => {
+          const order = await page.evaluate(() => ['#opening', '#hs-problem-title', '#hs-get-title', '#footer'].map(selector => {
             const node = document.querySelector(selector);
             return node ? node.getBoundingClientRect().top + scrollY : null;
           }));
           observed.order = order;
-          assert(order.every((top, i) => top !== null && (i === 0 || top > order[i - 1])), `${label}: opening, three sections and footer in order (${order.join(', ')})`);
+          assert(order.every((top, i) => top !== null && (i === 0 || top > order[i - 1])), `${label}: opening, two sections and footer in order (${order.join(', ')})`);
 
           /* Nothing pins: each section moves exactly as far as the page does. */
           const sticky = await page.evaluate(() => [...document.querySelectorAll('.mm-homepage-release main *')].filter(node => getComputedStyle(node).position === 'sticky').map(node => node.className || node.tagName));
           assert(!sticky.length, `${label}: nothing on the page is sticky (${sticky.slice(0, 3).join(', ')})`);
-          for (const selector of ['.hs-problem', '.hs-how', '.hs-get']) {
+          for (const selector of ['.hs-problem', '.hs-get']) {
             const section = page.locator(selector);
             await section.scrollIntoViewIfNeeded();
             await page.evaluate(() => scrollBy({ top: -120, behavior: 'instant' }));
@@ -149,10 +149,12 @@ try {
             assert(playing === 0, `${label}: no film plays under reduced motion (${playing} playing)`);
           }
 
-          /* The way in, at the top and at the end. */
+          /* The way in at the top; where to start at the end. */
           await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
           await openAndClose(page, `${label}/hero`, page.locator('.r3-opening .hs-start-button:visible').first());
-          await openAndClose(page, `${label}/close`, page.locator('.hs-get .hs-start-button'));
+          /* The close asks where to start (Krish, 2026-11-11): two real links to the two doors. */
+          const doors = await page.locator('.hs-get .hs-choose [data-choose]').evaluateAll(links => links.map(link => link.getAttribute('href')));
+          assert(doors.join() === '/ai-brain,/ai-gtm', `${label}: the close asks where to start (${doors.join()})`);
 
           assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${label}: horizontal overflow`);
           assert(!errors.length, `${label}: page errors ${errors.join(' | ')}`);

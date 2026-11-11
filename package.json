@@ -29,6 +29,7 @@
     "qa:cards": "node scripts/qa/card-geometry-check.mjs",
     "qa:oneway": "node scripts/qa/one-way-in-check.mjs",
     "qa:line-breaks": "node scripts/qa/line-break-check.mjs",
+    "qa:section-heights": "node scripts/qa/section-height-check.mjs",
     "qa:reading-flow": "node scripts/qa/reading-flow-check.mjs",
     "qa:alignment": "node scripts/qa/alignment-check.mjs",
     "qa:first-visit": "node scripts/qa/first-visit-check.mjs",

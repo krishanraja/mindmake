@@ -13,6 +13,7 @@ import lockedDocument from "../../prototypes/website-redesign-recovery/brain-sig
 import evidencePoster from "@/assets/responsive/evidence-connects-poster-w1280.webp";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import { CompareNudge } from "@/components/mindmake/CompareNudge";
+import { chiefOfStaffMarkup } from "@/components/mindmake/chiefOfStaff";
 import { Icon } from "@/components/mindmake/Icon";
 import monthPlate from "@/assets/stories/punched-cards-r01-800.webp";
 import type { IconName } from "@/lib/icons";
@@ -34,6 +35,7 @@ import "@/styles/mindmake-calm-s8.css";
 import "@/styles/mindmake-alive-brain.css";
 import "@/styles/mindmake-deck.css";
 import "@/styles/mindmake-connected-brain.css";
+import "@/styles/mindmake-brain-cos.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -74,7 +76,7 @@ type BrainItem = (typeof fixture.items)[number];
 // the living record, then the month. Each heading must appear exactly once, so
 // a copy edit can never silently drop or double a part the scroll build and
 // the checks depend on.
-const chapterTitles = ["opening-title", "you-title", "sharper-title", "business-title", "memory-title", "record-title", "built-title"];
+const chapterTitles = ["opening-title", "you-title", "sharper-title", "business-title", "memory-title", "built-title"];
 /** The finder's stories, moved here from the homepage (Ruling, Krish, 2026-10-24: "it is the most practical. outlook, output for what an AI brain makes possible, but, having said that, I think this might belong on the AI brain page"). The page already says what it is about, so the finder carries no label of its own. */
 const finderMarkup = storyFinderMarkup(leadershipStories, { kicker: false, door: "brain" });
 /** What stays with you, as the receipt: the approved brain steps (01_CANON.md). */
@@ -95,6 +97,9 @@ function prepareMarkup() {
   markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4", evidenceFilm);
   markup = replaceLockedAsset(markup, "./media/evidence-connects-poster.png", evidencePoster);
   markup = replaceLockedAsset(markup, "../../../src/assets/stories/punched-cards-r01-800.webp", monthPlate);
+  const chief = "<!--chief-of-staff-->";
+  if (markup.split(chief).length - 1 !== 1) throw new Error("The Brain page must carry exactly one how-you-think panel.");
+  markup = markup.replace(chief, chiefOfStaffMarkup());
   const field = '<div class="field-focus" aria-hidden="true"></div>';
   if (markup.split(field).length - 1 !== 1) throw new Error("The Brain page must carry exactly one field focus.");
   return markup.replace(field, `${field}${noScriptBrain()}`);
@@ -467,9 +472,6 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       cleanups.push(() => field.removeEventListener("click", selectNearestMeaning, true));
     }
 
-    /* The record's totals, from the fixture they count. */
-    const counts = [fixture.items.length, fixture.relationships.length, fixture.sources.length, fixture.corrections.length];
-    root.querySelectorAll<HTMLElement>(".record-counts b").forEach((count, index) => { count.textContent = String(counts[index]); });
 
     const chapters = [...root.querySelectorAll<HTMLElement>(".chapter[data-phase]")];
     const links = [...root.querySelectorAll<HTMLElement>("[data-phase-link]")];

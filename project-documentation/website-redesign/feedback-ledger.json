@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-11-10",
+  "updatedAt": "2026-11-11",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -2216,6 +2216,97 @@
       "evidence": [
         "Browser probe on the built site: the homepage fan's last card ends 1 to 2px from the section's right edge at 1920x1080 (cards 680px), 1440x900 (578px) and 1280x800 (514px), all three visible; pressing the last card brings it to the front; /ai-brain's step is unchanged (208, 179, 130px); Pixel 7 shows no fanned card.",
         "typecheck, lint, 752 unit tests, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:material-review:self-test and qa:plain-language pass."
+      ]
+    },
+    {
+      "id": "S9-START-001",
+      "exactFeedback": "Also the \"Start building your AI business\" button no longer works.",
+      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site.",
+      "surface": "/ai-gtm, /ai-brain, /",
+      "section": "every way in that opens the brief in place",
+      "device": "phone (a mid-range phone on a slow connection)",
+      "element": "the way in before the page has started",
+      "classification": "correction",
+      "requiredOutcome": "A tap on any way in that opens the brief in place is never lost: made before the page has started, it shows as pressed and the brief opens at that door the moment the page starts.",
+      "acceptanceTest": "src/test/early-start.test.tsx runs the catcher from index.html; a throttled Pixel 7 (4x processor, slow 4G) taps each way in after the page shows and before it starts, on production as the negative control and on the built change.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Every control already worked once the page had started; on production /ai-gtm painted at 0.75s and answered at 5.1s on that phone, and the screenshot shows the page in that gap. An inline catcher in index.html keeps the tap and marks the control pressed; useLeadBriefHistory and CompareNudge read it on mount (src/lib/earlyStart.ts). The /ai-gtm story sheets now end in \"Start building your AI business\", not \"... brain\".",
+      "evidence": [
+        "Production, throttled taps made 2.2 to 3.9s in, before the page started: /ai-gtm pairing and hero, /ai-brain hero and pairing and the homepage's start all opened nothing.",
+        "Built change, same taps: all six open what was asked (/ai-gtm and /ai-brain at their own doors, the homepage at brain, the nudge's comparison) about 2.8s after the tap, the control shown pressed meanwhile.",
+        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
+      ]
+    },
+    {
+      "id": "S9-NUDGE-001",
+      "exactFeedback": "The \"Prefer to\" dialogues should go above the \"Where would you start?\" heading on both pages. I was hoping that the \"Prefer to floating orb\" would, at the very least, visually be its own thing and not look like a part of the page. But I'm not sure how we'd accomplish that and make it really clear for the user as to why they should interact with it.",
+      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site.",
+      "surface": "/ai-brain, /ai-gtm",
+      "section": "Where would you start?",
+      "device": "all",
+      "element": "\"Prefer to …?\" and its orb",
+      "classification": "correction",
+      "requiredOutcome": "The nudge sits above the question, reads as an object resting on the page rather than part of it, and says what a tap does.",
+      "acceptanceTest": "src/test/compare-nudge.test.tsx; a browser probe at 1440x900, 1280x800, 390x844 and 360x780 measures that the bubble crosses the seam with the section above and stays at least 12px clear of its words; screenshots.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The page renders the nudge before the finder (no portal, so it is in the prerendered page); it rides the seam with the section above, its bubble crossing the edge, on a raised green surface with a mint rim, a deeper shadow and a faint halo, and a second line, \"See how we compare →\" (new words, approved with the plan on 11 November 2026).",
+      "evidence": [
+        "Bubble crosses the seam by 26 to 27px at 1440 and 1280 and 21px at 390 and 360; clear of the section above's words by 16 to 64px; above the question at all four sizes.",
+        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
+      ]
+    },
+    {
+      "id": "S9-CHOOSER-001",
+      "exactFeedback": "Underneath \"With your business\" it should just say \"Your AI business.\"",
+      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site.",
+      "surface": "/",
+      "section": "We build yours with you in 30 days.",
+      "device": "all",
+      "element": "the floating Brain's \"With your business\" door",
+      "classification": "correction",
+      "requiredOutcome": "The business door's small line reads \"Your AI business\".",
+      "acceptanceTest": "homepageSections.ts and the regenerated release; screenshots at 390 and 1440.",
+      "status": "implemented-awaiting-review",
+      "resolution": "\"Your AI revenue engine\" became \"Your AI business\"; on a phone it now holds one line where it had wrapped to two.",
+      "evidence": [
+        "Screenshots of the built homepage at 390x844 and 1440x900.",
+        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
+      ]
+    },
+    {
+      "id": "S9-SHEETS-001",
+      "exactFeedback": "Now that we've moved one of the sections out from the homepage, the homepage needs more visual distinction between sections. Each section just blends into the next and looks like one endless section. I had tried to implement a card-based animation but you removed that because it was too complicated I think. Is there no middle ground or visual distinction we can implement?",
+      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site.",
+      "surface": "/",
+      "section": "both sections after the opening",
+      "device": "all",
+      "element": "the seams between sections",
+      "classification": "correction",
+      "requiredOutcome": "Each homepage section reads as its own sheet, without the sticky stacking removed on 10 November: nothing pins, nothing covers words.",
+      "acceptanceTest": "A browser probe at the four sizes measures each seam's clearance from the words above it and that no section is sticky; qa:section-heights; qa:card-contrast; screenshots.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Every section was the same ink (rgb 6,17,13). Each section is now a sheet with a rounded top edge lapping the padding of the one before, a shadow cast upwards and a mint hairline, on alternating grounds (#0b1812, then the deep green #11291f); the existing settle reads as one sheet sliding over the last.",
+      "evidence": [
+        "Seams clear the words above by 13 to 132px at 1440x900, 1280x800, 390x844 and 360x780; both sections position relative, none sticky.",
+        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
+      ]
+    },
+    {
+      "id": "S9-GTM-GROUND-001",
+      "exactFeedback": "A visual glitch on the AI GTM page where there are two green boxes stacked inside one another. That's an error.",
+      "source": "Krish, 11 November 2026, with five phone screenshots of /, /ai-brain and /ai-gtm on the live site.",
+      "surface": "/ai-gtm",
+      "section": "Where would you start?",
+      "device": "all",
+      "element": "the stories' own ground inside the green section",
+      "classification": "correction",
+      "requiredOutcome": "One ground: the stories sit straight on the section's green, as on /ai-brain.",
+      "acceptanceTest": "The browser probe reads the finder's ground as transparent at all four sizes; screenshots.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The finder carried its own ink (rgb 6,17,13) inside the green section; /ai-brain had already cleared it and /ai-gtm never had. It is transparent now.",
+      "evidence": [
+        "Finder ground rgba(0, 0, 0, 0) on /ai-gtm at all four sizes.",
+        "typecheck, lint, the unit suite, the build, qa:approved-routes and its self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:line-breaks, qa:homepage-release:pre-merge, qa:card-contrast, qa:discoverability, qa:section-heights and qa:reading-flow run before merge; their results are in the pull request."
       ]
     }
   ]

@@ -1,6 +1,6 @@
 import { clientStories } from "@/data/rebuildProof";
 import { publishableTestimonials } from "@/data/testimonials";
-import { START_LABEL } from "@/lib/publicLinks";
+import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import type { LeadershipStory } from "./leadershipChapters";
 
@@ -48,9 +48,11 @@ export const storyByStart = (stories: readonly LeadershipStory[], start: string)
 
 /* `data-mm-native` keeps the page-transition handler (RouteTransitions) from
    taking the click first: on any page but the homepage it would otherwise
-   carry the reader to / before the finder could open the brief in place. */
+   carry the reader to / before the finder could open the brief in place. A
+   revenue engine story ends in that page's own way in (Krish, 2026-11-11:
+   the /ai-gtm stories had ended in "Start building your AI brain"). */
 const startLink = (door: "brain" | "gtm") =>
-  `<a class="finder-start" href="/?start=${door}" data-finder-start="${door}" data-mm-native>${START_LABEL} <span aria-hidden="true">→</span></a>`;
+  `<a class="finder-start" href="/?start=${door}" data-finder-start="${door}" data-mm-native>${door === "gtm" ? START_LABEL_GTM : START_LABEL} <span aria-hidden="true">→</span></a>`;
 
 function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
   const record = story.record ? clientStories.find((entry) => entry.id === story.record) : undefined;
@@ -103,7 +105,7 @@ export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker 
   const label = kicker ? `<p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p>` : "";
   const question = door === "library" ? "What do you want to build?" : "Where would you start?";
   const head = intro ? `<div class="finder-intro"><h1 id="library-title">${esc(intro.title)}</h1><p>${esc(intro.lede)}</p></div>` : "";
-  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2>${door === "brain" || door === "gtm" ? `<div class="finder-compare" data-compare-slot></div>` : ""}${doors}<div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
+  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2>${doors}<div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
 }
 
 export interface StoryFinderOptions {
@@ -156,6 +158,27 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     tabs.forEach((tab) => { tab.hidden = tab.dataset.finderDoor !== door; });
     select(tabs.findIndex((tab) => tab.dataset.finderDoor === door));
   }, { signal }));
+  /* The library's two products have different numbers of situations, so the
+     list of them holds the longer product's height and choosing a product
+     never resizes the finder (Ruling, Krish, 2026-10-24; qa:line-breaks found
+     /case-studies 19px shorter on the business side at 1280x800). Measured
+     whenever the width or the faces change, never while the reader chooses. */
+  const tablist = finder.querySelector<HTMLElement>(".finder-tabs");
+  const holdTabs = () => {
+    if (!picks.length || !tablist) return;
+    const was = tabs.map((tab) => tab.hidden);
+    tablist.style.removeProperty("min-height");
+    let tallest = 0;
+    for (const door of new Set(tabs.map((tab) => tab.dataset.finderDoor))) {
+      tabs.forEach((tab) => { tab.hidden = tab.dataset.finderDoor !== door; });
+      tallest = Math.max(tallest, tablist.getBoundingClientRect().height);
+    }
+    tabs.forEach((tab, i) => { tab.hidden = was[i]; });
+    if (tallest) tablist.style.minHeight = `${Math.ceil(tallest)}px`;
+  };
+  holdTabs();
+  addEventListener("resize", holdTabs, { passive: true, signal });
+  void document.fonts?.ready.then(() => { if (!signal.aborted) holdTabs(); });
   tabs.forEach((tab, i) => {
     tab.addEventListener("click", () => select(i), { signal });
     tab.addEventListener("keydown", (event) => {
@@ -287,7 +310,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
 
   const undeck = deck ? mountDeck(finder, tabs, panels, signal) : () => undefined;
 
-  return () => { abort.abort(); undeck(); close(); finder.classList.remove("is-live"); };
+  return () => { abort.abort(); undeck(); close(); tablist?.style.removeProperty("min-height"); finder.classList.remove("is-live"); };
 }
 
 /** Earlier stories that stay visible above the current one. */

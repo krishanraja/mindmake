@@ -41,6 +41,7 @@ export function PairingBridge({ route, onStart, startLabel }: { route: keyof typ
         className="mm-button"
         type="button"
         data-mm-primary
+        data-early-start={route}
         onClick={() => {
           track("scoping_request", { source: "pairing", route });
           onStart();

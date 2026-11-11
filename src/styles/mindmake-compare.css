@@ -1,4 +1,4 @@
-/* "Prefer to …?" (CompareNudge): the nudge under "Where would you start?" on
+/* "Prefer to …?" (CompareNudge): the nudge above "Where would you start?" on
    /ai-brain and /ai-gtm, and the comparison it opens. One-off, not a
    design-system component. Both pages put it on a dark ground. */
 .mm-nudge,
@@ -15,8 +15,30 @@
   --cmp-accent-ink: #07110c;
   --cmp-accent-wash: #12291f;
 }
-.finder-compare:empty { display: none; }
-.finder-compare { margin: 14px 0 6px; }
+
+/* ---------- Where it sits: across the edge above the question ----------
+   Krish, 2026-11-11: above the heading, and "visually its own thing and not
+   ... a part of the page". It rides the seam with the section before, its
+   bubble crossing the edge, so it reads as an object resting on the page.
+   The section above ends in padding, so nothing of it is covered (measured
+   at 1440x900, 1280x800, 390x844 and 360x780). The section it opens starts
+   with it, and the finder's own top padding spaces the question below. */
+.mm-compare-float {
+  --nudge-cross: 46px;
+  position: relative;
+  z-index: 3;
+  /* Moved up rather than given a negative top margin, which would collapse
+     through a section with no top padding and carry the section up too. */
+  top: calc(-1 * var(--nudge-cross));
+  margin-bottom: calc(-1 * var(--nudge-cross));
+}
+.mm-gtm .gtm-begin { padding-top: 0; }
+.brain-close > .mm-compare-float { padding-inline: var(--mm-logo-edge); }
+/* On a phone the cream receipt above it ends 12px lower, so the bubble never
+   comes within 12px of "Anything we built." */
+@media (max-width: 699px) {
+  .mm-gtm .gtm-plan-body { padding-bottom: 48px; }
+}
 
 /* ---------- The nudge: a floating piece of the Brain and its caption ---------- */
 .mm-site .mm-nudge {
@@ -71,19 +93,20 @@
 @keyframes mm-orb-float { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-5px); } }
 @keyframes mm-orb-shadow { 0%, 100% { transform: scaleX(1); opacity: .9; } 50% { transform: scaleX(.72); opacity: .45; } }
 
-/* The caption: a speech bubble from the orb. */
+/* The caption: a speech bubble from the orb, raised off the page on its own
+   lighter surface with a mint rim, and ending in what a tap does. */
 .mm-nudge-text {
+  --bubble-rim: rgba(157, 240, 200, .42);
   position: relative;
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: .3em;
+  display: grid;
+  justify-items: start;
+  row-gap: 6px;
   min-width: 0;
-  padding: 11px 16px;
-  border: 1px solid var(--cmp-rule);
+  padding: 12px 18px 12px 16px;
+  border: 1px solid var(--bubble-rim);
   border-radius: 16px;
-  background: rgba(6, 15, 11, .82);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .28);
+  background: linear-gradient(180deg, #16352a, #0e241b);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(157, 240, 200, .1), 0 0 0 5px rgba(157, 240, 200, .06);
   transition: border-color .12s ease;
 }
 .mm-nudge-text::before {
@@ -93,17 +116,26 @@
   left: -6px;
   width: 10px;
   height: 10px;
-  border-bottom: 1px solid var(--cmp-rule);
-  border-left: 1px solid var(--cmp-rule);
-  background: rgb(6, 15, 11);
+  border-bottom: 1px solid var(--bubble-rim);
+  border-left: 1px solid var(--bubble-rim);
+  background: #12301f;
   transform: translateY(-50%) rotate(45deg);
   transition: border-color .12s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .mm-site .mm-nudge:hover .mm-nudge-text,
-  .mm-site .mm-nudge:hover .mm-nudge-text::before { border-color: var(--cmp-accent-dim); }
+  .mm-site .mm-nudge:hover .mm-nudge-text { --bubble-rim: rgba(157, 240, 200, .72); }
+  .mm-site .mm-nudge:hover .mm-nudge-go > span { transform: translateX(3px); }
 }
+.mm-nudge-line { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: .3em; min-width: 0; }
 .mm-nudge-lead { color: var(--cmp-fg2); white-space: nowrap; }
+.mm-nudge-go {
+  color: var(--cmp-accent);
+  font: 500 11px/1.2 "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.mm-nudge-go > span { display: inline-block; transition: transform .15s ease; }
 /* Every phrase in one cell: the caption is always the longest phrase's width. */
 .mm-nudge-slot {
   display: inline-grid;
@@ -226,7 +258,8 @@ html.mm-compare-locked, html.mm-compare-locked body { overflow: hidden; overscro
 /* ---------- Phones: the whole screen, still no scroll ---------- */
 @media (max-width: 600px) {
   .mm-site .mm-nudge { --orb: 68px; gap: 12px; font-size: 16px; }
-  .mm-nudge-text { padding: 9px 13px; }
+  .mm-nudge-text { padding: 10px 14px; row-gap: 5px; }
+  .mm-compare-float { --nudge-cross: 26px; }
   .mm-compare-sheet { width: 100%; height: 100%; max-height: none; border: 0; border-radius: 0; }
   .mm-compare-inner { gap: 10px; min-height: 100%; align-content: start; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
   .mm-compare-head { flex-wrap: nowrap; }

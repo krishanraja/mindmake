@@ -12,7 +12,9 @@
  * - nothing on the page is pinned (position: sticky), outside a closed dialog;
  * - no section is tilted or clipped, and a section is eased back (scaled or
  *   dimmed) only once its foot has risen past 40% of the screen;
- * - no section overlaps the one before it;
+ * - no section overlaps the one before it, except the homepage's sheets
+ *   (owner, 2026-11-11), each of which may lap the one before by its own
+ *   declared --hs-sheet-lap and no further, and never over a word of it;
  * - the screen is not blank (words or a picture on it);
  * - the page did not move by itself.
  *
@@ -121,6 +123,19 @@ const observe = (selector) => {
   const sections = [...document.querySelectorAll(selector)];
   const bad = [];
   let previousBottom = -Infinity;
+  let previous = null;
+  /* The lowest edge of any word in a section, so a lap can be held to padding. */
+  const lowestWord = (node) => {
+    let low = -Infinity;
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+    for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+      if (!t.textContent.trim() || getComputedStyle(t.parentElement).visibility === "hidden") continue;
+      const range = document.createRange();
+      range.selectNodeContents(t);
+      for (const r of range.getClientRects()) if (r.width && r.height) low = Math.max(low, r.bottom);
+    }
+    return low;
+  };
   sections.forEach((section, index) => {
     const style = getComputedStyle(section);
     const box = section.getBoundingClientRect();
@@ -130,8 +145,11 @@ const observe = (selector) => {
     if (section.style.clipPath) bad.push(`section ${index} clipped by script`);
     const eased = (style.scale && style.scale !== "none" && parseFloat(style.scale) < 0.999) || /brightness\((?!1\))/.test(style.filter);
     if (eased && box.bottom > vh * 0.4 + 2) bad.push(`section ${index} eased while its foot is at ${Math.round(box.bottom)} of ${vh}`);
-    if (box.top < previousBottom - 1) bad.push(`section ${index} overlaps the one before by ${Math.round(previousBottom - box.top)}px`);
+    const lap = parseFloat(style.getPropertyValue("--hs-sheet-lap")) || 0;
+    if (box.top < previousBottom - 1 - lap) bad.push(`section ${index} overlaps the one before by ${Math.round(previousBottom - box.top)}px`);
+    else if (previous && box.top < previousBottom - 1 && lowestWord(previous) > box.top + 1) bad.push(`section ${index} laps a word of the one before (${Math.round(lowestWord(previous) - box.top)}px under it)`);
     previousBottom = Math.max(previousBottom, box.bottom);
+    previous = section;
   });
   let text = 0;
   const MEDIA = "img, picture, video, canvas, svg";
@@ -231,11 +249,13 @@ for (const profile of PROFILES) {
           if (!resumed) fail(where, `the Brain's tour did not carry on within 10s of closing the card for ${picked}`);
         }
         const stacked = await page.evaluate(() => {
+          /* The panel after the goals: the living record until 11 November
+             2026, the chief of staff since (#how-you-think). */
           const memory = document.querySelector("#memory")?.getBoundingClientRect();
-          const record = document.querySelector("#living-record")?.getBoundingClientRect();
+          const record = document.querySelector("#memory + .pair-panel")?.getBoundingClientRect();
           return memory && record ? record.top >= memory.bottom - 1 : false;
         });
-        if (!stacked) fail(where, "the goals and record panels are not one after the other");
+        if (!stacked) fail(where, "the goals panel and the one after it are not one after the other");
       }
 
       /* The floating button never sits on a link, a control or a picture. */

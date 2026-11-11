@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { BriefRoute } from "@/components/mindmake/leadDelivery";
+import { takeEarlyStart } from "@/lib/earlyStart";
 
 const START_PARAM = "start";
 
@@ -70,6 +71,15 @@ export function useLeadBriefHistory() {
       hash: location.hash,
     }, { replace: true });
   }, [briefOpen, location.hash, location.pathname, location.search, navigate]);
+
+  /* A tap on the way in made before the page started opens the brief at its
+     door now (src/lib/earlyStart.ts), unless the address already opens it. */
+  const openEarly = useRef({ setBriefOpen, asked });
+  openEarly.current = { setBriefOpen, asked };
+  useEffect(() => {
+    const door = takeEarlyStart();
+    if (door && !(openEarly.current.asked in ROUTES)) openEarly.current.setBriefOpen(true, door);
+  }, []);
 
   return {
     briefOpen,

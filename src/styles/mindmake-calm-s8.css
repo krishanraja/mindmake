@@ -107,6 +107,9 @@
 
 /* /ai-gtm, where to start: its own section. */
 .mm-gtm .gtm-begin { color: #efe6d3; }
+/* One ground: the stories sit straight on the section's green, as they do on
+   /ai-brain (Krish, 2026-11-11: "two green boxes stacked inside one another"). */
+.mm-gtm .gtm-begin .nal-page.brain-finder { background: transparent; }
 
 @media (max-width: 1023px) {
   .mm-gtm .gtm-s8 .lever-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }

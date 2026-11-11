@@ -1,18 +1,26 @@
-import { useEffect, useId, useRef, useState, type RefObject } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useId, useRef, useState } from "react";
 import { COMPARE, GRADE_WORD, type Grade } from "@/data/compareBoard";
 import { track } from "@/lib/analytics";
+import { takeEarlyCompare } from "@/lib/earlyStart";
 import { mountLiquidOrb, type LiquidOrb } from "@/components/mindmake/locked/liquidOrb";
 import "@/styles/mindmake-compare.css";
 
 /**
- * "Prefer to …?" at "Where would you start?", and the comparison it opens
+ * "Prefer to …?" above "Where would you start?", and the comparison it opens
  * (Krish, 2026-11-11: the inline version "adds too much page complexity").
  *
- * The nudge is one button under the finder's question: a mint bubble that
- * breathes in its own spot and a caption whose ending turns through the routes
- * a visitor is probably weighing, so they see we know what they are thinking.
- * Tapping it opens the comparison already set to the route on screen.
+ * The nudge is one button: a floating piece of the living Brain and a caption
+ * whose ending turns through the routes a visitor is probably weighing, so they
+ * see we know what they are thinking, then "See how we compare", so they know
+ * what a tap does. Tapping it opens the comparison already set to the route on
+ * screen.
+ *
+ * It sits above the question, across the edge between this section and the
+ * one before (Krish, 2026-11-11: "The 'Prefer to' dialogues should go above
+ * the 'Where would you start?' heading on both pages", and the orb should
+ * "visually be its own thing and not look like a part of the page"). The page
+ * renders it in place, so it is in the prerendered page and nothing moves
+ * when the page starts; a tap on it before then is kept (src/lib/earlyStart.ts).
  *
  * ## Nothing moves
  *
@@ -51,11 +59,11 @@ function turnOrder(initial: number, count: number) {
   return Array.from({ length: count }, (_, k) => (initial + k) % count);
 }
 
-export function CompareNudge({ page, host }: { page: "brain" | "gtm"; host: RefObject<HTMLElement | null> }) {
+export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
   const data = COMPARE[page];
   const order = turnOrder(data.initial, data.alts.length);
   const id = useId();
-  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  const floatRef = useRef<HTMLDivElement>(null);
   const [turn, setTurn] = useState(0);
   const [pick, setPick] = useState(data.initial);
   const [view, setView] = useState<"one" | "all">("one");
@@ -80,23 +88,19 @@ export function CompareNudge({ page, host }: { page: "brain" | "gtm"; host: RefO
   useEffect(() => { orb.current?.setPaused(open); }, [open]);
   useEffect(() => { if (seen) orb.current?.calm(); }, [seen]);
 
-  // The finder is server-rendered markup; the nudge mounts into its empty slot.
-  useEffect(() => {
-    setSlot(host.current?.querySelector<HTMLElement>("[data-compare-slot]") ?? null);
-  }, [host]);
-
   // Turn the caption while it is on screen, not hovered or focused, and the overlay is shut.
   useEffect(() => {
-    if (!slot || open) return;
+    const spot = floatRef.current;
+    if (!spot || open) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let visible = false;
     const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
-    io.observe(slot);
+    io.observe(spot);
     const timer = window.setInterval(() => {
       if (visible && !paused.current && document.visibilityState === "visible") setTurn((t) => (t + 1) % order.length);
     }, ROTATE_MS);
     return () => { window.clearInterval(timer); io.disconnect(); };
-  }, [slot, open, order.length]);
+  }, [open, order.length]);
 
   const openOverlay = () => {
     const dialog = dialogRef.current;
@@ -130,6 +134,11 @@ export function CompareNudge({ page, host }: { page: "brain" | "gtm"; host: RefO
     return () => dialog.removeEventListener("close", onClose);
   }, []);
 
+  // A tap on the nudge before the page started opens the comparison now.
+  const openFirst = useRef(openOverlay);
+  openFirst.current = openOverlay;
+  useEffect(() => { if (takeEarlyCompare()) openFirst.current(); }, []);
+
   const closeOverlay = () => dialogRef.current?.close();
 
   const nudge = (
@@ -155,19 +164,22 @@ export function CompareNudge({ page, host }: { page: "brain" | "gtm"; host: RefO
         <span className="mm-orb-shadow" />
       </span>
       <span className="mm-nudge-text" aria-hidden="true">
-        <span className="mm-nudge-lead">Prefer to</span>{" "}
-        <span className="mm-nudge-slot">
-          {order.map((alt, k) => (
-            <span key={alt} data-on={k === turn || undefined}>{data.alts[alt][4]}?</span>
-          ))}
+        <span className="mm-nudge-line">
+          <span className="mm-nudge-lead">Prefer to</span>{" "}
+          <span className="mm-nudge-slot">
+            {order.map((alt, k) => (
+              <span key={alt} data-on={k === turn || undefined}>{data.alts[alt][4]}?</span>
+            ))}
+          </span>
         </span>
+        <span className="mm-nudge-go">See how we compare <span>→</span></span>
       </span>
     </button>
   );
 
   return (
     <>
-      {slot && createPortal(nudge, slot)}
+      <div ref={floatRef} className="mm-compare-float" data-compare={page}>{nudge}</div>
       <dialog
         ref={dialogRef}
         className="mm-compare-sheet"

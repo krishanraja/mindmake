@@ -84,7 +84,8 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
   would you start?" on its own raised surface, ending in "See how we compare
   →"; homepage sections are sheets laid over one another on alternating
-  grounds, nothing pinned; the chooser says "Your AI business"; /ai-gtm's
+  grounds, nothing pinned (the opening's old divider, which drew a line across
+  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
   stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
   `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
 - 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI

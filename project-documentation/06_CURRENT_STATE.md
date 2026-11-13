@@ -160,12 +160,25 @@ Google and no cookie is set until the visitor chooses Allow on the privacy
 notice, stored as `mindmake_consent=analytics`; Decline stores `essential`. The
 older `accepted` answer was given to a Plausible-only notice and never counts
 as a yes. On a laptop the notice is a card on the left of the bottom band; on a
-phone it docks under the masthead. `/privacy` section 5 names both tools and
-carries "Change your analytics choice".
+phone it docks under the masthead. `/privacy` sections 4 and 5 name every tool
+and section 5 carries "Change your analytics choice", which also clears
+Clarity's `_clck` and `_clsk`.
+
+Since 13 November 2026 Microsoft Clarity (project `zd4m5xlj05`) loads under
+the same Allow (owner request: "Copy and paste the Clarity code into the
+<head>"). Clarity's own snippet sits unchanged inside `mmLoadClarity` in the
+`index.html` head, called for a stored `analytics` answer and from either
+Allow (`src/lib/consent.ts`); before that nothing is requested from Microsoft.
+Once loaded it is sent `consentv2` with analytics granted and advertising
+denied. The brief's panel carries `data-clarity-mask="True"`, so recordings
+show its movement and never its words; Clarity's own default masks every
+input elsewhere. Because Allow now covers two tools, the page notice asks
+"Analytics cookies?" with the Privacy link that names them. QA runs store
+`accepted`, `declined` or `essential`, so they never load Clarity or Google.
 
 Since 28 October 2026 (PR #256) a brief asks the same question on its first
-screen when no answer is stored ("Can we count your visit with Google
-Analytics?", Allow and Decline, inside the panel), because a brief opened
+screen when no answer is stored ("Can we use analytics cookies on your
+visit?", Allow and Decline, inside the panel), because a brief opened
 straight away covered the notice. Both answer through `src/lib/consent.ts`
 (the same key, Allow loading the tag, Decline dropping a held placement tag);
 the page notice stays away while a brief is open; Allow there sends

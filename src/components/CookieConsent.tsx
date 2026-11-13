@@ -4,8 +4,8 @@ import { CONSENT_KEY, allowAnalytics, briefIsOpen, consentStored, declineAnalyti
 
 /**
  * Withdrawing is as easy as allowing: forget the answer, remove the Google
- * Analytics cookies and reload, so the page starts without the tag and the
- * notice asks again.
+ * Analytics and Microsoft Clarity cookies and reload, so the page starts
+ * without either tag and the notice asks again.
  */
 export function resetAnalyticsChoice() {
   try {
@@ -16,7 +16,7 @@ export function resetAnalyticsChoice() {
   const host = window.location.hostname.split(".").slice(-2).join(".");
   for (const cookie of document.cookie.split(";")) {
     const name = cookie.split("=")[0].trim();
-    if (name !== "_ga" && !name.startsWith("_ga_")) continue;
+    if (name !== "_ga" && !name.startsWith("_ga_") && name !== "_clck" && name !== "_clsk") continue;
     for (const domain of ["", `; domain=.${host}`]) {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
     }
@@ -147,9 +147,11 @@ export const CookieConsent = () => {
     >
       <h2 id="privacy-notice-title" className="mm-visually-hidden">Privacy notice</h2>
       {/* One line. It was three on a phone, plus a button, floating over the
-          reading on every screen of the visit until dismissed. */}
+          reading on every screen of the visit until dismissed. Allow covers
+          Google Analytics and Microsoft Clarity, named on /privacy, so the
+          question names neither and stays the length that fits at 360px. */}
       <p>
-        Google Analytics? <a href="/privacy">Privacy</a>
+        Analytics cookies? <a href="/privacy">Privacy</a>
       </p>
       {/* One group, so a narrow row moves both answers down together rather
           than leaving Decline alone on a line of its own. */}

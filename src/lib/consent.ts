@@ -12,7 +12,8 @@
 import { dropVisitTag } from "@/lib/visitTag";
 
 export const CONSENT_KEY = "mindmake_consent";
-/* "analytics" allows Google Analytics and "essential" declines it. Any stored
+/* "analytics" allows Google Analytics and Microsoft Clarity (owner,
+   2026-11-13) and "essential" declines both. Any stored
    value means the visitor has answered, including the older "accepted", which
    was given to a Plausible-only notice and is never read as a yes to Google. */
 export const ALLOW = "analytics";
@@ -21,6 +22,7 @@ export const DECLINE = "essential";
 declare global {
   interface Window {
     mmLoadGoogleTag?: () => void;
+    mmLoadClarity?: () => void;
   }
 }
 
@@ -62,6 +64,7 @@ function remember(choice: string) {
 export function allowAnalytics() {
   remember(ALLOW);
   window.mmLoadGoogleTag?.();
+  window.mmLoadClarity?.();
   signal("answered");
 }
 

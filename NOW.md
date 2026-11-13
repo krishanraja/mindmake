@@ -78,6 +78,13 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-13: Microsoft Clarity is in the head of every page, behind the same
+  Allow as Google Analytics (Krish: "Copy and paste the Clarity code into the
+  <head> element of site"). Allow now covers two tools, so the page notice
+  asks "Analytics cookies?" and the brief "Can we use analytics cookies on your
+  visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
+  masked from recordings. Aimed at the North Star: recordings and heatmaps of
+  where consenting readers stop between the hero and "Check your email."
 - 2026-11-11, Krish's phone review: a tap on the way in before the page has
   started is kept ("Start building your AI business button no longer works":
   on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North

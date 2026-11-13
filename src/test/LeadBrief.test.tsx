@@ -1182,6 +1182,7 @@ describe("the analytics question inside the brief", () => {
     delete window.gtag;
     delete window.mmGoogleTagLoaded;
     delete window.mmLoadGoogleTag;
+    delete window.mmLoadClarity;
   });
 
   function arriveOnBriefLink() {
@@ -1189,17 +1190,21 @@ describe("the analytics question inside the brief", () => {
     window.gtag = gtag;
     const loadTag = vi.fn(() => { window.mmGoogleTagLoaded = true; });
     window.mmLoadGoogleTag = loadTag;
+    const loadClarity = vi.fn();
+    window.mmLoadClarity = loadClarity;
     /* Far enough down that the page notice would be due, were no brief open. */
     window.scrollY = window.innerHeight * 2;
     render(<><CookieConsent /><LeadBrief open onClose={() => undefined} route="gtm" /></>);
-    const question = screen.getByText("Can we count your visit with Google Analytics?");
+    const question = screen.getByText("Can we use analytics cookies on your visit?");
     const line = question.closest(".mm-brief-analytics") as HTMLElement;
-    return { gtag, loadTag, line };
+    return { gtag, loadTag, loadClarity, line };
   }
 
   it("asks on the first screen when no choice is stored, and Allow loads the tag and sends the open and the step", () => {
-    const { gtag, loadTag, line } = arriveOnBriefLink();
+    const { gtag, loadTag, loadClarity, line } = arriveOnBriefLink();
     expect(screen.getByRole("dialog").contains(line)).toBe(true);
+    /* Clarity records the brief's movement but never its words. */
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-clarity-mask", "True");
     expect(line).not.toHaveAttribute("data-answered");
     expect(document.querySelector(".mm-cookie-notice")).toBeNull();
     expect(gtag).not.toHaveBeenCalled();
@@ -1208,6 +1213,7 @@ describe("the analytics question inside the brief", () => {
     fireEvent.click(within(line).getByRole("button", { name: "Allow" }));
 
     expect(loadTag).toHaveBeenCalledTimes(1);
+    expect(loadClarity).toHaveBeenCalledTimes(1);
     expect(localStorage.getItem("mindmake_consent")).toBe("analytics");
     expect(gtag.mock.calls).toEqual([
       ["event", "brief_open", { brief_route: "gtm" }],
@@ -1219,9 +1225,10 @@ describe("the analytics question inside the brief", () => {
   });
 
   it("Decline loads nothing and sends nothing", () => {
-    const { gtag, loadTag, line } = arriveOnBriefLink();
+    const { gtag, loadTag, loadClarity, line } = arriveOnBriefLink();
     fireEvent.click(within(line).getByRole("button", { name: "Decline" }));
     expect(loadTag).not.toHaveBeenCalled();
+    expect(loadClarity).not.toHaveBeenCalled();
     expect(gtag).not.toHaveBeenCalled();
     expect(localStorage.getItem("mindmake_consent")).toBe("essential");
     expect(line).toHaveAttribute("data-answered", "true");
@@ -1231,7 +1238,7 @@ describe("the analytics question inside the brief", () => {
   it("is not asked again once a choice is stored", () => {
     localStorage.setItem("mindmake_consent", "essential");
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-    expect(screen.queryByText("Can we count your visit with Google Analytics?")).toBeNull();
+    expect(screen.queryByText("Can we use analytics cookies on your visit?")).toBeNull();
   });
 
   it("hands the question back to the page notice once the brief closes unanswered", () => {

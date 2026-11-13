@@ -117,6 +117,60 @@ describe("CookieConsent", () => {
     expect(tag).not.toContain("'accepted'");
   });
 
+  it("the head loads Microsoft Clarity only for a stored yes or Allow, with advertising denied", () => {
+    const head = readFileSync(resolve(__dirname, "../../index.html"), "utf8");
+    const at = head.indexOf("<!-- Microsoft Clarity");
+    expect(at).toBeGreaterThan(-1);
+    const start = head.indexOf(">", head.indexOf("<script", at)) + 1;
+    const script = head.slice(start, head.indexOf("</script>", start));
+    expect(head.slice(at, start)).not.toMatch(/<script[^>]*\ssrc=/);
+
+    const run = (stored: string | null) => {
+      const inserted: string[] = [];
+      const first = { parentNode: { insertBefore: (node: { src?: string }) => inserted.push(String(node.src)) } };
+      const doc = { createElement: () => ({}), getElementsByTagName: () => [first] };
+      const win: Record<string, unknown> = {};
+      new Function("window", "document", "localStorage", script)(win, doc, { getItem: () => stored });
+      return { win, inserted };
+    };
+
+    for (const stored of [null, "essential", "accepted", "declined"]) {
+      const { win, inserted } = run(stored);
+      expect(inserted, String(stored)).toEqual([]);
+      expect(win.clarity, String(stored)).toBeUndefined();
+      expect(typeof win.mmLoadClarity).toBe("function");
+    }
+
+    const yes = run("analytics");
+    expect(yes.inserted).toEqual(["https://www.clarity.ms/tag/zd4m5xlj05"]);
+    const queue = (yes.win.clarity as { q: ArrayLike<unknown>[] }).q.map((call) => Array.from(call));
+    expect(queue).toEqual([["consentv2", { ad_Storage: "denied", analytics_Storage: "granted" }]]);
+    /* Allow after a stored yes, or twice, never adds a second script. */
+    (yes.win.mmLoadClarity as () => void)();
+    expect(yes.inserted).toHaveLength(1);
+
+    const later = run(null);
+    (later.win.mmLoadClarity as () => void)();
+    expect(later.inserted).toEqual(["https://www.clarity.ms/tag/zd4m5xlj05"]);
+  });
+
+  it("Allow on the notice loads Clarity too, and Decline loads nothing", () => {
+    const loadClarity = vi.fn();
+    window.mmLoadClarity = loadClarity;
+    render(<CookieConsent />);
+    leaveFirstScreen();
+    expect(screen.getByText("Analytics cookies?")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Decline"));
+    expect(loadClarity).not.toHaveBeenCalled();
+
+    localStorage.clear();
+    render(<CookieConsent />);
+    leaveFirstScreen();
+    fireEvent.click(screen.getByText("Allow"));
+    expect(loadClarity).toHaveBeenCalledTimes(1);
+    delete window.mmLoadClarity;
+  });
+
   it("does not show banner when consent already stored", () => {
     localStorage.setItem("mindmake_consent", "accepted");
     render(<CookieConsent />);

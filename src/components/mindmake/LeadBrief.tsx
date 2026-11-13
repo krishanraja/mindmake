@@ -1253,7 +1253,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
 
   return (
     <div ref={backdropRef} className={`mm-brief-backdrop${presentation === "drawer" ? " is-drawer" : ""}`} role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className={`mm-brief-panel${presentation === "drawer" ? " is-drawer" : ""}`} ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title" data-tone={STEP_TONES[step]} data-step={step} data-presentation={presentation}>
+      <div className={`mm-brief-panel${presentation === "drawer" ? " is-drawer" : ""}`} ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title" data-clarity-mask="True" data-tone={STEP_TONES[step]} data-step={step} data-presentation={presentation}>
         <div className="mm-brief-top">
           {/* The real mark and wordmark, as the site header draws them, and
               not a link: a way home in the middle of a form is a way out of
@@ -1351,7 +1351,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 <p>No brief reaches our team until you confirm later. <a href="/privacy" target="_blank" rel="noreferrer">How we handle information</a>.</p>
                 {analyticsAsk && (
                   <div className="mm-brief-analytics" data-answered={analyticsAsk === "answered" ? "true" : undefined}>
-                    <p id="mm-brief-analytics-question">Can we count your visit with Google&nbsp;Analytics?</p>
+                    <p id="mm-brief-analytics-question">Can we use analytics cookies on your&nbsp;visit?</p>
                     <div className="mm-brief-analytics-actions" role="group" aria-labelledby="mm-brief-analytics-question">
                       <button type="button" onClick={() => answerAnalytics(true)}>Allow</button>
                       <button type="button" onClick={() => answerAnalytics(false)}>Decline</button>

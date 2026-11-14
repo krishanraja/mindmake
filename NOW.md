@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-12
-head: ef86d5f
+as_of: 2026-11-14
+head: 94deaa0
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-12)
+## Where it is right now (as of 2026-11-14)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -121,29 +121,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
   these defects returning.
 
-- 2026-11-06: Krish asked for more logos, homepage quotes that send readers to
-  the results, and "no section should be bigger than a desktop screen on
-  desktop. This is imperative." The `/case-studies` rail now carries all 16
-  approved attendee brands as a slow loop; the homepage's last section carries
-  one client voice at a time beside the way in, ending in "See every result";
-  and every homepage section after the opening fits below the masthead from
-  1280x620 to 2560x1440 (the how picture had stood 976px tall at 1866x900).
-  Below about 680px of window height the R3 opening keeps its own floor.
-- 2026-11-04: after Krish's review of the live site (S7, PRs #265 to #269),
-  the story cards lie on their own pictures, every section fits one screen,
-  copy is in plain words, nothing is set in italic, and one library,
-  "What you can do with it.", serves both products on `/case-studies`.
-  The homepage and then `/ai-brain` and `/ai-gtm` build as they are read, with
-  a quick pen drawing two strokes under each heading's last line, approved
-  from phone recordings ("Merge"). Every heading sits on the logo's left edge,
-  enforced by `qa:alignment`.
-- 2026-11-04: Krish on first visits: "Some of the images take up to 10 seconds
-  to load on a user's first visit. That is completely unacceptable." Pictures
-  are now sized to the screen and films wait their turn (`qa:first-visit`,
-  PR #271). Then S8 (#275, #276): `/ai-gtm`, `/ai-brain` and the chief of staff
-  section carry one idea per section, approved from now-and-planned mocks
-  ("the rest of it looks good"), with icons, detail one tap away and shorter
-  phone pages (`/ai-gtm` 4,710 to 4,079px at 390 wide). Ledger row `S8-CALM-001`.
 ## What is next and what is waiting on Krish
 
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The

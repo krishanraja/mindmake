@@ -2,7 +2,7 @@
 repo: krishanraja/mindmake
 product: Mindmake
 as_of: 2026-11-14
-head: 94deaa0
+head: caa7e2b
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -78,6 +78,12 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
+  from `public/l/index.html`, with `/l/config.js` coming from
+  `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
+  address is never committed to this public repository. `/l/` is noindex,
+  no-referrer and no-store. The page's source is `krishanraja/sendlinks`
+  `web/recipient/`; the route lock was regenerated for the intended edit.
 - 2026-11-13: Microsoft Clarity is in the head of every page, behind the same
   Allow as Google Analytics (Krish: "Copy and paste the Clarity code into the
   <head> element of site"). Allow now covers two tools, so the page notice
@@ -144,11 +150,12 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback
   ledger), and one brief started and confirmed on a phone, the end-to-end
   proof of the 26 October deploy. The code of 14:33 UTC that day came from a
-  speed test, not a brief, and expired unused.
+  speed test, not a brief, and expired unused. Also: confirm a fresh SendLinks
+  link opens at `https://mindmake.co/l/<link>` on his phone.
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-10-28): holds.
+- North Star check (2026-11-14): holds.
 
 ## Read next
 

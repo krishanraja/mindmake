@@ -818,6 +818,27 @@
   font: normal 12px / 1.4 var(--mono);
 }
 
+/* The result on the record, after the outcome: amber is what moved, never
+ * mint, which is kept for the answer and for what is chosen. */
+.finder-result {
+  display: grid;
+  gap: 6px;
+  padding-left: 14px;
+  border-left: 2px solid var(--mm-amber, #e0a44a);
+}
+
+.finder-sheet p.finder-result-head,
+.finder-card .finder-full p.finder-result-head {
+  color: var(--paper);
+  font: 400 clamp(18px, 1.4vw, 20px) / 1.36 var(--serif);
+}
+
+.finder-sheet .finder-result p:not(.finder-result-head),
+.finder-card .finder-full .finder-result p:not(.finder-result-head) {
+  color: rgba(234, 223, 200, .74);
+  font-size: clamp(16px, 1.2vw, 17px);
+}
+
 .finder-full-plate {
   margin: 0;
   border: 1px solid var(--brass);

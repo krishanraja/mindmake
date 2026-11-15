@@ -19,8 +19,8 @@ type FixtureQuote = (typeof fixture.quotes)[number];
    losing meaning (Krish, 2026-11-15). Until the shorter form is approved on
    the rendered page, the record keeps the heading that is live today. */
 const HEADING_RULINGS: Partial<Record<UseCaseId, { status: "pending" | "approved"; text: string }>> = {
-  "C-09": { status: "pending", text: "A head of operations is hands-on again, with systems they built." },
-  "C-10": { status: "pending", text: "Someone new to AI now builds their own dashboard by saying what they need." },
+  "C-09": { status: "pending", text: "A head of operations is hands-on again, building systems from the best of what's new and proven, fitted to their exact work." },
+  "C-10": { status: "pending", text: "Someone new to AI now talks their own dashboard into existence, anchored to their north star values." },
 };
 
 const EVIDENCE: Record<UseCase["evidence"], RegExp> = {

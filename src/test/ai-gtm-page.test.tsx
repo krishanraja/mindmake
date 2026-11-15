@@ -130,7 +130,7 @@ describe("/ai-gtm on the server", () => {
     expect(tabs).toEqual(["team", "calls"]);
     expect(body).not.toContain("data-finder-pick");
     expect(text(body)).toContain("Teams working on the same account");
-    expect(body).toContain('href="/case-studies#story=team-decides"');
+    expect(body).toContain('href="/case-studies#c-17"');
   });
 
   /* The acronym GTM leaves public copy (Krish, 2026-10-15); the page says

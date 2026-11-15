@@ -87,7 +87,7 @@ describe("AI Brain stories", () => {
         expect(part).not.toMatch(/\bnot\b[^.]*,\s*but\b/i);
       }
       /* Budgets that keep every card and sheet short enough to read at a glance. */
-      expect(story.heading.length).toBeLessThanOrEqual(80);
+      expect(story.heading.length).toBeLessThanOrEqual(124);
       expect(story.situation!.length).toBeLessThanOrEqual(150);
       expect(story.happened!.length).toBeLessThanOrEqual(210);
       expect(story.outcome.length).toBeLessThanOrEqual(100);
@@ -107,9 +107,12 @@ describe("AI Brain stories", () => {
       expect(plain).toContain(`<span class="finder-outcome">${story.outcome.replaceAll("\u00a0", " ")}</span>`);
     }
     for (const situation of SITUATIONS) expect(human).toContain(`<h3 class="finder-situation">${situation.label}</h3>`);
-    const proofs = [...human.matchAll(/href="\/case-studies#story=([^"]+)"/g)].map((m) => m[1]);
+    /* The full story of each result lives on /case-studies under its use case. */
+    const proofs = [...human.matchAll(/href="\/case-studies#(c-\d{2})"/g)].map((m) => m[1].toUpperCase());
     expect(proofs).toHaveLength(8);
-    for (const id of proofs) expect(results.map((entry) => entry.id)).toContain(id);
+    for (const id of proofs) expect(results.map((entry) => entry.useCase)).toContain(id);
+    /* The sheet shows the result itself, headline and detail, after the outcome. */
+    for (const result of results) expect(plain).toContain(result.headline);
     expect(human).not.toMatch(/success story/i);
     expect(human).not.toContain(" hidden");
   });

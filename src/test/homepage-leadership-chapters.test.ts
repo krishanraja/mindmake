@@ -180,7 +180,11 @@ describe("the new-age leadership chapters, shared with /new-age-leadership", () 
     const body = root.querySelector<HTMLElement>("[data-finder-sheet-body]")!;
     expect(body.querySelector("h3")!.textContent).toMatch(/^Two quarters of argument/);
     expect(body.querySelector(".finder-outcome")!.textContent).toMatch(/partner agreement was signed/);
-    expect(body.querySelector(".finder-proof")!.getAttribute("href")).toBe("/case-studies#story=day-one");
+    expect(body.querySelector(".finder-proof")!.getAttribute("href")).toBe("/case-studies#c-15");
+    /* The result on the record follows the outcome, headline first. */
+    const after = body.querySelector("[data-finder-happened]")!.nextElementSibling!;
+    expect(after.className).toBe("finder-outcome");
+    expect(after.nextElementSibling!.querySelector(".finder-result-head")!.textContent!.replaceAll("\u00a0", " ")).toBe("A day's work, and a partner signed the month after.");
     expect(document.activeElement).toBe(root.querySelector("[data-finder-close]"));
     /* The brief opens at the story's door, and the sheet closes first. */
     const start = body.querySelector<HTMLAnchorElement>("[data-finder-start]")!;

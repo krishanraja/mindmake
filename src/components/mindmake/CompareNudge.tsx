@@ -39,6 +39,9 @@ import "@/styles/mindmake-compare.css";
  */
 const ROTATE_MS = 2800;
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+/* The last two words of each line held together, so no word sits alone on a
+   line of the comparison at 390 or 360 wide. Typesetting only. */
+const tie = (s: string) => s.replace(/ (\S+)$/u, "\u00a0$1");
 const dotClass = (g: string) => (g === "Y" ? "y" : g === "P" ? "p" : "n");
 
 function Dots({ grades, criteria }: { grades: string; criteria: readonly string[] }) {
@@ -59,7 +62,14 @@ function turnOrder(initial: number, count: number) {
   return Array.from({ length: count }, (_, k) => (initial + k) % count);
 }
 
-export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
+/**
+ * `variant="bar"` is the same trigger without the floating orb, for the bar
+ * of a use case's whole story on /case-studies: the caption and what a tap
+ * does, opening the same comparison at that use case's type. `hidden` keeps a
+ * bar trigger in its place but out of sight and reach, so the bar holding one
+ * per type is always the wider one's size.
+ */
+export function CompareNudge({ page, variant = "float", hidden = false }: { page: "brain" | "gtm"; variant?: "float" | "bar"; hidden?: boolean }) {
   const data = COMPARE[page];
   const order = turnOrder(data.initial, data.alts.length);
   const id = useId();
@@ -137,7 +147,7 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
   // A tap on the nudge before the page started opens the comparison now.
   const openFirst = useRef(openOverlay);
   openFirst.current = openOverlay;
-  useEffect(() => { if (takeEarlyCompare()) openFirst.current(); }, []);
+  useEffect(() => { if (variant === "float" && takeEarlyCompare()) openFirst.current(); }, [variant]);
 
   const closeOverlay = () => dialogRef.current?.close();
 
@@ -145,7 +155,7 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
     <button
       ref={triggerRef}
       type="button"
-      className={`mm-nudge${seen ? " is-seen" : ""}`}
+      className={`mm-nudge${variant === "bar" ? " is-bar" : ""}${seen ? " is-seen" : ""}`}
       aria-haspopup="dialog"
       aria-expanded={open}
       aria-label="Prefer another route? Compare it with Mindmake"
@@ -159,10 +169,12 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
       onFocus={() => { paused.current = true; }}
       onBlur={() => { paused.current = false; }}
     >
-      <span className="mm-orb" aria-hidden="true">
-        <span ref={setOrbHost} className="mm-orb-body" />
-        <span className="mm-orb-shadow" />
-      </span>
+      {variant === "float" ? (
+        <span className="mm-orb" aria-hidden="true">
+          <span ref={setOrbHost} className="mm-orb-body" />
+          <span className="mm-orb-shadow" />
+        </span>
+      ) : null}
       <span className="mm-nudge-text" aria-hidden="true">
         <span className="mm-nudge-line">
           <span className="mm-nudge-lead">Prefer to</span>{" "}
@@ -179,7 +191,7 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
 
   return (
     <>
-      <div ref={floatRef} className="mm-compare-float" data-compare={page}>{nudge}</div>
+      <div ref={floatRef} className={variant === "bar" ? "mm-compare-inbar" : "mm-compare-float"} data-compare={page} aria-hidden={hidden || undefined} {...inertUnless(!hidden)}>{nudge}</div>
       <dialog
         ref={dialogRef}
         className="mm-compare-sheet"
@@ -222,7 +234,7 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
                   const g = chosen[1][j] as Grade;
                   return (
                     <div key={criterion} className="mm-compare-row" role="row">
-                      <span role="rowheader">{criterion}</span>
+                      <span role="rowheader">{tie(criterion)}</span>
                       <span role="cell" className={`mm-compare-mark is-${dotClass(g)}`}>{GRADE_WORD[g]}</span>
                       <span role="cell" className="mm-compare-mark is-y">Yes</span>
                     </div>
@@ -235,13 +247,13 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
                   {/* The chosen line is the live region; the others share its
                       cell unseen and unread, so the box is the longest line's height. */}
                   <div className="mm-compare-stack">
-                    <p aria-live="polite" aria-atomic="true">{chosen[2]} {chosen[3]}</p>
-                    {data.alts.map((alt, k) => k === pick ? null : <span key={alt[0]} aria-hidden="true">{alt[2]} {alt[3]}</span>)}
+                    <p aria-live="polite" aria-atomic="true">{tie(`${chosen[2]} ${chosen[3]}`)}</p>
+                    {data.alts.map((alt, k) => k === pick ? null : <span key={alt[0]} aria-hidden="true">{tie(`${alt[2]} ${alt[3]}`)}</span>)}
                   </div>
                 </div>
                 <div className="is-ours">
                   <span className="mm-compare-label">With Mindmake you keep</span>
-                  <p>{data.ours}</p>
+                  <p>{tie(data.ours)}</p>
                 </div>
               </div>
               <button type="button" className="mm-compare-switch" onClick={() => { setView("all"); track("compare_board_open", { route: page, alt: chosen[0] }); }}>
@@ -257,7 +269,7 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
                 </div>
                 {data.alts.map((alt, k) => (
                   <div key={alt[0]} className={`mm-compare-brow${k === pick ? " is-pick" : ""}`} aria-current={k === pick ? "true" : undefined}>
-                    <span>{alt[0]}</span>
+                    <span>{tie(alt[0])}</span>
                     <Dots grades={alt[1]} criteria={data.criteria} />
                   </div>
                 ))}
@@ -266,7 +278,7 @@ export function CompareNudge({ page }: { page: "brain" | "gtm" }) {
                   <Dots grades="YYYYY" criteria={data.criteria} />
                 </div>
                 <div className="mm-compare-key">
-                  {data.criteria.map((c, j) => <span key={c}>{j + 1} · {c}</span>)}
+                  {data.criteria.map((c, j) => <span key={c}>{j + 1} · {tie(c)}</span>)}
                   <span>● Yes · ◐ Partly · ○ No</span>
                 </div>
               </div>

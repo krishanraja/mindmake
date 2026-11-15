@@ -103,6 +103,10 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   `/blog/:slug`, the answers at `/answers/:slug` (`/answers` redirects to
   `/blog`), `/faq`, `/about`, `/contact`, `/privacy`, `/terms` and the unlisted,
   noindex `/alumni`. The sitemap lists 36 URLs.
+- `/optout/<token>` (Ruling, Krish, 2026-11-15: the opt-out link lives on a mindmake.co path that forwards to
+  Control Center): the one-click opt-out link under every cold email. `vercel.json` rewrites it, token unchanged and
+  method kept, to Control Center's `/api/optout`, which owns the page and the deletion; it is noindex, never cached
+  and sends no referrer. Nothing links to it until Control Center switches cold email on.
 - `/feedback/dtd` (Krish, 2026-11-02): an unlisted, noindex feedback form for
   DoThinkDo staff, one screen at a time (Krish, 2026-11-02): pick what they
   liked, one screen per pick, then the same for what to do better, then send.

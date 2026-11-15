@@ -71,7 +71,6 @@
     "qa:homepage-fidelity": "node scripts/qa/homepage-fidelity-check.mjs",
     "qa:start-flow-prototype": "node scripts/qa/start-flow-prototype-check.mjs",
     "qa:start-here-s4-production": "node scripts/qa/start-here-s4-production-check.mjs",
-    "qa:case-proof-field-production": "node scripts/qa/case-proof-field-production-check.mjs",
     "qa:commercial-continuity-production": "node scripts/qa/commercial-continuity-production-check.mjs",
     "qa:commercial-proofglass-production": "node scripts/qa/commercial-proofglass-production-check.mjs",
     "qa:commercial-decision-balance-production": "node scripts/qa/commercial-decision-balance-production-check.mjs",

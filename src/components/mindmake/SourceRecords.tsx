@@ -15,7 +15,7 @@ import { clientStories, FIGURE_INSTRUMENT } from "@/data/rebuildProof";
  * one surface: "remove it from the page but dont destroy the component, just
  * mark it as unused, and ensure nothing good is lost in terms of quotes/clear
  * business outcomes." Nothing was. Every field this rendered now appears in
- * CaseProofField — result and attribution on the cold tile, quote and
+ * The retired results field: result and attribution on the cold tile, quote and
  * StoryFigureView in the open record — and the proof-field gate asserts each
  * one against src/data/rebuildProof.ts per story.
  *

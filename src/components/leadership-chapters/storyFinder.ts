@@ -24,6 +24,10 @@ import type { LeadershipStory } from "./leadershipChapters";
 /* The five situations and the use cases in each, read from their one record (src/data/useCases.ts). */
 export { SITUATIONS };
 
+/** Holds the last two words of a line of copy together, so no word sits alone
+    on the last line. Typesetting only: the words themselves are unchanged. */
+export const tieLast = (text: string) => text.replace(/ (\S+)$/u, "\u00a0$1");
+
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
 export const storyById = (stories: readonly LeadershipStory[], id: UseCaseId) => {
@@ -52,12 +56,17 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
      where no words sit; the card's ink thickens under the words. */
   const faceVisual = `<span class="finder-plate" aria-hidden="true">${plate}</span>`;
   const fullVisual = `<figure class="finder-full-plate" aria-hidden="true">${plate}</figure>`;
-  const quote = story.quote ? `<blockquote>“${story.quote.text}”${voice ? `<cite>${esc(voice.role)}</cite>` : ""}</blockquote>` : "";
-  const proof = record ? `<p class="finder-record"><a class="finder-proof" href="/case-studies#story=${record.id}">The full story\u00a0<span aria-hidden="true">→</span></a></p>` : "";
+  const quote = story.quote ? `<blockquote>“${story.quote.text}”${voice ? `<cite>${esc(tieLast(voice.role))}</cite>` : ""}</blockquote>` : "";
+  /* The whole story, with every way of narrowing the eighteen, is on
+     /case-studies under the use case's own fragment. */
+  const proof = record ? `<p class="finder-record"><a class="finder-proof" href="/case-studies#${story.id.toLowerCase()}">The full story\u00a0<span aria-hidden="true">→</span></a></p>` : "";
+  /* The result on the record follows the outcome in the sheet: its headline,
+     then what moved, in amber (the colour of what moved; mint is the answer). */
+  const result = record ? `<div class="finder-result"><p class="finder-result-head">${tieLast(esc(record.headline))}</p><p>${tieLast(esc(record.detail))}</p></div>` : "";
   const face = `<span class="finder-face">${faceVisual}<span class="finder-heading">${story.heading}</span><span class="finder-outcome">${story.outcome}</span></span>`;
   /* The heading and the outcome are said once, on the card; the sheet borrows
      them when it opens, so a page without scripts never says them twice. */
-  const full = `<div class="finder-full"><div class="finder-full-media">${fullVisual}</div><div class="finder-full-text"><p>${story.situation}</p><p data-finder-happened>${story.happened}</p>${quote}${proof}${startLink(door)}</div></div>`;
+  const full = `<div class="finder-full"><div class="finder-full-media">${fullVisual}</div><div class="finder-full-text"><p>${story.situation}</p><p data-finder-happened>${story.happened}</p>${result}${quote}${proof}${startLink(door)}</div></div>`;
   return `<li class="finder-card"><details data-finder-card="${id}"><summary>${face}</summary>${full}</details></li>`;
 }
 

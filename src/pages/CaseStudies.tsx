@@ -3,28 +3,30 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
-import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { LeaderCount } from "@/components/mindmake/LeaderCount";
 import { LogoRail } from "@/components/mindmake/LogoRail";
-import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
-import { StoryLibrary } from "@/components/mindmake/StoryLibrary";
-import { clientStories } from "@/data/rebuildProof";
+import { UseCaseFinder } from "@/components/mindmake/UseCaseFinder";
+import { ClientWords } from "@/components/mindmake/ClientWords";
+import { useCases } from "@/data/useCases";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
+import "@/styles/mindmake-usecases.css";
 
 /**
- * The proof archive.
+ * What you can do with it: the eighteen use cases, then the clients' own
+ * words (owner review, 15 November 2026).
  *
- * It was eight text blocks in a grid on the old page's stylesheet, with no
- * imagery, no data and none of the vocabulary the rest of the site speaks. Now
- * each story carries the one figure its own record holds, drawn as a diagram
- * that resolves as you read down it, and the thirty-three voices sit under them
- * on the same drum the homepage uses.
+ * Three sections, as on every page since S6. The problem: one box narrows the
+ * eighteen use cases by type, situation, role, results on the record and
+ * words. How it works: each opens whole in a sheet, from where the reader
+ * started to what changed, with the result on the record and the client's
+ * words where they exist. What the reader gets and how they know: the
+ * eighteen client quotes, the leaders who have attended, and the way in.
  *
- * The three families stay apart here as everywhere: an outcome is anonymous by
- * role and sector because that is what those clients agreed to, the drum labels
- * every voice by what it is, and the logos are attendance and say so.
+ * The proof field and the drum of every quote no longer render here:
+ * session comments and career references are not client proof, and every
+ * result now lives on its use case.
  */
 export default function CaseStudies() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
@@ -32,11 +34,12 @@ export default function CaseStudies() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Mindmake customer outcomes",
-    itemListElement: clientStories.map((story, index) => ({
+    name: "What you can do with it",
+    itemListElement: useCases.map((entry, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      name: story.result,
+      name: entry.heading,
+      url: `https://mindmake.co/case-studies#${entry.id.toLowerCase()}`,
     })),
   };
 
@@ -49,27 +52,17 @@ export default function CaseStudies() {
         jsonLd={jsonLd}
       />
 
-      <StoryLibrary door="library" deck onStart={(door) => openBrief(door)} intro={{ title: "What you can do with it.", lede: "Real things leaders now do with their AI brain or AI revenue engine. Pick one to see what fits you." }} />
+      <UseCaseFinder onStart={(door) => openBrief(door)} />
 
-      <CaseProofField stories={clientStories} />
-
-      <section className="mm-block" aria-labelledby="voices-title">
-        <div className="mm-container">
-          <h2 id="voices-title">
-            <Instrument kind="drawer" className="mm-head-mark" />
-            Everyone on the record.
-          </h2>
-          <ProofDrum />
-
-          <div className="mm-attendance">
-            <h3>
-              <Instrument kind="rail" className="mm-head-mark" />
-              <LeaderCount />
-            </h3>
-            <LogoRail />
-          </div>
+      <ClientWords>
+        <div className="mm-attendance">
+          <h3>
+            <Instrument kind="rail" className="mm-head-mark" />
+            <LeaderCount />
+          </h3>
+          <LogoRail />
         </div>
-      </section>
+      </ClientWords>
 
       <CloseBlock
         instrument="levels"

@@ -215,11 +215,11 @@ export const useCases: readonly UseCase[] = [
     role: "founder",
     roleWords: "The founder of an adtech firm",
   },
-  /* Getting hands-on again. The headings of C-09 and C-10 await the owner's
-     ruling on a shorter form (src/test/use-case-parity.test.ts, HEADING_RULINGS). */
+  /* Getting hands-on again. C-09 and C-10 carry the shorter headings approved
+     on 15 November 2026 (src/test/use-case-parity.test.ts, HEADING_RULINGS). */
   {
     id: "C-09",
-    heading: "A head of operations is hands-on again, with systems they built.",
+    heading: "A head of operations is hands-on again, building systems from the best of what's new and proven, fitted to their exact work.",
     outcome: "Their week felt calmer almost at once.",
     startingPoint: "The leader is head of operations at a scale-up, a fast-growing company. They manage people and wanted to be hands-on again.",
     whatWeDid: "In a session with us, they built two real, working systems.",
@@ -231,7 +231,7 @@ export const useCases: readonly UseCase[] = [
   },
   {
     id: "C-10",
-    heading: "Someone new to AI now builds their own dashboard by saying what they need.",
+    heading: "Someone new to AI now talks their own dashboard into existence, anchored to their north star values.",
     outcome: "They talked it into being, at least five times faster than AI alone, and far more accurately.",
     startingPoint: "A member of the team was new to AI. They needed a dashboard for the accounts they look after.",
     whatWeDid: "Their AI brain guided them as they built it, with the right data underneath and the company's own voice.",

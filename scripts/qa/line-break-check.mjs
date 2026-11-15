@@ -76,10 +76,15 @@ const STATES = {
     /* The results as the stories' swipe deck, on every screen (2026-11-10). */
     { name: "results deck", controls: '.hs-proof-deck [data-hs-deck-step="1"]', repeat: 4, frames: [".hs-proof-deck"] },
   ],
+  /* The use cases (owner review, 2026-11-15): every story in its sheet, every
+     page of cards, every way of narrowing them, and every quote. A phone
+     shows one card a page and narrows with two selects, so there the
+     narrowing sweep presses the one toggle it shows. */
   "/case-studies": [
-    { name: "doors", controls: "[data-finder-pick]", frames: [".story-finder"] },
-    { name: "situations", controls: "[data-finder-tab]:not([hidden])", frames: [".story-finder"] },
-    { name: "stories deck", controls: ".finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".story-finder"] },
+    { name: "stories", setup: ".uc-card:not(.is-away) .uc-card-link", controls: '.uc-sheet [aria-label="Next use case"]', repeat: 18, frames: [".uc-sheet"] },
+    { name: "cards", setup: ".uc-sheet-close", controls: '.uc-pager [aria-label="Next use cases"]', repeat: 18, frames: [".uc-finder", ".uc-box"] },
+    { name: "narrowing", controls: ".uc-where button, .uc-roles button, .uc-toggle", frames: [".uc-finder", ".uc-box"] },
+    { name: "quotes", controls: '.uc-quotes-nav [aria-label="Next quote"]', repeat: 18, frames: [".uc-words"] },
   ],
   "/ai-brain": [
     { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },

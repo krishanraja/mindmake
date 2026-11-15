@@ -5,8 +5,8 @@
  * again 2026-11-11: "Ensure every section's height is no taller than a
  * desktop screen size").
  *
- * Measures every top-level section of the homepage and the two offer pages at
- * 1440x900 and 1280x800, after scrolling the whole page so everything that
+ * Measures every top-level section of the homepage, the two offer pages and
+ * /case-studies at 1440x900 and 1280x800, after scrolling the whole page so everything that
  * builds on scroll has built, and fails any section taller than the screen.
  * `--base` points at an existing server; otherwise it serves `dist/` itself.
  */
@@ -27,6 +27,7 @@ const PAGES = [
   { path: "/", sections: ".mm-homepage-release .hs-section" },
   { path: "/ai-brain", sections: ".mm-locked-brain .chapter[data-phase]:not(.pair):not(.opening), .mm-locked-brain .pair-panel, .brain-close > .brain-finder, .brain-close > .brain-close-body" },
   { path: "/ai-gtm", sections: ".mm-gtm [data-gtm-chapter]:not([data-gtm-chapter='threshold']):not(.gtm-opening)" },
+  { path: "/case-studies", sections: ".mm-case-route .uc-finder, .mm-case-route .uc-words" },
 ];
 const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 1280, height: 800 }];
 

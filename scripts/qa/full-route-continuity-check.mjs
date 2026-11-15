@@ -259,38 +259,20 @@ async function verifyShell(page, label) {
 }
 
 async function verifyCaseRecordAnchor(page, label) {
+  /* Since 15 November 2026 a result lives on its use case: an old proof-record
+     link opens that use case's story in the sheet (C-15 holds day-one), with
+     the address rewritten to the use case's own link. */
   await page.goto(`${origin}/case-studies#record-day-one`, { waitUntil: "domcontentloaded" });
-  await page.locator("#record-day-one").waitFor({ state: "visible" });
-  await page.evaluate(() => document.fonts?.ready);
-  try {
-    await page.waitForFunction(() => {
-      const header = document.querySelector(".mm-header")?.getBoundingClientRect();
-      const title = document.querySelector("#archive-title")?.getBoundingClientRect();
-      const record = document.querySelector("#record-day-one")?.getBoundingClientRect();
-      return Boolean(
-        header && title && record
-        && title.top >= header.bottom - 1
-        && title.bottom <= innerHeight + 1
-        && record.top >= header.bottom - 1,
-      );
-    }, null, { timeout: 2_000 });
-  } catch {
-    // The exact geometry below records a useful failure rather than hiding it
-    // behind a generic wait timeout.
-  }
-  const placement = await page.evaluate(() => {
-    const header = document.querySelector(".mm-header")?.getBoundingClientRect();
-    const title = document.querySelector("#archive-title")?.getBoundingClientRect();
-    const record = document.querySelector("#record-day-one")?.getBoundingClientRect();
-    return {
-      headerBottom: header?.bottom ?? -1,
-      title: title?.toJSON(),
-      record: record?.toJSON(),
-      viewportHeight: innerHeight,
-    };
+  const sheet = page.locator("dialog.uc-sheet[open]");
+  await sheet.waitFor({ state: "visible", timeout: 5_000 }).catch(() => undefined);
+  const state = await page.evaluate(() => {
+    const dialog = document.querySelector("dialog.uc-sheet");
+    const heading = dialog?.querySelector("[id$='-h']");
+    return { open: Boolean(dialog?.hasAttribute("open")), heading: heading?.textContent ?? "", hash: location.hash };
   });
-  fail(!placement.title || placement.title.top < placement.headerBottom - 1 || placement.title.bottom > placement.viewportHeight + 1, `${label}: proof-record hash hides the archive heading (${JSON.stringify(placement)})`);
-  fail(!placement.record || placement.record.top < placement.headerBottom - 1, `${label}: proof-record hash places the record behind the fixed header (${JSON.stringify(placement)})`);
+  fail(!state.open, `${label}: an old proof-record link did not open its story (${JSON.stringify(state)})`);
+  fail(!state.heading.startsWith("Two quarters of argument"), `${label}: #record-day-one opened the wrong story (${JSON.stringify(state)})`);
+  fail(state.hash !== "#c-15", `${label}: the old link was not rewritten to #c-15 (${JSON.stringify(state)})`);
 }
 
 async function verifyBrainNodeTargets(page, label) {

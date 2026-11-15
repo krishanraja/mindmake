@@ -99,7 +99,7 @@ owns the accepted detail and `01_CANON.md` the exact copy.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".
-- Shell pages: `/case-studies` ("What you can do": the eighteen use cases, then the eight results on the record, then the quotes), `/blog` with
+- Shell pages: `/case-studies` ("What you can do", since 15 November 2026: one box narrows the eighteen use cases by type, situation, role, result and search, each opening whole in a sheet with its result and the client's words, then "In their words.", the eighteen client quotes; `#c-NN` opens a use case and older `#story=`/`#record-` links map to it), `/blog` with
   `/blog/:slug`, the answers at `/answers/:slug` (`/answers` redirects to
   `/blog`), `/faq`, `/about`, `/contact`, `/privacy`, `/terms` and the unlisted,
   noindex `/alumni`. The sitemap lists 36 URLs.

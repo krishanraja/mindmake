@@ -80,10 +80,11 @@ the brief it produces; then Mindmake gets in touch about a free consultation.
 Apart from a code that confirms the address, it sends the results and one
 follow-up two weeks later, nothing more.
 
-**The proof.** Seventeen true client stories on `/ai-brain` and
-`/new-age-leadership` (the homepage shows three results that link to them),
-eight verified results on `/case-studies`, and the permissions for each in
-`04_PROOF.md`.
+**The proof.** Eighteen true use cases, eight with their result on the
+record, found by situation, role or search on `/case-studies` and shown on
+`/ai-brain`, `/ai-gtm` and `/new-age-leadership`; eighteen client quotes on
+`/case-studies`; the homepage shows three results that link to them. The
+permissions for each are in `04_PROOF.md`.
 
 **Ways in, and what extends the work.**
 

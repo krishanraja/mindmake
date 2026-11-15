@@ -22,7 +22,7 @@ const server = flag("base") ? null : spawn(process.execPath, [resolve(root, "nod
 const BASE = flag("base") ?? `http://127.0.0.1:${port}`;
 const ROUTES = (flag("routes") ?? "/,/ai-brain/,/ai-gtm/,/case-studies/").split(",");
 const VIEWPORTS = [[1440, 900], [1280, 800], [390, 844], [360, 780]];
-const SKIP = ".mm-case-proof-s2 li.region, .finder-card, .finder-sheet, .pair-panel:not(:first-child), .hs-proof, .hs-acts, .hs-eras, .lever-steps, .team-instrument, .decision-panel, .mm-receipt, dialog, footer, .r3-footer, [aria-hidden='true'], .beat-copy[data-active='false'], .sr-only";
+const SKIP = ".finder-card, .finder-sheet, .pair-panel:not(:first-child), .hs-proof, .hs-acts, .hs-eras, .lever-steps, .team-instrument, .decision-panel, .mm-receipt, dialog, footer, .r3-footer, [aria-hidden='true'], .beat-copy[data-active='false'], .sr-only";
 
 const waitForServer = async () => {
   for (let i = 0; i < 60; i++) {

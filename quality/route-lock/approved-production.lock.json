@@ -226,7 +226,7 @@
     "src/test/use-case-parity.test.ts": "e8da01948cee4e61b59386d5d047b5670fe461a76e50f0301d1f34853efc4736",
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
-    "vercel.json": "c34147fcacd3c578a3775446820c919bf49e79f3dea1c5a14913aa0bad6f39b3",
+    "vercel.json": "2e1dcf3cbfb6737d027511191dfb9c34757a781d2955cb1cae0c82476a10a601",
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
   }
 }

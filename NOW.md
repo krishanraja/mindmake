@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-14
-head: caa7e2b
+as_of: 2026-11-15
+head: 1e2597a
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-15)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -78,6 +78,18 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-15: use cases, results and client quotes now have one record each
+  (`src/data/useCases.ts`, `src/data/testimonials.ts`, PR #301), and
+  `/case-studies` finds a reader's use case by type, situation, role, result
+  or search, then shows the eighteen client quotes, approved by Krish on the
+  preview. Aimed at the proof behind the number; the number itself (U4) is
+  unchanged and no conversion effect is measured. The old results field and
+  `qa:case-proof-field-production` are retired.
+- 2026-11-15: `/privacy` gained section 11, "If Mindmake emailed you first"
+  (PR #302), and `/optout/<token>` forwards the cold email opt-out link from
+  mindmake.co to Control Center (PR #303; Ruling, Krish, 2026-11-15: the
+  opt-out link lives on a mindmake.co path). Control Center owns the page and
+  the deletion.
 - 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
   from `public/l/index.html`, with `/l/config.js` coming from
   `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
@@ -142,6 +154,8 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 - In play: the CTRL pilot with leaders, by invitation from Krish only, and the
   first outreach drafts (a post, a note to his network, a Make Your Mind Up
   sign-off), each waiting for his yes to that exact send.
+- Waiting on Krish: update `00_NORTH_STAR.md` lines 83 to 86 (still says
+  seventeen stories) and decide whether R-07 in `04_PROOF_RECORDS.md` stays.
 - Next: Change 3, the brief names one thing AI could carry in the reader's
   own week, shown rendered before it is built
   ([STATE.md](project-documentation/website-redesign/STATE.md), "Open").

@@ -47,6 +47,10 @@ const sections = [
     title: "10. Changes",
     body: <><p>We may update this notice when the service or the law changes. The latest date will appear at the top of this page.</p></>,
   },
+  {
+    title: "11. If Mindmake emailed you first",
+    body: <><p>Sometimes I write to people I haven't met, because something about their work suggests Mindmake could help. This is how that works.</p><p><strong>Who we are.</strong> Mindmake, Mindmaker LLC, a United States company, and Mindmaker Ltd, a United Kingdom company. You can reach me at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p><p><strong>What we hold about you.</strong> Your name, your work email address, your company and your role, and the one thing that made me write: a page on your company's website, a public profile or talk, or a public event list. We never buy lists and never use a personal email address.</p><p><strong>Why.</strong> To tell you about Mindmake's advisory work when it fits your role. We rely on our legitimate interest in reaching businesses that may need it, and we only write to work addresses in the United Kingdom and the United States.</p><p><strong>How often.</strong> One email, and at most one follow-up if there is something new to say. Then we stop.</p><p><strong>How long we keep it.</strong> If you don't reply, we delete your details 90 days after the first email. If you reply "stop" or use the link at the bottom of any email, we delete your email address and everything we hold about you at once. We keep only a one-way fingerprint of the address, which cannot be turned back into it, so that it is never added again.</p><p><strong>Who sees it.</strong> Only us and the email service we send through. We never sell or share your details.</p><p><strong>Your choices.</strong> Reply "stop" to any email, use the one-click link at the bottom of it, or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>, and we stop at once. You can also ask what we hold, ask us to correct it or ask us to delete it. If you are in the United Kingdom and are unhappy with how we handled your details, you can complain to the Information Commissioner's Office (ico.org.uk).</p></>,
+  },
 ] as const;
 
 export default function Privacy() {
@@ -59,7 +63,7 @@ export default function Privacy() {
         <header className="mm-container mm-legal-hero">
           <h1>Privacy policy.</h1>
           <p>This page explains what Mindmake collects, why it is needed and the choices you have.</p>
-          <small>Last updated: 13 November 2026</small>
+          <small>Last updated: 15 November 2026</small>
         </header>
         <div className="mm-container mm-legal-sections">
           {sections.map((section) => <section key={section.title}><h2>{section.title}</h2><div>{section.body}</div></section>)}

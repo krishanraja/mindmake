@@ -35,7 +35,7 @@ import { track } from "@/lib/analytics";
 const ROLE_LABEL: Record<Role, string> = {
   founder: "Founder",
   "chief-executive": "Chief executive",
-  "chief-revenue-officer": "Chief revenue officer",
+  "chief-revenue-officer": "CRO",
   "head-of-operations": "Head of operations",
   investor: "Investor",
   partners: "Partners",
@@ -380,7 +380,7 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
                   {current.words ? (
                     <blockquote className="uc-story-words">
                       <p>“{tieLast(current.words.text)}”</p>
-                      <cite>{current.words.who}</cite>
+                      <cite>{tieLast(current.words.who)}</cite>
                     </blockquote>
                   ) : null}
                 </div>

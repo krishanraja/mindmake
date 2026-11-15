@@ -2339,9 +2339,26 @@
       "requiredOutcome": "Stage A: one record per use case (with its result) and per quote, every surface reading them by id, the drift corrected and the duplicate inventories gone. Stage B (material, separate approval): a way for a visitor to find the use case that is theirs.",
       "acceptanceTest": "src/test/use-case-parity.test.ts against the content file's fixture; leadership-stories, testimonials and brief2 public-contract tests; the required CLAUDE.md gates on the built site.",
       "status": "implemented-awaiting-review",
-      "resolution": "Stage A: src/data/useCases.ts holds the eighteen use cases and their eight results; src/data/testimonials.ts holds every quote with its featured order and use-case parts. Visible changes: James Gates, the C-11 heading, curly marks on use-case quotes, and the homepage's third result reading its record's headline. Stage B is open: rendered concepts follow for Krish's approval on a preview.",
+      "resolution": "Stage A: src/data/useCases.ts holds the eighteen use cases and their eight results; src/data/testimonials.ts holds every quote with its featured order and use-case parts. Visible changes: James Gates, the C-11 heading, curly marks on use-case quotes, and the homepage's third result reading its record's headline. Stage A merged in PR #301 and read back on production; Stage B is USE-CASES-DISCOVERY-001.",
       "evidence": [
         "src/test/use-case-parity.test.ts passes with its negative controls; the required gates run before merge and their results are in the pull request."
+      ]
+    },
+    {
+      "id": "USE-CASES-DISCOVERY-001",
+      "exactFeedback": "Happy With your recommendations",
+      "source": "Krish, 15 November 2026, after reviewing the rendered /case-studies on the protected Vercel preview of commit f0f733e (https://mindmake-mtjryhy83-krish-rajas-projects.vercel.app/case-studies) with screenshots at 1440x900 and 390x844. The recommendations: the role label \"CRO\" on phones, the five featured quotes first, C-18 showing its result's quote; with the shortened C-09 and C-10 headings, the role labels and the new words as shown.",
+      "surface": "/case-studies, with the story sheets on /ai-brain, /ai-gtm and /new-age-leadership",
+      "section": "What you can do with it. / In their words.",
+      "device": "all",
+      "element": "the use-case finder, its story sheet and the client quotes",
+      "classification": "preference",
+      "requiredOutcome": "A reader finds the use case that is them by type, situation, role, result or search in one box that never changes size, opens it whole with its result and the client's words, and moves between the use cases and the eighteen client quotes that back them; old #story= and #record- links keep working.",
+      "acceptanceTest": "src/test/case-studies-use-cases.test.ts, src/test/case-proof-hydration.test.tsx, src/test/use-case-parity.test.ts (C-09 and C-10 approved); qa:line-breaks and qa:section-heights with the /case-studies states; qa:homepage-release:pre-merge; production read back.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Built from three blind concepts judged blind (base: from their words to their story; grafts: the native sheet and type drawers, the role starting points). The results field (MMR-046) is retired and the 33-voice drum no longer renders on the page.",
+      "evidence": [
+        "Gates and screenshots are listed in the pull request."
       ]
     }
   ]

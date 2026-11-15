@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import { swipeIntent, tieLast } from "@/components/leadership-chapters/storyFinder";
-import { publicClientQuotes } from "@/data/testimonials";
+import { featuredQuotes, publicClientQuotes } from "@/data/testimonials";
 import { getUseCase, useCaseForQuote } from "@/data/useCases";
 
 /**
@@ -11,9 +11,10 @@ import { getUseCase, useCaseForQuote } from "@/data/useCases";
  *
  * All eighteen share one row and the row is the longest quote's height, so
  * moving through them never changes the section's size. `#q-<id>` brings that
- * quote to the front.
+ * quote to the front. The five featured quotes lead, in their order, then the
+ * rest as the record holds them (Krish, 2026-11-15).
  */
-const QUOTES = publicClientQuotes.map((voice) => {
+const QUOTES = [...featuredQuotes, ...publicClientQuotes.filter((voice) => !voice.featured)].map((voice) => {
   const useCase = useCaseForQuote(voice.id);
   const record = useCase ? getUseCase(useCase) : undefined;
   return { voice, useCase, result: record?.result };
@@ -92,7 +93,7 @@ export function ClientWords({ children }: { children?: ReactNode }) {
                   {...(front ? {} : { inert: "" })}
                 >
                   <blockquote><p>“{tieLast(voice.full)}”</p></blockquote>
-                  <figcaption>{voice.name ? <cite>{voice.name}</cite> : null}<span>{voice.role}</span></figcaption>
+                  <figcaption>{voice.name ? <cite>{voice.name}</cite> : null}<span>{tieLast(voice.role)}</span></figcaption>
                   {useCase ? (
                     <div className="uc-quote-foot">
                       {/* The result is on its card for a page without script, so

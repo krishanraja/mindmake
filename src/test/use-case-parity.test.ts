@@ -16,11 +16,12 @@ type FixtureUseCase = (typeof fixture.useCases)[number];
 type FixtureQuote = (typeof fixture.quotes)[number];
 
 /* Headings the owner allowed to be shortened where that reads better without
-   losing meaning (Krish, 2026-11-15). Until the shorter form is approved on
-   the rendered page, the record keeps the heading that is live today. */
+   losing meaning (Krish, 2026-11-15: "you are free to shorten if it makes the
+   UX better and does not lose any meaning"), approved on the rendered preview
+   the same day: "Happy With your recommendations". */
 const HEADING_RULINGS: Partial<Record<UseCaseId, { status: "pending" | "approved"; text: string }>> = {
-  "C-09": { status: "pending", text: "A head of operations is hands-on again, building systems from the best of what's new and proven, fitted to their exact work." },
-  "C-10": { status: "pending", text: "Someone new to AI now talks their own dashboard into existence, anchored to their north star values." },
+  "C-09": { status: "approved", text: "A head of operations is hands-on again, building systems from the best of what's new and proven, fitted to their exact work." },
+  "C-10": { status: "approved", text: "Someone new to AI now talks their own dashboard into existence, anchored to their north star values." },
 };
 
 const EVIDENCE: Record<UseCase["evidence"], RegExp> = {

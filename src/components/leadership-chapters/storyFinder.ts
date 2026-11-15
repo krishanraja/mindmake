@@ -56,7 +56,7 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
      where no words sit; the card's ink thickens under the words. */
   const faceVisual = `<span class="finder-plate" aria-hidden="true">${plate}</span>`;
   const fullVisual = `<figure class="finder-full-plate" aria-hidden="true">${plate}</figure>`;
-  const quote = story.quote ? `<blockquote>“${story.quote.text}”${voice ? `<cite>${esc(voice.role)}</cite>` : ""}</blockquote>` : "";
+  const quote = story.quote ? `<blockquote>“${story.quote.text}”${voice ? `<cite>${esc(tieLast(voice.role))}</cite>` : ""}</blockquote>` : "";
   /* The whole story, with every way of narrowing the eighteen, is on
      /case-studies under the use case's own fragment. */
   const proof = record ? `<p class="finder-record"><a class="finder-proof" href="/case-studies#${story.id.toLowerCase()}">The full story\u00a0<span aria-hidden="true">→</span></a></p>` : "";

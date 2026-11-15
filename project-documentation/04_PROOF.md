@@ -130,17 +130,21 @@ both to Krish's cleaned content file of that date, word for word.
   state.
 - **Wording resolved on 15 November 2026:** C-11 is the CRO who "struggles with
   spreadsheets"; the data company's result is a paid publisher test, with no
-  payment amount; its quote is the Chief Revenue Officer's. C-09 and C-10 may
+  payment amount; its quote is the Chief Revenue Officer's. C-09 and C-10 could
   be shortened where that reads better and loses no meaning (Krish, 15
-  November 2026); until a shorter form is approved on the rendered page they
-  keep the headings live today.
+  November 2026); the shorter forms were approved on the rendered page the
+  same day. C-18 has no line of its own, so its story shows its result's
+  quote, the broadcaster's own excerpt.
 - **History.** The chooser was approved on 16 October 2026 ("Approved, ship
   it", `AI-BRAIN-STORIES-FINDER-001`), the fintech leader and the investor on
   24 October 2026 (`S6-STORIES-NEW-001`; the fintech leader was first written
   up as insurance until Krish corrected it on 11 November 2026), and the
   advisory firm's card on 4 November 2026.
 - No caveat, eyebrow, asterisk or label marks any of them as anything other
-  than true (Krish, 15 October 2026).
+  than true (Krish, 15 October 2026). The one exception, approved on the
+  rendered `/case-studies` on 15 November 2026, is the status label "Result on
+  the record" at the foot of the eight cards that hold one, and as the filter
+  that shows only those.
 
 ## Quotes on the site
 

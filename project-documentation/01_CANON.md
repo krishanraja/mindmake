@@ -80,7 +80,7 @@ revenue engine".
 
 Public route labels, in menu order: **Home**, **Build your AI brain**,
 **Build your AI revenue engine** ("Build your AI revenue" in the phone menus),
-**Success stories**, **Ideas you can use**, **Questions we get asked**,
+**What you can do**, **Ideas you can use**, **Questions we get asked**,
 **About us** and **Media**, with a **Subscribe for free** badge beside Media
 and a **Subscribe** button beside the menu in every masthead (24 October 2026).
 The one action is **Start building your AI brain** (`START_LABEL` in

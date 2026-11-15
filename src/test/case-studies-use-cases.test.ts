@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render } from "@/entry-server";
-import { publicClientQuotes, testimonials } from "@/data/testimonials";
+import { featuredQuotes, publicClientQuotes, testimonials } from "@/data/testimonials";
 import { results, useCases } from "@/data/useCases";
 import { caseFromHash } from "@/lib/useCaseHash";
 
@@ -44,7 +44,9 @@ describe("/case-studies, as the server sends it", () => {
   it("holds the eighteen client quotes whole, each at its own fragment", () => {
     const quotes = [...doc.querySelectorAll("figure.uc-quote")];
     expect(quotes).toHaveLength(18);
-    expect(quotes.map((quote) => quote.id)).toEqual(publicClientQuotes.map((voice) => `q-${voice.id}`));
+    /* The five featured first, in their order, then the rest as the record holds them. */
+    const order = [...featuredQuotes, ...publicClientQuotes.filter((voice) => !voice.featured)];
+    expect(quotes.map((quote) => quote.id)).toEqual(order.map((voice) => `q-${voice.id}`));
     for (const voice of publicClientQuotes) {
       const quote = doc.getElementById(`q-${voice.id}`)!;
       expect(plain(quote.querySelector("blockquote")!.textContent)).toBe(`“${voice.full.replace(/\s+/g, " ")}”`);

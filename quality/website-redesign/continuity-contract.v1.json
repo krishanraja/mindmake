@@ -374,9 +374,9 @@
     {
       "id": "MMR-046",
       "category": "case_proof_field_s2_material_lock",
-      "ruling": "CASE-PROOF-FIELD-S2's combined desktop and mobile composition is materially approved. The continuous asymmetric eight-region field, direct cold-state outcomes, semantically mapped dimmed machinery films, distinct mechanism marks, in-place reversible story expansion, truthful endpoint language, desktop spatial keyboard navigation and mobile four-band to single-proof sequence form the locked case-study browsing surface.",
+      "ruling": "Retired by Krish on 15 November 2026 (\"Fold into use cases\", then on the rendered preview: \"Happy With your recommendations\"). CASE-PROOF-FIELD-S2 was the locked eight-region case-study field; every result now lives on its use case, and /case-studies is the use-case finder with the eighteen client quotes. The S2 prototype stays as frozen history.",
       "scope": ["/case-studies", "prototypes/website-redesign-recovery/case-study-browsing/"],
-      "acceptance": "The S2 source hashes and rendered evidence match the owner-reviewed artifact; public-route implementation uses the canonical eight clientStories records without invented figures or client-film claims; all eight cold outcomes remain directly reachable; text and mechanism bounds never intersect; desktop retains Arrow, Home, End, 1-8, Enter, Space, Escape, URL and focus recovery; mobile retains direct touch, All eight, Previous, Next, position, orientation and safe-area behavior; the film decoder budget and poster-backed reduced-motion, save-data, no-JavaScript and unavailable-media states remain complete; required Chromium, WebKit and Firefox checks pass; and any later material change returns as a rendered desktop/mobile decision."
+      "acceptance": "/case-studies renders no results field; the eight results appear inside their use cases' stories, read from src/data/useCases.ts; old #story= and #record- links open the matching use case; and any later material change returns as a rendered desktop/mobile decision."
     },
     {
       "id": "MMR-047",

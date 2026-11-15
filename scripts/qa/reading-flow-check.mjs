@@ -339,14 +339,24 @@ for (const profile of PROFILES) {
   }
 }
 
-/* The stories on /case-studies are the same deck, with its doors as well as
-   its situations; the page is not scrolled step by step here, only its deck. */
+/* /case-studies (since 15 November 2026) is the use-case finder rather than
+   the swipe deck: the reader moves through the cards with its pager, and the
+   finder must be running and move forward when asked. */
 for (const profile of PROFILES) {
   const context = await browser.newContext({ ...profile.options });
   await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); } catch {} });
   const page = await context.newPage();
   await page.goto(BASE + "/case-studies", { waitUntil: "networkidle" });
-  await checkDeck(page, context, `${profile.name} /case-studies`, { ...FINDER_DECK, doors: "[data-finder-pick]" }, profile.phone);
+  const where = `${profile.name} /case-studies`;
+  const count = () => page.locator(".uc-pager p, .uc-pager span").first().textContent().catch(() => null);
+  const before = await count();
+  const next = page.locator('.uc-pager button[aria-label="Next use cases"]');
+  if (!before || !(await next.count())) fail(where, "the use-case finder is not running");
+  else {
+    await next.click();
+    await page.waitForTimeout(400);
+    if ((await count()) === before) fail(where, "the use-case pager did not move forward");
+  }
   await context.close();
 }
 

@@ -1832,7 +1832,7 @@
 .mm-references h3, .mm-attendance h3 { font-family: var(--mm-serif); font-size: 19px; font-weight: 420; letter-spacing: -.02em; color: var(--mm-tx2); margin-bottom: 12px; }
 .mm-impact-card h3 { font-size: 17px; margin-bottom: 9px; }
 
-/* ---------- The proof rail: thirty-three voices ---------- */
+/* ---------- The proof rail ---------- */
 
 /* One card, whatever mechanic moves it. The excerpt is one line at rest and the
    full quote unfolds in place, so the rail never jumps a reader somewhere new. */

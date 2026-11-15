@@ -24,7 +24,7 @@ import "@/styles/mindmake-usecases.css";
  * words where they exist. What the reader gets and how they know: the
  * eighteen client quotes, the leaders who have attended, and the way in.
  *
- * The proof field and the drum of thirty-three voices no longer render here:
+ * The proof field and the drum of every quote no longer render here:
  * session comments and career references are not client proof, and every
  * result now lives on its use case.
  */

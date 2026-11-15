@@ -133,7 +133,7 @@ for (const [width, height] of SIZES) {
            a `<details>` fold, opened by its own summary, and a drum or deck,
            which is `[role=group]` with a tabindex and is dragged. Counting
            either as unreachable would report the questions stack and the
-           thirty-three voices as defects for working. */
+           quote drum as defects for working. */
         if (el.closest("details") || el.closest("[role='group'][tabindex]")) continue;
         /* A heading that is deliberately not drawn. `.mm-visually-hidden` is
            the standard 1px clipped box that names a section for a screen

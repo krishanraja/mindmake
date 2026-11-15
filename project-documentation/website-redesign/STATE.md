@@ -161,9 +161,12 @@ team section at 360x780 (786px). Copy is rewritten in plain words from
 Krish's 3 November v0 edits, with the Brain framed around what the leader wants
 to be good at, improve and catch up on, and no company data needed. Nothing is
 set in italic. The one library across both products is live: `/case-studies` is "What
-you can do with it." (menu: "What you can do") with an AI brain / AI revenue
-engine switch, and each product page shows only its own situations
-(approved by Krish, 4 November 2026). Every heading sits on the logo's left
+you can do with it." (menu: "What you can do"), and each product page shows only its own situations
+(approved by Krish, 4 November 2026). Since 15 November 2026 (Krish, on the
+rendered preview: "Happy With your recommendations") `/case-studies` narrows the
+eighteen use cases by type, situation, role, result and search in one box,
+opens each whole in the sheet with its result and the client's words, and ends
+in the eighteen client quotes; the results field is retired. Every heading sits on the logo's left
 edge, enforced by `qa:alignment`. The homepage builds as it is read (approved by Krish from a phone
 recording, 4 November 2026): each heading arrives and, a second later, a quick
 pen draws two strokes under its closing words, only ever under the heading's
@@ -356,7 +359,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 5. Menu and LeadBrief retain visible focus entry, Escape/Back recovery, a visible restored opener and no stale inert background. Route transitions retain hydration and lifecycle cleanup. Hidden states must not remain keyboard-reachable or falsely current.
 6. Keep the existing company-first LeadBrief, route history, validation, data and sending boundaries. A useful preview is not a sent email; actual delivery and persistence require their own evidence.
 7. Keep all public route families, editorial/detail routes, answers, FAQ, contact, legal destinations and Media reachable. `/new-age-leadership` remains a companion route; the R3 homepage does not authorise its deletion or redirect.
-8. Preserve accepted labels: Home, Success stories, Ideas you can use, Questions we get asked, About us, Media and Start building your AI brain (S6; Krish renamed the four content routes and added Home and About us on 25 September 2026, r47, and merged Quick AI tips into Ideas you can use the same day; the earlier labels are preserved in `history/LOG.md`). On a phone the footers carry no route list; the menu does. Each page's title matches its label. Keep exact R3 wording, selected supporting labels and evidence boundaries rather than applying superseded blanket rules as a redesign instruction.
+8. Preserve accepted labels: Home, What you can do, Ideas you can use, Questions we get asked, About us, Media and Start building your AI brain (S6; Krish renamed the four content routes and added Home and About us on 25 September 2026, r47, and merged Quick AI tips into Ideas you can use the same day; the earlier labels are preserved in `history/LOG.md`). On a phone the footers carry no route list; the menu does. Each page's title matches its label. Keep exact R3 wording, selected supporting labels and evidence boundaries rather than applying superseded blanket rules as a redesign instruction.
 9. Proof families remain separate. Generated imagery is not client evidence. Brain fixture meaning and GTM evidence freshness/recovery must remain truthful. No invented claims, public price/duration, new product or public diary route.
 10. Rejected surfaces remain evidence, never implementation foundations. Preserve the rejection and supersession chain rather than asking Krish to repeat settled choices.
 

@@ -6,24 +6,8 @@ import signalsFilm from "@/assets/films/sep2026/signals-arrive-loop-r01-20s-720p
 import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4";
 import communicationsFilm from "@/assets/films/sep2026/communications-compose-loop-r01-20s-720p-web-sealed.mp4";
 import readyFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
-import founderPlate from "@/assets/stories/founder-pantograph-r01-800.webp";
-import updatesPlate from "@/assets/stories/updates-seal-r01-800.webp";
-import briefingPlate from "@/assets/stories/briefing-tray-r01-800.webp";
-import drawerPlate from "@/assets/stories/index-drawer-r01-800.webp";
-import pricingPlate from "@/assets/stories/pricing-balance-r01-800.webp";
-import workbenchPlate from "@/assets/stories/workbench-gears-r01-800.webp";
-import pressPlate from "@/assets/stories/proofing-press-r01-800.webp";
-import telescopePlate from "@/assets/stories/window-telescope-r01-800.webp";
-import cardsPlate from "@/assets/stories/punched-cards-r01-800.webp";
-import prismPlate from "@/assets/stories/prism-light-r01-800.webp";
-import voicePlate from "@/assets/stories/voice-pipe-r01-800.webp";
-import folioPlate from "@/assets/stories/shared-folio-r01-800.webp";
-import stencilPlate from "@/assets/stories/stencil-correction-r01-800.webp";
-import orreryPlate from "@/assets/stories/orrery-alignment-r01-800.webp";
-import receiverPlate from "@/assets/stories/one-way-receiver-r01-800.webp";
-import sightPlate from "@/assets/stories/method-sight-r01-800.webp";
-import switchPlate from "@/assets/stories/switch-panel-r01-800.webp";
-import boundFolioPlate from "@/assets/stories/bound-folio-r01-800.webp";
+import { quotePartFor } from "@/data/testimonials";
+import { useCases, type UseCaseId, type UseCaseResult } from "@/data/useCases";
 import { mountStoryFinder, storyFinderMarkup } from "./storyFinder";
 
 /**
@@ -37,205 +21,69 @@ import { mountStoryFinder, storyFinderMarkup } from "./storyFinder";
  */
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-/* Four of the six headings the section carried as one-liners, kept word for
-   word as the headings of four stories below (src/test/leadership-stories.test.ts).
-   "Work nobody owns" and "Founder-led content" left with their stories on
-   15 October 2026: their outcomes said nothing a stranger could use (feedback
-   ledger AI-BRAIN-STORIES-OUTCOMES-001). */
-export const keptHeadings = [
-  "Leadership updates become consistent, even when the week was not.",
-  "A change in market pricing becomes a decision, not a forgotten observation.",
-  "A CEO who hates writing can still publish ideas worth following.",
-  "A CRO who hates the numbers can become better at using them.",
-] as const;
-
 /**
  * What the AI Brain makes possible, told as short stories: one client, one
- * card. A story has a heading, where the leader was, what happened, and the
- * outcome it led to; only where the person wrote it, one line in their own
- * words. Each is a true client story told in our words (Krish, 15 October
- * 2026, feedback ledger AI-BRAIN-STORIES-TRUE-001). Where the client's result
- * is on the record, `record` names it in src/data/rebuildProof.ts, the outcome
- * uses only that result's public words, and the quote is that same client's
- * (AI-BRAIN-STORIES-OUTCOMES-001). A quoted line is an exact substring of its
- * testimonial in src/data/testimonials.ts, never edited
- * (src/test/leadership-stories.test.ts).
+ * card. Each story is a use case read from its one record
+ * (src/data/useCases.ts): a heading, where the leader was, what happened, the
+ * outcome it led to, the result on the record where there is one, and, only
+ * where the person said it, one line in their own words. That line is the
+ * part of their quote named for this use case on the quote's own record
+ * (src/data/testimonials.ts), never retyped here.
  */
 export interface LeadershipStory {
+  id: UseCaseId;
   heading: string;
   situation: string;
   happened: string;
   /** What changed, in one line a stranger understands. */
   outcome: string;
-  /** The client's result on the record, by its id in clientStories. */
+  /** The client's result on the record, where there is one. */
+  result?: UseCaseResult;
+  /** The id of that result, kept for the pages that link to it. */
   record?: string;
   quote?: { testimonialId: string; text: string };
   /** A generated scene from the instrument room: mood, never evidence. Every story has one. */
   scene: string;
 }
 
-/* Holds words on one line wherever they are set: "once a month" in the
-   heading, and an article with its noun so no line ends on "a". */
+type StoryField = "heading" | "situation" | "happened" | "outcome";
+
+/* Words held on one line where the stories are set: "once a month" in a
+   heading, and an article with its noun so no line ends on "a". The records
+   keep plain spaces; this is how these pages set them. */
+const NOWRAP: Partial<Record<UseCaseId, Partial<Record<StoryField, readonly string[]>>>> = {
+  "C-01": { heading: ["once a month"], situation: ["a research", "a post"], happened: ["the founder", "It fits"], outcome: ["A post"] },
+  "C-02": { situation: ["a modern"] },
+  "C-03": { situation: ["A patchy"], outcome: ["A patchy"] },
+  "C-04": { heading: ["her market"], happened: ["a one-way"] },
+  "C-05": { happened: ["a system"] },
+  "C-07": { situation: ["a way"], happened: ["a decision."] },
+  "C-08": { happened: ["a signal", "a decision."] },
+  "C-09": { situation: ["a scale-up,", "a fast-growing"], happened: ["a session"] },
+  "C-10": { situation: ["a dashboard"] },
+  "C-11": { situation: ["a data-infrastructure"], outcome: ["a paid", "a major"] },
+  "C-14": { situation: ["a few"] },
+  "C-15": { situation: ["a media"] },
+};
+
 const keep = (words: string) => words.replaceAll(" ", "\u00a0");
 
-export const leadershipStories: readonly LeadershipStory[] = [
-  /* Getting your ideas out */
-  {
-    heading: `A founder who posted about ${keep("once a month")} now posts most days.`,
-    situation: `The founder runs ${keep("a research")} and content brand. Publishing ${keep("a post")} backed by research took days.`,
-    happened: `We set up an AI system that ${keep("the founder")} owns. ${keep("It fits")} around what they do and where they get stuck.`,
-    outcome: `${keep("A post")} backed by research now takes under an hour.`,
-    record: "own-system",
-    quote: { testimonialId: "wellness-founder", text: "It's helping me be seen by my customers." },
-    scene: founderPlate,
-  },
-  {
-    heading: keptHeadings[2],
-    situation: `The CEO of an executive coaching practice avoided posting and being seen. They knew ${keep("a modern")} chief executive should be visible.`,
-    happened: `Their AI brain helps them get better at the things they avoided or felt held up by. Now they can just publish.`,
-    outcome: `Five videos went out in the first week.`,
-    record: "hand-back",
-    quote: { testimonialId: "coaching-founder", text: "He uses his incredible knowledge of AI and tech to help me with really human problems." },
-    scene: pressPlate,
-  },
-  {
-    heading: keptHeadings[0],
-    situation: `The leader's updates used to depend on how their week had gone. ${keep("A patchy")} week meant patchy updates.`,
-    happened: `Their AI brain knows that risk. It helps them get each update out, whatever the week has been like.`,
-    outcome: `${keep("A patchy")} week no longer means patchy updates.`,
-    scene: updatesPlate,
-  },
-  /* Seeing what is changing. The first two are Krish's own account of each
-     engagement (Krish, 2026-10-24), anonymous at role level like the rest;
-     neither has a result on the record, so neither carries a quote or a
-     case-study link. The fintech leader may not hand over customer data, so
-     her story says plainly that nothing leaves her business. She was first
-     written up as an insurance leader; Krish corrected it on 11 November
-     2026: "This is actually a fintech leader". */
-  {
-    heading: `A fintech leader who networks less now still hears what ${keep("her market")} says.`,
-    situation: `A senior fintech leader used to hear her industry's news by networking. She can do far less of that now, and cannot share customer data.`,
-    happened: `We built her ${keep("a one-way")} feed: the world outside her business, brought to her. Nothing goes out, so no customer data leaves.`,
-    outcome: `She feels more informed, and no customer data ever leaves her business.`,
-    scene: receiverPlate,
-  },
-  {
-    heading: `An investor buying companies now watches his market through his own method.`,
-    situation: `An investor looking to buy companies reads the market with his own method. More investors are moving into his area.`,
-    happened: `We turned his method into ${keep("a system")} that watches for the outside signals it looks for, so his reading of the market keeps up.`,
-    outcome: `It flags the signals he looks for, so he can stay ahead as more investors move into his area.`,
-    scene: sightPlate,
-  },
-  {
-    heading: `A CEO who read many newsletters every morning now gets one briefing.`,
-    situation: `The chief executive subscribed to many newsletters. His morning briefing meant checking them one by one, by hand.`,
-    happened: `We built him an AI brain that reads them for him.`,
-    outcome: `One briefing is waiting for him each morning.`,
-    scene: briefingPlate,
-  },
-  {
-    heading: `A leader who only heard from inside now sees what is changing outside.`,
-    situation: `The leader only had company data and their own people to go on. They had never thought of AI as ${keep("a way")} to learn what was happening outside.`,
-    happened: `What we built brings them research on their company, their market and current events, only when it could change ${keep("a decision.")}`,
-    outcome: `It gives them an edge over competitors and brings them closer to customers.`,
-    scene: telescopePlate,
-  },
-  {
-    heading: keptHeadings[1],
-    situation: `The founder of an adtech firm and their leadership team kept coming back to pricing. They had the same conversation hundreds of times.`,
-    happened: `Now they treat that repetition as ${keep("a signal")} to act. When pricing comes up again, the conversation ends in ${keep("a decision.")}`,
-    outcome: `The price was clear within 30 days, and the first two customers signed up to trial it.`,
-    record: "simple-product",
-    quote: { testimonialId: "martech-founder", text: "We had a brilliant product nobody could buy, because nobody could explain it." },
-    scene: pricingPlate,
-  },
-  /* Getting hands-on again */
-  {
-    heading: `A head of operations is hands-on again, with systems they built.`,
-    situation: `The leader is head of operations at ${keep("a scale-up,")} ${keep("a fast-growing")} company. They manage people and wanted to be hands-on again.`,
-    happened: `In ${keep("a session")} with us, they built two real, working systems.`,
-    outcome: `Their week felt calmer almost at once.`,
-    quote: { testimonialId: "scaleup-ops", text: "I actually built two workflows in the session that I now use every day." },
-    scene: workbenchPlate,
-  },
-  {
-    heading: `Someone new to AI now builds their own dashboard by saying what they need.`,
-    situation: `A member of the team was new to AI. They needed ${keep("a dashboard")} for the accounts they look after.`,
-    happened: `Their AI brain guided them as they built it, with the right data underneath and the company's own voice.`,
-    outcome: `They talked it into being, at least five times faster than AI alone, and far more accurately.`,
-    scene: voicePlate,
-  },
-  {
-    heading: keptHeadings[3],
-    situation: `The chief revenue officer at ${keep("a data-infrastructure")} company was fine with numbers but bad with spreadsheets.`,
-    happened: `Now they play to their strengths. They reliably build their own AI agents, helpers that handle the work they hated.`,
-    outcome: `The company changed how it sells, and that led to ${keep("a paid")} trial with ${keep("a major")} US publisher.`,
-    record: "market-moves",
-    quote: { testimonialId: "data-infra-cro", text: "We set up an AI-native go-to-market system that made us rethink who we hire and what they do." },
-    scene: cardsPlate,
-  },
-  /* Keeping your team in step */
-  {
-    heading: `Teams working on the same account stop asking each other the same questions.`,
-    situation: `Different teams worked on the same accounts. The same questions kept going back and forth between them.`,
-    happened: `Each person's AI brain now knows what the other teams already know about an account, including who already looks after it.`,
-    outcome: `The repeated questions stopped.`,
-    scene: folioPlate,
-  },
-  {
-    heading: `One person corrected it once, and everyone's AI got better that day.`,
-    situation: `One person kept being told something by their AI that had stopped being true.`,
-    happened: `They corrected it once.`,
-    outcome: `That same day, the fix reached everyone it applied to, and only them.`,
-    scene: stencilPlate,
-  },
-  {
-    heading: `A team's account plans now serve the division's goals and the CEO's vision.`,
-    situation: `A team looked after ${keep("a few")} large accounts. Their plans, the division's goals and the chief executive's direction sat in different places.`,
-    happened: `Each person's AI brain now works with the division's and the CEO's. It maps each account's health and its contacts by seniority.`,
-    outcome: `It tells the CEO when someone senior needs them to step in.`,
-    scene: orreryPlate,
-  },
-  /* Making the big AI calls: three results on the record, told as stories in
-     their public words only (04_PROOF.md, the eight stories). */
-  {
-    heading: `Two quarters of argument over build or partner ended in one day.`,
-    situation: `The chief revenue officer of ${keep("a media")} company had spent two quarters refereeing one argument: build it themselves, or partner.`,
-    happened: `We worked it through with the room in one day. The answer was to partner now, and look at building again in twelve months, once the data is stronger.`,
-    outcome: `The partner agreement was signed the following month.`,
-    record: "day-one",
-    quote: { testimonialId: "media-cro", text: "He doesn't want to loiter." },
-    scene: prismPlate,
-  },
-  {
-    heading: `A publisher weighing up fourteen AI suppliers made three decisions.`,
-    situation: `A top-10 US digital publisher had fourteen AI suppliers competing for its business.`,
-    happened: `It started with hands-on AI sessions. From there, the fourteen became three decisions.`,
-    outcome: `Its own team built the chosen work, with no new hires.`,
-    record: "team-decides",
-    quote: { testimonialId: "publisher-ops", text: "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability." },
-    scene: drawerPlate,
-  },
-  {
-    heading: `A broadcaster stopped eleven of its fourteen AI tools and kept its budget.`,
-    situation: `A legacy broadcast business had fourteen AI tools on the go.`,
-    happened: `We tied every AI choice back to the business. Eleven of the fourteen tools stopped, and the budget stayed.`,
-    outcome: `Its first working system went live inside 90 days.`,
-    record: "business-first",
-    scene: switchPlate,
-  },
-  /* The advisory firm's result on the record (Krish, 2026-11-04: add the
-     card it was missing), in the record's and the partner's own words. */
-  {
-    heading: `A respected advisory firm turned its expertise into an offer people could buy.`,
-    situation: `The partners at a media advisory firm had expertise everyone respected, but nothing a client could simply buy.`,
-    happened: `We turned their ideas into one clear offer and a plan to launch it.`,
-    outcome: `Their expertise became an offer people could buy.`,
-    record: "sellable-expertise",
-    quote: { testimonialId: "media-advisory-partner", text: "He turned the pitch into something sellable, which then evolved our pitch." },
-    scene: boundFolioPlate,
-  },
-];
+const set = (id: UseCaseId, field: StoryField, text: string) =>
+  (NOWRAP[id]?.[field] ?? []).reduce((out, phrase) => {
+    if (!out.includes(phrase)) throw new Error(`${id}: "${phrase}" is no longer in its ${field}`);
+    return out.replace(phrase, keep(phrase));
+  }, text);
+
+export const leadershipStories: readonly LeadershipStory[] = useCases.map((entry) => ({
+  id: entry.id,
+  heading: set(entry.id, "heading", entry.heading),
+  situation: set(entry.id, "situation", entry.startingPoint),
+  happened: set(entry.id, "happened", entry.whatWeDid),
+  outcome: set(entry.id, "outcome", entry.outcome),
+  ...(entry.result ? { result: entry.result, record: entry.result.id } : {}),
+  ...(entry.quoteId ? { quote: { testimonialId: entry.quoteId, text: quotePartFor(entry.quoteId, entry.id) } } : {}),
+  scene: entry.picture,
+}));
 
 export const leadershipScenes = [
   [signalsFilm, signalsPoster, "It notices what changed.", "Signals arrive before someone asks for a report."],

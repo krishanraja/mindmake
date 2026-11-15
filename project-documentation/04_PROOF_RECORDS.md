@@ -5,11 +5,11 @@ Engagement facts retain their original scope, not new current-client claims.
 
 Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up.
 
-This file is internal proof context for briefs, proposals and case-study work. It is not public copy. The public renderings of this material are the eight client outcome stories in `04_PROOF.md` and `src/data/rebuildProof.ts`; those files control wording, attribution and consent. Public use of anything here that is not already in those files needs a fresh evidence check and Krish's approval.
+This file is internal proof context for briefs, proposals and case-study work. It is not public copy. The public renderings of this material are the use cases and their eight results in `src/data/useCases.ts`, with quotes in `src/data/testimonials.ts`, under the rules in `04_PROOF.md`; those files control wording, attribution and consent. Public use of anything here that is not already in those files needs a fresh evidence check and Krish's approval.
 
 ## Public-use rules
 
-- Pull quotes are verbatim and map to the approved quotes in `04_PROOF.md`; do not restate them loosely.
+- Pull quotes are verbatim and map to the quote records in `src/data/testimonials.ts`, the one source for their wording and attribution; do not restate them loosely.
 - Attributions stay at role and sector. No entry is ever presented as a named client.
 - R-01's outcome carries a retired private money disclosure and is **not approved for public use**.
 - R-02's percentage outcomes (including the 22 percent revenue figure) are **retired from public use**; the story may be told publicly only in the approved wording of the case-study archive.
@@ -31,10 +31,10 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **industry:** data infrastructure / first-party identity
 - **situation:** A first-party identity and data-infrastructure company with patented identity tech and a strong APAC pipeline, but in a collapsing category. Buyers in the US and EMEA had stopped paying for cookie-replacement tools and started asking what comes next for the open web.
 - **the-call:** Reposition the entire commercial surface. Move the lens from third-party-cookie defence to first-party publisher infrastructure for an AI-mediated internet. Rewrite the pitch, the personas, the partner story, and the price point.
-- **the-work:** New ICP, messaging, and sales-enablement workflows. Taught the team to vibe-code and built a central AI brain that feeds every seller so they build their own enablement tools instead of needing an enablement team to exist. 43 outbound campaigns across US, EMEA, and APAC with four distinct personas. Partnership architecture with a major creative-and-media services group. A POC scope built for a major US publisher around Safari addressability and conversion-API measurement. A new thought-leadership cadence on agentic browsing and open-web monetisation. The work of at least 10 people, done by one operator plus one supporting resource.
+- **the-work:** New ICP, messaging, and sales-enablement workflows. Taught the team to vibe-code and built a central AI brain that feeds every seller so they build their own enablement tools instead of needing an enablement team to exist. 43 outbound campaigns across US, EMEA, and APAC with four distinct personas. Partnership architecture with a major creative-and-media services group. A new thought-leadership cadence on agentic browsing and open-web monetisation. The work of at least 10 people, done by one operator plus one supporting resource.
 - **outcome:** Retired private money disclosure removed. This record is not approved for public use.
 - **pull-quote:** "We set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver."
-- **attribution:** CRO, data-infrastructure company
+- **attribution:** Chief Revenue Officer, data-infrastructure company
 
 ### R-02
 
@@ -47,7 +47,7 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **the-work:** A three-decision board memo. One vendor killed, one workflow built internally, one vendor paused with a re-evaluation date. An AI editorial-ops pipeline shipped by their own team in 45 days, zero new headcount. Two of the paused vendors agreed to build bespoke automations so the planned headcount reduction landed with minimal disruption to customers.
 - **outcome:** 40% production-time reduction on syndicated content. 75% reduction in campaign setup time downstream. 22% revenue lift across the affected ad inventory. Built by the in-house team, not a vendor. These percentages are retired from public use; see the public-use rules above.
 - **pull-quote:** "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability. Cheers to Krish for leading and landing."
-- **attribution:** Head of Operations, digital publisher
+- **attribution:** Head of Operations, top-10 US digital publisher
 
 ### R-03
 
@@ -60,7 +60,7 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **the-work:** A one-page AI operating agreement. Three approved tools, eleven killed. A monthly executive AI cadence installed. The first cross-functional AI project shipped on time and defensible to finance.
 - **outcome:** Budget defended at the next review. First production AI workflow live in 90 days. The role pivoted from fractional fire-fighter to ongoing advisory.
 - **pull-quote:** "It's been a good journey to bring Krish problems that match our business goals and leadership needs, and watch them come together in a very thoughtful program."
-- **attribution:** President, broadcast business
+- **attribution:** President, legacy broadcast business
 
 ### R-04
 
@@ -73,7 +73,7 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **the-work:** A new brand. Three production-ready site concepts shipped in one prompt each. A productized coaching ladder ($2K to $8K) and a corporate workshop ($3K). ManyChat lead capture. An L&D outbound system. Reusable Claude Projects for voice, video scripts, and corporate outreach. The 80-percent rule installed as the publishing standard.
 - **outcome:** Five videos shipped in week one. The corporate workshop offer live and priced. New site in final review. First L&D outbound batch sent. The founder back to enjoying the craft instead of running it by hand.
 - **pull-quote:** "The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need."
-- **attribution:** CEO, coaching practice
+- **attribution:** Founder and CEO, executive coaching practice
 
 ### R-05
 
@@ -94,11 +94,11 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **mode:** reposition
 - **icp:** sme
 - **industry:** advisory / TMT
-- **situation:** A global TMT advisory operating across APAC, EMEA, and the Americas. Deep boardroom relationships and a sharp newsletter brand, but a commercial surface that was speaking, not selling. No productized AI offer for clients. No formal investment thesis to deploy alongside its portfolio.
-- **the-call:** Turn the firm's expertise into AI products clients can buy. Codify strategic product development as the core advisory wedge. In parallel, write the ventures thesis: who the firm backs, why, and at what stage. Two stacked offers, one operating model.
-- **the-work:** AI-powered customer-experience work packaged as a sellable engagement, not a keynote. A productized advisory ladder under the firm's advisory brand. A ventures thesis written and stood up under a new ventures arm, focused on CTO-led founders. The newsletter and creative arm rewired as distribution for both.
-- **outcome:** Advisory repositioned from thought leadership to productized strategic product development, with AI podcasts as the first product launched. Fund One launched with a defined CTO-led thesis, now focused on application-layer AI ventures built around compounding data assets.
-- **pull-quote:** "We had expertise everyone respected but needed to add products aroudn that. He turned the pitch into something sellable, which then evolved our pitch."
+- **situation:** A global advisory firm. Deep boardroom relationships but a commercial surface that was speaking, not selling. No productized AI offer for clients. No formal investment thesis to deploy alongside its portfolio.
+- **the-call:** Turn the firm's expertise into AI products clients can buy. Codify experience and vision as strategic product development as the core advisory wedge. In parallel, write the ventures thesis: who the firm backs, why, and at what stage. Two stacked offers, one operating model.
+- **the-work:** AI-powered customer-experience work packaged as a sellable engagement, not a keynote. A productized advisory ladder under the firm's advisory brand. A ventures thesis written and stood up under a new ventures arm, focused on developer-founders. The newsletter and creative arm rewired as distribution for both.
+- **outcome:** Advisory repositioned from thought leadership to productized strategic product development, with AI podcasts as the first product launched. Venture fund launched with a defined thesis, now focused on application-layer AI ventures built around compounding data assets.
+- **pull-quote:** "We had expertise everyone respected but needed to add products around that. He turned the pitch into something sellable, which then evolved our pitch."
 - **attribution:** Partner, media advisory
 
 ### R-07
@@ -124,8 +124,8 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **the-call:** Settle build versus buy in a day. Run structured pressure-testing in one room until the logic resolves, rather than handing down a verdict.
 - **the-work:** One day of structured pressure-testing with the room working the logic together. The answer landed clearly: partner now, revisit build in twelve months once the data position was stronger.
 - **outcome:** A clear go decision in a single day. Roughly a year of engineering time not spent on the wrong thing. Partner agreement signed the following month.
-- **pull-quote:** "Krish knows how to add value immediately which contnues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter."
-- **attribution:** CRO, media company
+- **pull-quote:** "Krish knows how to add value immediately which continues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter."
+- **attribution:** Chief Revenue Officer, media company
 
 ### R-09
 

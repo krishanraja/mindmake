@@ -3,7 +3,7 @@
 Policy/placement reviewed 26 September 2026. Approved quotation source remains
 `src/data/testimonials.ts`; this review does not expand consent or change words.
 
-This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. The rendered data lives in `src/data/rebuildProof.ts` and must match this file.
+This file is the single project source for the rules on attendee brands, use cases and their results, client quotes and named career references. Other project documents must point here rather than copy these lists. The words themselves live in one record each: use cases and results in `src/data/useCases.ts`, every quote in `src/data/testimonials.ts`.
 
 ## The thirty-three, and the two rules that hold them
 
@@ -24,12 +24,12 @@ different lengths cannot share a rail, and the alternative to an excerpt is a
 paraphrase attributed to a named person. Every excerpt is checked against its
 full text by a test, so a rewrite cannot pass as an extract.
 
-The eight stories read their quote and role from `src/data/testimonials.ts`.
-Do not maintain a separately edited quote in the story deck.
+Every use case and result reads its quote and role from `src/data/testimonials.ts`
+by id. Do not maintain a separately edited quote anywhere else.
 
-**Named clients, consent-gated.** Steph Darmanin and Dipti Divekar are named
-clients with recorded consent, which crosses the "client outcomes stay
-anonymous" rule above. The exception is narrow and mechanical: a client in the
+**Named clients, consent-gated.** Steph Darmanin, Dipti Divekar, James Gates
+and Louisa Thrave are named clients with recorded consent, which crosses the
+"client outcomes stay anonymous" rule above. The exception is narrow and mechanical: a client in the
 `client` family renders only where `consent` reads `recorded`, and
 `publishableTestimonials` drops any that does not. A named client without
 consent is dropped rather than anonymised, because an anonymised version of a
@@ -85,166 +85,83 @@ pauses under a pointer and stands still, swipeable, with reduced motion
 own artwork from its Brandfetch kit, drawn as one flat mark; P&G's roundel and
 BMW's blue quarters are knocked out so the flat mark still reads.
 
-## Verified client outcome stories, exactly 8
+## Use cases and the results on the record
 
-The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that. The internal engagement records behind these stories are in `04_PROOF_RECORDS.md`.
+Since 15 November 2026 every use case and every result has one record, and
+every page reads it from there. The words live only in
+[src/data/useCases.ts](../src/data/useCases.ts); quotes live only in
+[src/data/testimonials.ts](../src/data/testimonials.ts). This file does not
+keep a second copy of either, and `src/test/use-case-parity.test.ts` holds
+both to Krish's cleaned content file of that date, word for word.
 
-Each story references a voice in `src/data/testimonials.ts` and reads its quote
-and role from there. The id after each attribution below identifies that voice.
+- **Eighteen use cases, C-01 to C-18, in five situations.** Getting your ideas
+  out (3), Seeing what is changing (5) and Getting hands-on again (3) are AI
+  brain; Keeping your team in step (3) and Making the big AI calls (4) are AI
+  business. Each owns its heading, outcome, starting point, what we did,
+  picture and, only where the client said it, one line of their own words.
+- **Eight carry their result on the record inside the same entry.** There is
+  no separate results inventory. Keep each client anonymous at role and sector
+  unless a later consent record explicitly changes that. The internal
+  engagement records behind them are in `04_PROOF_RECORDS.md`.
 
-### 1. Land the answer in a day, then leave
+| Use case | Result | Quote |
+| --- | --- | --- |
+| C-01 | `own-system` | `wellness-founder` |
+| C-02 | `hand-back` | `coaching-founder` |
+| C-08 | `simple-product` | `martech-founder` |
+| C-11 | `market-moves` | `data-infra-cro` |
+| C-15 | `day-one` | `media-cro` |
+| C-16 | `sellable-expertise` | `media-advisory-partner` |
+| C-17 | `team-decides` | `publisher-ops` |
+| C-18 | `business-first` | `broadcast-president` |
 
-Two quarters of argument over build or partner ended in one day in the room. The partner agreement was signed the following month, and build comes back for review in twelve months, once the data is stronger.
-
-> “Krish knows how to add value immediately which contnues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter.”
->
-> CRO, media company (`media-cro`)
-
-### 2. Turn expertise into something clients can buy
-
-A respected advisory firm moved from ideas to a clear offer clients could buy and launched a defined investment plan.
-
-> “We had expertise everyone respected but needed to add products aroudn that. He turned the pitch into something sellable, which then evolved our pitch.”
->
-> Partner, media advisory (`media-advisory-partner`)
-
-### 3. Make the product simple enough to sell
-
-Positioning and pricing were rebuilt in 30 days. The first two pilots were signed during the work.
-
-> “We had a brilliant product nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.”
->
-> Founder, adtech firm (`martech-founder`)
-
-### 4. Rebuild the business, then hand it back
-
-An eight-week rebuild covered brand, offers, lead capture, content and outreach. Five videos shipped in week one.
-
-> “The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need.”
->
-> Founder and CEO, executive coaching practice (`coaching-founder`)
-
-### 5. Own the system instead of renting the operator
-
-A founder-owned content system cut research-backed publishing from days to under an hour. Publishing moved from roughly monthly to most days.
-
-> “Since working with Krish I've learnt to push through basic barriers I didn't realise I could, and he set up systems that make me more effective and more motivated. I used to post once a month; now it's most days because I focus on building an AI engine around what I do and what I get bottlenecked by. It's helping me be seen by my customers.”
->
-> Founder, research and content brand (`wellness-founder`)
-
-### 6. Change how the team decides
-
-A publisher moved from 14 competing AI vendors to three decisions, then shipped the chosen workflow with its own team and no new hires.
-
-> “We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability. Cheers to Krish for leading and landing.”
->
-> Head of Operations, top-10 US digital publisher (`publisher-ops`)
-
-### 7. Tie every AI choice back to the business
-
-Eleven of fourteen tools were stopped, the budget was defended and the first working system went live inside 90 days.
-
-> “It's been a good journey to bring Krish problems that match our business goals and leadership needs, and watch them come together in a very thoughtful program.”
->
-> President, legacy broadcast business (`broadcast-president`)
-
-### 8. Change direction before the market moves
-
-A data company changed how it sold as AI changed the web. The work led to a paid test with a major US publisher.
-
-> “We set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver.”
->
-> CRO, data-infrastructure company (`data-infra-cro`)
-
-## The AI Brain stories
-
-The story chooser "Where would you start?", on `/ai-brain` (since S6, 24
-October 2026; it left the homepage) and `/new-age-leadership`, tells seventeen
-true client stories in Mindmake's words, one client to a card, in five
-situations: "Seeing what is changing" has five, the others three. Each card is
-a story and the outcome it led to. The homepage's third section shows three of
-the results above in their public words (the founder who now posts most days,
-the CEO who hates writing, the CRO's quote) and links to the chooser. Their words live only in
-[leadershipChapters.ts](../src/components/leadership-chapters/leadershipChapters.ts);
-this file does not keep a second copy.
-
-- Source: Krish's own account of each engagement (feedback ledger
-  `AI-BRAIN-STORIES-TRUE-001`). Every leader stays anonymous at role level, and
-  no client, colleague, account, brand or figure from private notes appears.
-- Joined to a result on the record (`AI-BRAIN-STORIES-OUTCOMES-001`). Where a
-  story is a client whose result is one of the eight above, the card names the
-  result (`record`), its outcome line uses only that result's public words
-  here, its quote is that same client's, and it links to the full story on
-  `/case-studies`. A test fails if a quote and a record are different clients.
-  - Story 5 above, `own-system`: the founder who now posts most days
-    (`wellness-founder`).
-  - Story 4 above, `hand-back`: the CEO who hates writing (`coaching-founder`).
-    Krish confirmed the pairing on 15 October 2026.
-  - Story 3 above, `simple-product`: pricing becomes a decision
-    (`martech-founder`). Krish confirmed it on 15 October 2026. "The first two
-    customers signed up to trial it" is the public "first two pilots".
-  - Story 8 above, `market-moves`: the CRO who hates the numbers
-    (`data-infra-cro`). Krish confirmed it on 15 October 2026. "A paid trial
-    with a major US publisher" is the public "paid test".
-  - Stories 1, 6 and 7 above (`day-one`, `team-decides`, `business-first`),
-    retold as stories in their public words; the broadcaster carries no quote,
-    because no whole sentence of it fits the card.
-- Other quotes: the head of operations story quotes `scaleup-ops`. Every quote
-  is an exact substring of `src/data/testimonials.ts`.
-- Figures: the dashboard story's "at least five times faster than AI alone" is
-  Krish's own figure from that engagement; every other figure is a public one
-  above.
-- Cut from the section on 16 October 2026, because a stranger could not use
-  them: the separate success-story cards and their label, story 2 above
-  ("Expertise became an offer people could buy", a plan with nothing sold; it
-  stays on `/case-studies`), and the stories "Work nobody owns" and
-  "Founder-led content".
-- Added on 24 October 2026 from Krish's own account in the S6 session, first
-  under "Seeing what is changing": a senior fintech leader (written up as
-  insurance until Krish corrected it on 11 November 2026: "This is actually a
-  fintech leader") who networks less
-  now and receives the outside world one way, with no customer data leaving
-  her business, and an investor buying companies whose own method now watches
-  his market. Both are anonymous at role level and carry no figure. Krish
-  approved both wordings on 24 October 2026: "Both story wordings approved as written."
-  (`S6-STORIES-NEW-001`).
-- Approval: Krish approved the rendered section on 16 October 2026: "Approved,
-  ship it". That is the scoped approval the placement rule below asks for to
-  place these results' outcomes outside `/case-studies`.
+- **One client to a card.** A use case joined to a result quotes that same
+  client; a test fails if a quote and a result are different clients. The
+  head of operations (C-09) quotes `scaleup-ops` without a result on the
+  record.
+- **Evidence is recorded, not labelled.** Each record says what it rests on:
+  a result on the record, or the practice's own account of the engagement
+  (C-09 with the client's quote, C-10 with a figure). "At least five times
+  faster than AI alone" (C-10) is the owner's figure from that engagement;
+  every other figure is a result's own.
+- **The results are history, not a promise.** Keep each result's scope as
+  recorded; never turn one into a guarantee for the next client, and never
+  join a personal and a company result into a cause that the record does not
+  state.
+- **Wording resolved on 15 November 2026:** C-11 is the CRO who "struggles with
+  spreadsheets"; the data company's result is a paid publisher test, with no
+  payment amount; its quote is the Chief Revenue Officer's. C-09 and C-10 may
+  be shortened where that reads better and loses no meaning (Krish, 15
+  November 2026); until a shorter form is approved on the rendered page they
+  keep the headings live today.
+- **History.** The chooser was approved on 16 October 2026 ("Approved, ship
+  it", `AI-BRAIN-STORIES-FINDER-001`), the fintech leader and the investor on
+  24 October 2026 (`S6-STORIES-NEW-001`; the fintech leader was first written
+  up as insurance until Krish corrected it on 11 November 2026), and the
+  advisory firm's card on 4 November 2026.
 - No caveat, eyebrow, asterisk or label marks any of them as anything other
   than true (Krish, 15 October 2026).
 
-## Steph Darmanin, consent-gated named proof
+## Quotes on the site
 
-Steph Darmanin is a separate client from the anonymous executive coaching practice above. Her use is approved. The production gate is the checked-in `consent: "recorded"` value and `publishableTestimonials` filter in `src/data/testimonials.ts`, not a live Legacy Ascend lookup. Missing recorded consent excludes the named client entry. Legacy Ascend is historical consent provenance; a withdrawal or unresolved permission requires removing publication eligibility before any further release. Do not claim a runtime consent service exists.
+- **The public client collection is eighteen quotes:** the four named clients
+  with consent on record and the fourteen client outcomes
+  (`publicClientQuotes`). Session comments and career references are kept in
+  the same file and never mixed into it.
+- **Five are featured, in this order:** `coaching-founder`, `saas-gtm`,
+  `divekar`, `fintech-founder`, `scaleup-ops`. The part shown is the quote's
+  `featured` excerpt.
+- **Every shorter part is named on its quote's record:** the rail excerpt, the
+  featured excerpt and the part shown on a use case (`useCaseExcerpts`). Each
+  is an exact substring of the full quote.
+- **Named clients are consent-gated.** A `client` renders only where `consent`
+  reads `recorded`; `publishableTestimonials` drops any that does not. A named
+  client without consent is dropped rather than anonymised.
+- Earlier variants of named clients' quotes, including the Steph Darmanin
+  section this file carried until 15 November 2026, are preserved in
+  [history/ARCHIVE.md](history/ARCHIVE.md) and logged in
+  [history/LOG.md](history/LOG.md). They are not working copy.
 
-Place the excerpts where they support the surrounding message. Never group all of them together.
-
-### Ownership after Mindmake leaves
-
-> “What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.”
->
-> Steph Darmanin, Performance Coach
-
-### Contrast with old outsourced support
-
-> “I have invested thousands before that resulted in terribly disappointing outcomes. The website support came to a halt once the paid engagement ended and ultimately I had to pull the plug and start over. With Mindmaker, I was empowered to own the skills.”
->
-> Steph Darmanin, Performance Coach
-
-(The word "Mindmaker" inside this quote is her verbatim wording from the time and stays unchanged.)
-
-### On value for money
-
-> “In 10 years of group and private mentorships, this has been the most valuable investment I have made in myself and my business.”
->
-> Steph Darmanin, Performance Coach
-
-### Beside the rebuild story
-
-> “By week 4, I realised I was overdelivering for clients with less effort, and that clarity led me to create new offers with tiered pricing that accurately reflects the value of the service I provide.”
->
-> Steph Darmanin, Performance Coach
 
 ## Approved named career references
 
@@ -259,10 +176,12 @@ quote collection. The previous nine-reference prose is preserved, unchanged, in
 ## Placement authority
 
 The approved R3 homepage controls its proof placement. No additional logo strip,
-result cards, founder block or testimonial deck is required by this file. Results
-remain on `/case-studies`; other placements require their scoped approval,
-which the AI Brain stories carry (above). Steph
-excerpts stay consent-gated and never form an unapproved new section.
+result cards, founder block or testimonial deck is required by this file. A
+result lives on its use case, and every surface that shows one reads it from
+`src/data/useCases.ts`; the use cases and their results are on `/case-studies`,
+`/ai-brain`, `/ai-gtm` and `/new-age-leadership`, and three results on the
+homepage, each under its scoped approval. Named-client quotes stay
+consent-gated and never form an unapproved new section.
 
 ## Guardrails
 

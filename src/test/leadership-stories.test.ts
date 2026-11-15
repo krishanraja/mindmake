@@ -1,25 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { keptHeadings, leadershipChaptersMarkup, leadershipStories, type LeadershipStory } from "@/components/leadership-chapters/leadershipChapters";
-import { SITUATIONS, storyByStart } from "@/components/leadership-chapters/storyFinder";
-import { clientStories } from "@/data/rebuildProof";
+import { leadershipChaptersMarkup, leadershipStories, type LeadershipStory } from "@/components/leadership-chapters/leadershipChapters";
+import { SITUATIONS, storyById } from "@/components/leadership-chapters/storyFinder";
 import { publishableTestimonials } from "@/data/testimonials";
+import { results } from "@/data/useCases";
 
 /* A story joined to a result on the record must be that client's story: the
    quote it carries is the record's own voice (Krish, 15 October 2026,
    AI-BRAIN-STORIES-OUTCOMES-001). */
 const sameClient = (story: LeadershipStory) => {
   if (!story.record) return true;
-  const record = clientStories.find((entry) => entry.id === story.record);
-  return !!record && (!story.quote || story.quote.testimonialId === record.voice);
+  const record = results.find((entry) => entry.id === story.record);
+  return !!record && (!story.quote || story.quote.testimonialId === record.quoteId);
 };
 
 /* The AI Brain stories. Their words are claims the business stands behind, so
    the rules that keep them true are tested, not remembered. */
 describe("AI Brain stories", () => {
-  it("keeps the four approved headings word for word, each a full story", () => {
-    const kept = leadershipStories.filter((story) => (keptHeadings as readonly string[]).includes(story.heading));
-    expect(kept.map((story) => story.heading).sort()).toEqual([...keptHeadings].sort());
-    for (const story of leadershipStories) expect(story.situation, story.heading).toBeTruthy();
+  it("tells every story in full: where the leader was and what happened", () => {
+    /* The headings themselves are pinned word for word against the content
+       source in src/test/use-case-parity.test.ts. */
+    for (const story of leadershipStories) {
+      expect(story.situation, story.heading).toBeTruthy();
+      expect(story.happened, story.heading).toBeTruthy();
+    }
   });
 
   it("is one client to a card: eighteen stories, each with the outcome it led to", () => {
@@ -37,7 +40,8 @@ describe("AI Brain stories", () => {
 
   it("joins a story to a result on the record only where the quote is that same client's", () => {
     const joined = leadershipStories.filter((story) => story.record);
-    expect(joined.map((story) => story.record).sort()).toEqual(["business-first", "day-one", "hand-back", "market-moves", "own-system", "sellable-expertise", "simple-product", "team-decides"]);
+    expect(joined.map((story) => story.record).sort()).toEqual(results.map((result) => result.id).sort());
+    expect(results).toHaveLength(8);
     for (const story of joined) expect(sameClient(story), story.heading).toBe(true);
     /* Negative control: the right words under the wrong client fail. */
     const swapped = { ...joined[0], quote: { testimonialId: "media-cro", text: "He doesn't want to loiter." } };
@@ -53,10 +57,10 @@ describe("AI Brain stories", () => {
 
   it("files every story under exactly one of five situations, at least three to each", () => {
     expect(SITUATIONS).toHaveLength(5);
-    expect(SITUATIONS.map((situation) => situation.cards.length)).toEqual([3, 5, 3, 3, 4]);
+    expect(SITUATIONS.map((situation) => situation.useCases.length)).toEqual([3, 5, 3, 3, 4]);
     const filed = SITUATIONS.flatMap((situation) => {
-      expect(situation.cards.length, situation.label).toBeGreaterThanOrEqual(3);
-      return situation.cards.map((start) => storyByStart(leadershipStories, start));
+      expect(situation.useCases.length, situation.label).toBeGreaterThanOrEqual(3);
+      return situation.useCases.map((id) => storyById(leadershipStories, id));
     });
     expect(new Set(filed).size).toBe(filed.length);
     expect([...filed].sort((a, b) => a.heading.localeCompare(b.heading))).toEqual([...leadershipStories].sort((a, b) => a.heading.localeCompare(b.heading)));
@@ -105,7 +109,7 @@ describe("AI Brain stories", () => {
     for (const situation of SITUATIONS) expect(human).toContain(`<h3 class="finder-situation">${situation.label}</h3>`);
     const proofs = [...human.matchAll(/href="\/case-studies#story=([^"]+)"/g)].map((m) => m[1]);
     expect(proofs).toHaveLength(8);
-    for (const id of proofs) expect(clientStories.map((entry) => entry.id)).toContain(id);
+    for (const id of proofs) expect(results.map((entry) => entry.id)).toContain(id);
     expect(human).not.toMatch(/success story/i);
     expect(human).not.toContain(" hidden");
   });

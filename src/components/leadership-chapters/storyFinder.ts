@@ -1,5 +1,5 @@
-import { clientStories } from "@/data/rebuildProof";
 import { publishableTestimonials } from "@/data/testimonials";
+import { DOOR_LABEL, SITUATIONS, type UseCaseId } from "@/data/useCases";
 import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import type { LeadershipStory } from "./leadershipChapters";
@@ -21,28 +21,14 @@ import type { LeadershipStory } from "./leadershipChapters";
  * cards a rail, and a card opens as a sheet.
  */
 
-interface Situation {
-  id: string;
-  label: string;
-  door: "brain" | "gtm";
-  /** Stories by the first words of their heading, so a reworded heading fails here rather than dropping a card. */
-  cards: readonly string[];
-}
-
-export const SITUATIONS: readonly Situation[] = [
-  { id: "ideas", label: "Getting your ideas out", door: "brain", cards: ["A founder who posted", "A CEO who hates writing", "Leadership updates become"] },
-  { id: "change", label: "Seeing what is changing", door: "brain", cards: ["A fintech leader", "An investor buying", "A CEO who read many newsletters", "A leader who only heard from inside", "A change in market pricing"] },
-  { id: "hands", label: "Getting hands-on again", door: "brain", cards: ["A head of operations", "Someone new to AI", "A CRO who hates the numbers"] },
-  { id: "team", label: "Keeping your team in step", door: "gtm", cards: ["Teams working on the same account", "One person corrected it once", "A team's account plans"] },
-  { id: "calls", label: "Making the big AI calls", door: "gtm", cards: ["Two quarters of argument", "A respected advisory firm", "A publisher weighing up", "A broadcaster stopped"] },
-];
+/* The five situations and the use cases in each, read from their one record (src/data/useCases.ts). */
+export { SITUATIONS };
 
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-const plain = (text: string) => text.replaceAll("\u00a0", " ");
 
-export const storyByStart = (stories: readonly LeadershipStory[], start: string) => {
-  const found = stories.find((story) => plain(story.heading).startsWith(start));
-  if (!found) throw new Error(`No story starts "${start}"`);
+export const storyById = (stories: readonly LeadershipStory[], id: UseCaseId) => {
+  const found = stories.find((story) => story.id === id);
+  if (!found) throw new Error(`No story with id "${id}"`);
   return found;
 };
 
@@ -55,8 +41,7 @@ const startLink = (door: "brain" | "gtm") =>
   `<a class="finder-start" href="/?start=${door}" data-finder-start="${door}" data-mm-native>${door === "gtm" ? START_LABEL_GTM : START_LABEL} <span aria-hidden="true">→</span></a>`;
 
 function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
-  const record = story.record ? clientStories.find((entry) => entry.id === story.record) : undefined;
-  if (story.record && !record) throw new Error(`No result on the record with id "${story.record}"`);
+  const record = story.result;
   const voice = story.quote ? publishableTestimonials.find((entry) => entry.id === story.quote!.testimonialId) : undefined;
   /* A phone downloads the size its card shows, over a blurred placeholder of
      the scene (Krish, 2026-11-04: pictures took up to ten seconds). */
@@ -67,7 +52,7 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
      where no words sit; the card's ink thickens under the words. */
   const faceVisual = `<span class="finder-plate" aria-hidden="true">${plate}</span>`;
   const fullVisual = `<figure class="finder-full-plate" aria-hidden="true">${plate}</figure>`;
-  const quote = story.quote ? `<blockquote>"${story.quote.text}"${voice ? `<cite>${esc(voice.role)}</cite>` : ""}</blockquote>` : "";
+  const quote = story.quote ? `<blockquote>“${story.quote.text}”${voice ? `<cite>${esc(voice.role)}</cite>` : ""}</blockquote>` : "";
   const proof = record ? `<p class="finder-record"><a class="finder-proof" href="/case-studies#story=${record.id}">The full story\u00a0<span aria-hidden="true">→</span></a></p>` : "";
   const face = `<span class="finder-face">${faceVisual}<span class="finder-heading">${story.heading}</span><span class="finder-outcome">${story.outcome}</span></span>`;
   /* The heading and the outcome are said once, on the card; the sheet borrows
@@ -91,7 +76,6 @@ export interface StoryFinderMarkupOptions {
   intro?: { title: string; lede: string };
 }
 
-const DOOR_LABEL = { brain: "AI brain", gtm: "AI business" } as const;
 
 export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true, door, intro }: StoryFinderMarkupOptions = {}) {
   const shown = door === "brain" || door === "gtm" ? SITUATIONS.filter((s) => s.door === door) : SITUATIONS;
@@ -99,8 +83,8 @@ export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker 
   const tabs = shown.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}" data-finder-door="${s.door}"${door === "library" && s.door !== first ? " hidden" : ""}>${s.label}</button>`).join("");
   const doors = door === "library" ? `<div class="finder-doors" role="group" aria-label="What do you want to build?">${(["brain", "gtm"] as const).map((d) => `<button type="button" data-finder-pick="${d}" aria-pressed="${d === first}">${DOOR_LABEL[d]}</button>`).join("")}</div>` : "";
   const panels = shown.map((s, i) => {
-    const cards = s.cards.map((start, n) => card(storyByStart(stories, start), s.door, `${s.id}-${n + 1}`)).join("");
-    return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${s.label}</h3><ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> of ${s.cards.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div></div>`;
+    const cards = s.useCases.map((id, n) => card(storyById(stories, id), s.door, `${s.id}-${n + 1}`)).join("");
+    return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${s.label}</h3><ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> of ${s.useCases.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div></div>`;
   }).join("");
   const label = kicker ? `<p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p>` : "";
   const question = door === "library" ? "What do you want to build?" : "Where would you start?";

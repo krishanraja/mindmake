@@ -100,6 +100,7 @@ const PUBLIC_SURFACES = [
   "src/content/answers.json",
   "src/data/blogPosts.ts",
   "src/data/rebuildProof.ts",
+  "src/data/useCases.ts",
   /* src/data/testimonials.ts is deliberately absent. It holds thirty-three
      verbatim quotes, and the house style rules these gates enforce govern the
      practice's own voice, not what other people wrote. Scanning it would force
@@ -826,13 +827,13 @@ describe("the Brain decision proof", () => {
 
   it("makes one decision and one attributed outcome tangible", () => {
     const brain = read("src/pages/AiBrain.tsx");
-    const proofRecords = read("src/data/rebuildProof.ts");
+    const useCaseRecords = read("src/data/useCases.ts");
     const clientWords = read("src/data/testimonials.ts");
     for (const state of ["Decision", "Brain", "Evidence", "Correction"]) expect(brain).toContain(state);
     expect(brain).toContain("Inspect how a decision becomes reusable judgement.");
     expect(brain).toContain("Correct it once.");
     expect(brain).toContain("clientStories");
-    expect(proofRecords).toContain('...spoken("wellness-founder")');
+    expect(useCaseRecords).toMatch(/id: "C-01",[\s\S]*?quoteId: "wellness-founder"/);
     expect(clientWords).toContain("I used to post once a month; now it's most days");
     expect(brain).toContain("identity withheld");
   });

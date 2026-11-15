@@ -35,11 +35,11 @@ immutable source and use its deterministic production adapter.
 
 | Route | Purpose |
 |---|---|
-| / | The R3 opening (film, six-line headline, both doors, the way in), then three sections: the four eras, the organisation and its practice scenes, and three results; nothing pins |
-| /ai-brain | Build your AI brain: three sections, the 30 days and the seventeen AI Brain stories as a chooser |
+| / | The R3 opening (film, six-line headline, both doors, the way in), then two sections: the four eras, and three results with the way to explore what leaders built; nothing pins |
+| /ai-brain | Build your AI brain: three sections, the 30 days and the AI Brain stories (C-01 to C-11) as a chooser |
 | /ai-gtm | Build your AI revenue engine: three sections and one go-to-market move in 30 days |
 | /new-age-leadership | The people and AI companion narrative, with its own pinned history, reach and practice chapters and the stories |
-| /case-studies | Success stories: eight verified client stories |
+| /case-studies | What you can do: eighteen use cases, eight with their result on the record, and the client quotes |
 | /blog | Ideas you can use: every quick tip and longer read, newest first, filtered by kind and subject |
 | /blog/:slug | A longer read |
 | /answers/:slug | A quick tip, one page per question; /answers itself redirects to /blog |

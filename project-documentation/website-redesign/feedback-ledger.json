@@ -1,6 +1,6 @@
 {
   "ledgerVersion": 1,
-  "updatedAt": "2026-11-11",
+  "updatedAt": "2026-11-15",
   "stateReference": "project-documentation/website-redesign/STATE.md",
   "rules": {
     "submissionIsApproval": false,
@@ -2325,6 +2325,23 @@
       "resolution": "Heading \"A fintech leader who networks less now still hears what her market says.\" and situation \"A senior fintech leader used to hear her industry's news by networking.\"; the rest of the approved wording is unchanged. Corrected in 04_PROOF.md and website-redesign/STATE.md; S6-STORIES-NEW-001 keeps Krish's original words, which named an insurance company.",
       "evidence": [
         "src/test/leadership-stories.test.ts passes with the new guard; the required gates run before merge and their results are in the pull request."
+      ]
+    },
+    {
+      "id": "USE-CASES-001",
+      "exactFeedback": "We need to make a much cleaner UX of the use cases/successes and quotes. some of the stuff on there is out of date, duplicated, misaligned, or drifted factually. Make the UI and UX incredible in terms of having a user discover their path .",
+      "source": "Krish, 15 November 2026, with the cleaned content file mindmake-stories-export-2026-11-11 and its brief, in a Claude Code session.",
+      "surface": "/, /ai-brain, /ai-gtm, /new-age-leadership, /case-studies",
+      "section": "use cases, results and client quotes",
+      "device": "all",
+      "element": "the use-case, result and quote records and every surface that reads them",
+      "classification": "correction",
+      "requiredOutcome": "Stage A: one record per use case (with its result) and per quote, every surface reading them by id, the drift corrected and the duplicate inventories gone. Stage B (material, separate approval): a way for a visitor to find the use case that is theirs.",
+      "acceptanceTest": "src/test/use-case-parity.test.ts against the content file's fixture; leadership-stories, testimonials and brief2 public-contract tests; the required CLAUDE.md gates on the built site.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Stage A: src/data/useCases.ts holds the eighteen use cases and their eight results; src/data/testimonials.ts holds every quote with its featured order and use-case parts. Visible changes: James Gates, the C-11 heading, curly marks on use-case quotes, and the homepage's third result reading its record's headline. Stage B is open: rendered concepts follow for Krish's approval on a preview.",
+      "evidence": [
+        "src/test/use-case-parity.test.ts passes with its negative controls; the required gates run before merge and their results are in the pull request."
       ]
     }
   ]

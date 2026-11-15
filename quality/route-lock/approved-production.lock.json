@@ -100,7 +100,7 @@
     "public/robots.txt": "e06d60c193b0f338ff02ee7dd95f0fd47e8029cb544e94f0a999f855c35fd7ce",
     "public/safari-pinned-tab.svg": "694cb4a56de28eaf403d3a1f3526ee9e4efc5f689f8b53f5266edee8b4205e83",
     "public/site.webmanifest": "6bee8c8f39dfff7ae9238d49043596ccce8609015ea9b51666f4f0fd9bf5ed83",
-    "public/sitemap.xml": "bc278be33a3de157e4cb7253c8a95e019c80fdd25044229ce22c95226ed81a02",
+    "public/sitemap.xml": "61c7a907fdf1320f7dd8cfbd4dfd68871e6cce88f007e9c4799e063637295d49",
     "public/social/ai-brain.jpg": "c892e2f8f589f241e9ae5f1bfc574da92833c692cc2e4f9a9c300f9c0d272850",
     "public/social/ai-gtm.jpg": "404151cccdf9c8b190ed9f003f4d675ebb87b98b6e6d35a7b43a6ac7dc222a90",
     "public/social/home.jpg": "8bc61d4081e1612374af8dbead9839298e53fe9142695de6e3a19e4dcbe2ba71",
@@ -112,7 +112,7 @@
     "scripts/fetch-latest-issue.mjs": "268ec95b8ee76ebe852e86600711cbb9bc6969e528a0e8d5fa9b0aaebb0aecb3",
     "scripts/generate-llms.mjs": "6fac8e70a1d03033ff8e07c1a30eda1f2c0e084d648dd80d6fa6dc67d40e4ac0",
     "scripts/generate-sitemap.mjs": "06e0327b63062ab2e764b29d886e2846249a8d6e08ecb42ada5ae66a1aede72a",
-    "scripts/lib/pages.mjs": "1e5d4319cdf22249d0db9c1ea3a9a2572e5bc4e7aee1c649aa28b4fa1c7f99f5",
+    "scripts/lib/pages.mjs": "d4d9a716fc269808ab82e68749ba4b6def9b0080f8a50a73599743e7920ff571",
     "scripts/lib/route-lock.mjs": "3be77ff84b1e705863df3b18fc1bec308a08e5e4c276ac10e88c217679fbf417",
     "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
     "scripts/prerender.mjs": "ffef56c119e04ce9d1d0acf47c381ae9f445fc4d8b1212d952576786a8c50cb2",
@@ -229,7 +229,7 @@
     "src/test/use-case-parity.test.ts": "749185c045ea1d603d8d5d5a39dbf85342567caf3694ea0a92f04ff7b22f3b2a",
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
-    "vercel.json": "c34147fcacd3c578a3775446820c919bf49e79f3dea1c5a14913aa0bad6f39b3",
+    "vercel.json": "2e1dcf3cbfb6737d027511191dfb9c34757a781d2955cb1cae0c82476a10a601",
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
   }
 }

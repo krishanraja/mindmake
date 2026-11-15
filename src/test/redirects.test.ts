@@ -125,6 +125,22 @@ describe("public route contract", () => {
     expect(bySource.get("/operator")?.destination).toBe("/ai-brain");
   });
 
+  it("forwards the cold email opt-out link to Control Center, token unchanged, never cached or indexed", () => {
+    /* Ruling (Krish, 2026-11-15): the opt-out link lives on a mindmake.co path that forwards to Control Center.
+       A rewrite, never a redirect: the page and a mail provider's one-click unsubscribe both POST to this path, and a
+       301 or 302 would turn that POST into a GET, which deletes nothing. */
+    expect(vercel.rewrites).toContainEqual({ source: "/optout/:token", destination: "https://controlcenter.krishraja.com/api/optout?t=:token" });
+    expect(bySource.has("/optout/:token")).toBe(false);
+    expect(vercel.redirects.some((route: { source: string }) => route.source.startsWith("/optout"))).toBe(false);
+    const own = vercel.headers.find((header: { source: string }) => header.source === "/optout/(.*)");
+    const values = Object.fromEntries(own.headers.map((h: { key: string; value: string }) => [h.key, h.value]));
+    expect(values).toEqual({ "X-Robots-Tag": "noindex, nofollow", "Referrer-Policy": "no-referrer", "Cache-Control": "no-store" });
+    // The site-wide "index, follow" rule leaves the opt-out path alone, so it carries one robots rule, the noindex one.
+    const indexable = vercel.headers.find((header: { headers: { value: string }[] }) => header.headers.some((h) => h.value === "index, follow"));
+    expect(new RegExp(`^${indexable.source}$`).test("/optout/abc.def.ghi")).toBe(false);
+    expect(new RegExp(`^${indexable.source}$`).test("/privacy")).toBe(true);
+  });
+
   it("keeps the internal email test harness out of the deployed site", () => {
     expect(bySource.get("/test-email-flows.html")?.destination).toBe("/");
     expect(bySource.get("/test-email-flows.html")?.permanent).toBe(false);

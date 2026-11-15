@@ -100,7 +100,7 @@ export const staticPages = [
   },
   {
     path: "/privacy",
-    lastmod: "2026-11-13",
+    lastmod: "2026-11-15",
     title: "Privacy policy",
     description: "How Mindmake collects, uses and protects information.",
     headline: "Privacy policy.",

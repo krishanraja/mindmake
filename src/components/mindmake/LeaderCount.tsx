@@ -27,7 +27,8 @@ export function LeaderCount() {
       observer.disconnect();
       const start = performance.now();
       const step = (now: number) => {
-        const t = Math.min(1, (now - start) / DURATION);
+        /* A frame can carry a time from just before the run began; never count below zero. */
+        const t = Math.min(1, Math.max(0, (now - start) / DURATION));
         /* Fast at first, settling on the figure. */
         setValue(Math.round(TARGET * (1 - Math.pow(1 - t, 3))));
         if (t < 1) frame = requestAnimationFrame(step);

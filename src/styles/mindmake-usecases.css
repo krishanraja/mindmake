@@ -392,7 +392,9 @@
 .uc-sheet-starts > *,
 .uc-sheet-compare > * { grid-area: 1 / 1; min-width: 0; }
 .uc-sheet-starts > [aria-hidden="true"],
-.uc-sheet-compare > [aria-hidden="true"] { visibility: hidden; }
+.uc-sheet-starts > [aria-hidden="true"] *,
+.uc-sheet-compare > [aria-hidden="true"],
+.uc-sheet-compare > [aria-hidden="true"] * { visibility: hidden !important; }
 .mm-site .uc-start {
   display: inline-flex;
   align-items: center;

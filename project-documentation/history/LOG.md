@@ -5,6 +5,10 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-15
+
+- one record per use case and per quote (Krish's cleaned content file of 11 to 15 November 2026, export SHA-256 `f4716b043b25…` recorded in `src/test/fixtures/stories-export-2026-11-11.json`): the eighteen use cases and their eight results now live only in `src/data/useCases.ts`, every quote only in `src/data/testimonials.ts` (featured order and use-case parts named on the quote), and `leadershipChapters.ts`, `storyFinder.ts`, `rebuildProof.ts` and the homepage read them by id. Corrected: James Gates (was "Gately"), C-11 "struggles with spreadsheets" (was "hates the numbers"), the homepage's third result reads its record's headline. Removed with Krish's approval of the exact list (2026-11-15): the paraphrased `careerReferences`, the unused homepage result blocks and `homepageResultStories`, the unrendered `proof` mode on `/ai-gtm`, `CommercialProofglass.tsx` and `CommercialContinuity.tsx`, the extra POC sentence in R-01, and three blocks of `04_PROOF.md` at `4009e96`, archived here by hash: the duplicate result inventory (lines 88 to 157, SHA-256 `8c9951966ce82a32b8783b9fece54b242764359fc479ef0bb86868faa98f780b`), the 16 October cut note (lines 197 to 201, `a4b331b6c740f292888a79f8422e1ebe82775bcb3c2c2d5ce7f07f32eae9fe04`) and the Steph Darmanin section (lines 217 to 248, `716f05fdbd9bf7a6b06c0790bcd5989e9fefcfc2cf1382bd58b5e25a1080e277`; its quotes are also preserved in `history/ARCHIVE.md`). Recover any of them with `git show 4009e96:project-documentation/04_PROOF.md`.
+
 ## 2026-11-14
 
 - reconciled at `caa7e2b`: NOW.md gained the SendLinks recipient page at `/l/<link>` (PR #300), folded by hand from its closeout note because the fold had not run; the note was removed. The North Star check line took the date the closing session wrote (2026-11-14, holds). Stamps on CLAUDE.md, 00, 01, 02, 04, 04 records, 06 and 07 were not re-verified and were left for a person.

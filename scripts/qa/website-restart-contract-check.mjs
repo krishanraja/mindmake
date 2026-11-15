@@ -202,7 +202,7 @@ const currentDocumentationRequirements = [
   // the homepage placement of the stories, which moved to /ai-brain.
   ["state", "Between the opening and the footer the homepage carries two sections (S6, then Krish, 2026-11-11)"],
   ["state", "Nothing on the homepage pins"],
-  ["state", "The AI Brain stories are seventeen cards in five situations on /ai-brain, a chooser that never pins"],
+  ["state", "The AI Brain stories are eighteen cards in five situations on /ai-brain, a chooser that never pins"],
   ["state", "No swapping component changes size when a reader makes a choice"],
   ["state", "No wheel/touch cancellation"],
   ["state", "Every state stays reachable from its direct controls on reduced-motion and short screens"],

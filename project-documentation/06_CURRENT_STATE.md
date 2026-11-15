@@ -99,7 +99,7 @@ owns the accepted detail and `01_CANON.md` the exact copy.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".
-- Shell pages: `/case-studies` (eight verified stories), `/blog` with
+- Shell pages: `/case-studies` ("What you can do": the eighteen use cases, then the eight results on the record, then the quotes), `/blog` with
   `/blog/:slug`, the answers at `/answers/:slug` (`/answers` redirects to
   `/blog`), `/faq`, `/about`, `/contact`, `/privacy`, `/terms` and the unlisted,
   noindex `/alumni`. The sitemap lists 36 URLs.
@@ -120,7 +120,7 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   records yes with name, yes anonymous or no, and the exact sentence agreed.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels: Home, Build your AI brain, Build your AI business (the
-  name every link to `/ai-gtm` now uses, Krish, 2026-11-10), Success stories, Ideas you can use, Questions we get asked, About us and
+  name every link to `/ai-gtm` now uses, Krish, 2026-11-10), What you can do, Ideas you can use, Questions we get asked, About us and
   Media, and the one action, Start building your AI brain (Start building your
   AI business on `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM` in
   `src/lib/publicLinks.ts`).

@@ -14,8 +14,19 @@
  * rail shows the excerpt; the full quote is one tap away.
  *
  * Four families, kept apart so they cannot be misread as one another. A session
- * attendee is not a client. A career reference is not an AI-era outcome.
+ * attendee is not a client. A career reference is not an AI-era outcome. The
+ * public client collection is the clients and the client outcomes, eighteen
+ * in all (`publicClientQuotes`); session comments and career references stay
+ * here, apart from it.
+ *
+ * This is the one record of every quote. Two kinds of shorter part are named
+ * on it and nowhere else, and each is an exact substring of `full` too:
+ * `featured`, the part shown where a quote is featured, with its place in that
+ * order; and `useCaseExcerpts`, the part shown on the use case the quote
+ * belongs to (src/data/useCases.ts), keyed by that use case's id.
  */
+
+import type { UseCaseId } from "./useCases";
 
 export type TestimonialFamily = "session" | "client" | "outcome" | "reference";
 
@@ -29,6 +40,10 @@ export type Testimonial = {
   /** An exact substring of `full`. */
   excerpt: string;
   full: string;
+  /** Where the quote is featured, in this order, and the exact part shown there. */
+  featured?: { order: 1 | 2 | 3 | 4 | 5; excerpt: string };
+  /** The exact part shown on the use case this quote belongs to. */
+  useCaseExcerpts?: Partial<Record<UseCaseId, string>>;
   /**
    * Only a client named on the site carries this, and only where the consent is
    * on record. A missing or failed value hides the entry rather than showing it
@@ -97,12 +112,13 @@ export const testimonials: Testimonial[] = [
     role: "Performance Coach",
     consent: "recorded",
     excerpt: "He puts you in the driver's seat, explains AI fundamentals in plain language",
+    featured: { order: 3, excerpt: "He puts you in the driver's seat, explains AI fundamentals in plain language" },
     full: "What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.",
   },
   {
     id: "gately",
     family: "client",
-    name: "James Gately",
+    name: "James Gates",
     role: "Founder, FinTech",
     consent: "recorded",
     excerpt: "With mind/make, I was empowered on how to own the what I do next",
@@ -124,6 +140,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Chief Revenue Officer, data-infrastructure company",
     excerpt: "an AI-native go-to-market system that made us rethink who we hire and what they do",
+    useCaseExcerpts: { "C-11": "We set up an AI-native go-to-market system that made us rethink who we hire and what they do." },
     full: "We set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver.",
   },
   {
@@ -131,6 +148,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Founder, adtech firm",
     excerpt: "nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.",
+    useCaseExcerpts: { "C-08": "We had a brilliant product nobody could buy, because nobody could explain it." },
     full: "We had a brilliant product nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.",
   },
   {
@@ -138,6 +156,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Chief Revenue Officer, media company",
     excerpt: "Krish knows how to add value immediately which continues to compound",
+    useCaseExcerpts: { "C-15": "He doesn't want to loiter." },
     full: "Krish knows how to add value immediately which continues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter.",
   },
   {
@@ -145,6 +164,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Partner, media advisory",
     excerpt: "He turned the pitch into something sellable, which then evolved our pitch.",
+    useCaseExcerpts: { "C-16": "He turned the pitch into something sellable, which then evolved our pitch." },
     full: "We had expertise everyone respected but needed to add products around that. He turned the pitch into something sellable, which then evolved our pitch.",
   },
   {
@@ -152,6 +172,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Head of Operations, top-10 US digital publisher",
     excerpt: "our team took ownership and accountability",
+    useCaseExcerpts: { "C-17": "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability." },
     full: "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability. Cheers to Krish for leading and landing.",
   },
   {
@@ -159,6 +180,8 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Founder and CEO, executive coaching practice",
     excerpt: "Krish thinks about me and the results I need.",
+    featured: { order: 1, excerpt: "Krish thinks about me and the results I need." },
+    useCaseExcerpts: { "C-02": "He uses his incredible knowledge of AI and tech to help me with really human problems." },
     full: "The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need.",
   },
   {
@@ -173,6 +196,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Founder, research and content brand",
     excerpt: "I used to post once a month; now it's most days because I focus on building an AI engine",
+    useCaseExcerpts: { "C-01": "It's helping me be seen by my customers." },
     full: "Since working with Krish I've learnt to push through basic barriers I didn't realise I could, and he set up systems that make me more effective and more motivated. I used to post once a month; now it's most days because I focus on building an AI engine around what I do and what I get bottlenecked by. It's helping me be seen by my customers.",
   },
   {
@@ -194,6 +218,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Founder, early-stage creator business",
     excerpt: "He gave me the framework and support to decide for myself.",
+    featured: { order: 4, excerpt: "He gave me the framework and support to decide for myself." },
     full: "I'd been going in circles for six months. Do we build our own AI brain or use a vendor? Krish didn't hand me a recommendation. He gave me the framework and support to decide for myself.",
   },
   {
@@ -201,6 +226,7 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Go-to-market lead, Series C software company",
     excerpt: "Now when the board asks, I have real answers.",
+    featured: { order: 2, excerpt: "Now when the board asks, I have real answers." },
     full: "Before the session I was fielding questions about our AI strategy and honestly making it up as I went. Krish helped me get clearer on how I can form my narrative properly. Now when the board asks, I have real answers.",
   },
   {
@@ -215,6 +241,8 @@ export const testimonials: Testimonial[] = [
     family: "outcome",
     role: "Head of Operations, scale-up",
     excerpt: "I actually built two workflows in the session that I now use every day.",
+    featured: { order: 5, excerpt: "I actually built two workflows in the session that I now use every day." },
+    useCaseExcerpts: { "C-09": "I actually built two workflows in the session that I now use every day." },
     full: "I actually built two workflows in the session that I now use every day. Not experiments, real systems that made my week calmer almost immediately.",
   },
 
@@ -318,3 +346,26 @@ export const FAMILY_LABEL: Record<TestimonialFamily, string> = {
   outcome: "Client outcome",
   reference: "Career reference",
 };
+
+/** The public client collection: named clients with consent on record, then the client outcomes. */
+export const publicClientQuotes = publishableTestimonials.filter(
+  (voice) => voice.family === "client" || voice.family === "outcome",
+);
+
+/** The featured quotes, in their order. */
+export const featuredQuotes = publicClientQuotes
+  .filter((voice) => voice.featured)
+  .sort((a, b) => a.featured!.order - b.featured!.order);
+
+export function quoteById(id: string): Testimonial {
+  const found = testimonials.find((voice) => voice.id === id);
+  if (!found) throw new Error(`No quote with id "${id}"`);
+  return found;
+}
+
+/** The part of a quote shown on its use case. */
+export function quotePartFor(quoteId: string, useCaseId: UseCaseId): string {
+  const text = quoteById(quoteId).useCaseExcerpts?.[useCaseId];
+  if (!text) throw new Error(`The quote "${quoteId}" has no part for ${useCaseId}`);
+  return text;
+}

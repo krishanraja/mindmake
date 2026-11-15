@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { testimonials, publishableTestimonials, type Testimonial } from "@/data/testimonials";
+import { testimonials, publishableTestimonials, publicClientQuotes, featuredQuotes, type Testimonial } from "@/data/testimonials";
 import { clientStories } from "@/data/rebuildProof";
+import { results, useCases } from "@/data/useCases";
 
 /**
  * The promise this file enforces is that a shortened quote is still the
@@ -79,17 +80,40 @@ describe("testimonials", () => {
     expect(filtered.some((voice) => voice.id === "unconsented")).toBe(false);
   });
 
-  /* The story deck quotes eight of these people. Each story names its voice
-     and reads the quote from here, so the deck cannot carry an older or an
-     edited copy of what someone wrote. This holds it there. */
-  it("gives every client story the whole quote of a voice in this file", () => {
+  /* Every result on the record names its quote by id and reads it from here,
+     so no page can carry an older or an edited copy of what someone wrote. */
+  it("gives every result the whole quote of an outcome voice in this file", () => {
+    for (const result of results) expect(`${result.id}: ${testimonials.find((entry) => entry.id === result.quoteId)?.family}`).toBe(`${result.id}: outcome`);
     for (const story of clientStories) {
       const voice = testimonials.find((entry) => entry.id === story.voice);
-      expect(`${story.id}: ${voice?.id}`).toBe(`${story.id}: ${story.voice}`);
-      expect(`${story.id}: ${story.quote === voice?.full}`).toBe(`${story.id}: true`);
-      expect(`${story.id}: ${story.attribution === voice?.role}`).toBe(`${story.id}: true`);
-      expect(`${story.id}: ${voice?.family}`).toBe(`${story.id}: outcome`);
+      expect(`${story.id}: ${story.quote === voice?.full && story.attribution === voice?.role}`).toBe(`${story.id}: true`);
     }
+  });
+
+  it("names the featured quotes in their order, each part an exact substring", () => {
+    expect(featuredQuotes.map((voice) => voice.id)).toEqual(["coaching-founder", "saas-gtm", "divekar", "fintech-founder", "scaleup-ops"]);
+    for (const voice of testimonials.filter((entry) => entry.featured)) {
+      expect(voice.full, voice.id).toContain(voice.featured!.excerpt);
+      expect(voice.featured!.excerpt.length, voice.id).toBeLessThanOrEqual(108);
+    }
+  });
+
+  it("keeps each use-case part an exact substring, keyed to a use case that names this quote", () => {
+    let parts = 0;
+    for (const voice of testimonials) {
+      for (const [id, text] of Object.entries(voice.useCaseExcerpts ?? {})) {
+        parts += 1;
+        expect(voice.full, `${voice.id} ${id}`).toContain(text);
+        expect(text!.length, `${voice.id} ${id}`).toBeLessThanOrEqual(125);
+        expect(useCases.find((entry) => entry.id === id)?.quoteId, `${voice.id} ${id}`).toBe(voice.id);
+      }
+    }
+    expect(parts).toBe(8);
+  });
+
+  it("makes the public client collection the eighteen clients and client outcomes", () => {
+    expect(publicClientQuotes).toHaveLength(18);
+    expect(publicClientQuotes.every((voice) => voice.family === "client" || voice.family === "outcome")).toBe(true);
   });
 
   it("keeps the four families apart", () => {

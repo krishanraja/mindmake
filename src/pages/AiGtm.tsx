@@ -93,7 +93,6 @@ const MODES: Record<Mode, {
   /** The old way and the new for each lever, for this starting point. */
   levers: Record<(typeof LEVERS)[number], { was: string; now: string }>;
   team: TeamCopy;
-  proof: { result: string; quote: string; who: string; story: string };
 }> = {
   established: {
     tab: "I run an established business",
@@ -135,12 +134,6 @@ const MODES: Record<Mode, {
         price: "Per task or per result: which can your buyers forecast and your finance team bill?",
       },
     },
-    proof: {
-      result: "A new sales path led to a paid test with a major US publisher.",
-      quote: "We set up an AI-native go-to-market system that made us rethink who we hire and what they do.",
-      who: "Chief Revenue Officer, data-infrastructure company",
-      story: "market-moves",
-    },
   },
   founder: {
     tab: "I'm building an AI-native business",
@@ -179,12 +172,6 @@ const MODES: Record<Mode, {
         support: "When should a customer reach you instead of an agent?",
         outreach: "What must an agent never say to a buyer on your behalf?",
       },
-    },
-    proof: {
-      result: "Position and price rebuilt in 30 days. Two pilots signed during the work.",
-      quote: "We had a brilliant product nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.",
-      who: "Founder, adtech firm",
-      story: "simple-product",
     },
   },
 };

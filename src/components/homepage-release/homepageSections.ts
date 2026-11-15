@@ -2,9 +2,9 @@ import writingImage from "../../../prototypes/website-redesign-recovery/new-age-
 import loomImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
 import calculatorImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
 import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
-import { leadershipStories } from "@/components/leadership-chapters/leadershipChapters";
 import latestIssue from "@/data/latestIssue.json";
-import { publishableTestimonials } from "@/data/testimonials";
+import { featuredQuotes, quoteById, quotePartFor } from "@/data/testimonials";
+import { getUseCase } from "@/data/useCases";
 import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
@@ -55,35 +55,33 @@ const ERAS = [
 ] as const;
 
 
-/** A result's picture is its story's own scene on /ai-brain, found by its record. */
-const sceneOf = (record: string) => leadershipStories.find((story) => story.record === record)?.scene ?? "";
-
-/** Three results on the record, in the words already approved on the site. */
+/**
+ * Three results on the record, each read from its use case's one record
+ * (src/data/useCases.ts) on that use case's own picture: two told by the use
+ * case's heading and outcome, the third in the client's words with the
+ * result's headline.
+ */
 const PROOF = [
-  { record: "own-system", story: "A founder who posted about once a month now posts most days.", outcome: "A post backed by research now takes under an hour." },
-  { record: "hand-back", story: "A CEO who hates writing can still publish ideas worth following.", outcome: "Five videos went out in the first week." },
+  { record: "own-system", scene: getUseCase("C-01").picture, story: getUseCase("C-01").heading, outcome: getUseCase("C-01").outcome },
+  { record: "hand-back", scene: getUseCase("C-02").picture, story: getUseCase("C-02").heading, outcome: getUseCase("C-02").outcome },
   {
     record: "market-moves",
-    quote: "We set up an AI-native go-to-market system that made us rethink who we hire and what they do.",
-    outcome: "A new sales path led to a paid test with a major US publisher.",
-    who: "Chief Revenue Officer, data-infrastructure company",
+    scene: getUseCase("C-11").picture,
+    quote: quotePartFor("data-infra-cro", "C-11"),
+    outcome: getUseCase("C-11").result!.headline,
+    who: quoteById("data-infra-cro").role,
   },
 ] as const;
 
 /**
  * A few voices under the results, one at a time (Krish, 2026-11-06: some of
  * the quotes at the foot of the homepage, "non-obtrusive and minimalist", to
- * send more people to the full range of results). Short AI-era voices only,
- * clients and outcomes as on the homepage since 5 September 2026, each the
- * approved excerpt read from src/data/testimonials.ts, never retyped. The
- * line ends in the way to all of them on /case-studies.
+ * send more people to the full range of results). They are the featured
+ * quotes, in their order, each the featured part of its one record in
+ * src/data/testimonials.ts, never retyped. The line ends in the way to all of
+ * them on /case-studies.
  */
-const VOICE_IDS = ["coaching-founder", "saas-gtm", "divekar", "fintech-founder", "scaleup-ops"] as const;
-const VOICES = VOICE_IDS.map((id) => {
-  const found = publishableTestimonials.find((entry) => entry.id === id);
-  if (!found) throw new Error(`No publishable testimonial with id "${id}"`);
-  return { quote: found.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role };
-});
+const VOICES = featuredQuotes.map((found) => ({ quote: found.featured!.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role }));
 
 const startButton = () => `<button type="button" class="hs-start-button" data-start-route="brain" data-mm-primary>${START_LABEL} <span aria-hidden="true">→</span></button>`;
 
@@ -121,8 +119,8 @@ const eraMarkup = ({ when, image, question, answer }: (typeof ERAS)[number]) =>
   `<li><button type="button" class="hs-era" aria-pressed="false" data-hs-era>${cardImage(image, 1600)}<span class="hs-era-when">${when}</span><span class="hs-era-faces"><span class="hs-era-q">“${question}”</span><span class="hs-era-a"><b>What actually happened instead</b>${answer}</span></span><span class="hs-era-mark" aria-hidden="true"></span></button></li>`;
 
 const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
-  ? `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
-  : `<li>${cardImage(sceneOf(item.record), 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
+  ? `<li>${cardImage(item.scene, 800, "(max-width: 760px) 84vw, 33vw")}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
+  : `<li>${cardImage(item.scene, 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
 
 /**
  * Where to start, asked by a floating piece of the living Brain (Krish,

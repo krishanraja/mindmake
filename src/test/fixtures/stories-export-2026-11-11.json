@@ -1,0 +1,631 @@
+{
+  "source": "mindmake-stories-export-2026-11-11",
+  "sha256": "f4716b043b25989c9aa717a4f61823318ec48a157096c38a8559e7a8026a8477",
+  "groups": [
+    {
+      "label": "Getting your ideas out",
+      "type": "AI brain",
+      "useCases": [
+        "C-01",
+        "C-02",
+        "C-03"
+      ]
+    },
+    {
+      "label": "Seeing what is changing",
+      "type": "AI brain",
+      "useCases": [
+        "C-04",
+        "C-05",
+        "C-06",
+        "C-07",
+        "C-08"
+      ]
+    },
+    {
+      "label": "Getting hands-on again",
+      "type": "AI brain",
+      "useCases": [
+        "C-09",
+        "C-10",
+        "C-11"
+      ]
+    },
+    {
+      "label": "Keeping your team in step",
+      "type": "AI business",
+      "useCases": [
+        "C-12",
+        "C-13",
+        "C-14"
+      ]
+    },
+    {
+      "label": "Making the big AI calls",
+      "type": "AI business",
+      "useCases": [
+        "C-15",
+        "C-16",
+        "C-17",
+        "C-18"
+      ]
+    }
+  ],
+  "useCases": [
+    {
+      "id": "C-01",
+      "heading": "A founder who posted about once a month now posts most days.",
+      "outcome": "A post backed by research now takes under an hour.",
+      "startingPoint": "The founder runs a research and content brand. Publishing a post backed by research took days.",
+      "whatWeDid": "We set up an AI system that the founder owns. It fits around what they do and where they get stuck.",
+      "quoteId": "Q-wellness-founder",
+      "picture": "founder-pantograph-r01-800.webp",
+      "evidence": "Result on the record: `R-own-system`.",
+      "result": {
+        "id": "R-own-system",
+        "headline": "Publishing moved from monthly to most days.",
+        "detail": "A founder-owned content system cut publishing time from days to under an hour. Publishing moved from about monthly to most days.",
+        "quoteId": "Q-wellness-founder"
+      }
+    },
+    {
+      "id": "C-02",
+      "heading": "A CEO who hates writing can still publish ideas worth following.",
+      "outcome": "Five videos went out in the first week.",
+      "startingPoint": "The CEO of an executive coaching practice avoided posting and being seen. They knew a modern chief executive should be visible.",
+      "whatWeDid": "Their AI brain helps them get better at the things they avoided or felt held up by. Now they can just publish.",
+      "quoteId": "Q-coaching-founder",
+      "picture": "proofing-press-r01-800.webp",
+      "evidence": "Result on the record: `R-hand-back`.",
+      "result": {
+        "id": "R-hand-back",
+        "headline": "The business was rebuilt and left in the founder's hands.",
+        "detail": "An eight-week rebuild covered the brand, offers, lead capture, content and outreach. Five videos shipped in week one.",
+        "quoteId": "Q-coaching-founder"
+      }
+    },
+    {
+      "id": "C-03",
+      "heading": "Leadership updates become consistent, even when the week was not.",
+      "outcome": "A patchy week no longer means patchy updates.",
+      "startingPoint": "The leader's updates used to depend on how their week had gone. A patchy week meant patchy updates.",
+      "whatWeDid": "Their AI brain knows that risk. It helps them get each update out, whatever the week has been like.",
+      "quoteId": null,
+      "picture": "updates-seal-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-04",
+      "heading": "A fintech leader who networks less now still hears what her market says.",
+      "outcome": "She feels more informed, and no customer data ever leaves her business.",
+      "startingPoint": "A senior fintech leader used to hear her industry's news by networking. She can do far less of that now, and cannot share customer data.",
+      "whatWeDid": "We built her a one-way feed: the world outside her business, brought to her. Nothing goes out, so no customer data leaves.",
+      "quoteId": null,
+      "picture": "one-way-receiver-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-05",
+      "heading": "An investor buying companies now watches his market through his own method.",
+      "outcome": "It flags the signals he looks for, so he can stay ahead as more investors move into his area.",
+      "startingPoint": "An investor looking to buy companies reads the market with his own method. More investors are moving into his area.",
+      "whatWeDid": "We turned his method into a system that watches for the outside signals it looks for, so his reading of the market keeps up.",
+      "quoteId": null,
+      "picture": "method-sight-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-06",
+      "heading": "A CEO who read many newsletters every morning now gets one briefing.",
+      "outcome": "One briefing is waiting for him each morning.",
+      "startingPoint": "The chief executive subscribed to many newsletters. His morning briefing meant checking them one by one, by hand.",
+      "whatWeDid": "We built him an AI brain that reads them for him.",
+      "quoteId": null,
+      "picture": "briefing-tray-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-07",
+      "heading": "A leader who only heard from inside now sees what is changing outside.",
+      "outcome": "It gives them an edge over competitors and brings them closer to customers.",
+      "startingPoint": "The leader only had company data and their own people to go on. They had never thought of AI as a way to learn what was happening outside.",
+      "whatWeDid": "What we built brings them research on their company, their market and current events, only when it could change a decision.",
+      "quoteId": null,
+      "picture": "window-telescope-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-08",
+      "heading": "A change in market pricing becomes a decision, not a forgotten observation.",
+      "outcome": "The price was clear within 30 days, and the first two customers signed up to trial it.",
+      "startingPoint": "The founder of an adtech firm and their leadership team kept coming back to pricing. They had the same conversation hundreds of times.",
+      "whatWeDid": "Now they treat that repetition as a signal to act. When pricing comes up again, the conversation ends in a decision.",
+      "quoteId": "Q-martech-founder",
+      "picture": "pricing-balance-r01-800.webp",
+      "evidence": "Result on the record: `R-simple-product`.",
+      "result": {
+        "id": "R-simple-product",
+        "headline": "Two pilots signed during the work.",
+        "detail": "The position and price were rebuilt in 30 days. The first two pilots were signed during the work.",
+        "quoteId": "Q-martech-founder"
+      }
+    },
+    {
+      "id": "C-09",
+      "heading": "A head of operations is hands-on again, with systems they built, based on their AI brain bringing the best of what's new, tried and tested - and suitable for their exact workflow challenges.",
+      "outcome": "Their week felt calmer almost at once.",
+      "startingPoint": "The leader is head of operations at a scale-up, a fast-growing company. They manage people and wanted to be hands-on again.",
+      "whatWeDid": "In a session with us, they built two real, working systems.",
+      "quoteId": "Q-scaleup-ops",
+      "picture": "workbench-gears-r01-800.webp",
+      "evidence": "Krish’s own account and the client quotation referenced below.",
+      "result": null
+    },
+    {
+      "id": "C-10",
+      "heading": "Someone new to AI now talks their own dashboard into existence by saying what they need - and it isn't generic, but anchors to their north star values.",
+      "outcome": "They talked it into being, at least five times faster than AI alone, and far more accurately.",
+      "startingPoint": "A member of the team was new to AI. They needed a dashboard for the accounts they look after.",
+      "whatWeDid": "Their AI brain guided them as they built it, with the right data underneath and the company's own voice.",
+      "quoteId": null,
+      "picture": "voice-pipe-r01-800.webp",
+      "evidence": "Krish’s own account and figure from the engagement. The five-times-faster figure is owner-reported.",
+      "result": null
+    },
+    {
+      "id": "C-11",
+      "heading": "A CRO who struggles with spreadsheets can become better at using them.",
+      "outcome": "The company changed how it sells, and that led to a paid trial with a major US publisher.",
+      "startingPoint": "The chief revenue officer at a data-infrastructure company was fine with numbers but bad with spreadsheets.",
+      "whatWeDid": "Now they play to their strengths. They reliably build their own AI agents, helpers that handle the work they hated.",
+      "quoteId": "Q-data-infra-cro",
+      "picture": "punched-cards-r01-800.webp",
+      "evidence": "Result on the record: `R-market-moves`.",
+      "result": {
+        "id": "R-market-moves",
+        "headline": "A new sales path led to a paid publisher test.",
+        "detail": "A data company changed how it sold as AI changed the web. The work led to a paid test with a major US publisher.",
+        "quoteId": "Q-data-infra-cro"
+      }
+    },
+    {
+      "id": "C-12",
+      "heading": "Teams working on the same account stop asking each other the same questions.",
+      "outcome": "The repeated questions stopped.",
+      "startingPoint": "Different teams worked on the same accounts. The same questions kept going back and forth between them.",
+      "whatWeDid": "Each person's AI brain now knows what the other teams already know about an account, including who already looks after it.",
+      "quoteId": null,
+      "picture": "shared-folio-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-13",
+      "heading": "One person corrected it once, and everyone's AI got better that day.",
+      "outcome": "That same day, the fix reached everyone it applied to, and only them.",
+      "startingPoint": "One person kept being told something by their AI that had stopped being true.",
+      "whatWeDid": "They corrected it once.",
+      "quoteId": null,
+      "picture": "stencil-correction-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-14",
+      "heading": "A team's account plans now serve the division's goals and the CEO's vision.",
+      "outcome": "It tells the CEO when someone senior needs them to step in.",
+      "startingPoint": "A team looked after a few large accounts. Their plans, the division's goals and the chief executive's direction sat in different places.",
+      "whatWeDid": "Each person's AI brain now works with the division's and the CEO's. It maps each account's health and its contacts by seniority.",
+      "quoteId": null,
+      "picture": "orrery-alignment-r01-800.webp",
+      "evidence": "Krish’s own account.",
+      "result": null
+    },
+    {
+      "id": "C-15",
+      "heading": "Two quarters of argument over build or partner ended in one day.",
+      "outcome": "The partner agreement was signed the following month.",
+      "startingPoint": "The chief revenue officer of a media company had spent two quarters refereeing one argument: build it themselves, or partner.",
+      "whatWeDid": "We worked it through with the room in one day. The answer was to partner now, and look at building again in twelve months, once the data is stronger.",
+      "quoteId": "Q-media-cro",
+      "picture": "prism-light-r01-800.webp",
+      "evidence": "Result on the record: `R-day-one`.",
+      "result": {
+        "id": "R-day-one",
+        "headline": "A day's work, and a partner signed the month after.",
+        "detail": "Two quarters of argument over build or partner ended in one day in the room. The partner agreement was signed the following month, and build comes back for review in twelve months, once the data is stronger.",
+        "quoteId": "Q-media-cro"
+      }
+    },
+    {
+      "id": "C-16",
+      "heading": "A respected advisory firm turned its expertise into an offer people could buy.",
+      "outcome": "Their expertise became an offer people could buy.",
+      "startingPoint": "The partners at a media advisory firm had expertise everyone respected, but nothing a client could simply buy.",
+      "whatWeDid": "We turned their ideas into one clear offer and a plan to launch it.",
+      "quoteId": "Q-media-advisory-partner",
+      "picture": "bound-folio-r01-800.webp",
+      "evidence": "Result on the record: `R-sellable-expertise`.",
+      "result": {
+        "id": "R-sellable-expertise",
+        "headline": "Expertise became an offer people could buy.",
+        "detail": "A respected advisory firm turned its ideas into a clear offer and a plan to launch it.",
+        "quoteId": "Q-media-advisory-partner"
+      }
+    },
+    {
+      "id": "C-17",
+      "heading": "A publisher weighing up fourteen AI suppliers made three decisions.",
+      "outcome": "Its own team built the chosen work, with no new hires.",
+      "startingPoint": "A top-10 US digital publisher had fourteen AI suppliers competing for its business.",
+      "whatWeDid": "It started with hands-on AI sessions. From there, the fourteen became three decisions.",
+      "quoteId": "Q-publisher-ops",
+      "picture": "index-drawer-r01-800.webp",
+      "evidence": "Result on the record: `R-team-decides`.",
+      "result": {
+        "id": "R-team-decides",
+        "headline": "Fourteen vendors became three decisions.",
+        "detail": "A publisher moved from 14 competing AI vendors to three decisions. Its own team then shipped the chosen work with no new hires.",
+        "quoteId": "Q-publisher-ops"
+      }
+    },
+    {
+      "id": "C-18",
+      "heading": "A broadcaster stopped eleven of its fourteen AI tools and kept its budget.",
+      "outcome": "Its first working system went live inside 90 days.",
+      "startingPoint": "A legacy broadcast business had fourteen AI tools on the go.",
+      "whatWeDid": "We tied every AI choice back to the business. Eleven of the fourteen tools stopped, and the budget stayed.",
+      "quoteId": null,
+      "picture": "switch-panel-r01-800.webp",
+      "evidence": "Result on the record: `R-business-first`.",
+      "result": {
+        "id": "R-business-first",
+        "headline": "The team cut eleven tools and put one useful system live.",
+        "detail": "Eleven of fourteen tools were stopped. The budget was kept and the first working system went live inside 90 days.",
+        "quoteId": "Q-broadcast-president"
+      }
+    }
+  ],
+  "featured": [
+    {
+      "order": 1,
+      "id": "Q-coaching-founder"
+    },
+    {
+      "order": 2,
+      "id": "Q-saas-gtm"
+    },
+    {
+      "order": 3,
+      "id": "Q-divekar"
+    },
+    {
+      "order": 4,
+      "id": "Q-fintech-founder"
+    },
+    {
+      "order": 5,
+      "id": "Q-scaleup-ops"
+    }
+  ],
+  "quotes": [
+    {
+      "id": "Q-darmanin",
+      "relationship": "client",
+      "attribution": "Steph Darmanin, Performance Coach",
+      "full": "Everyone wants to learn AI skills, but it can be complex and overwhelming to go it alone. There are also a lot of smoke and mirrors out there, with many people claiming to be experts and appearing genuine in their promise to help you, but end up not following through on their commitments. Working with Krish was the opposite. You get much more than what you're expecting, learn from a kind and dedicated accountability partner, and the process is simple and straightforward.",
+      "excerpt": "You get much more than what you're expecting, learn from a kind and dedicated accountability partner",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-divekar",
+      "relationship": "client",
+      "attribution": "Dipti Divekar, Performance Coach",
+      "full": "What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.",
+      "excerpt": "He puts you in the driver's seat, explains AI fundamentals in plain language",
+      "featuredExcerpt": "He puts you in the driver's seat, explains AI fundamentals in plain language",
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-gately",
+      "relationship": "client",
+      "attribution": "James Gates, Founder, FinTech",
+      "full": "Previous support came to a halt once the paid engagement ended, and ultimately I had to pull the plug and start over. With mind/make, I was empowered on how to own the what I do next, which has brought me immense pride and satisfaction.",
+      "excerpt": "With mind/make, I was empowered on how to own the what I do next",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-thrave",
+      "relationship": "client",
+      "attribution": "Louisa Thrave, CEO, Media",
+      "full": "If you're deciding what next step to take to drive stronger business outcomes, and weighing up between a life coach, business coach, or an AI coach, choose mindmake. You'll get all three.",
+      "excerpt": "weighing up between a life coach, business coach, or an AI coach, choose mindmake. You'll get all three.",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-data-infra-cro",
+      "relationship": "outcome",
+      "attribution": "Chief Revenue Officer, data-infrastructure company",
+      "full": "We set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver.",
+      "excerpt": "an AI-native go-to-market system that made us rethink who we hire and what they do",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {
+        "C-11": "We set up an AI-native go-to-market system that made us rethink who we hire and what they do."
+      }
+    },
+    {
+      "id": "Q-martech-founder",
+      "relationship": "outcome",
+      "attribution": "Founder, adtech firm",
+      "full": "We had a brilliant product nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.",
+      "excerpt": "nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {
+        "C-08": "We had a brilliant product nobody could buy, because nobody could explain it."
+      }
+    },
+    {
+      "id": "Q-media-cro",
+      "relationship": "outcome",
+      "attribution": "Chief Revenue Officer, media company",
+      "full": "Krish knows how to add value immediately which continues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter.",
+      "excerpt": "Krish knows how to add value immediately which continues to compound",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {
+        "C-15": "He doesn't want to loiter."
+      }
+    },
+    {
+      "id": "Q-media-advisory-partner",
+      "relationship": "outcome",
+      "attribution": "Partner, media advisory",
+      "full": "We had expertise everyone respected but needed to add products around that. He turned the pitch into something sellable, which then evolved our pitch.",
+      "excerpt": "He turned the pitch into something sellable, which then evolved our pitch.",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {
+        "C-16": "He turned the pitch into something sellable, which then evolved our pitch."
+      }
+    },
+    {
+      "id": "Q-publisher-ops",
+      "relationship": "outcome",
+      "attribution": "Head of Operations, top-10 US digital publisher",
+      "full": "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability. Cheers to Krish for leading and landing.",
+      "excerpt": "our team took ownership and accountability",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {
+        "C-17": "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability."
+      }
+    },
+    {
+      "id": "Q-coaching-founder",
+      "relationship": "outcome",
+      "attribution": "Founder and CEO, executive coaching practice",
+      "full": "The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need.",
+      "excerpt": "Krish thinks about me and the results I need.",
+      "featuredExcerpt": "Krish thinks about me and the results I need.",
+      "useCaseExcerpts": {
+        "C-02": "He uses his incredible knowledge of AI and tech to help me with really human problems."
+      }
+    },
+    {
+      "id": "Q-broadcast-president",
+      "relationship": "outcome",
+      "attribution": "President, legacy broadcast business",
+      "full": "It's been a good journey to bring Krish problems that match our business goals and leadership needs, and watch them come together in a very thoughtful program.",
+      "excerpt": "watch them come together in a very thoughtful program",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-wellness-founder",
+      "relationship": "outcome",
+      "attribution": "Founder, research and content brand",
+      "full": "Since working with Krish I've learnt to push through basic barriers I didn't realise I could, and he set up systems that make me more effective and more motivated. I used to post once a month; now it's most days because I focus on building an AI engine around what I do and what I get bottlenecked by. It's helping me be seen by my customers.",
+      "excerpt": "I used to post once a month; now it's most days because I focus on building an AI engine",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {
+        "C-01": "It's helping me be seen by my customers."
+      }
+    },
+    {
+      "id": "Q-services-ceo",
+      "relationship": "outcome",
+      "attribution": "CEO, mid-market services",
+      "full": "I went into a board conversation on AI the week after our session and for the first time I wasn't guessing. I had the questions, I knew what to push on, and I didn't get cornered.",
+      "excerpt": "for the first time I wasn't guessing",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-b2b-coo",
+      "relationship": "outcome",
+      "attribution": "Chief Operating Officer, B2B technology",
+      "full": "I expected another AI discussion. It wasn't. We killed a vendor proposal in about a day because the assumptions were weak and I didn't realize they were. ChatGPT outputs were just not deep enough.",
+      "excerpt": "We killed a vendor proposal in about a day because the assumptions were weak and I didn't realize they were.",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-fintech-founder",
+      "relationship": "outcome",
+      "attribution": "Founder, early-stage creator business",
+      "full": "I'd been going in circles for six months. Do we build our own AI brain or use a vendor? Krish didn't hand me a recommendation. He gave me the framework and support to decide for myself.",
+      "excerpt": "He gave me the framework and support to decide for myself.",
+      "featuredExcerpt": "He gave me the framework and support to decide for myself.",
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-saas-gtm",
+      "relationship": "outcome",
+      "attribution": "Go-to-market lead, Series C software company",
+      "full": "Before the session I was fielding questions about our AI strategy and honestly making it up as I went. Krish helped me get clearer on how I can form my narrative properly. Now when the board asks, I have real answers.",
+      "excerpt": "Now when the board asks, I have real answers.",
+      "featuredExcerpt": "Now when the board asks, I have real answers.",
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-ops-vp",
+      "relationship": "outcome",
+      "attribution": "VP of Operations",
+      "full": "Everyone on the team was experimenting with AI: ChatGPT for this, Claude for that, some random automation tool from LinkedIn. It was chaos. The cohort forced us to decide what's actually strategic and what's just noise.",
+      "excerpt": "forced us to decide what's actually strategic and what's just noise",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-scaleup-ops",
+      "relationship": "outcome",
+      "attribution": "Head of Operations, scale-up",
+      "full": "I actually built two workflows in the session that I now use every day. Not experiments, real systems that made my week calmer almost immediately.",
+      "excerpt": "I actually built two workflows in the session that I now use every day.",
+      "featuredExcerpt": "I actually built two workflows in the session that I now use every day.",
+      "useCaseExcerpts": {
+        "C-09": "I actually built two workflows in the session that I now use every day."
+      }
+    },
+    {
+      "id": "Q-hui",
+      "relationship": "session",
+      "attribution": "Martin S. Hui, General Counsel and Tech Ops Leader",
+      "full": "I've done a lot of AI learning and you're the best communicator by far.",
+      "excerpt": "you're the best communicator by far",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-mazza",
+      "relationship": "session",
+      "attribution": "Mary Carol Mazza, PhD, AI and Behavioural Scientist",
+      "full": "Love your compassionate approach to AI...",
+      "excerpt": "Love your compassionate approach to AI",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-ellsworth",
+      "relationship": "session",
+      "attribution": "Shveta Ellsworth, Session attendee",
+      "full": "One of the most clearly structured sessions on building with AI today! Thank you!",
+      "excerpt": "One of the most clearly structured sessions on building with AI today",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-magee",
+      "relationship": "session",
+      "attribution": "Travis Magee, Session attendee",
+      "full": "Hands down one of the most helpful sessions... focus on mindset adjustment and what you can control with examples.",
+      "excerpt": "Hands down one of the most helpful sessions",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-yazdani",
+      "relationship": "session",
+      "attribution": "Arash Yazdani, Session attendee",
+      "full": "A great wake-up call that there is much work to be done before experimenting with open-source agent swarms",
+      "excerpt": "A great wake-up call that there is much work to be done",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-pelillo",
+      "relationship": "reference",
+      "attribution": "Vincent Pelillo, Regional Managing Director, Channel Factory",
+      "full": "I had the pleasure of guiding and working with Krish during his time as Managing Director at Captify in Australia. Krish demonstrated outstanding leadership, consistently driving results while fostering a collaborative and motivating environment in a challenging market. His strategic vision and ability to navigate complex challenges helped our teams achieve remarkable success. Krish excels at building strong solutions and is highly respected by his peers and management. I would re hire Krish 100% if i had the opportunity to.",
+      "excerpt": "Krish demonstrated outstanding leadership, consistently driving results",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-young",
+      "relationship": "reference",
+      "attribution": "Lizzie Young, Chief Executive, Commercial Radio and Audio",
+      "full": "Krish is a respected senior leader with deep subject matter expertise in the digital media and data domains. He has experience in different environments ranging from corporate to start up and has built teams from the ground up displaying his entrepreneurial approach while being equally comfortable playing that role in more traditional organisations as well. The other wonderful attribute Krish brings is his very human approach - a great communicator of complexity and a warm nature that brings people together.",
+      "excerpt": "a great communicator of complexity and a warm nature that brings people together",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-leung-kam",
+      "relationship": "reference",
+      "attribution": "Marie-Anne Leung Kam, Director, 2 Square Talent",
+      "full": "I've had the pleasure of knowing Krish for most of his career way back to when he started in digital advertising at Microsoft Advertising in London. Krish is an outstanding leader with a clear vision, a collaborative approach, results driven and has a knack for driving innovation. He's a true professional at the forefront of the digital tech industry, and I couldn't recommend him more highly.",
+      "excerpt": "an outstanding leader with a clear vision, a collaborative approach",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-paine",
+      "relationship": "reference",
+      "attribution": "Matt Paine, Managing Partner, Lamington Digital",
+      "full": "Krish was the conduit between our front line sales team and our data science product team - having come from the sales side he was adept at understanding our needs and what outcome would be best suited to the end client. His in depth knowledge of our back end systems enabled him to articulate complex scenarios in simple and easy to grasp language that helped our clients better understand how we could help them to move the conversation forward.",
+      "excerpt": "articulate complex scenarios in simple and easy to grasp language",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-spencer",
+      "relationship": "reference",
+      "attribution": "Chris Spencer, Lead Account Executive, Enterprise, Culture Amp",
+      "full": "Krish is first and foremost an industry expert when it comes to all things Programmatic, Performance & Audience. His wealth of experience allows him to turn this knowledge into actionable plans to take to market, and even more importantly deliver a crafted solution for clients. Working closely with Krish on numerous projects at Nine, I found him to be a brilliant presenter, who is able to clearly articulate both internally and in market, the dynamic space that he operates in.",
+      "excerpt": "turn this knowledge into actionable plans to take to market",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-hudson",
+      "relationship": "reference",
+      "attribution": "Rob Hudson, National Sales Director, Media, REA Group",
+      "full": "Krish has a unique ability of making the world of programmatic & data products accessible to all in the room- not just the 'digital' people. A strong presenter; Krish's enthusiasm for what he does is immediately apparent to all he meets, with a genuine passion for helping clients solve problems facing their business with the help of data. Above all else, he's a great guy- very personable and approachable.",
+      "excerpt": "making the world of programmatic & data products accessible to all in the room",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-ricciardone",
+      "relationship": "reference",
+      "attribution": "Michael Ricciardone, Country Manager, ANZ, MoEngage",
+      "full": "Articulate, engaging & entertaining. Krish explores all the barriers advertisers & marketers experience with data & technology, breaks them all down with relevant examples & stories and presents clear solutions. Full of support, Krish is always keen to educate & assist his peers.",
+      "excerpt": "Articulate, engaging & entertaining.",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-heffernan",
+      "relationship": "reference",
+      "attribution": "Melinda Heffernan, Ad Channel Partnerships Director, Asia-Pacific, Taboola",
+      "full": "Working with Krish was a great experience. In my early career I learnt a lot about sales and how to find solutions for clients from him. He is able to explain complex technical set ups and is a true problem solver. Not to mention he is really fun to work with!",
+      "excerpt": "He is able to explain complex technical set ups and is a true problem solver.",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-kinchin",
+      "relationship": "reference",
+      "attribution": "Joseph Kinchin, Business Development Director, ROAS media",
+      "full": "Krish has proven himself a leading thinker in the ever evolving Programmatic and Data industry. His deep understand of both data and tech allows him concisely articulating the problems and solutions that are relevant for the present and in the future. In both roles where Krish has serviced us he has driven positive advertising outcomes through tangible advancements.",
+      "excerpt": "a leading thinker in the ever evolving Programmatic and Data industry",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    },
+    {
+      "id": "Q-wales-brown",
+      "relationship": "reference",
+      "attribution": "Ashley Wales-Brown, Digital Commerce Director, Mars United Commerce",
+      "full": "Krish and I worked together whilst at Nine and it was a great partnership. Intelligent, hardworking plus a deep understanding of data and tech. A solid team member, respected by all those he worked with, could be relied on for a straight answer plus a willingness to get his hands dirty to solve issues whilst maintaining a great sense of humour.",
+      "excerpt": "could be relied on for a straight answer plus a willingness to get his hands dirty",
+      "featuredExcerpt": null,
+      "useCaseExcerpts": {}
+    }
+  ]
+}

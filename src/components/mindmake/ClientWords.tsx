@@ -13,6 +13,14 @@ import { getUseCase, useCaseForQuote } from "@/data/useCases";
  * moving through them never changes the section's size. `#q-<id>` brings that
  * quote to the front. The five featured quotes lead, in their order, then the
  * rest as the record holds them (Krish, 2026-11-15).
+ *
+ * On a phone a card shows its first four lines, who said it and "Read more"
+ * (Krish, 2026-11-16: "These cards now take up way too much space on a mobile
+ * screen. They should be expandable and not leave any blank space"). The row
+ * is then the tallest folded card, a few lines rather than the longest quote,
+ * and "Read more" opens that one card in place with its result. Moving to
+ * another quote folds it again, so a swipe still never changes the size.
+ * Without script every quote is whole.
  */
 const QUOTES = [...featuredQuotes, ...publicClientQuotes.filter((voice) => !voice.featured)].map((voice) => {
   const useCase = useCaseForQuote(voice.id);
@@ -26,9 +34,36 @@ export function ClientWords({ children }: { children?: ReactNode }) {
      only once the carousel runs are the ones behind the front set aside. */
   const [live, setLive] = useState(false);
   useEffect(() => setLive(true), []);
+  const [opened, setOpened] = useState<string | null>(null);
+  /* Which quotes say more than their folded card shows, measured where the
+     fold applies (a phone); elsewhere none, and the toggle stays out. */
+  const [more, setMore] = useState<ReadonlySet<string>>(new Set());
   const trackRef = useRef<HTMLDivElement>(null);
   const count = QUOTES.length;
   const go = useCallback((index: number) => setAt(Math.max(0, Math.min(count - 1, index))), [count]);
+  /* Moving on folds the card that was open, so the row keeps its height. */
+  useEffect(() => setOpened(null), [at]);
+
+  const measure = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const next = new Set<string>();
+    for (const figure of track.querySelectorAll<HTMLElement>(".uc-quote")) {
+      if (figure.classList.contains("is-open")) { if (figure.dataset.more === "true") next.add(figure.dataset.quote!); continue; }
+      const text = figure.querySelector<HTMLElement>("blockquote p");
+      const folded = !!text && getComputedStyle(text).webkitLineClamp !== "none" && text.scrollHeight > text.clientHeight + 1;
+      if (folded || (figure.dataset.result === "true" && getComputedStyle(figure).getPropertyValue("--uc-q-fold").trim() === "1")) next.add(figure.dataset.quote!);
+    }
+    setMore((was) => (was.size === next.size && [...next].every((id) => was.has(id)) ? was : next));
+  }, []);
+  useEffect(() => {
+    if (!live) return;
+    measure();
+    addEventListener("resize", measure, { passive: true });
+    let alive = true;
+    void document.fonts?.ready.then(() => { if (alive) measure(); });
+    return () => { alive = false; removeEventListener("resize", measure); };
+  }, [live, measure]);
 
   /* An address that names a quote brings it to the front. */
   useEffect(() => {
@@ -68,7 +103,7 @@ export function ClientWords({ children }: { children?: ReactNode }) {
   };
 
   return (
-    <section className="mm-block uc-words" aria-labelledby="words-title">
+    <section className={`mm-block uc-words${live ? " is-live" : ""}`} aria-labelledby="words-title">
       <div className="mm-container">
         <div className="uc-quotes" role="region" aria-roledescription="carousel" aria-labelledby="words-title" onKeyDown={onKey} style={{ ["--at" as string]: at }}>
           <div className="uc-quotes-head">
@@ -82,24 +117,37 @@ export function ClientWords({ children }: { children?: ReactNode }) {
           <div className="uc-quotes-track" ref={trackRef}>
             {QUOTES.map(({ voice, useCase, result }, index) => {
               const front = !live || index === at;
+              const isOpen = opened === voice.id;
+              const hasMore = more.has(voice.id);
+              const textId = `q-${voice.id}-text`;
               return (
                 <figure
                   key={voice.id}
                   id={`q-${voice.id}`}
-                  className={`uc-quote${live && index === at ? " is-front" : ""}`}
+                  className={`uc-quote${live && index === at ? " is-front" : ""}${isOpen ? " is-open" : ""}`}
+                  data-quote={voice.id}
+                  data-result={result && live ? "true" : undefined}
+                  data-more={hasMore ? "true" : undefined}
                   aria-roledescription="slide"
                   aria-label={`${index + 1} of ${count}`}
                   aria-hidden={front ? undefined : true}
                   {...(front ? {} : { inert: "" })}
                 >
-                  <blockquote><p>“{tieLast(voice.full)}”</p></blockquote>
+                  <blockquote><p id={textId}>“{tieLast(voice.full)}”</p></blockquote>
                   <figcaption>{voice.name ? <cite>{voice.name}</cite> : null}<span>{tieLast(voice.role)}</span></figcaption>
-                  {useCase ? (
+                  {useCase || hasMore ? (
                     <div className="uc-quote-foot">
                       {/* The result is on its card for a page without script, so
                           it joins the quote once the carousel runs. */}
                       {result && live ? <p className="uc-quote-result">{tieLast(result.headline)}</p> : null}
-                      <a className="uc-quote-link" href={`#${useCase.toLowerCase()}`}>Read their story <span aria-hidden="true">→</span></a>
+                      <div className="uc-quote-acts">
+                        {hasMore ? (
+                          <button type="button" className="uc-quote-more" aria-expanded={isOpen} aria-controls={textId} onClick={() => setOpened(isOpen ? null : voice.id)}>
+                            {isOpen ? "Show less" : "Read more"}
+                          </button>
+                        ) : null}
+                        {useCase ? <a className="uc-quote-link" href={`#${useCase.toLowerCase()}`}>Read their story <span aria-hidden="true">→</span></a> : null}
+                      </div>
                     </div>
                   ) : null}
                 </figure>

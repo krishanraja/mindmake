@@ -196,10 +196,10 @@
 .mm-locked-brain .pair-panel, .mm-locked-brain .pair-panel:first-child, .mm-locked-brain .pair-panel:last-child { padding: clamp(2.5rem, 7vh, 5rem) max(4vw, calc((100vw - 1600px) / 2)) clamp(3.5rem, 10vh, 7rem); }
 .mm-locked-brain .pair-panel.memory { grid-template-areas: "plate" "lede" "stage"; padding-top: 0; gap: 0; background: #11291f; }
 .mm-locked-brain .pair-panel.memory > .chapter-copy { display: contents; }
-.mm-locked-brain .s8-plate-media { position: relative; overflow: hidden; }
-.mm-locked-brain .s8-plate-media img { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.6) saturate(.92); }
+.mm-locked-brain .s8-plate-media { position: relative; overflow: hidden; align-self: stretch; }
+.mm-locked-brain .s8-plate-media img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.6) saturate(.92); }
 .mm-locked-brain .s8-plate-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 17, 14, 0) 22%, rgba(7, 17, 14, .9)); }
-.mm-locked-brain .pair-panel.memory > .s8-plate-media { grid-area: plate; height: clamp(260px, 44vh, 460px); margin-inline: calc(-1 * max(4vw, calc((100vw - 1600px) / 2))); }
+.mm-locked-brain .pair-panel.memory > .s8-plate-media { grid-area: plate; min-height: clamp(260px, 44vh, 460px); margin-inline: calc(-1 * max(4vw, calc((100vw - 1600px) / 2))); }
 .mm-site .mm-locked-brain .pair-panel.memory > .chapter-copy > h2 { grid-area: plate; z-index: 1; align-self: end; margin: 0 0 clamp(26px, 5vh, 52px); max-width: 16ch; color: #efe6d3; font-size: clamp(2.3rem, 5vw, 4.4rem); }
 .mm-locked-brain .pair-panel.memory > .chapter-copy > p { grid-area: lede; margin-top: clamp(1.6rem, 4vh, 2.6rem); color: rgba(239, 230, 211, .82); }
 .mm-site .mm-locked-brain .pair-panel.memory .brain-stage { grid-area: stage; margin-top: clamp(1.6rem, 4vh, 2.6rem); height: min(56vh, 520px); border: 0; background: none; box-shadow: none; }
@@ -233,7 +233,7 @@
 
 /* The month: on its picture, then four stops in a row. */
 .mm-site .mm-locked-brain .chapter.built { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "plate" "lede" "link" "stage"; align-items: start; gap: 0; height: auto; min-height: 0; padding: 0 max(4vw, calc((100vw - 1600px) / 2)) clamp(3.5rem, 10vh, 7rem); background: #0d1d17; color: #efe6d3; clip-path: none; }
-.mm-site .mm-locked-brain .chapter.built > .s8-plate-media { grid-area: plate; height: clamp(260px, 44vh, 460px); margin-inline: calc(-1 * max(4vw, calc((100vw - 1600px) / 2))); }
+.mm-site .mm-locked-brain .chapter.built > .s8-plate-media { grid-area: plate; min-height: clamp(260px, 44vh, 460px); margin-inline: calc(-1 * max(4vw, calc((100vw - 1600px) / 2))); }
 .mm-site .mm-locked-brain .chapter.built > .chapter-copy { display: contents; }
 .mm-site .mm-locked-brain .built .chapter-copy > h2 { grid-area: plate; z-index: 1; align-self: end; max-width: 16ch; margin: 0 0 clamp(26px, 5vh, 52px); color: #efe6d3; }
 .mm-site .mm-locked-brain .built .chapter-copy > p { grid-area: lede; max-width: 46rem; margin-top: clamp(1.6rem, 4vh, 2.6rem); }
@@ -254,7 +254,7 @@
   .mm-site .mm-locked-brain .decision-stack .leaf > .mm-icon, .mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 26px; height: 26px; }
   .mm-locked-brain .pair-panel, .mm-locked-brain .pair-panel:first-child, .mm-locked-brain .pair-panel:last-child { padding: 1.4rem var(--mm-logo-edge) 2.2rem; }
   .mm-locked-brain .pair-panel.memory { padding-top: 0; }
-  .mm-locked-brain .pair-panel.memory > .s8-plate-media, .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { height: 184px; margin-inline: calc(-1 * var(--mm-logo-edge)); }
+  .mm-locked-brain .pair-panel.memory > .s8-plate-media, .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { min-height: 184px; margin-inline: calc(-1 * var(--mm-logo-edge)); }
   .mm-site .mm-locked-brain :is(.pair-panel.memory, .built) .chapter-copy > h2 { margin-bottom: 18px; font-size: clamp(30px, 8.6vw, 38px); }
   .mm-locked-brain .pair-panel.memory > .chapter-copy > p, .mm-site .mm-locked-brain .built .chapter-copy > p { margin-top: 1.1rem; }
   .mm-site .mm-locked-brain .pair-panel.memory .brain-stage { height: 300px; min-height: 0; margin-top: 1.1rem; }
@@ -280,6 +280,26 @@
 @media (min-width: 961px) {
   .mm-plate { min-height: clamp(180px, 24vh, 300px); }
   .mm-locked-brain .pair-panel.memory > .s8-plate-media,
-  .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { height: clamp(180px, 24vh, 300px); }
+  .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { min-height: clamp(180px, 24vh, 300px); }
   .s8-body { padding-block: clamp(28px, 5vh, 64px) clamp(36px, 6vh, 80px); }
+}
+
+/* A heading on a picture never sits against the picture's top edge (Krish,
+   2026-11-16: "Header text should never be this close to the top of a
+   section border"). Each band keeps its height as a floor and grows to hold
+   its heading with clear air above it, so a two-line heading on a short
+   screen pushes the band taller instead of reaching its edge. */
+.mm-plate-head { padding-top: clamp(40px, 7vh, 72px); }
+.mm-site .mm-locked-brain :is(.pair-panel.memory, .built) .chapter-copy > h2 { margin-top: clamp(40px, 7vh, 72px); }
+@media (max-width: 760px) {
+  .mm-plate-head { padding-top: 36px; }
+  .mm-site .mm-locked-brain :is(.pair-panel.memory, .built) .chapter-copy > h2 { margin-top: 36px; }
+}
+/* On a desktop the clearance follows the screen's height, and the body under
+   the band starts a little sooner to pay for it, so every section still fits
+   one screen (qa:section-heights, 1280x800 and 1440x900). */
+@media (min-width: 961px) {
+  .mm-plate-head { padding-top: clamp(32px, 4.5vh, 56px); }
+  .mm-site .mm-locked-brain :is(.pair-panel.memory, .built) .chapter-copy > h2 { margin-top: clamp(32px, 4.5vh, 56px); }
+  .s8-body { padding-top: clamp(20px, 3vh, 48px); }
 }

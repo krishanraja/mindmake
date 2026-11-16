@@ -8,6 +8,7 @@ import { quoteById, quotePartFor } from "@/data/testimonials";
 import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { track } from "@/lib/analytics";
+import { indexUseCases, searchUseCases, SEARCH_PLACEHOLDERS as PROMPTS, SEARCH_SUGGESTIONS as SUGGESTIONS } from "@/lib/useCaseSearch";
 
 /**
  * What you can do with it: the eighteen use cases on /case-studies (owner
@@ -30,7 +31,44 @@ import { track } from "@/lib/analytics";
  *
  * Words come from the one record of each use case and quote, character for
  * character; the only change here is typesetting (two words held on a line).
+ *
+ * The search understands what the reader means (src/lib/useCaseSearch.ts):
+ * it ranks the use cases by intent, words and near spellings, best first, and
+ * when nothing matches it shows the closest instead of an empty page (Krish,
+ * 2026-11-16). Before the reader types, the box types a few things worth
+ * asking and more suggestions slide in under it; once they type, the same
+ * line says how the matches were found, so the box never changes size.
  */
+
+/** The empty box types a prompt, holds it, clears it and types the next. Still under reduced motion. */
+function useTypedPrompt(active: boolean) {
+  const [text, setText] = useState<string>(PROMPTS[0]);
+  useEffect(() => {
+    if (!active || matchMedia("(prefers-reduced-motion: reduce)").matches) { setText(PROMPTS[0]); return; }
+    let prompt = 0;
+    let shown = 0;
+    let typing = true;
+    let timer = 0;
+    setText("");
+    const tick = () => {
+      const target = PROMPTS[prompt];
+      if (typing) {
+        shown += 1;
+        setText(target.slice(0, shown));
+        if (shown >= target.length) { typing = false; timer = window.setTimeout(tick, 1700); return; }
+        timer = window.setTimeout(tick, 70);
+      } else {
+        shown -= 1;
+        setText(target.slice(0, Math.max(shown, 0)));
+        if (shown <= 0) { typing = true; prompt = (prompt + 1) % PROMPTS.length; timer = window.setTimeout(tick, 380); return; }
+        timer = window.setTimeout(tick, 32);
+      }
+    };
+    timer = window.setTimeout(tick, 500);
+    return () => window.clearTimeout(timer);
+  }, [active]);
+  return text;
+}
 
 const ROLE_LABEL: Record<Role, string> = {
   founder: "Founder",
@@ -80,17 +118,24 @@ const ENTRIES: readonly Entry[] = useCases.map((record) => {
   return { id: record.id, record, story, door: doorOf(record), words, haystack };
 });
 
+const SEARCH_INDEX = indexUseCases(ENTRIES.map((entry) => ({ id: entry.id, text: entry.haystack })));
+
 interface Narrowing { where: Where; role: Role | null; results: boolean; query: string }
 const NONE: Narrowing = { where: "all", role: null, results: false, query: "" };
 
 const fitsWhere = (entry: Entry, where: Where) =>
   where === "all" ? true : where === "brain" || where === "gtm" ? entry.door === where : SITUATIONS.find((s) => s.id === where)!.useCases.includes(entry.id);
-const fitsRest = (entry: Entry, { role, results, query }: Narrowing) => {
-  if (role && entry.record.role !== role) return false;
-  if (results && !entry.record.result) return false;
-  const words = fold(query).trim().split(" ").filter(Boolean);
-  return words.every((word) => entry.haystack.includes(word));
+const fitsFilters = (entry: Entry, { role, results }: Narrowing) => !(role && entry.record.role !== role) && !(results && !entry.record.result);
+/* The search's matches, best first, among the use cases the role and the
+   result filter allow; null when nothing is typed. */
+const searchFor = (narrow: Narrowing) => {
+  if (!fold(narrow.query).trim()) return null;
+  const allowed = new Set(ENTRIES.filter((entry) => fitsFilters(entry, narrow)).map((entry) => entry.id));
+  const found = searchUseCases(SEARCH_INDEX.filter((item) => allowed.has(item.id)), narrow.query);
+  return { closest: found.closest, rank: new Map(found.ranked.map((item, index) => [item.id, index])) };
 };
+const fitsRest = (entry: Entry, narrow: Narrowing, search: ReturnType<typeof searchFor>) =>
+  fitsFilters(entry, narrow) && (!search || search.rank.has(entry.id));
 
 const startHref = (door: Door) => `/?start=${door}`;
 const startLabel = (door: Door) => (door === "gtm" ? START_LABEL_GTM : START_LABEL);
@@ -129,8 +174,15 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
   const startRef = useRef(onStart);
   startRef.current = onStart;
 
-  const shown = useMemo(() => ENTRIES.filter((entry) => fitsWhere(entry, narrow.where) && fitsRest(entry, narrow)), [narrow]);
-  const counts = useMemo(() => new Map(WHERE.map((w) => [w.id, ENTRIES.filter((entry) => fitsWhere(entry, w.id) && fitsRest(entry, narrow)).length])), [narrow]);
+  const search = useMemo(() => searchFor(narrow), [narrow]);
+  const shown = useMemo(() => {
+    const fits = ENTRIES.filter((entry) => fitsWhere(entry, narrow.where) && fitsRest(entry, narrow, search));
+    return search ? fits.sort((a, b) => search.rank.get(a.id)! - search.rank.get(b.id)!) : fits;
+  }, [narrow, search]);
+  const counts = useMemo(() => new Map(WHERE.map((w) => [w.id, ENTRIES.filter((entry) => fitsWhere(entry, w.id) && fitsRest(entry, narrow, search)).length])), [narrow, search]);
+  const typing = narrow.query.trim().length > 0;
+  const prompt = useTypedPrompt(live && !narrow.query);
+  const ask = (text: string) => { change({ query: text }); track("board_item_click", { surface: "use_case_suggestion", story: text }); };
   const pages = Math.max(1, Math.ceil(shown.length / perPage));
   const at = Math.min(page, pages - 1);
   const onPage = new Set(shown.slice(at * perPage, at * perPage + perPage).map((entry) => entry.id));
@@ -299,8 +351,31 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
             <div className="uc-tools">
               <label className="uc-search">
                 <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.5" /><path d="m13 13 4.5 4.5" stroke="currentColor" strokeWidth="1.5" /></svg>
-                <input type="search" aria-label="Search the use cases" value={narrow.query} onChange={(event) => change({ query: event.target.value })} />
+                <span className="uc-search-field">
+                  <input type="search" aria-label="Search the use cases, in your own words" aria-describedby="uc-search-status" value={narrow.query} onChange={(event) => change({ query: event.target.value })} />
+                  {narrow.query ? null : <span className="uc-search-prompt" aria-hidden="true">{prompt}<span className="uc-caret" /></span>}
+                </span>
               </label>
+              {/* One line under the box, always the same height: suggestions
+                  sliding in while it is empty, then how the matches were found. */}
+              <div className="uc-suggest">
+                {typing ? (
+                  <p id="uc-search-status" className="uc-search-status" aria-live="polite">
+                    {nothing ? "Nothing here with these filters." : search?.closest ? "Nothing matches exactly. These are the closest." : `${shown.length} ${shown.length === 1 ? "match" : "matches"}, best first.`}
+                  </p>
+                ) : (
+                  <>
+                    <p id="uc-search-status" className="mm-visually-hidden">Type what you want to do, or pick a suggestion.</p>
+                    <ul className="uc-chips" aria-label="Suggestions">
+                      {SUGGESTIONS.map((text, index) => (
+                        <li key={text} style={{ ["--i" as string]: index }}>
+                          <button type="button" className="uc-chip" onClick={() => ask(text)}>{text}</button>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
               <button type="button" className="uc-toggle" aria-pressed={narrow.results} onClick={() => change({ results: !narrow.results })}>
                 <span className="uc-tick" aria-hidden="true" />Result on the record
               </button>
@@ -316,7 +391,7 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
                 {ENTRIES.map((entry) => {
                   const away = live && (!shown.includes(entry) || !onPage.has(entry.id));
                   return (
-                    <li key={entry.id} id={live ? undefined : anchorOf(entry.id)} className={`uc-card${away ? " is-away" : ""}`} data-uc={entry.id}>
+                    <li key={entry.id} id={live ? undefined : anchorOf(entry.id)} className={`uc-card${away ? " is-away" : ""}`} data-uc={entry.id} style={search && live ? { order: search.rank.get(entry.id) ?? ENTRIES.length } : undefined}>
                       <a href={`#${anchorOf(entry.id)}`} className="uc-card-link" tabIndex={away ? -1 : undefined}>
                         <span className="uc-card-plate" aria-hidden="true"><Plate src={entry.story.scene} sizes="(max-width: 899px) 90vw, 30vw" /></span>
                         <span className="uc-card-heading">{tieLast(entry.story.heading)}</span>

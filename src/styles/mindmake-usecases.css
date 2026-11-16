@@ -107,7 +107,7 @@
 }
 .mm-site .uc-select select:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 2px; }
 
-.uc-results { display: grid; align-content: start; gap: 14px; min-width: 0; }
+.uc-results { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 14px; min-width: 0; }
 .uc-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
 .uc-search {
   display: flex;
@@ -133,6 +133,74 @@
   outline: none;
 }
 .mm-site .uc-search input::-webkit-search-cancel-button { filter: invert(.8); }
+/* The empty box types what a reader might ask (Krish, 2026-11-16), over the
+   field and under the caret, in the field's own face, so it reads as the
+   placeholder it stands in for. */
+.uc-search-field { position: relative; display: flex; flex: 1; min-width: 0; }
+.uc-search-prompt {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--mm-tx2);
+  font: 400 17px / 1.2 var(--mm-serif);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.uc-caret { display: inline-block; width: 1px; height: 1.05em; margin-left: 2px; background: var(--mm-mint); }
+@media (prefers-reduced-motion: no-preference) {
+  .uc-caret { animation: uc-caret 1s steps(1) infinite; }
+}
+@keyframes uc-caret { 50% { opacity: 0; } }
+.uc-search:focus-within .uc-search-prompt { color: var(--mm-mut); }
+
+/* One line under the box, the same height whatever it holds: suggestions
+   while the box is empty, sliding in from the left one after another, then
+   how the matches were found. */
+.uc-suggest { flex: 1 1 100%; display: flex; align-items: center; min-width: 0; min-height: 40px; overflow: hidden; }
+/* On a desktop the search, the result filter and the pager keep their one
+   row and the suggestions take the line under it; on a phone they sit
+   straight under the box they fill. */
+@media (min-width: 900px) {
+  .uc-suggest { order: 1; }
+}
+.uc-chips {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+}
+.uc-chips::-webkit-scrollbar { display: none; }
+.uc-chips > li { flex: none; }
+.mm-site .uc-chip {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--mm-seam);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mm-tx);
+  font: 400 15px / 1 var(--mm-serif);
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+.mm-site .uc-chip:hover { border-color: var(--mm-mint); color: var(--mm-mint); }
+.mm-site .uc-chip:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .uc-chips > li { animation: uc-chip-in .5s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(240ms + var(--i, 0) * 90ms); }
+}
+@keyframes uc-chip-in { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+.uc-search-status { margin: 0; color: var(--mm-tx2); font: 400 13px / 1.3 var(--mm-mono); letter-spacing: .04em; }
 
 .mm-site .uc-toggle {
   display: inline-flex;
@@ -523,8 +591,34 @@
 }
 .mm-site .uc-quote-link:hover { text-decoration-color: var(--mm-tx); }
 
+.uc-quote-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+.mm-site .uc-quote-more {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mm-mint);
+  font: 500 15px / 1.4 var(--mm-grotesque);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-site .uc-quote-more:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
+
 @media (max-width: 699px) {
   .uc-quotes { --uc-q-w: 86cqi; --uc-q-gap: 12px; }
+  /* Folded on a phone (Krish, 2026-11-16): four lines, who said it, and Read
+     more. The row is the tallest folded card, so no card carries a screen of
+     empty space, and an open card grows on its own. */
+  .uc-words.is-live .uc-quote { --uc-q-fold: 1; gap: 12px; padding: 20px; }
+  .uc-words.is-live .uc-quote blockquote p { font-size: 18px; line-height: 1.42; }
+  .uc-words.is-live .uc-quote:not(.is-open) blockquote p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+  .uc-words.is-live .uc-quote:not(.is-open) .uc-quote-result { display: none; }
+  .uc-words.is-live .uc-quote-foot { margin-top: 0; gap: 6px; }
 }
 
 @media (scripting: none) {

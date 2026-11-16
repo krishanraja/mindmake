@@ -34,6 +34,41 @@ copyright and the legal pair over an 88px band of silk. Each footer sits on its
 page's masthead edge (4.4vw on the homepage, the shell's edge elsewhere), which
 `qa:logo-alignment` now measures on the new footer.
 
+## Phone review of 16 November 2026
+
+Krish sent five phone screenshots the same day as the footer change. What
+changed, in his words first:
+
+- "The cards on the home page are nowhere near the most impressive three
+  cards." The homepage's three results are now the strongest on the record,
+  ranked by scale and by fit with the North Star's media, adtech and data
+  leaders: C-18 (a broadcaster stopped eleven of fourteen AI tools and kept its
+  budget), C-15 (two quarters of build-or-partner argument settled in a day)
+  and C-17 (a top-10 US publisher's fourteen suppliers made three decisions,
+  in its head of operations' words). They were C-01, C-02 and C-11.
+- "The content in this screenshot is so cramped." On a phone the opening's
+  publication line sat 6px above the first sheet's edge (the sheet laps the
+  opening by 22px). It now sits 40px clear, and a little further from the way
+  in. The line stays.
+- "Header text should never be this close to the top of a section border."
+  A heading on a picture band (`.mm-plate` pages and /ai-brain's memory and
+  month bands) now always has clear air above it: the band keeps its height
+  as a floor and grows to hold its heading, and on a desktop the body under it
+  starts a little sooner, so every section still fits one screen.
+- "These cards now take up way too much space on a mobile screen. They should
+  be expandable and not leave any blank space." On a phone each client quote
+  on /case-studies shows four lines, who said it and Read more; the row is the
+  tallest folded card, so a swipe still never changes its size, and Read more
+  opens that one card with its result.
+- "There should be some preview text that animates in ... and a few more
+  suggestions should animate in from the left of that search bar ... All
+  searches should not just keyword match." The empty search box types "Scale
+  my business", "Unlock my ideas" and "Get my team in step"; five suggestions
+  slide in from the left under it. Search runs in the browser
+  (`src/lib/useCaseSearch.ts`): intent, words and near spellings rank the use
+  cases best first, and a search that matches nothing shows the closest three,
+  saying so. The line under the box holds its height whatever it shows.
+
 ## S9: a more alive site (10 November 2026), then its repair
 
 S9 (ledger `S9-ALIVE-001`) shipped a liquid Brain, a floating way in, sections

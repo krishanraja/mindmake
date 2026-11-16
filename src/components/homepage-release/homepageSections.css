@@ -764,6 +764,16 @@
   }
 }
 
+/* The foot of the opening on a phone clears the first sheet by a full breath
+   (Krish, 2026-11-16: "The content in this screenshot is so cramped"). The
+   sheet laps 22px over the opening, whose own padding was 28px, so the
+   publication line sat 6px from the sheet's edge. It now sits a lap and 40px
+   above it, and stands a little further from the way in. */
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-opening .preview-mobile .hero-copy { padding-bottom: calc(22px + 40px); }
+  .mm-homepage-release .r3-opening .hs-issue { margin-top: 22px; }
+}
+
 /* The chief of staff section (Krish, 2026-11-04, mock approved): one picture,
    one flow of three steps with their icons, all top-aligned, and the caption
    of what the AI carries and what you keep. */

@@ -56,20 +56,25 @@ const ERAS = [
 
 
 /**
- * Three results on the record, each read from its use case's one record
- * (src/data/useCases.ts) on that use case's own picture: two told by the use
- * case's heading and outcome, the third in the client's words with the
- * result's headline.
+ * The three strongest results on the record (Krish, 2026-11-16: "make sure
+ * that the three cards on the home page are easily the most impressive use
+ * cases that we have"), ranked by scale and by fit with the leaders the North
+ * Star names, in media, adtech and data: a broadcaster that stopped eleven of
+ * fourteen AI tools and kept its budget (C-18), two quarters of argument
+ * settled in a day with a partner signed the next month (C-15), and a top-10
+ * US publisher's fourteen suppliers made into three decisions, in its head of
+ * operations' words (C-17). Each is read from its use case's one record
+ * (src/data/useCases.ts) on that use case's own picture.
  */
 const PROOF = [
-  { record: "own-system", scene: getUseCase("C-01").picture, story: getUseCase("C-01").heading, outcome: getUseCase("C-01").outcome },
-  { record: "hand-back", scene: getUseCase("C-02").picture, story: getUseCase("C-02").heading, outcome: getUseCase("C-02").outcome },
+  { record: "business-first", scene: getUseCase("C-18").picture, story: getUseCase("C-18").heading, outcome: getUseCase("C-18").outcome },
+  { record: "day-one", scene: getUseCase("C-15").picture, story: getUseCase("C-15").heading, outcome: getUseCase("C-15").outcome },
   {
-    record: "market-moves",
-    scene: getUseCase("C-11").picture,
-    quote: quotePartFor("data-infra-cro", "C-11"),
-    outcome: getUseCase("C-11").result!.headline,
-    who: quoteById("data-infra-cro").role,
+    record: "team-decides",
+    scene: getUseCase("C-17").picture,
+    quote: quotePartFor("publisher-ops", "C-17"),
+    outcome: getUseCase("C-17").result!.headline,
+    who: quoteById("publisher-ops").role,
   },
 ] as const;
 

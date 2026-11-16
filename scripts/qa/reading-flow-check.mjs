@@ -65,13 +65,21 @@ async function checkDeck(page, context, where, deck, touch) {
   }, deck.root);
   if (state.missing || !state.live) { fail(where, "the swipe deck is not running"); return; }
   await page.waitForTimeout(500);
-  /* The deck's own height, read exactly. offsetHeight rounds to whole pixels
-     and which way it rounds follows where the deck sits on the page, so a
-     fraction of a pixel of movement above it read as a 1px change: on
-     16 November 2026 /ai-gtm's deck measured 496, 495, 495 by offsetHeight
-     and 495.78 every time by its box. A real change of a pixel still shows. */
+  /* The deck's own laid-out height, read exactly. offsetHeight rounds to
+     whole pixels and which way it rounds follows where the deck sits on the
+     page, so a fraction of a pixel of movement above it read as a 1px change:
+     on 16 November 2026 /ai-gtm's deck measured 496, 495, 495 by offsetHeight
+     and 495.78 every time by its layout. The box from getBoundingClientRect
+     is no better: it carries the settle that eases a section back as it
+     leaves (src/lib/sectionSettle.ts), so it changes with the scroll. The
+     used height from the computed style carries neither. A real change of a
+     pixel still shows. */
   const heights = await page.evaluate(async ({ root, tabs, doors }) => {
-    const size = () => Math.round(document.querySelector(root).getBoundingClientRect().height * 64) / 64;
+    const size = () => {
+      const style = getComputedStyle(document.querySelector(root));
+      const edges = style.boxSizing === "border-box" ? 0 : ["paddingTop", "paddingBottom", "borderTopWidth", "borderBottomWidth"].reduce((sum, key) => sum + parseFloat(style[key]), 0);
+      return Math.round((parseFloat(style.height) + edges) * 64) / 64;
+    };
     const out = [size()];
     const frame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     for (const door of doors ? [...document.querySelectorAll(doors)] : [null]) {

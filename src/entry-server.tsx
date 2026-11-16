@@ -30,6 +30,8 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Alumni from "./pages/Alumni";
 import DtdFeedback from "./pages/DtdFeedback";
+import Kits from "./pages/Kits";
+import KitDownload from "./pages/KitDownload";
 
 /**
  * The pages, rendered to HTML at build time.
@@ -62,6 +64,9 @@ function SiteRoutes() {
       <Route path="/ai-brain" element={<AiBrain />} />
       <Route path="/ai-gtm" element={<AiGtm />} />
       <Route path="/case-studies" element={<CaseStudies />} />
+      <Route path="/kits" element={<Kits />} />
+      <Route path="/kits/download" element={<KitDownload />} />
+      <Route path="/kits/:slug" element={<Kits />} />
       <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />

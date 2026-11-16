@@ -1,0 +1,21 @@
+
+> vite_react_shadcn_ts@0.0.0 test:kits
+> node --experimental-transform-types scripts/qa/kits-unit.mts
+
+(node:4760) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS download renewal authorises a paid receipt, rejects a refund and signs for seven days
+PASS production hides every sample; preview and local expose explicitly labelled fixtures
+PASS production deployment cannot enable fixtures with a preview flag
+PASS checkout creates one fixed-price payment with a retry-stable idempotency key
+PASS live or absent keys fail before calling Stripe
+PASS sample and unknown slugs cannot be bought
+PASS wrong currency, amount, recurring, inactive or live prices fail closed
+PASS missing or forged webhook signatures never record or send
+PASS verified raw body is passed unchanged and duplicates do not duplicate the purchase or email
+PASS a failed email retries the persisted payload without issuing another signed URL
+PASS refund marks the purchase refunded and duplicate events remain idempotent
+PASS out-of-order refund prevents later fulfilment
+PASS live, unpaid and altered-amount events cannot fulfil
+PASS receipt capability rejects tampering and cannot use a session ID as authorisation
+{"cases":14,"failures":0,"providers":"mocked","sends":0}

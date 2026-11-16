@@ -2,9 +2,13 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { kitsPreview } from "./scripts/lib/kits-build.mjs";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  define: {
+    __KITS_PREVIEW__: JSON.stringify(kitsPreview(process.env, mode)),
+  },
   server: {
     allowedHosts: [".vercel.run"],
     host: "::",

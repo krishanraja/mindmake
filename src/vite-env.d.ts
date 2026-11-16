@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+declare const __KITS_PREVIEW__: boolean;
 
 interface ImportMetaEnv {
   readonly VITE_SUPABASE_PROJECT_ID?: string;

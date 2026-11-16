@@ -1,8 +1,8 @@
 # Approved website state
 
 Status: approved-r3-live
-Working-copy status: matches main and production
-Updated: 10 November 2026.
+Working-copy status: unapproved kits candidate on codex/kits-page; not deployed
+Updated: 16 November 2026.
 
 The latest application release is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
@@ -11,6 +11,34 @@ identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## Kits candidate, 16 November 2026
+
+`codex/kits-page` adds `/kits`, catalogue-driven `/kits/:slug` and the private
+receipt route `/kits/download` as an unapproved local candidate. It is not live.
+The explicit [kits rulings](../rulings/2026-11-16-kits.md) govern this surface;
+the homepage and paid proof retain their existing commercial and design rules.
+Three invented examples are preview/local only. No kit is ready for sale.
+
+The selected route uses the supplied words and reference structure, warm paper,
+the existing shell, Newsreader claims, Archivo body and Mono labels. The brief
+authorises implementation before rendered approval; publication remains blocked.
+One factual copy correction: the privacy FAQ distinguishes no files sent to
+Mindmake from content processed by Claude. Local installation does not establish
+that Claude inference or shared file content stays entirely on the computer.
+
+Readiness: source implementation and mocked commerce checks exist. The full
+build stopped at `spawn EPERM` in esbuild; no built candidate or screenshots
+exist. The material firewall correctly reports `ready: false`. Do not present
+a raw runtime or these source files as the rendered candidate. The new manifest
+is `quality/website-redesign/kits-material-review-candidate.json`; the old
+homepage manifest is preserved. `quality/kits/verification.json` records the
+executed gates and remaining evidence, and the deployment runbook owns the
+test and launch steps. Independent specialist receipts and physical-device
+evidence are not available. No approval is inferred from source checks.
+Commit is also blocked: staging the full change cannot create the linked
+worktree's `index.lock`. The earlier partial stage is not the complete change;
+stage all intended files again when write access is restored. No commit exists.
 
 ## S9: a more alive site (10 November 2026), then its repair
 

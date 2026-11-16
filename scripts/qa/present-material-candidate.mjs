@@ -5,6 +5,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { sha256, stableJson, validateMaterialReviewCandidate } from "./material-review-firewall-lib.mjs";
+import { startServer } from "./serve-dist.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const manifestPath = process.argv[2];
@@ -62,7 +63,14 @@ console.log(JSON.stringify({
   url,
 }, null, 2));
 
-const vite = path.resolve(root, "node_modules/vite/bin/vite.js");
-const child = spawn(process.execPath, [vite, "--host", "127.0.0.1", "--port", String(port), "--strictPort"], { cwd: root, stdio: "inherit" });
-for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, () => child.kill(signal));
-child.on("exit", (code) => { process.exitCode = code ?? 0; });
+if (result.manifest.artifact.root === "dist") {
+  // Serve the exact built bytes named by the receipts, never a fresh Vite transform.
+  const server = await startServer(port);
+  if (server.address().port !== port) { server.close(); throw new Error("Review port changed; rerun the presentation command"); }
+  for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, () => server.close());
+} else {
+  const vite = path.resolve(root, "node_modules/vite/bin/vite.js");
+  const child = spawn(process.execPath, [vite, "--host", "127.0.0.1", "--port", String(port), "--strictPort"], { cwd: root, stdio: "inherit", windowsHide: true });
+  for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, () => child.kill(signal));
+  child.on("exit", (code) => { process.exitCode = code ?? 0; });
+}

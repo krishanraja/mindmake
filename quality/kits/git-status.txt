@@ -1,0 +1,48 @@
+ M .env.example
+ M NOW.md
+ M index.html
+ M package.json
+ M project-documentation/01_CANON.md
+ M project-documentation/07_DEPLOY_RUNBOOK.md
+ M project-documentation/website-redesign/STATE.md
+ M quality/route-lock/approved-production.lock.json
+A  scripts/lib/kits-build.d.mts
+A  scripts/lib/kits-build.mjs
+M  scripts/lib/pages.mjs
+M  scripts/prerender.mjs
+ M scripts/qa/award-panel-self-test.mjs
+ M scripts/qa/present-material-candidate.mjs
+M  src/App.tsx
+A  src/content/kits.ts
+M  src/entry-server.tsx
+A  src/pages/KitDownload.tsx
+AM src/pages/Kits.tsx
+AM src/styles/kits.css
+M  src/vite-env.d.ts
+ M supabase/config.toml
+ M vercel.json
+M  vite.config.ts
+?? project-documentation/rulings/2026-11-16-kits.md
+?? quality/kits/feedback-check.txt
+?? quality/kits/lint.txt
+?? quality/kits/qa-contract.json
+?? quality/kits/quote-provenance.json
+?? quality/kits/route-lock.txt
+?? quality/kits/typecheck.txt
+?? quality/kits/unit-results.txt
+?? quality/kits/verification.json
+?? quality/website-redesign/kits-material-review-candidate.json
+?? scripts/build-kits-preview.mjs
+?? scripts/qa/kits-capture.mjs
+?? scripts/qa/kits-content-check.mjs
+?? scripts/qa/kits-production-check.mjs
+?? scripts/qa/kits-test-cases.ts
+?? scripts/qa/kits-unit.mts
+?? scripts/qa/kits-unit_test.ts
+?? src/test/kits.test.ts
+?? supabase/functions/_shared/kits/core.ts
+?? supabase/functions/_shared/kits/runtime.ts
+?? supabase/functions/kits-checkout/index.ts
+?? supabase/functions/kits-download/index.ts
+?? supabase/functions/kits-webhook/index.ts
+?? supabase/migrations/20261116110417_kits_commerce.sql

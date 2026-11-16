@@ -380,6 +380,8 @@ any of this.
 
 **Entirely private. No number appears anywhere public, ever.**
 
+Exception (Krish, 2026-11-16): "Kits show $59 publicly as a carve-out; the paid proof's price stays private."
+
 **Internal rate card.**
 
 | | 30-day proof | Three months (proof credited as month one) | Effective rate |

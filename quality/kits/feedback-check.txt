@@ -1,0 +1,48 @@
+
+> vite_react_shadcn_ts@0.0.0 qa:website-feedback
+> node scripts/qa/website-feedback-ledger-check.mjs
+
+{
+  "ledger": "project-documentation/website-redesign/feedback-ledger.json",
+  "items": 118,
+  "blocking": [
+    "LEAD-BRIEF-INTELLIGENCE-001",
+    "LEAD-BRIEF-DELIVERABLE-001",
+    "BRIEF-KEEP-001",
+    "BRIEF-CONSENT-001",
+    "S7-PICTURES-001",
+    "S7-LEVELUP-001",
+    "S7-ONESCREEN-001",
+    "S7-PLAIN-001",
+    "S7-UPRIGHT-001",
+    "S7-WRAP-001",
+    "S7-MOBILE-001",
+    "S7-ALIGN-001",
+    "S7-NEWS-001",
+    "S7-UPRIGHT-002",
+    "S7-LIBRARY-001",
+    "S7-EXPERTISE-001",
+    "S7-SPEED-001",
+    "S7-SCROLL-001",
+    "S7-SCROLL-002",
+    "S7-SCROLL-003",
+    "S8-CALM-001",
+    "S9-ALIVE-001",
+    "S9-AUDIT-001",
+    "S9-BRAIN-001",
+    "S9-POLISH-001",
+    "S9-DECK-001",
+    "S9-TOUR-001",
+    "S9-FAN-001",
+    "S9-FAN-002",
+    "S9-START-001",
+    "S9-NUDGE-001",
+    "S9-CHOOSER-001",
+    "S9-SHEETS-001",
+    "S9-GTM-GROUND-001",
+    "S9-STORY-FINTECH-001",
+    "USE-CASES-001",
+    "USE-CASES-DISCOVERY-001"
+  ],
+  "failures": []
+}

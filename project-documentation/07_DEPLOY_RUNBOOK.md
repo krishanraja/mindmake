@@ -115,3 +115,66 @@ regressions, check compatibility and redeploy the preserved full source closure
 with original JWT flags. Never drop tables or delete live lead/queue records.
 Holding cron, changing domains, credentials or access needs scoped authority and
 a recovery path. Verify the affected public flow again after recovery.
+
+## Kits test and launch sequence
+
+The 16 November 2026 kits candidate is source-only, test-only and unapproved.
+Verification is in `quality/kits/verification.json`; website-redesign/STATE.md
+owns its design state and links the material-review manifest.
+
+1. In a workspace where Node can spawn build tools and Chromium, use the required
+   Node 22 runtime and `npm ci`. Run `npm run qa:website-restart`, units, lint,
+   typecheck and `npm run build`. Set `MINDMAKE_QA_SCRATCH` to a permitted
+   temporary directory if needed. Run `npm run qa:kits:production` before
+   replacing dist with a preview build.
+2. Run `npm run build:kits-preview`, then `npm run qa:kits:capture`. Capture
+   requires the integrated prerendered sample page, freezes every dist file
+   in the manifest and records both routes at 375x812 and 1440x900. Finish
+   required site gates, readiness, continuity and independent specialist
+   receipts. Unit checks cannot substitute for these receipts.
+3. Issue the receipt with
+   `npm run qa:material-review -- quality/website-redesign/kits-material-review-candidate.json --issue quality/kits/presentation-receipt.json`.
+   Present only through
+   `npm run review:material -- quality/website-redesign/kits-material-review-candidate.json`.
+   A separately authorised protected Vercel preview must bind the same source
+   commit and built bytes; record deployment, URL and commit beside the receipt.
+   A different build needs new receipts. Krish approves the actual render.
+4. Build and accept a real `.mcpb` for each kit: install on Mac and Windows,
+   own-file task and sample-output checks, and no calls to Mindmake. Change
+   only accepted entries to `ready`. Layout samples cannot be purchased.
+5. With separate authority for the named test project, apply
+   `supabase/migrations/20261116110417_kits_commerce.sql`. Verify the three
+   tables, service-role-only RPC access, RLS, the private `kits` bucket and
+   absence of client policies exposing its objects. Upload versioned files
+   privately; deploy `kits-checkout`, `kits-webhook` and `kits-download` with
+   the JWT flags in `supabase/config.toml`.
+6. Create one test Stripe Product and active one-time Price per real kit,
+   5900 cents USD. Set `STRIPE_SECRET_KEY` to an `sk_test_` key,
+   `KITS_STRIPE_PRICES_JSON` to a slug-to-Price map and `KITS_FILES_JSON` to
+   a slug-to-private-object-path map. Register snapshot events
+   `checkout.session.completed` and `charge.refunded` at `kits-webhook`;
+   configure its `STRIPE_WEBHOOK_SECRET`. Live keys/events are rejected.
+7. Configure server-only `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, a separate
+   random `KITS_DOWNLOAD_SECRET` of at least 32 characters, `RESEND_API_KEY`,
+   `MINDMAKE_BRIEF_FROM`, `MINDMAKE_PUBLIC_URL` and exact
+   `MINDMAKE_ALLOWED_ORIGINS`. The frontend uses the existing
+   `VITE_SUPABASE_URL` and publishable key. Set `KITS_EMAIL_ENABLED=true` only
+   for an approved test send. No service secret belongs in Vite variables.
+8. Prove test checkout, an authorised receipt, private download, renewal,
+   duplicate and out-of-order events, retry and an operator's Stripe refund.
+   Read back purchase/event rows and the actual designated inbox. Refunds
+   block new signed URLs; existing URLs remain usable for their seven-day
+   lifetime. No self-serve refund endpoint exists. Reconcile any uncertain
+   email older than 23 hours against Resend before retrying: the handler stops
+   before the provider's 24-hour idempotency window ends.
+9. Going live requires a separately approved code change replacing the hard
+   test-only guard with explicit production-mode validation, live Stripe
+   Products/Prices and webhook registration, production migration/functions,
+   private uploads and variables, real-kit acceptance, current render receipts
+   and Krish's yes to publish. A live key alone will not enable sales. Keep
+   `KITS_PREVIEW_BUILD` unset and Vercel's environment `production`; read back
+   live HTML and verify zero samples.
+
+The current task authorises none of the external mutations or sends above.
+No real provider transaction, database persistence or inbox delivery has been
+verified in this worktree. Only synthetic mocked provider tests have run.

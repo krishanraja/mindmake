@@ -3,6 +3,7 @@ import { dirname, resolve } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { loadBlogPosts } from "./lib/blog-posts-loader.mjs";
 import { loadAnswers } from "./lib/answers-loader.mjs";
+import { builtKits, readyKitPages } from "./lib/kits-build.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(here, "..");
@@ -73,6 +74,9 @@ const entryStylesheetTag = template.match(/<link rel="stylesheet"[^>]*>/)[0];
    src/App.tsx. A route added there and indexed but not named here would lose
    its styling silently, so `moduleFor` throws instead of returning nothing. */
 const staticRouteModules = {
+  ...Object.fromEntries(readyKitPages.map(page => [page.path, "src/pages/Kits.tsx"])),
+  "/kits": "src/pages/Kits.tsx",
+  "/kits/download": "src/pages/KitDownload.tsx",
   "/": null,
   "/ai-brain": "src/pages/AiBrainLocked.tsx",
   "/ai-gtm": "src/pages/AiGtm.tsx",
@@ -96,6 +100,7 @@ if (unmappedStaticRoutes.length) {
 }
 const moduleFor = (path) => {
   if (path in staticRouteModules) return staticRouteModules[path];
+  if (path.startsWith("/kits/")) return "src/pages/Kits.tsx";
   if (path.startsWith("/blog/")) return "src/pages/BlogPost.tsx";
   if (path.startsWith("/answers/")) return "src/pages/Answer.tsx";
   throw new Error(`scripts/prerender.mjs has no route module for ${path}.`);
@@ -173,7 +178,9 @@ const pages = [...staticPages, ...articlePages, ...answerPages];
    first paint is the page itself. Without this the host served them the
    prerendered homepage, which painted the homepage, hydrated on the wrong
    route and then swapped (reported on /feedback/dtd, 2026-11-02). */
-const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }];
+const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }, { path: "/kits/download" },
+  ...builtKits.filter(kit => kit.status === "sample").map(kit => ({ path: `/kits/${kit.slug}` })),
+];
 
 /* The built server bundle. `npm run build` builds it immediately before this
    script runs; a stale one would silently prerender the previous commit's

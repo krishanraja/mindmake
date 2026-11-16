@@ -28,6 +28,16 @@ export { SITUATIONS };
     on the last line. Typesetting only: the words themselves are unchanged. */
 export const tieLast = (text: string) => text.replace(/ (\S+)$/u, "\u00a0$1");
 
+/* An element's laid-out height, which a transform does not change. The box
+   from getBoundingClientRect carries the settle a section eases into as it
+   leaves (src/lib/sectionSettle.ts), so a measure taken mid-scroll came out
+   a fraction short and the deck shrank by it (qa:reading-flow, 2026-11-16). */
+const laidOutHeight = (element: HTMLElement) => {
+  const style = getComputedStyle(element);
+  const height = parseFloat(style.height);
+  if (!Number.isFinite(height)) return element.offsetHeight;
+  return style.boxSizing === "border-box" ? height : height + ["paddingTop", "paddingBottom", "borderTopWidth", "borderBottomWidth"].reduce((sum, key) => sum + (parseFloat(style[key as "paddingTop"]) || 0), 0);
+};
 const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
 export const storyById = (stories: readonly LeadershipStory[], id: UseCaseId) => {
@@ -164,7 +174,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     let tallest = 0;
     for (const door of new Set(tabs.map((tab) => tab.dataset.finderDoor))) {
       tabs.forEach((tab) => { tab.hidden = tab.dataset.finderDoor !== door; });
-      tallest = Math.max(tallest, tablist.getBoundingClientRect().height);
+      tallest = Math.max(tallest, laidOutHeight(tablist));
     }
     tabs.forEach((tab, i) => { tab.hidden = was[i]; });
     if (tallest) tablist.style.minHeight = `${Math.ceil(tallest)}px`;
@@ -232,7 +242,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     const equalise = () => {
       if (!rail.clientWidth || !headings.length) return;
       panel.style.removeProperty("--finder-heading-h");
-      const tallest = Math.max(...headings.map((heading) => heading.getBoundingClientRect().height));
+      const tallest = Math.max(...headings.map(laidOutHeight));
       panel.style.setProperty("--finder-heading-h", `${Math.ceil(tallest)}px`);
     };
     painters[panels.indexOf(panel)] = () => { equalise(); paint(); };

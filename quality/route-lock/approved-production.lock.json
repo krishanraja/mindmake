@@ -163,7 +163,7 @@
     "src/components/homepage-release/runtime.d.ts": "e2339b4db423e47fb72a13901762a40ab8c7dc665c72ae27cad03c9015c99509",
     "src/components/homepage-release/runtime.js": "e829f5da939fe6f7d56564f0b3b83ef81c8e0482e1d82acb42f42c799e6fcc0b",
     "src/components/leadership-chapters/leadershipChapters.ts": "3d5d90878e925c5f632a95a13de8b94139b16ef9ca0dc39964fe90e85152166b",
-    "src/components/leadership-chapters/storyFinder.ts": "4d62174f42ce0868171260af3e9bf03ddc691c162bd62b2cb70792ca7563d57c",
+    "src/components/leadership-chapters/storyFinder.ts": "685bbcb84827d94f3240c2a2425ea3ab55301c3af04f15fae84bd8bef78925ac",
     "src/components/mindmake/ClientWords.tsx": "68362ee6e79a401746cd2d15b2af39b0cab24c5810d5ab665e84f4f0b8afe41c",
     "src/components/mindmake/LeadBrief.tsx": "4a2b72aa5e41c93a48e2c98fb5753c6627bb3cad74274f04fc0381cbe2a93894",
     "src/components/mindmake/MindmakeFooter.tsx": "55e0c1fe68f959e1548a621349ed73efd5b892cae2cdec55ba261a9831a4a18e",

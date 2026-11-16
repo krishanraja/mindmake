@@ -81,9 +81,11 @@ const LOGOS = [
  */
 const SHARED = [
   "main .mm-container",
-  ".mm-footer > .mm-container > *",
-  /* The footer drawn on the homepage's structure since 2026-09-26. */
-  ".mm-footer-brand > .mm-brand",
+  /* The one footer every page renders since 2026-11-16 (MindmakeFooter): its
+     brand, statement and the line under the rule share the masthead's edge. */
+  ".mm-footer .psf-brand .mm-brand",
+  ".mm-footer .psf-brand .psf-tag",
+  ".mm-footer .psf-copy",
   /* The commercial block's own copy. Its film layer is full-bleed by design and
      its instrument is the other column, so neither is a left edge. */
   ".mm-decision-balance-offer > h2",
@@ -105,7 +107,6 @@ const ANCHORS = {
     ".mm-home-leadership .reach-copy > .kicker",
     ".mm-home-leadership .work-intro > .kicker",
     ".mm-home-leadership .story-finder > .kicker",
-    ".r3-footer .site-footer > :first-child",
   ],
   /* The R5 hero's deck is inset against the film on purpose and its action is
      pinned to the right edge, so the kicker and the headline are the edge. */

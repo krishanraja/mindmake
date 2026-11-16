@@ -975,35 +975,42 @@ html {
   .mm-menu-secondary { grid-column: auto; padding-top: 0; }
 }
 
-/* The footer, as the homepage's (R3 .r3-footer .site-footer with the
-   corrections in src/components/homepage-release/integration.css). On a
-   desktop: the brand, the statement and Subscribe beside the route rail, then
-   Privacy and Terms, then the copyright. On a phone the rail is not rendered
-   (Krish, 2026-09-25: the menu is a tap away), and the footer is the brand,
-   the statement, Subscribe, the legal pair and the copyright. The outer
-   element carries the ground and the reserves for fixed chrome; the inner one
-   is R3's footer box and the container its measures are drawn in. */
+/* The footer: one on every page, the homepage's included
+   (src/components/mindmake/MindmakeFooter.tsx, Krish, 2026-11-16: "make the
+   footer way nicer on desktop and minimalistic on mobile"). It is the Prism
+   Silk footer (src/components/ui/prism-silk-footer.tsx) in the house roles:
+   Archivo for the routes, Newsreader for the statement, Plex Mono for the
+   column names, the legal pair and the copyright, and mint only where it
+   means the answer (the way in, Subscribe, a route under the pointer). The
+   component writes its own .psf- rules after this file, so every rule here
+   carries .mm-footer.psf-root to outrank them.
+
+   The outer element carries the reserves for fixed chrome. Both pieces of
+   fixed chrome reserve their own measured height here. They share one band at
+   the bottom of a laptop screen rather than stacking, so the footer clears the
+   taller of the two, not their sum. The silk runs on under the reserve, so a
+   floating button sits on cloth, never on a word. */
 .mm-footer {
+  /* The chrome's own faces and colours, set here too because the homepage
+     renders the footer outside .mm-site. */
+  --mm-chrome-serif: Newsreader, "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
+  --mm-chrome-paper: #eee2cc;
+  --mm-chrome-mint: #9df0c8;
   background: #06110d;
   color: var(--mm-chrome-paper);
-  /* Both pieces of fixed chrome reserve their own measured height here. They
-     share one band at the bottom of a laptop screen rather than stacking, so
-     the footer clears the taller of the two, not their sum. */
   padding-bottom: max(var(--mm-cookie-reserve, 0px), var(--mm-bar-reserve, 0px));
 }
-.mm-footer-grid {
-  box-sizing: border-box;
-  container-type: inline-size;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-content: start;
-  gap: clamp(18px, 2vw, 28px) 5vw;
-  width: 100%;
-  /* On the page's own edge, as the masthead is above a phone. */
-  padding: clamp(26px, 2.2vw, 34px) var(--mm-header-inline, var(--mm-edge)) calc(clamp(26px, 2.2vw, 34px) + var(--mm-safe-bottom));
-  border-top: 3px solid var(--mm-chrome-mint);
-  background: #06110d;
+.mm-footer.psf-root { border-top: 1px solid rgba(127, 227, 180, .28); }
+/* On the page's own edge, as the masthead is, so the two logos share it. */
+.mm-footer.psf-root .psf-frame {
+  max-width: none;
+  padding: clamp(56px, 5.6vw, 96px) var(--mm-header-inline, var(--mm-edge)) 0;
 }
+/* The homepage's R3 masthead sits 4.4% of the screen in at every desktop
+   width, rather than on the shell's capped edge, so its footer does too. */
+.mm-footer-home { --mm-header-inline: max(4.4vw, var(--mm-safe-left), var(--mm-safe-right)); }
+.mm-footer.psf-root .psf-top { gap: 48px clamp(48px, 7vw, 120px); }
+.mm-footer.psf-root .psf-brand { flex: 0 1 420px; max-width: 420px; }
 .mm-footer .mm-brand {
   display: flex;
   width: clamp(128px, 12.5vw, 190px);
@@ -1012,16 +1019,17 @@ html {
 }
 .mm-footer .mm-brand-icon { width: 2.3cqi; flex: none; }
 .mm-footer .mm-brand-wordmark { --mm-tx: #e6ede8; --mm-mint: var(--mm-mint-bright); width: 9cqi; flex: none; }
-.mm-footer-statement {
-  max-width: 25ch;
-  margin: clamp(10px, .9vw, 14px) 0 0;
-  color: #aebcb3;
-  font: 400 clamp(14px, 1.15vw, 18px)/1.45 var(--mm-chrome-serif);
+.mm-footer.psf-root .psf-tag {
+  max-width: 22ch;
+  margin: clamp(20px, 1.8vw, 30px) 0 0;
+  color: #e6ede8;
+  font: 400 clamp(20px, 1.8vw, 30px)/1.22 var(--mm-chrome-serif, var(--mm-serif));
+  letter-spacing: -.012em;
 }
+.mm-footer.psf-root .psf-action { margin-top: clamp(20px, 1.8vw, 30px); }
 .mm-footer .mm-subscribe-cta {
   width: max-content;
   min-height: 32px;
-  margin-top: clamp(12px, 1vw, 16px);
   padding: .7em 1em;
   color: var(--mm-chrome-mint);
   border-color: rgba(157, 240, 200, .45);
@@ -1030,72 +1038,72 @@ html {
 @media (hover: hover) and (pointer: fine) {
   .mm-footer .mm-subscribe-cta:hover { background: rgba(157, 240, 200, .08); }
 }
-.mm-footer nav a {
-  display: flex;
-  align-items: center;
-  color: inherit;
-  font: 400 11px/1.25 var(--mm-mono);
-  letter-spacing: .06em;
-  text-decoration: none;
+.mm-footer.psf-root .psf-cols { gap: 40px clamp(40px, 5.2vw, 96px); }
+.mm-footer.psf-root .psf-col h3 {
+  margin: 0 0 clamp(16px, 1.4vw, 22px);
+  color: #788c82;
+  font: 400 11px/1.2 var(--mm-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.mm-footer.psf-root .psf-col ul { gap: 6px; }
+.mm-footer.psf-root .psf-link {
+  min-height: 32px;
+  color: #aebcb3;
+  font: 400 clamp(15px, 1.08vw, 17px)/1.2 var(--mm-grotesque);
+  letter-spacing: -.005em;
   touch-action: manipulation;
-  transition: color .12s ease;
 }
-@media (hover: hover) and (pointer: fine) {
-  .mm-footer nav a:hover { color: var(--mm-mint); }
-}
-.mm-footer-routes {
-  display: grid;
-  grid-template-columns: repeat(5, auto);
-  justify-content: start;
-  align-content: start;
-  gap: clamp(8px, .8vw, 14px) clamp(16px, 1.6vw, 30px);
-}
-.mm-footer-routes a { min-height: 32px; white-space: nowrap; }
-.mm-footer-legal {
-  grid-column: 1 / -1;
-  display: flex;
-  column-gap: 28px;
-}
-.mm-footer .mm-footer-legal a { min-height: 44px; color: #aebcb3; line-height: 1.2; }
+.mm-footer.psf-root .psf-link-em { color: var(--mm-chrome-mint); }
+.mm-footer.psf-root .psf-link:hover,
+.mm-footer.psf-root .psf-link:focus-visible { color: var(--mm-chrome-mint); }
+.mm-footer.psf-root .psf-roll::after { background: linear-gradient(90deg, #9df0c8, var(--mm-mint-bright) 55%, #e6ede8); -webkit-background-clip: text; background-clip: text; }
+.mm-footer.psf-root .psf-foot { margin-top: clamp(48px, 4.6vw, 80px); }
+.mm-footer.psf-root .psf-rule { background: rgba(157, 240, 200, .14); }
+.mm-footer.psf-root .psf-rule::after { background: linear-gradient(90deg, transparent, rgba(157, 240, 200, .9), transparent); }
+.mm-footer.psf-root .psf-bar { padding-top: 6px; color: #76887e; }
 .mm-footer small {
-  grid-column: 1 / -1;
-  justify-self: start;
-  align-self: end;
+  display: block;
   color: #76887e;
-  font: 400 10.5px/1.2 var(--mm-mono);
+  font: 400 10.5px/1.5 var(--mm-mono);
   letter-spacing: .05em;
   text-align: left;
 }
 /* The registered companies beside the copyright, in its own style. Each
    sentence holds together, so a phone breaks between them (Krish, 2026-10-19). */
 .mm-entity-note > span { white-space: nowrap; }
-/* Five columns need about 1160px beside the brand. R3's rail runs off the
-   right edge below that and its last routes are cut; here the rail takes
-   three columns (three full rows of three) and, below 901px, the full width
-   under the brand, so every route stays on screen. */
-@media (min-width: 701px) and (max-width: 1180px) {
-  .mm-footer-routes { grid-template-columns: repeat(3, auto); }
+.mm-footer.psf-root .psf-right { gap: 28px; }
+.mm-footer.psf-root .psf-legal { gap: 0 28px; }
+.mm-footer.psf-root .psf-legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #aebcb3;
+  font: 400 11px/1.2 var(--mm-mono);
+  letter-spacing: .06em;
+  touch-action: manipulation;
 }
-@media (min-width: 701px) and (max-width: 900px) {
-  .mm-footer-routes { grid-column: 1 / -1; }
-}
+.mm-footer.psf-root .psf-legal a:hover { color: var(--mm-chrome-mint); }
+.mm-footer.psf-root .psf-up { width: 36px; height: 36px; border-color: rgba(157, 240, 200, .24); background: rgba(6, 17, 13, .5); }
+.mm-footer.psf-root .psf-up:hover,
+.mm-footer.psf-root .psf-up:focus-visible { border-color: var(--mm-chrome-mint); }
+.mm-footer.psf-root a:focus-visible,
+.mm-footer.psf-root button:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
 @media (max-width: 700px) {
-  /* R3's phone footer: a flex column, full width on the masthead's gutter. */
-  .mm-footer-grid {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(18px, 5vw, 26px);
-    width: 100%;
-    margin-inline: 0;
-    padding: clamp(26px, 7vw, 38px) max(5.13vw, var(--mm-safe-left), var(--mm-safe-right)) max(7vw, var(--mm-safe-bottom));
+  /* The phone footer is the brand, the statement, Subscribe, the copyright
+     and the legal pair over a short band of silk, on the masthead's gutter
+     (owner ruling, 2026-09-25: no route list; the menu is a tap away). */
+  .mm-footer.psf-root .psf-frame {
+    padding: clamp(36px, 10vw, 52px) max(5.13vw, var(--mm-safe-left), var(--mm-safe-right)) 0;
   }
-  .mm-footer-routes { display: none; }
+  .mm-footer.psf-root .psf-brand { flex: none; max-width: none; }
   .mm-footer .mm-brand { width: clamp(128px, 36vw, 170px); gap: 2.2cqi; }
   .mm-footer .mm-brand-icon { width: 6.4cqi; }
   .mm-footer .mm-brand-wordmark { width: 26cqi; }
-  .mm-footer-statement { margin-top: clamp(16px, 5vw, 24px); font-size: clamp(15px, 4vw, 18px); }
-  /* The copyright on the shared left edge (Krish, 2026-09-26). */
-  .mm-footer small { margin-top: auto; align-self: flex-start; }
+  .mm-footer.psf-root .psf-tag { margin-top: clamp(16px, 5vw, 24px); font-size: clamp(19px, 5.4vw, 24px); }
+  .mm-footer.psf-root .psf-action { margin-top: clamp(18px, 5vw, 24px); }
+  .mm-footer.psf-root .psf-foot { margin-top: clamp(32px, 9vw, 44px); }
+  .mm-footer.psf-root .psf-bar { gap: 2px; padding-top: 14px; }
 }
 
 /* "Subscribe for free": the badge beside Media in the menu and the footer's

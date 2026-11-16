@@ -2,15 +2,37 @@
 
 Status: approved-r3-live
 Working-copy status: matches main and production
-Updated: 10 November 2026.
+Updated: 16 November 2026.
 
 The latest application release is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
-2026). The accepted R3 opening and footer are unchanged. Current operational
+2026). The accepted R3 opening is unchanged; its footer gave way to the
+shared footer on 16 November 2026 (below). Current operational
 identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## The footer (16 November 2026)
+
+Krish, 16 November 2026: "make the footer way nicer on desktop and
+minimalistic on mobile", with the Prism Silk footer component to integrate.
+Every page, the homepage included, now renders one footer,
+`src/components/mindmake/MindmakeFooter.tsx`, built on
+`src/components/ui/prism-silk-footer.tsx` (WebGL2 silk with a CSS fallback,
+readable with no script: nothing is hidden until the client arms the entrance,
+and only while the footer is below the screen). The generator cuts R3's footer
+and `src/pages/Index.tsx` places the shared one after the markup with R3's id,
+so the homepage and the shell can no longer drift. The words are the footer's
+own: the brand, "Keep your edge as AI changes the market.", Subscribe, the nine
+routes, Privacy and Terms as 44px links, and the copyright with the registered
+companies. The only new words are the three column names, Build, Explore and
+Mindmake. The silk is ink green, lit at its folds; mint marks only the way in,
+Subscribe and a route under the pointer. On a phone (700px and below) there are
+no columns and no back-to-top button: the brand, the statement, Subscribe, the
+copyright and the legal pair over an 88px band of silk. Each footer sits on its
+page's masthead edge (4.4vw on the homepage, the shell's edge elsewhere), which
+`qa:logo-alignment` now measures on the new footer.
 
 ## S9: a more alive site (10 November 2026), then its repair
 
@@ -322,7 +344,7 @@ explanations.
 
 ## Approved source and scope
 
-Krish approved R3 on 24 September 2026 and authorised publication after end-to-end verification. The R3 opening and footer are live at `https://mindmake.co` and remain locked in copy, imagery, composition and controls; since S6 (24 October 2026) the three sections between them are `homepageSections.ts`, and nothing on the homepage pins. R3's pinned history and leadership-dividend progression are retired from `/`.
+Krish approved R3 on 24 September 2026 and authorised publication after end-to-end verification. The R3 opening is live at `https://mindmake.co` and remains locked in copy, imagery, composition and controls (R3's footer was replaced by the shared footer on 16 November 2026, Krish); since S6 (24 October 2026) the three sections between them are `homepageSections.ts`, and nothing on the homepage pins. R3's pinned history and leadership-dividend progression are retired from `/`.
 
 - Immutable homepage reference: `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/`.
 - Accepted R3 material provenance: `quality/route-lock/approved-production-r14.json`. The active checker reads `quality/route-lock/approved-production.lock.json`, a generated lock that continues `quality/route-lock/approved-production-r48.json` (BRAIN-NARRATIVE-S4 on `/ai-brain`, the last numbered manifest). Every intended edit since r48, S6 included, regenerates that lock in the commit that makes it; with `06_CURRENT_STATE.md` it identifies what is live. The numbered manifests r1 to r48 are frozen history and never describe today's site: several say on their own face that owner approval was outstanding (r17 to r21, r23), r44 records the Archive Engine r06 opening Krish rejected and r45 its removal, and r35, r39 and r41 record homepage chapters S6 retired. The ones still cited as provenance: r14 (R3), r25 (the earlier GTM-PLAIN-R2 `/ai-gtm`), r47 (the `/ai-gtm` rebuild S6 builds on) and r48 (the `/ai-brain` S4 source S6 edits in place). Never rewrite any of them or any earlier immutable approval or candidate manifest.
@@ -344,7 +366,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 - `/blog`, Ideas you can use, lists every quick tip and every longer read in one list, newest first, in the tips' entry form, under a kind filter (All, Quick tips, Longer reads) and a subject filter (Krish, 2026-09-25; `/answers` redirects there and the tips keep their pages under `/answers/:slug`). It never opens on an idea marked `lead: false` (the adtech answer); the newest idea allowed to lead goes first and the rest keep date order (`orderIdeas` in `src/lib/ideaFormat.ts`). Tip titles are in sentence case, and each tip entry shows the question it answers as a sentence-case question.
 - Every Media link, and the old `/signal` and `/builder-economy` redirects, land on the publication's own site, https://makeyourmindup.ai (Krish, 2026-09-26; `PUBLICATION_URL`). Subscribing appears in six places: a hairline badge beside Media in both menus, a Subscribe button beside the menu in every masthead (Krish, 2026-10-24), a footer button, the brief's first step (for a reader not ready to build) and its success step, and since S6 one line at the foot of the homepage hero naming an issue; every "Subscribe for free" link goes to https://makeyourmindup.ai too (Krish, 2026-09-26: "Every single subscribe link should go to makeyourmindup.ai"; `SUBSCRIBE_URL` is `PUBLICATION_URL`). There is no band, pop-up or modal. It never outweighs the brief's filled mint.
 - No word or link sits alone on a new line at 1440x900, 1280x800, 390x844 or 360x780 on any page, and no swapping component changes size when a reader makes a choice (`qa:line-breaks`, which clicks every tab, toggle, step, seat and carousel on `/`, `/ai-brain`, `/ai-gtm` and `/new-age-leadership`, and since 24 October 2026 also fails text cut off at the top or bottom of a box that hides overflow; Krish, 2026-10-24: "we don't ever get one word sprawl over to a second line and change the entire component size"; the rule is in `03_DESIGN_CONTRACT.md`).
-- Every page carries the homepage's masthead and footer, identical within 1px at 360, 390, 412, 768, 1024 and 1440 (Krish, 2026-09-26: "The logo in the top left nav bar changes size depending on what page you're on, which is unacceptable"; "the bottom nav bar is super inconsistent across pages"). The footer is the brand, "Keep your edge as AI changes the market.", Subscribe, the route rail on wider screens, Privacy and Terms as two separate 44px links, and "© 2026 Mindmake." on the left edge. On phones it fills the width on the masthead's gutter; there is no Contact link (the address is on /about, /privacy and /terms).
+- Every page carries the homepage's masthead within 1px at 360, 390, 412, 768, 1024 and 1440 (Krish, 2026-09-26: "The logo in the top left nav bar changes size depending on what page you're on, which is unacceptable"; "the bottom nav bar is super inconsistent across pages"), and since 16 November 2026 one footer component, `MindmakeFooter`, on its masthead's edge. The footer is the brand, "Keep your edge as AI changes the market.", Subscribe, the nine routes in three columns (Build, Explore, Mindmake) on wider screens, Privacy and Terms as two separate 44px links, and the copyright with the registered companies on the left edge, over a band of ink-green silk. On phones it carries no routes and fills the width on the masthead's gutter; there is no Contact link (the address is on /about, /privacy and /terms).
 - The homepage hero turns its headline once through six lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"; the closing chapter's headline joined second with S6): "Promote your AI from intern to chief of staff.", "Own your judgement, and amplify it.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision." A unit test holds the first to the generated h1 (`src/test/hero-rotation.test.ts`). The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). Since S6 the lede reads "The leaders who shape the next decade will have an AI that thinks like them. We build yours."
 - The analytics notice never stacks on the action bar (S6, Krish, 2026-10-24: "the bottom panel is horrible"). On a laptop it is a card on the left of the bottom band while the bar's one button is on the right; on a phone it docks under the masthead. Allow and Decline stay equal.
 - No page carries caveat or disclaimer labels: no "Illustrative machinery", "Illustrative team", "Illustrative sequence. Not evidence." or "illustrative example" lines (Krish, 2026-09-26: "Get rid of all the annoying asterisk commentary, like illustrative machinery, from the whole"). Generated films and example teams remain what they are; the page simply does not narrate it. The private brief document and its email keep their one "not advice" line.

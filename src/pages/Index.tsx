@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { MindmakeFooter } from "@/components/mindmake/MindmakeFooter";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { track } from "@/lib/analytics";
 import { homepageMarkup } from "@/components/homepage-release/markup";
@@ -16,13 +17,16 @@ import "@/components/homepage-release/integration.css";
 import "@/components/homepage-release/homepageSections.css";
 
 /**
- * Production delivery of the accepted R3 opening, menu and footer, compiled
- * from its immutable source, with the three sections of homepageSections.ts
- * between them (the owner's ruling of 2026-10-24). React owns the lead journey; the
- * bounded adapter owns the opening and menu. Nothing on the page pins.
+ * Production delivery of the accepted R3 opening and menu, compiled from its
+ * immutable source, with the sections of homepageSections.ts after them (the
+ * owner's ruling of 2026-10-24), then the one footer every page carries
+ * (MindmakeFooter, owner ruling of 2026-11-16). React owns the lead journey
+ * and the footer; the bounded adapter owns the opening and menu. Nothing on
+ * the page pins.
  */
 export default function Index() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
   const { briefOpen, briefRoute, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
   const startRef = useRef(openBrief);
   const briefOpener = useRef<HTMLElement | null>(null);
@@ -61,7 +65,18 @@ export default function Index() {
       if (publication) track("substack_click", { source: publication.closest(".r3-navigation") ? "menu" : (publication as HTMLElement).dataset.subscribeSource ?? "homepage_footer" });
     };
     root.addEventListener("click", measure);
+    /* The footer sits after the generated markup, so the R3 menu's own inert
+       does not reach it. It follows the menu, as the page under it does. */
+    const footerFollowsMenu = () => {
+      const footer = footerRef.current;
+      if (footer) footer.inert = document.body.classList.contains("navigation-open") || root.inert;
+    };
+    const menuWatch = new MutationObserver(footerFollowsMenu);
+    menuWatch.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    const footer = footerRef.current;
     return () => {
+      menuWatch.disconnect();
+      if (footer) footer.inert = false;
       root.removeEventListener("click", measure);
       unrotate();
       unmountSections();
@@ -75,13 +90,15 @@ export default function Index() {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    const footer = footerRef.current;
     root.inert = briefOpen;
+    if (footer) footer.inert = briefOpen || document.body.classList.contains("navigation-open");
     if (briefOpen) root.setAttribute("aria-hidden", "true");
     else root.removeAttribute("aria-hidden");
     const restore = wasBriefOpen.current && !briefOpen;
     wasBriefOpen.current = briefOpen;
     const frame = restore ? requestAnimationFrame(() => briefOpener.current?.focus({ preventScroll: true })) : 0;
-    return () => { cancelAnimationFrame(frame); root.inert = false; root.removeAttribute("aria-hidden"); };
+    return () => { cancelAnimationFrame(frame); root.inert = false; root.removeAttribute("aria-hidden"); if (footer) footer.inert = false; };
   }, [briefOpen]);
 
   return (
@@ -92,6 +109,16 @@ export default function Index() {
         canonical="/"
       />
       <div ref={rootRef} className="mm-homepage-release mm-home-approved" dangerouslySetInnerHTML={{ __html: homepageMarkup }} />
+      <MindmakeFooter
+        ref={footerRef}
+        id="footer"
+        className="mm-footer-home"
+        source="homepage_footer"
+        onStart={() => {
+          briefOpener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+          startRef.current("home");
+        }}
+      />
       <div className="mm-site"><div>
         <LeadBrief
           key={briefRoute}

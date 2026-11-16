@@ -9,12 +9,18 @@ describe("the homepage in three sections", () => {
 
   /* Ruling (2026-10-24): "drastically simplify everything here to be probably
      three sections". The R3 opening, then the problem, how it works and what
-     the reader gets, then the R3 footer. */
+     the reader gets, then the footer. Since 2026-11-16 the footer is the one
+     every page renders (MindmakeFooter), placed by Index.tsx after the
+     generated markup with R3's id. */
   it("runs the opening, the three sections and the footer, in that order", () => {
     const at = (needle: string) => homepageMarkup.indexOf(needle);
     expect(at('id="opening"')).toBeGreaterThan(-1);
     expect(at('id="hs-problem-title"')).toBeGreaterThan(at('id="opening"'));
-    expect(at('id="footer"')).toBeGreaterThan(at('id="hs-get-title"'));
+    expect(at('id="footer"')).toBe(-1);
+    expect(homepageMarkup).not.toContain("site-footer");
+    const page = readFileSync("src/pages/Index.tsx", "utf8");
+    expect(page.indexOf("<MindmakeFooter")).toBeGreaterThan(page.indexOf("dangerouslySetInnerHTML={{ __html: homepageMarkup }}"));
+    expect(page).toMatch(/<MindmakeFooter[\s\S]*?id="footer"/);
     /* The headings' key words carry a hand-drawn mark (Krish, 2026-11-04), so
        the order is read from the words, without the marks' own tags. */
     const sections = homepageSectionsMarkup();

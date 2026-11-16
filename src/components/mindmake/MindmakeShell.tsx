@@ -1,8 +1,9 @@
-import { type MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar } from "@/components/mindmake/SiteActionBar";
+import { MindmakeFooter } from "@/components/mindmake/MindmakeFooter";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
+import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -110,12 +111,6 @@ export function MindmakeShell({
     onStart();
   };
 
-  const startFromFooter = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    track("scoping_request", { source: "footer" });
-    onStart();
-  };
-
   return (
     <div className={`mm-site ${siteClassName}`.trim()}>
       <a className="mm-skip" href="#main">Skip to content</a>
@@ -187,50 +182,11 @@ export function MindmakeShell({
 
       <main id="main" ref={mainRef} className={mainClassName} tabIndex={-1}>{children}</main>
 
-      {/* The homepage's footer, on every page (owner ruling, 2026-09-26: "The bottom
-          nav bar is super inconsistent across pages"). The same words in the
-          same order as R3's: the brand, the statement, Subscribe, the route
-          rail, the legal pair, the copyright. The rail is not shown on a phone
-          (owner ruling, 2026-09-25: the menu is a tap away). Contact is not in it,
-          as it is not on the homepage: the address is on /about, /privacy and
-          /terms, and the brief is the way in. */}
-      <footer className="mm-footer" ref={footerRef}>
-        <div className="mm-footer-grid">
-          <div className="mm-footer-brand">
-            <MindmakeBrand compact />
-            <p className="mm-footer-statement">Keep your edge as AI<br />changes the market.</p>
-            {/* The footer's one quiet way to stay close. The brief stays the
-                way in; this is for the reader not ready yet. */}
-            <a
-              className="mm-subscribe-cta"
-              href={SUBSCRIBE_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("substack_click", { source: "footer" })}
-            >
-              {SUBSCRIBE_LABEL} <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-          <nav className="mm-footer-routes" aria-label="Footer navigation">
-            {PRIMARY_ROUTES.map(({ label, href, external }) => external
-              ? <a key={href} href={href} target="_blank" rel="noreferrer" onClick={() => track("substack_click", { source: "footer" })}>{label}</a>
-              : <Link key={href} to={href}>{label}</Link>)}
-            {/* R3 links /start. Here it opens the brief in place, as the
-                menu's start action does; without script it follows the link. */}
-            <a href="/start" onClick={startFromFooter}>{startLabel}</a>
-          </nav>
-          <nav className="mm-footer-legal" aria-label="Legal navigation">
-            <Link to="/privacy">Privacy</Link>
-            <Link to="/terms">Terms</Link>
-          </nav>
-          {/* The registered companies, named once on every page beside the
-              copyright (owner ruling, 2026-10-19). Each sentence holds together, so a
-              narrow screen breaks between them and never inside one. */}
-          <small>© {new Date().getFullYear()} Mindmake.{" "}
-            <span className="mm-entity-note"><span>Mindmake is a Mindmaker LLC company.</span> <span>Mindmaker Ltd in the UK.</span></span>
-          </small>
-        </div>
-      </footer>
+      {/* The one footer, on every page, the homepage's included (owner rulings,
+          2026-09-26: "The bottom nav bar is super inconsistent across pages";
+          2026-11-16: "make the footer way nicer on desktop and minimalistic on
+          mobile"). Its words and its phone rules live in MindmakeFooter. */}
+      <MindmakeFooter ref={footerRef} onStart={onStart} startLabel={startLabel} />
 
       {/* The one way in, pinned to the bottom of the screen once the reader
           has left the first screen, and standing down whenever the page's own

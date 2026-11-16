@@ -70,10 +70,12 @@ describe("primary routes parity", () => {
     /* The way in was renamed on 24 October 2026 ("Start building your AI
        brain"), after the handoff froze "Get your free AI brief". The handoff is
        an immutable recovery record, so the homepage the generator writes is
-       held to the shell's label instead: the same words in both menus and the
-       footer. */
+       held to the shell's label instead: the same words in both menus. The
+       footer is the shared MindmakeFooter since 2026-11-16, which reads
+       START_LABEL itself. */
     expect(selection.start).toBe("Get your free AI brief");
-    expect(homepageMarkup.split(`href="/start">${START_LABEL}`).length - 1).toBe(3);
+    expect(homepageMarkup.split(`href="/start">${START_LABEL}`).length - 1).toBe(2);
+    expect(read("src/components/mindmake/MindmakeFooter.tsx")).toContain("startLabel = START_LABEL");
   });
 });
 

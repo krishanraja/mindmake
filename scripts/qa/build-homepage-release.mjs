@@ -82,7 +82,7 @@ const cut = (text, from, to, replacement = '', label = from) => {
   if (start < 0 || end < 0 || text.indexOf(from, start + 1) >= 0) throw new Error(`Homepage adapter anchor not unique or missing: ${label}`);
   return text.slice(0, start) + replacement + text.slice(end);
 };
-const retiredChapters = /\.r3-(?:authority|dividend|history|route)\b|\.r3-mode-switch\b|\[data-(?:stage|practice|benefit-prev|benefit-next)\]/;
+const retiredChapters = /\.r3-(?:authority|dividend|history|route|footer)\b|\.r3-mode-switch\b|\[data-(?:stage|practice|benefit-prev|benefit-next)\]/;
 const homepageSections = '${homepageSectionsMarkup()}';
 const assets = new Map();
 const register = value => {
@@ -94,6 +94,13 @@ const register = value => {
 };
 let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
 body = cut(body, '<section id="history"', '<section id="footer"', homepageSections, 'chapters between the opening and the footer');
+// An eighteenth (Krish, 2026-11-16: "make the footer way nicer on desktop and
+// minimalistic on mobile"): R3's footer is cut. Every page, the homepage
+// included, renders the one footer in src/components/mindmake/MindmakeFooter.tsx,
+// which src/pages/Index.tsx places after this markup with the same id. Its
+// words are R3's, so the footer corrections below (Subscribe, the statement's
+// break, the route rail and the entity note) now live in that component.
+body = cut(body, '<section id="footer"', '\n    </main>', '', 'R3 footer');
 // Every Media and "Subscribe for free" link lands on the publication's own
 // site (Krish, 2026-09-26).
 const media = 'https://makeyourmindup.ai';
@@ -111,8 +118,7 @@ body = body
   .replace(/(<section class="hero-stage">\s*<video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*>\s*<source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`)
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${media}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
-  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${media}" target="_blank" rel="noreferrer">Media</a>`)
-  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
+  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${media}" target="_blank" rel="noreferrer">Media</a>`);
 // The phone's source takes the phone film, and no film fetches a byte until
 // the page has loaded (src/lib/filmGate.ts): the poster shows until then.
 body = body.replace(new RegExp(`(<source src=")${heroFilm.mp4.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(" type="video/mp4" media="\\(max-width: 700px\\)")`, 'g'), `$1${heroFilm.phoneMp4}$2`);
@@ -133,10 +139,6 @@ body = body.replace(/(<nav class="(?:primary|footer)-routes"[^>]*>)([\s\S]*?)(<\
   /* The homepage menu marks Home as the page the reader is on (audit CRIT-07). */
   return `${open}<a href="/"${open.includes('primary-routes') ? ' aria-current="page"' : ''}>Home</a>${routes}${close}`;
 });
-const phoneFooterRoutes = /(<div class="r3-variant preview-mobile"><footer class="site-footer"[^>]*>[\s\S]*?)<nav class="footer-routes"[^>]*>[\s\S]*?<\/nav>/;
-if (!phoneFooterRoutes.test(body)) throw new Error('Homepage adapter anchor missing: phone footer routes');
-body = body.replace(phoneFooterRoutes, '$1');
-body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
 // An eleventh (Krish, 2026-09-26): "your" in the headline is underlined, the
 // line drawn in as the page loads (integration.css draws it). A twelfth
 // (Krish, 2026-09-27): the headline is set in three fixed lines, as are the
@@ -160,8 +162,6 @@ body = body
 // the copyright line names the registered companies, as the shell footer does
 // on every other page. Each sentence is held together so a phone breaks
 // between them, never inside one.
-const entityNote = '<span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company.</span> <span>Mindmaker Ltd in the UK.</span></span>';
-body = body.replace(/<small>(© \d{4} Mindmake\.)<\/small>/g, `<small>$1 ${entityNote}</small>`);
 // The hero lede, the doors' way in and the publication line (Ruling, Krish,
 // 2026-10-24). The lede speaks to every leader, not one industry; the button
 // opens the brief at the AI brain's door; the publication is one line under it
@@ -176,7 +176,7 @@ body = body.replace(/(<button class="menu-control" type="button" aria-label="Ope
 // The menu's and footer's way in say what the reader is building, as
 // START_LABEL in src/lib/publicLinks.ts does on every other page.
 body = body.replace(/(href="\/start">)Get your free AI brief/g, '$1Start building your AI brain');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/\$\{mastheadSubscribeMarkup\(\)\}<button class="menu-control" type="button" aria-label="Open navigation">/g, 2, 'masthead subscribe'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 3, 'Media to the publication'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 2, 'hero film'], [/archive-engine-hero-poster-r07/g, 2, 'hero poster'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<section id="(?:authority|leadership-dividend|route)"/g, 0, 'cut chapters'], [/\$\{homepageSectionsMarkup\(\)\}/g, 1, 'homepage sections'], [/\$\{heroStartMarkup\(\)\}/g, 2, 'hero way in'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<span class="mm-hero-row">from intern to<\/span> <span class="mm-hero-row">chief of staff\.<\/span><\/span><\/h1>/g, 2, 'hero lines'], [/<strong>AI business<\/strong>/g, 2, 'revenue engine door'], [/<small>A private AI that learns how you think\.<\/small>/g, 2, 'brain door line'], [/<small>The pricing, positioning and team you'll need\.<\/small>/g, 2, 'revenue engine door line'], [/<a href="\/ai-gtm">Build your AI business<\/a>/g, 3, 'AI business menu and footer routes'], [/AI revenue engine<\/a>/g, 0, 'the old name on a link'], [/GTM/g, 0, 'GTM acronym in public copy'], [/href="\/start">Start building your AI brain/g, 3, 'menu and footer way in'], [/Get your free AI brief/g, 0, 'retired way in'], [/<p class="hero-lede">The leaders who shape the next ten years will use AI to make themselves 10x better, and set the new pace\.<\/p>/g, 2, 'hero lede'], [/<a href="\/" aria-current="page">Home<\/a>/g, 2, 'Home route, marked current in the menus'], [/<a href="\/">Home<\/a>/g, 1, 'Home route in the footer'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:What you can do|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/<small>© \d{4} Mindmake\. <span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company\.<\/span> <span>Mindmaker Ltd in the UK\.<\/span><\/span><\/small>/g, 2, 'footer entity note'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/\$\{mastheadSubscribeMarkup\(\)\}<button class="menu-control" type="button" aria-label="Open navigation">/g, 2, 'masthead subscribe'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 2, 'Media to the publication'], [/mm-subscribe-cta/g, 0, 'R3 footer subscribe (MindmakeFooter carries it)'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 2, 'hero film'], [/archive-engine-hero-poster-r07/g, 2, 'hero poster'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<section id="(?:authority|leadership-dividend|route)"/g, 0, 'cut chapters'], [/\$\{homepageSectionsMarkup\(\)\}/g, 1, 'homepage sections'], [/\$\{heroStartMarkup\(\)\}/g, 2, 'hero way in'], [/<section id="footer"|footer-statement|site-footer/g, 0, 'R3 footer (MindmakeFooter renders after the markup)'], [/<span class="mm-hero-row">from intern to<\/span> <span class="mm-hero-row">chief of staff\.<\/span><\/span><\/h1>/g, 2, 'hero lines'], [/<strong>AI business<\/strong>/g, 2, 'revenue engine door'], [/<small>A private AI that learns how you think\.<\/small>/g, 2, 'brain door line'], [/<small>The pricing, positioning and team you'll need\.<\/small>/g, 2, 'revenue engine door line'], [/<a href="\/ai-gtm">Build your AI business<\/a>/g, 2, 'AI business menu routes'], [/AI revenue engine<\/a>/g, 0, 'the old name on a link'], [/GTM/g, 0, 'GTM acronym in public copy'], [/href="\/start">Start building your AI brain/g, 2, 'menu way in'], [/Get your free AI brief/g, 0, 'retired way in'], [/<p class="hero-lede">The leaders who shape the next ten years will use AI to make themselves 10x better, and set the new pace\.<\/p>/g, 2, 'hero lede'], [/<a href="\/" aria-current="page">Home<\/a>/g, 2, 'Home route, marked current in the menus'], [/<a href="\/">Home<\/a>/g, 0, 'unmarked Home route (only the R3 footer had one)'], [/<a href="\/about">About us<\/a>/g, 2, 'About route'], [/>(?:What you can do|Ideas you can use|Questions we get asked)<\/a>/g, 6, 'renamed routes'], [/<nav class="footer-routes"/g, 0, 'R3 footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/Mindmaker/g, 0, 'entity note (MindmakeFooter carries it)'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }

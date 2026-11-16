@@ -632,8 +632,8 @@ describe("the naming law", () => {
      the registered legal entities. They belong in the two legal pages, where
      the law wants the registrants named, and in the one footer note line
      beside the copyright, "Mindmake is a Mindmaker LLC company. Mindmaker Ltd
-     in the UK." (Krish, 2026-10-19), in the shell footer and the homepage's
-     generated footer. The substack.com address is where the publication was
+     in the UK." (Krish, 2026-10-19), in the one footer every page renders
+     (MindmakeFooter, since 2026-11-16). The substack.com address is where the publication was
      hosted. The contact mailbox is krish@mindmake.co (Krish, 2026-10-03);
      krish@themindmaker.ai redirects to it. */
   const LEGAL_ENTITY = /Mindmaker (LLC|Ltd)/g;
@@ -645,8 +645,7 @@ describe("the naming law", () => {
      still fails. */
   const FOOTER_NOTE = /<span>Mindmake is a Mindmaker LLC company\.<\/span> <span>Mindmaker Ltd in the UK\.<\/span>/g;
   const FOOTER_SURFACES = new Set([
-    "src/components/mindmake/MindmakeShell.tsx",
-    "src/components/homepage-release/markup.ts",
+    "src/components/mindmake/MindmakeFooter.tsx",
   ]);
   const NAMING_SURFACES = [...PUBLIC_SURFACES, "src/components/homepage-release/markup.ts"];
   const usesOlderName = (surface: string, source: string) => {
@@ -664,10 +663,13 @@ describe("the naming law", () => {
   });
 
   it("carries the footer note on every footer, and the entity names nowhere else", () => {
-    /* The note is in both footers: the shell's, on every page but the
-       homepage, and the homepage's desktop and phone footers. */
-    expect(read("src/components/mindmake/MindmakeShell.tsx").match(FOOTER_NOTE)?.length).toBe(1);
-    expect(read("src/components/homepage-release/markup.ts").match(FOOTER_NOTE)?.length).toBe(2);
+    /* The note is in the one footer, which the shell and the homepage both
+       render (Krish, 2026-11-16), and in neither of them on its own. */
+    expect(read("src/components/mindmake/MindmakeFooter.tsx").match(FOOTER_NOTE)?.length).toBe(1);
+    expect(read("src/components/mindmake/MindmakeShell.tsx").match(FOOTER_NOTE)).toBeNull();
+    expect(read("src/components/homepage-release/markup.ts").match(FOOTER_NOTE)).toBeNull();
+    expect(read("src/components/mindmake/MindmakeShell.tsx")).toContain("<MindmakeFooter");
+    expect(read("src/pages/Index.tsx")).toContain("<MindmakeFooter");
     /* Negative controls: the allowance is for those surfaces and that exact
        line. The entity name on /about fails; so does the footer naming it any
        other way; so does the note's sentence on a page that is not a footer. */
@@ -675,8 +677,8 @@ describe("the naming law", () => {
     expect(usesOlderName("src/pages/About.tsx", about)).toBe(false);
     expect(usesOlderName("src/pages/About.tsx", `${about}\n<p>Mindmaker Ltd</p>`)).toBe(true);
     expect(usesOlderName("src/pages/About.tsx", `${about}\n<span>Mindmake is a Mindmaker LLC company.</span> <span>Mindmaker Ltd in the UK.</span>`)).toBe(true);
-    const shell = read("src/components/mindmake/MindmakeShell.tsx");
-    expect(usesOlderName("src/components/mindmake/MindmakeShell.tsx", `${shell}\n<small>Mindmaker Ltd</small>`)).toBe(true);
+    const footer = read("src/components/mindmake/MindmakeFooter.tsx");
+    expect(usesOlderName("src/components/mindmake/MindmakeFooter.tsx", `${footer}\n<small>Mindmaker Ltd</small>`)).toBe(true);
   });
 
   it("names the publication and the one address every Media link uses", () => {

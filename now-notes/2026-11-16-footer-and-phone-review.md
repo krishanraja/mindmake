@@ -12,11 +12,12 @@ message and in `history/LOG.md` (2026-11-16).
 - /case-studies: phone quotes fold with Read more; the search types prompts,
   slides in suggestions and matches by meaning, closest first.
 
-Next step: Krish to look at the branch's preview and say merge. Two checks
-fail for reasons older than this branch and are recorded in LOG.md:
-`qa:chrome` (the analytics strip docks under the masthead on phones, by design
-since PR #261) and, if it recurs, a 1px wobble in /ai-gtm's story deck at
-phone landscape in `qa:reading-flow`.
+Next step: Krish to look at the branch's preview and say merge. `qa:chrome`
+still fails for a reason older than this branch, recorded in LOG.md: the
+analytics strip docks under the masthead on phones, by design since PR #261,
+and the check still expects it at the foot of the screen. `qa:reading-flow`'s
+deck height read whole pixels by position; it now reads the box exactly, with
+a negative control.
 
 North Star check: the number is U4 (28% of the week's target). The footer
 moves it little; the homepage's stronger results and a search that always

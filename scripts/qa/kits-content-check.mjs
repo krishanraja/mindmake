@@ -24,6 +24,6 @@ for (const id of ids) {
   verified.push({ id, attribution, full });
 }
 assert.equal(verified.length, 5);
-const result = { status: "pass", source: "stories-export.md, section 5, supplied 16 November 2026", sourceSha256: createHash("sha256").update(exported).digest("hex"), sourceScope: "Each selected quote is marked shown on the site; these are Mindmake work quotes, never kit reviews", quotes: verified };
-await writeFile(new URL("../../quality/kits/quote-provenance.json", import.meta.url), JSON.stringify(result, null, 2) + "\n");
+const result = { status: "pass", source: "stories-export.md, section 5, supplied 16 November 2026", sourceSha256: createHash("sha256").update(exported).digest("hex"), sourceScope: "Each selected quote is marked shown on the site; these are Mindmake work quotes, never part reviews", quotes: verified };
+await writeFile(new URL("../../quality/parts/quote-provenance.json", import.meta.url), JSON.stringify(result, null, 2) + "\n");
 console.log("PASS five verbatim public quotes and exact attribution");

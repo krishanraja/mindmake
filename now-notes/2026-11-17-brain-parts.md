@@ -1,0 +1,4 @@
+Status: Reframed the unpublished kits candidate as seven clearly named parts of a leader's AI brain on /parts. Changes are uncommitted. Test commerce is preserved; source checks pass, but build and rendered acceptance remain blocked. See project-documentation/website-redesign/STATE.md and quality/parts/verification.json.
+Next: A human runs the documented build and parts capture sequence outside this sandbox, then resumes the material-review gate for the exact candidate.
+Changed: Ruling (Krish, 2026-11-17): Use clear job names and remove operational parts that do not serve the mission. One ungrouped list replaces the four groups. All seven entries are ready by instruction; the pages stay unlisted pending rendered approval. All seven report checks and human-judgement sentences are now applied verbatim. /who-decided remains an ordinary link to the page awaiting separate approval from feat/who-decided, PR #309.
+North Star check (2026-11-17): holds.

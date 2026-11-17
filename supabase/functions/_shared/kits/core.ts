@@ -18,15 +18,15 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
   const { slug, requestId } = input as Record<string, unknown>;
   if (typeof slug !== "string" || typeof requestId !== "string" || !/^[0-9a-f-]{36}$/i.test(requestId)) throw new KitError(400, "Invalid request");
   const kit = deps.catalogue.find(item => item.slug === slug && item.status === "ready");
-  if (!kit) throw new KitError(404, "Kit is not for sale");
+  if (!kit) throw new KitError(404, "Part is not for sale");
   const priceId = deps.prices[slug];
-  if (!priceId?.startsWith("price_")) throw new KitError(503, "Kit is not configured");
+  if (!priceId?.startsWith("price_")) throw new KitError(503, "Part is not configured");
   const price = await deps.retrievePrice(priceId);
-  if (!price.active || price.livemode || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Kit price is not configured");
+  if (!price.active || price.livemode || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
   const session = await deps.createSession({
     mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }],
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
-    success_url: `${deps.origin}/kits/${slug}?checkout=success`, cancel_url: `${deps.origin}/kits/${slug}?checkout=cancelled`,
+    success_url: `${deps.origin}/parts/${slug}?checkout=success`, cancel_url: `${deps.origin}/parts/${slug}?checkout=cancelled`,
   }, { idempotencyKey: `kit-${slug}-${requestId}` });
   if (session.livemode || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
@@ -71,11 +71,11 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     const kit = deps.catalogue.find(item => item.slug === metadata?.kit_slug && item.status === "ready");
     // Other products on the same Stripe account are outside this endpoint.
     if (!metadata?.kit_slug) return { received: true };
-    if (!kit || object.mode !== "payment" || object.payment_status !== "paid" || object.currency !== KIT_CURRENCY || object.amount_total !== KIT_PRICE_CENTS || object.livemode !== false) throw new KitError(400, "Invalid kit purchase");
+    if (!kit || object.mode !== "payment" || object.payment_status !== "paid" || object.currency !== KIT_CURRENCY || object.amount_total !== KIT_PRICE_CENTS || object.livemode !== false) throw new KitError(400, "Invalid part purchase");
     const email = (object.customer_details as { email?: string } | undefined)?.email;
     const file = deps.files[kit.slug];
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof object.payment_intent !== "string" || typeof object.id !== "string") throw new KitError(400, "Incomplete purchase");
-    if (!file || file.includes("..") || file.startsWith("/")) throw new KitError(503, "Kit file unavailable");
+    if (!file || file.includes("..") || file.startsWith("/")) throw new KitError(503, "Part file unavailable");
     purchase = { session_id: object.id, payment_intent: object.payment_intent, kit_slug: kit.slug, email, file_path: file };
   } else {
     // Only kit charges carry this metadata; it is set on the PaymentIntent.
@@ -93,10 +93,10 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     if (!prepared.delivery_payload) {
       const direct = await deps.sign(prepared.file_path, 7 * 24 * 60 * 60);
       const token = await deps.token(prepared.id);
-      const renew = `${deps.origin}/kits/download#token=${encodeURIComponent(token)}`;
+      const renew = `${deps.origin}/parts/download#token=${encodeURIComponent(token)}`;
       prepared = await deps.prepareDelivery(id, {
-        subject: `Your Mindmake kit: ${purchase.kit_slug.replaceAll("-", " ")}`,
-        text: `Your kit is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nOpen the download in Claude Desktop to install it.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.`,
+        subject: `Your AI brain part: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
+        text: `This part of your AI brain is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nOpen the download in Claude Desktop to add it.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.`,
       });
     }
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }

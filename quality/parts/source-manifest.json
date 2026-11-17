@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-17",
+  "revision": "parts-integrated-candidate-r4",
+  "baseCommit": "cb428e9b412f78f393fe0df4c8b885fdac4d6b57",
+  "files": {
+    "package.json": "6276ff530f8cc77b56ad81027901f7e580b7792785f4ee7c142330cd47ed9860",
+    "project-documentation/07_DEPLOY_RUNBOOK.md": "4d95898a94d5dae1892baf534a873f88085252bc32a9742387d477778abe909b",
+    "project-documentation/history/LOG.md": "c063352acd9bc367fc23620cd61bc960d7d88311465cd2ad45320064a5c44d4b",
+    "project-documentation/website-redesign/STATE.md": "4332546f59e0c6a72e96095fcd0a429b782985a67514ce0afc0d92265a681b45",
+    "quality/route-lock/approved-production.lock.json": "f1b24981a1b51fb08dd4bd08169c60509bda3656db7f81402b9ee1e442d24dd0",
+    "quality/website-redesign/kits-material-review-candidate.json": "6299dc5f4e4a51f0f1c475b3411615bec5ae6608838bd6a297ed391488e43522",
+    "scripts/build-kits-preview.mjs": "434fb2ce15c0e112840d8301f965bd7a4c2d110be26ad37ee6a92668c47d563a",
+    "scripts/lib/kits-build.mjs": "49670f808969ba957525bd9a1ec235aaa02c07ad1f8d8c3141398fdf8802d8c0",
+    "scripts/lib/pages.mjs": "d4d9a716fc269808ab82e68749ba4b6def9b0080f8a50a73599743e7920ff571",
+    "scripts/prerender.mjs": "b7e0cb3a0d2888a656ea37787b3241d1e29ab7adc6186d2dd181c2aaf4f3ef95",
+    "scripts/qa/kits-capture.mjs": "309c2c2100f57aa33d275a4b526211c6e1d039537715dae3f8b14df47e5c2c68",
+    "scripts/qa/kits-content-check.mjs": "3e126a5dc427ac02df78a2717af6736acf134dc0091ecc8107e589cdc8239b2a",
+    "scripts/qa/kits-production-check.mjs": "ae61dfa9de5cc1942352f1a6bbc44f13198dce3270fb33dff4abed1615a1a6e6",
+    "scripts/qa/kits-test-cases.ts": "5cfba2dd9d5f7e1c55b8bf5f1b80b1d7d2bd575e2bfbf28c778b675bc65e163e",
+    "src/App.tsx": "587e653c5ee5ad814be84ba4f2ca235eb2936f763523cfac377c6a0291ff048f",
+    "src/content/kits.ts": "c44bcff88c0bdb37e1a6fb6a5eba862e9d1232c245a2a797b0dc1ceabaa2e495",
+    "src/entry-server.tsx": "dc9b9afe2832a1acfffb9cce1ebf1d75a328cdb14c6c94be4c6241aa21303b7e",
+    "src/pages/KitDownload.tsx": "7e7d9059e8d964510e966957b873133018241e56179590a37869f89daf2db125",
+    "src/pages/Kits.tsx": "703cfcf4df54046b2a73e72d4d24192cf942ce56489416cc1df6e96731790b7c",
+    "src/styles/kits.css": "bfea6e4ff38766769f1711a5adfd32c22498cdc8ef08ff398d952dc7af29ad7e",
+    "supabase/functions/_shared/kits/core.ts": "6d91e07e3f89aabcfb17a89e1bf286a394db45392fc5df11601a157d8eb65cb7",
+    "vercel.json": "a058fe30ab80f040fcf92fd4e506f9f238a352abbbb1121cc2ad43e0b6965c17",
+    "now-notes/2026-11-17-brain-parts.md": "6f7b5ceca36bf577095242576a65639fa79afd2d4bf4789fba9a94b108e9486a",
+    "quality/parts/verification.json": "1661ae3389d5e88d773bf4654a81c0592096b5035f7e3e152d576b9bb2eacdb5",
+    "quality/parts/revision-copy-check.json": "eba3a7b3aeddfb3e00d7c74e12e16b13134406fb02d7d101a4794f796b754e57"
+  }
+}

@@ -123,3 +123,15 @@
   .kit-sticky > .kit-button, .kit-sticky > .kit-buy, .kit-sticky .kit-button { width: 100%; }
   .kit-sticky .kit-buy-status { max-width: none; }
 }
+
+.kit-hero-catalogue { grid-template-columns: 1fr; }
+.kit-hero-catalogue > div { max-width: 880px; }
+.kit-hero-catalogue .kit-lede { max-width: 72ch; }
+.kit-audit { font-size: 13px; }
+.kit-audit a { display: inline-flex; align-items: center; min-height: 44px; }
+.kit-dark .kit-source { font: 12px/1.7 "IBM Plex Mono", monospace; max-width: 78ch; margin: 32px auto 0; }
+.kit-output h2 { font-size: 32px; }
+.kit-judgement { border-top: 1px solid #cfc9bc; }
+.kit-judgement p { max-width: 65ch; }
+
+.kits-main .kit-explanation { font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(21px, 2vw, 26px); line-height: 1.35; color: var(--kit-ink); max-width: 34ch; letter-spacing: -.01em; }

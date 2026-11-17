@@ -1,63 +1,185 @@
-/** Invented layout examples. A kit becomes ready only after its installable
- * software, own-file behaviour and sample output have been accepted. */
+/** Parts of a leader's AI brain. Internal commerce identifiers stay stable. */
 export interface Kit {
   slug: string;
   name: string;
   problem: string;
-  who: string;
+  strengthens: string;
   does: [string, string, string];
   firstFiveMinutes: [string, string, string];
   requirements: string[];
-  sample: { title: string; rows: { label: string; text: string }[] };
-  door: "ai-brain" | "ai-gtm";
+  /** Verbatim report wording supplied by Krish, 17 November 2026. */
+  checks: string;
+  whoDecided: string;
+  door: "ai-brain";
   status: "ready" | "sample";
 }
 
 export const kits: Kit[] = [
   {
-    slug: "board-update-check", name: "Board update check", status: "sample", door: "ai-brain",
-    problem: "The board update is written, but the decisions inside it are still hard to find.",
-    who: "You run the company.",
-    does: ["Finds the decisions your update asks the board to make.", "Checks each claim against the files you supply.", "Separates what is known from what still needs an answer."],
-    firstFiveMinutes: ["Open the kit in Claude Desktop.", "Choose your draft update and its supporting files.", "Read the checks and decide what to change."],
-    requirements: ["Claude Desktop on Mac or Windows.", "Your board update and the files behind it."],
-    sample: { title: "Board update check", rows: [
-      { label: "Decision", text: "Approve the hiring plan, or wait for the renewal decision?" },
-      { label: "Check", text: "The update assumes the renewal. The account notes still call it open." },
-      { label: "Next question", text: "Who owns the renewal decision, and when will we know?" },
-    ] },
+    "name": "Fact-check my board update",
+    "slug": "fact-check-board-update",
+    "problem": "Every claim traced to a source before it goes to the board.",
+    "strengthens": "Your ability to tell what the evidence supports before you put your name to it.",
+    "does": [
+      "A trace from each claim to the source you supplied.",
+      "Missing or conflicting evidence brought into view.",
+      "Claims that need your judgement before you speak."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose what you are about to say and the files behind it.",
+      "Read the result and decide which claims you can stand behind."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "the claims in your update for matching wording, conflicting numbers and explicit negation in your evidence.",
+    "whoDecided": "whether the evidence is trustworthy and the update gives the board a fair account of the business."
   },
   {
-    slug: "call-prep-from-your-own-files", name: "Call prep from your own files", status: "sample", door: "ai-brain",
-    problem: "The context for your next conversation is scattered across your own notes.",
-    who: "You back companies.",
-    does: ["Brings together the context in the files you choose.", "Finds open questions and conflicting accounts.", "Prepares a brief you can check before the call."],
-    firstFiveMinutes: ["Open the kit in Claude Desktop.", "Choose the notes for your next conversation.", "Read the brief and choose the questions that matter."],
-    requirements: ["Claude Desktop on Mac or Windows.", "Your meeting notes and relevant documents."],
-    sample: { title: "Before the call", rows: [
-      { label: "Context", text: "The last conversation ended with an open question about the buyer." },
-      { label: "Check", text: "The deck names the team. The notes name its finance lead." },
-      { label: "Ask", text: "Whose approval turns interest into a purchase?" },
-    ] },
+    "name": "Fact-check an email before I send it",
+    "slug": "fact-check-email",
+    "problem": "Every name, figure and quote checked before it leaves your outbox.",
+    "strengthens": "Your judgement about which details in a draft are fit to send.",
+    "does": [
+      "Names, figures and quotations traced to your source files.",
+      "Details that disagree with the source or have no trace.",
+      "Checks to resolve before the draft goes out."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose your draft and its source files.",
+      "Read the result and decide what to correct or leave out."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "the names, figures and quotations in your draft against your notes.",
+    "whoDecided": "whether each claim is true in context, correctly attributed and right to send."
   },
   {
-    slug: "ad-spend-waste-finder", name: "Ad spend waste finder", status: "sample", door: "ai-gtm",
-    problem: "The spend report shows activity without making the next budget decision clear.",
-    who: "You run the market.",
-    does: ["Checks the spend export you supply.", "Flags gaps between activity and the outcomes you track.", "Separates a possible cut from a measurement problem."],
-    firstFiveMinutes: ["Open the kit in Claude Desktop.", "Choose your spend export and outcome definitions.", "Read the flagged rows and check the evidence."],
-    requirements: ["Claude Desktop on Mac or Windows.", "Your advertising export and outcome definitions."],
-    sample: { title: "Spend review", rows: [
-      { label: "Observation", text: "The campaign has spend but no recorded qualified enquiries." },
-      { label: "Check", text: "Enquiry tracking is missing from the export." },
-      { label: "Before a cut", text: "Confirm the tracking before treating missing results as wasted spend." },
-    ] },
+    "name": "Check a number before I rely on it",
+    "slug": "check-a-number",
+    "problem": "Whether a figure is sound enough to decide on or report.",
+    "strengthens": "Your judgement about whether a figure can carry the conclusion you want to draw.",
+    "does": [
+      "A check of the number against the records behind it.",
+      "Its definition, comparison and gaps brought into view.",
+      "Unresolved questions to settle before reporting."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose the figures you plan to report and their supporting records.",
+      "Read the result and decide what is fit to report."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "the ratio arithmetic, reporting dates, cohort details, repeated measurements and missing sources behind your metrics.",
+    "whoDecided": "whether the underlying measurements are reliable and answer the question you need to decide."
   },
+  {
+    "name": "Brief me before a meeting",
+    "slug": "meeting-brief",
+    "problem": "What your own files already say about the person, and what is missing.",
+    "strengthens": "Your ability to enter a conversation knowing what is established and what you still need to ask.",
+    "does": [
+      "Relevant context from your own notes.",
+      "A distinction between what was said and what was inferred.",
+      "Named gaps to consider before the conversation."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose your notes about the person you are meeting.",
+      "Read the result and decide which questions matter."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "your own files for who they are, what was last said, open questions and gaps in the record.",
+    "whoDecided": "which questions matter for this conversation and how to respond to what the other person says."
+  },
+  {
+    "name": "Work out my lowest price",
+    "slug": "lowest-price",
+    "problem": "Your price floor, from your own costs and margin.",
+    "strengthens": "Your ability to hold a price against the costs and standards you have chosen.",
+    "does": [
+      "A price floor grounded in your own inputs.",
+      "The costs and standards behind that floor.",
+      "Assumptions you need to settle before quoting."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose your costs, proposed scope and pricing standards.",
+      "Read the result and decide whether the work meets your standards."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "the minimum price that meets your target margin from your costs, payment fees and refund reserve.",
+    "whoDecided": "whether customers will pay that price and whether your costs and assumptions reflect your business."
+  },
+  {
+    "name": "Test a discount before I agree to it",
+    "slug": "test-a-discount",
+    "problem": "What it really costs, and how many extra sales it needs to pay for itself.",
+    "strengthens": "Your ability to judge a concession against your own commercial standards.",
+    "does": [
+      "The proposed discount measured against your costs.",
+      "The effect on what you keep from the work.",
+      "Assumptions and trade-offs behind the concession."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose your price, costs and the proposed discount.",
+      "Read the result and decide whether the concession is worth making."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "what the discount does to your contribution and the extra sales needed to keep it whole.",
+    "whoDecided": "whether the discount will bring enough extra demand and whether you can fulfil those sales."
+  },
+  {
+    "name": "Audit a decision I made with AI",
+    "slug": "audit-a-decision",
+    "problem": "Where your judgement held and where you handed it over, kept as a running record.",
+    "strengthens": "Your ability to recognise where AI helped your judgement and where you stopped making the call.",
+    "does": [
+      "Six questions about one decision you made with AI.",
+      "A record of where your judgement held and where you handed it over.",
+      "A running record you can return to before your next decision."
+    ],
+    "firstFiveMinutes": [
+      "Open this part in Claude Desktop.",
+      "Choose one decision you made with AI and the files behind it.",
+      "Work through the six questions and keep the record for your next decision."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "checks": "your own account of how you made this decision, against six questions.",
+    "whoDecided": "whether your account is honest, and what you will do differently next time."
+  }
 ];
 
 export function visibleKits(catalogue: readonly Kit[], environment: "production" | "preview" | "local"): Kit[] {
   return catalogue.filter(kit => kit.status === "ready" || environment !== "production");
 }
-
 export const KIT_PRICE_CENTS = 5900;
 export const KIT_CURRENCY = "usd";

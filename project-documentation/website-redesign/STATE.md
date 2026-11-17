@@ -1,8 +1,8 @@
 # Approved website state
 
 Status: approved-r3-live
-Working-copy status: unapproved kits candidate on codex/kits-page; not deployed
-Updated: 16 November 2026.
+Working-copy status: unapproved AI brain parts candidate on codex/kits-page; not deployed
+Updated: 17 November 2026.
 
 The latest application release is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
@@ -12,33 +12,62 @@ relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
 
-## Kits candidate, 16 November 2026
+## AI brain parts candidate, 17 November 2026
 
-`codex/kits-page` adds `/kits`, catalogue-driven `/kits/:slug` and the private
-receipt route `/kits/download` as an unapproved local candidate. It is not live.
-The explicit [kits rulings](../rulings/2026-11-16-kits.md) govern this surface;
-the homepage and paid proof retain their existing commercial and design rules.
-Three invented examples are preview/local only. No kit is ready for sale.
+Ruling (Krish, 2026-11-17): Reframe as brain parts. "Those are standalone
+software products... This is an AI brain product that magnifies the brain
+power of a human leader." This supersedes the standalone-kit framing in the
+[original kits rulings](../rulings/2026-11-16-kits.md). The homepage and paid
+proof retain their own rules. The current work is local and unapproved.
 
-The selected route uses the supplied words and reference structure, warm paper,
-the existing shell, Newsreader claims, Archivo body and Mono labels. The brief
-authorises implementation before rendered approval; publication remains blocked.
-One factual copy correction: the privacy FAQ distinguishes no files sent to
-Mindmake from content processed by Claude. Local installation does not establish
-that Claude inference or shared file content stays entirely on the computer.
+Krish's subsequent ruling on 17 November 2026: "I'd appreciate anything that
+is incredibly clear" and "i dont think ad money is the biggest question when
+it comes to what Mindmake exists for". The approved catalogue is now seven
+plainly named jobs before a decision, in one card list without group labels.
+The exact names and descriptions live in `src/content/kits.ts`. The other
+parts have been removed from the catalogue, detail lookup and checkout.
 
-Readiness: source implementation and mocked commerce checks exist. The full
-build stopped at `spawn EPERM` in esbuild; no built candidate or screenshots
-exist. The material firewall correctly reports `ready: false`. Do not present
-a raw runtime or these source files as the rendered candidate. The new manifest
-is `quality/website-redesign/kits-material-review-candidate.json`; the old
-homepage manifest is preserved. `quality/kits/verification.json` records the
-executed gates and remaining evidence, and the deployment runbook owns the
-test and launch steps. Independent specialist receipts and physical-device
-evidence are not available. No approval is inferred from source checks.
-Commit is also blocked: staging the full change cannot create the linked
-worktree's `index.lock`. The earlier partial stage is not the complete change;
-stage all intended files again when write access is restored. No commit exists.
+`/parts` and seven `/parts/:slug` pages carry this revision. Every entry is
+`ready` by Krish's instruction and goes through the `ai-brain` door. This catalogue status is not evidence of installed
+package acceptance or live sales. Commerce remains $59 USD and test-only,
+with the existing webhook, private storage, signed downloads and refund rules.
+New receipt links use `/parts/download`; `/kits/download` remains supported,
+and the host redirects old `/kits` paths to `/parts`.
+
+Krish supplied the page copy and authorised this implementation before rendered
+approval. The existing shell, typography and warm-paper styling remain. The
+ungrouped cards replace the four group sections; invented output examples remain absent.
+The hero explains what an AI brain is before its shortened sub. The audit
+part links to the free six-question audit on `/who-decided`.
+The privacy FAQ changes only the kit terminology to a part of the AI brain;
+its explanation of Claude's processing remains. Quotes and their heading stay
+verbatim. All parts routes are noindex and outside the sitemap, llms.txt and
+site navigation until Krish approves the rendered page.
+
+Krish supplied all seven report-derived checks and human-judgement sentences
+on 17 November 2026, citing `krishanraja/mindmake-kits`. Both fields are required
+in `src/content/kits.ts` and appear verbatim under "What it checks" and "What
+only you can judge" on each detail page. The one-line fallback is removed.
+
+The `/who-decided` links remain ordinary links. Krish identifies its separate
+delivery path as `feat/who-decided`, Mindmake PR #309; that page will exist once
+approved. This parts revision does not import or implement it, and its live
+availability has not been verified here.
+
+Verification and its exact limits are in `quality/parts/verification.json`.
+The production build is blocked by Vite/esbuild `spawn EPERM`; the parts
+production and capture gates cannot find the new prerendered HTML. No current
+parts screenshots or presentation receipt exist. The full Vitest runner also
+fails at startup, including `vite/internal` resolution. A human must run the
+build and capture sequence in `07_DEPLOY_RUNBOOK.md` outside this sandbox.
+The candidate remains in the existing
+`quality/website-redesign/kits-material-review-candidate.json`, with identity
+`parts-integrated-candidate-r4` and evidence under `quality/parts/`. The homepage
+`material-review-candidate.json` is untouched. Never present a raw runtime URL
+or prior kits captures as this candidate. Rendered approval, readiness,
+continuity and specialist receipts remain outstanding. Changes are uncommitted
+under the read-only Git boundary; no publication or external commerce mutation
+has been performed.
 
 ## S9: a more alive site (10 November 2026), then its repair
 

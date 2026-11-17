@@ -3061,3 +3061,56 @@ characters of the page's copy reaching a reader with JavaScript disabled.
 ## 2026-08-11
 
 - rolled from NOW.md: 2026-08-11 to 12, pre-rebuild (`cda3c70`, pull requests #136, #137): one 21-day Sprint and a fit-call action retired, ten orphaned routes redirected, dead Builder Economy links retired. Every offer named in those commits is retired by canon and stays retired.
+
+
+## 2026-11-17: kits reframed as AI brain parts
+
+The prior candidate account below is historical, superseded by the parts section
+in `website-redesign/STATE.md`. It does not describe the current branch.
+
+## Kits candidate, 16 November 2026
+
+`codex/kits-page` adds `/kits`, catalogue-driven `/kits/:slug` and the private
+receipt route `/kits/download` as an unapproved local candidate. It is not live.
+The explicit [kits rulings](../rulings/2026-11-16-kits.md) govern this surface;
+the homepage and paid proof retain their existing commercial and design rules.
+Three invented examples are preview/local only. No kit is ready for sale.
+
+The selected route uses the supplied words and reference structure, warm paper,
+the existing shell, Newsreader claims, Archivo body and Mono labels. The brief
+authorises implementation before rendered approval; publication remains blocked.
+One factual copy correction: the privacy FAQ distinguishes no files sent to
+Mindmake from content processed by Claude. Local installation does not establish
+that Claude inference or shared file content stays entirely on the computer.
+
+Readiness: source implementation and mocked commerce checks exist. The full
+build stopped at `spawn EPERM` in esbuild; no built candidate or screenshots
+exist. The material firewall correctly reports `ready: false`. Do not present
+a raw runtime or these source files as the rendered candidate. The new manifest
+is `quality/website-redesign/kits-material-review-candidate.json`; the old
+homepage manifest is preserved. `quality/kits/verification.json` records the
+executed gates and remaining evidence, and the deployment runbook owns the
+test and launch steps. Independent specialist receipts and physical-device
+evidence are not available. No approval is inferred from source checks.
+Commit is also blocked: staging the full change cannot create the linked
+worktree's `index.lock`. The earlier partial stage is not the complete change;
+stage all intended files again when write access is restored. No commit exists.
+
+### 2026-11-17: seven plainly named jobs before a decision
+
+Ruling (Krish, 2026-11-17): "I'd appreciate anything that is incredibly clear";
+"i dont think ad money is the biggest question when it comes to what Mindmake
+exists for". The twelve-part, four-group candidate was superseded by seven
+approved job names in one ungrouped list. The hero gains the exact explanation
+of an AI brain and a shorter sub; the decision-audit part links to the free six
+questions. Other catalogue copy, quotes and test-commerce rules are retained.
+Current source and acceptance limits remain in `website-redesign/STATE.md`.
+
+### 2026-11-17: report checks and human judgement supplied
+
+Krish supplied the seven verbatim pairs from the parts' own reports in
+`krishanraja/mindmake-kits`. The detail pages now show each under "What it
+checks" and "What only you can judge"; the one-line fallback is removed.
+He identified `/who-decided` as `feat/who-decided`, Mindmake PR #309, to exist
+once approved, and asked that its ordinary links remain. No implementation
+was imported from that branch and no live availability was inferred.

@@ -6,12 +6,12 @@ import { startServer } from "./serve-dist.mjs";
 import { computeCandidateIdentity } from "./material-review-firewall-lib.mjs";
 
 const root = path.resolve(import.meta.dirname, "../..");
-const evidence = path.join(root, "quality/kits");
+const evidence = path.join(root, "quality/parts");
 const manifestPath = path.join(root, "quality/website-redesign/kits-material-review-candidate.json");
 await mkdir(evidence, { recursive: true });
 // Fail before capture if the integrated preview build has not been produced.
-const html = await readFile(path.join(root, "dist/kits/board-update-check/index.html"), "utf8");
-assert(html.includes("Invented sample output"), "A preview build with the actual sample route is required");
+const html = await readFile(path.join(root, "dist/parts/fact-check-board-update/index.html"), "utf8");
+assert(html.includes("What it strengthens") && html.includes("Fact-check my board update"), "A current build with the actual part route is required");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const walk = async directory => (await Promise.all((await readdir(directory, { withFileTypes: true })).map(async item => {
   const file = path.join(directory, item.name);
@@ -30,7 +30,7 @@ try {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce", isMobile: viewport.width === 375, hasTouch: viewport.width === 375 });
     // A capture must never call a real checkout, email, analytics or data service.
     await context.route("**/*", route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
-    for (const [name, route] of [["catalogue", "/kits/"], ["board-update-check", "/kits/board-update-check/"]]) {
+    for (const [name, route] of [["catalogue", "/parts/"], ["fact-check-board-update", "/parts/fact-check-board-update/"]]) {
       const page = await context.newPage(); const errors = [];
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(origin + route, { waitUntil: "networkidle" });
@@ -41,19 +41,19 @@ try {
         const box = element.getBoundingClientRect();
         return box.width > 0 && box.height > 0 && getComputedStyle(element).visibility !== "hidden" && (box.width < 44 || box.height < 44);
       }).map(element => element.textContent?.trim()));
-      assert.deepEqual(smallTargets, [], "A kit control is smaller than 44px");
+      assert.deepEqual(smallTargets, [], "A part control is smaller than 44px");
       const screenshots = [];
       const shot = async suffix => {
-        const file = `quality/kits/${name}-${viewport.width}x${viewport.height}${suffix}.png`;
+        const file = `quality/parts/${name}-${viewport.width}x${viewport.height}${suffix}.png`;
         await page.screenshot({ path: path.join(root, file), fullPage: suffix === "-full" }); screenshots.push(file);
       };
       await shot(""); await shot("-full");
       if (name === "catalogue") {
-        assert.equal(await page.locator(".kit-card").count(), 3);
+        assert.equal(await page.locator(".kit-card").count(), 7);
         await page.locator(".kit-hero .kit-button").click();
         assert(await page.locator("#kit-catalogue").isVisible());
         const kitLink = page.locator(".kit-card-link").first();
-        assert.equal(await kitLink.getAttribute("href"), "/kits/board-update-check");
+        assert.equal(await kitLink.getAttribute("href"), "/parts/fact-check-board-update");
         const heights = [];
         for (let i = 0; i < 5; i++) {
           heights.push((await page.locator(".kit-quote-stack").boundingBox()).height);
@@ -63,7 +63,7 @@ try {
         for (const summary of await page.locator(".kit-faq summary").all()) { await summary.click(); await summary.press("Enter"); }
       } else {
         await page.locator(".kit-hero .kit-button").click();
-        assert(await page.getByText("Invented layout sample. This kit is not for sale.").first().isVisible());
+        await page.getByText("Checkout is unavailable. Please try again.").first().waitFor({ state: "visible" });
       }
       const scrolls = await page.evaluate(() => {
         const total = document.documentElement.scrollHeight - innerHeight;
@@ -75,11 +75,11 @@ try {
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
       }
       assert.deepEqual(errors, []);
-      observations.push({ route, viewport, screenshots, status: "pass", actions: "catalogue, samples, quote controls, FAQ, forward and reverse scroll", consoleErrors: errors });
+      observations.push({ route, viewport, screenshots, status: "pass", actions: "catalogue, part, quote controls, FAQ, forward and reverse scroll", consoleErrors: errors });
       await page.close();
     }
     await context.close();
   }
   await writeFile(path.join(evidence, "browser-observations.json"), JSON.stringify({ candidateSha256: identity.sha256, capturedAt: new Date().toISOString(), runtime: { selfOwned: true, origin }, observations }, null, 2) + "\n");
-  console.log("Captured built kits candidate. Specialist receipts and unmeasured readiness checks remain separate gates.");
+  console.log("Captured built parts candidate. Specialist receipts and unmeasured readiness checks remain separate gates.");
 } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }

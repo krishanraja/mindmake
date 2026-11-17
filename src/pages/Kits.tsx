@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { ArrowDown, ArrowLeft, ArrowRight, BriefcaseBusiness, ChartNoAxesCombined, Check, Landmark, Megaphone } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { kits, visibleKits, type Kit } from "@/content/kits";
@@ -16,11 +16,10 @@ const quoteIds = ["thrave", "data-infra-cro", "media-cro", "coaching-founder", "
 const quotes = quoteIds.map(id => testimonials.find(quote => quote.id === id)!);
 const refund = "Full refund within 14 days, no questions asked.";
 
-function Sample({ kit }: { kit: Kit }) {
-  return <figure className="kit-output">
-    <figcaption><span className="kit-label">{kit.status === "sample" ? "Invented sample output" : "Sample output"}</span><strong>{kit.sample.title}</strong></figcaption>
-    <dl>{kit.sample.rows.map(row => <div key={row.label}><dt>{row.label}</dt><dd>{row.text}</dd></div>)}</dl>
-  </figure>;
+function Strengthens({ kit }: { kit: Kit }) {
+  return <aside className="kit-output" aria-labelledby="kit-strengthens-title">
+    <h2 id="kit-strengthens-title">What it strengthens</h2><p>{kit.strengthens}</p>
+  </aside>;
 }
 
 function Buy({ kit }: { kit: Kit }) {
@@ -44,8 +43,8 @@ function Buy({ kit }: { kit: Kit }) {
     } catch { setState("error"); }
   };
   return <div className="kit-buy"><button className="kit-button" onClick={buy} disabled={state === "loading"}>
-    {state === "loading" ? "Opening checkout…" : "Get it, $59"}<ArrowRight size={18} aria-hidden="true" />
-  </button><div className="kit-buy-status" role="status">{state === "sample" ? "Invented layout sample. This kit is not for sale." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
+    {state === "loading" ? "Opening checkout…" : "Add this part, $59"}<ArrowRight size={18} aria-hidden="true" />
+  </button><div className="kit-buy-status" role="status">{state === "sample" ? "This part is not available." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
 }
 
 function Quotes() {
@@ -61,37 +60,31 @@ function Quotes() {
 
 function Catalogue() {
   return <>
-    <section className="kit-section kit-hero" id="kit-hero">
-      <div><p className="kit-label">MINDMAKE KITS</p>
-        <h1>The work you would hand a chief of staff, <em>installed into your AI.</em></h1>
-        <p className="kit-lede">Each kit is a small piece of working software that plugs into Claude in one click. It does one senior job on your own files and shows you the result in five minutes. Not a prompt. Not a template.</p>
-        <a className="kit-button" href="#kit-catalogue">See the kits <ArrowDown size={18} aria-hidden="true" /></a>
-        <ul className="kit-checks">{["Runs on your computer. Nothing is sent to us.", "Works inside your own Claude.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
+    <section className="kit-section kit-hero kit-hero-catalogue" id="kit-hero">
+      <div><p className="kit-label">PARTS OF YOUR AI BRAIN</p>
+        <h1>Start your AI brain <em>one part at a time.</em></h1>
+        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each part does one job you'd do before a decision, using your own files and your own rules, and then hands the decision back to you.</p>
+        <p className="kit-lede">Each part plugs into Claude in one click, runs on your own files and shows you the result in five minutes.</p>
+        <a className="kit-button" href="#kit-catalogue">See the parts <ArrowDown size={18} aria-hidden="true" /></a>
+        <ul className="kit-checks">{["Runs on your computer. Your files are never sent to us.", "Works inside your own Claude.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
+        <p className="kit-audit">Not sure where to start? Try <Link to="/who-decided">Who decided?</Link>, a free 20-minute audit of one real decision.</p>
       </div>
-      <div className="kit-hero-object">{catalogue[0] ? <Sample kit={catalogue[0]} /> : <div className="kit-coming"><span className="kit-label">MINDMAKE KITS</span><p>First kits arrive shortly</p></div>}</div>
     </section>
-    <section className="kit-section kit-audience" aria-label="Who it is for">{[
-      { Icon: BriefcaseBusiness, title: "You run the company.", body: "Decisions that land on your desk, made faster and checked." },
-      { Icon: ChartNoAxesCombined, title: "You own the number.", body: "Pipeline, pricing and forecasts you can defend." },
-      { Icon: Megaphone, title: "You run the market.", body: "Spend, positioning and messages that hold up." },
-      { Icon: Landmark, title: "You back companies.", body: "Diligence and board work without the busywork." },
-    ].map(({ Icon, title, body }) => <div key={title}><Icon strokeWidth={1.3} aria-hidden="true" /><h2>{title}</h2><p>{body}</p></div>)}</section>
-    <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY THIS IS NOT A PROMPT</p><h2>A prompt asks your AI to guess. <em>A kit gives it a method.</em></h2><p>Every kit carries the rules, checks and steps a good operator would use, written down and tested. So the answer on Tuesday matches the answer on Monday, and you can see why it said what it said.</p></div></section>
-    <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want off your desk.</h2>
-      {catalogue.length ? <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
-        {kit.status === "sample" && <p className="kit-label kit-sample-label">Invented layout sample</p>}<h3><Link to={`/kits/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><Link className="kit-card-link" to={`/kits/${kit.slug}`}>Get it, $59 <ArrowRight size={18} aria-hidden="true" /></Link>
-      </article>)}</div> : <p className="kit-empty">First kits arrive shortly</p>}
+    <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY PARTS, NOT PROMPTS</p><h2>AI makes strong judgement stronger and weak judgement weaker. <em>Each part makes yours stronger.</em></h2><p>A prompt asks your AI to guess. A part gives it the rules, checks and steps a good operator would use, written down and tested, so you can see why it said what it said. Then it tells you what only you can judge.</p><p className="kit-source">Across 106 experiments, people working with AI did better when they were already better than the AI at the task, and worse when they were not. Vaccaro, Almaatouq and Malone, Nature Human Behaviour, 2024.</p></div></section>
+    <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want done before your next decision.</h2>
+      <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
+        <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this part, $59 <ArrowRight size={18} aria-hidden="true" /></Link>
+      </article>)}</div>
     </section>
-    <section className="kit-section kit-how" aria-labelledby="kit-how-title"><h2 id="kit-how-title">How it works</h2><ol>{["Buy once. You get a download link by email.", "Open it. Claude installs it in one click.", "Use it. Point it at your own files and read the result."].map((text, i) => <li key={text}><span className="kit-label">0{i + 1}</span><p>{text}</p></li>)}</ol></section>
-    {catalogue.length > 1 && <section className="kit-section kit-samples" aria-label="Sample outputs"><Sample kit={catalogue[0]} /><Sample kit={catalogue[1]} /></section>}
+    <section className="kit-section kit-how" aria-labelledby="kit-how-title"><h2 id="kit-how-title">How it works</h2><ol>{["Buy once. You get a download link by email.", "Open it. Claude adds it in one click.", "Use it. Point it at your own files, read the result, and make the call."].map((text, i) => <li key={text}><span className="kit-label">0{i + 1}</span><p>{text}</p></li>)}</ol></section>
     <Quotes />
     <section className="kit-section kit-faq" aria-labelledby="kit-faq-title"><h2 id="kit-faq-title">Questions before you start</h2>
       <details><summary>What do I need?</summary><p>Claude Desktop on a Mac or Windows computer. A free Claude account works; a paid plan gives you more room.</p></details>
-      <details><summary>Does my data leave my computer?</summary><p>A kit runs on your computer with your own Claude. We never see your files, and the kit never calls us. Content you share with Claude is processed by Anthropic under your Claude account’s data settings.</p></details>
+      <details><summary>Does my data leave my computer?</summary><p>A part of your AI brain runs on your computer with your own Claude. We never see your files, and the part never calls us. Content you share with Claude is processed by Anthropic under your Claude account’s data settings.</p></details>
       <details><summary>What if it does not help?</summary><p>Email us within 14 days for a full refund. No questions.</p><a href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></details>
-      <details><summary>Is this the same as working with Mindmake?</summary><p>No. A kit does one job well. When you want an AI that knows your standards and judgement across your work, that is what we build with you, one to one. <Link to="/?start=1">Start here.</Link></p></details>
+      <details><summary>Is this the same as working with Mindmake?</summary><p>No. Each part strengthens one kind of judgement. When you want the whole brain, built around your standards and the decisions you make, that is what we build with you, one to one. <Link to="/?start=1">Start here.</Link></p></details>
     </section>
-    <section className="kit-section kit-close"><h2>One job off your desk this week.</h2><a className="kit-button" href="#kit-catalogue">See the kits <ArrowUpRight /></a></section>
+    <section className="kit-section kit-close"><h2>Strengthen one part of your judgement this week.</h2><a className="kit-button" href="#kit-catalogue">See the parts <ArrowUpRight /></a></section>
   </>;
 }
 
@@ -102,9 +95,10 @@ function Detail({ kit }: { kit: Kit }) {
   const [returned, setReturned] = useState<string | null>(null);
   useEffect(() => setReturned(new URLSearchParams(search).get("checkout")), [search]);
   return <>
-    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/kits"><ArrowLeft size={16} aria-hidden="true" /> All kits</Link><p className="kit-label">{kit.status === "sample" ? "INVENTED LAYOUT SAMPLE" : "MINDMAKE KITS"}</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p><p>{kit.who}</p><Buy kit={kit} /><p className="kit-refund">{refund}</p>{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Sample kit={kit} /></section>
+    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/parts"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} /><p className="kit-refund">{refund}</p>{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
     <section className="kit-section kit-detail-content"><div><h2>What you get</h2><ul className="kit-checks">{kit.does.map(text => <li key={text}><Check size={18} aria-hidden="true" />{text}</li>)}</ul></div><div><h2>Your first five minutes</h2><ol className="kit-steps">{kit.firstFiveMinutes.map(text => <li key={text}>{text}</li>)}</ol></div></section>
-    <section className="kit-section kit-requirements"><h2>Requirements</h2><ul>{kit.requirements.map(text => <li key={text}>{text}</li>)}</ul><p>{refund} <a href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Buy kit={kit} /><Link className="kit-back" to={`/${kit.door}`}>{kit.door === "ai-brain" ? "Build your AI brain" : "Build your AI business"}<ArrowRight size={16} aria-hidden="true" /></Link></section>
+    <section className="kit-section kit-detail-content kit-judgement"><div><h2>What it checks</h2><p>{kit.checks}</p></div><div><h2>What only you can judge</h2><p>{kit.whoDecided}</p></div></section>
+    <section className="kit-section kit-requirements"><h2>Requirements</h2><ul>{kit.requirements.map(text => <li key={text}>{text}</li>)}</ul><p>{refund} <a href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Buy key={kit.slug} kit={kit} /><Link className="kit-back" to={`/${kit.door}`}>{kit.door === "ai-brain" ? "Build your AI brain" : "Build your AI business"}<ArrowRight size={16} aria-hidden="true" /></Link></section>
   </>;
 }
 
@@ -123,8 +117,8 @@ export default function Kits() {
     return () => { observer.disconnect(); setSticky(false); };
   }, [slug]);
   return <MindmakeShell onStart={() => window.location.assign("/?start=1")} siteClassName="kits-site" mainClassName="kits-main" showMobileActionBar={false}>
-    <SEO title={kit ? kit.name : "Mindmake kits"} description={kit?.problem ?? "The work you would hand a chief of staff, installed into your AI."} canonical={`/kits${slug ? `/${slug}` : ""}`} noindex={Boolean((slug && !kit) || kit?.status === "sample")} />
-    {slug ? kit ? <Detail kit={kit} /> : <section className="kit-section kit-missing"><h1>This kit is not available.</h1><Link className="kit-button" to="/kits">See the kits <ArrowRight size={18} aria-hidden="true" /></Link></section> : <Catalogue />}
-    {sticky && <aside className="kit-sticky" aria-label="Kits purchase"><span>{kit?.name ?? "MINDMAKE KITS"}</span>{kit ? <Buy kit={kit} /> : <a className="kit-button" href="#kit-catalogue">See the kits <ArrowUpRight /></a>}</aside>}
+    <SEO title={kit ? `${kit.name} | Part of your AI brain` : "Parts of your AI brain"} description={kit?.problem ?? "Start your AI brain one part at a time."} canonical={`/parts${slug ? `/${slug}` : ""}`} noindex />
+    {slug ? kit ? <Detail key={kit.slug} kit={kit} /> : <section className="kit-section kit-missing"><h1>This part is not available.</h1><Link className="kit-button" to="/parts">See the parts <ArrowRight size={18} aria-hidden="true" /></Link></section> : <Catalogue />}
+    {sticky && <aside className="kit-sticky" aria-label="Add a part to your AI brain"><span>{kit?.name ?? "PARTS OF YOUR AI BRAIN"}</span>{kit ? <Buy key={kit.slug} kit={kit} /> : <a className="kit-button" href="#kit-catalogue">See the parts <ArrowUpRight /></a>}</aside>}
   </MindmakeShell>;
 }

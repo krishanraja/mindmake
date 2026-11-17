@@ -30,7 +30,7 @@ export default function KitDownload() {
     finally { setBusy(false); }
   }
   return <MindmakeShell onStart={() => window.location.assign("/?start=1")} siteClassName="kits-site" mainClassName="kits-main" showMobileActionBar={false}>
-    <SEO title="Your kit download" description="Open your kit from your Mindmake receipt." canonical="/kits/download" noindex />
-    <section className="kit-section kit-missing"><p className="kit-label">MINDMAKE KITS</p><h1>Your kit download</h1><button className="kit-button" onClick={download} disabled={busy}>{busy ? "Preparing your download…" : "Download your kit"}</button><p role="status">{status}</p><p><a href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Link className="kit-back" to="/kits">See the kits</Link></section>
+    <SEO title="Your AI brain part" description="Open this part of your AI brain from your Mindmake receipt." canonical="/parts/download" noindex />
+    <section className="kit-section kit-missing"><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>Your AI brain part</h1><button className="kit-button" onClick={download} disabled={busy}>{busy ? "Preparing your download…" : "Download your part"}</button><p role="status">{status}</p><p><a href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Link className="kit-back" to="/parts">See the parts</Link></section>
   </MindmakeShell>;
 }

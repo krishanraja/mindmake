@@ -1,0 +1,66 @@
+{
+  "candidateSha256": "e4a2c4f9ea7eff1ae83a61950c9423df1fb29d0f909f7f230c638abbc174fd5c",
+  "capturedAt": "2026-11-17T18:12:41.290Z",
+  "runtime": {
+    "selfOwned": true,
+    "origin": "http://127.0.0.1:4396"
+  },
+  "observations": [
+    {
+      "route": "/parts/",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "screenshots": [
+        "quality/parts/catalogue-375x812.png",
+        "quality/parts/catalogue-375x812-full.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, part, quote controls, FAQ, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/fact-check-board-update/",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "screenshots": [
+        "quality/parts/fact-check-board-update-375x812.png",
+        "quality/parts/fact-check-board-update-375x812-full.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, part, quote controls, FAQ, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshots": [
+        "quality/parts/catalogue-1440x900.png",
+        "quality/parts/catalogue-1440x900-full.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, part, quote controls, FAQ, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/fact-check-board-update/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshots": [
+        "quality/parts/fact-check-board-update-1440x900.png",
+        "quality/parts/fact-check-board-update-1440x900-full.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, part, quote controls, FAQ, forward and reverse scroll",
+      "consoleErrors": []
+    }
+  ]
+}

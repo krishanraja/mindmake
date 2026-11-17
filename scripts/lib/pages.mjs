@@ -8,18 +8,9 @@
  * plate's two lines where the title is a label rather than a sentence, and
  * `still` names the film whose first frame sits behind them.
  */
-import { readyKitPages } from "./kits-build.mjs";
 export const site = "https://mindmake.co";
 
 export const staticPages = [
-  ...readyKitPages,
-  {
-    path: "/kits",
-    title: "Mindmake kits",
-    description: "The work you would hand a chief of staff, installed into your AI.",
-    headline: "The work you would hand a chief of staff, installed into your AI.",
-    still: "film-02",
-  },
   {
     path: "/",
     title: "Promote your AI from intern to chief of staff.",

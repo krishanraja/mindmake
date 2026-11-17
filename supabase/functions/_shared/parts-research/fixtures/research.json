@@ -1,0 +1,157 @@
+{
+  "now": "2026-11-17T12:00:00.000Z",
+  "company": {
+    "name": "Acme",
+    "domain": "acme.example",
+    "verified": true,
+    "verifiedBy": [
+      {
+        "check": "website",
+        "detail": "Name is on the website.",
+        "url": "https://acme.example/"
+      },
+      {
+        "check": "work-email-domain",
+        "detail": "Buyer supplied this work domain.",
+        "url": "https://acme.example/"
+      }
+    ],
+    "registry": null
+  },
+  "source": {
+    "title": "Acme results",
+    "publisher": "acme.example",
+    "url": "https://acme.example/news/results",
+    "published": "2026-10-31",
+    "retrievedAt": "2026-11-17T12:00:00.000Z",
+    "text": "Revenue was GBP 40000 in FY2026. The company opened a new office.",
+    "category": "website"
+  },
+  "fact": {
+    "kind": "reported-figure",
+    "statement": "Revenue was GBP 40000 in FY2026.",
+    "quote": "Revenue was GBP 40000 in FY2026.",
+    "value": 40000,
+    "unit": "GBP",
+    "period": "FY2026",
+    "sourceUrl": "https://acme.example/news/results",
+    "personalData": false
+  },
+  "home": "<html><title>Acme</title><body>Acme Limited. Company number 12345678.<a href=\"/news/results\">News and results</a></body></html>",
+  "press": "<html><head><title>Acme results</title><meta property=\"article:published_time\" content=\"2026-10-31\"></head><body>Revenue was GBP 40000 in FY2026.</body></html>",
+  "chSearch": {
+    "items": [
+      {
+        "title": "ACME LIMITED",
+        "company_number": "12345678",
+        "company_status": "active"
+      }
+    ]
+  },
+  "chProfile": {
+    "company_name": "ACME LIMITED",
+    "company_number": "12345678",
+    "company_status": "active",
+    "date_of_creation": "2001-01-01"
+  },
+  "chOfficers": {
+    "total_results": 1,
+    "items": [
+      {
+        "name": "PRIVATE PERSON",
+        "officer_role": "director",
+        "appointed_on": "2026-01-01",
+        "date_of_birth": {
+          "month": 1,
+          "year": 1980
+        },
+        "address": {
+          "premises": "PRIVATE ADDRESS"
+        }
+      }
+    ]
+  },
+  "chFilings": {
+    "items": [
+      {
+        "date": "2026-10-01",
+        "type": "AA",
+        "description": "accounts-with-accounts-type-full"
+      }
+    ]
+  },
+  "secTickers": {
+    "0": {
+      "title": "ACME INC",
+      "cik_str": 1234,
+      "ticker": "ACME"
+    }
+  },
+  "secSubmission": {
+    "name": "ACME INC",
+    "website": "https://acme.example",
+    "filings": {
+      "recent": {
+        "accessionNumber": [
+          "0000001234-26-000001"
+        ],
+        "filingDate": [
+          "2026-10-31"
+        ],
+        "form": [
+          "10-Q"
+        ],
+        "primaryDocument": [
+          "acme-20260930.htm"
+        ]
+      }
+    }
+  },
+  "secFacts": {
+    "facts": {
+      "us-gaap": {
+        "Revenues": {
+          "units": {
+            "USD": [
+              {
+                "end": "2026-09-30",
+                "val": 40000,
+                "accn": "0000001234-26-000001",
+                "filed": "2026-10-31"
+              }
+            ]
+          },
+          "label": "Revenues"
+        },
+        "NetIncomeLoss": {
+          "units": {
+            "USD": [
+              {
+                "end": "2026-09-30",
+                "val": 10000,
+                "accn": "0000001234-26-000001",
+                "filed": "2026-10-31"
+              }
+            ]
+          },
+          "label": "Net Income (Loss) Attributable to Parent"
+        }
+      },
+      "dei": {
+        "EntityNumberOfEmployees": {
+          "units": {
+            "pure": [
+              {
+                "end": "2026-09-30",
+                "val": 20,
+                "accn": "0000001234-26-000001",
+                "filed": "2026-10-31"
+              }
+            ]
+          },
+          "label": "Entity Number of Employees"
+        }
+      }
+    }
+  }
+}

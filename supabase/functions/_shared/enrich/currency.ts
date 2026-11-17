@@ -17,11 +17,20 @@
  */
 
 import type { CurrencyItem, DossierPartial } from './types.ts';
-import { fetchWithTimeout } from '../timeout.ts';
-import { createLogger } from '../logger.ts';
+import { defaultEnrichRuntime, type EnrichRuntime } from "./runtime.ts";
 import { isFirstPartyEvidence } from './provenance.ts';
 
-const logger = createLogger('enrich-currency');
+export interface CurrencyOptions {
+  runtime?: EnrichRuntime;
+  /** Opt-in URL discovery for research packs; snippets are never accepted as facts. */
+  coverage?: boolean;
+  from?: string;
+  to?: string;
+  query?: string;
+  maxItems?: number;
+}
+const allowed = (domain: string, url: unknown, options: CurrencyOptions) =>
+  typeof url === "string" && (options.coverage ? /^https:\/\//.test(url) : isFirstPartyEvidence(domain, url));
 
 /** Overall wall-clock budget for the whole currency layer. */
 const OVERALL_MS = 8000;
@@ -36,7 +45,7 @@ const MAX_TEXT_LEN = 220;
 function tidy(text: string): string {
   const collapsed = text.replace(/\s+/g, ' ').trim();
   if (collapsed.length <= MAX_TEXT_LEN) return collapsed;
-  return collapsed.slice(0, MAX_TEXT_LEN - 1).trimEnd() + '…';
+  return collapsed.slice(0, MAX_TEXT_LEN - 1).trimEnd() + 'â€¦';
 }
 
 /** Strip the markdown emphasis and numbered citation markers chat models emit. */
@@ -64,8 +73,9 @@ function isUsableSignal(text: string): boolean {
  * Perplexity (primary): a two-sentence, dated summary of recent shipping.
  * @returns a single CurrencyItem, or null on any failure / empty content.
  */
-async function fetchPerplexity(company: string, domain: string): Promise<CurrencyItem | null> {
-  const key = Deno.env.get('PERPLEXITY_API_KEY');
+async function fetchPerplexity(company: string, domain: string, options: CurrencyOptions, runtime: EnrichRuntime): Promise<CurrencyItem | null> {
+  const logger = runtime.logger;
+  const key = runtime.env('PERPLEXITY_API_KEY');
   if (!key) {
     logger.warn('PERPLEXITY_API_KEY missing, skipping perplexity');
     return null;
@@ -74,9 +84,9 @@ async function fetchPerplexity(company: string, domain: string): Promise<Currenc
   try {
     const prompt =
       `In two sentences, what has ${company} (${domain}) recently launched, ` +
-      `announced, or shipped in 2025-2026? Include a date if known. Be specific.`;
+      `announced, or shipped ${options.from ? `between ${options.from} and ${options.to}` : "recently"}? ${options.query ?? ""} Include a date if known. Be specific.`;
 
-    const res = await fetchWithTimeout(
+    const res = await runtime.request(
       'https://api.perplexity.ai/chat/completions',
       {
         method: 'POST',
@@ -108,7 +118,7 @@ async function fetchPerplexity(company: string, domain: string): Promise<Currenc
     }
 
     const citations: string[] | undefined = data?.citations;
-    const sourceUrl = citations?.find((url) => isFirstPartyEvidence(domain, url));
+    const sourceUrl = citations?.find((url) => allowed(domain, url, options));
     if (!sourceUrl) return null;
     return {
       text: tidy(cleaned),
@@ -125,15 +135,16 @@ async function fetchPerplexity(company: string, domain: string): Promise<Currenc
  * Exa (secondary): up to 2 recent, real-dated press/blog items.
  * @returns an array of CurrencyItems (possibly empty); never throws.
  */
-async function fetchExa(company: string, domain: string): Promise<CurrencyItem[]> {
-  const key = Deno.env.get('EXA_API_KEY');
+async function fetchExa(company: string, domain: string, options: CurrencyOptions, runtime: EnrichRuntime): Promise<CurrencyItem[]> {
+  const logger = runtime.logger;
+  const key = runtime.env('EXA_API_KEY');
   if (!key) {
     logger.warn('EXA_API_KEY missing, skipping exa');
     return [];
   }
 
   try {
-    const res = await fetchWithTimeout(
+    const res = await runtime.request(
       'https://api.exa.ai/search',
       {
         method: 'POST',
@@ -142,9 +153,11 @@ async function fetchExa(company: string, domain: string): Promise<CurrencyItem[]
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: `${company} ${domain} product launch announcement 2026`,
-          includeDomains: [domain],
-          numResults: 3,
+          query: `${company} ${domain} ${options.query ?? "product launch announcement 2026"}`,
+          ...(!options.coverage ? { includeDomains: [domain] } : {}),
+          ...(options.from ? { startPublishedDate: options.from } : {}),
+          ...(options.to ? { endPublishedDate: options.to } : {}),
+          numResults: options.coverage ? 8 : 3,
           type: 'auto',
         }),
       },
@@ -161,8 +174,8 @@ async function fetchExa(company: string, domain: string): Promise<CurrencyItem[]
       Array.isArray(data?.results) ? data.results : [];
 
     return results
-      .filter((r) => r?.title && isFirstPartyEvidence(domain, r.url))
-      .slice(0, 2)
+      .filter((r) => r?.title && allowed(domain, r.url, options))
+      .slice(0, options.coverage ? 8 : 2)
       .map((r): CurrencyItem => ({
         text: tidy(r.title!),
         sourceUrl: r.url,
@@ -179,20 +192,27 @@ async function fetchExa(company: string, domain: string): Promise<CurrencyItem[]
  * NewsAPI (tertiary, best-effort): up to 1 item. Often sparse or empty.
  * @returns an array with 0 or 1 CurrencyItem; never throws.
  */
-async function fetchNewsApi(company: string, domain: string): Promise<CurrencyItem[]> {
-  const key = Deno.env.get('NEWSAPI_API_KEY');
+async function fetchNewsApi(company: string, domain: string, options: CurrencyOptions, runtime: EnrichRuntime): Promise<CurrencyItem[]> {
+  const logger = runtime.logger;
+  const key = runtime.env('NEWSAPI_API_KEY');
   if (!key) {
     logger.warn('NEWSAPI_API_KEY missing, skipping newsapi');
     return [];
   }
 
   try {
+    const end = new Date(options.to ?? Date.now());
+    const floor = new Date(end.getTime() - 29 * 86400000).toISOString();
+    const from = options.from && Date.parse(options.from) > Date.parse(floor) ? options.from : floor;
     const url =
       `https://newsapi.org/v2/everything?q=${encodeURIComponent(company)}` +
-      `&pageSize=3&language=en&sortBy=publishedAt&apiKey=${key}`;
+      `&pageSize=${options.coverage ? 8 : 3}&language=en&sortBy=publishedAt` +
+      `&from=${encodeURIComponent(from)}` +
+      (options.to ? `&to=${encodeURIComponent(options.to)}` : "");
 
-    const res = await fetchWithTimeout(url, {}, PROVIDER_MS);
+    const res = await runtime.request(url, { headers: { "X-Api-Key": key } }, PROVIDER_MS);
 
+    if (res.status === 426) return []; // Developer-plan limits make this provider unavailable.
     if (!res.ok) {
       logger.warn('newsapi non-ok', { status: res.status });
       return [];
@@ -202,15 +222,10 @@ async function fetchNewsApi(company: string, domain: string): Promise<CurrencyIt
     const articles: Array<{ title?: string; url?: string; publishedAt?: string }> =
       Array.isArray(data?.articles) ? data.articles : [];
 
-    const first = articles.find((a) => a?.title && isFirstPartyEvidence(domain, a.url));
-    if (!first) return [];
-
-    return [{
-      text: tidy(first.title!),
-      sourceUrl: first.url,
-      date: first.publishedAt,
-      source: 'newsapi',
-    }];
+    return articles.filter(a => a?.title && allowed(domain, a.url, options))
+      .slice(0, options.coverage ? 8 : 1).map(a => ({
+        text: tidy(a.title!), sourceUrl: a.url, date: a.publishedAt, source: 'newsapi' as const,
+      }));
   } catch (err) {
     logger.error('newsapi failed', { error: String(err) });
     return [];
@@ -232,30 +247,34 @@ async function fetchNewsApi(company: string, domain: string): Promise<CurrencyIt
 export async function fetchCurrency(
   company: string,
   domain: string,
+  options: CurrencyOptions = {},
 ): Promise<DossierPartial | null> {
+  const runtime = options.runtime ?? defaultEnrichRuntime("enrich-currency");
+  const logger = runtime.logger;
   if (!company || !domain) {
     logger.warn('fetchCurrency called without company/domain', { company, domain });
     return null;
   }
 
   // Hard wall-clock cap for the whole layer so one slow provider can't sink it.
-  const overallTimeout = new Promise<'timeout'>((resolve) =>
-    setTimeout(() => resolve('timeout'), OVERALL_MS),
-  );
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const overallTimeout = new Promise<'timeout'>(resolve => { timer = setTimeout(() => resolve('timeout'), OVERALL_MS); });
 
   const work = Promise.allSettled([
-    fetchExa(company, domain),
-    fetchNewsApi(company, domain),
+    fetchExa(company, domain, options, runtime),
+    fetchNewsApi(company, domain, options, runtime),
+    options.coverage ? fetchPerplexity(company, domain, options, runtime) : Promise.resolve(null),
   ]);
 
   const raced = await Promise.race([work, overallTimeout]);
+  clearTimeout(timer);
 
   if (raced === 'timeout') {
     logger.warn('currency layer hit overall timeout', { company, domain, ms: OVERALL_MS });
     return null;
   }
 
-  const [exaRes, newsRes] = raced;
+  const [exaRes, newsRes, perplexityRes] = raced;
   const tools: string[] = [];
   const merged: CurrencyItem[] = [];
 
@@ -268,17 +287,20 @@ export async function fetchCurrency(
     merged.push(...newsRes.value);
   }
 
+  if (perplexityRes.status === "fulfilled" && perplexityRes.value) {
+    tools.push("perplexity"); merged.push(perplexityRes.value);
+  }
   // Dedupe by sourceUrl (items without a URL are always kept), then cap.
   const seen = new Set<string>();
   const items: CurrencyItem[] = [];
   for (const item of merged) {
-    if (!isFirstPartyEvidence(domain, item.sourceUrl)) continue;
+    if (!allowed(domain, item.sourceUrl, options)) continue;
     if (item.sourceUrl) {
       if (seen.has(item.sourceUrl)) continue;
       seen.add(item.sourceUrl);
     }
     items.push(item);
-    if (items.length >= MAX_ITEMS) break;
+    if (items.length >= Math.min(options.maxItems ?? MAX_ITEMS, 15)) break;
   }
 
   if (items.length === 0) {

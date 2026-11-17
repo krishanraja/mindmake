@@ -1,0 +1,10 @@
+{
+  "monzoTitle": "<title>Monzo</title>",
+  "traderTitle": "<title>Autotrader</title>",
+  "buyerNames": [
+    "Monzo Bank Limited",
+    "Auto Trader Group plc"
+  ],
+  "legal": "Registered in England and Wales. Company number 12345678.",
+  "fixtureNote": "Synthetic offline responses reproduce the reported page sizes and company-name spellings. Registration number is synthetic; no live pages were downloaded."
+}

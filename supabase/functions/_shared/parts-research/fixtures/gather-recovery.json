@@ -1,0 +1,61 @@
+{
+  "pdfText": "Duolingo, Inc. revenue was $1.4 billion in Q3 2026.",
+  "home": "<html><body>Loading</body></html>",
+  "coverage": "<html><title>Duolingo results</title><meta property=\"article:published_time\" content=\"2026-11-01\"><p>Duolingo revenue was $1.4 billion in Q3 2026. More at duolingo.com.</p></html>",
+  "figures": [
+    [
+      "Revenue was $1.4 billion in FY2026.",
+      "revenue",
+      "USD",
+      1400000000
+    ],
+    [
+      "Revenue was USD 13.1M in Q3 2026.",
+      "revenue",
+      "USD",
+      13100000
+    ],
+    [
+      "Revenue was GBP 2bn in H1 2026.",
+      "revenue",
+      "GBP",
+      2000000000
+    ],
+    [
+      "Revenue was £(2.5m) in FY2026.",
+      "revenue",
+      "GBP",
+      -2500000
+    ],
+    [
+      "Cash was £45 thousand in 2026-09.",
+      "cash",
+      "GBP",
+      45000
+    ],
+    [
+      "Users totalled 13k in Q3 2026.",
+      "users",
+      null,
+      13000
+    ],
+    [
+      "Growth was 12.5% in Q3 2026.",
+      "growth",
+      "%",
+      12.5
+    ],
+    [
+      "Revenue rose from $1m to $2m in FY2026.",
+      "revenue",
+      "USD",
+      null
+    ],
+    [
+      "Revenue is undisclosed in FY2026.",
+      "revenue",
+      "USD",
+      null
+    ]
+  ]
+}

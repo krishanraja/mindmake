@@ -118,6 +118,8 @@ a recovery path. Verify the affected public flow again after recovery.
 
 ## AI brain parts test and launch sequence
 
+The separate research pilot follows [Research Pack Contract v1](research-pack-contract.md) and the [parts research runner and bundle instructions](parts-research.md). Do not wire it into fulfilment as part of this source-only task.
+
 The 17 November 2026 AI brain parts candidate is source-only, test-only and unapproved.
 Verification is in `quality/parts/verification.json`; website-redesign/STATE.md
 owns its design state and links the material-review manifest.

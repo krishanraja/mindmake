@@ -18,9 +18,8 @@
  */
 
 import type { DossierPartial } from './types.ts';
-import { fetchWithTimeout } from '../timeout.ts';
+import { defaultEnrichRuntime, type EnrichRuntime } from "./runtime.ts";
 import { retryWithBackoff } from '../retry.ts';
-import { createLogger } from '../logger.ts';
 import { hasExactDomainEvidence } from './provenance.ts';
 
 /** Hard ceiling for the Brandfetch round-trip. Identity must stay snappy. */
@@ -215,10 +214,10 @@ function toTagline(description: string | undefined): string | undefined {
  * @param domain Bare registrable domain (e.g. "gong.io"). Caller is expected to
  *   have already normalised via `toDomain` and excluded free-mail domains.
  */
-export async function fetchBrandfetch(domain: string): Promise<DossierPartial | null> {
-  const logger = createLogger('enrich:brandfetch');
+export async function fetchBrandfetch(domain: string, runtime: EnrichRuntime = defaultEnrichRuntime("enrich:brandfetch")): Promise<DossierPartial | null> {
+  const logger = runtime.logger;
 
-  const apiKey = Deno.env.get('BRANDFETCH_API_KEY');
+  const apiKey = runtime.env('BRANDFETCH_API_KEY');
   if (!apiKey) {
     logger.error('BRANDFETCH_API_KEY not set; skipping brandfetch enrichment');
     return null;
@@ -231,8 +230,8 @@ export async function fetchBrandfetch(domain: string): Promise<DossierPartial | 
   const url = `https://api.brandfetch.io/v2/brands/${encodeURIComponent(domain)}`;
 
   try {
-    const res = await retryWithBackoff(async () => {
-      const r = await fetchWithTimeout(
+    const perform = async () => {
+      const r = await runtime.request(
         url,
         {
           method: 'GET',
@@ -249,7 +248,8 @@ export async function fetchBrandfetch(domain: string): Promise<DossierPartial | 
         throw new Error(`brandfetch transient ${r.status}`);
       }
       return r;
-    });
+    };
+    const res = runtime.retry === false ? await perform() : await retryWithBackoff(perform);
 
     if (!res.ok) {
       // 401/403/404 etc. are terminal for this domain, log and bail, no throw.
@@ -341,14 +341,15 @@ interface BrandfetchSearchHit {
 export async function searchBrands(
   query: string,
   limit = 6,
+  runtime: EnrichRuntime = defaultEnrichRuntime("enrich:brandfetch-search"),
 ): Promise<Array<{ domain: string; name?: string; iconUrl?: string }>> {
-  const logger = createLogger('enrich:brandfetch-search');
+  const logger = runtime.logger;
 
   const q = (query || '').trim();
   if (!q || q.length < 2) return [];
 
-  const apiKey = Deno.env.get('BRANDFETCH_API_KEY');
-  const clientId = Deno.env.get('BRANDFETCH_CLIENT_ID');
+  const apiKey = runtime.env('BRANDFETCH_API_KEY');
+  const clientId = runtime.env('BRANDFETCH_CLIENT_ID');
   if (!apiKey && !clientId) {
     logger.error('no BRANDFETCH_API_KEY / BRANDFETCH_CLIENT_ID; skipping brand search');
     return [];
@@ -360,7 +361,7 @@ export async function searchBrands(
   if (!clientId && apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
   try {
-    const res = await fetchWithTimeout(
+    const res = await runtime.request(
       url,
       { method: 'GET', headers },
       BRANDFETCH_SEARCH_TIMEOUT_MS,

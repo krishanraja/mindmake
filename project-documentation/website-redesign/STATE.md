@@ -14,6 +14,8 @@ This is the single current accepted-design and change-guard route for the websit
 
 ## AI brain parts candidate, 17 November 2026
 
+The separate purchase-time research implementation for the first part is governed by [Research Pack Contract v1](../research-pack-contract.md). Its local runner, bundle step and verification limits are documented in [parts research](../parts-research.md). It is not connected to checkout, this page, email or fulfilment.
+
 Ruling (Krish, 2026-11-17): Reframe as brain parts. "Those are standalone
 software products... This is an AI brain product that magnifies the brain
 power of a human leader." This supersedes the standalone-kit framing in the

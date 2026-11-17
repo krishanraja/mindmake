@@ -27,11 +27,16 @@ export function isFirstPartyEvidence(requested: string, sourceUrl: unknown): boo
 }
 
 const nameWords = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
-  .replace(/^the /, '').replace(/ (?:inc|incorporated|ltd|limited|llc|plc|corp|corporation)$/, '').trim();
+  .replace(/^the /, '').replace(/(?: (?:inc|incorporated|ltd|limited|llc|plc|corp|corporation|group|holdings|bank))+$/, '').trim();
 
 export function sameCompanyName(a: string, b: string): boolean {
-  const first = nameWords(a);
-  return first.length >= 3 && first === nameWords(b);
+  const first = nameWords(a).replaceAll(" ", "");
+  return first.length >= 3 && first === nameWords(b).replaceAll(" ", "");
+}
+
+export function companyNameInText(name: string, text: string): boolean {
+  const words = nameWords(name).replaceAll(" ", "");
+  return words.length >= 3 && new RegExp(`\\b${words.split("").join("[\\s\\W]*")}\\b`, "i").test(text);
 }
 
 /** An exact-domain brand record alone can still contain a stale entity label. */
@@ -46,7 +51,7 @@ export function companyIdentityCorroborated(
   const name = nameWords(brandName);
   if (name.length < 3) return false;
   return firstParty.some(item => isFirstPartyEvidence(domain, item.sourceUrl)
-    && ` ${nameWords(item.text)} `.includes(` ${name} `));
+    && companyNameInText(brandName, item.text));
 }
 /** Only quote the corroborated identity provider's literal description. Never a model paraphrase. */
 export function literalCompanyRead(descriptor: unknown, tagline: unknown): string | null {

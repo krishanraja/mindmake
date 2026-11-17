@@ -1,15 +1,16 @@
 {
   "date": "2026-11-17",
-  "status": "source implemented; partially verified; uncommitted; unpublished",
+  "revision": "parts-integrated-candidate-r5",
+  "status": "source implemented and tested; rendered acceptance blocked; uncommitted; unpublished",
   "branch": "codex/kits-page",
-  "baseCommit": "cb428e9b412f78f393fe0df4c8b885fdac4d6b57",
-  "runtime": "Windows PowerShell, Node v24.19.0; repository requires Node 22.x for acceptance",
-  "ruling": "Ruling (Krish, 2026-11-17): Use seven clear job names before a decision; remove off-mission operational parts and group labels.",
+  "baseCommit": "7632852549a9afcc931eb6bed0f54762fed7e2b5",
+  "runtime": "Node v24.19.0 in Windows sandbox; repeat release acceptance on required Node 22.x",
+  "ruling": "Ruling (Krish, 2026-11-17): This needs to be a world class lead magnet site in terms of conversion rates, but not tacky looking.",
   "checks": [
     {
-      "command": "npm run test:kits",
+      "command": "npm run test:parts",
       "status": "pass",
-      "result": "17 cases; all seven checks and human-judgement sentences match the supplied wording exactly, with no fallback."
+      "result": "22 cases: 17 catalogue/routes/mocked-commerce and 5 report/DOM interaction cases. Real keyboard activation requires the separate browser gate."
     },
     {
       "command": "npm run typecheck",
@@ -19,114 +20,130 @@
     {
       "command": "npm run lint",
       "status": "pass",
-      "result": "Zero errors, four warnings in unchanged files."
+      "result": "Zero errors; four pre-existing warnings in unchanged files."
     },
     {
       "command": "npm run qa:docs",
       "status": "pass",
-      "result": "Documentation and continuity contract checks pass after the copy and PR #309 clarification."
+      "result": "Current documentation and website continuity contracts pass."
     },
     {
-      "command": "npm run qa:approved-routes",
+      "command": "npm run qa:approved-routes:update; npm run qa:approved-routes",
       "status": "pass",
-      "result": "157 locked files match; no new lock regeneration needed."
+      "result": "Only the intended package.json script hash changed; all 157 locked files match."
     },
     {
       "command": "npm run qa:website-restart",
       "status": "blocked",
-      "result": "Contract, handoff, feedback, experience profile and firewall checks pass; award-panel self-test hits scratch-directory EPERM."
+      "result": "Contract, handoff, feedback, profile, firewall and panel definitions pass. Default scratch path denied. With MINDMAKE_QA_SCRATCH in permitted temp storage, panel self-test reaches spawnSync git EPERM."
     },
-    {
-      "command": "node --check scripts/qa/kits-production-check.mjs",
-      "status": "pass",
-      "result": "Updated built-page assertions parse; they now require both verbatim fields."
-    },
-    {
-      "command": "npm run qa:material-review -- quality/website-redesign/kits-material-review-candidate.json",
-      "status": "blocked",
-      "result": "ready:false for r4; dist/parts/index.html absent."
-    },
-    {
-      "command": "git diff --check",
-      "status": "pass",
-      "result": "No whitespace errors."
-    },
-    {
-      "command": "Protected copy and file readback",
-      "status": "pass",
-      "result": "Existing catalogue blocks match recorded hashes. Homepage review manifest, public/llms.txt and public/sitemap.xml unchanged."
-    }
-  ],
-  "expectedCaptures": [
-    "quality/parts/catalogue-375x812.png",
-    "quality/parts/catalogue-375x812-full.png",
-    "quality/parts/catalogue-1440x900.png",
-    "quality/parts/catalogue-1440x900-full.png",
-    "quality/parts/fact-check-board-update-375x812.png",
-    "quality/parts/fact-check-board-update-375x812-full.png",
-    "quality/parts/fact-check-board-update-1440x900.png",
-    "quality/parts/fact-check-board-update-1440x900-full.png"
-  ],
-  "capturesProduced": [],
-  "copyChangesOutsideSuppliedText": [],
-  "openGaps": [
-    "Rendered mobile/desktop acceptance, specialist/readiness/continuity receipts and physical-device evidence unavailable.",
-    "Live checkout, receipt delivery, installed part packages and refund execution not exercised.",
-    "Observation capture could not be persisted: MCP tool requires approval and session approval policy is never."
-  ],
-  "next": "Human runs the existing deployment-runbook parts sequence outside this sandbox using Node 22 and matching dependencies, then resumes the material-review firewall. No raw Vite review URL.",
-  "revision": "parts-integrated-candidate-r4",
-  "revisionChangedFiles": [
-    "src/content/kits.ts",
-    "src/pages/Kits.tsx",
-    "scripts/qa/kits-test-cases.ts",
-    "scripts/qa/kits-production-check.mjs",
-    "quality/website-redesign/kits-material-review-candidate.json",
-    "project-documentation/website-redesign/STATE.md",
-    "project-documentation/07_DEPLOY_RUNBOOK.md",
-    "project-documentation/history/LOG.md",
-    "now-notes/2026-11-17-brain-parts.md",
-    "quality/parts/revision-copy-check.json",
-    "quality/parts/verification.json",
-    "quality/parts/source-manifest.json"
-  ],
-  "reportCopySource": "Verbatim report text supplied by Krish on 17 November 2026, attributed to krishanraja/mindmake-kits; no independent package audit performed.",
-  "previousRevisionBlockedChecks": [
     {
       "command": "npm run build",
       "status": "blocked",
-      "result": "Vite/esbuild spawn EPERM. No revised build.",
-      "revision": "parts-integrated-candidate-r3",
-      "rerun": false
+      "result": "Vite config bundling: esbuild spawn EPERM. No new dist. public/llms.txt and public/sitemap.xml restored and verified identical to HEAD."
     },
     {
       "command": "npm run build:parts-preview",
       "status": "blocked",
-      "result": "Vite/esbuild spawn EPERM.",
-      "revision": "parts-integrated-candidate-r3",
-      "rerun": false
-    },
-    {
-      "command": "npm run test",
-      "status": "blocked",
-      "result": "Vitest configuration startup: vite/internal resolution error and spawn EPERM.",
-      "revision": "parts-integrated-candidate-r3",
-      "rerun": false
+      "result": "Vite config bundling: esbuild spawn EPERM. No new preview bytes."
     },
     {
       "command": "npm run qa:parts:production",
       "status": "blocked",
-      "result": "dist/parts/index.html absent after blocked build.",
-      "revision": "parts-integrated-candidate-r3",
-      "rerun": false
+      "result": "Current-revision guard rejects stale dist from before the interaction changes."
     },
     {
       "command": "npm run qa:parts:capture",
       "status": "blocked",
-      "result": "dist/parts/fact-check-board-update/index.html absent. No current screenshots.",
-      "revision": "parts-integrated-candidate-r3",
-      "rerun": false
+      "result": "Current-revision guard rejects stale HTML; no r5 screenshots produced."
+    },
+    {
+      "command": "Playwright chromium.launch()",
+      "status": "blocked",
+      "result": "Browser launch spawn EPERM. Real Enter/Space/Tab/Escape tests and rendered 375x812/1440x900 checks remain unexecuted."
+    },
+    {
+      "command": "npm run qa:material-review -- quality/website-redesign/kits-material-review-candidate.json",
+      "status": "blocked",
+      "result": "No current artifact file list or readiness, continuity or independent-specialist receipts. Capture will bind the built files only after a successful fresh build."
+    },
+    {
+      "command": "node --check capture and browser interaction scripts; git diff --check",
+      "status": "pass",
+      "result": "Scripts parse; no whitespace errors."
+    },
+    {
+      "command": "Copy and protected-file comparisons",
+      "status": "pass",
+      "result": "No banned words or em dashes in changed visitor source. Quote function and catalogue unchanged. Homepage candidate manifest, package-lock.json, llms.txt and sitemap.xml match HEAD."
     }
   ],
-  "externalPageDependency": "Per Krish: /who-decided is delivered separately by feat/who-decided, Mindmake PR #309, after its approval. Existing ordinary links remain; no code imported and no live-status claim."
+  "revisionChangedFiles": [
+    "now-notes/2026-11-17-brain-parts.md",
+    "package.json",
+    "project-documentation/07_DEPLOY_RUNBOOK.md",
+    "project-documentation/history/LOG.md",
+    "project-documentation/website-redesign/STATE.md",
+    "quality/parts/revision-copy-check.json",
+    "quality/parts/sample/fact-check-board-update-eee5ba1a9143.md",
+    "quality/parts/sample/provenance.json",
+    "quality/parts/source-manifest.json",
+    "quality/parts/verification.json",
+    "quality/route-lock/approved-production.lock.json",
+    "quality/website-redesign/kits-material-review-candidate.json",
+    "scripts/qa/kits-capture.mjs",
+    "scripts/qa/kits-production-check.mjs",
+    "scripts/qa/kits-test-cases.ts",
+    "scripts/qa/parts-browser-interactions.mjs",
+    "scripts/qa/parts-ui-tests.mjs",
+    "src/components/ui/bouncy-accordion.tsx",
+    "src/components/ui/onboarding-checklist.tsx",
+    "src/components/ui/parts-evidence-chart.tsx",
+    "src/components/ui/parts-faq-drawer.tsx",
+    "src/components/ui/parts-sample-output.tsx",
+    "src/components/ui/square-grid.tsx",
+    "src/content/parts-sample.json",
+    "src/pages/KitDownload.tsx",
+    "src/pages/Kits.tsx",
+    "src/styles/kits.css"
+  ],
+  "adaptations": [
+    "FaqDrawer paper cards inside installed Radix Dialog for focus, Escape and restoration",
+    "Bouncy accordion uses framer-motion, native buttons and hidden panels",
+    "Onboarding checklist uses native checkboxes and page memory only",
+    "Square grid runs only during checkout/download waits and respects reduced motion",
+    "PeakChart presentation reduced to two signed bars on one common scale; no demo data or animated totals"
+  ],
+  "copyExceptions": [
+    "Previously corrected privacy answer retained verbatim, explicitly naming Anthropic and Claude account data settings."
+  ],
+  "sampleProvenance": "quality/parts/sample/provenance.json; actual local run on bundled example files, not customer data",
+  "qaContract": {
+    "target": "/parts, /parts/fact-check-board-update, /parts/download",
+    "identity": "Current source r5; old dist and prior captures do not match",
+    "user": "Senior executive choosing a bounded job before a decision",
+    "tasks": [
+      "Review real sample before price",
+      "Open FAQs and return focus by keyboard",
+      "Read default human-judgement panel and change panels",
+      "Tick and undo download steps locally",
+      "Inspect exactly two research values"
+    ],
+    "viewports": [
+      "375x812",
+      "1440x900"
+    ],
+    "externalTraffic": "Blocked by capture script; no real checkout, sends or data service",
+    "passSignal": "Matching build, browser interaction assertions, no horizontal overflow, 44px targets, fresh captures and release receipts"
+  },
+  "capturesProduced": [],
+  "historicalEvidence": "Existing quality/parts screenshots, browser-observations.json and production-rule.json predate r5 and were not relabelled.",
+  "openGaps": [
+    "Browser keyboard activation, responsive render and physical-device acceptance",
+    "Required readiness, continuity and independent-specialist receipts",
+    "Measured conversion/cash outcome",
+    "Live commerce, package installation and refund execution"
+  ],
+  "next": "Human runs 07_DEPLOY_RUNBOOK.md sequence on Node 22: build, production QA, preview build, test:parts -- --browser (or qa:parts:capture), then material-review receipts. No raw runtime URL.",
+  "externalPageDependency": "/who-decided remains a plain link for separate feat/who-decided PR #309 approval."
 }

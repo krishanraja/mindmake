@@ -1,0 +1,10 @@
+{
+  "sourceRepository": "krishanraja/mindmake-kits",
+  "sourceModule": "kits/fact-check-board-update/run.mjs",
+  "inputFingerprint": "e7ca6283cbca7c87c51a7137ccd660a1b52835a377d703af39a770e4c45371bb",
+  "evidenceFingerprint": "d011c894439be59ae35a6dac73c072e387bb84db4131a8288476c3cf3c86ba9d",
+  "reportFingerprint": "eee5ba1a91439bb8b555035dee274e9b5df0da4b5b081ed9b801dd6ab6bbdc35",
+  "excerptSha256": "1a8ff8a9dc10fdec9254da250873df29e7cc386f2b7c98eabb43a28e668fcfc3",
+  "adaptation": "Non-backed rows excerpted; local sample path prefixes removed. Supplied example inputs, not customer data.",
+  "sourceModuleSha256": "55644f4df6e605cbdff80b7ca06f9f343075e0d84c950ba618f05e1e5bf942eb"
+}

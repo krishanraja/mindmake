@@ -93,7 +93,7 @@
     "qa:locked-routes": "node scripts/qa/locked-route-regression-audit.mjs",
     "qa:responsive-system-r4": "node scripts/qa/responsive-system-r4-check.mjs",
     "qa:route-lock": "npm run qa:approved-routes && npm run qa:approved-routes:self-test && npm run qa:plain-language && npm run qa:locked-routes && node scripts/qa/route-lock-production-check.mjs",
-    "test:parts": "node --experimental-transform-types scripts/qa/kits-unit.mts",
+    "test:parts": "node --experimental-transform-types scripts/qa/kits-unit.mts && node scripts/qa/parts-ui-tests.mjs",
     "build:parts-preview": "node scripts/build-kits-preview.mjs",
     "qa:parts:production": "node scripts/qa/kits-production-check.mjs",
     "qa:parts:capture": "node scripts/qa/kits-capture.mjs"

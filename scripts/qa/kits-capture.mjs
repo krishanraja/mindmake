@@ -3,6 +3,7 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { chromium } from "playwright";
 import { startServer } from "./serve-dist.mjs";
+import { checkPartsInteractions } from "./parts-browser-interactions.mjs";
 import { computeCandidateIdentity } from "./material-review-firewall-lib.mjs";
 
 const root = path.resolve(import.meta.dirname, "../..");
@@ -11,7 +12,7 @@ const manifestPath = path.join(root, "quality/website-redesign/kits-material-rev
 await mkdir(evidence, { recursive: true });
 // Fail before capture if the integrated preview build has not been produced.
 const html = await readFile(path.join(root, "dist/parts/fact-check-board-update/index.html"), "utf8");
-assert(html.includes("What it strengthens") && html.includes("Fact-check my board update"), "A current build with the actual part route is required");
+assert(html.includes("parts-accordion") && html.includes("parts-price-actions") && html.includes("Fact-check my board update"), "A current build with the actual part route is required");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const walk = async directory => (await Promise.all((await readdir(directory, { withFileTypes: true })).map(async item => {
   const file = path.join(directory, item.name);
@@ -30,7 +31,7 @@ try {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce", isMobile: viewport.width === 375, hasTouch: viewport.width === 375 });
     // A capture must never call a real checkout, email, analytics or data service.
     await context.route("**/*", route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
-    for (const [name, route] of [["catalogue", "/parts/"], ["fact-check-board-update", "/parts/fact-check-board-update/"]]) {
+    for (const [name, route] of [["catalogue", "/parts/"], ["fact-check-board-update", "/parts/fact-check-board-update/"], ["download", "/parts/download/"]]) {
       const page = await context.newPage(); const errors = [];
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(origin + route, { waitUntil: "networkidle" });
@@ -48,6 +49,7 @@ try {
         await page.screenshot({ path: path.join(root, file), fullPage: suffix === "-full" }); screenshots.push(file);
       };
       await shot(""); await shot("-full");
+      await checkPartsInteractions(page, name, shot);
       if (name === "catalogue") {
         assert.equal(await page.locator(".kit-card").count(), 7);
         await page.locator(".kit-hero .kit-button").click();
@@ -60,8 +62,8 @@ try {
           await page.getByRole("button", { name: "Next quote" }).click();
         }
         assert(Math.max(...heights) - Math.min(...heights) <= 1, "Quote height changed");
-        for (const summary of await page.locator(".kit-faq summary").all()) { await summary.click(); await summary.press("Enter"); }
-      } else {
+
+      } else if (name !== "download") {
         await page.locator(".kit-hero .kit-button").click();
         await page.getByText("Checkout is unavailable. Please try again.").first().waitFor({ state: "visible" });
       }
@@ -75,7 +77,7 @@ try {
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
       }
       assert.deepEqual(errors, []);
-      observations.push({ route, viewport, screenshots, status: "pass", actions: "catalogue, part, quote controls, FAQ, forward and reverse scroll", consoleErrors: errors });
+      observations.push({ route, viewport, screenshots, status: "pass", actions: "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll", consoleErrors: errors });
       await page.close();
     }
     await context.close();

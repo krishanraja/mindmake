@@ -127,11 +127,11 @@ owns its design state and links the material-review manifest.
    typecheck and `npm run build`. Set `MINDMAKE_QA_SCRATCH` to a permitted
    temporary directory if needed. Run `npm run qa:parts:production` before
    replacing dist with a preview build. Preserve and restore `public/llms.txt`
-   and `public/sitemap.xml` after both builds. Run `npm run test:kits` for the
-   focused catalogue, route and mocked commerce cases.
-2. Run `npm run build:parts-preview`, then `npm run qa:parts:capture`. Capture
+   and `public/sitemap.xml` after both builds. Run `npm run test:parts` for the
+   catalogue, route, mocked commerce, report provenance and DOM interaction cases.
+2. Run `npm run build:parts-preview`, then `npm run test:parts -- --browser` (or `npm run qa:parts:capture`). Capture
    requires the integrated prerendered `/parts/fact-check-board-update` page, freezes every dist file
-   in the manifest and records both routes at 375x812 and 1440x900. Finish
+   in the manifest and records the catalogue, board-update detail and download routes at 375x812 and 1440x900, including drawer and accordion states. It tests Enter/Space opening, Escape closing, focus containment and restoration, checklist ticks and the exact chart values. Existing captures are not evidence for r5. Finish
    required site gates, readiness, continuity and independent specialist
    receipts. Unit checks cannot substitute for these receipts.
 3. Issue the receipt with

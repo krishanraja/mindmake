@@ -4,6 +4,7 @@ import { kits } from "../../src/content/kits.ts";
 const root = new URL("../../", import.meta.url);
 const read = file => readFile(new URL(file, root), "utf8");
 const html = await read("dist/parts/index.html");
+assert(html.includes("parts-sample") && html.includes("parts-evidence-chart"), "Build the current parts interaction revision before production QA; existing dist is stale");
 const { renderWithMetadata } = await import("../../dist-ssr/entry-server.js");
 assert.equal(kits.length, 7);
 assert.equal((html.match(/class="kit-card"/g) ?? []).length, 7);
@@ -20,7 +21,7 @@ for (const route of ["/parts", "/parts/download", ...kits.map(part => `/parts/${
     const part = kits.find(part => route.endsWith(`/${part.slug}`));
     assert(body.includes(part.name)); assert(body.includes(part.problem));
     assert(body.includes(part.checks)); assert(body.includes(part.whoDecided));
-    for (const heading of ["What it strengthens", "What you get", "Your first five minutes", "What it checks", "What only you can judge", "Requirements"]) assert(body.includes(heading));
+    for (const heading of ["What it strengthens", "What you get", "Your first five minutes", "What it checks", "What only you can judge", "What you need"]) assert(body.includes(heading));
     assert(body.includes("Add this part, $59"));
     if (part.slug === "audit-a-decision") {
       assert(body.includes("Try it free first:")); assert(body.includes('href="/who-decided"'));

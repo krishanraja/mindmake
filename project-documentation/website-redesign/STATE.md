@@ -54,20 +54,22 @@ delivery path as `feat/who-decided`, Mindmake PR #309; that page will exist once
 approved. This parts revision does not import or implement it, and its live
 availability has not been verified here.
 
+Ruling (Krish, 2026-11-17): "This needs to be a world class lead magnet site in terms of conversion rates, but not tacky looking". The r5 source adapts his supplied drawer, accordion, checklist, loader and chart references using installed dependencies only. The seven answers open on request from the FAQ heading or beside each price. The corrected Anthropic privacy wording is retained. Detail pages open the human-judgement accordion item by default; download ticks stay in page memory. A genuine report excerpt, generated locally from the board-update part's bundled examples, precedes the catalogue prices. Its provenance is in `quality/parts/sample/provenance.json`. The research chart has only the supplied +0.46 and -0.54 bars and its source. Refund terms accompany each price. Duplicate sticky and lower-page buy actions are removed.
+
 Verification and its exact limits are in `quality/parts/verification.json`.
-The production build is blocked by Vite/esbuild `spawn EPERM`; the parts
-production and capture gates cannot find the new prerendered HTML. No current
-parts screenshots or presentation receipt exist. The full Vitest runner also
-fails at startup, including `vite/internal` resolution. A human must run the
-build and capture sequence in `07_DEPLOY_RUNBOOK.md` outside this sandbox.
-The candidate remains in the existing
-`quality/website-redesign/kits-material-review-candidate.json`, with identity
-`parts-integrated-candidate-r4` and evidence under `quality/parts/`. The homepage
+The current production and preview builds hit Vite/esbuild `spawn EPERM`.
+Chromium launch also hits `spawn EPERM`. Existing dist and captures predate r5;
+the production and capture gates reject that stale build. No rendered r5 or
+conversion-rate result is claimed. A human must run the build, real-browser
+keyboard checks and capture sequence in `07_DEPLOY_RUNBOOK.md` outside this
+sandbox. The in-process test runner covers DOM interaction and report provenance.
+The candidate remains in `quality/website-redesign/kits-material-review-candidate.json`,
+with identity `parts-integrated-candidate-r5` and evidence under `quality/parts/`.
+Its artifact list is empty until fresh capture binds the built bytes. The homepage
 `material-review-candidate.json` is untouched. Never present a raw runtime URL
-or prior kits captures as this candidate. Rendered approval, readiness,
-continuity and specialist receipts remain outstanding. Changes are uncommitted
-under the read-only Git boundary; no publication or external commerce mutation
-has been performed.
+or previous captures as this candidate. Rendered approval, readiness, continuity
+and specialist receipts remain outstanding. Changes are uncommitted under the
+read-only Git boundary; no publication or external commerce mutation has been performed.
 
 ## S9: a more alive site (10 November 2026), then its repair
 

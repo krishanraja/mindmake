@@ -63,8 +63,8 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     const page = await read("src/pages/Kits.tsx");
     assert(page.includes('noindex />')); assert(page.includes('to="/who-decided"'));
     assert(page.includes('Start your AI brain <em>one part at a time.</em>'));
-    assert(page.includes('<h2>What only you can judge</h2><p>{kit.whoDecided}</p>'));
-    assert(page.includes('<h2>What it checks</h2><p>{kit.checks}</p>'));
+    assert(page.includes('title: "What only you can judge", content: <p>{kit.whoDecided}</p>'));
+    assert(page.includes('title: "What it checks", content: <p>{kit.checks}</p>'));
     assert(!page.includes('kit.whoDecided ??'));
     const explanation = "Your AI brain is your judgement, written down so AI can use it. Each part does one job you'd do before a decision, using your own files and your own rules, and then hands the decision back to you.";
     const shortSub = "Each part plugs into Claude in one click, runs on your own files and shows you the result in five minutes.";

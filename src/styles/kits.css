@@ -135,3 +135,77 @@
 .kit-judgement p { max-width: 65ch; }
 
 .kits-main .kit-explanation { font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(21px, 2vw, 26px); line-height: 1.35; color: var(--kit-ink); max-width: 34ch; letter-spacing: -.01em; }
+
+/* Parts interaction revision: supplied components, Mindmake materials. */
+.kit-hero-catalogue { grid-template-columns: 1.15fr 1fr; gap: 6%; align-items: start; }
+.kit-hero-catalogue > div { min-width: 0; }
+.kit-hero-catalogue .kit-explanation { max-width: 38ch; }
+.parts-price-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.parts-questions { min-height: 44px; min-width: 44px; padding: 8px 0; border: 0; background: transparent; font: inherit; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; color: #0a100d; }
+.parts-card-price { margin-top: auto; border-top: 1px solid #d9d5ca; padding-top: 8px; }
+.parts-card-price .kit-card-link { border: 0; padding: 0; margin: 0; gap: 16px; }
+.parts-card-price .kit-refund { font-size: 12px; margin: 0; }
+.kit-buy .kit-refund { margin: 8px 0 0; }
+.parts-faq-heading { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 24px; text-align: left; background: transparent; border: 0; border-block: 1px solid #b6ae9f; color: inherit; padding: 24px 0; font: inherit; letter-spacing: inherit; cursor: pointer; min-height: 60px; }
+.parts-faq-heading svg { flex-shrink: 0; }
+.parts-drawer-overlay { position: fixed; inset: 0; z-index: 1000; background: #0a100d80; animation: parts-fade-in .18s ease-out; }
+.parts-drawer { position: fixed; z-index: 1001; top: 0; right: 0; height: 100dvh; width: min(100%, 600px); overflow-y: auto; overscroll-behavior: contain; padding: 36px 28px max(28px, env(safe-area-inset-bottom)); background: #f4efe4; color: #0a100d; font: 15px/1.65 "Archivo Variable", sans-serif; box-shadow: -12px 0 48px #0a100d20; animation: parts-drawer-in .25s ease-out; }
+.parts-drawer * { box-sizing: border-box; }
+.parts-drawer h2 { font: 400 38px/1.1 "Newsreader Variable", Georgia, serif; letter-spacing: -.03em; margin: 22px 44px 32px 0; }
+.parts-drawer .kit-label { margin-right: 44px; }
+.parts-drawer-close { position: absolute; top: 20px; right: 16px; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #b6ae9f; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+.parts-faq-cards details { background: #fffdf7; border: 1px solid #cfc9bc; border-radius: 5px; margin-bottom: 8px; padding: 0 18px; }
+.parts-faq-cards details[open] { border-top: 3px solid #e0a44a; box-shadow: 0 4px 12px #0a100d08; }
+.parts-faq-cards summary { min-height: 56px; padding: 16px 0; font-weight: 500; cursor: pointer; }
+.parts-faq-cards p { margin: 0 0 18px; }
+.parts-faq-cards a { color: inherit; text-decoration: underline; display: inline-flex; align-items: center; min-height: 44px; }
+.parts-drawer :is(button, summary, a):focus-visible { outline: 3px solid #1d6a47; outline-offset: 3px; }
+.parts-accordion { min-width: 0; }
+.parts-accordion section { background: #fffdf7; border: 1px solid #d9d5ca; }
+.parts-accordion section[data-open="true"] { border-color: #8a9c8d; }
+.kits-main .parts-accordion h2 { margin: 0; font: 500 17px/1.4 "Archivo Variable", sans-serif; letter-spacing: 0; }
+.parts-accordion button { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 64px; text-align: left; padding: 18px 20px; font: inherit; background: transparent; border: 0; color: inherit; cursor: pointer; }
+.parts-accordion button span { display: flex; flex-shrink: 0; }
+.parts-accordion-content { padding: 0 20px 20px; line-height: 1.65; }
+.parts-accordion-content p { margin: 0; }
+.parts-accordion-content ul { padding-left: 18px; }
+.parts-accordion-content .kit-steps { margin: 0; }
+.parts-accordion-content .kit-steps li:last-child { padding-bottom: 0; }
+.parts-onboarding { margin: 40px 0; max-width: 620px; padding: 24px; background: #fffdf7; border: 1px solid #cfc9bc; }
+.kits-main .parts-onboarding h2 { font-size: 32px; margin-bottom: 8px; }
+.parts-onboarding ol { list-style: none; padding: 0; }
+.parts-onboarding li + li { border-top: 1px solid #d9d5ca; }
+.parts-onboarding label { position: relative; display: flex; align-items: center; gap: 16px; min-height: 64px; padding: 12px 0; cursor: pointer; line-height: 1.5; }
+.parts-onboarding input { position: absolute; inset: 0 auto 0 0; width: 44px; height: 100%; opacity: 0; cursor: pointer; }
+.parts-tick { display: grid; place-items: center; flex: 0 0 24px; height: 24px; border: 1px solid #748177; border-radius: 50%; }
+.parts-tick svg { visibility: hidden; }
+.parts-onboarding input:checked + .parts-tick { background: #7fe3b4; border-color: #1d6a47; }
+.parts-onboarding input:checked + .parts-tick svg { visibility: visible; }
+.parts-onboarding input:focus-visible + .parts-tick { outline: 3px solid #1d6a47; outline-offset: 4px; }
+.parts-square-grid { display: grid; grid-template-columns: repeat(2, 6px); gap: 3px; flex-shrink: 0; }
+.parts-square-grid > span { width: 6px; height: 6px; border-radius: 1px; background: currentColor; }
+.parts-evidence-chart { margin: 40px 0 0; padding: 28px; background: #13241b; border: 1px solid #365041; border-radius: 8px; text-align: left; }
+.kit-dark .parts-evidence-row p { font: 15px/1.6 "Archivo Variable", sans-serif; max-width: none; margin: 0 0 16px; }
+.parts-evidence-row + .parts-evidence-row { margin-top: 28px; }
+.parts-evidence-track { position: relative; height: 30px; background: #f4efe409; }
+.parts-evidence-track::before { content: ""; position: absolute; top: -5px; bottom: -5px; left: 50%; width: 1px; background: #f4efe480; }
+.parts-evidence-track span { position: absolute; height: 100%; background: #7fe3b4; }
+.parts-evidence-track span[data-value="-0.54"] { background: #e0a44a; }
+.kit-dark .parts-evidence-chart .kit-source { margin-top: 28px; font-size: 11px; }
+.parts-sample { margin: 28px 0 0; min-width: 0; padding: 28px; background: #fffdf7; border-top: 4px solid #e0a44a; box-shadow: 0 12px 32px #0a100d0a; }
+.kits-main .parts-sample h2 { font-size: 34px; margin-bottom: 16px; }
+.parts-sample figcaption > p:not(.kit-label) { font-size: 14px; }
+.parts-sample dl > div { padding-block: 18px; border-top: 1px solid #d9d5ca; }
+.parts-sample dt { font: 11px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .06em; color: #795113; }
+.parts-sample dd { margin: 0; }
+.parts-sample dd p { font-size: 14px; margin: 12px 0 0; overflow-wrap: anywhere; }
+.parts-sample-evidence { padding-left: 12px; border-left: 2px solid #e0a44a; }
+.parts-sample-note { font-size: 12px; line-height: 1.6; }
+@keyframes parts-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes parts-drawer-in { from { transform: translateX(24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@media (max-width: 1000px) { .kit-hero-catalogue { grid-template-columns: 1fr; } .parts-sample { max-width: 620px; } }
+@media (max-width: 600px) { .parts-sample, .parts-evidence-chart, .parts-onboarding { padding: 20px; } .parts-drawer { padding: 28px 16px; } .parts-drawer h2 { font-size: 34px; } .parts-accordion button { padding: 18px 16px; } }
+@media (prefers-reduced-motion: reduce) { .parts-drawer, .parts-drawer-overlay { animation: none; } }
+.kit-text-link { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; color: inherit; text-decoration: underline; }
+.parts-accordion-content > p:first-child::first-letter { text-transform: uppercase; }
+.kit-audit a { text-decoration: underline; text-underline-offset: 3px; color: inherit; }

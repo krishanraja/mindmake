@@ -5,6 +5,10 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-17: parts interaction revision
+
+- Ruling (Krish, 2026-11-17): "This needs to be a world class lead magnet site in terms of conversion rates, but not tacky looking". Local r5 adapted his five component references to Mindmake tokens, preserved the corrected privacy answer, added a genuine board-update sample excerpt and removed duplicate buy actions. No new dependencies. Build and Chromium hit spawn EPERM; existing captures were not reused as r5 evidence. Test commerce and unlisted status stayed intact. No publication or conversion-rate claim.
+
 ## 2026-11-15
 
 - `/case-studies` rebuilt as the one place to find your path (Krish on the rendered preview of `f0f733e`: "Happy With your recommendations"): one box narrows the eighteen use cases by type, situation, role, result and search; each opens whole in the sheet with its result and the client's words; "In their words." carries the eighteen client quotes, the five featured first. Retired with that approval: the CASE-PROOF-FIELD-S2 results field (`CaseProofField.tsx`, MMR-046 rewritten to record it) and `qa:case-proof-field-production`; the 33-voice drum no longer renders there. Three concepts were generated and judged blind (two judges disagreed; a third, blind tiebreaker chose the proof-first concept). C-09 and C-10 carry approved shorter headings.

@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
+import { OnboardingChecklist } from "@/components/ui/onboarding-checklist";
+import { SquareGrid } from "@/components/ui/square-grid";
 import { CONTACT_EMAIL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
 import "@/styles/kits.css";
@@ -31,6 +33,6 @@ export default function KitDownload() {
   }
   return <MindmakeShell onStart={() => window.location.assign("/?start=1")} siteClassName="kits-site" mainClassName="kits-main" showMobileActionBar={false}>
     <SEO title="Your AI brain part" description="Open this part of your AI brain from your Mindmake receipt." canonical="/parts/download" noindex />
-    <section className="kit-section kit-missing"><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>Your AI brain part</h1><button className="kit-button" onClick={download} disabled={busy}>{busy ? "Preparing your download…" : "Download your part"}</button><p role="status">{status}</p><p><a href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Link className="kit-back" to="/parts">See the parts</Link></section>
+    <section className="kit-section kit-missing"><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>Your AI brain part</h1><button className="kit-button" onClick={download} disabled={busy}>{busy ? <>Preparing your download…<SquareGrid /></> : "Download your part"}</button><p role="status">{status}</p><OnboardingChecklist /><p><a className="kit-text-link" href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Link className="kit-back" to="/parts">See the parts</Link></section>
   </MindmakeShell>;
 }

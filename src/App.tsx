@@ -27,6 +27,24 @@ const Alumni = preloadable(() => import("./pages/Alumni"));
 const DtdFeedback = preloadable(() => import("./pages/DtdFeedback"));
 const AiBrain = preloadable(() => import("./pages/AiBrainLocked"));
 const AiGtm = preloadable(() => import("./pages/AiGtm"));
+const WhoDecided = preloadable(() => import("./pages/WhoDecided"));
+
+// The audit must start in a fresh document with third-party tags excluded.
+// This also covers programmatic navigation, not just clicks on native links.
+export function PrivateAuditRoute() {
+  const isolated = typeof window === "undefined" || window.mmPrivateAuditDocument === true;
+  useEffect(() => {
+    if (!isolated) window.location.replace(window.location.href);
+  }, [isolated]);
+  return isolated ? <WhoDecided /> : <PageLoading />;
+}
+
+export function RouteConsent() {
+  const { pathname } = useLocation();
+  return /^\/who-decided\/?$/.test(pathname) ? null : <CookieConsent />;
+}
+
+declare global { interface Window { mmPrivateAuditDocument?: boolean } }
 
 const queryClient = new QueryClient();
 
@@ -77,6 +95,7 @@ export function ScrollToLocation() {
 
   /* Remember where this entry is scrolled to, for Back. */
   useEffect(() => {
+    if (/^\/who-decided\/?$/.test(pathname)) return;
     if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
     let frame = 0;
     const record = () => {
@@ -117,7 +136,7 @@ export function ScrollToLocation() {
       /* Back and Forward return to where the reader left the page. The page
          may still be growing (a lazy chunk, images), so the position is
          retried for a short while rather than clamped to a short document. */
-      const saved = navigationType === "POP" ? readScroll()[key] : undefined;
+      const saved = navigationType === "POP" && !/^\/who-decided\/?$/.test(pathname) ? readScroll()[key] : undefined;
       let restoreFrame = 0;
       if (saved && saved.path === pathname && saved.y > 0) {
         let tries = 0;
@@ -234,6 +253,7 @@ function AppRoutes() {
             <Route path="/" element={<Index />} />
             <Route path="/ai-brain" element={<AiBrain />} />
             <Route path="/ai-gtm" element={<AiGtm />} />
+            <Route path="/who-decided" element={<PrivateAuditRoute />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/operator" element={<Navigate to="/ai-brain" replace />} />
 
@@ -297,7 +317,7 @@ function AppRoutes() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-      <CookieConsent />
+      <RouteConsent />
     </BrowserRouter>
   );
 }

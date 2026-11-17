@@ -1,0 +1,52 @@
+.wd-site { --wd-paper: #f2f1ea; --wd-mint: #7fe3b4; color: var(--wd-paper); }
+.wd-audit { padding-top: calc(var(--mm-header-height) + 48px); padding-bottom: 80px; }
+.wd-audit > section, .wd-clear { max-width: 720px; }
+.wd-audit h1 { margin: 0 0 24px; font: 400 clamp(2.7rem, 6vw, 5.5rem)/1.05 "Newsreader Variable", serif; text-wrap: balance; scroll-margin-top: calc(var(--mm-header-height) + 24px); }
+.wd-audit p { font: 400 1rem/1.55 "Archivo Variable", sans-serif; text-wrap: pretty; }
+.wd-audit .wd-subtitle { font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.5; margin-bottom: 28px; }
+.wd-thesis { border-left: 2px solid var(--wd-mint); padding-left: 20px; margin: 32px 0; }
+.wd-audit .wd-privacy { color: #c4c8c2; max-width: 60ch; margin: 24px 0; }
+.wd-progress { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 24px; font: 400 .75rem/1.5 "IBM Plex Mono", monospace; }
+.wd-audit fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.wd-audit legend { padding: 0; font: 500 1.3rem/1.35 "Archivo Variable", sans-serif; text-wrap: balance; }
+.wd-audit .wd-prompt { color: #c4c8c2; margin: 12px 0 20px; }
+.wd-options { display: grid; gap: 10px; }
+.wd-option { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 14px 16px; border: 1px solid #65716a; cursor: pointer; font: 400 1rem/1.45 "Archivo Variable", sans-serif; }
+.wd-option:has(input:checked) { border-color: var(--wd-mint); background: #173326; }
+.wd-option input { flex: 0 0 20px; width: 20px; height: 20px; accent-color: var(--wd-mint); }
+.wd-option span { text-wrap: pretty; }
+.wd-audit :is(button, a, summary, textarea, input):focus-visible { outline: 3px solid #e0a44a; outline-offset: 4px; }
+.wd-option:has(input:focus-visible) { outline: 3px solid #e0a44a; outline-offset: 3px; }
+.wd-note { margin: 12px 0; }
+.wd-audit summary { min-height: 44px; padding: 12px 0; cursor: pointer; font: 400 .85rem/1.5 "IBM Plex Mono", monospace; }
+.wd-note label { display: block; margin: 10px 0; font-size: 1rem; }
+.wd-note textarea { display: block; box-sizing: border-box; width: 100%; min-height: 110px; resize: vertical; background: var(--wd-paper); color: #0a100d; padding: 14px; border: 1px solid #65716a; border-radius: 0; font: 400 1rem/1.5 "Archivo Variable", sans-serif; }
+.wd-controls { display: flex; align-items: stretch; gap: 16px; margin-top: 16px; }
+.wd-audit .wd-next { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 52px; padding: 14px 20px; border: 1px solid var(--wd-mint); background: var(--wd-mint); color: #0a100d; font: 500 .9rem/1.4 "IBM Plex Mono", monospace; text-decoration: none; cursor: pointer; }
+.wd-next:disabled { opacity: .45; cursor: default; }
+.wd-controls .wd-next { flex: 1; }
+.wd-audit .wd-back { min-height: 44px; padding: 12px; border: 1px solid transparent; background: transparent; color: var(--wd-paper); text-decoration: underline; text-underline-offset: 4px; font: 400 .85rem/1.5 "IBM Plex Mono", monospace; cursor: pointer; }
+.wd-audit .wd-private-line { font-size: .85rem; color: #c4c8c2; }
+.wd-clear { margin-top: 32px; border-top: 1px solid #65716a; padding-top: 12px; }
+.wd-clear p { margin-bottom: 4px; }
+.wd-read h2 { font: 400 clamp(1.7rem, 3vw, 2.4rem)/1.2 "Newsreader Variable", serif; text-wrap: balance; margin: 0 0 20px; }
+.wd-lines { margin: 32px 0 40px; }
+.wd-lines > div { border-top: 1px solid #65716a; padding: 20px 0; }
+.wd-lines dt { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px 20px; font: 500 1.1rem/1.4 "Archivo Variable", sans-serif; }
+.wd-lines dt span { color: var(--wd-mint); font: 400 .85rem/1.5 "IBM Plex Mono", monospace; }
+.wd-lines dd { margin: 10px 0 0; font: 400 1rem/1.55 "Archivo Variable", sans-serif; text-wrap: pretty; }
+.wd-read-note p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.wd-practice { background: var(--wd-paper); color: #0a100d; padding: clamp(20px, 4vw, 32px); margin: 0 0 48px; }
+.wd-audit .wd-practice h2 { color: #0a100d; }
+.wd-audit .wd-first { font-weight: 600; }
+.wd-facts figure { margin: 28px 0; }
+.wd-facts blockquote { margin: 0 0 12px; font: 400 1.1rem/1.5 "Archivo Variable", sans-serif; text-wrap: pretty; }
+.wd-facts a { display: block; min-height: 44px; padding: 8px 0; color: #c4c8c2; font: 400 .75rem/1.6 "IBM Plex Mono", monospace; text-decoration: underline; text-underline-offset: 4px; }
+.wd-facts { margin-bottom: 36px; }
+.wd-edit { margin-top: 20px; }
+@media (max-width: 600px) {
+  .wd-audit { padding-top: calc(var(--mm-header-height) + 24px); padding-bottom: 48px; }
+  .wd-audit h1 { margin-bottom: 18px; }
+  .wd-option { padding: 12px; gap: 10px; }
+  .wd-intro .wd-next, .wd-read > .wd-next { width: 100%; }
+}

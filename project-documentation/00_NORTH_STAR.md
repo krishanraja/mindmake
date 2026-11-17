@@ -140,6 +140,28 @@ loses the ability to test the work, ask the next question and make the call.
 Mindmake exists so that a leader's judgement gets stronger as their tools do,
 rather than being quietly replaced by them.
 
+**AI makes strong judgement stronger and weak judgement weaker. Mindmake builds
+the strong kind.** This is the thesis every page, note, pitch and proposal
+argues (Ruling, Krish, 2026-11-17). The evidence carries it: across 106
+experiments, people working with AI gained where they were better than it at
+the task and lost where they were not (Vaccaro, Almaatouq and Malone, Nature
+Human Behaviour, 2024); consultants given AI on a task beyond it were 19
+percentage points less likely to get it right (Dell'Acqua et al., Harvard
+Business School and BCG, 2023). The leader's own judgement decides which side
+of that line they land on. Quote a figure only with its source; the dated
+register, with each source's limits and the claims we do not make, is
+`docs/EVIDENCE.md` in `krishanraja/growth-mindmake`. That companies will build
+brains that replace leaders is said only as the direction of travel, never as
+fact.
+
+**Why Krish started it.** For twenty years he handed people the thing that was
+about to become mandatory, before anyone asked: code turned into automations at
+Microsoft, data taught to hundreds of sellers at Nine. AI is different because
+the tool can now learn the person. In his words: "AI is the era. My domain is
+human agency, and AI is where that fight is now." His founding story is told
+publicly under his full name (Ruling, Krish, 2026-11-17: "my name is critical
+publicly in this founder story").
+
 ---
 
 ## What we believe

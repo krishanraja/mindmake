@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-14
-head: caa7e2b
+as_of: 2026-11-17
+head: 25c15a1
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-17)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -62,7 +62,8 @@ for exploring what leaders built); "An AI chief of staff knows how you think."
 moved to `/ai-brain` on 11 November 2026; nothing on the homepage pins. No
 section is taller than a desktop screen (`qa:section-heights`). The AI Brain stories are a
 chooser on `/ai-brain` that never pins: eighteen stories in five situations,
-the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
+the whole story in a sheet. `/case-studies` is the one place to find a use case
+(by type, situation, role, result or search) and the eighteen client quotes. `/new-age-leadership` keeps its pinned chapters.
 Generate the adapter from the immutable R3 source, never reconstruct it from
 older components.
 
@@ -78,6 +79,18 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-15: `/case-studies` now finds a reader's use case by type, situation,
+  role, result or search, then shows the eighteen client quotes. Use cases and
+  quotes have one record each (`src/data/useCases.ts`,
+  `src/data/testimonials.ts`, PRs #301 to #304); Krish approved it on the
+  preview ("Happy With your recommendations"). The old results field and its
+  production check were retired with that approval. `/privacy` gained section
+  11, "If Mindmake emailed you first" (#302), and `/optout/<token>` forwards to
+  Control Center's opt-out page as a rewrite, never a redirect (#303).
+- 2026-11-16: a read-only function for Control Center returns only the SHA-256
+  fingerprint of each brief request's address, so anyone who took the free
+  brief is never cold emailed (#307). The commit says: "Not applied: it needs
+  Krish's yes and the site's normal release."
 - 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
   from `public/l/index.html`, with `/l/config.js` coming from
   `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
@@ -91,41 +104,6 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
   masked from recordings. Aimed at the North Star: recordings and heatmaps of
   where consenting readers stop between the hero and "Check your email."
-- 2026-11-11, Krish's phone review: a tap on the way in before the page has
-  started is kept ("Start building your AI business button no longer works":
-  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
-  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
-  would you start?" on its own raised surface, ending in "See how we compare
-  →"; homepage sections are sheets laid over one another on alternating
-  grounds, nothing pinned (the opening's old divider, which drew a line across
-  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
-  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
-  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
-- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
-  chief of staff knows how you think." took its place. The homepage close lost
-  its button: a floating Brain orb asks "Where do you want to start?" (with
-  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
-  only about exploring what leaders built. No section is taller than a desktop
-  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
-- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
-  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
-  found too much page). A bubble's caption turns through the routes a visitor
-  is weighing; tapping opens the comparison set to that route, full screen on
-  a phone, closing back to the same pixel. Aimed at the North Star (cash
-  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
-  `compare_board_open` against starts.
-- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
-  floating way in, sections stacked over one another) and broke the reading by
-  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
-  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
-  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
-  the story deck became a swipe deck on every screen, including the homepage's
-  results and `/case-studies` (Krish: "Same style and movement on desktop");
-  the Brain became one connected Brain of twenty ideas in seven clusters,
-  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
-  "Build your AI business". Krish: "Why don't you just fix all the small
-  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
-  these defects returning.
 
 ## What is next and what is waiting on Krish
 
@@ -142,6 +120,8 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 - In play: the CTRL pilot with leaders, by invitation from Krish only, and the
   first outreach drafts (a post, a note to his network, a Make Your Mind Up
   sign-off), each waiting for his yes to that exact send.
+- Krish to update `00_NORTH_STAR.md` lines 83 to 86 (still says seventeen
+  stories) and decide whether R-07 in `04_PROOF_RECORDS.md` stays.
 - Next: Change 3, the brief names one thing AI could carry in the reader's
   own week, shown rendered before it is built
   ([STATE.md](project-documentation/website-redesign/STATE.md), "Open").
@@ -155,7 +135,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-11-14): holds.
+- North Star check (2026-11-15): moves the proof behind the number; the number itself (U4) is unchanged and no conversion effect is measured.
 
 ## Read next
 

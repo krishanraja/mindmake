@@ -2360,6 +2360,21 @@
       "evidence": [
         "Gates and screenshots are listed in the pull request."
       ]
+    },
+    {
+      "id": "WHO-DECIDED-001",
+      "exactFeedback": "Not published until he approves the rendered candidate.",
+      "source": "Krish, 17 November 2026, Who decided? implementation brief in this session.",
+      "surface": "/who-decided",
+      "section": "six-step private judgement audit",
+      "device": "all",
+      "element": "questions, private notes, evidence levels and read",
+      "classification": "constraint",
+      "requiredOutcome": "A private six-step audit with deterministic evidence levels, no score, one practice, the three exact sourced facts and Start your brief linking to /?start=1; unlisted and unpublished until rendered approval.",
+      "acceptanceTest": "who-decided unit and in-process checks; canonical build and required website QA; focused Chromium test at 375px and wider, keyboard and network isolation; material review and Krish's rendered approval.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Implemented locally. JSDOM and source checks pass; build and browser verification are blocked by the restricted runtime. Material review receipts and rendered approval are outstanding. No publication.",
+      "evidence": ["src/test/who-decided.test.tsx", "scripts/qa/who-decided-check.mjs", "scripts/qa/who-decided-browser-check.mjs", "project-documentation/website-redesign/STATE.md"]
     }
   ]
 }

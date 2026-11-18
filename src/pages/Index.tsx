@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { CompareNudge } from "@/components/mindmake/CompareNudge";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { track } from "@/lib/analytics";
 import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
-import { mountHomepageSections } from "@/components/homepage-release/homepageSections";
+import { HOME_COMPARE_IN_HERO, mountHomepageSections } from "@/components/homepage-release/homepageSections";
 import { mountHeroRotation } from "@/components/homepage-release/heroRotation";
 import { settleSections } from "@/lib/sectionSettle";
 import "@/styles/mindmake.css";
@@ -27,7 +29,23 @@ export default function Index() {
   const startRef = useRef(openBrief);
   const briefOpener = useRef<HTMLElement | null>(null);
   const wasBriefOpen = useRef(false);
+  const [compareHost, setCompareHost] = useState<HTMLElement | null>(null);
   startRef.current = openBrief;
+
+  /* The "Prefer to ...?" nudge from /ai-brain, in the hero on a wide screen
+     and at the top of the first sheet otherwise (homepageSections.ts). One
+     nudge, moved when the screen crosses the line, never two. */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const wide = window.matchMedia(HOME_COMPARE_IN_HERO);
+    const place = () => setCompareHost(wide.matches
+      ? root.querySelector<HTMLElement>('.preview-desktop [data-hs-compare="hero"]')
+      : root.querySelector<HTMLElement>('[data-hs-compare="sheet"]'));
+    place();
+    wide.addEventListener("change", place);
+    return () => wide.removeEventListener("change", place);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -92,6 +110,7 @@ export default function Index() {
         canonical="/"
       />
       <div ref={rootRef} className="mm-homepage-release mm-home-approved" dangerouslySetInnerHTML={{ __html: homepageMarkup }} />
+      {compareHost ? createPortal(<CompareNudge key={compareHost.dataset.hsCompare} page="brain" source={`homepage_${compareHost.dataset.hsCompare}`} />, compareHost) : null}
       <div className="mm-site"><div>
         <LeadBrief
           key={briefRoute}

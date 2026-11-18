@@ -1,0 +1,3 @@
+Status: project-documentation/krishs-mission/ holds Krish's Mission, a working pack of thirteen files for driving and iterating on Mindmake's mission, pitch and surfaces in a new session: the ladder from purpose to the business number, the pitch sentence Krish chose on 18 Nov 2026, the "Instead of..." comparison verbatim, CTRL, a proposed ten-skills framework, evidence, proposed copy for Boardy, LinkedIn, mindmake.co and krishraja.com, partners and speaking, the condensed LinkedIn plan, the founder story fixes, every open decision and the session record. No live copy, route or price changed.
+Next: Krish answers the open decisions in project-documentation/krishs-mission/11-open-decisions.md, starting with D2, D4, D6 and D7.
+North Star check (2026-11-18): holds.

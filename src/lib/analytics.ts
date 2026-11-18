@@ -40,6 +40,7 @@ declare global {
 
 export function track(event: MindmakeEvent, props?: EventProps): void {
   if (typeof window === "undefined") return;
+  if (window.mmPrivateAuditDocument) return;
   try {
     window.plausible?.(event, props ? { props } : undefined);
   } catch {

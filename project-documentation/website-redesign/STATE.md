@@ -75,6 +75,47 @@ read-only Git boundary; no publication or external commerce mutation has been pe
 
 ## S9: a more alive site (10 November 2026), then its repair
 
+### Unpublished candidate: Who decided? (17 November 2026)
+
+Krish authorised building `/who-decided` as a free 20-minute judgement audit
+for senior leaders. Publication waits for his approval of the rendered
+candidate (ledger `WHO-DECIDED-001`). The thesis, unchanged: "AI makes strong
+judgement stronger and weak judgement weaker. Mindmake builds the strong kind."
+This task does not change the accepted homepage or the North Star. The local
+North Star's "Why this exists" lacks the 17 November addition named in the
+brief; the explicit task supplies this candidate's thesis and scope.
+
+The page and its six-step model are `src/pages/WhoDecided.tsx` and
+`src/features/who-decided/audit.ts`. Answers and notes live only in component
+memory. It gives one level per step and one practice from the lowest level,
+ties by question order. No score. It excludes analytics tags, session recording
+and the consent notice on this route, enters in a fresh document, and clears
+work on leaving. It is prerendered with noindex and absent from navigation and
+the sitemap. The read's action is "Start your brief", to `/?start=1`.
+
+Verification on 17 November: typecheck and lint pass (four existing lint
+warnings); approved-route hashes, plain-language and material-firewall
+self-tests pass. `node scripts/qa/who-decided-check.mjs` passes all 4096 answer
+combinations and the actual React page's six-step flow in JSDOM, including
+facts, revision, notes, clear/cancel and pagehide. This is not browser proof.
+The canonical build cannot spawn esbuild (`EPERM`); Vitest also reports
+`vite/internal` resolution failure. The restart suite reaches its award-panel
+self-test but cannot write its hard-coded scratch directory. The pre-merge
+browser gate cannot spawn its server; line-breaks lacks the unbuilt sitemap.
+The session has Node 24.19.0; the repo requires Node 22.x.
+
+The current material manifest identifies `who-decided-r1`. Presentation stays
+blocked: no current readiness, continuity or independent-specialist receipts,
+no rendered approval, and the existing firewall assumes scroll-driven
+sections while this audit is answer-driven. That requirement is left intact.
+CLAUDE.md prohibits AI review rounds unless Krish asks, so no specialist
+submissions were invented or commissioned. The focused Chromium check is
+`node scripts/qa/who-decided-browser-check.mjs --base=<self-owned-built-origin>`.
+Run the remaining gates in a supported runtime, reconcile the presentation
+contract, then use `npm run review:material -- quality/website-redesign/material-review-candidate.json`.
+No raw preview is a review candidate. Physical-device and screen-reader
+acceptance remain unverified. No commit, merge or deployment in this session.
+
 S9 (ledger `S9-ALIVE-001`) shipped a liquid Brain, a floating way in, sections
 that stacked over one another, headings wiped in behind bars and a scroll-pinned
 story deck on phones. Krish's phone recording the same day (ledger

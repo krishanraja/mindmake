@@ -141,15 +141,24 @@
   display: inline-grid;
   color: var(--cmp-accent);
   white-space: nowrap;
-  background: linear-gradient(var(--cmp-accent), var(--cmp-accent)) 0 100% / 0 1px no-repeat;
-  transition: background-size .2s ease;
 }
-.mm-site .mm-nudge:is(:hover, :focus-visible) .mm-nudge-slot { background-size: 100% 1px; }
-.mm-nudge-slot > span { grid-area: 1 / 1; opacity: 0; transform: translateY(.45em); visibility: hidden; }
+/* The underline belongs to each phrase, not the cell: every phrase sits at
+   its own width at the cell's start, so the line under the phrase on screen
+   is exactly as long as that phrase, whichever it has turned to (Krish,
+   2026-11-18). */
+.mm-nudge-slot > span {
+  grid-area: 1 / 1;
+  justify-self: start;
+  opacity: 0;
+  transform: translateY(.45em);
+  visibility: hidden;
+  background: linear-gradient(var(--cmp-accent), var(--cmp-accent)) 0 100% / 0 1px no-repeat;
+}
+.mm-site .mm-nudge:is(:hover, :focus-visible) .mm-nudge-slot > span { background-size: 100% 1px; }
 .mm-nudge-slot > span[data-on] { opacity: 1; transform: none; visibility: visible; }
 @media (prefers-reduced-motion: no-preference) {
-  .mm-nudge-slot > span { transition: opacity .38s ease, transform .38s cubic-bezier(.2, .8, .2, 1), visibility 0s linear .38s; }
-  .mm-nudge-slot > span[data-on] { transition: opacity .38s ease, transform .38s cubic-bezier(.2, .8, .2, 1), visibility 0s; }
+  .mm-nudge-slot > span { transition: opacity .38s ease, transform .38s cubic-bezier(.2, .8, .2, 1), visibility 0s linear .38s, background-size .2s ease; }
+  .mm-nudge-slot > span[data-on] { transition: opacity .38s ease, transform .38s cubic-bezier(.2, .8, .2, 1), visibility 0s, background-size .2s ease; }
 }
 
 /* ---------- The overlay: a native modal dialog ---------- */

@@ -10,6 +10,7 @@
          "accepted" is the old Plausible-only answer and never counts as a yes
          to Google, which is also what keeps every QA run out of the property. -->
     <script>
+      window.mmPrivateAuditDocument = /^\/who-decided\/?$/.test(window.location.pathname);
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'});
@@ -34,7 +35,7 @@
       gtag('config', 'G-SMXQH8E4CM');
       window.mmLoadGoogleTag = function(){
         if (/^\/kits\/download\/?$/.test(window.location?.pathname || '')) return;
-        if (window.mmGoogleTagLoaded) return;
+        if (window.mmPrivateAuditDocument || window.mmGoogleTagLoaded) return;
         window.mmGoogleTagLoaded = true;
         gtag('consent', 'update', {analytics_storage: 'granted'});
         var s = document.createElement('script');
@@ -42,7 +43,7 @@
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SMXQH8E4CM';
         document.head.appendChild(s);
       };
-      try { if (localStorage.getItem('mindmake_consent') === 'analytics') window.mmLoadGoogleTag(); } catch (e) {}
+      try { if (!window.mmPrivateAuditDocument && localStorage.getItem('mindmake_consent') === 'analytics') window.mmLoadGoogleTag(); } catch (e) {}
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -183,7 +184,7 @@
     <link rel="manifest" href="/site.webmanifest" />
 
     <script>
-      if (!["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+      if (!window.mmPrivateAuditDocument && !["localhost", "127.0.0.1"].includes(window.location.hostname)) {
         const analytics = document.createElement("script");
         analytics.defer = true;
         analytics.dataset.domain = "mindmake.co";
@@ -201,7 +202,7 @@
     <script type="text/javascript">
       window.mmLoadClarity = function(){
         if (/^\/kits\/download\/?$/.test(window.location?.pathname || '')) return;
-        if (window.mmClarityLoaded) return;
+        if (window.mmPrivateAuditDocument || window.mmClarityLoaded) return;
         window.mmClarityLoaded = true;
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -210,7 +211,7 @@
         })(window, document, "clarity", "script", "zd4m5xlj05");
         window.clarity('consentv2', {ad_Storage: 'denied', analytics_Storage: 'granted'});
       };
-      try { if (localStorage.getItem('mindmake_consent') === 'analytics') window.mmLoadClarity(); } catch (e) {}
+      try { if (!window.mmPrivateAuditDocument && localStorage.getItem('mindmake_consent') === 'analytics') window.mmLoadClarity(); } catch (e) {}
     </script>
     <script type="application/ld+json">
       {

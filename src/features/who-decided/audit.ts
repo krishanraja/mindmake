@@ -91,3 +91,12 @@ export function readDecision(answers: readonly (Level | null)[]) {
   const first = lines.reduce((weakest, line) => LEVELS.indexOf(line.level) < LEVELS.indexOf(weakest.level) ? line : weakest);
   return { lines, first };
 }
+
+/** Who held the decision at each level: the tool, shared, or the leader. A count, never a score. */
+export const OWNERS = ["The tool led", "Shared", "You led"] as const;
+export type Owner = typeof OWNERS[number];
+export const ownerOf = (level: Level): Owner => level === "Aware" ? "The tool led" : level === "Supported" ? "Shared" : "You led";
+
+/** The headline figure of each fact, shown large beside it. Each is a figure stated in the fact itself. */
+export const FACT_FIGURES = ["106", "19 pts", "319"] as const;
+export const FACT_FIGURE_LABELS = ["experiments", "less likely to get it right", "knowledge workers"] as const;

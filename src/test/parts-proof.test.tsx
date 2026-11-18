@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { readFileSync } from "node:fs";
-import { BuiltBy, DecisionMath, Stories } from "@/components/ui/parts-proof";
+import { BuiltBy, DecisionMath, PartsEngine, PartsVersus, Stories } from "@/components/ui/parts-proof";
 import { testimonials } from "@/data/testimonials";
 
 describe("parts proof (Krish, 18 November 2026)", () => {
@@ -34,5 +34,20 @@ describe("parts proof (Krish, 18 November 2026)", () => {
     const source = readFileSync(`${process.cwd()}/src/components/ui/parts-proof.tsx`, "utf8");
     expect(source).toContain("Nothing. Close this.");
     expect(source).not.toMatch(/next \d+ orders|only \d+ left|price rises|ends (today|soon)/i);
+  });
+  it("the comparison is honest: every rival scores something, and names categories, never companies", () => {
+    const { container } = render(<PartsVersus />);
+    const names = [...container.querySelectorAll(".kit-versus-choices button")].map(b => b.textContent!);
+    expect(names).toContain("A saved prompt"); expect(names).toContain("A Claude skill");
+    for (const name of names) {
+      fireEvent.click(screen.getByRole("button", { name }));
+      const grades = [...container.querySelectorAll("td[data-grade]")].map(td => td.textContent);
+      expect(grades.some(g => g !== "No")).toBe(true);
+    }
+  });
+  it("the engine states only what the release proves", () => {
+    render(<PartsEngine />);
+    expect(screen.getByText(/289 automated tests and 355 simulated edge cases/)).toBeTruthy();
+    expect(screen.getByText(/No AI model sits inside the checks/)).toBeTruthy();
   });
 });

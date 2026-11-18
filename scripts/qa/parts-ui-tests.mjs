@@ -27,7 +27,6 @@ const { render, screen, fireEvent, cleanup, waitFor } = await import("@testing-l
 const { PartsFaqDrawer } = await import("../../src/components/ui/parts-faq-drawer.tsx");
 const { BouncyAccordion } = await import("../../src/components/ui/bouncy-accordion.tsx");
 const { OnboardingChecklist } = await import("../../src/components/ui/onboarding-checklist.tsx");
-const { PartsEvidenceChart } = await import("../../src/components/ui/parts-evidence-chart.tsx");
 const element = React.createElement;
 const cases = [
   ["Real report excerpt matches its recorded source and precedes catalogue prices", () => {
@@ -38,7 +37,7 @@ const cases = [
     assert(!excerpt.includes("C:"));
     const sample = JSON.parse(excerpt);
     // The report renderer escapes Markdown punctuation and prints source basenames.
-    const report = read("quality/parts/sample/fact-check-board-update-eee5ba1a9143.md").replaceAll("\\.", ".").replaceAll("\\[", "[").replaceAll("\\]", "]");
+    const report = read("quality/parts/sample/fact-check-board-update-cffaaf9a495b.md").replaceAll("\\.", ".").replaceAll("\\[", "[").replaceAll("\\]", "]");
     assert(report.includes(sample.headline)); assert(report.includes(sample.summary));
     for (const row of sample.rows) {
       assert(report.includes(row.claim.replaceAll("evidence/", "")));
@@ -54,7 +53,7 @@ const cases = [
     trigger.focus(); fireEvent.click(trigger);
     const dialog = screen.getByRole("dialog", { name: "Questions before you start" });
     assert(dialog.contains(document.activeElement));
-    assert.equal(dialog.querySelectorAll("summary").length, 7);
+    assert.equal(dialog.querySelectorAll("summary").length, 8); // Eight since "Will you send me emails?" (18 November 2026).
     fireEvent.keyDown(document.activeElement, { key: "Escape" });
     await waitFor(() => assert.equal(screen.queryByRole("dialog"), null));
     await waitFor(() => assert.equal(document.activeElement, trigger));
@@ -83,16 +82,6 @@ const cases = [
     assert.equal(screen.getByRole("status").textContent, "3 of 4 complete");
     view.unmount(); render(element(OnboardingChecklist));
     assert(screen.getAllByRole("checkbox").every(box => !box.checked));
-  }],
-  ["Chart contains exactly the two signed research values on the same scale", () => {
-    const { container } = render(element(PartsEvidenceChart));
-    const bars = [...container.querySelectorAll("[data-value]")];
-    assert.deepEqual(bars.map(bar => Number(bar.dataset.value)), [.46, -.54]);
-    assert(Math.abs(parseFloat(bars[0].style.width) / parseFloat(bars[1].style.width) - .46 / .54) < .000001);
-    assert.equal(bars[0].style.left, "50%"); assert.equal(bars[1].style.left, "0px");
-    const labels = [...container.querySelectorAll(".parts-evidence-row p")].map(p => p.textContent);
-    assert.deepEqual(labels, ["When people were better than the AI at the task: gains (effect size +0.46)", "When the AI was better than the people: losses (effect size -0.54)"]);
-    assert.equal(container.querySelectorAll("figure").length, 1);
   }],
 ];
 let failed = 0;

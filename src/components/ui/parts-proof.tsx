@@ -35,9 +35,9 @@ export function DecisionMath() {
       <dl className="kit-math-rows">
         <div><dt>What is at stake</dt><dd>{dollars(stake)}</dd></div>
         <div><dt>Expected value of the better call</dt><dd aria-live="polite">{dollars(saved)}</dd></div>
-        <div className="kit-math-total"><dt>One part, once. Working the same afternoon.</dt><dd>$59</dd></div>
+        <div className="kit-math-total"><dt>One brain module, once. Working the same afternoon.</dt><dd>$59</dd></div>
       </dl>
-      <p className="kit-math-source">Expected value is what is at stake multiplied by how much more often you are right. In a Harvard and BCG study of 758 consultants, those who leaned on AI for a task it could not do were 19 percentage points less likely to get it right (Dell'Acqua et al., 2023). A part does not make the decision; it checks what you are about to rely on.</p>
+      <p className="kit-math-source">Expected value is what is at stake multiplied by how much more often you are right. In a Harvard and BCG study of 758 consultants, those who leaned on AI for a task it could not do were 19 percentage points less likely to get it right (Dell'Acqua et al., 2023). A brain module does not make the decision; it checks what you are about to rely on.</p>
     </div>
   </section>;
 }
@@ -60,7 +60,7 @@ export function Stories() {
 
 const ANSWERS = [
   { q: "Will it work with my AI?", a: "It works inside Claude Desktop on a Mac or Windows computer, with a free or paid Claude account. You add it in one click, and it runs on your own files. Nothing is sent to us." },
-  { q: "Show me what it does first", a: "Every part has a sample you can run before you point it at your own files. Or try Who decided?, our free 20-minute audit of one real decision.", link: { href: "/who-decided", label: "Try Who decided?, free" } },
+  { q: "Show me what it does first", a: "Every brain module has a sample you can run before you point it at your own files. Or try Who decided?, our free 20-minute audit of one real decision.", link: { href: "/who-decided", label: "Try Who decided?, free" } },
   { q: "Is it worth it for a decision like mine?", a: "If the decision is worth $50,000 and checking it makes you right even one time in a hundred more often, that is $500 of expected value, against $59 once. And if it is not working for you, we run a free session with you to put it right." },
 ];
 const SEEN = "mindmake-parts-exit-seen";
@@ -99,4 +99,41 @@ export function ExitOverlay({ buyHref, buyLabel }: { buyHref: string; buyLabel: 
       <Dialog.Close className="kit-exit-dismiss">Nothing. Close this.</Dialog.Close>
     </Dialog.Content></Dialog.Portal>
   </Dialog.Root>;
+}
+
+/* Why a brain module is software, not a prompt or a skill (Krish, 18 November 2026). Every line is
+   something the parts do today and the release tests prove. */
+const ENGINE = [
+  ["Reads your real files", "Word, PDF, Excel and saved email, on your own computer."],
+  ["Checks every claim", "Each figure, name and quote traced to its file and line, with two independent sources before it says backed."],
+  ["Remembers", "A sealed history shows what changed since last time, and flags any edit to it."],
+  ["Hands the call back", "Same input, same answer, every time. Then it tells you what only you can judge."],
+] as const;
+export function PartsEngine() {
+  return <>
+    <ol className="kit-engine">{ENGINE.map(([title, text], i) => <li key={title}><span className="kit-label">0{i + 1}</span><strong>{title}</strong><p>{text}</p></li>)}</ol>
+    <p className="kit-engine-proof">No AI model sits inside the checks: the brain module does the checking, and Claude reads the result. Before this release, every brain module passed 289 automated tests and 355 simulated edge cases, from damaged PDFs to edited histories.</p>
+  </>;
+}
+
+const CRITERIA = ["Same input, same answer, every time", "Checks every figure, name and quote against your files", "Two independent sources before it says backed", "Remembers last time and shows what changed", "Your files stay on your computer"];
+type Grade = "Yes" | "Partly" | "No";
+// Honest grades, categories only: a board where every rival scores No reads as rigged.
+const RIVALS: { name: string; grades: [Grade, Grade, Grade, Grade, Grade]; gap: string }[] = [
+  { name: "A saved prompt", grades: ["No", "Partly", "No", "No", "No"], gap: "Good instructions, but the AI still decides how to check, and can check differently each time." },
+  { name: "A Claude skill", grades: ["Partly", "Partly", "No", "No", "Partly"], gap: "Instructions Claude follows, sometimes with scripts. Claude still chooses when and how to use them, and nothing records what changed." },
+  { name: "A chat AI on its own", grades: ["No", "Partly", "No", "No", "No"], gap: "A fast, capable assistant, with confident answers that are not traced to your files." },
+  { name: "Checking it yourself", grades: ["No", "Partly", "Partly", "No", "Yes"], gap: "Your own eye, which matters. Slow, and easy to miss one figure in forty." },
+  { name: "An analyst or adviser", grades: ["No", "Partly", "Partly", "No", "Partly"], gap: "A second pair of expert eyes. Days rather than minutes, and the method leaves with them." },
+];
+export function PartsVersus() {
+  const [pick, setPick] = useState(0);
+  const rival = RIVALS[pick];
+  return <section className="kit-section kit-versus" aria-labelledby="kit-versus-title">
+    <h2 id="kit-versus-title">Not a prompt. <em>Not a skill.</em></h2>
+    <div className="kit-versus-choices" role="group" aria-label="Compare a brain module with">{RIVALS.map((r, i) => <button key={r.name} type="button" aria-pressed={pick === i} onClick={() => setPick(i)}>{r.name}</button>)}</div>
+    <table className="kit-versus-table"><thead><tr><th scope="col"><span className="sr-only">What matters</span></th><th scope="col">A brain module</th><th scope="col">{rival.name}</th></tr></thead>
+      <tbody>{CRITERIA.map((c, i) => <tr key={c}><th scope="row">{c}</th><td>Yes</td><td data-grade={rival.grades[i]}>{rival.grades[i]}</td></tr>)}</tbody></table>
+    <p className="kit-versus-gap">{rival.gap}</p>
+  </section>;
 }

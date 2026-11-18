@@ -86,6 +86,7 @@ const staticRouteModules = {
   "/terms": "src/pages/Terms.tsx",
   "/feedback/dtd": "src/pages/DtdFeedback.tsx",
   "/alumni": "src/pages/Alumni.tsx",
+  "/who-decided": "src/pages/WhoDecided.tsx",
 };
 const unmappedStaticRoutes = staticPages.map((page) => page.path).filter((path) => !(path in staticRouteModules));
 if (unmappedStaticRoutes.length) {
@@ -173,7 +174,7 @@ const pages = [...staticPages, ...articlePages, ...answerPages];
    first paint is the page itself. Without this the host served them the
    prerendered homepage, which painted the homepage, hydrated on the wrong
    route and then swapped (reported on /feedback/dtd, 2026-11-02). */
-const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }];
+const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }, { path: "/who-decided" }];
 
 /* The built server bundle. `npm run build` builds it immediately before this
    script runs; a stale one would silently prerender the previous commit's

@@ -124,6 +124,12 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const url = internal(event);
       if (!url || samePage(url)) return;
+      if (/^\/who-decided\/?$/.test(url.pathname) || /^\/who-decided\/?$/.test(window.location.pathname)) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.assign(url.href);
+        return;
+      }
       /* Capture phase, so this runs before a router Link's own handler, which
          then sees the event handled and stands down. Nothing is stopped: every
          other listener on the link, analytics and menus included, still runs. */

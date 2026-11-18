@@ -4,9 +4,8 @@ import { renderToString } from "react-dom/server";
 import { Route, Routes } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { CookieConsent } from "@/components/CookieConsent";
 import { SEOCollector, type SEOProps } from "@/lib/seoCollector";
-import { PageLoading, ScrollToLocation } from "@/App";
+import { PageLoading, RouteConsent, ScrollToLocation } from "@/App";
 import { RouteTransitions } from "@/components/RouteTransitions";
 import { LineBreaks } from "@/components/LineBreaks";
 
@@ -30,6 +29,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Alumni from "./pages/Alumni";
 import DtdFeedback from "./pages/DtdFeedback";
+import WhoDecided from "./pages/WhoDecided";
 
 /**
  * The pages, rendered to HTML at build time.
@@ -61,6 +61,7 @@ function SiteRoutes() {
       <Route path="/" element={<Index />} />
       <Route path="/ai-brain" element={<AiBrain />} />
       <Route path="/ai-gtm" element={<AiGtm />} />
+      <Route path="/who-decided" element={<WhoDecided />} />
       <Route path="/case-studies" element={<CaseStudies />} />
       <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
       <Route path="/blog" element={<Blog />} />
@@ -121,7 +122,7 @@ export function renderWithMetadata(path: string): { body: string; metadata: SEOP
             <SiteRoutes />
           </Suspense>
         </ErrorBoundary>
-        <CookieConsent />
+        <RouteConsent />
       </StaticRouter>
     </QueryClientProvider>
     </SEOCollector.Provider>,

@@ -1,3 +1,5 @@
+import { ALLOWED_FACT_KEYS, REQUIRED_FACT_KEYS } from "./contract.ts";
+import { questionFacts } from "./relevance.ts";
 import { generateQuestions, validQuestion } from "./questions.ts";
 import { tableMatch } from "./tables.ts";
 import { businessStatement } from "./narrative.ts";
@@ -104,7 +106,7 @@ export function validatePack(
       text(company.sector, 160) &&
         evidence?.sources.some((source) =>
           (ownDomain(company, source.url) ||
-            registrySource(company, source.url)) &&
+            registrySource(company, source.url, source)) &&
           normalise(source.text).includes(normalise(company.sector!))
         ),
       "sector has no source",
@@ -196,25 +198,13 @@ export function validatePack(
   }
   const ids = new Set<string>();
   for (const raw of input.facts) {
-    fields(raw, [
-      "id",
-      "kind",
-      "statement",
-      "value",
-      "unit",
-      "period",
-      "quote",
-      "source",
-      "retrievedAt",
-      "grade",
-    ], [
-      "metric",
-      "aliases",
-      "periodType",
-      "periodStart",
-      "periodEnd",
-      "periodSource",
-    ]);
+    fields(
+      raw,
+      [...REQUIRED_FACT_KEYS],
+      ALLOWED_FACT_KEYS.filter((k) =>
+        !(REQUIRED_FACT_KEYS as readonly string[]).includes(k)
+      ),
+    );
     const fact = raw as Fact;
     require(/^F[1-9]\d*$/.test(fact.id) && !ids.has(fact.id), "fact id");
     ids.add(fact.id);
@@ -276,12 +266,6 @@ export function validatePack(
         "figure value must come from quote",
       );
     }
-    if (fact.periodSource) {
-      require(
-        ["quote", "document"].includes(fact.periodSource),
-        "period source",
-      );
-    }
     fields(fact.source, ["title", "publisher", "url", "published"]);
     require(
       text(fact.source.title) && text(fact.source.publisher) &&
@@ -298,6 +282,15 @@ export function validatePack(
         date(source.retrievedAt) && source.retrievedAt.includes("T"),
       "source not fetched",
     );
+    const deterministic = tableMatch(source, fact);
+    if (deterministic) {
+      require(
+        fact.periodType === (deterministic.periodType ?? null) &&
+          fact.periodStart === (deterministic.periodStart ?? null) &&
+          fact.periodEnd === (deterministic.periodEnd ?? null),
+        "deterministic period fields changed",
+      );
+    }
     if (source.xbrl?.length) {
       const row = source.xbrl.find((x) =>
         x.quote === fact.quote && x.metric === fact.metric
@@ -316,9 +309,10 @@ export function validatePack(
         Date.parse(input.builtAt) - Date.parse(fact.retrievedAt) < 300_000,
       "source not from this build",
     );
-    if (fact.periodSource === "document") {
+    if (evidence?.factMetadata?.[fact.id]?.periodSource === "document") {
       require(
-        fact.period === source.documentPeriod && !!source.documentPeriod,
+        (fact.period === source.documentPeriod && !!source.documentPeriod) ||
+          !!tableMatch(source, fact),
         "document period changed",
       );
     }
@@ -338,9 +332,9 @@ export function validatePack(
         (normalise(fact.statement) === normalise(fact.quote) ||
           !!tableMatch(source, fact) ||
           (ownDomain(company, source.url) ||
-              registrySource(company, source.url)) &&
+              registrySource(company, source.url, source)) &&
             fact.statement === businessStatement(fact.quote) ||
-          registrySource(company, source.url) &&
+          registrySource(company, source.url, source) &&
             fact.statement ===
               (xbrlStatement(source, fact) ?? registryStatement(fact))),
       "quote does not support this fact",
@@ -357,7 +351,7 @@ export function validatePack(
       "quote bridges source redactions",
     );
     require(
-      fact.kind !== "registry" || registrySource(company, source.url),
+      fact.kind !== "registry" || registrySource(company, source.url, source),
       "registry exemption misused",
     );
     require(
@@ -371,7 +365,8 @@ export function validatePack(
     );
     require(
       fact.grade ===
-        (ownDomain(company, source.url) || registrySource(company, source.url)
+        (ownDomain(company, source.url) ||
+            registrySource(company, source.url, source)
           ? "primary"
           : "secondary"),
       "source grade",
@@ -380,7 +375,14 @@ export function validatePack(
   for (const q of input.prepare) {
     fields(q, ["question", "because"]);
     require(
-      validQuestion(q, input.facts),
+      validQuestion(
+        q,
+        questionFacts(
+          input.facts,
+          input.buyer.useCase as Buyer["useCase"],
+          evidence?.factMetadata,
+        ),
+      ),
       "question subject, figures or citations invalid",
     );
     require(
@@ -413,7 +415,13 @@ export async function buildPack(
     deps.gatheredSources!,
   );
   const proposals = company.verified ? await extract(sources, buyer, deps) : [];
-  const result = verifyFacts(proposals, sources, company, deps.now());
+  const result = verifyFacts(
+    proposals,
+    sources,
+    company,
+    deps.now(),
+    buyer.useCase,
+  );
   for (const call of deps.extractions ?? []) {
     const last = deps.extractions?.filter((c) =>
       c.sourceUrl === call.sourceUrl && c.parseStatus !== "failed"
@@ -452,6 +460,7 @@ export async function buildPack(
       buyer.useCase,
       deps,
       prepare(result.facts, buyer.role, buyer.useCase),
+      result.factMetadata,
     ),
   };
   if (sparse) {
@@ -492,6 +501,7 @@ export async function buildPack(
   }
   const evidence: Evidence = {
     builtAt: pack.builtAt,
+    factMetadata: result.factMetadata,
     company: structuredClone(company),
     sources,
     verifiedFacts: structuredClone(result.facts),

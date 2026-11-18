@@ -59,7 +59,7 @@ export function narrativeIssue(quote: string): string | null {
   if (narrativeNumbers(quote).length >= 3) return "table-row";
   if (quote.trim().split(/\s+/).length < 6) return "short-narrative";
   if (
-    !/\b(?:is|are|was|were|be|been|has|have|had|will|expects?|expected|anticipates?|projects?|reached|grew|accelerated|rose|fell|increased|decreased|reported|reports|launched|launches|withdrew|withdraws|introduced|introduces|announced|announces|acquired|acquires|raised|raises|appointed|appoints|opened|closed|plans?|totalled|generated|delivered|ended|reflects|includes|represents|remains|remained|continues|continued|offers|offered|achieved|surpassed|exceeded|recorded|reduced|improved|expanded|discontinued|completed|signed|agreed|believes?|saw|added|adds|reaches|grows|totaled)\b/i
+    !/\b(?:is|are|was|were|be|been|has|have|had|will|expects?|expected|anticipates?|projects?|reached|grew|accelerated|evolve|evolves|evolving|rose|fell|increased|decreased|reported|reports|launched|launches|withdrew|withdraws|introduced|introduces|announced|announces|acquired|acquires|raised|raises|appointed|appoints|opened|closed|plans?|totalled|generated|delivered|ended|reflects|includes|represents|remains|remained|continues|continued|offers|offered|achieved|surpassed|exceeded|recorded|reduced|improved|expanded|discontinued|completed|signed|agreed|believes?|saw|added|adds|reaches|grows|totaled)\b/i
       .test(quote)
   ) return "no-narrative-verb";
   return null;
@@ -68,6 +68,10 @@ export function supportedPeriod(
   quote: string,
   period: string | null,
 ): string | null {
+  quote = quote.replace(
+    /\((?:H[12]\s*20\d{2}|FY\s*20\d{2}|Q[1-4]\s*20\d{2})\s*:[^)]*\)/gi,
+    "",
+  );
   if (!period) return null;
   const label = canonicalPeriod(period);
   if (!label) return null;

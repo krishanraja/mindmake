@@ -1,31 +1,31 @@
 {
-  "date": "2026-11-17",
-  "status": "r17 reviewer edits preserved and tested; UK identity and sparse-evidence fixes implemented; 73 offline bodies pass; live acceptance pending",
+  "date": "2026-11-18",
+  "status": "r21 implemented; 92 offline research bodies and 22 parts tests pass; actual reader and live annual-report acceptance pending",
   "branch": "codex/kits-page",
-  "baseCommit": "2e06bc961a5e7f4b4094d9c645123f2b4520d8c2",
+  "baseCommit": "7536bb247d89d02a8e033a6561422eeebb4bb752",
   "authority": "Local implementation only. No checkout, page, webhook, email or fulfilment integration. No network calls, credential reads, commit, publication or deployment.",
   "contract": "project-documentation/research-pack-contract.md",
-  "contractSha256": "a8be789f166f7e1b9307ad02df40935b3a8f40b049e895d1f6779a3b3a15466b",
+  "contractSha256": "73319a81fedf69fac4a6779dc546d14c527cda277589845984dae4c067d39b7d",
   "checks": [
     {
-      "command": "deno check --no-remote scripts/parts/research-run.ts scripts/parts/personalise-bundle.ts supabase/functions/_shared/parts-research/extraction_test.ts",
+      "command": "deno check --no-remote scripts/parts/research-run.ts scripts/parts/personalise-bundle.ts supabase/functions/_shared/parts-research/r21_test.ts",
       "result": "pass"
     },
     {
       "command": "deno test --no-remote --allow-read --allow-write=quality/parts/research-test-output supabase/functions/_shared/parts-research/ supabase/functions/_shared/enrich/llm_test.ts",
       "result": "blocked",
-      "detail": "Deno 2.8.1 Windows aarch64 test reporter panics opening its named pipe: Windows error 5, then invalid handle error 6. Tests are not reported as passed by deno test."
+      "detail": "Re-run 18 November: Deno 2.8.1 Windows aarch64 reporter panics on its named pipe with Windows errors 5 and 6 after typechecking all suites. Standard deno test did not execute assertions."
     },
     {
       "command": "deno run --cached-only --no-remote --allow-read --allow-write=quality/parts/research-test-output scripts/parts/research-offline-tests.ts",
       "result": "pass",
-      "cases": 73,
-      "detail": "73 offline bodies; homepage prefixes, compact UK names, CH retry and legal binding, Claude temperature compatibility, independent question attempts, separate caps/ranking, dated-only announcements and sparse-company suppression. No Deno resource sanitiser."
+      "cases": 92,
+      "detail": "92 identical test bodies with no network permission. r21 covers strict documented key rejection, scanned PDF source exclusion and own-report recovery, publication date precedence, prior values, noun phrases, movement/growth and pence. No Deno resource sanitiser."
     },
     {
       "command": "deno lint supabase/functions/_shared/parts-research scripts/parts supabase/functions/_shared/enrich/llm.ts supabase/functions/_shared/enrich/runtime.ts",
       "result": "pass",
-      "detail": "30 TypeScript files."
+      "detail": "44 TypeScript files."
     },
     {
       "command": "npm run typecheck",
@@ -55,6 +55,11 @@
       "command": "deno run --cached-only --no-remote --allow-read scripts/parts/pdf-smoke.ts",
       "result": "blocked",
       "detail": "Exact unpdf package is not in the local node_modules/cache. Human must cache npm:unpdf@0.12.1 with --node-modules-dir=auto, then run the smoke script with the same flag. No download attempted."
+    },
+    {
+      "command": "npm run test:parts",
+      "result": "pass",
+      "detail": "17 commerce/catalogue tests and 5 jsdom UI tests; no provider sends."
     }
   ],
   "observableOutcomes": [
@@ -94,56 +99,71 @@
   "next": "Human reruns Duolingo and inspects extractions (provider, model, ms, character counts, parse status, factsKept), identityProbes and typed exhibit fetch outcomes. No PDF package is required for the new HTML exhibit path.",
   "files": {
     "project-documentation/07_DEPLOY_RUNBOOK.md": "c49f3d265a89d5d39779df5cb25659fc841009e9bdb38383c07e8b6ca6b9bca0",
-    "project-documentation/history/LOG.md": "b28313686f83da1d43af21ae524aa828bb7bcf6b985364170f55f5bd49308cd3",
-    "project-documentation/parts-research.md": "f7aff11152a590d382fcf2391bcefb7c1ae9b909a72eebf09b364d3e26b0b679",
-    "project-documentation/research-pack-contract.md": "a8be789f166f7e1b9307ad02df40935b3a8f40b049e895d1f6779a3b3a15466b",
+    "project-documentation/history/LOG.md": "134550acd0351771b6062530c46ee6b27f0587f061037f9a03cefe82eeb5d226",
+    "project-documentation/parts-research.md": "4a4d3a765d558f5fafc86b46b4248461f9d84c6c50e4aafa83b39d0abbd08b78",
+    "project-documentation/research-pack-contract.md": "73319a81fedf69fac4a6779dc546d14c527cda277589845984dae4c067d39b7d",
     "project-documentation/website-redesign/STATE.md": "32062aec022e7f74fed62327d0d378bd5f3378b4db926171a6d55e7a29dd312b",
     "scripts/parts/args.ts": "fba94320f5a9c0981f44360b66e25904cea10a6f7e3fe6618dc7b22f566295a2",
     "scripts/parts/pdf-smoke.ts": "2322db180abaf68afb952cfcbf7bf5966163774ae566874777500353f5621ba9",
     "scripts/parts/personalise-bundle.ts": "5909c4decd36a02174d4887b3a66d1b3f9dc36273299385b678912c960b33f71",
-    "scripts/parts/research-offline-tests.ts": "4d05f987a20950d0c9f7b2d41bbef376905d20eede254f7cbd9b21a5dc088ab1",
-    "scripts/parts/research-run.ts": "cfbbbcc70b58a3010e80907b2bf196150776e0b36949e45f94605609b5255119",
+    "scripts/parts/research-offline-tests.ts": "f92ff365eddd62c8e77a636f05272e2fece1656d96a2e63c8f7d2664f2c945f7",
+    "scripts/parts/research-run.ts": "11df3e56a9f39cac4db4e8e2489178212863bee3c45c6d5d62a1612b667f0cbd",
     "src/test/enrichment-provenance.test.ts": "299b7d63e022a595e78a86ad0d8ea2766d3d2c861ceb3a408715cbf338ee3959",
     "supabase/functions/_shared/enrich/brandfetch.ts": "d6d53c9bd243d4d022c26e0e6f636715210607c0e52c037f09549e37d4a493ef",
-    "supabase/functions/_shared/enrich/currency.ts": "529faec2c09908fdd6cd664c9f58b0743e806dd4559c7d566a2466e84bfaec3e",
+    "supabase/functions/_shared/enrich/currency.ts": "0bdefaaab72a9c5d210baee2e83fdd51dc7043f9b766a9ec2de79ac8e08eab1b",
     "supabase/functions/_shared/enrich/llm.ts": "58a8f7c2f294720cd6f15ea1b58b41542cd3d745b6a28a9ff78cb5c9b54bd75f",
     "supabase/functions/_shared/enrich/orchestrate.ts": "ee315d3f35381a6d70777123cc68fbe09f6b31904be1c970ceb0ea3d8b3ac9b4",
     "supabase/functions/_shared/enrich/provenance.ts": "0da87579b94d7dc7e3c05366d7317d2f8ed5b5801fa894133b681d10db7d6433",
     "supabase/functions/_shared/enrich/runtime.ts": "3b50bfc578ec5c6d361af882f2994d875a63374edb6e0932a1e91a10a1672855",
     "supabase/functions/_shared/parts-research/bundle.ts": "62898cc089944a7cf595272a1c14647a3e6e0c4de1d9200efd517c3bf623ffe0",
-    "supabase/functions/_shared/parts-research/documents.ts": "6b014601f293c337ca851674d6234577078f23a7fbc3c44466a1c761dc073980",
+    "supabase/functions/_shared/parts-research/documents.ts": "5a09e7c23b76d12b6798edcae4074d8b5832436855da53111d7b4a9f33a1e85b",
     "supabase/functions/_shared/parts-research/exhibits.ts": "22120027b99d38bbf271dadf5413948b14214a316268f08f8dc34829a8a052f4",
-    "supabase/functions/_shared/parts-research/extraction_test.ts": "41e58ca73a6c405c6ecf84c5897f7b68500917277bc205d9d0fb110fb2ea205a",
-    "supabase/functions/_shared/parts-research/facts.ts": "b99c6a9170025f37a0d075124b0307471811d7bd4d2e3390ab7bcaa991ca7d32",
-    "supabase/functions/_shared/parts-research/fetch.ts": "c59ff788b18f50d4f29a51ea10cae779b8eab639998340dc4bbf81b4fe951995",
-    "supabase/functions/_shared/parts-research/figures.ts": "4c9392ca37711bc42918ae3b3378ece897dabcb1067d93aa1382cfb7a4ac1bf4",
+    "supabase/functions/_shared/parts-research/extraction_test.ts": "89fadd51546ba8aea68dc6fa9f052ed5547f507ee8307b3f6ec80bfb56f8a407",
+    "supabase/functions/_shared/parts-research/facts.ts": "d69d55e5d95dcf621604faa8197887d92d72558de7ee10a181edae4a9c00eafe",
+    "supabase/functions/_shared/parts-research/fetch.ts": "5c110a7f2d38d0af356b0739c3de92bad2a4a2ea2ee1dc7568e342e00d130a5f",
+    "supabase/functions/_shared/parts-research/figures.ts": "6ca3f511169557a4e94246d4722c517d49976edc58cbf0af991e77ffbcf17ea2",
     "supabase/functions/_shared/parts-research/fixtures/base.mcpb": "fc0af32ee4711829d7540c84370678a06c5802835471f9451655dab0fa57dfcf",
-    "supabase/functions/_shared/parts-research/fixtures/gather-recovery.json": "76f2541e3f1f24988cc0313d95af2b8718632cff5c7eed2558750720f494dc47",
+    "supabase/functions/_shared/parts-research/fixtures/gather-recovery.json": "044d3bacb045bdf2ca9e7d5750e46bb02877a8b287d8cfed34517a3ceb16702a",
     "supabase/functions/_shared/parts-research/fixtures/identity-recovery.json": "3f513a853f4b6e647aff0b7fa5a50155af90ba36aa7126eb85b480745f8efe88",
     "supabase/functions/_shared/parts-research/fixtures/research.json": "51bb5e813644b5e7ea35ae489b5755de78e042e81818b86aa66a99924095fbe4",
     "supabase/functions/_shared/parts-research/fixtures/shareholder-letter.pdf": "cb3d4094b4443a5d87704b1e67ab19c98feea4b7aee288389a435046bfdd6e4c",
     "supabase/functions/_shared/parts-research/fixtures/wrong-part.mcpb": "1d40f7f30b594268ecee07f2a9f410b433348860ae8e2da223e9079e37a34c41",
-    "supabase/functions/_shared/parts-research/gather.ts": "8f6a20c3aae5c1a0f8ea08c6287b73fb7f5d081ef2345a7db05d2649460fbb2d",
+    "supabase/functions/_shared/parts-research/gather.ts": "ce00939b0b5f74eb504ee4e5f336d93a4f594fec9cb56f4ce25dac45ce59acb1",
     "supabase/functions/_shared/parts-research/gather_test.ts": "febde7277ec42b85d6cba081f00ca79545508f81118befd2070642604c0dfdd7",
-    "supabase/functions/_shared/parts-research/identify.ts": "cf1e8c5e501fb8e5bbb2014e23d51f8a4dc1539b5033235c023bfd07d7e045ae",
+    "supabase/functions/_shared/parts-research/identify.ts": "4cf188ec2a13a4f5be1fc422696c7633367f744cf8fdcd848f7458a3e7724a27",
     "supabase/functions/_shared/parts-research/identity_test.ts": "ec6071837ca5dbb4a34fcc8231c2cdb296549b96d8d815905ab9f870b35ea79b",
     "supabase/functions/_shared/parts-research/index.ts": "04bc6e19055d40af888ceec2c48437f5d06747cfd3846d6e6359e4c4b2338867",
-    "supabase/functions/_shared/parts-research/narrative.ts": "da2d8914b546447a8ec1daee326b2bce10b5026ef8bb0ab6272a81fa35ab29b7",
-    "supabase/functions/_shared/parts-research/pack.ts": "26bae8a445c42c1384b3c91900cb834db7202579d3a85cf164b8260ee0df3fc1",
+    "supabase/functions/_shared/parts-research/narrative.ts": "d11b64780b26a5409068cd9dbbe08c008b87d2fce402b12338b281e22337500f",
+    "supabase/functions/_shared/parts-research/pack.ts": "9dbc5c7ea55106a60bc38a46ee77e2ea83496ec2d37d7b8f0240611dd53e616c",
     "supabase/functions/_shared/parts-research/periods.ts": "b6ae7c0cb21bd7d9745d17093894a3f0e6eb53d759fc64ecb72d39ab6b39f32a",
-    "supabase/functions/_shared/parts-research/registry-text.ts": "f0c155f373784adff5416f25983e6979fae2695d14bb5a753b20b404b47f64f7",
-    "supabase/functions/_shared/parts-research/registry.ts": "7fc83731d0dd879c15128834510d66dd27838e500d17624602b53f239f9fd13c",
+    "supabase/functions/_shared/parts-research/registry-text.ts": "1d03651e4e2a9912dadd8f6ca9bab4676d21251d32c53c3fcb736b0df0264cd4",
+    "supabase/functions/_shared/parts-research/registry.ts": "6e40c1f325cea65b87886e07f5b20a8919fcb486260efae109daa7ace1c2ea7d",
     "supabase/functions/_shared/parts-research/research_test.ts": "69a1aa622b221aee72fdcb6adf5d711f0d07f67bd4c858ad80a52642aa3e1f19",
     "supabase/functions/_shared/parts-research/robots.ts": "4ca67e1714466e173934d35ecd1f09507e2f3f9db7fadb54255df1f1053f2490",
-    "supabase/functions/_shared/parts-research/transport.ts": "502e0d0b5a1edc9a7a49cd0707350e3492ef1d0e0eeb9caea19ec0e511eea23c",
-    "supabase/functions/_shared/parts-research/types.ts": "f9dd1e2e6ba4aa46ea5ed93024fc47872928c4563ee5e05d93f7eae963e0f8d4",
+    "supabase/functions/_shared/parts-research/transport.ts": "014bb800e7224ab811a0e7672c35b02b0e9efa2924ce205b8d641d0f7ffc77c8",
+    "supabase/functions/_shared/parts-research/types.ts": "8633891750ad39b8a695114e8a68f53cd92a2d8e471248bd0f0b1ec0b6c40d45",
     "supabase/functions/_shared/parts-research/v12_test.ts": "2407b6ee43f1796ee3dadd6e33c2dcf6cddcf3f8ad3ec7c239f25c9ae077e46d",
     "supabase/functions/_shared/parts-research/xbrl.ts": "e382de752d28f8e92c88ceb2e276619f13cc57b1c705d3b3020c13cb7d4c6820",
-    "supabase/functions/_shared/parts-research/tables.ts": "ebb2017917d89682ad9a2143568c2adf001ac48b920c85d5a5446e434cd93fff",
+    "supabase/functions/_shared/parts-research/tables.ts": "c69069e161e1adfd0179854909b076a62308c22aa94da791e47ef41f7af75b06",
     "supabase/functions/_shared/parts-research/fixtures/letter-run9.json": "fde4fc05b88167b8548f1eb9585409f671b7d8b8ffaa80d21592ae996a1b171d",
-    "supabase/functions/_shared/parts-research/sentences.ts": "1c2b3a742ef8c294684027f156cb00dcb7af03ccd68fadc83920ee0b6821eb07",
-    "supabase/functions/_shared/parts-research/questions.ts": "7455646237e8b8250d697b01b912c72e2d408fdf72c90d408ea9e0fbc9d343b7",
-    "supabase/functions/_shared/parts-research/fixtures/uk-r17.json": "b882c68cc55a378b155ab9374a72b23c8c680ac128438049d7d44e9887a96195"
+    "supabase/functions/_shared/parts-research/sentences.ts": "db8dd15b284898d15a6f96fd9b7759f6d05ed781bb9a913a5604fe7370ed3e58",
+    "supabase/functions/_shared/parts-research/questions.ts": "6c3898ac70c733e74a48011154c6e2fc364d1e3e870c4643828ab3af8c73f98a",
+    "supabase/functions/_shared/parts-research/fixtures/uk-r17.json": "b882c68cc55a378b155ab9374a72b23c8c680ac128438049d7d44e9887a96195",
+    "supabase/functions/_shared/parts-research/uk-parsers.ts": "65e9b0883d17a28dda36e0a9ecec2665e9d91fc53a6c97ea8d5a824ee6ff378d",
+    "supabase/functions/_shared/parts-research/uk-sources.ts": "c7b19fd2caf11ef6c1bcf4ea79edadc7872868ec92f27c28ebba86d1f0b5d1d8",
+    "supabase/functions/_shared/parts-research/uk_test.ts": "6e57d0c754f41ea3a92c1161954533da5c3d7a51c13c40d3d9a97cd9cdd943a1",
+    "supabase/functions/_shared/parts-research/ixbrl.ts": "1d4374de0899cc5b970955a9c19c005798017c532e528ebd8269f58e2a64e53a",
+    "supabase/functions/_shared/parts-research/fixtures/uk-sources.json": "6b9323e05471a7bf3d1f125115c30df3b1307187b311be22f934d99b0790f508",
+    "supabase/functions/_shared/parts-research/fixtures/uk-accounts.xhtml": "bd4ff2f0b31d6229b5b78c1583b4900af083eaa97cef53b03634fcd95136598d",
+    "supabase/functions/_shared/parts-research/relevance.ts": "8daa739cdf02ebf8518e4ad3ed7df17dfbddb9fad591a2aab22d03b92a82453c",
+    "supabase/functions/_shared/parts-research/r20_test.ts": "117fb86ddf6c5ba24f9009490d6f395fcc20d5b39c40925d530fd858bba759c8",
+    "supabase/functions/_shared/parts-research/fixtures/r20.json": "4840b3dc3b20f1fc1a75d601f0029bc81b3ba1bdf31cb44b0b81456ad2846270",
+    "supabase/functions/_shared/parts-research/contract.ts": "2d6a6fcc8a6f4d66b854a5efa6d76f7d676618f74cb0ddb9f0f254b239c34fbe",
+    "supabase/functions/_shared/parts-research/annual-reports.ts": "a4539355ded1e1546e199e1244fd3f2ea4a0a49b00029652a72d64d169c07a10",
+    "supabase/functions/_shared/parts-research/comparatives.ts": "f6a27887240fe19c72d9e05607a903a256477ed36611bbdcd59f21144c6a905c",
+    "supabase/functions/_shared/parts-research/r21_test.ts": "7d446e63564ef6040fc43415d4885daca876c7a4e9d7d82e7758d21a60b6b3cf",
+    "supabase/functions/_shared/parts-research/fixtures/r21.json": "8a4db14aac781a6755cdafb4077e70565575794d217e4f0b4e61480afabeddbf",
+    "project-documentation/research-pack-contract.keys.json": "28c7e066e8b8da2761217170079c5caaced34290f855abab1a5145f866cf5a8f"
   },
   "revision": {
     "date": "2026-11-17",
@@ -180,14 +200,18 @@
   "latestRevision": {
     "date": "2026-11-18",
     "changes": [
-      "Preserved reviewer Claude 5 temperature, independent question budget/retry/no-template behaviour and 28/12 caps",
-      "512 KiB identity prefix and compact suffix-normalised names",
-      "CH four-second search plus retry and purchase legal/investor pages",
-      "Undated announcement rejection and sparse-publication notice with no questions"
+      "Buyer-facing facts use the documented key manifest; significance and period provenance exist only in the evidence receipt",
+      "Under 200 PDF characters per page records scanned-pdf-no-text and admits no source",
+      "Own-domain annual report search/link discovery, 12 MB cap and first 60 pages, explicit publication date or matching-period CH filing date",
+      "Separate current/prior values and dated forecourt movement; deposits growth is a figure",
+      "Exact noun-phrase measures and pence-to-GBP parsing"
     ],
     "limits": [
-      "No live provider run",
-      "UK fixture responses are synthetic reproductions of reported shapes and sizes, not captured pages"
+      "No network or live credentials used",
+      "npm:unpdf@0.12.1 remains lazy; real PDF decoding unverified here",
+      "Actual part-reader round trip requires the external human-run check",
+      "Standard Deno reporter crashes before tests; fallback does not run resource sanitiser",
+      "No UI, checkout, fulfilment, publication or dependency installation"
     ]
   }
 }

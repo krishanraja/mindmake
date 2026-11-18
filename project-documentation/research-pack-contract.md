@@ -47,3 +47,5 @@ CONTRACT v1.1 ADDITIONS (17 November 2026, after review of the first sample; bac
 CONTRACT v1.2 ADDITIONS (17 November 2026; schema id unchanged)
 11. Reported-figure facts carry periodType (quarter, year-to-date, year or instant), periodStart and periodEnd (ISO dates, or null when the source gives none); period keeps the human label.
 12. A fact's metric is the exact measure named in the source; never generalise.
+
+Implementation key manifest: [research-pack-contract.keys.json](research-pack-contract.keys.json) lists the fact keys declared above, including v1.1 and v1.2. It does not extend the contract. Internal ranking and period-provenance metadata belong only in the separate evidence receipt, never in research/pack.json.

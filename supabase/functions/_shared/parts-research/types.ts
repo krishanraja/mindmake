@@ -58,6 +58,10 @@ export type PeriodFields = {
 };
 export type Source = {
   documentPeriod?: string;
+  documentPeriodStart?: string;
+  documentPeriodEnd?: string;
+  registryCompanyNumber?: string;
+  chunkExtraction?: boolean;
   title: string;
   publisher: string;
   url: string;
@@ -81,8 +85,11 @@ export type Source = {
     periodEnd: string | null;
   }[];
 };
+export type FactMetadata = Record<
+  string,
+  { significance?: 1 | 2 | 3; periodSource?: "quote" | "document" }
+>;
 export type Fact = Partial<PeriodFields> & {
-  periodSource?: "quote" | "document";
   id: string;
   kind: "reported-figure" | "announcement" | "leadership" | "registry";
   statement: string;
@@ -97,6 +104,7 @@ export type Fact = Partial<PeriodFields> & {
   aliases?: string[];
 };
 export type ProposedFact = Partial<PeriodFields> & {
+  significance?: 1 | 2 | 3;
   periodSource?: "quote" | "document";
   kind: Fact["kind"];
   statement: string;
@@ -130,6 +138,7 @@ export type Counts = {
 };
 /** Kept beside a pack locally, never added to the buyer's bundle. */
 export type Evidence = {
+  factMetadata?: FactMetadata;
   droppedProposals?: { quote: string; reason: string }[];
   builtAt: string;
   company: Company;
@@ -175,7 +184,10 @@ export type Dependencies = {
   resolveHost(host: string): Promise<string[]>;
   identifyTimeoutMs?: number;
   fetchOutcomes?: FetchOutcome[];
-  extractPdf?: (bytes: Uint8Array) => Promise<string>;
+  extractPdf?: (
+    bytes: Uint8Array,
+    options?: { maxPages?: number },
+  ) => Promise<string>;
   complete?: (
     input: CompleteTextInput,
     runtime: EnrichRuntime,

@@ -118,7 +118,7 @@ export async function identify(
                 site,
                 {},
                 Math.min(
-                  input.mode === "purchase" ? 4500 : 1800,
+                  input.mode === "purchase" ? 6000 : 1800,
                   end - performance.now(),
                 ),
               );
@@ -200,13 +200,17 @@ export async function identify(
     if (controller.signal.aborted) return;
     for (const candidate of candidates) {
       if (!candidate.checks.some((c) => c.check === "website")) continue;
-      if (
-        input.mode === "purchase" &&
-        resolved.some((hit) =>
-          hit.registry.authority === "Companies House" &&
-          sameCompanyName(candidate.name, hit.name)
-        )
-      ) {
+      const ukMatches = resolved.filter((hit) =>
+        hit.registry.authority === "Companies House" &&
+        sameCompanyName(candidate.name, hit.name)
+      );
+      const hasNumber = () =>
+        ukMatches.some((hit) =>
+          new RegExp(`\\b${hit.registry.id}\\b`, "i").test(
+            websites.get(candidate) ?? "",
+          )
+        );
+      if (input.mode === "purchase" && ukMatches.length && !hasNumber()) {
         const urls = ["/legal", "/terms", "/privacy", "/about"].map((path) =>
           `https://${candidate.domain}${path}`
         );
@@ -214,25 +218,43 @@ export async function identify(
           `https://plc.${candidate.domain}/`,
           `https://investors.${candidate.domain}/`,
         );
-        await Promise.all(urls.map(async (url) => {
+        const legalAbort = new AbortController();
+        let found!: () => void;
+        const foundPromise = new Promise<void>((resolve) => {
+          found = resolve;
+        });
+        const requests = urls.map(async (url) => {
           if (controller.signal.aborted || performance.now() >= end) return;
+          const started = performance.now();
           try {
             const response = await runtime(
               deps,
-              controller.signal,
+              AbortSignal.any([controller.signal, legalAbort.signal]),
               candidate.domain,
             ).request(url, {}, Math.min(4000, end - performance.now()));
-            if (response.ok && !controller.signal.aborted) {
+            if (
+              response.ok && !controller.signal.aborted &&
+              !legalAbort.signal.aborted
+            ) {
               websites.set(
                 candidate,
                 (websites.get(candidate) ?? "") + " " +
                   websiteIdentityText(await response.text()),
               );
+              if (hasNumber()) {
+                deps.identityProbes!.push({
+                  url,
+                  attempt: 1,
+                  ms: Math.round(performance.now() - started),
+                  outcome: "registration-number-found",
+                });
+                found();
+              }
             }
-          } catch {
-            /* No registration number is inferred from a failed page. */
-          }
-        }));
+          } catch { /* Missing legal-page evidence is never a binding. */ }
+        });
+        await Promise.race([Promise.all(requests), foundPromise]);
+        legalAbort.abort();
       }
       const matches = resolved.filter((hit) =>
         sameCompanyName(candidate.name, hit.name) &&

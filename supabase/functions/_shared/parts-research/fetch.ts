@@ -48,7 +48,9 @@ type Options = {
   redirectDomain?: string;
   coverageRedirects?: boolean;
   cap?: number;
+  pdfCap?: number;
   prefix?: boolean;
+  documentRedirects?: boolean;
   scan?: (text: string) => boolean;
   mayFetch?: (url: string) => Promise<boolean>;
 };
@@ -84,6 +86,7 @@ export async function fetchResource(
   let current: FetchOutcome | undefined;
   const job = (async () => {
     let url = publicUrl(value);
+    let requestInit = options.init;
     const originDomain = getDomain(url.hostname, { allowPrivateDomains: true });
     const allowed = (host: string) =>
       options.coverageRedirects
@@ -111,9 +114,9 @@ export async function fetchResource(
       if (!ips.length || ips.some((ip) => !publicIp(ip))) {
         throw new Error("non-public-address");
       }
-      const headers = requestHeaders(url.hostname, deps, options.init?.headers);
+      const headers = requestHeaders(url.hostname, deps, requestInit?.headers);
       const response = await deps.fetch(url.href, {
-        ...options.init,
+        ...requestInit,
         headers,
         redirect: "manual",
         signal,
@@ -122,6 +125,25 @@ export async function fetchResource(
       if (response.status >= 300 && response.status < 400) {
         await response.body?.cancel();
         const location = response.headers.get("location");
+        if (
+          options.documentRedirects && hops === 0 &&
+          url.hostname === "document-api.company-information.service.gov.uk" &&
+          /\/content$/.test(url.pathname) && location
+        ) {
+          const target = publicUrl(new URL(location, url).href);
+          if (!target.hostname.endsWith(".amazonaws.com")) {
+            throw new Error("redirect-refused");
+          }
+          const safeHeaders = new Headers(requestInit?.headers);
+          safeHeaders.delete("Authorization");
+          requestInit = { ...requestInit, headers: safeHeaders };
+          outcome.reason = "redirect-followed";
+          url = target;
+          continue;
+        }
+        if (options.documentRedirects && hops > 0) {
+          throw new Error("redirect-refused");
+        }
         if (
           hops >= 3 || !location || !allowed(url.hostname) ||
           ["authorization", "cookie", "x-api-key"].some((key) =>
@@ -140,7 +162,7 @@ export async function fetchResource(
       const cap = options.scan
         ? options.cap ?? MAX_BYTES
         : isPdf
-        ? MAX_PDF_BYTES
+        ? options.pdfCap ?? MAX_PDF_BYTES
         : options.cap ?? MAX_BYTES;
       if (
         !options.scan && !options.prefix &&

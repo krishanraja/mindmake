@@ -151,6 +151,10 @@ export function registryUrls(
       url: `${base}/filing-history`,
       headers,
       title: "Filing history dates",
+    }, {
+      url: `${base}/filing-history?category=accounts`,
+      headers,
+      title: "Latest accounts filing dates",
     }];
   }
   const headers = secHeaders(rt);

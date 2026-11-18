@@ -109,13 +109,16 @@ export function runtime(
           url.pathname === "/files/company_tickers.json"
         ? 8_000_000
         : MAX_BYTES;
+      const identityPage = !!redirectDomain &&
+        (url.hostname === redirectDomain ||
+          url.hostname.endsWith(`.${redirectDomain}`));
       const result = await fetchResource(deps, value, {
         init,
         timeoutMs,
         signal,
         redirectDomain,
-        cap: redirectDomain ? 512 * 1024 : cap,
-        prefix: !!redirectDomain,
+        cap: identityPage ? 512 * 1024 : cap,
+        prefix: identityPage,
       });
       if (result.status >= 200 && result.status < 300) {
         result.outcome.reason = "provider-or-identity-response";

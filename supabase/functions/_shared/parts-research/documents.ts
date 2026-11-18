@@ -2,23 +2,39 @@ import { stripHtml } from "./transport.ts";
 import { type Chip, type Dependencies, MAX_SOURCE_BYTES } from "./types.ts";
 
 export const PDF_MODULE = "npm:unpdf@0.12.1";
-/** Dynamic loading keeps offline fixtures independent of the human-cached package. */
+export async function pdfContent(
+  bytes: Uint8Array,
+  deps: Dependencies,
+  options: { maxPages?: number; pageCount?: number } = {},
+): Promise<{ text: string; pages: number; scanned: boolean }> {
+  let text: string, pages: number;
+  if (deps.extractPdf) {
+    text = await deps.extractPdf(bytes, options);
+    pages = Math.min(
+      options.pageCount ?? options.maxPages ?? 1,
+      options.maxPages ?? Infinity,
+    );
+  } else {
+    const mod = await import(PDF_MODULE).catch(() => {
+      throw new Error("pdf reader unavailable");
+    });
+    const document = await mod.getDocumentProxy(new Uint8Array(bytes));
+    pages = Math.min(document.numPages, options.maxPages ?? document.numPages);
+    text = await firstPdfPages(document, pages);
+  }
+  return {
+    text,
+    pages,
+    scanned: text.trim().length / Math.max(1, pages) < 200,
+  };
+}
+/** Compatibility wrapper for callers needing only the text. */
 export async function pdfText(
   bytes: Uint8Array,
   deps: Dependencies,
+  options: { maxPages?: number } = {},
 ): Promise<string> {
-  if (deps.extractPdf) return await deps.extractPdf(bytes);
-  const { extractText } = await import(PDF_MODULE).catch(() => {
-    throw new Error("pdf reader unavailable");
-  }) as {
-    extractText(
-      bytes: Uint8Array,
-      options: { mergePages: true },
-    ): Promise<{ text: string }>;
-  };
-  const result = await extractText(new Uint8Array(bytes), { mergePages: true });
-  if (typeof result.text !== "string") throw new Error("Invalid PDF text");
-  return result.text;
+  return (await pdfContent(bytes, deps, options)).text;
 }
 export function measureExcerpt(
   text: string,
@@ -30,7 +46,7 @@ export function measureExcerpt(
     ? "debt|liquidity|financing|covenant"
     : "results|earnings|announcement";
   const words = new RegExp(
-    `revenue|cash|subscribers|users|net income|guidance|employees|${priorities}`,
+    `revenue|turnover|profit|loss|net assets|forecourts|cash|subscribers|users|net income|guidance|employees|${priorities}`,
     "gi",
   );
   const ranges: [number, number][] = [];
@@ -63,4 +79,30 @@ export function measureExcerpt(
 }
 export function filingText(raw: string, chip: Chip) {
   return measureExcerpt(stripHtml(raw), chip);
+}
+
+export async function firstPdfPages(document: {
+  numPages: number;
+  getPage(
+    n: number,
+  ): Promise<
+    {
+      getTextContent(): Promise<{ items: { str?: string }[] }>;
+      cleanup(): void;
+    }
+  >;
+  destroy(): Promise<void>;
+}, limit = 40): Promise<string> {
+  const pages: string[] = [];
+  try {
+    for (let n = 1; n <= Math.min(limit, document.numPages); n++) {
+      const page = await document.getPage(n);
+      const content = await page.getTextContent();
+      pages.push(content.items.map((item) => item.str ?? "").join(" "));
+      page.cleanup();
+    }
+  } finally {
+    await document.destroy();
+  }
+  return pages.join("\n");
 }

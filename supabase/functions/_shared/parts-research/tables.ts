@@ -1,3 +1,4 @@
+import { ukTableFacts } from "./uk-parsers.ts";
 import { sentenceFacts } from "./sentences.ts";
 import type { ProposedFact, Source } from "./types.ts";
 
@@ -6,7 +7,7 @@ export function tableFacts(source: Source): ProposedFact[] {
   if (source.category === "coverage" || source.category === "registry") {
     return [];
   }
-  const facts: ProposedFact[] = [];
+  const facts: ProposedFact[] = ukTableFacts(source);
   const headers = [
     ...source.text.matchAll(
       /Q([1-4])\s+(20\d{2})\s+Q([1-4])\s+(20\d{2})\s+YoY/gi,

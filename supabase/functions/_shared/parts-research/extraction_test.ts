@@ -413,7 +413,8 @@ Deno.test("live business sentences retain cash, DAU growth and safe executive at
   const fact = result.facts[0];
   assert(
     fact.value === 1400000000 && fact.unit === "USD" &&
-      fact.period === "Q3 2026" && fact.periodSource === "document",
+      fact.period === "Q3 2026" &&
+      result.factMetadata[fact.id]?.periodSource === "document",
   );
   assert(result.facts[1].quote === dau && result.facts[1].value === null);
   assert(result.facts.every((f) => !f.statement.includes("Jane Smith")));
@@ -485,7 +486,8 @@ Deno.test("run 9 current-column KPIs and sentence windows survive strict pack va
     f.metric === "cash and short-term investments"
   );
   assert(
-    cash?.value === 1400000000 && cash.periodSource === "document" &&
+    cash?.value === 1400000000 &&
+      evidence.factMetadata?.[cash.id]?.periodSource === "document" &&
       cash.quote.startsWith("Cash and"),
   );
   assert(
@@ -552,7 +554,8 @@ Deno.test("run 10 primary sentences survive an empty model and pack validation",
     f.metric === "cash and short-term investments"
   );
   assert(
-    cash?.value === 1400000000 && cash.periodSource === "document" &&
+    cash?.value === 1400000000 &&
+      evidence.factMetadata?.[cash.id]?.periodSource === "document" &&
       cash.period === "Q3 2026",
   );
   const d2 = deps();

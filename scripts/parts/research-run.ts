@@ -9,20 +9,38 @@ import {
 } from "../../supabase/functions/_shared/parts-research/index.ts";
 import { argumentsFor, unusedPath } from "./args.ts";
 
+const dnsCache = new Map<string, Promise<string[]>>();
+
 /** All provider calls, credentials, clock and DNS enter through this boundary. */
 export function liveDependencies(): Dependencies {
   return {
     fetch: globalThis.fetch,
     env: (name) => Deno.env.get(name),
     now: () => new Date(),
-    resolveHost: async (host) => {
-      const answers = await Promise.allSettled([
-        Deno.resolveDns(host, "A"),
-        Deno.resolveDns(host, "AAAA"),
-      ]);
-      return answers.flatMap((result) =>
-        result.status === "fulfilled" ? result.value : []
-      );
+    // A slow "no IPv6 address" answer took 10 to 15 s for Companies House and
+    // monzo.com (verified live, 18 Nov 2026), so every request timed out. Each
+    // lookup now has its own limit, and IPv6 only gets a short grace period
+    // once IPv4 has answered. Results are cached per host for the run.
+    resolveHost: (host) => {
+      const hit = dnsCache.get(host);
+      if (hit) return hit;
+      const lookup = (type: "A" | "AAAA", ms: number) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), ms);
+        return Deno.resolveDns(host, type, { signal: controller.signal })
+          .catch(() => [] as string[])
+          .finally(() => clearTimeout(timer));
+      };
+      const answer = (async () => {
+        const v6 = lookup("AAAA", 3000);
+        const v4 = await lookup("A", 3000);
+        const grace = new Promise<string[]>((resolve) =>
+          setTimeout(() => resolve([]), v4.length ? 250 : 3000)
+        );
+        return [...v4, ...await Promise.race([v6, grace])];
+      })();
+      dnsCache.set(host, answer);
+      return answer;
     },
   };
 }

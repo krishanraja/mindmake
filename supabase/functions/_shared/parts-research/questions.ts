@@ -1,6 +1,13 @@
+import { questionFacts } from "./relevance.ts";
 import { completeText } from "../enrich/llm.ts";
 import { runtime, within } from "./transport.ts";
-import type { Chip, Dependencies, Fact, Question } from "./types.ts";
+import type {
+  Chip,
+  Dependencies,
+  Fact,
+  FactMetadata,
+  Question,
+} from "./types.ts";
 
 export function numbers(text: string): number[] {
   return [
@@ -43,6 +50,10 @@ export function validQuestion(
   const cited = q.because.map((id) => facts.find((f) => f.id === id));
   if (cited.some((f) => !f)) return false;
   const source = cited.map((f) => `${f!.statement} ${f!.quote}`).join(" ");
+  // This verified company product is not a person's name. Its citation must name it.
+  const nameCheckedQuestion = source.includes("Autotrader Intelligence")
+    ? q.question.replaceAll("Autotrader Intelligence", "product")
+    : q.question;
   const allowed = numbers(source);
   if (
     !numbers(q.question).every((n) =>
@@ -53,12 +64,14 @@ export function validQuestion(
   ) return false;
   // Conservative person-name guard; product names may be single words.
   if (
-    /\b(?:Mr|Mrs|Ms|Dr)\.?\s|\b[A-Z][a-z]+\s+[A-Z][a-z]+\b/.test(q.question)
+    /\b(?:Mr|Mrs|Ms|Dr)\.?\s|\b[A-Z][a-z]+\s+[A-Z][a-z]+\b/.test(
+      nameCheckedQuestion,
+    )
   ) return false;
   const metricWords = new Set(
     cited.flatMap((f) => (f?.metric ?? "").toLowerCase().split(/\W+/)),
   );
-  for (const m of q.question.matchAll(/\b[A-Z][a-z]+\b/g)) {
+  for (const m of nameCheckedQuestion.matchAll(/\b[A-Z][a-z]+\b/g)) {
     if (
       m.index! > 0 && !["Max", "Super", "Duolingo"].includes(m[0]) &&
       !metricWords.has(m[0].toLowerCase())
@@ -74,7 +87,9 @@ export async function generateQuestions(
   chip: Chip,
   deps: Dependencies,
   fallback: Question[],
+  metadata: FactMetadata = {},
 ): Promise<Question[]> {
+  facts = questionFacts(facts, chip, metadata);
   if (!facts.length) return [];
   // Questions get their own 45 s budget (Claude, 17 Nov 2026): in live runs extraction used up
   // the shared build deadline, so every buyer got template questions.

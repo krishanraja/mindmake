@@ -5,6 +5,14 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-18: r21 contract and scanned accounts correction
+
+- Ruling (Krish, 2026-11-18): remove undeclared significance from packs, enforce the documented keys, recover own annual reports after image-only accounts, and correct comparative periods, measure names and pence. Period provenance also moved to the receipt because it was undeclared. 92 offline research bodies and 22 parts tests pass. Actual part-reader compatibility and live Monzo report decoding remain external checks.
+
+## 2026-11-18: r20 accounts downloads and research relevance
+
+- Ruling (Krish, 2026-11-18): preserve the live DNS fix; allow one credential-free Amazon accounts download redirect; restore deterministic registry facts; rank headline measures and significant board announcements before caps; separate the forecourt movement into dated values; restrict questions to the strongest facts. Added r20 fixtures and pack checks. 87 offline test bodies pass; real PDF decoding and live acceptance remain pending.
+
 ## 2026-11-17: per-source narrative extraction
 
 - Ruling (Krish, 2026-11-17): replace the temporary timeout probe with per-source extraction, four-call concurrency, extraction-only model routing and complete-object recovery from truncated JSON. Added typed EX-99 HTML discovery, narrative row and period checks, per-attempt extraction receipts, a four-minute build deadline and one purchase website retry. Offline fixtures pass; live acceptance remains pending.
@@ -3158,3 +3166,7 @@ Ruling (Krish, 2026-11-17): retain primary-source figure sentences without relyi
 ### 2026-11-18: r17 UK and sparse-company research fixes
 
 Ruling (Krish, 2026-11-18): preserve the reviewer edits for Claude 5, independent question attempts and separate fact caps; fix UK identity and never turn undated marketing into announcements. Implemented bounded prefix reads, compact company-name matching, Companies House retry/legal-page binding and the sparse-publication fallback. Live acceptance remains pending.
+
+### 2026-11-18: UK sources research engine
+
+Ruling (Krish, 2026-11-18): "Fix UK sources". Added bounded Investegate RNS discovery and parsing, bound Companies House account documents, fiscal half-year/year tables and longer purchase identity probes. Offline fixtures pass full pack validation; live acceptance and actual PDF decoding remain pending. Reviewer edits and the protected homepage manifest were preserved.

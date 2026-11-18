@@ -24,6 +24,7 @@ export interface CurrencyOptions {
   runtime?: EnrichRuntime;
   /** Opt-in URL discovery for research packs; snippets are never accepted as facts. */
   coverage?: boolean;
+  includeDomains?: string[];
   from?: string;
   to?: string;
   query?: string;
@@ -135,7 +136,7 @@ async function fetchPerplexity(company: string, domain: string, options: Currenc
  * Exa (secondary): up to 2 recent, real-dated press/blog items.
  * @returns an array of CurrencyItems (possibly empty); never throws.
  */
-async function fetchExa(company: string, domain: string, options: CurrencyOptions, runtime: EnrichRuntime): Promise<CurrencyItem[]> {
+export async function fetchExa(company: string, domain: string, options: CurrencyOptions, runtime: EnrichRuntime): Promise<CurrencyItem[]> {
   const logger = runtime.logger;
   const key = runtime.env('EXA_API_KEY');
   if (!key) {
@@ -154,7 +155,7 @@ async function fetchExa(company: string, domain: string, options: CurrencyOption
         },
         body: JSON.stringify({
           query: `${company} ${domain} ${options.query ?? "product launch announcement 2026"}`,
-          ...(!options.coverage ? { includeDomains: [domain] } : {}),
+          ...(options.includeDomains ? { includeDomains: options.includeDomains } : !options.coverage ? { includeDomains: [domain] } : {}),
           ...(options.from ? { startPublishedDate: options.from } : {}),
           ...(options.to ? { endPublishedDate: options.to } : {}),
           numResults: options.coverage ? 8 : 3,

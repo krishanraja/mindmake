@@ -1,6 +1,9 @@
+import { jsonMember, latestAccountsQuote } from "./registry-text.ts";
+import { ukSources } from "./uk-sources.ts";
+import { rnsTicker } from "./uk-parsers.ts";
 import { exhibitUrls } from "./exhibits.ts";
 import { fetchResource, isSec, receiptUrl } from "./fetch.ts";
-import { filingText, measureExcerpt, pdfText } from "./documents.ts";
+import { filingText, measureExcerpt, pdfContent } from "./documents.ts";
 import { robotsGuard } from "./robots.ts";
 import { xbrlExcerpt } from "./xbrl.ts";
 import { fetchCurrency } from "../enrich/currency.ts";
@@ -27,7 +30,19 @@ export function ownDomain(company: Company, url: string): boolean {
   return !!host &&
     (host === company.domain || host.endsWith(`.${company.domain}`));
 }
-export function registrySource(company: Company, url: string): boolean {
+export function registrySource(
+  company: Company,
+  url: string,
+  source?: Source,
+): boolean {
+  if (company.verified && rnsTicker(url, company.name)) return true;
+  if (
+    company.registry?.authority === "Companies House" &&
+    source?.registryCompanyNumber === company.registry.id &&
+    new URL(url).hostname ===
+      "document-api.company-information.service.gov.uk" &&
+    /^\/document\/[a-z0-9_-]+\/content$/i.test(new URL(url).pathname)
+  ) return true;
   const r = company.registry;
   if (!r) return false;
   const u = new URL(url);
@@ -123,8 +138,13 @@ export async function gather(
         /application\/pdf/i.test(resource.headers.get("content-type") ?? "") ||
         /\.pdf(?:[?#]|$)/i.test(url) ||
         new TextDecoder().decode(resource.bytes.subarray(0, 5)) === "%PDF-";
-      const raw = pdf
-        ? await pdfText(resource.bytes, deps)
+      const pdfResult = pdf ? await pdfContent(resource.bytes, deps) : null;
+      if (pdfResult?.scanned) {
+        outcome.reason = "scanned-pdf-no-text";
+        return;
+      }
+      const raw = pdfResult
+        ? pdfResult.text
         : new TextDecoder("utf-8", { fatal: true }).decode(resource.bytes);
       const html = !pdf &&
         (/html/i.test(resource.headers.get("content-type") ?? "") ||
@@ -242,6 +262,14 @@ export async function gather(
           fragments = raw.match(
             /"(?:company_name|company_number|company_status|date_of_creation|date|type|description)"\s*:\s*"[^"\n]*"/g,
           ) ?? [];
+          for (const key of ["last_accounts", "confirmation_statement"]) {
+            const member = jsonMember(raw, key);
+            if (member) fragments.push(member);
+          }
+          if (url.includes("/filing-history")) {
+            const account = latestAccountsQuote(raw);
+            if (account) fragments.push(account);
+          }
           text = fragments.join("\n");
         }
       }
@@ -375,6 +403,15 @@ export async function gather(
     } catch { /* Index outcome is retained. */ }
   }
   await page(`https://${company.domain}/`, "website");
+  const uk = await ukSources(
+    company,
+    chip,
+    deps,
+    Math.max(0, 15 - sources.length),
+  );
+  sources.push(...uk);
+  for (const source of uk) seen.add(source.url);
+  attempts += uk.length;
   const currency = await discovery;
   const coverage = [...(currency?.currency ?? [])].sort((a, b) =>
     (Date.parse(b.date ?? "") || 0) - (Date.parse(a.date ?? "") || 0)

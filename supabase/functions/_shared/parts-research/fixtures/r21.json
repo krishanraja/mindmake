@@ -1,0 +1,32 @@
+{
+  "forecourts": "The average number of retailer forecourts advertising on our platform was 13,762 (H1 2026: 14,080)",
+  "movement": "Retailer forecourt numbers increased from 13.6k at the end of March, to 13.9k at the end of September.",
+  "deposits": "Deposits increased by 55% to £25.7bn (FY2025: £16.6bn)",
+  "measures": [
+    [
+      "We are proposing an interim dividend of 18.10 pence.",
+      "interim dividend",
+      0.181
+    ],
+    [
+      "We are proposing an interim dividend of 18.10p.",
+      "interim dividend",
+      0.181
+    ],
+    [
+      "This was offset by interest receivable on cash and cash equivalents of £12 million.",
+      "interest receivable on cash and cash equivalents",
+      12000000
+    ],
+    [
+      "The group has an overall positive net asset position and had cash balances of £25 million.",
+      "cash balances",
+      25000000
+    ],
+    [
+      "Operating costs declined slightly and the share of profit from joint ventures was £3 million.",
+      "share of profit from joint ventures",
+      3000000
+    ]
+  ]
+}

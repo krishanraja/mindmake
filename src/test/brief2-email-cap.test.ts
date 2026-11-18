@@ -49,6 +49,9 @@ describe("what can send mail", () => {
       // The DoThinkDo staff feedback form: to the operator only, never a
       // visitor, so it does not touch the two-email cap (Krish, 2026-11-02).
       "supabase/functions/submit-dtd-feedback/index.ts",
+      // The part's download link to the buyer who paid for it: a receipt the
+      // buyer asked for, not outreach (Ruling, Krish, 2026-11-18: parts live for sale).
+      "supabase/functions/kits-webhook/index.ts",
     ].sort());
   });
 

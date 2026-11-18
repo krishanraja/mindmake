@@ -51,7 +51,8 @@ function webhookFixture() {
 
 export const kitTests: [string, () => void | Promise<void>][] = [
   ["parts routes match in client and SSR and stay outside indexed pages", async () => {
-    const read = (file: string) => readFile(new URL(`../../${file}`, import.meta.url), "utf8");
+    // Runs from the repository root under both Node and Vitest (jsdom rewrites import.meta.url).
+    const read = (file: string) => readFile(`${process.cwd()}/${file}`, "utf8");
     for (const file of ["src/App.tsx", "src/entry-server.tsx"]) {
       const source = await read(file);
       for (const route of ["/parts", "/parts/:slug", "/parts/download", "/kits/download"]) assert(source.includes(`path="${route}"`), `${file}: ${route}`);

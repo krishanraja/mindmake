@@ -3,8 +3,15 @@ import { KIT_CURRENCY, KIT_PRICE_CENTS, type Kit } from "../../../../src/content
 export class KitError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
-export function requireTestKey(key: string) {
-  if (!key.startsWith("sk_test_")) throw new KitError(503, "Test checkout is unavailable");
+/**
+ * The Stripe mode follows the installed key: a live key takes real payments,
+ * a test key takes test payments, and the two never mix (Ruling, Krish,
+ * 2026-11-18: parts go live for sale). Any other key is refused.
+ */
+export function stripeMode(key: string): boolean {
+  if (/^(?:sk|rk)_live_/.test(key)) return true;
+  if (/^(?:sk|rk)_test_/.test(key)) return false;
+  throw new KitError(503, "Checkout is unavailable");
 }
 export interface Price { id: string; active: boolean; livemode: boolean; currency: string; unit_amount: number | null; type: string }
 export interface CheckoutDeps {
@@ -13,7 +20,7 @@ export interface CheckoutDeps {
   createSession: (params: Record<string, unknown>, options: { idempotencyKey: string }) => Promise<{ url: string | null; livemode: boolean }>;
 }
 export async function checkout(input: unknown, deps: CheckoutDeps) {
-  requireTestKey(deps.key);
+  const live = stripeMode(deps.key);
   if (!input || typeof input !== "object") throw new KitError(400, "Invalid request");
   const { slug, requestId } = input as Record<string, unknown>;
   if (typeof slug !== "string" || typeof requestId !== "string" || !/^[0-9a-f-]{36}$/i.test(requestId)) throw new KitError(400, "Invalid request");
@@ -22,13 +29,13 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
   const priceId = deps.prices[slug];
   if (!priceId?.startsWith("price_")) throw new KitError(503, "Part is not configured");
   const price = await deps.retrievePrice(priceId);
-  if (!price.active || price.livemode || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
+  if (!price.active || price.livemode !== live || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
   const session = await deps.createSession({
     mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }],
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     success_url: `${deps.origin}/parts/${slug}?checkout=success`, cancel_url: `${deps.origin}/parts/${slug}?checkout=cancelled`,
   }, { idempotencyKey: `kit-${slug}-${requestId}` });
-  if (session.livemode || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
+  if (session.livemode !== live || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
 }
 
@@ -47,6 +54,8 @@ export interface PurchaseInput {
 }
 export interface WebhookDeps {
   verify: (body: string, signature: string) => Promise<KitEvent>;
+  /** True when the installed Stripe key is live. Events of the other mode are refused. */
+  live: boolean;
   catalogue: readonly Kit[]; files: Record<string, string>;
   record: (event: KitEvent, purchase: PurchaseInput | null, refundIntent: string | null) => Promise<string | null>;
   claimDelivery: (id: string) => Promise<Purchase | null>;
@@ -61,7 +70,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
   if (!signature) throw new KitError(400, "Missing signature");
   let event: KitEvent;
   try { event = await deps.verify(raw, signature); } catch { throw new KitError(400, "Invalid signature"); }
-  if (event.livemode) throw new KitError(400, "Live events are not accepted");
+  if (event.livemode !== deps.live) throw new KitError(400, "Event mode does not match this checkout");
   if (!["checkout.session.completed", "charge.refunded"].includes(event.type)) return { received: true };
   const object = event.data.object;
   let purchase: PurchaseInput | null = null;
@@ -71,7 +80,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     const kit = deps.catalogue.find(item => item.slug === metadata?.kit_slug && item.status === "ready");
     // Other products on the same Stripe account are outside this endpoint.
     if (!metadata?.kit_slug) return { received: true };
-    if (!kit || object.mode !== "payment" || object.payment_status !== "paid" || object.currency !== KIT_CURRENCY || object.amount_total !== KIT_PRICE_CENTS || object.livemode !== false) throw new KitError(400, "Invalid part purchase");
+    if (!kit || object.mode !== "payment" || object.payment_status !== "paid" || object.currency !== KIT_CURRENCY || object.amount_total !== KIT_PRICE_CENTS || object.livemode !== deps.live) throw new KitError(400, "Invalid part purchase");
     const email = (object.customer_details as { email?: string } | undefined)?.email;
     const file = deps.files[kit.slug];
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof object.payment_intent !== "string" || typeof object.id !== "string") throw new KitError(400, "Incomplete purchase");
@@ -81,7 +90,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     // Only kit charges carry this metadata; it is set on the PaymentIntent.
     const metadata = object.metadata as Record<string, string> | undefined;
     if (!metadata?.kit_slug) return { received: true };
-    if (typeof object.payment_intent !== "string" || typeof object.amount_refunded !== "number" || object.amount_refunded <= 0 || object.livemode !== false) throw new KitError(400, "Invalid refund");
+    if (typeof object.payment_intent !== "string" || typeof object.amount_refunded !== "number" || object.amount_refunded <= 0 || object.livemode !== deps.live) throw new KitError(400, "Invalid refund");
     refundIntent = object.payment_intent;
   }
   const id = await deps.record(event, purchase, refundIntent);
@@ -130,7 +139,7 @@ export async function renewDownload(token: string, deps: {
   find: (id: string) => Promise<Pick<Purchase, "status" | "file_path"> | null>;
   sign: (file: string, seconds: number) => Promise<string>;
 }) {
-  requireTestKey(deps.key);
+  stripeMode(deps.key);
   const id = await verifyDownloadToken(token, deps.secret);
   const purchase = await deps.find(id);
   if (!purchase || purchase.status !== "paid") throw new KitError(403, "Download unavailable");

@@ -1,11 +1,11 @@
 import Stripe from "https://esm.sh/stripe@18.5.0?target=denonext";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.84.0";
-import { KitError, requireTestKey } from "./core.ts";
+import { KitError, stripeMode } from "./core.ts";
 
 export const env = (name: string) => Deno.env.get(name)?.trim() ?? "";
 export function stripeClient() {
   const key = env("STRIPE_SECRET_KEY");
-  requireTestKey(key);
+  stripeMode(key);
   return new Stripe(key, { httpClient: Stripe.createFetchHttpClient() });
 }
 export const database = () => createClient(env("SUPABASE_URL"), env("SUPABASE_SERVICE_ROLE_KEY"), { auth: { persistSession: false, autoRefreshToken: false } });

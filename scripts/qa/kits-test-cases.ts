@@ -30,7 +30,7 @@ function refundedEvent(): KitEvent {
 function webhookFixture() {
   const state = { event: paidEvent(), events: new Set<string>(), purchase: null as Purchase | null, refunded: false, sent: false, sends: 0, sendOk: true, signed: [] as number[], verified: [] as string[], records: 0 };
   const deps: WebhookDeps = {
-    catalogue: [ready], files: { [ready.slug]: "fact-check-board-update/v1.mcpb" }, origin: "https://preview.example",
+    live: false, catalogue: [ready], files: { [ready.slug]: "fact-check-board-update/v1.mcpb" }, origin: "https://preview.example",
     verify: async (raw, signature) => { state.verified.push(`${signature}:${raw}`); if (signature !== "valid-synthetic-signature") throw new Error("Invalid"); return state.event; },
     record: async (event, input, refundIntent) => {
       if (state.events.has(event.id)) return state.purchase?.id ?? null;
@@ -158,11 +158,32 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.equal(calls[0].params.success_url, `https://preview.example/parts/${ready.slug}?checkout=success`);
     assert.equal(calls[0].params.cancel_url, `https://preview.example/parts/${ready.slug}?checkout=cancelled`);
   }],
-  ["live or absent keys fail before calling Stripe", async () => {
-    for (const key of ["sk_live_synthetic", "", "rk_test_synthetic"]) {
+  ["absent or unknown keys fail before calling Stripe", async () => {
+    for (const key of ["", "pk_live_synthetic", "whsec_synthetic", "sk_synthetic"]) {
       const { deps, calls } = checkoutFixture(); deps.key = key;
-      await assert.rejects(() => checkout(checkoutInput, deps), /Test checkout/); assert.equal(calls.length, 0);
+      await assert.rejects(() => checkout(checkoutInput, deps), /Checkout is unavailable/); assert.equal(calls.length, 0);
     }
+  }],
+  ["a live key sells at the live price and refuses a test price or a test session", async () => {
+    const { deps, calls } = checkoutFixture(); deps.key = "sk_live_synthetic";
+    deps.retrievePrice = async id => ({ id, active: true, livemode: true, currency: "usd", unit_amount: 5900, type: "one_time" });
+    deps.createSession = async (params, options) => { calls.push({ params, options }); return { url: "https://checkout.stripe.com/c/pay/live_synthetic", livemode: true }; };
+    assert.equal((await checkout(checkoutInput, deps)).url, "https://checkout.stripe.com/c/pay/live_synthetic");
+    const testPrice = checkoutFixture(); testPrice.deps.key = "rk_live_synthetic";
+    await assert.rejects(() => checkout(checkoutInput, testPrice.deps), /price is not configured/); assert.equal(testPrice.calls.length, 0);
+    const testSession = checkoutFixture(); testSession.deps.key = "sk_live_synthetic";
+    testSession.deps.retrievePrice = deps.retrievePrice;
+    await assert.rejects(() => checkout(checkoutInput, testSession.deps), /Checkout is unavailable/);
+  }],
+  ["a live checkout fulfils live events and refuses test events, and the reverse", async () => {
+    const live = webhookFixture(); live.deps.live = true;
+    live.state.event = paidEvent(); live.state.event.livemode = true; (live.state.event.data.object as Record<string, unknown>).livemode = true;
+    await live.run(); assert.equal(live.state.sends, 1);
+    const mixed = webhookFixture(); mixed.deps.live = true;
+    await assert.rejects(() => mixed.run(), /Event mode does not match/); assert.equal(mixed.state.records, 0);
+    const object = webhookFixture(); object.deps.live = true;
+    object.state.event = paidEvent(); object.state.event.livemode = true;
+    await assert.rejects(() => object.run(), /Invalid part purchase/); assert.equal(object.state.sends, 0);
   }],
   ["sample and unknown slugs cannot be bought", async () => {
     const { deps, calls } = checkoutFixture(); deps.catalogue = [{ ...ready, status: "sample" }];

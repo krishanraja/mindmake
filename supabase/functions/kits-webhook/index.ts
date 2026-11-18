@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { kits } from "../../../src/content/kits.ts";
 import { sendResendEmail } from "../_shared/http/resend.ts";
-import { downloadToken, KitError, webhook, type KitEvent, type Purchase } from "../_shared/kits/core.ts";
+import { downloadToken, KitError, stripeMode, webhook, type KitEvent, type Purchase } from "../_shared/kits/core.ts";
 import { database, env, failure, json, limitedBody, mapping, publicOrigin, stripeClient } from "../_shared/kits/runtime.ts";
 
 serve(async request => {
@@ -18,6 +18,7 @@ serve(async request => {
       return data as T;
     }
     const response = await webhook(await limitedBody(request), request.headers.get("stripe-signature"), {
+      live: stripeMode(env("STRIPE_SECRET_KEY")),
       verify: async (raw, signature) => await stripe.webhooks.constructEventAsync(raw, signature, secret) as unknown as KitEvent,
       catalogue: kits, files: mapping("KITS_FILES_JSON"), origin: publicOrigin(),
       record: (event, purchase, refundIntent) => rpc<string | null>("kits_record_event", { p_event_id: event.id, p_event_type: event.type, p_purchase: purchase, p_refund_intent: refundIntent }),

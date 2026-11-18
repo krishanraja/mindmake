@@ -142,6 +142,9 @@ fetch replacement or package installation is used in production code.
 
 ## Offline checks and live handoff
 
+Next steps for a new session are in
+[parts-research-next-steps.md](parts-research-next-steps.md).
+
 ```powershell
 deno check --no-remote scripts/parts/research-run.ts scripts/parts/personalise-bundle.ts supabase/functions/_shared/parts-research/research_test.ts supabase/functions/_shared/parts-research/identity_test.ts supabase/functions/_shared/parts-research/gather_test.ts scripts/parts/pdf-smoke.ts
 deno test --no-remote --allow-read --allow-write=quality/parts/research-test-output supabase/functions/_shared/parts-research/ supabase/functions/_shared/enrich/llm_test.ts

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 
-const steps = ["Download your part", "Open it, and Claude adds it in one click", "Run it on one of your own files", "Read the result and make the call"];
+const steps = ["Download your brain module", "Open it, and Claude adds it in one click", "Run it on one of your own files", "Read the result and make the call"];
 
 // Adapted from onboarding-01. Completion is self-reported and kept in page memory.
 export function OnboardingChecklist() {

@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-14
-head: caa7e2b
+as_of: 2026-11-18
+head: 4149f82
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-18)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -78,6 +78,33 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-17: the canon's "Why this exists" now carries the thesis Krish chose,
+  "AI makes strong judgement stronger and weak judgement weaker. Mindmake
+  builds the strong kind.", with two sourced figures and a short "Why Krish
+  started it" in his own words (PR #308). Ruling (Krish, 2026-11-17): "my name
+  is critical publicly in this founder story". The offer, the two doors and the
+  private price are unchanged. Not yet public: the judgement audit "Who
+  decided?" is still to be built through the material review, and Krish
+  approves the founding story's exact words before it is published.
+- 2026-11-16: a read-only function returns the SHA-256 fingerprint of each
+  brief request's address and nothing else (PR #307), so Control Center can
+  serve `records.brief_takers` and anyone who took the free brief is never cold
+  emailed. The private table is unchanged. Not applied: it needs Krish's yes and
+  the site's normal release.
+- 2026-11-15: `/case-studies` finds a reader's use case by type, situation,
+  role, result or search, then shows the eighteen client quotes (PRs #301 and
+  #304). Use cases, results and quotes now have one record each
+  (`src/data/useCases.ts`, `src/data/testimonials.ts`). Krish approved the
+  rendered preview ("Happy With your recommendations"). "Success stories"
+  became "What you can do" everywhere live (Ruling, Krish, 2026-11-15: no traces
+  of the old copy anywhere); `CaseProofField.tsx` and its production check were
+  retired. A final sweep fixed two defects: two comparison captions showed on
+  top of each other, and the count could flash a negative figure.
+- 2026-11-15: the cold email opt-out link `/optout/<token>` is forwarded from
+  mindmake.co to Control Center by a rewrite, never a redirect, because a
+  one-click POST turned into a GET by a 301 deletes nothing (PR #303). The
+  route lock was regenerated for the intended `vercel.json` edit. `/privacy`
+  gained "If Mindmake emailed you first" (PR #302).
 - 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
   from `public/l/index.html`, with `/l/config.js` coming from
   `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
@@ -156,6 +183,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
 - North Star check (2026-11-14): holds.
+- Waiting on Krish: update `00_NORTH_STAR.md` lines 83 to 86 (still say seventeen stories) and decide whether R-07 in `04_PROOF_RECORDS.md` stays.
 
 ## Read next
 

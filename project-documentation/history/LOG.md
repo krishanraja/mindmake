@@ -3061,3 +3061,7 @@ characters of the page's copy reaching a reader with JavaScript disabled.
 ## 2026-08-11
 
 - rolled from NOW.md: 2026-08-11 to 12, pre-rebuild (`cda3c70`, pull requests #136, #137): one 21-day Sprint and a fit-call action retired, ten orphaned routes redirected, dead Builder Economy links retired. Every offer named in those commits is retired by canon and stays retired.
+
+## 2026-11-18
+
+- reconciled at `4149f82`: NOW.md gained the 15 to 17 November changes (use-case finder on `/case-studies`, opt-out forwarding, brief-taker fingerprints, the canon thesis); two closeout notes were folded by hand and removed. Stamps on CLAUDE.md, 00, 01, 02, 04, 04 records, 06 and 07 were not re-verified and were left for a person. The North Star check line is dated 2026-11-14 and was left, because only a session that re-read the North Star can re-date it.

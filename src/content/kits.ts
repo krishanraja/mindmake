@@ -26,7 +26,7 @@ export const kits: Kit[] = [
       "Claims that need your judgement before you speak."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose what you are about to say and the files behind it.",
       "Read the result and decide which claims you can stand behind."
     ],
@@ -49,7 +49,7 @@ export const kits: Kit[] = [
       "Checks to resolve before the draft goes out."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose your draft and its source files.",
       "Read the result and decide what to correct or leave out."
     ],
@@ -72,7 +72,7 @@ export const kits: Kit[] = [
       "Unresolved questions to settle before reporting."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose the figures you plan to report and their supporting records.",
       "Read the result and decide what is fit to report."
     ],
@@ -95,7 +95,7 @@ export const kits: Kit[] = [
       "Named gaps to consider before the conversation."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose your notes about the person you are meeting.",
       "Read the result and decide which questions matter."
     ],
@@ -118,7 +118,7 @@ export const kits: Kit[] = [
       "Assumptions you need to settle before quoting."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose your costs, proposed scope and pricing standards.",
       "Read the result and decide whether the work meets your standards."
     ],
@@ -141,7 +141,7 @@ export const kits: Kit[] = [
       "Assumptions and trade-offs behind the concession."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose your price, costs and the proposed discount.",
       "Read the result and decide whether the concession is worth making."
     ],
@@ -164,7 +164,7 @@ export const kits: Kit[] = [
       "A running record you can return to before your next decision."
     ],
     "firstFiveMinutes": [
-      "Open this part in Claude Desktop.",
+      "Open this brain module in Claude Desktop.",
       "Choose one decision you made with AI and the files behind it.",
       "Work through the six questions and keep the record for your next decision."
     ],

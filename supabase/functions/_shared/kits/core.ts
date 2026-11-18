@@ -41,7 +41,7 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
 }
 
 /** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
-export const BUYER_PROMISE = "You will never get marketing emails from us. We will check in with you once, personally, to make sure the part is working for you. If it is not, we will run a free session with you to put it right.";
+export const BUYER_PROMISE = "You will never get marketing emails from us. We will check in with you once, personally, to make sure the brain module is working for you. If it is not, we will run a free session with you to put it right.";
 export const CHECK_IN_DAYS = 7;
 
 export interface KitEvent {
@@ -117,8 +117,8 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
       const token = await deps.token(prepared.id);
       const renew = `${deps.origin}/parts/download#token=${encodeURIComponent(token)}`;
       prepared = await deps.prepareDelivery(id, {
-        subject: `Your AI brain part: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
-        text: `This part of your AI brain is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other parts of your AI brain are at ${deps.origin}/parts, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
+        subject: `Your AI brain module: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
+        text: `Your brain module is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other brain modules are at ${deps.origin}/parts, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
       });
     }
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }

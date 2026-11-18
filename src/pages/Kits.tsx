@@ -16,12 +16,12 @@ import "@/styles/kits.css";
 const catalogue = visibleKits(kits, __KITS_PREVIEW__ ? "preview" : "production");
 const refund = "Full refund within 14 days, no questions asked.";
 // The promise made to every buyer (Krish, 18 November 2026). Checkout and the receipt carry the full wording.
-const promise = "No marketing emails, ever. We check in with you once, personally, and if the part is not working, we run a free session with you.";
+const promise = "No marketing emails, ever. We check in with you once, personally, and if the brain module is not working, we run a free session with you.";
 
 function Suite() {
   return <section className="kit-section kit-suite" aria-labelledby="kit-suite-title">
-    <h2 id="kit-suite-title">Want the whole brain, not one part?</h2>
-    <p>Each part does one job. Mindmake builds your whole AI brain with you, around your standards and the decisions you make.</p>
+    <h2 id="kit-suite-title">Want the whole brain, not one module?</h2>
+    <p>Each brain module does one job. Mindmake builds your whole AI brain with you, around your standards and the decisions you make.</p>
     <div className="kit-suite-actions"><a className="kit-button" href="/?start=1">Start building your AI brain <ArrowRight size={18} aria-hidden="true" /></a><Link className="kit-back" to="/">See everything Mindmake does <ArrowRight size={16} aria-hidden="true" /></Link></div>
     <p className="kit-audit">Not ready to buy? Try <Link to="/who-decided">Who decided?</Link>, free.</p>
   </section>;
@@ -54,35 +54,35 @@ function Buy({ kit }: { kit: Kit }) {
     } catch { setState("error"); }
   };
   return <div className="kit-buy"><div className="parts-price-actions"><button className="kit-button" onClick={buy} disabled={state === "loading"}>
-    {state === "loading" ? <>Opening checkout…<SquareGrid /></> : <>Add this part, $59<ArrowRight size={18} aria-hidden="true" /></>}
-  </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><p className="kit-promise">{promise}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This part is not available." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
+    {state === "loading" ? <>Opening checkout…<SquareGrid /></> : <>Add this brain module, $59<ArrowRight size={18} aria-hidden="true" /></>}
+  </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><p className="kit-promise">{promise}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This brain module is not available." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
 }
 
 function Catalogue() {
   return <>
     <section className="kit-section kit-hero kit-hero-catalogue" id="kit-hero">
       <div><p className="kit-label">PARTS OF YOUR AI BRAIN</p>
-        <h1>Start your AI brain <em>one part at a time.</em></h1>
-        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each part is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.</p>
-        <p className="kit-lede">Each part plugs into Claude in one click, runs on your own files and shows you the result in five minutes.</p>
+        <h1>Start your AI brain <em>one module at a time.</em></h1>
+        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.</p>
+        <p className="kit-lede">Each brain module plugs into Claude in one click, runs on your own files and shows you the result in five minutes.</p>
         <a className="kit-button" href="#kit-catalogue">See the parts <ArrowDown size={18} aria-hidden="true" /></a>
         <ul className="kit-checks">{["Runs on your computer. Your files are never sent to us.", "Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
         <p className="kit-audit">Not sure where to start? Try <Link to="/who-decided">Who decided?</Link>, a free 20-minute audit of one real decision.</p>
       </div><PartsSampleOutput />
     </section>
     <div className="kit-section kit-built-wrap"><BuiltBy /></div>
-    <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY PARTS, NOT PROMPTS</p><h2>AI makes strong judgement stronger and weak judgement weaker. <em>Each part makes yours stronger.</em></h2><PartsEngine /></div></section>
+    <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY MODULES, NOT PROMPTS</p><h2>AI makes strong judgement stronger and weak judgement weaker. <em>Each brain module makes yours stronger.</em></h2><PartsEngine /></div></section>
     <PartsVersus />
     <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want done before your next decision.</h2>
       <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
-        <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this part, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
+        <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this brain module, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
       </article>)}</div>
     </section>
     <DecisionMath />
     <Stories />
     <Suite />
     <section className="kit-section kit-faq" aria-labelledby="kit-faq-title"><h2 id="kit-faq-title"><PartsFaqDrawer heading /></h2></section>
-    <ExitOverlay buyHref="#kit-catalogue" buyLabel="Choose a part, $59" />
+    <ExitOverlay buyHref="#kit-catalogue" buyLabel="Choose a brain module, $59" />
   </>;
 }
 
@@ -114,8 +114,8 @@ export default function Kits() {
   const { slug } = useParams();
   const kit = catalogue.find(item => item.slug === slug);
   return <MindmakeShell onStart={() => window.location.assign("/?start=1")} siteClassName="kits-site" mainClassName="kits-main" showMobileActionBar={false}>
-    <SEO title={kit ? `${kit.name} | Part of your AI brain` : "Parts of your AI brain"} description={kit?.problem ?? "Start your AI brain one part at a time."} canonical={`/parts${slug ? `/${slug}` : ""}`} noindex />
-    {slug ? kit ? <Detail key={kit.slug} kit={kit} /> : <section className="kit-section kit-missing"><h1>This part is not available.</h1><Link className="kit-button" to="/parts">See the parts <ArrowRight size={18} aria-hidden="true" /></Link></section> : <Catalogue />}
+    <SEO title={kit ? `${kit.name} | Part of your AI brain` : "Parts of your AI brain"} description={kit?.problem ?? "Start your AI brain one module at a time."} canonical={`/parts${slug ? `/${slug}` : ""}`} noindex />
+    {slug ? kit ? <Detail key={kit.slug} kit={kit} /> : <section className="kit-section kit-missing"><h1>This brain module is not available.</h1><Link className="kit-button" to="/parts">See the parts <ArrowRight size={18} aria-hidden="true" /></Link></section> : <Catalogue />}
 
   </MindmakeShell>;
 }

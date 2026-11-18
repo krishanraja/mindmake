@@ -22,7 +22,7 @@ for (const route of ["/parts", "/parts/download", ...kits.map(part => `/parts/${
     assert(body.includes(part.name)); assert(body.includes(part.problem));
     assert(body.includes(part.checks)); assert(body.includes(part.whoDecided));
     for (const heading of ["What it strengthens", "What you get", "Your first five minutes", "What it checks", "What only you can judge", "What you need"]) assert(body.includes(heading));
-    assert(body.includes("Add this part, $59"));
+    assert(body.includes("Add this brain module, $59"));
     if (part.slug === "audit-a-decision") {
       assert(body.includes("Try it free first:")); assert(body.includes('href="/who-decided"'));
       assert(body.includes("is the same six questions for one decision."));

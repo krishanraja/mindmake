@@ -63,13 +63,13 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert(hosting.redirects.some((rule: { source: string; destination: string }) => rule.source === "/kits/:path*" && rule.destination === "/parts/:path*"));
     const page = await read("src/pages/Kits.tsx");
     assert(page.includes('noindex />')); assert(page.includes('to="/who-decided"'));
-    assert(page.includes('Start your AI brain <em>one part at a time.</em>'));
+    assert(page.includes('Start your AI brain <em>one module at a time.</em>'));
     assert(page.includes('title: "What only you can judge", content: <p>{kit.whoDecided}</p>'));
     assert(page.includes('title: "What it checks", content: <p>{kit.checks}</p>'));
     assert(!page.includes('kit.whoDecided ??'));
-    // Krish, 18 November 2026: the hero says plainly that a part is working software, not a prompt.
-    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each part is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.";
-    const shortSub = "Each part plugs into Claude in one click, runs on your own files and shows you the result in five minutes.";
+    // Krish, 18 November 2026: the hero says plainly that a brain module is working software, not a prompt; one is a brain module, never "a part".
+    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.";
+    const shortSub = "Each brain module plugs into Claude in one click, runs on your own files and shows you the result in five minutes.";
     assert(page.indexOf(explanation) > page.indexOf("</h1>"));
     assert(page.indexOf(shortSub) > page.indexOf(explanation));
     assert(page.includes("Pick the job you want done before your next decision."));
@@ -238,7 +238,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.equal(state.records, 1); assert.equal(state.sends, 1); assert.equal(state.purchase?.status, "paid");
     assert.deepEqual(state.signed, [604800]);
     assert.match(state.purchase!.delivery_payload!.text, /parts\/download#token=/);
-    assert.equal(state.purchase!.delivery_payload!.subject, "Your AI brain part: Fact-check my board update");
+    assert.equal(state.purchase!.delivery_payload!.subject, "Your AI brain module: Fact-check my board update");
     assert(!/\bkit\b/i.test(state.purchase!.delivery_payload!.text));
   }],
   ["a failed email retries the persisted payload without issuing another signed URL", async () => {

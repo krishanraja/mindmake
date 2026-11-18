@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { staticPages } from "../lib/pages.mjs";
 import { kits, visibleKits, type Kit } from "../../src/content/kits.ts";
-import { checkout, downloadToken, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
+import { BUYER_PROMISE, checkout, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
 import { kitsPreview } from "../lib/kits-build.mjs";
 
 const ready: Kit = { ...kits[0], status: "ready" };
@@ -206,6 +206,24 @@ export const kitTests: [string, () => void | Promise<void>][] = [
       deps.retrievePrice = async id => ({ ...await original(id), ...override });
       await assert.rejects(() => checkout(checkoutInput, deps), /price is not configured/); assert.equal(calls.length, 0);
     }
+  }],
+  ["every buyer is promised no marketing emails, one personal check-in and a free session, and is pointed to the full site", async () => {
+    assert.match(BUYER_PROMISE, /never get marketing emails/); assert.match(BUYER_PROMISE, /check in with you once, personally/); assert.match(BUYER_PROMISE, /free session/);
+    const { deps, calls } = checkoutFixture(); await checkout(checkoutInput, deps);
+    assert.deepEqual(calls[0].params.custom_text, { submit: { message: BUYER_PROMISE } });
+    const { run, state } = webhookFixture(); await run();
+    const text = state.purchase!.delivery_payload!.text;
+    assert(text.includes(BUYER_PROMISE)); assert(text.includes("https://preview.example/parts")); assert(text.includes("build your whole AI brain with Mindmake at https://preview.example"));
+  }],
+  ["each delivered purchase tells the operator once, and a failed note never fails the delivery", async () => {
+    const { deps, run, state } = webhookFixture(); const notes: { subject: string; text: string }[] = [];
+    deps.notifyOperator = async (_purchase, message) => { notes.push(message); };
+    await run(); await run();
+    assert.equal(notes.length, 1); assert.equal(notes[0].subject, "New parts buyer: Fact-check my board update");
+    assert.match(notes[0].text, /buyer@example\.invalid bought Fact-check my board update/); assert.match(notes[0].text, /Nothing is sent to them automatically/);
+    const failing = webhookFixture(); failing.deps.notifyOperator = async () => { throw new Error("mail down"); };
+    await failing.run(); assert.equal(failing.state.sent, true);
+    assert.match(operatorNote({ email: "a@example.invalid", kit_slug: ready.slug }, [ready], new Date("2026-11-18T12:00:00Z")).text, /by 2026-11-25/);
   }],
   ["missing or forged webhook signatures never record or send", async () => {
     const { deps, state } = webhookFixture();

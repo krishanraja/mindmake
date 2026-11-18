@@ -33,11 +33,16 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
   const session = await deps.createSession({
     mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }],
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
+    custom_text: { submit: { message: BUYER_PROMISE } },
     success_url: `${deps.origin}/parts/${slug}?checkout=success`, cancel_url: `${deps.origin}/parts/${slug}?checkout=cancelled`,
   }, { idempotencyKey: `kit-${slug}-${requestId}` });
   if (session.livemode !== live || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
 }
+
+/** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
+export const BUYER_PROMISE = "You will never get marketing emails from us. We will check in with you once, personally, to make sure the part is working for you. If it is not, we will run a free session with you to put it right.";
+export const CHECK_IN_DAYS = 7;
 
 export interface KitEvent {
   id: string; type: string; livemode: boolean; created: number;
@@ -64,6 +69,14 @@ export interface WebhookDeps {
   token: (id: string) => Promise<string>; origin: string;
   send: (purchase: Purchase) => Promise<boolean>;
   finishDelivery: (id: string, success: boolean) => Promise<void>;
+  /** Tells the operator a buyer is now a lead with a check-in due. Best effort: never fails a delivery. */
+  notifyOperator?: (purchase: Purchase, message: { subject: string; text: string }) => Promise<void>;
+}
+/** The operator's note for a new buyer: a prompt for one personal check-in, never an automated send. */
+export function operatorNote(purchase: Pick<Purchase, "email" | "kit_slug">, catalogue: readonly Kit[], today: Date) {
+  const due = new Date(today.getTime() + CHECK_IN_DAYS * 86400000).toISOString().slice(0, 10);
+  const name = catalogue.find(item => item.slug === purchase.kit_slug)?.name ?? purchase.kit_slug;
+  return { subject: `New parts buyer: ${name}`, text: `${purchase.email} bought ${name}.\n\nCheck in with them personally by ${due}. They were promised: ${BUYER_PROMISE}\n\nNothing is sent to them automatically. They are saved as a lead in kit_purchases, with the check-in in kit_concierge_queue.` };
 }
 
 export async function webhook(raw: string, signature: string | null, deps: WebhookDeps) {
@@ -105,12 +118,13 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
       const renew = `${deps.origin}/parts/download#token=${encodeURIComponent(token)}`;
       prepared = await deps.prepareDelivery(id, {
         subject: `Your AI brain part: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
-        text: `This part of your AI brain is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.`,
+        text: `This part of your AI brain is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other parts of your AI brain are at ${deps.origin}/parts, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
       });
     }
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }
     if (!await deps.send(prepared)) throw new Error("Delivery pending");
     await deps.finishDelivery(id, true);
+    try { await deps.notifyOperator?.(prepared, operatorNote(prepared, deps.catalogue, new Date())); } catch { /* the lead is already saved; the note is a courtesy */ }
   } catch {
     await deps.finishDelivery(id, false);
     throw new KitError(503, "Delivery pending; retry this event");

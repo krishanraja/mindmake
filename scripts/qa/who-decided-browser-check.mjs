@@ -45,7 +45,8 @@ try {
     }
     for (const fact of FACTS) assert.equal(await page.getByText(fact.text, { exact: true }).count(), 1);
     assert.equal(await page.locator(".wd-first").textContent(), "The decision");
-    assert.equal(await page.locator(".wd-read > a").getAttribute("href"), "/?start=1");
+    assert.equal(await page.locator(".wd-practice a.wd-next").getAttribute("href"), "/?start=1");
+    assert.equal(await page.evaluate(() => document.scrollingElement.scrollHeight <= innerHeight), true, "The read fits the screen");
     await page.screenshot({ path: path.join(output, `${width}-read.png`), fullPage: true });
     await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);

@@ -1,0 +1,17 @@
+{
+  "headline": "2 claims need attention",
+  "summary": "2 of 4 candidate claims match supplied evidence; read the claim table before sharing the update.",
+  "rows": [
+    {
+      "claim": "We hired 5 engineers in October. [update.md, line 4]",
+      "status": "conflicting",
+      "evidence": "We hired 3 engineers in October. [evidence/people.txt, line 1]"
+    },
+    {
+      "claim": "Customer satisfaction was higher than September. [update.md, line 6]",
+      "status": "not found",
+      "evidence": "No matching statement in the supplied evidence"
+    }
+  ],
+  "limitation": "Backed means matching text in the supplied files, not independent proof that a statement is true. A copy or stale source can repeat an error."
+}

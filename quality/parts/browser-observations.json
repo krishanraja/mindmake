@@ -1,0 +1,102 @@
+{
+  "candidateSha256": "34d0858da39eb7c79ac486fbc7f1128329a9d2e9ab166b3dc3ed7ee119d8209e",
+  "capturedAt": "2026-11-17T18:53:37.139Z",
+  "runtime": {
+    "selfOwned": true,
+    "origin": "http://127.0.0.1:4396"
+  },
+  "observations": [
+    {
+      "route": "/parts/",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "screenshots": [
+        "quality/parts/catalogue-375x812.png",
+        "quality/parts/catalogue-375x812-full.png",
+        "quality/parts/catalogue-375x812-questions.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/fact-check-board-update/",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "screenshots": [
+        "quality/parts/fact-check-board-update-375x812.png",
+        "quality/parts/fact-check-board-update-375x812-full.png",
+        "quality/parts/fact-check-board-update-375x812-questions.png",
+        "quality/parts/fact-check-board-update-375x812-accordion.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/download/",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "screenshots": [
+        "quality/parts/download-375x812.png",
+        "quality/parts/download-375x812-full.png",
+        "quality/parts/download-375x812-checklist.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshots": [
+        "quality/parts/catalogue-1440x900.png",
+        "quality/parts/catalogue-1440x900-full.png",
+        "quality/parts/catalogue-1440x900-questions.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/fact-check-board-update/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshots": [
+        "quality/parts/fact-check-board-update-1440x900.png",
+        "quality/parts/fact-check-board-update-1440x900-full.png",
+        "quality/parts/fact-check-board-update-1440x900-questions.png",
+        "quality/parts/fact-check-board-update-1440x900-accordion.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll",
+      "consoleErrors": []
+    },
+    {
+      "route": "/parts/download/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshots": [
+        "quality/parts/download-1440x900.png",
+        "quality/parts/download-1440x900-full.png",
+        "quality/parts/download-1440x900-checklist.png"
+      ],
+      "status": "pass",
+      "actions": "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll",
+      "consoleErrors": []
+    }
+  ]
+}

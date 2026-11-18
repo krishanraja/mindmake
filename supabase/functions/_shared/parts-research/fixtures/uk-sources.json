@@ -1,0 +1,30 @@
+{
+  "listing": "<table><tr><td>16 Nov 2026</td><td><a href=\"/announcement/rns/autotrader-group-plc--auto/transaction-in-own-shares/9999999\">Transaction in Own Shares</a></td></tr><tr><td>05 Nov 2026</td><td><a href=\"/announcement/rns/autotrader-group-plc--auto/half-year-results/9859158\">Half Year Results</a></td></tr></table>",
+  "rns": "<html><title>Half Year Results</title><p>Embargoed until 7.00am, 5 November 2026</p><h2>SIX MONTHS ENDED 30 SEPTEMBER 2026</h2><p>&#163;m (unless otherwise specified) H1 2027 H1 2026 Change</p><table><tr><td>Group revenue</td><td>313.4</td><td>317.7</td><td>(1%)</td></tr></table><p>The average number of retailer forecourts advertising on our platform was 13,762 (H1 2026: 14,080).</p><p>Strategy &amp; delivery&#160;remain in view.</p></html>",
+  "history": {
+    "items": [
+      {
+        "type": "AA",
+        "date": "2026-08-27",
+        "description_values": {
+          "made_up_date": "2026-03-31"
+        },
+        "links": {
+          "document_metadata": "https://document-api.company-information.service.gov.uk/document/fixture-accounts"
+        }
+      }
+    ]
+  },
+  "pdfMetadata": {
+    "resources": {
+      "application/pdf": 7190321
+    },
+    "pages": 195
+  },
+  "xhtmlMetadata": {
+    "resources": {
+      "application/xhtml+xml": 2000
+    }
+  },
+  "robots": "User-agent: *\nAllow: /company/\nAllow: /announcement/\nDisallow: /search-company\nDisallow: /tp001\nDisallow: /ui/login\nDisallow: /callback\n"
+}

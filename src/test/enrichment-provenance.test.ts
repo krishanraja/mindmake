@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { canonicalResearchDomain, companyIdentityCorroborated, hasExactDomainEvidence, isFirstPartyEvidence, literalCompanyRead } from '../../supabase/functions/_shared/enrich/provenance';
 import { fetchBrandfetch } from '../../supabase/functions/_shared/enrich/brandfetch';
 import { fetchPDL } from '../../supabase/functions/_shared/enrich/pdl';
+import { fetchCurrency } from '../../supabase/functions/_shared/enrich/currency';
 
 afterEach(() => vi.unstubAllGlobals());
 function provider(body: object) {
@@ -30,11 +31,14 @@ describe('company provenance is an acceptance condition, not a provider status',
     expect(source).not.toContain('synthesizeDescriptor');
     expect(source).toContain('literalCompanyRead(dossier.understanding.descriptor, dossier.understanding.tagline)');
   });
-  it('never treats generated search summaries as company evidence', () => {
-    const source = readFileSync(resolve(process.cwd(), 'supabase/functions/_shared/enrich/currency.ts'), 'utf8');
-    const assembly = source.slice(source.indexOf('export async function fetchCurrency'));
-    expect(assembly).not.toContain('fetchPerplexity(');
-    expect(assembly).toContain('isFirstPartyEvidence(domain, item.sourceUrl)');
+  it('keeps the default dossier first-party-only with Perplexity disabled', async () => {
+    provider({
+      results: [{ title: 'Own announcement', url: 'https://example.com/news' }, { title: 'Another firm', url: 'https://other.example/news' }],
+      articles: [{ title: 'Another firm', url: 'https://other.example/news' }],
+    });
+    const result = await fetchCurrency('Example', 'example.com');
+    expect(result?.currency?.map(item => item.sourceUrl)).toEqual(['https://example.com/news']);
+    expect(vi.mocked(fetch).mock.calls.some(([url]) => String(url).includes('perplexity.ai'))).toBe(false);
   });
   it('refuses a same-domain stale identity that conflicts with independent company data', () => {
     expect(companyIdentityCorroborated('example.com', 'Other Founder', 'Example Ltd', [])).toBe(false);

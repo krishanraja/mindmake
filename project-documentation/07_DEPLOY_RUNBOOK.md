@@ -115,3 +115,74 @@ regressions, check compatibility and redeploy the preserved full source closure
 with original JWT flags. Never drop tables or delete live lead/queue records.
 Holding cron, changing domains, credentials or access needs scoped authority and
 a recovery path. Verify the affected public flow again after recovery.
+
+## AI brain parts test and launch sequence
+
+The separate research pilot follows [Research Pack Contract v1](research-pack-contract.md) and the [parts research runner and bundle instructions](parts-research.md). Do not wire it into fulfilment as part of this source-only task.
+
+The 17 November 2026 AI brain parts candidate is source-only, test-only and unapproved.
+Verification is in `quality/parts/verification.json`; website-redesign/STATE.md
+owns its design state and links the material-review manifest.
+
+1. In a workspace where Node can spawn build tools and Chromium, use the required
+   Node 22 runtime and `npm ci`. Run `npm run qa:website-restart`, units, lint,
+   typecheck and `npm run build`. Set `MINDMAKE_QA_SCRATCH` to a permitted
+   temporary directory if needed. Run `npm run qa:parts:production` before
+   replacing dist with a preview build. Preserve and restore `public/llms.txt`
+   and `public/sitemap.xml` after both builds. Run `npm run test:parts` for the
+   catalogue, route, mocked commerce, report provenance and DOM interaction cases.
+2. Run `npm run build:parts-preview`, then `npm run test:parts -- --browser` (or `npm run qa:parts:capture`). Capture
+   requires the integrated prerendered `/parts/fact-check-board-update` page, freezes every dist file
+   in the manifest and records the catalogue, board-update detail and download routes at 375x812 and 1440x900, including drawer and accordion states. It tests Enter/Space opening, Escape closing, focus containment and restoration, checklist ticks and the exact chart values. Existing captures are not evidence for r5. Finish
+   required site gates, readiness, continuity and independent specialist
+   receipts. Unit checks cannot substitute for these receipts.
+3. Issue the receipt with
+   `npm run qa:material-review -- quality/website-redesign/kits-material-review-candidate.json --issue quality/parts/presentation-receipt.json`.
+   Present only through
+   `npm run review:material -- quality/website-redesign/kits-material-review-candidate.json`.
+   A separately authorised protected Vercel preview must bind the same source
+   commit and built bytes; record deployment, URL and commit beside the receipt.
+   A different build needs new receipts. Krish approves the actual render.
+4. Verify each part's real `.mcpb`: install on Mac and Windows, own-file task
+   and output checks, and no calls to Mindmake. All seven catalogue entries
+   are `ready` by Krish's 17 November ruling; that status does not prove package
+   acceptance. Keep the pages unlisted until his rendered approval. Coordinate
+   the `/who-decided` destination with `feat/who-decided`, Mindmake PR #309,
+   before final acceptance. The seven report checks and human-judgement
+   sentences are supplied verbatim; no copy fallback remains.
+5. With separate authority for the named test project, apply
+   `supabase/migrations/20261116110417_kits_commerce.sql`. Verify the three
+   tables, service-role-only RPC access, RLS, the private `kits` bucket and
+   absence of client policies exposing its objects. Upload versioned files
+   privately; deploy `kits-checkout`, `kits-webhook` and `kits-download` with
+   the JWT flags in `supabase/config.toml`.
+6. Create one test Stripe Product and active one-time Price per part of the AI brain,
+   5900 cents USD. Set `STRIPE_SECRET_KEY` to an `sk_test_` key,
+   `KITS_STRIPE_PRICES_JSON` to a slug-to-Price map and `KITS_FILES_JSON` to
+   a slug-to-private-object-path map. Register snapshot events
+   `checkout.session.completed` and `charge.refunded` at `kits-webhook`;
+   configure its `STRIPE_WEBHOOK_SECRET`. Live keys/events are rejected.
+7. Configure server-only `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, a separate
+   random `KITS_DOWNLOAD_SECRET` of at least 32 characters, `RESEND_API_KEY`,
+   `MINDMAKE_BRIEF_FROM`, `MINDMAKE_PUBLIC_URL` and exact
+   `MINDMAKE_ALLOWED_ORIGINS`. The frontend uses the existing
+   `VITE_SUPABASE_URL` and publishable key. Set `KITS_EMAIL_ENABLED=true` only
+   for an approved test send. No service secret belongs in Vite variables.
+8. Prove test checkout, an authorised receipt, private download, renewal,
+   duplicate and out-of-order events, retry and an operator's Stripe refund.
+   Read back purchase/event rows and the actual designated inbox. Refunds
+   block new signed URLs; existing URLs remain usable for their seven-day
+   lifetime. No self-serve refund endpoint exists. Reconcile any uncertain
+   email older than 23 hours against Resend before retrying: the handler stops
+   before the provider's 24-hour idempotency window ends.
+9. Going live requires a separately approved code change replacing the hard
+   test-only guard with explicit production-mode validation, live Stripe
+   Products/Prices and webhook registration, production migration/functions,
+   private uploads and variables, part-package acceptance, current render receipts
+   and Krish's yes to publish. A live key alone will not enable sales. Keep
+   `KITS_PREVIEW_BUILD` unset and Vercel's environment `production`; read back
+   live HTML and verify the seven approved parts.
+
+The current task authorises none of the external mutations or sends above.
+No real provider transaction, database persistence or inbox delivery has been
+verified in this worktree. Only synthetic mocked provider tests have run.

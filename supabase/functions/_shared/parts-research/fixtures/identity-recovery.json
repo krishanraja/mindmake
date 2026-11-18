@@ -1,0 +1,35 @@
+{
+  "company": "Duolingo, Inc.",
+  "domain": "duolingo.com",
+  "email": "cfo@duolingo.com",
+  "home": "<html><head><title>Duolingo</title></head><body>Learn a language.</body></html>",
+  "ogHome": "<meta content=\"Duolingo\" property=\"og:site_name\"><body>Learn a language.</body>",
+  "tickers": {
+    "0": { "cik_str": 1562088, "ticker": "DUOL", "title": "Duolingo, Inc." }
+  },
+  "submission": {
+    "name": "Duolingo, Inc.",
+    "website": "",
+    "investorWebsite": "",
+    "filings": {
+      "recent": {
+        "form": ["8-K", "10-Q", "10-K"],
+        "filingDate": ["2026-11-16", "2026-02-01", "2026-03-01"],
+        "accessionNumber": [
+          "0001562088-26-000003",
+          "0001562088-26-000001",
+          "0001562088-26-000002"
+        ],
+        "primaryDocument": [
+          "release.htm",
+          "duol-20251231.htm",
+          "duol-20251231annual.htm"
+        ]
+      }
+    }
+  },
+  "filingUrl": "https://www.sec.gov/Archives/edgar/data/1562088/000156208826000002/duol-20251231annual.htm",
+  "filing": "<html><title>Annual report</title><p>Our website is www.duolingo.com. Revenue was USD 40000 in FY2026.</p></html>",
+  "unrelatedFiling": "<html><title>Annual report</title><p>Our website is www.different-company.com.</p></html>",
+  "hostileFiling": "Our website is notduolingo.com and duolingo.com.evil.example."
+}

@@ -159,7 +159,7 @@ if (weakJudge?.id === "world_class_winner") throw new Error("one weak judge did 
 const failedGate = awardBand(9.2, Array(rubric.judges.length).fill(9.2), false, rubric);
 if (failedGate?.id !== "not_ready") throw new Error("a failed hard gate did not block award readiness");
 
-const scratchRoot = "C:/Users/krish/.scratch/mindmake-award-panel-self-test";
+const scratchRoot = process.env.MINDMAKE_QA_SCRATCH ?? "C:/Users/krish/.scratch/mindmake-award-panel-self-test";
 await fs.mkdir(scratchRoot, { recursive: true });
 const fixtureDir = await fs.mkdtemp(path.join(scratchRoot, "run-"));
 const submissionsDir = path.join(fixtureDir, "submissions");

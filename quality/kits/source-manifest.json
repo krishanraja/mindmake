@@ -1,0 +1,162 @@
+[
+  {
+    "path": ".env.example",
+    "sha256": "fb39bc8616d15ddd63266557741a662d1df9de45b95646b7d070f2f53cab958a"
+  },
+  {
+    "path": "index.html",
+    "sha256": "d73e3ed6c0f12aab8118c8d36103209a60667c9c1d7a843d94706579ef32ea58"
+  },
+  {
+    "path": "NOW.md",
+    "sha256": "92c2d398c9450637ed69a9776a7f9b2556607e39b488bd47c567f4c4bf3f3bf4"
+  },
+  {
+    "path": "package.json",
+    "sha256": "f5bd9622ab19f10f7694dd9bbea20efe3d150a4a93b9d7ba278a5d6cd2ff5d16"
+  },
+  {
+    "path": "project-documentation/01_CANON.md",
+    "sha256": "5eefb4f59abb9b6e2f3b9345dfaa00e2853713f2210e2e66b4526d4d14606672"
+  },
+  {
+    "path": "project-documentation/07_DEPLOY_RUNBOOK.md",
+    "sha256": "b45699ec11a62c34bee3f2f3d6abe8eda488da5d83eed6c45d56031e7d42dcdc"
+  },
+  {
+    "path": "project-documentation/rulings/2026-11-16-kits.md",
+    "sha256": "1e3921fc98659d65ff03c8118e7be0fc6d5c4f2aa11aeb1d97982aab70785f5c"
+  },
+  {
+    "path": "project-documentation/website-redesign/STATE.md",
+    "sha256": "5e689f1beadddab2aba9348cb6690b9e06870dcd8660ea3275ecef0403b8833e"
+  },
+  {
+    "path": "quality/route-lock/approved-production.lock.json",
+    "sha256": "f053ce27b4dc89c8c1d674fbf8acb35dd44f6005049bc6d66b92109808f57c49"
+  },
+  {
+    "path": "quality/website-redesign/kits-material-review-candidate.json",
+    "sha256": "8259c978f7e44051130c7646f7e5c1b4fd268e66b2e4b3716b094fc43dd708ea"
+  },
+  {
+    "path": "scripts/build-kits-preview.mjs",
+    "sha256": "438a37b8de38d2e5e15a051f99a14ade09e7360d0a4143c59b7a76381d88081c"
+  },
+  {
+    "path": "scripts/lib/kits-build.d.mts",
+    "sha256": "bab052662a9e9efc55779b0b7ce28b6641210aca70192f07ed371906f9d6c24f"
+  },
+  {
+    "path": "scripts/lib/kits-build.mjs",
+    "sha256": "6ee6ac2a7a27392fbd294c899ed55a41c4633d7a2496dc3240e9b367e0e7d0b2"
+  },
+  {
+    "path": "scripts/lib/pages.mjs",
+    "sha256": "da98aa0e2c0f7fc1da022a92a29d6bfd4090ec32bd05fa95200edf6c95bba264"
+  },
+  {
+    "path": "scripts/prerender.mjs",
+    "sha256": "781be2724f71b865685fffbb49aea16f5f93b65ddff4ce017e755218ea40b43d"
+  },
+  {
+    "path": "scripts/qa/award-panel-self-test.mjs",
+    "sha256": "09c92acb9de95a6fdfcd8285498d77dd6d0c9e00972f2c06dc851d881570b198"
+  },
+  {
+    "path": "scripts/qa/kits-capture.mjs",
+    "sha256": "d9f36b6f03e12dd49498cdf9f7312043704fc24cc0b06a6abf8accf4ccd177d0"
+  },
+  {
+    "path": "scripts/qa/kits-content-check.mjs",
+    "sha256": "bb65521c26a8b20efb5b5315ec9419e78c0ca4b16f2d01a4466f905a1f46428a"
+  },
+  {
+    "path": "scripts/qa/kits-production-check.mjs",
+    "sha256": "3b0600553d3651c150f503c54cd7b21d7e2ea0f4e967e7bbbd79e9698f955932"
+  },
+  {
+    "path": "scripts/qa/kits-test-cases.ts",
+    "sha256": "e2b6440b6cc2e8332f5135a642ef1891b2dd2c0f7163efb069d253e402e3b4b4"
+  },
+  {
+    "path": "scripts/qa/kits-unit_test.ts",
+    "sha256": "135f2f19e4bc8c39672211d1f9fe8f9af613431a465315bf5788aa96afcc17bc"
+  },
+  {
+    "path": "scripts/qa/kits-unit.mts",
+    "sha256": "789c2c4810a5a0e2f68c6801648f6d18326eb3b19b99c560c026729b25b7e80c"
+  },
+  {
+    "path": "scripts/qa/present-material-candidate.mjs",
+    "sha256": "bf8ec0a8b888ff1855715ac5c684edc0f8cf8e901359a27db5e264e7c304fa85"
+  },
+  {
+    "path": "src/App.tsx",
+    "sha256": "688db8367b0a9b15b508013282d62040607f7b4b1da06d88d2fa9a495a5392a0"
+  },
+  {
+    "path": "src/content/kits.ts",
+    "sha256": "fe02d912cfbd0af2163aa024758cbcaee78c861c5e3e2b177e9ae0d2cae4fb28"
+  },
+  {
+    "path": "src/entry-server.tsx",
+    "sha256": "94f70907ab2c8ce58c029255253e85f738730780cab1b85472013974ac9e5e6c"
+  },
+  {
+    "path": "src/pages/KitDownload.tsx",
+    "sha256": "185ba4a03376b915721091ffecbe9c7ee45d2f2ce42ff8a3ce5071b101af039c"
+  },
+  {
+    "path": "src/pages/Kits.tsx",
+    "sha256": "dc30a44b8463bddf1cd0e4179a9f3bda5b79842cea7259f5580401d597ea5cc8"
+  },
+  {
+    "path": "src/styles/kits.css",
+    "sha256": "c9665cbffaa66ddf82825e257c22a26c6bb75a0c714e494a2bc035b1a563322d"
+  },
+  {
+    "path": "src/test/kits.test.ts",
+    "sha256": "cdc37b0a47cf991e6745913f13fbabea2d2f857a9a18ef995d56e5356f4d83a8"
+  },
+  {
+    "path": "src/vite-env.d.ts",
+    "sha256": "9e3d32873be4205e9773e7ba32cadeb8103d2aa361dc4dff0854e89c81c859d0"
+  },
+  {
+    "path": "supabase/config.toml",
+    "sha256": "564dd38a2b9eec0672b2c4cb4a41250cd2d9a868d671fe7f8ddafa0b591fdb60"
+  },
+  {
+    "path": "supabase/functions/_shared/kits/core.ts",
+    "sha256": "aefd2d3597f26562c8a8cce2da552ab7ec43107e75eeb95f41241aed31c5fd2b"
+  },
+  {
+    "path": "supabase/functions/_shared/kits/runtime.ts",
+    "sha256": "8ec1ca6d28e1ded7590d2902ba9d3e4bf8241015a6a10cbe5ec748e33f41070d"
+  },
+  {
+    "path": "supabase/functions/kits-checkout/index.ts",
+    "sha256": "656172927a563a76cb535784f08cd02b6c1abf8f26c3b5d63f32192c9c50f702"
+  },
+  {
+    "path": "supabase/functions/kits-download/index.ts",
+    "sha256": "1fd8c2e412176eea3b327a5c98f454e68370768f01fc030649d8888220510993"
+  },
+  {
+    "path": "supabase/functions/kits-webhook/index.ts",
+    "sha256": "c2a2adcd49dab015e553e6269408e4f173299545650baf3a8bf11be80c5043ec"
+  },
+  {
+    "path": "supabase/migrations/20261116110417_kits_commerce.sql",
+    "sha256": "a264e72954594a9207e1ef8e1a79771625c4d4569dfa9935c259ba497e94e8a8"
+  },
+  {
+    "path": "vercel.json",
+    "sha256": "90bef6ba43c2740d48b6c6dc42d6429b50616cf1f473301801f7f5fd5518d60f"
+  },
+  {
+    "path": "vite.config.ts",
+    "sha256": "83a4586e66d743f1c5b169bb1d59ac57fd9a331910aa53b2c7e7ec233debeffc"
+  }
+]

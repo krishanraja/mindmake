@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "source": "stories-export.md, section 5, supplied 16 November 2026",
+  "sourceSha256": "ee7c621f0e62a6e1eb54dde248904ce8c277a8e389d70f832652acc7fb786bb9",
+  "sourceScope": "Each selected quote is marked shown on the site; these are Mindmake work quotes, never kit reviews",
+  "quotes": [
+    {
+      "id": "thrave",
+      "attribution": "Louisa Thrave, CEO, Media",
+      "full": "If you're deciding what next step to take to drive stronger business outcomes, and weighing up between a life coach, business coach, or an AI coach, choose mindmake. You'll get all three."
+    },
+    {
+      "id": "data-infra-cro",
+      "attribution": "Chief Revenue Officer, data-infrastructure company",
+      "full": "We set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver."
+    },
+    {
+      "id": "media-cro",
+      "attribution": "Chief Revenue Officer, media company",
+      "full": "Krish knows how to add value immediately which continues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter."
+    },
+    {
+      "id": "coaching-founder",
+      "attribution": "Founder and CEO, executive coaching practice",
+      "full": "The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need."
+    },
+    {
+      "id": "services-ceo",
+      "attribution": "CEO, mid-market services",
+      "full": "I went into a board conversation on AI the week after our session and for the first time I wasn't guessing. I had the questions, I knew what to push on, and I didn't get cornered."
+    }
+  ]
+}

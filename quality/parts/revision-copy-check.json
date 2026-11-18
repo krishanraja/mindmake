@@ -1,0 +1,16 @@
+{
+  "revision": "parts-integrated-candidate-r5",
+  "status": "pass",
+  "unchangedBlocks": {
+    "quotes": "730ad090bc97e11ea9f0f6c534ac96c8c03a87c6c52a82a24d4cd77c66f01e13"
+  },
+  "intentionalChanges": [
+    "FAQ drawer with seven supplied answers; corrected privacy answer retained",
+    "Dark block source summary replaced by two supplied research bars and attribution",
+    "Real board-update report excerpt from bundled examples before prices",
+    "Detail disclosures, checklist and wait-only loading marks",
+    "Refund beside each price; duplicate buy actions removed"
+  ],
+  "checksAndHumanJudgement": "All seven remain verbatim; covered by test:parts",
+  "source": "User supplied component references and exact FAQ/chart wording; report provenance under sample/"
+}

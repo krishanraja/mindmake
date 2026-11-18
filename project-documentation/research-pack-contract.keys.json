@@ -1,0 +1,24 @@
+{
+  "schema": "mindmake.research-pack/1",
+  "fact": {
+    "required": [
+      "id",
+      "kind",
+      "statement",
+      "value",
+      "unit",
+      "period",
+      "quote",
+      "source",
+      "retrievedAt",
+      "grade"
+    ],
+    "optional": [
+      "metric",
+      "aliases",
+      "periodType",
+      "periodStart",
+      "periodEnd"
+    ]
+  }
+}

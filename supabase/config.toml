@@ -27,3 +27,14 @@ verify_jwt = false
 # in code. Emails the operator; stores nothing.
 [functions.submit-dtd-feedback]
 verify_jwt = false
+
+[functions.kits-checkout]
+verify_jwt = false
+
+# Raw-body Stripe signature validation is performed by this handler.
+[functions.kits-webhook]
+verify_jwt = false
+
+# A receipt bearer capability, verified by the handler, authorises renewal.
+[functions.kits-download]
+verify_jwt = false

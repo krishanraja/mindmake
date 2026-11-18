@@ -19,6 +19,10 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run",
+    "test:kits": "node --experimental-transform-types scripts/qa/kits-unit.mts",
+    "build:kits-preview": "node scripts/build-kits-preview.mjs",
+    "qa:kits:production": "node scripts/qa/kits-production-check.mjs",
+    "qa:kits:capture": "node scripts/qa/kits-capture.mjs",
     "test:watch": "vitest",
     "qa:alive": "node scripts/qa/aliveness-check.mjs --width 1440 && node scripts/qa/aliveness-check.mjs --width 390",
     "preview": "vite preview",
@@ -88,7 +92,11 @@
     "qa:approved-routes:update": "node scripts/qa/approved-route-lock-update.mjs",
     "qa:locked-routes": "node scripts/qa/locked-route-regression-audit.mjs",
     "qa:responsive-system-r4": "node scripts/qa/responsive-system-r4-check.mjs",
-    "qa:route-lock": "npm run qa:approved-routes && npm run qa:approved-routes:self-test && npm run qa:plain-language && npm run qa:locked-routes && node scripts/qa/route-lock-production-check.mjs"
+    "qa:route-lock": "npm run qa:approved-routes && npm run qa:approved-routes:self-test && npm run qa:plain-language && npm run qa:locked-routes && node scripts/qa/route-lock-production-check.mjs",
+    "test:parts": "node --experimental-transform-types scripts/qa/kits-unit.mts && node scripts/qa/parts-ui-tests.mjs",
+    "build:parts-preview": "node scripts/build-kits-preview.mjs",
+    "qa:parts:production": "node scripts/qa/kits-production-check.mjs",
+    "qa:parts:capture": "node scripts/qa/kits-capture.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

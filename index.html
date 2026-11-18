@@ -34,6 +34,7 @@
 
       gtag('config', 'G-SMXQH8E4CM');
       window.mmLoadGoogleTag = function(){
+        if (/^\/kits\/download\/?$/.test(window.location?.pathname || '')) return;
         if (window.mmPrivateAuditDocument || window.mmGoogleTagLoaded) return;
         window.mmGoogleTagLoaded = true;
         gtag('consent', 'update', {analytics_storage: 'granted'});
@@ -200,6 +201,7 @@
          brief's panel is masked from recordings (data-clarity-mask). -->
     <script type="text/javascript">
       window.mmLoadClarity = function(){
+        if (/^\/kits\/download\/?$/.test(window.location?.pathname || '')) return;
         if (window.mmPrivateAuditDocument || window.mmClarityLoaded) return;
         window.mmClarityLoaded = true;
         (function(c,l,a,r,i,t,y){

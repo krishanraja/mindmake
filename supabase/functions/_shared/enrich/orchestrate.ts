@@ -17,6 +17,7 @@
 
 import {
   type Dossier,
+  type DossierPartial,
   type Icp,
   emptyDossier,
   mergeDossier,
@@ -46,6 +47,18 @@ interface CacheEntry {
 }
 const cache = new Map<string, CacheEntry>();
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+/** Shared identity-depth fan-out; callers may inject bounded providers without global state. */
+export async function assembleIdentityDepth(domain: string, providers = {
+  brand: fetchBrandfetch,
+  rank: fetchTranco,
+  company: fetchPDL,
+} as Record<"brand" | "rank" | "company", (domain: string) => Promise<DossierPartial | null>>) {
+  const [brand, rank, company] = await Promise.all([providers.brand(domain), providers.rank(domain), providers.company(domain)]);
+  const dossier = emptyDossier(domain, "identity");
+  mergeDossier(dossier, company); mergeDossier(dossier, rank); mergeDossier(dossier, brand);
+  return { dossier, brand, company };
+}
 
 export interface AssembleInput {
   domain?: string;
@@ -182,12 +195,9 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
     const dossier = emptyDossier(domain, depth);
 
     // --- Layer 1: name-bearing identity sources first --------------------------
-    const [brand, rank, company] = await Promise.all([
-      fetchBrandfetch(domain), fetchTranco(domain), fetchPDL(domain),
-    ]);
-    mergeDossier(dossier, company);
-    mergeDossier(dossier, rank);
-    mergeDossier(dossier, brand);
+    const { dossier: identity, brand, company } = await assembleIdentityDepth(domain);
+    mergeDossier(dossier, { ...identity, tools: identity.meta.tools });
+
 
     // Seed from the name-search hit when Brandfetch-by-domain left gaps.
     if (searched) {

@@ -1,0 +1,12 @@
+{
+  "target": "mindmake / codex/kits-page, local built candidate only",
+  "user": "Senior executive choosing one job to install into Claude",
+  "tasks": ["Browse catalogue and open a kit", "Understand an invented sample and attempt its buy action", "Read all five quotes without layout movement", "Open each FAQ and recover with keyboard", "Scroll forward and back and inspect fixed controls", "Use the receipt link with mocked paid and refunded purchases"],
+  "viewports": ["375x812", "1440x900"],
+  "browser": "Chromium",
+  "data": "Three explicitly invented samples; mocked Stripe, storage, database and email",
+  "authority": "Local source changes, local capture, tests and commits. No email, checkout provider call, migration application, push, PR or deployment.",
+  "evidence": "quality/kits/",
+  "passSignal": "Visible tasks and recovery work at both sizes, no horizontal overflow or console errors, interactive targets at least 44px, samples absent from the production build, current byte-bound receipts before presentation.",
+  "physicalDevices": "not run"
+}

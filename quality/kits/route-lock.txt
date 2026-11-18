@@ -1,0 +1,19 @@
+
+> vite_react_shadcn_ts@0.0.0 qa:approved-routes
+> node scripts/qa/approved-route-lock-check.mjs
+
+{
+  "lock": "quality/route-lock/approved-production.lock.json",
+  "lockedFiles": 157,
+  "brain": {
+    "meanings": 20,
+    "relationships": 18,
+    "sources": 10,
+    "corrections": 3
+  },
+  "gtm": {
+    "signals": 5,
+    "responseChoices": 15
+  },
+  "failures": []
+}

@@ -29,6 +29,8 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Alumni from "./pages/Alumni";
 import DtdFeedback from "./pages/DtdFeedback";
+import Kits from "./pages/Kits";
+import KitDownload from "./pages/KitDownload";
 import WhoDecided from "./pages/WhoDecided";
 
 /**
@@ -63,6 +65,10 @@ function SiteRoutes() {
       <Route path="/ai-gtm" element={<AiGtm />} />
       <Route path="/who-decided" element={<WhoDecided />} />
       <Route path="/case-studies" element={<CaseStudies />} />
+      <Route path="/parts" element={<Kits />} />
+      <Route path="/parts/download" element={<KitDownload />} />
+      <Route path="/kits/download" element={<KitDownload />} />
+      <Route path="/parts/:slug" element={<Kits />} />
       <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />

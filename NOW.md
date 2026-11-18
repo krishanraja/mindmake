@@ -1,7 +1,7 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-14
+as_of: 2026-11-16
 head: caa7e2b
 lifecycle: live
 production_url: https://mindmake.co
@@ -129,6 +129,17 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What is next and what is waiting on Krish
 
+- Kits, 16 November: local source on `codex/kits-page` adds the catalogue,
+  three preview-only invented examples and test-only commerce. No real kit
+  is ready. Full build and browser capture are blocked by `spawn EPERM` in
+  this workspace; the material firewall is closed and rendered approval is
+  outstanding. Full staging is also blocked by write permission on the linked
+  worktree Git index; no commit exists, and the partial stage is incomplete.
+  Resume the existing candidate using
+  `project-documentation/website-redesign/STATE.md` and the kits sequence in
+  `project-documentation/07_DEPLOY_RUNBOOK.md`. No push, PR, deployment,
+  migration application, Stripe object or email send is authorised.
+
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The
   owner's exception covered the 24 September 2026 release only; every release
   since shipped without them.
@@ -155,7 +166,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-11-14): holds.
+- North Star check (2026-11-16): holds.
 
 ## Read next
 

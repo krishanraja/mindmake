@@ -1,0 +1,180 @@
+{
+  "status": "source-implemented-render-and-provider-proof-blocked",
+  "branch": "codex/kits-page",
+  "date": "2026-11-16",
+  "runtime": {
+    "node": "24.19.0",
+    "requiredNode": "22.x >=22.18",
+    "os": "Windows ARM64",
+    "stripeKey": "absent",
+    "providerMode": "mocked"
+  },
+  "commands": [
+    {
+      "command": "npm run test:kits",
+      "status": "pass",
+      "result": "14 cases, mocked providers, zero sends",
+      "evidence": "quality/kits/unit-results.txt"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "pass",
+      "evidence": "quality/kits/typecheck.txt"
+    },
+    {
+      "command": "npm run lint",
+      "status": "pass",
+      "result": "zero errors; four existing warnings",
+      "evidence": "quality/kits/lint.txt"
+    },
+    {
+      "command": "node scripts/qa/kits-content-check.mjs <authorised-export>",
+      "status": "pass",
+      "result": "five exact public quotations and attributions",
+      "evidence": "quality/kits/quote-provenance.json"
+    },
+    {
+      "command": "npm run qa:docs",
+      "status": "pass"
+    },
+    {
+      "command": "npm run qa:approved-routes:update",
+      "status": "pass",
+      "result": "regenerated only for intended route, head, build and delivery changes; no historical manifests changed"
+    },
+    {
+      "command": "npm run qa:approved-routes",
+      "status": "pass",
+      "evidence": "quality/kits/route-lock.txt"
+    },
+    {
+      "command": "npm run qa:plain-language",
+      "status": "pass"
+    },
+    {
+      "command": "npm run qa:homepage-handoff",
+      "status": "pass",
+      "result": "historical baseline integrity only"
+    },
+    {
+      "command": "npm run qa:website-feedback",
+      "status": "pass",
+      "result": "shape validation only; no material approval",
+      "evidence": "quality/kits/feedback-check.txt"
+    },
+    {
+      "command": "npm run qa:experience-quality",
+      "status": "pass",
+      "result": "profile and 20 self-test cases"
+    },
+    {
+      "command": "npm run qa:material-review:self-test",
+      "status": "pass",
+      "result": "one valid control and eight blocked bypasses"
+    },
+    {
+      "command": "npm run qa:website-restart",
+      "status": "blocked",
+      "result": "all preceding checks passed; award-panel self-test first hit a forbidden scratch directory, then spawnSync git EPERM with a permitted temporary directory"
+    },
+    {
+      "command": "npm run qa:approved-routes:self-test",
+      "status": "blocked",
+      "result": "child-process control could not execute; direct route lock passed"
+    },
+    {
+      "command": "npm test -- --pool=threads --maxWorkers=1",
+      "status": "blocked",
+      "result": "configuration load: vite/internal resolution mismatch and spawn EPERM"
+    },
+    {
+      "command": "deno test --no-config --allow-env=VERCEL_ENV,KITS_PREVIEW_BUILD scripts/qa/kits-unit_test.ts",
+      "status": "blocked",
+      "result": "Deno Windows named-pipe panic; same cases subsequently passed through the Node runner"
+    },
+    {
+      "command": "deno check --no-config <three kits edge entry points>",
+      "status": "blocked",
+      "result": "network denied while fetching pinned Stripe and Supabase modules"
+    },
+    {
+      "command": "npm run build",
+      "status": "blocked",
+      "result": "docs, adapter, route lock, handoff, firewall self-test and typecheck passed; Vite config bundling failed at esbuild spawn EPERM. The build fetch refreshed latestIssue.json; that unrelated change was restored."
+    },
+    {
+      "command": "npm run qa:line-breaks",
+      "status": "blocked",
+      "result": "dist/sitemap.xml absent because the build did not finish"
+    },
+    {
+      "command": "npm run qa:homepage-release:pre-merge",
+      "status": "blocked",
+      "result": "adapter and 24 scroll self-tests passed; browser runtime spawn EPERM"
+    },
+    {
+      "command": "npm run qa:discoverability",
+      "status": "not-run-against-a-candidate",
+      "result": "requires an explicit built origin; none exists"
+    },
+    {
+      "command": "node scripts/qa/kits-capture.mjs",
+      "status": "blocked",
+      "result": "built sample route absent; no screenshots created"
+    },
+    {
+      "command": "npm run qa:material-review -- quality/website-redesign/kits-material-review-candidate.json --issue quality/kits/presentation-receipt.json",
+      "status": "blocked",
+      "result": "ready false; candidate bytes absent; no presentation receipt issued"
+    },
+    {
+      "command": "npm run review:material -- quality/website-redesign/kits-material-review-candidate.json",
+      "status": "blocked",
+      "result": "firewall refused presentation; no review URL emitted"
+    },
+    {
+      "command": "git add <complete intended file list>",
+      "status": "blocked",
+      "result": "linked worktree index.lock Permission denied; earlier partial staging is incomplete"
+    }
+  ],
+  "screenshots": [],
+  "plannedScreenshotPaths": [
+    "quality/kits/catalogue-375x812.png",
+    "quality/kits/catalogue-1440x900.png",
+    "quality/kits/board-update-check-375x812.png",
+    "quality/kits/board-update-check-1440x900.png"
+  ],
+  "materialReview": {
+    "ready": false,
+    "receipt": null,
+    "readiness": "not run",
+    "continuity": "not run",
+    "specialists": "not run",
+    "physicalDevices": "not run"
+  },
+  "externalActions": {
+    "pushed": false,
+    "prOpened": false,
+    "deployed": false,
+    "migrationApplied": false,
+    "stripeObjectsCreated": false,
+    "emailsSent": 0
+  },
+  "limits": [
+    "No real kits, only three invented layout examples.",
+    "No full build, UI render, screenshot or browser acceptance.",
+    "No actual database migration execution or provider delivery proof.",
+    "A signed URL already issued may remain usable until its seven-day expiry after a refund.",
+    "The privacy FAQ was corrected to distinguish local kit execution from Claude processing shared content."
+  ],
+  "next": "Resume the existing candidate in the permitted Node 22 build/browser environment, complete exact-byte receipts, then present to Krish before any external launch action.",
+  "baseHead": "1e2597a04548921ae2fdf6be6a0684fbaa24f36c",
+  "committed": false,
+  "git": {
+    "status": "partially staged, complete source remains in working tree",
+    "blocker": "git add cannot create linked worktree index.lock: Permission denied",
+    "commitAttempt": "not attempted against the incomplete stage",
+    "intendedCommitTrailer": "Co-Authored-By: Codex <noreply@openai.com>"
+  }
+}

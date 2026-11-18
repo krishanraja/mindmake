@@ -80,7 +80,7 @@ function Catalogue() {
         <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this part, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
       </article>)}</div>
     </section>
-    <section className="kit-section kit-how" aria-labelledby="kit-how-title"><h2 id="kit-how-title">How it works</h2><ol>{["Buy once. You get a download link by email.", "Open it. Claude adds it in one click.", "Use it. Point it at your own files, read the result, and make the call."].map((text, i) => <li key={text}><span className="kit-label">0{i + 1}</span><p>{text}</p></li>)}</ol></section>
+    <section className="kit-section kit-how" aria-labelledby="kit-how-title"><h2 id="kit-how-title">How it works</h2><ol>{["Buy once. You get a download link by email, to set up on a Mac or Windows computer.", "Open it. Claude adds it in one click.", "Use it. Point it at your own files, read the result, and make the call."].map((text, i) => <li key={text}><span className="kit-label">0{i + 1}</span><p>{text}</p></li>)}</ol></section>
     <Quotes />
     <section className="kit-section kit-faq" aria-labelledby="kit-faq-title"><h2 id="kit-faq-title"><PartsFaqDrawer heading /></h2></section>
     <section className="kit-section kit-close"><h2>Strengthen one part of your judgement this week.</h2><a className="kit-button" href="#kit-catalogue">See the parts <ArrowUpRight /></a></section>

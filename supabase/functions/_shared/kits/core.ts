@@ -96,7 +96,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
       const renew = `${deps.origin}/parts/download#token=${encodeURIComponent(token)}`;
       prepared = await deps.prepareDelivery(id, {
         subject: `Your AI brain part: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
-        text: `This part of your AI brain is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nOpen the download in Claude Desktop to add it.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.`,
+        text: `This part of your AI brain is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.`,
       });
     }
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }

@@ -67,9 +67,11 @@ function turnOrder(initial: number, count: number) {
  * of a use case's whole story on /case-studies: the caption and what a tap
  * does, opening the same comparison at that use case's type. `hidden` keeps a
  * bar trigger in its place but out of sight and reach, so the bar holding one
- * per type is always the wider one's size.
+ * per type is always the wider one's size. `source` tells the measure where a
+ * nudge was opened when the same page's comparison sits in more than one place
+ * (the homepage hero opens the AI brain's).
  */
-export function CompareNudge({ page, variant = "float", hidden = false }: { page: "brain" | "gtm"; variant?: "float" | "bar"; hidden?: boolean }) {
+export function CompareNudge({ page, variant = "float", hidden = false, source }: { page: "brain" | "gtm"; variant?: "float" | "bar"; hidden?: boolean; source?: string }) {
   const data = COMPARE[page];
   const order = turnOrder(data.initial, data.alts.length);
   const id = useId();
@@ -127,7 +129,7 @@ export function CompareNudge({ page, variant = "float", hidden = false }: { page
     dialog.querySelector<HTMLElement>(".mm-compare-title")?.focus({ preventScroll: true });
     setOpen(true);
     setSeen(true);
-    track("compare_nudge_open", { route: page, alt: data.alts[alt][0] });
+    track("compare_nudge_open", { route: page, alt: data.alts[alt][0], ...(source ? { source } : {}) });
   };
 
   // Every way of closing (×, Escape, backdrop) restores the exact pixel and focus.

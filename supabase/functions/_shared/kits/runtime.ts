@@ -4,7 +4,7 @@ import { KitError, stripeMode } from "./core.ts";
 
 export const env = (name: string) => Deno.env.get(name)?.trim() ?? "";
 export function stripeClient() {
-  const key = env("STRIPE_SECRET_KEY");
+  const key = env("KITS_STRIPE_SECRET_KEY");
   stripeMode(key);
   return new Stripe(key, { httpClient: Stripe.createFetchHttpClient() });
 }

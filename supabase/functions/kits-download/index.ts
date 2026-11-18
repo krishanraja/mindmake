@@ -11,7 +11,7 @@ serve(async request => {
     const token = request.headers.get("authorization")?.replace(/^Bearer /, "") ?? "";
     const db = database();
     return json(await renewDownload(token, {
-      key: env("STRIPE_SECRET_KEY"), secret: env("KITS_DOWNLOAD_SECRET"),
+      key: env("KITS_STRIPE_SECRET_KEY"), secret: env("KITS_DOWNLOAD_SECRET"),
       find: async id => {
         const { data, error } = await db.from("kit_purchases").select("status,file_path").eq("id", id).single();
         if (error) throw new KitError(503, "Download unavailable");

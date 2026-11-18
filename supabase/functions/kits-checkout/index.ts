@@ -13,7 +13,7 @@ serve(async request => {
     let input: unknown;
     try { input = JSON.parse(await limitedBody(request, 2048)); } catch (error) { if (error instanceof KitError) throw error; throw new KitError(400, "Invalid request"); }
     return json(await checkout(input, {
-      key: env("STRIPE_SECRET_KEY"), origin: publicOrigin(), catalogue: kits, prices: mapping("KITS_STRIPE_PRICES_JSON"),
+      key: env("KITS_STRIPE_SECRET_KEY"), origin: publicOrigin(), catalogue: kits, prices: mapping("KITS_STRIPE_PRICES_JSON"),
       retrievePrice: id => stripe.prices.retrieve(id),
       createSession: (params, options) => stripe.checkout.sessions.create(params, options),
     }), 200, origin);

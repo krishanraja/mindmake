@@ -67,7 +67,8 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert(page.includes('title: "What only you can judge", content: <p>{kit.whoDecided}</p>'));
     assert(page.includes('title: "What it checks", content: <p>{kit.checks}</p>'));
     assert(!page.includes('kit.whoDecided ??'));
-    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each part does one job you'd do before a decision, using your own files and your own rules, and then hands the decision back to you.";
+    // Krish, 18 November 2026: the hero says plainly that a part is working software, not a prompt.
+    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each part is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.";
     const shortSub = "Each part plugs into Claude in one click, runs on your own files and shows you the result in five minutes.";
     assert(page.indexOf(explanation) > page.indexOf("</h1>"));
     assert(page.indexOf(shortSub) > page.indexOf(explanation));

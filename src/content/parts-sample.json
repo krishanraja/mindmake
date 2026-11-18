@@ -1,6 +1,6 @@
 {
   "headline": "2 claims need attention",
-  "summary": "2 of 4 candidate claims match supplied evidence; read the claim table before sharing the update.",
+  "summary": "0 of 4 candidate claims are backed by two or more independent sources and 2 by one source only; read the claim table before sharing the update.",
   "rows": [
     {
       "claim": "We hired 5 engineers in October. [update.md, line 4]",
@@ -13,5 +13,5 @@
       "evidence": "No matching statement in the supplied evidence"
     }
   ],
-  "limitation": "Backed means matching text in the supplied files, not independent proof that a statement is true. A copy or stale source can repeat an error."
+  "limitation": "Backed means matching text in two or more independent supplied files, not proof that a statement is true. Rows that name the same source, and identical copies of a file, count once. A copy or stale source can still repeat an error."
 }

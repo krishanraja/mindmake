@@ -1,10 +1,11 @@
 {
   "sourceRepository": "krishanraja/mindmake-kits",
   "sourceModule": "kits/fact-check-board-update/run.mjs",
-  "inputFingerprint": "e7ca6283cbca7c87c51a7137ccd660a1b52835a377d703af39a770e4c45371bb",
-  "evidenceFingerprint": "d011c894439be59ae35a6dac73c072e387bb84db4131a8288476c3cf3c86ba9d",
-  "reportFingerprint": "eee5ba1a91439bb8b555035dee274e9b5df0da4b5b081ed9b801dd6ab6bbdc35",
-  "excerptSha256": "1a8ff8a9dc10fdec9254da250873df29e7cc386f2b7c98eabb43a28e668fcfc3",
+  "inputFingerprint": "c424b77fc6a0b3624a7b885acdd6cca3084eadcaaf732d539c771302c0c71203",
+  "evidenceFingerprint": "e2c25c0b3eef007c0315cad2f47e57673582b4ab8d16f05652850ec5866a0f00",
+  "reportFingerprint": "cffaaf9a495bfa4e8ea27478d13fea393cc3928047438c160eab8795b62d0b36",
+  "excerptSha256": "778b1768408a85deadb98b7ee285aac996cde74a0ae4d5699013633c1a755108",
   "adaptation": "Non-backed rows excerpted; local sample path prefixes removed. Supplied example inputs, not customer data.",
-  "sourceModuleSha256": "55644f4df6e605cbdff80b7ca06f9f343075e0d84c950ba618f05e1e5bf942eb"
+  "sourceModuleSha256": "4d622f76bd1bab283a201529f000cd7173a352c1446a0343002da1c2a51df69b",
+  "sourceRevision": "krishanraja/mindmake-kits claude/parts-memory-checks (version 1.1, two-source rule)"
 }

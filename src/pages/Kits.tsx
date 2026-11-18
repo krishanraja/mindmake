@@ -6,10 +6,9 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { kits, visibleKits, type Kit } from "@/content/kits";
 import { PartsFaqDrawer } from "@/components/ui/parts-faq-drawer";
 import { BouncyAccordion } from "@/components/ui/bouncy-accordion";
-import { PartsEvidenceChart } from "@/components/ui/parts-evidence-chart";
 import { PartsSampleOutput } from "@/components/ui/parts-sample-output";
 import { SquareGrid } from "@/components/ui/square-grid";
-import { BuiltBy, DecisionMath, ExitOverlay, Stories } from "@/components/ui/parts-proof";
+import { BuiltBy, DecisionMath, ExitOverlay, PartsEngine, PartsVersus, Stories } from "@/components/ui/parts-proof";
 import "@fontsource-variable/newsreader/wght-italic.css";
 import "@/styles/mindmake.css";
 import "@/styles/kits.css";
@@ -64,31 +63,29 @@ function Catalogue() {
     <section className="kit-section kit-hero kit-hero-catalogue" id="kit-hero">
       <div><p className="kit-label">PARTS OF YOUR AI BRAIN</p>
         <h1>Start your AI brain <em>one part at a time.</em></h1>
-        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each part does one job you'd do before a decision, using your own files and your own rules, and then hands the decision back to you.</p>
+        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each part is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.</p>
         <p className="kit-lede">Each part plugs into Claude in one click, runs on your own files and shows you the result in five minutes.</p>
         <a className="kit-button" href="#kit-catalogue">See the parts <ArrowDown size={18} aria-hidden="true" /></a>
-        <ul className="kit-checks">{["Runs on your computer. Your files are never sent to us.", "Works inside your own Claude.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
+        <ul className="kit-checks">{["Runs on your computer. Your files are never sent to us.", "Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
         <p className="kit-audit">Not sure where to start? Try <Link to="/who-decided">Who decided?</Link>, a free 20-minute audit of one real decision.</p>
       </div><PartsSampleOutput />
     </section>
     <div className="kit-section kit-built-wrap"><BuiltBy /></div>
-    <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY PARTS, NOT PROMPTS</p><h2>AI makes strong judgement stronger and weak judgement weaker. <em>Each part makes yours stronger.</em></h2><p>A prompt asks your AI to guess. A part gives it the rules, checks and steps a good operator would use, written down and tested, so you can see why it said what it said. Then it tells you what only you can judge.</p><PartsEvidenceChart /></div></section>
+    <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY PARTS, NOT PROMPTS</p><h2>AI makes strong judgement stronger and weak judgement weaker. <em>Each part makes yours stronger.</em></h2><PartsEngine /></div></section>
+    <PartsVersus />
     <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want done before your next decision.</h2>
       <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
         <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this part, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
       </article>)}</div>
     </section>
     <DecisionMath />
-    <section className="kit-section kit-how" aria-labelledby="kit-how-title"><h2 id="kit-how-title">How it works</h2><ol>{["Buy once. You get a download link by email, to set up on a Mac or Windows computer.", "Open it. Claude adds it in one click.", "Use it. Point it at your own files, read the result, and make the call."].map((text, i) => <li key={text}><span className="kit-label">0{i + 1}</span><p>{text}</p></li>)}</ol></section>
     <Stories />
     <Suite />
     <section className="kit-section kit-faq" aria-labelledby="kit-faq-title"><h2 id="kit-faq-title"><PartsFaqDrawer heading /></h2></section>
-    <section className="kit-section kit-close"><h2>Strengthen one part of your judgement this week.</h2><a className="kit-button" href="#kit-catalogue">See the parts <ArrowUpRight /></a></section>
     <ExitOverlay buyHref="#kit-catalogue" buyLabel="Choose a part, $59" />
   </>;
 }
 
-function ArrowUpRight() { return <ArrowRight size={18} aria-hidden="true" />; }
 
 function Detail({ kit }: { kit: Kit }) {
   const { search } = useLocation();

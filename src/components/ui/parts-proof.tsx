@@ -100,3 +100,40 @@ export function ExitOverlay({ buyHref, buyLabel }: { buyHref: string; buyLabel: 
     </Dialog.Content></Dialog.Portal>
   </Dialog.Root>;
 }
+
+/* Why a part is software, not a prompt or a skill (Krish, 18 November 2026). Every line is
+   something the parts do today and the release tests prove. */
+const ENGINE = [
+  ["Reads your real files", "Word, PDF, Excel and saved email, on your own computer."],
+  ["Checks every claim", "Each figure, name and quote traced to its file and line, with two independent sources before it says backed."],
+  ["Remembers", "A sealed history shows what changed since last time, and flags any edit to it."],
+  ["Hands the call back", "Same input, same answer, every time. Then it tells you what only you can judge."],
+] as const;
+export function PartsEngine() {
+  return <>
+    <ol className="kit-engine">{ENGINE.map(([title, text], i) => <li key={title}><span className="kit-label">0{i + 1}</span><strong>{title}</strong><p>{text}</p></li>)}</ol>
+    <p className="kit-engine-proof">No AI model sits inside the checks: the part does the checking, and Claude reads the result. Before this release, every part passed 289 automated tests and 355 simulated edge cases, from damaged PDFs to edited histories.</p>
+  </>;
+}
+
+const CRITERIA = ["Same input, same answer, every time", "Checks every figure, name and quote against your files", "Two independent sources before it says backed", "Remembers last time and shows what changed", "Your files stay on your computer"];
+type Grade = "Yes" | "Partly" | "No";
+// Honest grades, categories only: a board where every rival scores No reads as rigged.
+const RIVALS: { name: string; grades: [Grade, Grade, Grade, Grade, Grade]; gap: string }[] = [
+  { name: "A saved prompt", grades: ["No", "Partly", "No", "No", "No"], gap: "Good instructions, but the AI still decides how to check, and can check differently each time." },
+  { name: "A Claude skill", grades: ["Partly", "Partly", "No", "No", "Partly"], gap: "Instructions Claude follows, sometimes with scripts. Claude still chooses when and how to use them, and nothing records what changed." },
+  { name: "A chat AI on its own", grades: ["No", "Partly", "No", "No", "No"], gap: "A fast, capable assistant, with confident answers that are not traced to your files." },
+  { name: "Checking it yourself", grades: ["No", "Partly", "Partly", "No", "Yes"], gap: "Your own eye, which matters. Slow, and easy to miss one figure in forty." },
+  { name: "An analyst or adviser", grades: ["No", "Partly", "Partly", "No", "Partly"], gap: "A second pair of expert eyes. Days rather than minutes, and the method leaves with them." },
+];
+export function PartsVersus() {
+  const [pick, setPick] = useState(0);
+  const rival = RIVALS[pick];
+  return <section className="kit-section kit-versus" aria-labelledby="kit-versus-title">
+    <h2 id="kit-versus-title">Not a prompt. <em>Not a skill.</em></h2>
+    <div className="kit-versus-choices" role="group" aria-label="Compare a part with">{RIVALS.map((r, i) => <button key={r.name} type="button" aria-pressed={pick === i} onClick={() => setPick(i)}>{r.name}</button>)}</div>
+    <table className="kit-versus-table"><thead><tr><th scope="col"><span className="sr-only">What matters</span></th><th scope="col">A part</th><th scope="col">{rival.name}</th></tr></thead>
+      <tbody>{CRITERIA.map((c, i) => <tr key={c}><th scope="row">{c}</th><td>Yes</td><td data-grade={rival.grades[i]}>{rival.grades[i]}</td></tr>)}</tbody></table>
+    <p className="kit-versus-gap">{rival.gap}</p>
+  </section>;
+}

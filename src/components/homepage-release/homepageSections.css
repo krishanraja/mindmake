@@ -575,6 +575,44 @@
 .mm-homepage-release .hs-subscribe:hover { border-color: #9df0c8; background: rgba(157, 240, 200, .1); }
 .mm-homepage-release .hs-subscribe:focus-visible { outline: 2px solid #eadfc8; outline-offset: 3px; }
 
+/* "Prefer to ...?", the nudge from /ai-brain (CompareNudge.tsx; its look is
+   mindmake-compare.css), in one of its two places (homepageSections.ts).
+   Index.tsx fills the one HOME_COMPARE_IN_HERO picks; the other stays empty
+   and takes no room. */
+.mm-homepage-release .hs-compare { display: none; }
+.mm-homepage-release .hs-compare.mm-site { min-width: 0; background: none; line-height: 1.25; }
+/* On /ai-brain it rides the seam above its section; here each place sets it. */
+.mm-homepage-release .hs-compare .mm-compare-float { top: 0; display: flex; margin-bottom: 0; }
+/* It arrives with the page's start, so it fades in where it already sits. */
+@media (prefers-reduced-motion: no-preference) {
+  .mm-homepage-release .hs-compare .mm-compare-float { animation: hs-compare-in .6s ease-out .25s both; }
+}
+@keyframes hs-compare-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* A wide screen: over the film, right of the copy, its right edge on the
+   masthead's, its foot level with the way in's publication rule. Kept clear
+   of the sheet that laps the hero's foot. */
+@media (min-width: 1180px) {
+  .mm-homepage-release .preview-desktop .hs-compare[data-hs-compare="hero"] {
+    position: absolute;
+    left: 100%;
+    bottom: calc(28px + clamp(40px, 9vh, 110px));
+    display: flex;
+    justify-content: flex-end;
+    width: calc(100cqi - 100%);
+    padding-right: 4.4cqi;
+  }
+}
+/* A phone or a narrower screen: the first thing on the first sheet, its
+   height held before the page starts (the orb and its float, as
+   mindmake-compare.css sizes them), so the sheet never moves. */
+@media not (min-width: 1180px) {
+  .mm-homepage-release .hs-compare[data-hs-compare="sheet"] { display: block; min-height: calc(84px + 22px); }
+}
+@media (max-width: 600px) {
+  .mm-homepage-release .hs-compare[data-hs-compare="sheet"] { min-height: calc(68px + 22px); }
+}
+
 /* Phones and tablets: their own composition. */
 @media (max-width: 760px) {
   .mm-homepage-release .hs-proof { grid-template-columns: minmax(0, 1fr); }

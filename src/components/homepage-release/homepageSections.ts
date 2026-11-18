@@ -85,9 +85,30 @@ const VOICES = featuredQuotes.map((found) => ({ quote: found.featured!.excerpt, 
 
 const startButton = () => `<button type="button" class="hs-start-button" data-start-route="brain" data-mm-primary>${START_LABEL} <span aria-hidden="true">→</span></button>`;
 
+/**
+ * Where the "Prefer to ...?" nudge from /ai-brain lands on the homepage
+ * (Krish, 2026-11-18: "duplicate this component on the hero section of the
+ * homepage, thoughtfully for mobile and desktop"). Index.tsx renders the one
+ * nudge, the same React component as /ai-brain's, into whichever place fits
+ * the screen (HOME_COMPARE_IN_HERO below):
+ *
+ * - "hero", on a wide screen: floating over the film, right of the copy, so
+ *   it is its own thing beside the way in and never in its path.
+ * - "sheet", on a phone or a narrower screen, where the hero fills the screen
+ *   and has no room left: the first thing on the sheet that slides up over
+ *   the hero, so a reader meets it on their first scroll. Its height is
+ *   reserved before the page starts (homepageSections.css), so nothing moves
+ *   when it arrives.
+ *
+ * Both are empty in the prerendered page; the nudge opens a dialog, which
+ * needs the page started anyway.
+ */
+export const HOME_COMPARE_IN_HERO = "(min-width: 1180px)";
+const compareSlot = (place: "hero" | "sheet") => `<div class="hs-compare mm-site" data-hs-compare="${place}"></div>`;
+
 /** The hero's way in and the publication line, after the doors (desktop and phone). */
 export function heroStartMarkup() {
-  return `<div class="hs-start">${startButton()}</div><p class="hs-issue"><span class="hs-issue-label">From our media channel</span> <a class="hs-issue-title" href="${esc(latestIssue.url)}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">${esc(latestIssue.title)}</a> <a class="hs-issue-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">Get it free, three times a week <span aria-hidden="true">↗</span></a></p>`;
+  return `<div class="hs-start">${startButton()}</div><p class="hs-issue"><span class="hs-issue-label">From our media channel</span> <a class="hs-issue-title" href="${esc(latestIssue.url)}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">${esc(latestIssue.title)}</a> <a class="hs-issue-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_hero">Get it free, three times a week <span aria-hidden="true">↗</span></a></p>${compareSlot("hero")}`;
 }
 
 /** The subscribe link beside the menu in the homepage masthead (Krish, 2026-10-24). */
@@ -134,7 +155,7 @@ const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
 const chooserMarkup = () => `<div class="hs-choose" data-hs-choose><span class="hs-choose-orb" aria-hidden="true"><span class="hs-choose-body" data-hs-orb></span><span class="hs-choose-shadow"></span></span><div class="hs-choose-bubble" role="group" aria-labelledby="hs-choose-q"><p id="hs-choose-q" class="hs-choose-q">Where do you want to start?</p><div class="hs-choose-doors"><a class="hs-choose-door" href="/ai-brain" data-choose="brain"><b>With yourself</b><span>Your AI brain</span><i aria-hidden="true">→</i></a><a class="hs-choose-door" href="/ai-gtm" data-choose="gtm"><b>With your business</b><span>Your AI business</span><i aria-hidden="true">→</i></a></div></div></div>`;
 
 export function homepageSectionsMarkup() {
-  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner"><h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div></div></section>
+  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner">${compareSlot("sheet")}<h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div></div></section>
       <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough for it to begin bringing you the world around you.</p>${chooserMarkup()}<div class="hs-proof-deck" data-hs-deck><ul class="hs-proof" data-hs-deck-track>${PROOF.map(proofMarkup).join("")}</ul><div class="hs-deck-nav"><button type="button" data-hs-deck-step="-1" aria-label="Previous result" disabled>←</button><p><span data-hs-deck-at>1</span> of ${PROOF.length}</p><button type="button" data-hs-deck-step="1" aria-label="Next result">→</button></div></div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link hs-explore" href="/case-studies">Explore what leaders built <span aria-hidden="true">→</span></a></div></div></section>
       `;
 }

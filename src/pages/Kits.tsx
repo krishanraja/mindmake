@@ -4,21 +4,29 @@ import { ArrowDown, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { kits, visibleKits, type Kit } from "@/content/kits";
-import { testimonials } from "@/data/testimonials";
 import { PartsFaqDrawer } from "@/components/ui/parts-faq-drawer";
 import { BouncyAccordion } from "@/components/ui/bouncy-accordion";
 import { PartsEvidenceChart } from "@/components/ui/parts-evidence-chart";
 import { PartsSampleOutput } from "@/components/ui/parts-sample-output";
 import { SquareGrid } from "@/components/ui/square-grid";
+import { BuiltBy, DecisionMath, ExitOverlay, Stories } from "@/components/ui/parts-proof";
 import "@fontsource-variable/newsreader/wght-italic.css";
 import "@/styles/mindmake.css";
 import "@/styles/kits.css";
 
 const catalogue = visibleKits(kits, __KITS_PREVIEW__ ? "preview" : "production");
-// Checked verbatim against stories-export.md, section 5, 16 November 2026.
-const quoteIds = ["thrave", "data-infra-cro", "media-cro", "coaching-founder", "services-ceo"];
-const quotes = quoteIds.map(id => testimonials.find(quote => quote.id === id)!);
 const refund = "Full refund within 14 days, no questions asked.";
+// The promise made to every buyer (Krish, 18 November 2026). Checkout and the receipt carry the full wording.
+const promise = "No marketing emails, ever. We check in with you once, personally, and if the part is not working, we run a free session with you.";
+
+function Suite() {
+  return <section className="kit-section kit-suite" aria-labelledby="kit-suite-title">
+    <h2 id="kit-suite-title">Want the whole brain, not one part?</h2>
+    <p>Each part does one job. Mindmake builds your whole AI brain with you, around your standards and the decisions you make.</p>
+    <div className="kit-suite-actions"><a className="kit-button" href="/?start=1">Start building your AI brain <ArrowRight size={18} aria-hidden="true" /></a><Link className="kit-back" to="/">See everything Mindmake does <ArrowRight size={16} aria-hidden="true" /></Link></div>
+    <p className="kit-audit">Not ready to buy? Try <Link to="/who-decided">Who decided?</Link>, free.</p>
+  </section>;
+}
 
 function Strengthens({ kit }: { kit: Kit }) {
   return <aside className="kit-output" aria-labelledby="kit-strengthens-title">
@@ -48,18 +56,7 @@ function Buy({ kit }: { kit: Kit }) {
   };
   return <div className="kit-buy"><div className="parts-price-actions"><button className="kit-button" onClick={buy} disabled={state === "loading"}>
     {state === "loading" ? <>Opening checkout…<SquareGrid /></> : <>Add this part, $59<ArrowRight size={18} aria-hidden="true" /></>}
-  </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This part is not available." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
-}
-
-function Quotes() {
-  const [active, setActive] = useState(0);
-  return <section className="kit-section kit-quotes" aria-labelledby="kit-quotes-title">
-    <h2 id="kit-quotes-title">What leaders say about working with Mindmake</h2>
-    <div className="kit-quote-stack" aria-live="polite">{quotes.map((quote, index) => <figure key={quote.id} aria-hidden={index !== active} className={index === active ? "is-current" : ""}>
-      <blockquote>“{quote.full}”</blockquote><figcaption>{quote.name && <strong>{quote.name}<br /></strong>}{quote.role}</figcaption>
-    </figure>)}</div>
-    <div className="kit-quote-controls"><button aria-label="Previous quote" onClick={() => setActive((active + quotes.length - 1) % quotes.length)}><ArrowLeft aria-hidden="true" /></button><span className="kit-label">{active + 1} / {quotes.length}</span><button aria-label="Next quote" onClick={() => setActive((active + 1) % quotes.length)}><ArrowRight aria-hidden="true" /></button></div>
-  </section>;
+  </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><p className="kit-promise">{promise}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This part is not available." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
 }
 
 function Catalogue() {
@@ -74,16 +71,20 @@ function Catalogue() {
         <p className="kit-audit">Not sure where to start? Try <Link to="/who-decided">Who decided?</Link>, a free 20-minute audit of one real decision.</p>
       </div><PartsSampleOutput />
     </section>
+    <div className="kit-section kit-built-wrap"><BuiltBy /></div>
     <section className="kit-dark"><div className="kit-section"><p className="kit-label">WHY PARTS, NOT PROMPTS</p><h2>AI makes strong judgement stronger and weak judgement weaker. <em>Each part makes yours stronger.</em></h2><p>A prompt asks your AI to guess. A part gives it the rules, checks and steps a good operator would use, written down and tested, so you can see why it said what it said. Then it tells you what only you can judge.</p><PartsEvidenceChart /></div></section>
     <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want done before your next decision.</h2>
       <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
         <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this part, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
       </article>)}</div>
     </section>
+    <DecisionMath />
     <section className="kit-section kit-how" aria-labelledby="kit-how-title"><h2 id="kit-how-title">How it works</h2><ol>{["Buy once. You get a download link by email, to set up on a Mac or Windows computer.", "Open it. Claude adds it in one click.", "Use it. Point it at your own files, read the result, and make the call."].map((text, i) => <li key={text}><span className="kit-label">0{i + 1}</span><p>{text}</p></li>)}</ol></section>
-    <Quotes />
+    <Stories />
+    <Suite />
     <section className="kit-section kit-faq" aria-labelledby="kit-faq-title"><h2 id="kit-faq-title"><PartsFaqDrawer heading /></h2></section>
     <section className="kit-section kit-close"><h2>Strengthen one part of your judgement this week.</h2><a className="kit-button" href="#kit-catalogue">See the parts <ArrowUpRight /></a></section>
+    <ExitOverlay buyHref="#kit-catalogue" buyLabel="Choose a part, $59" />
   </>;
 }
 
@@ -94,7 +95,7 @@ function Detail({ kit }: { kit: Kit }) {
   const [returned, setReturned] = useState<string | null>(null);
   useEffect(() => setReturned(new URLSearchParams(search).get("checkout")), [search]);
   return <>
-    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/parts"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} />{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
+    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/parts"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} />{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed. We will check in once, personally, and never send you marketing." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
     <section className="kit-section kit-detail-content">
       <div><h2>What you get</h2><ul className="kit-checks">{kit.does.map(text => <li key={text}><Check size={18} aria-hidden="true" />{text}</li>)}</ul><Link className="kit-back" to={`/${kit.door}`}>Build your AI brain<ArrowRight size={16} aria-hidden="true" /></Link></div>
       <BouncyAccordion key={kit.slug} defaultValue="judgement" items={[
@@ -104,6 +105,11 @@ function Detail({ kit }: { kit: Kit }) {
         { id: "requirements", title: "What you need", content: <ul>{kit.requirements.map(text => <li key={text}>{text}</li>)}</ul> },
       ]} />
     </section>
+    <div className="kit-section kit-built-wrap"><BuiltBy /></div>
+    <DecisionMath />
+    <Stories />
+    <Suite />
+    <ExitOverlay buyHref="#kit-hero" buyLabel={`Add ${kit.name}, $59`} />
   </>;
 }
 

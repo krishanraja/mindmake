@@ -48,6 +48,11 @@ serve(async request => {
         return result.ok;
       },
       finishDelivery: (id, success) => rpc<void>("kits_finish_delivery", { p_id: id, p_success: success, p_attempt: deliveryAttempt }),
+      notifyOperator: async (purchase, message) => {
+        const to = env("MINDMAKE_OPERATOR_EMAIL");
+        if (env("KITS_EMAIL_ENABLED") !== "true" || !to) return;
+        await sendResendEmail({ from: env("MINDMAKE_BRIEF_FROM"), to: [to], ...message }, { idempotencyKey: `kit-operator-${purchase.session_id}`, label: "kits-operator" });
+      },
     });
     return json(response);
   } catch (error) { return failure(error); }

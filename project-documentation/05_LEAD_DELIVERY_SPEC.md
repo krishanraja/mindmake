@@ -91,6 +91,15 @@ The deployed submit v21 results template states: “We will send one follow-up f
 
 The due queue and its send-after time were verified. The daily 09:20 UTC schedule is configured in source; this current record does not include a fresh 24 September live scheduler readback and must not be treated as proof of current cron activation. The future day-14 email was not sent early and the live cron sender was not invoked in release QA. No claim that that future message has arrived is made.
 
+## Parts buyers: one personal check-in (Krish, 18 November 2026)
+
+Every buyer of a part of your AI brain is a lead for one personal check-in, never for marketing. The promise, worded once in `BUYER_PROMISE` (`supabase/functions/_shared/kits/core.ts`), is shown at Stripe checkout (the submit message), in the receipt email, on `/parts` beside every buy button and in its FAQ, in the exit question, and at the end of every report a part saves: no marketing emails, one personal check-in, and a free session if the part is not working.
+
+- `kit_purchases` carries `check_in_due` (seven days after purchase), `check_in_status` (due, checked in, happy, free session offered, free session held, not needed), `check_in_note`, `check_in_at` and `promise_version`. `kit_concierge_queue` lists the check-ins to do, refunded buyers included: they are the ones to offer a free session.
+- After a receipt is sent, the webhook sends one operator note to `MINDMAKE_OPERATOR_EMAIL` (idempotency `kit-operator-<session>`). It is best effort and never fails a delivery.
+- Nothing is sent to a buyer automatically beyond the receipt. The check-in is written and sent by a person, and each send takes Krish's yes.
+- `/parts` points buyers to the full site (`/?start=1` and `/`) and the free Who decided? audit, and asks once per visit what is stopping a reader who moves to leave. It makes no scarcity claim.
+
 ## Retention
 
 Unverified brief requests delete seven days after creation; abuse-event hashes after 48 hours; verified requests, consent and delivery records twelve months after last update. Follow-up rows are purged seven days after sending. The private daily purge and corresponding public privacy notice are the implementation authorities. Expired code is not immediate record deletion. Earlier deletion follows the published contact address and a manually verified private process.

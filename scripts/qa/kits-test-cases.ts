@@ -68,10 +68,10 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert(page.includes('title: "What it checks", content: <p>{kit.checks}</p>'));
     assert(!page.includes('kit.whoDecided ??'));
     // Krish, 18 November 2026: the hero says plainly that a brain module is working software, not a prompt; one is a brain module, never "a part".
-    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.";
-    const shortSub = "Each brain module plugs into Claude in one click, runs on your own files and shows you the result in five minutes.";
+    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed. You see the result in five minutes.";
     assert(page.indexOf(explanation) > page.indexOf("</h1>"));
-    assert(page.indexOf(shortSub) > page.indexOf(explanation));
+    // The one-click line now lives in the hero checklist, so the hero is one paragraph (18 November 2026).
+    assert(page.includes("Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click."));
     assert(page.includes("Pick the job you want done before your next decision."));
     assert(!page.includes("kit-group")); assert(!page.includes("kit.group"));
     assert(page.includes('kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>'));

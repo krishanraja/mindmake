@@ -278,7 +278,7 @@
 .kit-versus-table td[data-grade="No"] { color: #8a3b1e; }
 .kit-versus-gap { max-width: 62ch; margin: 20px 0 0; }
 @media (max-width: 900px) { .kit-engine { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .kit-engine { grid-template-columns: 1fr; } .kit-versus-table th[scope="row"] { width: 50%; } }
+@media (max-width: 560px) { .kit-engine { grid-template-columns: 1fr; } .kit-versus-table th[scope="row"] { width: 50%; } .kit-versus-choices { gap: 8px; } .kit-versus-choices button { min-height: 44px; padding: 8px 14px; font-size: 14px; } }
 @media (max-width: 560px) {
   .kit-math-rows div { flex-wrap: nowrap; }
   .kit-math-rows dt { min-width: 0; }

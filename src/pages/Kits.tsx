@@ -63,8 +63,7 @@ function Catalogue() {
     <section className="kit-section kit-hero kit-hero-catalogue" id="kit-hero">
       <div><p className="kit-label">PARTS OF YOUR AI BRAIN</p>
         <h1>Start your AI brain <em>one module at a time.</em></h1>
-        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed.</p>
-        <p className="kit-lede">Each brain module plugs into Claude in one click, runs on your own files and shows you the result in five minutes.</p>
+        <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed. You see the result in five minutes.</p>
         <a className="kit-button" href="#kit-catalogue">See the parts <ArrowDown size={18} aria-hidden="true" /></a>
         <ul className="kit-checks">{["Runs on your computer. Your files are never sent to us.", "Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
         <p className="kit-audit">Not sure where to start? Try <Link to="/who-decided">Who decided?</Link>, a free 20-minute audit of one real decision.</p>
@@ -75,7 +74,7 @@ function Catalogue() {
     <PartsVersus />
     <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want done before your next decision.</h2>
       <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
-        <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`}>Add this brain module, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
+        <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`} aria-label={`Add ${kit.name}, $59`}>Add it, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
       </article>)}</div>
     </section>
     <DecisionMath />

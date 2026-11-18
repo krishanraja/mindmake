@@ -8,7 +8,7 @@ serve(async request => {
   try {
     if (request.method !== "POST") throw new KitError(405, "Method not allowed");
     const stripe = stripeClient();
-    const secret = env("STRIPE_WEBHOOK_SECRET");
+    const secret = env("KITS_STRIPE_WEBHOOK_SECRET");
     if (!secret.startsWith("whsec_")) throw new KitError(503, "Webhook unavailable");
     const db = database();
     let deliveryAttempt: string | undefined;

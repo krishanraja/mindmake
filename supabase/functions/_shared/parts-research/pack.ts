@@ -51,6 +51,204 @@ const date = (v: unknown): v is string =>
 const same = (a: unknown, b: unknown) =>
   JSON.stringify(a) === JSON.stringify(b);
 
+const builtAt = (input: Record<string, unknown>) => input.builtAt as string;
+
+/** The checks one fact must pass. Throws "Invalid research pack: <reason>" on the first failure. */
+function checkFact(
+  raw: unknown,
+  ids: Set<string>,
+  company: Company,
+  builtAt: string,
+  evidence?: Evidence,
+) {
+    fields(
+      raw,
+      [...REQUIRED_FACT_KEYS],
+      ALLOWED_FACT_KEYS.filter((k) =>
+        !(REQUIRED_FACT_KEYS as readonly string[]).includes(k)
+      ),
+    );
+    const fact = raw as Fact;
+    require(/^F[1-9]\d*$/.test(fact.id) && !ids.has(fact.id), "fact id");
+    ids.add(fact.id);
+    require(
+      ["reported-figure", "announcement", "leadership", "registry"].includes(
+        fact.kind,
+      ) && text(fact.statement) && text(fact.quote, 1600),
+      "fact or quote missing",
+    );
+    require(
+      !(fact.statement.trimStart().startsWith("{") ||
+        fact.statement.trimStart().startsWith("[") ||
+        /^"\w+"\s*:/.test(fact.statement.trimStart())),
+      "statement is not plain text",
+    );
+    require(
+      fact.value === null ||
+        typeof fact.value === "number" && Number.isFinite(fact.value),
+      "fact value",
+    );
+    require(
+      [null, "GBP", "USD", "%", "people"].includes(fact.unit) &&
+        (fact.period === null || text(fact.period)),
+      "unit or period",
+    );
+    if (fact.kind === "reported-figure") {
+      require(
+        text(fact.metric, 160) && fact.metric === fact.metric.toLowerCase() &&
+          Array.isArray(fact.aliases) && fact.aliases.length <= 8 &&
+          fact.aliases.every((a) => text(a, 100) && a === a.toLowerCase()),
+        "figure metric or aliases",
+      );
+      require(
+        [null, "quarter", "year-to-date", "year", "instant"].includes(
+          fact.periodType === undefined ? "missing" : fact.periodType,
+        ) &&
+          (fact.periodStart === null ||
+            typeof fact.periodStart === "string" &&
+              /^\d{4}-\d{2}-\d{2}$/.test(fact.periodStart)) &&
+          (fact.periodEnd === null ||
+            typeof fact.periodEnd === "string" &&
+              /^\d{4}-\d{2}-\d{2}$/.test(fact.periodEnd)),
+        "figure period fields",
+      );
+      require(
+        !fact.aliases?.some((a) => ["cash", "income", "users"].includes(a)),
+        "ambiguous alias",
+      );
+      require(
+        fact.period === null || canonicalPeriod(fact.period) === fact.period,
+        "figure period",
+      );
+      require(
+        fact.value === quoteValue(fact.quote, fact.metric!, fact.unit) ||
+          !!tableMatch(
+            evidence!.sources.find((s) => s.url === fact.source.url),
+            fact,
+          ),
+        "figure value must come from quote",
+      );
+    }
+    fields(fact.source, ["title", "publisher", "url", "published"]);
+    require(
+      text(fact.source.title) && text(fact.source.publisher) &&
+        text(fact.source.url) &&
+        (fact.source.published === null || date(fact.source.published)),
+      "source metadata missing",
+    );
+    publicUrl(fact.source.url);
+    const source = evidence!.sources.find((s) => s.url === fact.source.url);
+    require(
+      source &&
+        new TextEncoder().encode(source.text).length <=
+          (source.excerpted ? MAX_SOURCE_BYTES : MAX_BYTES) &&
+        date(source.retrievedAt) && source.retrievedAt.includes("T"),
+      "source not fetched",
+    );
+    const deterministic = tableMatch(source, fact);
+    if (deterministic) {
+      require(
+        fact.periodType === (deterministic.periodType ?? null) &&
+          fact.periodStart === (deterministic.periodStart ?? null) &&
+          fact.periodEnd === (deterministic.periodEnd ?? null),
+        "deterministic period fields changed",
+      );
+    }
+    if (source.xbrl?.length) {
+      const row = source.xbrl.find((x) =>
+        x.quote === fact.quote && x.metric === fact.metric
+      );
+      require(
+        row && row.period === fact.period &&
+          row.periodType === fact.periodType &&
+          row.periodStart === fact.periodStart &&
+          row.periodEnd === fact.periodEnd,
+        "XBRL measure or period changed",
+      );
+    }
+    require(
+      date(fact.retrievedAt) && fact.retrievedAt === source.retrievedAt &&
+        Date.parse(fact.retrievedAt) <= Date.parse(builtAt) &&
+        Date.parse(builtAt) - Date.parse(fact.retrievedAt) < 300_000,
+      "source not from this build",
+    );
+    if (evidence?.factMetadata?.[fact.id]?.periodSource === "document") {
+      require(
+        (fact.period === source.documentPeriod && !!source.documentPeriod) ||
+          !!tableMatch(source, fact),
+        "document period changed",
+      );
+    }
+    require(
+      same(fact.source, {
+        title: source.title,
+        publisher: source.publisher,
+        url: source.url,
+        published: source.xbrl?.find((x) =>
+          x.quote === fact.quote && x.metric === fact.metric
+        )?.published ?? source.published,
+      }),
+      "source metadata was changed",
+    );
+    require(
+      normalise(source.text).includes(normalise(fact.quote)) &&
+        (normalise(fact.statement) === normalise(fact.quote) ||
+          !!tableMatch(source, fact) ||
+          (ownDomain(company, source.url) ||
+              registrySource(company, source.url, source)) &&
+            fact.statement === businessStatement(fact.quote) ||
+          registrySource(company, source.url, source) &&
+            fact.statement ===
+              (xbrlStatement(source, fact) ?? registryStatement(fact))),
+      "quote does not support this fact",
+    );
+    require(
+      same(fact, evidence!.verifiedFacts.find((f) => f.id === fact.id)),
+      "fact has no verification receipt",
+    );
+    require(
+      !source.fragments ||
+        source.fragments.some((span) =>
+          normalise(span).includes(normalise(fact.quote))
+        ),
+      "quote bridges source redactions",
+    );
+    require(
+      fact.kind !== "registry" || registrySource(company, source.url, source),
+      "registry exemption misused",
+    );
+    require(
+      fact.kind === "registry" ||
+        !olderThan24Months(
+          source.published,
+          fact.period,
+          new Date(builtAt),
+        ),
+      "over-age fact",
+    );
+    require(
+      fact.grade ===
+        (ownDomain(company, source.url) ||
+            registrySource(company, source.url, source)
+          ? "primary"
+          : "secondary"),
+      "source grade",
+    );
+}
+
+/** Why one fact would fail the pack check, or null when it passes (issue 1). */
+export function factProblem(
+  fact: Fact,
+  ctx: { company: Company; builtAt: string; evidence: Evidence },
+): string | null {
+  try {
+    checkFact(fact, new Set(), ctx.company, ctx.builtAt, ctx.evidence);
+    return null;
+  } catch (error) {
+    return String((error as Error).message).replace(/^Invalid research pack: /, "");
+  }
+}
+
 /** Evidence is mandatory for facts. A pack alone cannot prove that its URLs were fetched. */
 export function validatePack(
   input: unknown,
@@ -198,179 +396,7 @@ export function validatePack(
   }
   const ids = new Set<string>();
   for (const raw of input.facts) {
-    fields(
-      raw,
-      [...REQUIRED_FACT_KEYS],
-      ALLOWED_FACT_KEYS.filter((k) =>
-        !(REQUIRED_FACT_KEYS as readonly string[]).includes(k)
-      ),
-    );
-    const fact = raw as Fact;
-    require(/^F[1-9]\d*$/.test(fact.id) && !ids.has(fact.id), "fact id");
-    ids.add(fact.id);
-    require(
-      ["reported-figure", "announcement", "leadership", "registry"].includes(
-        fact.kind,
-      ) && text(fact.statement) && text(fact.quote, 1600),
-      "fact or quote missing",
-    );
-    require(
-      !(fact.statement.trimStart().startsWith("{") ||
-        fact.statement.trimStart().startsWith("[") ||
-        /^"\w+"\s*:/.test(fact.statement.trimStart())),
-      "statement is not plain text",
-    );
-    require(
-      fact.value === null ||
-        typeof fact.value === "number" && Number.isFinite(fact.value),
-      "fact value",
-    );
-    require(
-      [null, "GBP", "USD", "%", "people"].includes(fact.unit) &&
-        (fact.period === null || text(fact.period)),
-      "unit or period",
-    );
-    if (fact.kind === "reported-figure") {
-      require(
-        text(fact.metric, 160) && fact.metric === fact.metric.toLowerCase() &&
-          Array.isArray(fact.aliases) && fact.aliases.length <= 8 &&
-          fact.aliases.every((a) => text(a, 100) && a === a.toLowerCase()),
-        "figure metric or aliases",
-      );
-      require(
-        [null, "quarter", "year-to-date", "year", "instant"].includes(
-          fact.periodType === undefined ? "missing" : fact.periodType,
-        ) &&
-          (fact.periodStart === null ||
-            typeof fact.periodStart === "string" &&
-              /^\d{4}-\d{2}-\d{2}$/.test(fact.periodStart)) &&
-          (fact.periodEnd === null ||
-            typeof fact.periodEnd === "string" &&
-              /^\d{4}-\d{2}-\d{2}$/.test(fact.periodEnd)),
-        "figure period fields",
-      );
-      require(
-        !fact.aliases?.some((a) => ["cash", "income", "users"].includes(a)),
-        "ambiguous alias",
-      );
-      require(
-        fact.period === null || canonicalPeriod(fact.period) === fact.period,
-        "figure period",
-      );
-      require(
-        fact.value === quoteValue(fact.quote, fact.metric!, fact.unit) ||
-          !!tableMatch(
-            evidence!.sources.find((s) => s.url === fact.source.url),
-            fact,
-          ),
-        "figure value must come from quote",
-      );
-    }
-    fields(fact.source, ["title", "publisher", "url", "published"]);
-    require(
-      text(fact.source.title) && text(fact.source.publisher) &&
-        text(fact.source.url) &&
-        (fact.source.published === null || date(fact.source.published)),
-      "source metadata missing",
-    );
-    publicUrl(fact.source.url);
-    const source = evidence!.sources.find((s) => s.url === fact.source.url);
-    require(
-      source &&
-        new TextEncoder().encode(source.text).length <=
-          (source.excerpted ? MAX_SOURCE_BYTES : MAX_BYTES) &&
-        date(source.retrievedAt) && source.retrievedAt.includes("T"),
-      "source not fetched",
-    );
-    const deterministic = tableMatch(source, fact);
-    if (deterministic) {
-      require(
-        fact.periodType === (deterministic.periodType ?? null) &&
-          fact.periodStart === (deterministic.periodStart ?? null) &&
-          fact.periodEnd === (deterministic.periodEnd ?? null),
-        "deterministic period fields changed",
-      );
-    }
-    if (source.xbrl?.length) {
-      const row = source.xbrl.find((x) =>
-        x.quote === fact.quote && x.metric === fact.metric
-      );
-      require(
-        row && row.period === fact.period &&
-          row.periodType === fact.periodType &&
-          row.periodStart === fact.periodStart &&
-          row.periodEnd === fact.periodEnd,
-        "XBRL measure or period changed",
-      );
-    }
-    require(
-      date(fact.retrievedAt) && fact.retrievedAt === source.retrievedAt &&
-        Date.parse(fact.retrievedAt) <= Date.parse(input.builtAt) &&
-        Date.parse(input.builtAt) - Date.parse(fact.retrievedAt) < 300_000,
-      "source not from this build",
-    );
-    if (evidence?.factMetadata?.[fact.id]?.periodSource === "document") {
-      require(
-        (fact.period === source.documentPeriod && !!source.documentPeriod) ||
-          !!tableMatch(source, fact),
-        "document period changed",
-      );
-    }
-    require(
-      same(fact.source, {
-        title: source.title,
-        publisher: source.publisher,
-        url: source.url,
-        published: source.xbrl?.find((x) =>
-          x.quote === fact.quote && x.metric === fact.metric
-        )?.published ?? source.published,
-      }),
-      "source metadata was changed",
-    );
-    require(
-      normalise(source.text).includes(normalise(fact.quote)) &&
-        (normalise(fact.statement) === normalise(fact.quote) ||
-          !!tableMatch(source, fact) ||
-          (ownDomain(company, source.url) ||
-              registrySource(company, source.url, source)) &&
-            fact.statement === businessStatement(fact.quote) ||
-          registrySource(company, source.url, source) &&
-            fact.statement ===
-              (xbrlStatement(source, fact) ?? registryStatement(fact))),
-      "quote does not support this fact",
-    );
-    require(
-      same(fact, evidence!.verifiedFacts.find((f) => f.id === fact.id)),
-      "fact has no verification receipt",
-    );
-    require(
-      !source.fragments ||
-        source.fragments.some((span) =>
-          normalise(span).includes(normalise(fact.quote))
-        ),
-      "quote bridges source redactions",
-    );
-    require(
-      fact.kind !== "registry" || registrySource(company, source.url, source),
-      "registry exemption misused",
-    );
-    require(
-      fact.kind === "registry" ||
-        !olderThan24Months(
-          source.published,
-          fact.period,
-          new Date(input.builtAt),
-        ),
-      "over-age fact",
-    );
-    require(
-      fact.grade ===
-        (ownDomain(company, source.url) ||
-            registrySource(company, source.url, source)
-          ? "primary"
-          : "secondary"),
-      "source grade",
-    );
+    checkFact(raw, ids, company, builtAt(input), evidence);
   }
   for (const q of input.prepare) {
     fields(q, ["question", "because"]);
@@ -422,6 +448,36 @@ export async function buildPack(
     deps.now(),
     buyer.useCase,
   );
+  // Issue 1: one fact that fails the pack check is dropped with its reason,
+  // never the whole pack. builtAt is taken once, after verification.
+  const builtAtIso = deps.now().toISOString();
+  const kept: Fact[] = [];
+  for (const fact of result.facts) {
+    const problem = factProblem(fact, {
+      company,
+      builtAt: builtAtIso,
+      evidence: {
+        builtAt: builtAtIso,
+        factMetadata: result.factMetadata,
+        company,
+        sources,
+        verifiedFacts: result.facts,
+      } as Evidence,
+    });
+    if (problem === null) {
+      kept.push(fact);
+      continue;
+    }
+    const reason = `pack-check: ${problem}`;
+    result.droppedProposals.push({ quote: fact.quote.slice(0, 160), reason });
+    result.dropped[reason] = (result.dropped[reason] ?? 0) + 1;
+    delete result.factMetadata[fact.id];
+  }
+  if (kept.length !== result.facts.length) {
+    result.facts = kept;
+    result.factsKept = kept.length;
+    result.factsDropped = Object.values(result.dropped).reduce((a, b) => a + b, 0);
+  }
   for (const call of deps.extractions ?? []) {
     const last = deps.extractions?.filter((c) =>
       c.sourceUrl === call.sourceUrl && c.parseStatus !== "failed"
@@ -449,7 +505,7 @@ export async function buildPack(
   const pack: Pack = {
     schema: SCHEMA,
     part: PART,
-    builtAt: deps.now().toISOString(),
+    builtAt: builtAtIso,
     buyer: { ...buyer, useCaseLabel: CHIPS[buyer.useCase] },
     company,
     facts: result.facts,

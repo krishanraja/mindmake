@@ -26,6 +26,7 @@ try {
   await import("../../supabase/functions/_shared/parts-research/uk_test.ts");
   await import("../../supabase/functions/_shared/parts-research/r20_test.ts");
   await import("../../supabase/functions/_shared/parts-research/r21_test.ts");
+  await import("../../supabase/functions/_shared/parts-research/issue1_test.ts");
 } finally {
   Object.defineProperty(Deno, "test", { value: original, configurable: true });
 }

@@ -1,0 +1,5 @@
+# TEST DRAFT, written by Mindmake from public sources, not by the company
+
+**Company:** Monzo Bank | **Writer:** Chief Operating Officer | **Use case:** Investor update
+
+We are writing with an operational update following the publication of our FY2026 annual report. Revenue grew 39% to £1.7bn, and adjusted profit before tax rose to £172.6m from £143.9m. We ended the year with 15.2m customers, having added more than 3m during the year. Monthly active users rose 26% to 10.4m. Customer deposits reached £27.1bn, up 55% on the prior year. More than 1.6m customers now pay for one of our subscription plans. Our business banking base grew 45% to 905k customers. In December the Central Bank of Ireland and the European Central Bank granted us a licence to operate across Europe, and we have since launched in Ireland. Behind these numbers, our operations teams are on track to hire 85 additional customer support and fraud agents across Cardiff and Dublin by the end of the first quarter of 2027. We continue to invest in service quality and platform resilience as we scale. We will share fuller operational metrics at the next update.

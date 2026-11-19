@@ -7,7 +7,7 @@ import WhoDecided from "@/pages/WhoDecided";
 
 const source = (path: string) => readFileSync(path, "utf8");
 
-describe("Who decided? evidence, never a score", () => {
+describe("Measure your AI judgement evidence, never a score", () => {
   it("maps each step's four behaviours to the four evidence levels", () => {
     expect(STEPS.map(step => step.id)).toEqual(["decision", "evidence", "standard", "numbers", "handover", "pattern"]);
     for (const step of STEPS) {
@@ -44,27 +44,37 @@ describe("Who decided? evidence, never a score", () => {
     for (const path of ["src/features/who-decided/audit.ts", "src/pages/WhoDecided.tsx"]) {
       expect(source(path)).not.toMatch(/\b(fetch|sendBeacon|XMLHttpRequest|WebSocket|localStorage|sessionStorage|indexedDB|supabase|track|gtag|plausible)\b|<form\b|document\.cookie/);
     }
-    expect(source("scripts/lib/pages.mjs")).not.toContain("/who-decided");
-    expect(source("src/lib/publicLinks.ts")).not.toContain("/who-decided");
+    expect(source("scripts/lib/pages.mjs")).not.toContain("/measure-your-ai-judgement");
+    expect(source("src/lib/publicLinks.ts")).not.toContain("/measure-your-ai-judgement");
     const head = source("index.html");
+    // The audit loads as its own private document; a stale path here makes the page reload forever.
+    expect(head).toContain("window.mmPrivateAuditDocument = /^\\/measure-your-ai-judgement\\/?$/.test(window.location.pathname)");
     expect(head).toContain("window.mmPrivateAuditDocument || window.mmGoogleTagLoaded");
     expect(head).toContain("window.mmPrivateAuditDocument || window.mmClarityLoaded");
     expect(head).toContain('!window.mmPrivateAuditDocument && !["localhost", "127.0.0.1"]');
   });
 
-  it("renders the locked facts verbatim, keeps notes private, supports revision and clears work", () => {
+  it("shows only the question, moves on at a tap, keeps the locked facts verbatim and clears work", () => {
     Element.prototype.scrollIntoView = vi.fn();
-    render(<MemoryRouter initialEntries={["/who-decided"]}><WhoDecided /></MemoryRouter>);
-    expect(screen.getByText(THESIS)).toBeInTheDocument();
+    render(<MemoryRouter initialEntries={["/measure-your-ai-judgement"]}><WhoDecided /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: "Measure your AI judgement" })).toBeInTheDocument();
     expect(screen.getByText(SUBTITLE)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /Begin the audit/ }));
-    expect(screen.getByRole("button", { name: /Continue/ })).toBeDisabled();
-    fireEvent.change(screen.getByLabelText("Your note on the decision"), { target: { value: "private synthetic decision" } });
+    fireEvent.click(screen.getByRole("button", { name: /Begin/ }));
     for (let index = 0; index < 6; index++) {
-      expect(screen.getByText(`Step ${index + 1} of 6`)).toBeInTheDocument();
-      expect(screen.getAllByRole("radio")).toHaveLength(4);
-      fireEvent.click(screen.getByLabelText(STEPS[index].options[2].text));
-      fireEvent.click(screen.getByRole("button", { name: index === 5 ? /Read my decision/ : /Continue/ }));
+      const question = screen.getByRole("heading", { level: 1 });
+      expect(question).toHaveTextContent(STEPS[index].question);
+      expect(question).toHaveTextContent(`Question ${index + 1} of 6`);
+      // Nothing but the question: no step title, prompt, note, clear or progress words.
+      expect(screen.queryByText(STEPS[index].title)).toBeNull();
+      expect(screen.queryByText(STEPS[index].prompt)).toBeNull();
+      expect(screen.queryByText(/Private note|Clear my work|Step \d of 6/)).toBeNull();
+      expect(within(screen.getByRole("group")).getAllByRole("button")).toHaveLength(4);
+      if (index === 1) {
+        fireEvent.click(screen.getByRole("button", { name: "Previous question" }));
+        expect(screen.getByRole("button", { name: STEPS[0].options[2].text })).toHaveAttribute("aria-pressed", "true");
+        fireEvent.click(screen.getByRole("button", { name: STEPS[0].options[2].text }));
+      }
+      fireEvent.click(screen.getByRole("button", { name: STEPS[index].options[2].text }));
     }
     const exactFacts = [
       "Across 106 experiments, people working with AI did better when they were already better than the AI at the task, and worse when they were not.",
@@ -78,20 +88,19 @@ describe("Who decided? evidence, never a score", () => {
     expect(screen.getByText("Dell'Acqua et al., Harvard Business School and BCG, 2023 (758 consultants).")).toBeInTheDocument();
     expect(screen.getByText("Lee et al., Carnegie Mellon and Microsoft Research, CHI 2025 (319 knowledge workers, self-reported).")).toBeInTheDocument();
     expect(within(screen.getByRole("article")).getByRole("link", { name: "Start your brief" })).toHaveAttribute("href", "/?start=1");
-    expect(screen.getByText("private synthetic decision")).toBeInTheDocument();
+    expect(screen.getByText(THESIS)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Revisit my answers" }));
-    expect(screen.getByLabelText(STEPS[0].options[2].text)).toBeChecked();
-    expect(screen.getByLabelText("Your note on the decision")).toHaveValue("private synthetic decision");
+    expect(screen.getByRole("button", { name: STEPS[0].options[2].text })).toHaveAttribute("aria-pressed", "true");
+    for (let index = 0; index < 6; index++) fireEvent.click(screen.getByRole("button", { name: STEPS[index].options[2].text }));
     fireEvent.click(screen.getByRole("button", { name: "Clear my work" }));
     fireEvent.click(screen.getByRole("button", { name: "Keep working" }));
-    expect(screen.getByLabelText(STEPS[0].options[2].text)).toBeChecked();
+    expect(screen.getByText(THESIS)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Clear my work" }));
     fireEvent.click(screen.getByRole("button", { name: "Yes, clear them" }));
-    fireEvent.click(screen.getByRole("button", { name: /Begin the audit/ }));
-    expect(screen.getByLabelText("Your note on the decision")).toHaveValue("");
-    expect(screen.getAllByRole("radio").every(radio => !(radio as HTMLInputElement).checked)).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: /Begin/ }));
+    expect(within(screen.getByRole("group")).getAllByRole("button").every(button => button.getAttribute("aria-pressed") === "false")).toBe(true);
     fireEvent(window, new Event("pagehide"));
-    expect(screen.getByRole("button", { name: /Begin the audit/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Begin/ })).toBeInTheDocument();
     cleanup();
   });
 });

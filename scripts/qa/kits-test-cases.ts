@@ -63,7 +63,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert(hosting.redirects.some((rule: { source: string; destination: string }) => rule.source === "/kits/:path*" && rule.destination === "/brain-modules/:path*"));
     assert(hosting.redirects.some((rule: { source: string; destination: string; permanent?: boolean }) => rule.source === "/parts/:path*" && rule.destination === "/brain-modules/:path*" && rule.permanent), "old /parts links, including receipts already sent, keep working");
     const page = await read("src/pages/Kits.tsx");
-    assert(page.includes('noindex />')); assert(page.includes('to="/who-decided"'));
+    assert(page.includes('noindex />')); assert(page.includes('to="/measure-your-ai-judgement"'));
     assert(page.includes('Start your AI brain <em>one module at a time.</em>'));
     assert(page.includes('title: "What only you can judge", content: <p>{kit.whoDecided}</p>'));
     assert(page.includes('title: "What it checks", content: <p>{kit.checks}</p>'));
@@ -75,7 +75,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert(page.includes("Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click."));
     assert(page.includes("Pick the job you want done before your next decision."));
     assert(!page.includes("kit-group")); assert(!page.includes("kit.group"));
-    assert(page.includes('kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>'));
+    assert(page.includes('kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/measure-your-ai-judgement">Measure your AI judgement</Link> is the same six questions for one decision.</p>'));
     assert(!/\u2014|AI transformation|AI literacy|innovation|capability building|leverage AI|unlock|game-changer|the future of work/i.test(page));
   }],
   ["each part retains the report checks and human judgement verbatim", () => {

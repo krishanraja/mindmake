@@ -124,7 +124,7 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const url = internal(event);
       if (!url || samePage(url)) return;
-      if (/^\/who-decided\/?$/.test(url.pathname) || /^\/who-decided\/?$/.test(window.location.pathname)) {
+      if (/^\/measure-your-ai-judgement\/?$/.test(url.pathname) || /^\/measure-your-ai-judgement\/?$/.test(window.location.pathname)) {
         event.preventDefault();
         event.stopPropagation();
         window.location.assign(url.href);

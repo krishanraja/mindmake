@@ -1,0 +1,11 @@
+/* Your 2-minute AI upgrade toolkit: a title and two cards, filling the first screen. */
+.mm-toolkit { display: flex; flex-direction: column; justify-content: center; gap: clamp(24px, 4vh, 44px); min-height: calc(100dvh - var(--mm-header-height, 72px)); padding-block: calc(var(--mm-header-height, 72px) + 24px) 48px; box-sizing: border-box; }
+.mm-toolkit h1 { margin: 0; max-width: 16ch; font: 400 clamp(40px, 6.4vw, 84px)/1 "Newsreader Variable", "Newsreader Fallback", Georgia, serif; letter-spacing: -.035em; text-wrap: balance; }
+.mm-toolkit-cards .lx-card { min-height: clamp(300px, 46vh, 440px); padding: clamp(24px, 3vw, 40px); }
+.mm-toolkit-cards .lx-mark { width: clamp(190px, 22vw, 300px); height: clamp(190px, 22vw, 300px); }
+.mm-toolkit-cards .lx-title { font-size: clamp(32px, 3.6vw, 48px); }
+@media (max-width: 720px) {
+  .mm-toolkit { justify-content: flex-start; padding-top: calc(var(--mm-header-height, 64px) + 20px); }
+  .mm-toolkit h1 { font-size: 40px; }
+  .mm-toolkit-cards .lx-card { min-height: 0; }
+}

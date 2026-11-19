@@ -1,0 +1,73 @@
+/* The two lead cards and the "before you go" sheet (Krish, 2026-11-19). The sheet renders in a
+   portal outside every page, so it carries its own colours. A dialog on a desktop, a sheet from
+   the bottom on a phone, as the modal reference in the UI library does. */
+.lx-cards, .lx-sheet { --lx-ink: #0a100d; --lx-ink2: #111a16; --lx-paper: #f4efe4; --lx-mint: #7fe3b4; --lx-amber: #e0a44a; --lx-line: #2b3832; --lx-ease: cubic-bezier(.16, 1, .3, 1); }
+
+.lx-cards { display: flex; gap: 14px; width: 100%; }
+.lx-card { position: relative; flex: 1 1 0; min-width: 0; min-height: 300px; display: flex; flex-direction: column; gap: 10px; padding: 28px; border-radius: 24px; overflow: hidden; text-decoration: none; isolation: isolate; transition: flex-grow .7s var(--lx-ease), transform .5s var(--lx-ease), box-shadow .5s var(--lx-ease); font-family: "Archivo Variable", "Archivo Fallback", sans-serif; }
+.lx-audit { background: radial-gradient(120% 90% at 100% 0%, #173527 0%, var(--lx-ink) 62%); color: #f2f1ea; box-shadow: inset 0 0 0 1px var(--lx-line); }
+.lx-modules { background: radial-gradient(120% 90% at 100% 0%, #fff8e8 0%, var(--lx-paper) 60%); color: var(--lx-ink); box-shadow: inset 0 0 0 1px #e3ddcf; }
+@media (hover: hover) and (min-width: 721px) {
+  .lx-cards:hover .lx-card { flex-grow: .85; }
+  .lx-cards .lx-card:hover { flex-grow: 1.25; transform: translateY(-3px); }
+}
+.lx-card:focus-visible { outline: 3px solid var(--lx-mint); outline-offset: 4px; }
+.lx-modules:focus-visible { outline-color: #867033; }
+
+.lx-mark { position: absolute; z-index: -1; right: -18px; top: -18px; width: 190px; height: 190px; opacity: .9; transition: transform .9s var(--lx-ease); }
+.lx-card:hover .lx-mark { transform: rotate(-8deg) scale(1.06); }
+.lx-ring { fill: none; stroke-width: .8; }
+.lx-audit .lx-ring { stroke: #2f4a3d; }
+.lx-audit .lx-shape { fill: rgba(127, 227, 180, .16); stroke: var(--lx-mint); stroke-width: 1.4; }
+.lx-modules .lx-ring { fill: #fffdf7; stroke: #d9cfb8; }
+.lx-modules .lx-shape { fill: rgba(224, 164, 74, .22); stroke: #b98431; stroke-width: 1.2; }
+
+.lx-tag { font: 500 12px/1.4 "IBM Plex Mono", "Plex Mono Fallback", monospace; letter-spacing: .06em; text-transform: uppercase; margin-top: auto; }
+.lx-audit .lx-tag { color: var(--lx-mint); }
+.lx-modules .lx-tag { color: #6b4d17; }
+.lx-title { font: 400 clamp(28px, 3.2vw, 38px)/1.05 "Newsreader Variable", "Newsreader Fallback", Georgia, serif; letter-spacing: -.025em; text-wrap: balance; }
+.lx-line { font-size: 16px; line-height: 1.5; max-width: 34ch; text-wrap: pretty; }
+.lx-audit .lx-line { color: #c4c8c2; }
+.lx-modules .lx-line { color: #3d4540; }
+/* Page styles colour headings and strong text for an ink ground; each card sets its own. */
+.lx-audit :is(.lx-title, .lx-cta) { color: #f2f1ea; }
+.lx-modules :is(.lx-title, .lx-cta) { color: var(--lx-ink); }
+.lx-cta { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 6px; font-weight: 600; font-size: 16px; }
+.lx-cta svg { width: 18px; height: 18px; transition: transform .4s var(--lx-ease); }
+.lx-card:hover .lx-cta svg { transform: translateX(4px); }
+
+/* The sheet. */
+.lx-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(10, 16, 13, .55); backdrop-filter: blur(3px); animation: lx-fade .3s ease both; }
+.lx-sheet { position: fixed; z-index: 91; left: 50%; top: 50%; width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; padding: 32px; border-radius: 28px; background: var(--lx-ink2); color: #f2f1ea; box-shadow: 0 30px 80px rgba(0, 0, 0, .45), inset 0 0 0 1px var(--lx-line); transform: translate(-50%, -50%); animation: lx-pop .45s var(--lx-ease) both; font-family: "Archivo Variable", "Archivo Fallback", sans-serif; }
+.lx-handle { display: none; }
+.lx-heading { color: #f2f1ea; margin: 0 56px 20px 0; font: 400 clamp(28px, 4vw, 36px)/1.1 "Newsreader Variable", "Newsreader Fallback", Georgia, serif; letter-spacing: -.02em; }
+.lx-close { position: absolute; top: 22px; right: 22px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--lx-line); background: transparent; color: inherit; cursor: pointer; }
+.lx-close svg { width: 18px; height: 18px; }
+.lx-sheet .lx-card { min-height: 240px; padding: 24px; }
+.lx-sheet .lx-count-1 .lx-card { min-height: 200px; }
+.lx-dismiss { display: block; margin: 18px auto 0; min-height: 44px; padding: 0 12px; border: 0; background: none; color: #c4c8c2; font: inherit; font-size: 15px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.lx-sheet :is(button, a):focus-visible { outline: 3px solid var(--lx-mint); outline-offset: 3px; }
+
+@media (max-width: 720px) {
+  .lx-cards { flex-direction: column; gap: 10px; }
+  .lx-card { flex: none; min-height: 0; padding: 22px; gap: 6px; }
+  .lx-mark { width: 140px; height: 140px; right: -24px; top: -24px; opacity: .5; }
+  .lx-tag { margin-top: 28px; }
+  .lx-title { font-size: 28px; }
+  .lx-line { font-size: 15px; }
+  .lx-sheet { left: 0; right: 0; top: auto; bottom: 0; width: 100%; max-height: 92dvh; padding: 10px 16px calc(16px + env(safe-area-inset-bottom, 0px)); border-radius: 28px 28px 0 0; transform: none; animation: lx-rise .5s var(--lx-ease) both; }
+  .lx-handle { display: block; width: 40px; height: 5px; margin: 0 auto 16px; border-radius: 3px; background: #3a463f; }
+  .lx-heading { font-size: 26px; margin-bottom: 14px; }
+  .lx-close { top: 18px; right: 12px; }
+  .lx-sheet .lx-card { min-height: 0; padding: 20px; }
+  .lx-sheet .lx-tag { margin-top: 16px; }
+  .lx-dismiss { margin-top: 8px; }
+}
+@keyframes lx-fade { from { opacity: 0; } }
+@keyframes lx-pop { from { opacity: 0; transform: translate(-50%, -46%) scale(.98); } }
+@keyframes lx-rise { from { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) {
+  .lx-overlay, .lx-sheet { animation: none; }
+  .lx-card, .lx-mark, .lx-cta svg { transition: none; }
+}
+.lx-sheet:focus { outline: none; }

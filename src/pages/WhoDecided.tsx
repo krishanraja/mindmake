@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { FACTS, FACT_FIGURES, FACT_FIGURE_LABELS, LEVELS, OWNERS, STEPS, SUBTITLE, THESIS, ownerOf, readDecision, type Level } from "@/features/who-decided/audit";
+import { LeadExit } from "@/components/ui/lead-exit";
 import "@/styles/mindmake.css";
 import "@/styles/who-decided.css";
 
 const emptyAnswers = () => STEPS.map(() => null as Level | null);
-const emptyNotes = () => STEPS.map(() => "");
 const TABS = ["Profile", "Scorecards", "Next step", "Research"] as const;
 type Tab = typeof TABS[number];
 
@@ -46,7 +46,6 @@ function Profile({ levels, first }: { levels: Level[]; first: number }) {
 export default function WhoDecided() {
   const [screen, setScreen] = useState(-1);
   const [answers, setAnswers] = useState(emptyAnswers);
-  const [notes, setNotes] = useState(emptyNotes);
   const [clearing, setClearing] = useState(false);
   const [ready, setReady] = useState(false);
   const [tab, setTab] = useState<Tab>("Profile");
@@ -59,7 +58,6 @@ export default function WhoDecided() {
 
   const clear = () => {
     setAnswers(emptyAnswers());
-    setNotes(emptyNotes());
     setScreen(-1);
     setClearing(false);
     setTab("Profile");
@@ -83,10 +81,10 @@ export default function WhoDecided() {
     heading.current?.focus({ preventScroll: true });
   }, [screen]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const clearControl = screen >= 0 && (
+  const clearControl = read && (
     <div className="wd-clear">
       {clearing ? <>
-        <p role="status">Clear all your choices and notes?</p>
+        <p role="status">Clear all your choices?</p>
         <button type="button" className="wd-back" onClick={clear}>Yes, clear them</button>
         <button type="button" className="wd-back" onClick={() => setClearing(false)}>Keep working</button>
       </> : <button type="button" className="wd-back" onClick={() => setClearing(true)}>Clear my work</button>}
@@ -97,77 +95,37 @@ export default function WhoDecided() {
 
   return (
     <MindmakeShell onStart={() => window.location.assign("/?start=1")} showMobileActionBar={false} startLabel="Start your brief" siteClassName="wd-site">
-      <SEO title="Who decided?" description={SUBTITLE} canonical="/who-decided" noindex />
+      <SEO title="Measure your AI judgement" description={SUBTITLE} canonical="/measure-your-ai-judgement" noindex />
       <article className="wd-audit mm-container" data-clarity-mask="true" data-screen={screen === -1 ? "intro" : step ? "step" : "read"}>
         {screen === -1 ? (
-          <section className="wd-intro">
-            <div className="wd-intro-lead">
-              <p className="wd-kicker">Judgement audit · 20 minutes · private</p>
-              <h1 ref={heading} tabIndex={-1}>Who decided?</h1>
-              <p className="wd-subtitle">{SUBTITLE}</p>
-              <p className="wd-intro-body">A free judgement audit for senior leaders. Bring one decision from the last month where AI played a part.</p>
-              <button type="button" className="wd-next" disabled={!ready} onClick={() => setScreen(0)}>Begin the audit <span aria-hidden="true">→</span></button>
-              <p className="wd-privacy">Nothing you type or pick leaves your browser. No account, email, storage or analytics on your answers. Refreshing or leaving clears your work.</p>
-            </div>
-            <aside className="wd-intro-panel" aria-label="What the audit covers">
-              <p className="wd-panel-label">Six readings</p>
-              <ol className="wd-rail">
-                {STEPS.map((item, index) => <li key={item.id}><span className="wd-rail-dot">{index + 1}</span><span><strong>{item.title}</strong><small>{item.question}</small></span></li>)}
-              </ol>
-              <p className="wd-thesis">{THESIS}</p>
-            </aside>
+          <section className="wd-intro wd-min">
+            <h1 ref={heading} tabIndex={-1}>Measure your AI judgement</h1>
+            <p className="wd-subtitle">{SUBTITLE}</p>
+            <button type="button" className="wd-next" disabled={!ready} onClick={() => setScreen(0)}>Begin <span aria-hidden="true">→</span></button>
+            <p className="wd-privacy">Private. Nothing you pick leaves this page.</p>
             <noscript><p>Turn on JavaScript to use this private audit. Your answers stay in this page.</p></noscript>
           </section>
         ) : step ? (
-          <section className="wd-step" key={step.id}>
-            <ol className="wd-rail wd-step-rail" aria-hidden="true">
-              {STEPS.map((item, index) => <li key={item.id} className={index < screen ? "is-done" : index === screen ? "is-active" : undefined}>
-                <span className="wd-rail-dot">{index < screen ? "✓" : index + 1}</span><span><strong>{item.title}</strong></span>
-              </li>)}
-            </ol>
-            <div className="wd-step-main">
-              <div className="wd-progress">
-                <span>Who decided?</span><span>Step {screen + 1} of 6</span>
-                <span className="wd-progress-bar" aria-hidden="true">{STEPS.map((item, index) => <i key={item.id} className={index <= screen ? "is-on" : undefined} />)}</span>
-              </div>
-              <h1 ref={heading} tabIndex={-1}>{step.title}</h1>
-              <fieldset aria-describedby="wd-prompt">
-                <legend>{step.question}</legend>
-                <p id="wd-prompt" className="wd-prompt">{step.prompt}</p>
-                <div className="wd-options">
-                  {step.options.map(option => (
-                    <label key={option.level} className="wd-option">
-                      <input type="radio" name={step.id} value={option.level} checked={answers[screen] === option.level}
-                        onChange={() => setAnswers(previous => previous.map((answer, index) => index === screen ? option.level : answer))} />
-                      <span>{option.text}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <div className="wd-step-foot">
-                <details className="wd-note">
-                  <summary>Private note (optional)</summary>
-                  <div className="wd-note-panel">
-                    <label htmlFor={`note-${step.id}`}>Your note on {step.title.toLowerCase()}</label>
-                    <textarea id={`note-${step.id}`} autoComplete="off" spellCheck={false} value={notes[screen]}
-                      onChange={event => setNotes(previous => previous.map((note, index) => index === screen ? event.target.value : note))} />
-                  </div>
-                </details>
-                {clearControl}
-                <div className="wd-controls">
-                  <button type="button" className="wd-back" onClick={() => setScreen(screen - 1)}>Back</button>
-                  <button type="button" className="wd-next" disabled={!answers[screen]} onClick={() => setScreen(screen + 1)}>{screen === 5 ? "Read my decision" : "Continue"} <span aria-hidden="true">→</span></button>
-                </div>
-              </div>
-              <p className="wd-private-line">Your choices and notes stay in this page.</p>
+          /* Nothing on screen but the question (Krish, 2026-11-19). A tap on an answer moves on. */
+          <section className="wd-q" key={step.id} aria-labelledby={`q-${step.id}`}>
+            <span className="wd-q-bar" aria-hidden="true"><i style={{ width: `${((screen + 1) / STEPS.length) * 100}%` }} /></span>
+            <h1 id={`q-${step.id}`} ref={heading} tabIndex={-1}><span className="sr-only">Question {screen + 1} of {STEPS.length}. </span>{step.question}</h1>
+            <div className="wd-q-options" role="group" aria-labelledby={`q-${step.id}`}>
+              {step.options.map(option => (
+                <button key={option.level} type="button" className="wd-q-option" aria-pressed={answers[screen] === option.level}
+                  onClick={() => { setAnswers(previous => previous.map((answer, index) => index === screen ? option.level : answer)); setScreen(screen + 1); }}>
+                  {option.text}
+                </button>
+              ))}
             </div>
+            <button type="button" className="wd-q-back" aria-label="Previous question" onClick={() => setScreen(screen - 1)}>←</button>
           </section>
         ) : read ? (
           <section className="wd-read" data-tab={tab}>
             <header className="wd-read-head">
               <div>
                 <h1 ref={heading} tabIndex={-1}>Your private read</h1>
-                <p>This reflects what you picked about this decision. We have not checked the work behind it.</p>
+                <p>{THESIS}</p>
               </div>
               <div className="wd-read-actions">
                 <button type="button" className="wd-back" onClick={() => setScreen(0)}>Revisit my answers</button>
@@ -205,7 +163,6 @@ export default function WhoDecided() {
                         <span className="wd-card-level">{line.level}</span>
                       </button>
                       <p className="wd-card-meaning">{line.meaning}</p>
-                      {notes[index] && <details className="wd-read-note"><summary>Your private note</summary><p>{notes[index]}</p></details>}
                     </div>
                   ))}
                 </div>
@@ -233,6 +190,7 @@ export default function WhoDecided() {
           </section>
         ) : null}
       </article>
+      <LeadExit offers={["modules"]} />
     </MindmakeShell>
   );
 }

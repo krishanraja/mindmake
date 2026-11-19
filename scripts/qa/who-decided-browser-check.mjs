@@ -20,7 +20,7 @@ try {
     page.on("pageerror", error => errors.push(error.message));
     await context.route("**/*", route => new URL(route.request().url()).origin === new URL(base).origin ? route.continue() : route.abort());
     await page.addInitScript(() => localStorage.setItem("mindmake_consent", "analytics"));
-    await page.goto(`${base}/who-decided/`);
+    await page.goto(`${base}/measure-your-ai-judgement/`);
     await page.getByRole("button", { name: /Begin the audit/ }).waitFor();
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.getAttribute('meta[name="robots"]', "content"), "noindex, nofollow");

@@ -113,7 +113,7 @@ export function heroStartMarkup() {
 
 /** The subscribe link beside the menu in the homepage masthead (Krish, 2026-10-24). */
 export function mastheadSubscribeMarkup() {
-  return `<a class="hs-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="masthead">Subscribe</a>`;
+  return `<a class="hs-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="masthead">Our media channel</a>`;
 }
 
 /**

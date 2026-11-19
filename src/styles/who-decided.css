@@ -295,3 +295,32 @@
   .wd-audit .wd-card-meaning { font-size: .7rem; line-height: 1.28; }
   .wd-cards { gap: 4px; }
 }
+
+/* Measure your AI judgement, minimal (Krish, 2026-11-19): "the user should have literally nothing to
+   look at other than the question to answer." The intro is a title, a line and Begin; each step is
+   the question and its four answers, centred, with the site's header put away. */
+.wd-site:has(.wd-audit[data-screen="step"]) .mm-header { display: none; }
+.wd-audit[data-screen="step"] { padding-top: var(--wd-gap); }
+.wd-min { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 20px; flex: 1; max-width: 760px; margin: 0 auto; width: 100%; animation: wd-in .45s ease both; }
+.wd-min h1 { margin: 0; font-size: clamp(2.6rem, min(7vw, 9vh), 5.4rem); line-height: 1; text-wrap: balance; }
+.wd-min .wd-subtitle { margin: 0; max-width: 36ch; font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.5; color: var(--wd-muted); }
+.wd-min .wd-privacy { margin: 0; font-size: .9rem; color: var(--wd-muted); }
+.wd-q { position: relative; display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 4vh, 40px); flex: 1; width: 100%; max-width: 760px; margin: 0 auto; animation: wd-in .4s ease both; }
+.wd-q-bar { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: rgba(127, 227, 180, .12); }
+.wd-q-bar i { display: block; height: 100%; background: var(--wd-mint); transition: width .5s cubic-bezier(.16, 1, .3, 1); }
+.wd-q h1 { margin: 0; font-size: clamp(1.8rem, min(4.6vw, 6vh), 3.2rem); line-height: 1.12; text-wrap: balance; outline: none; }
+.wd-q-options { display: grid; gap: 10px; }
+.wd-q-option { width: 100%; min-height: 60px; padding: 16px 20px; text-align: left; font: 500 clamp(1rem, 1.6vw, 1.1rem)/1.45 "Archivo Variable", "Archivo Fallback", sans-serif; color: var(--wd-paper); background: var(--wd-raised); border: 1px solid var(--wd-line); border-radius: 16px; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.wd-q-option:hover { border-color: var(--wd-line-strong); background: #15211b; }
+.wd-q-option:active { transform: scale(.99); }
+.wd-q-option[aria-pressed="true"] { border-color: var(--wd-mint); box-shadow: inset 0 0 0 1px var(--wd-mint); }
+.wd-q-option:focus-visible, .wd-q-back:focus-visible { outline: 3px solid var(--wd-mint); outline-offset: 3px; }
+.wd-q-back { position: fixed; left: max(12px, env(safe-area-inset-left, 0px)); top: 14px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--wd-muted); font-size: 22px; cursor: pointer; }
+.wd-q-back:hover { color: var(--wd-paper); }
+@media (max-width: 720px) {
+  .wd-q { justify-content: flex-start; padding-top: 56px; }
+  .wd-q-option { min-height: 56px; padding: 14px 16px; }
+  .wd-min { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .wd-q, .wd-min { animation: none; } .wd-q-bar i { transition: none; } }
+.wd-q .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }

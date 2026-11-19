@@ -71,7 +71,7 @@ export function ExitOverlay({ buyHref, buyLabel }: { buyHref: string; buyLabel: 
   const [answer, setAnswer] = useState<number | null>(null);
   return <Dialog.Root open={open} onOpenChange={setOpen}>
     <Dialog.Portal><Dialog.Overlay className="kit-exit-overlay" /><Dialog.Content className="kit-exit">
-      <p className="kit-label">PARTS OF YOUR AI BRAIN</p>
+      <p className="kit-label">BRAIN MODULES</p>
       <Dialog.Title>What’s stopping you?</Dialog.Title>
       <Dialog.Description>Tap one. We will answer it right here.</Dialog.Description>
       <Dialog.Close className="kit-exit-close" aria-label="Close"><X aria-hidden="true" /></Dialog.Close>

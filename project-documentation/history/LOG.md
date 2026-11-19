@@ -5,6 +5,44 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-18: rolled from NOW.md
+
+- rolled from NOW.md: - 2026-11-11, Krish's phone review: a tap on the way in before the page has
+  started is kept ("Start building your AI business button no longer works":
+  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
+  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
+  would you start?" on its own raised surface, ending in "See how we compare
+  →"; homepage sections are sheets laid over one another on alternating
+  grounds, nothing pinned (the opening's old divider, which drew a line across
+  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
+  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
+  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
+- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
+  chief of staff knows how you think." took its place. The homepage close lost
+  its button: a floating Brain orb asks "Where do you want to start?" (with
+  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
+  only about exploring what leaders built. No section is taller than a desktop
+  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
+- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
+  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
+  found too much page). A bubble's caption turns through the routes a visitor
+  is weighing; tapping opens the comparison set to that route, full screen on
+  a phone, closing back to the same pixel. Aimed at the North Star (cash
+  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
+  `compare_board_open` against starts.
+- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
+  floating way in, sections stacked over one another) and broke the reading by
+  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
+  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
+  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
+  the story deck became a swipe deck on every screen, including the homepage's
+  results and `/case-studies` (Krish: "Same style and movement on desktop");
+  the Brain became one connected Brain of twenty ideas in seven clusters,
+  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
+  "Build your AI business". Krish: "Why don't you just fix all the small
+  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
+  these defects returning.
+
 ## 2026-11-18: r21 contract and scanned accounts correction
 
 - Ruling (Krish, 2026-11-18): remove undeclared significance from packs, enforce the documented keys, recover own annual reports after image-only accounts, and correct comparative periods, measure names and pence. Period provenance also moved to the receipt because it was undeclared. 92 offline research bodies and 22 parts tests pass. Actual part-reader compatibility and live Monzo report decoding remain external checks.

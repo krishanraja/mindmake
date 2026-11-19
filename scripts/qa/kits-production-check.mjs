@@ -6,8 +6,8 @@ const read = file => readFile(new URL(file, root), "utf8");
 const html = await read("dist/parts/index.html");
 assert(html.includes("parts-sample") && html.includes("kit-versus"), "Build the current parts interaction revision before production QA; existing dist is stale");
 const { renderWithMetadata } = await import("../../dist-ssr/entry-server.js");
-assert.equal(kits.length, 7);
-assert.equal((html.match(/class="kit-card"/g) ?? []).length, 7);
+assert.equal(kits.length, 8);
+assert.equal((html.match(/class="kit-card"/g) ?? []).length, 8);
 assert(!html.includes('class="kit-group"'));
 assert(html.includes("Pick the job you want done before your next decision."));
 for (const route of ["/parts", "/parts/download", ...kits.map(part => `/parts/${part.slug}`)]) {
@@ -19,8 +19,9 @@ for (const route of ["/parts", "/parts/download", ...kits.map(part => `/parts/${
   assert(!/Invented|Sample output|Mindmake kits|Get it,/.test(body));
   if (route !== "/parts/download" && route !== "/parts") {
     const part = kits.find(part => route.endsWith(`/${part.slug}`));
-    assert(body.includes(part.name)); assert(body.includes(part.problem));
-    assert(body.includes(part.checks)); assert(body.includes(part.whoDecided));
+    const shown = text => body.includes(text.replace(/&/g, "&amp;").replace(/'/g, "&#x27;"));
+    assert(shown(part.name)); assert(shown(part.problem));
+    assert(shown(part.checks)); assert(shown(part.whoDecided));
     for (const heading of ["What it strengthens", "What you get", "Your first five minutes", "What it checks", "What only you can judge", "What you need"]) assert(body.includes(heading));
     assert(body.includes("Add this brain module, $59"));
     if (part.slug === "audit-a-decision") {

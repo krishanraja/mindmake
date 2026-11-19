@@ -38,6 +38,21 @@ export async function buildAiStack(input: { company: string; domain: string; rel
   const related = (input.related ?? []).map((d) => String(d).trim().toLowerCase()).filter((d) => d && d !== domain).slice(0, 2);
   if (!company || company.length > 200) throw new Error("Give the company's name.");
   for (const d of [domain, ...related]) if (!DOMAIN.test(d)) throw new Error(`Not a valid domain: ${d}`);
+  // Every request starts at once and is read in a fixed order, so the file is the same
+  // however the answers arrive, and the whole build takes about as long as its slowest page.
+  const asked = new Map<string, Promise<Got>>();
+  const original = deps.get;
+  const fetchOnce = (url: string) => {
+    if (!asked.has(url)) { const p = Promise.resolve().then(() => original(url)); p.catch(() => {}); asked.set(url, p); }
+    return asked.get(url)!;
+  };
+  deps = { ...deps, get: fetchOnce };
+  const dnsUrl = (name: string, type: string) => `https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${type}`;
+  for (const d of [domain, ...related]) { fetchOnce(dnsUrl(d, "TXT")); fetchOnce(dnsUrl(d, "MX")); }
+  fetchOnce(`https://crt.sh/?q=%25.${encodeURIComponent(domain)}&output=json`);
+  const robotsAsked = fetchOnce(`https://${domain}/robots.txt`);
+  if (deps.builtwithKey) fetchOnce(`https://api.builtwith.com/v21/api.json?KEY=${encodeURIComponent(deps.builtwithKey)}&LOOKUP=${encodeURIComponent(domain)}`);
+  robotsAsked.then((r) => { const text = r.status === 200 ? r.text : ""; for (const [path] of PAGES) if (!text || robotsAllows(text, path)) fetchOnce(`https://${domain}${path}`); }, () => { for (const [path] of PAGES) fetchOnce(`https://${domain}${path}`); });
   const today = day(deps.now());
   const rows: Row[] = [], signals: { text: string; source_url: string }[] = [], injection: string[] = [], blocked: string[] = [];
   const add = (t: Tool, method: Method, confidence: Level, evidence: string, source_url: string, seen_at: string | null = today) =>

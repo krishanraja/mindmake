@@ -54,8 +54,8 @@ const queryClient = new QueryClient();
    swap (src/components/RouteTransitions.tsx). A path not listed here renders
    something already loaded, or a redirect. */
 const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = [
-  [/^\/parts\/download\/?$/, KitDownload],
-  [/^\/parts(?:\/[^/]+)?\/?$/, Kits],
+  [/^\/brain-modules\/download\/?$/, KitDownload],
+  [/^\/brain-modules(?:\/[^/]+)?\/?$/, Kits],
   [/^\/ai-brain\/?$/, AiBrain],
   [/^\/ai-gtm\/?$/, AiGtm],
   [/^\/case-studies\/?$/, CaseStudies],
@@ -259,10 +259,10 @@ function AppRoutes() {
             <Route path="/ai-gtm" element={<AiGtm />} />
             <Route path="/who-decided" element={<PrivateAuditRoute />} />
             <Route path="/case-studies" element={<CaseStudies />} />
-            <Route path="/parts" element={<Kits />} />
-            <Route path="/parts/download" element={<KitDownload />} />
+            <Route path="/brain-modules" element={<Kits />} />
+            <Route path="/brain-modules/download" element={<KitDownload />} />
             <Route path="/kits/download" element={<KitDownload />} />
-            <Route path="/parts/:slug" element={<Kits />} />
+            <Route path="/brain-modules/:slug" element={<Kits />} />
             <Route path="/operator" element={<Navigate to="/ai-brain" replace />} />
 
             <Route path="/start" element={<ToStart />} />

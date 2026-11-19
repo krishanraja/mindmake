@@ -32,7 +32,7 @@ export default function KitDownload() {
     finally { setBusy(false); }
   }
   return <MindmakeShell onStart={() => window.location.assign("/?start=1")} siteClassName="kits-site" mainClassName="kits-main" showMobileActionBar={false}>
-    <SEO title="Your AI brain module" description="Open your brain module from your Mindmake receipt." canonical="/parts/download" noindex />
-    <section className="kit-section kit-missing"><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>Your AI brain module</h1><button className="kit-button" onClick={download} disabled={busy}>{busy ? <>Preparing your download…<SquareGrid /></> : "Download your brain module"}</button><p role="status">{status}</p><OnboardingChecklist /><p><a className="kit-text-link" href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Link className="kit-back" to="/parts">See the parts</Link></section>
+    <SEO title="Your AI brain module" description="Open your brain module from your Mindmake receipt." canonical="/brain-modules/download" noindex />
+    <section className="kit-section kit-missing"><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>Your AI brain module</h1><button className="kit-button" onClick={download} disabled={busy}>{busy ? <>Preparing your download…<SquareGrid /></> : "Download your brain module"}</button><p role="status">{status}</p><OnboardingChecklist /><p><a className="kit-text-link" href={`mailto:${CONTACT_EMAIL}`}>Email Mindmake</a></p><Link className="kit-back" to="/brain-modules">See the parts</Link></section>
   </MindmakeShell>;
 }

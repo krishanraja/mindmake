@@ -75,8 +75,8 @@ const entryStylesheetTag = template.match(/<link rel="stylesheet"[^>]*>/)[0];
    its styling silently, so `moduleFor` throws instead of returning nothing. */
 const staticRouteModules = {
   ...Object.fromEntries(readyKitPages.map(page => [page.path, "src/pages/Kits.tsx"])),
-  "/parts": "src/pages/Kits.tsx",
-  "/parts/download": "src/pages/KitDownload.tsx",
+  "/brain-modules": "src/pages/Kits.tsx",
+  "/brain-modules/download": "src/pages/KitDownload.tsx",
   "/": null,
   "/ai-brain": "src/pages/AiBrainLocked.tsx",
   "/ai-gtm": "src/pages/AiGtm.tsx",
@@ -101,7 +101,7 @@ if (unmappedStaticRoutes.length) {
 }
 const moduleFor = (path) => {
   if (path in staticRouteModules) return staticRouteModules[path];
-  if (path.startsWith("/parts/")) return "src/pages/Kits.tsx";
+  if (path.startsWith("/brain-modules/")) return "src/pages/Kits.tsx";
   if (path.startsWith("/blog/")) return "src/pages/BlogPost.tsx";
   if (path.startsWith("/answers/")) return "src/pages/Answer.tsx";
   throw new Error(`scripts/prerender.mjs has no route module for ${path}.`);
@@ -179,8 +179,8 @@ const pages = [...staticPages, ...articlePages, ...answerPages];
    first paint is the page itself. Without this the host served them the
    prerendered homepage, which painted the homepage, hydrated on the wrong
    route and then swapped (reported on /feedback/dtd, 2026-11-02). */
-const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }, { path: "/who-decided" }, { path: "/parts/download" },
-  { path: "/parts" }, ...builtKits.map(kit => ({ path: `/parts/${kit.slug}` })),
+const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }, { path: "/who-decided" }, { path: "/brain-modules/download" },
+  { path: "/brain-modules" }, ...builtKits.map(kit => ({ path: `/brain-modules/${kit.slug}` })),
 ];
 
 /* The built server bundle. `npm run build` builds it immediately before this

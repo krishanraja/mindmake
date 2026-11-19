@@ -55,12 +55,13 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     const read = (file: string) => readFile(`${process.cwd()}/${file}`, "utf8");
     for (const file of ["src/App.tsx", "src/entry-server.tsx"]) {
       const source = await read(file);
-      for (const route of ["/parts", "/parts/:slug", "/parts/download", "/kits/download"]) assert(source.includes(`path="${route}"`), `${file}: ${route}`);
+      for (const route of ["/brain-modules", "/brain-modules/:slug", "/brain-modules/download", "/kits/download"]) assert(source.includes(`path="${route}"`), `${file}: ${route}`);
       assert(!source.includes('path="/kits"')); assert(!source.includes('path="/kits/:slug"'));
     }
     assert(!staticPages.some(page => /^\/(parts|kits)(\/|$)/.test(page.path)));
     const hosting = JSON.parse(await read("vercel.json"));
-    assert(hosting.redirects.some((rule: { source: string; destination: string }) => rule.source === "/kits/:path*" && rule.destination === "/parts/:path*"));
+    assert(hosting.redirects.some((rule: { source: string; destination: string }) => rule.source === "/kits/:path*" && rule.destination === "/brain-modules/:path*"));
+    assert(hosting.redirects.some((rule: { source: string; destination: string; permanent?: boolean }) => rule.source === "/parts/:path*" && rule.destination === "/brain-modules/:path*" && rule.permanent), "old /parts links, including receipts already sent, keep working");
     const page = await read("src/pages/Kits.tsx");
     assert(page.includes('noindex />')); assert(page.includes('to="/who-decided"'));
     assert(page.includes('Start your AI brain <em>one module at a time.</em>'));
@@ -162,8 +163,8 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.equal(calls.length, 2); assert.deepEqual(calls[0].options, calls[1].options);
     assert.equal(calls[0].params.mode, "payment");
     assert.deepEqual(calls[0].params.line_items, [{ price: "price_synthetic", quantity: 1 }]);
-    assert.equal(calls[0].params.success_url, `https://preview.example/parts/${ready.slug}?checkout=success`);
-    assert.equal(calls[0].params.cancel_url, `https://preview.example/parts/${ready.slug}?checkout=cancelled`);
+    assert.equal(calls[0].params.success_url, `https://preview.example/brain-modules/${ready.slug}?checkout=success`);
+    assert.equal(calls[0].params.cancel_url, `https://preview.example/brain-modules/${ready.slug}?checkout=cancelled`);
   }],
   ["absent or unknown keys fail before calling Stripe", async () => {
     for (const key of ["", "pk_live_synthetic", "whsec_synthetic", "sk_synthetic"]) {
@@ -219,7 +220,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.deepEqual(calls[0].params.custom_text, { submit: { message: BUYER_PROMISE } });
     const { run, state } = webhookFixture(); await run();
     const text = state.purchase!.delivery_payload!.text;
-    assert(text.includes(BUYER_PROMISE)); assert(text.includes("https://preview.example/parts")); assert(text.includes("build your whole AI brain with Mindmake at https://preview.example"));
+    assert(text.includes(BUYER_PROMISE)); assert(text.includes("https://preview.example/brain-modules")); assert(text.includes("build your whole AI brain with Mindmake at https://preview.example"));
   }],
   ["each delivered purchase tells the operator once, and a failed note never fails the delivery", async () => {
     const { deps, run, state } = webhookFixture(); const notes: { subject: string; text: string }[] = [];
@@ -242,7 +243,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.equal(state.verified[0], "valid-synthetic-signature:unaltered raw body");
     assert.equal(state.records, 1); assert.equal(state.sends, 1); assert.equal(state.purchase?.status, "paid");
     assert.deepEqual(state.signed, [604800]);
-    assert.match(state.purchase!.delivery_payload!.text, /parts\/download#token=/);
+    assert.match(state.purchase!.delivery_payload!.text, /brain-modules\/download#token=/);
     assert.equal(state.purchase!.delivery_payload!.subject, "Your AI brain module: Fact-check my board update");
     assert(!/\bkit\b/i.test(state.purchase!.delivery_payload!.text));
   }],

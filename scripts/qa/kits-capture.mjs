@@ -11,7 +11,7 @@ const evidence = path.join(root, "quality/parts");
 const manifestPath = path.join(root, "quality/website-redesign/kits-material-review-candidate.json");
 await mkdir(evidence, { recursive: true });
 // Fail before capture if the integrated preview build has not been produced.
-const html = await readFile(path.join(root, "dist/parts/fact-check-board-update/index.html"), "utf8");
+const html = await readFile(path.join(root, "dist/brain-modules/fact-check-board-update/index.html"), "utf8");
 assert(html.includes("parts-accordion") && html.includes("parts-price-actions") && html.includes("Fact-check my board update"), "A current build with the actual part route is required");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const walk = async directory => (await Promise.all((await readdir(directory, { withFileTypes: true })).map(async item => {
@@ -31,7 +31,7 @@ try {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce", isMobile: viewport.width === 375, hasTouch: viewport.width === 375 });
     // A capture must never call a real checkout, email, analytics or data service.
     await context.route("**/*", route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
-    for (const [name, route] of [["catalogue", "/parts/"], ["fact-check-board-update", "/parts/fact-check-board-update/"], ["download", "/parts/download/"]]) {
+    for (const [name, route] of [["catalogue", "/brain-modules/"], ["fact-check-board-update", "/brain-modules/fact-check-board-update/"], ["download", "/brain-modules/download/"]]) {
       const page = await context.newPage(); const errors = [];
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(origin + route, { waitUntil: "networkidle" });
@@ -55,7 +55,7 @@ try {
         await page.locator(".kit-hero .kit-button").click();
         assert(await page.locator("#kit-catalogue").isVisible());
         const kitLink = page.locator(".kit-card-link").first();
-        assert.equal(await kitLink.getAttribute("href"), "/parts/fact-check-board-update");
+        assert.equal(await kitLink.getAttribute("href"), "/brain-modules/fact-check-board-update");
         const heights = [];
         for (let i = 0; i < 5; i++) {
           heights.push((await page.locator(".kit-quote-stack").boundingBox()).height);

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { staticPages } from "../lib/pages.mjs";
 import { kits, visibleKits, type Kit } from "../../src/content/kits.ts";
-import { BUYER_PROMISE, checkout, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
+import { BUYER_PROMISE, checkout, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
 import { kitsPreview } from "../lib/kits-build.mjs";
 
 const ready: Kit = { ...kits[0], status: "ready" };
@@ -192,6 +192,30 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     const object = webhookFixture(); object.deps.live = true;
     object.state.event = paidEvent(); object.state.event.livemode = true;
     await assert.rejects(() => object.run(), /Invalid part purchase/); assert.equal(object.state.sends, 0);
+  }],
+  ["checkout accepts promotion codes", async () => {
+    const { deps, calls } = checkoutFixture(); await checkout(checkoutInput, deps);
+    assert.equal(calls[0].params.allow_promotion_codes, true);
+  }],
+  ["a member code makes one module free and it is still delivered", async () => {
+    const { run, state } = webhookFixture();
+    const object = state.event.data.object as Record<string, unknown>;
+    Object.assign(object, { payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 5900, payment_intent: null,
+      total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON, promotion_code: "promo_synthetic" }] });
+    await run(); assert.equal(state.sends, 1); assert.equal(state.purchase!.payment_intent, `member_${sessionId}`);
+  }],
+  ["any other free code, or a part-price total, fails closed", async () => {
+    for (const change of [
+      { discounts: [{ coupon: "EARLYADOPTER_synthetic" }] },
+      { discounts: [] },
+      { discounts: [{ coupon: MEMBER_COUPON }, { coupon: "other" }] },
+      { amount_total: 100, total_details: { amount_discount: 5800 } },
+    ]) {
+      const { run, state } = webhookFixture();
+      Object.assign(state.event.data.object as Record<string, unknown>, { payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 5900,
+        payment_intent: null, total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON }] }, change);
+      await assert.rejects(() => run(), /Invalid part purchase/); assert.equal(state.sends, 0);
+    }
   }],
   ["sample and unknown slugs cannot be bought", async () => {
     const { deps, calls } = checkoutFixture(); deps.catalogue = [{ ...ready, status: "sample" }];

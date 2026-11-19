@@ -31,7 +31,7 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
   const price = await deps.retrievePrice(priceId);
   if (!price.active || price.livemode !== live || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
   const session = await deps.createSession({
-    mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }],
+    mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }], allow_promotion_codes: true,
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     custom_text: { submit: { message: BUYER_PROMISE } },
     ...(kit.asksFor === "company" ? { custom_fields: COMPANY_FIELDS } : {}),
@@ -55,6 +55,21 @@ export function companyFrom(session: Record<string, unknown>): { company: string
   let domain = value("domain").toLowerCase().replace(/^[a-z]+:\/\//, "").split(/[/?#\s]/)[0].replace(/:\d+$/, "").replace(/\.$/, "").replace(/^www\./, "");
   if (domain.includes("@")) domain = domain.split("@").pop() ?? "";
   return company.length >= 2 && DOMAIN.test(domain) ? { company, domain } : null;
+}
+
+/**
+ * The makeyourmindup paid-subscriber perk (Ruling, Krish, 2026-11-19): a promotion code on this coupon makes one
+ * brain module free. A free checkout is fulfilled only when this exact coupon took off the whole price, so any other
+ * 100% code on the account fails closed.
+ */
+export const MEMBER_COUPON = "mymu-member-module";
+export function isMemberRedemption(object: Record<string, unknown>): boolean {
+  const discounts = Array.isArray(object.discounts) ? object.discounts as { coupon?: unknown }[] : [];
+  const coupons = discounts.map(d => typeof d?.coupon === "string" ? d.coupon : (d?.coupon as { id?: string } | undefined)?.id);
+  const totals = object.total_details as { amount_discount?: number } | undefined;
+  return object.amount_total === 0 && object.amount_subtotal === KIT_PRICE_CENTS && totals?.amount_discount === KIT_PRICE_CENTS
+    && ["paid", "no_payment_required"].includes(String(object.payment_status))
+    && coupons.length === 1 && coupons[0] === MEMBER_COUPON;
 }
 
 /** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
@@ -112,12 +127,16 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     const kit = deps.catalogue.find(item => item.slug === metadata?.kit_slug && item.status === "ready");
     // Other products on the same Stripe account are outside this endpoint.
     if (!metadata?.kit_slug) return { received: true };
-    if (!kit || object.mode !== "payment" || object.payment_status !== "paid" || object.currency !== KIT_CURRENCY || object.amount_total !== KIT_PRICE_CENTS || object.livemode !== deps.live) throw new KitError(400, "Invalid part purchase");
+    const member = isMemberRedemption(object);
+    const paid = object.payment_status === "paid" && object.amount_total === KIT_PRICE_CENTS;
+    if (!kit || object.mode !== "payment" || !(paid || member) || object.currency !== KIT_CURRENCY || object.livemode !== deps.live) throw new KitError(400, "Invalid part purchase");
     const email = (object.customer_details as { email?: string } | undefined)?.email;
     const file = deps.files[kit.slug];
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof object.payment_intent !== "string" || typeof object.id !== "string") throw new KitError(400, "Incomplete purchase");
+    // A member redemption costs nothing, so Stripe makes no PaymentIntent; the session id stands in for it.
+    const intent = member && object.payment_intent == null && typeof object.id === "string" ? `member_${object.id}` : object.payment_intent;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof intent !== "string" || typeof object.id !== "string") throw new KitError(400, "Incomplete purchase");
     if (!file || file.includes("..") || file.startsWith("/")) throw new KitError(503, "Part file unavailable");
-    purchase = { session_id: object.id, payment_intent: object.payment_intent, kit_slug: kit.slug, email, file_path: file };
+    purchase = { session_id: object.id, payment_intent: intent, kit_slug: kit.slug, email, file_path: file };
   } else {
     // Only kit charges carry this metadata; it is set on the PaymentIntent.
     const metadata = object.metadata as Record<string, string> | undefined;

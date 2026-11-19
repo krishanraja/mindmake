@@ -78,6 +78,13 @@ export const staticPages = [
     still: "film-04",
   },
   {
+    path: "/2-minute-ai-upgrade-toolkit",
+    title: "Your 2-minute AI upgrade toolkit",
+    description: "Measure your AI judgement for free, or add a brain module that checks your next decision before you make it.",
+    headline: "Your 2-minute AI upgrade toolkit.",
+    still: "film-03",
+  },
+  {
     path: "/faq",
     title: "Questions we get asked",
     description: "Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.",

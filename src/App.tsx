@@ -11,6 +11,7 @@ import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { lazyRoute } from "@/lib/lazyRoute";
 import Index from "./pages/Index";
 import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
+import { SiteExit } from "@/components/ui/lead-exit";
 
 const CaseStudies = preloadable(() => import("./pages/CaseStudies"));
 const NewAgeLeadership = preloadable(() => import("./pages/NewAgeLeadership"));
@@ -19,6 +20,7 @@ const Privacy = preloadable(() => import("./pages/Privacy"));
 const Terms = preloadable(() => import("./pages/Terms"));
 const Contact = preloadable(() => import("./pages/Contact"));
 const Blog = preloadable(() => import("./pages/Blog"));
+const Toolkit = preloadable(() => import("./pages/Toolkit"));
 const BlogPost = preloadable(() => import("./pages/BlogPost"));
 const Questions = preloadable(() => import("./pages/Library"));
 const About = preloadable(() => import("./pages/About"));
@@ -41,9 +43,15 @@ export function PrivateAuditRoute() {
   return isolated ? <WhoDecided /> : <PageLoading />;
 }
 
+/** Every page that does not ask its own question offers both ways in as the reader leaves (2026-11-19). */
+export function RouteExit() {
+  const { pathname } = useLocation();
+  return <SiteExit pathname={pathname} />;
+}
+
 export function RouteConsent() {
   const { pathname } = useLocation();
-  return /^\/who-decided\/?$/.test(pathname) ? null : <CookieConsent />;
+  return /^\/measure-your-ai-judgement\/?$/.test(pathname) ? null : <CookieConsent />;
 }
 
 declare global { interface Window { mmPrivateAuditDocument?: boolean } }
@@ -60,6 +68,7 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/ai-gtm\/?$/, AiGtm],
   [/^\/case-studies\/?$/, CaseStudies],
   [/^\/blog\/?$/, Blog],
+  [/^\/2-minute-ai-upgrade-toolkit\/?$/, Toolkit],
   [/^\/blog\/[^/]+\/?$/, BlogPost],
   [/^\/answers\/[^/]+\/?$/, AnswerPage],
   [/^\/faq\/?$/, Questions],
@@ -99,7 +108,7 @@ export function ScrollToLocation() {
 
   /* Remember where this entry is scrolled to, for Back. */
   useEffect(() => {
-    if (/^\/who-decided\/?$/.test(pathname)) return;
+    if (/^\/measure-your-ai-judgement\/?$/.test(pathname)) return;
     if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
     let frame = 0;
     const record = () => {
@@ -140,7 +149,7 @@ export function ScrollToLocation() {
       /* Back and Forward return to where the reader left the page. The page
          may still be growing (a lazy chunk, images), so the position is
          retried for a short while rather than clamped to a short document. */
-      const saved = navigationType === "POP" && !/^\/who-decided\/?$/.test(pathname) ? readScroll()[key] : undefined;
+      const saved = navigationType === "POP" && !/^\/measure-your-ai-judgement\/?$/.test(pathname) ? readScroll()[key] : undefined;
       let restoreFrame = 0;
       if (saved && saved.path === pathname && saved.y > 0) {
         let tries = 0;
@@ -257,7 +266,7 @@ function AppRoutes() {
             <Route path="/" element={<Index />} />
             <Route path="/ai-brain" element={<AiBrain />} />
             <Route path="/ai-gtm" element={<AiGtm />} />
-            <Route path="/who-decided" element={<PrivateAuditRoute />} />
+            <Route path="/measure-your-ai-judgement" element={<PrivateAuditRoute />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/brain-modules" element={<Kits />} />
             <Route path="/brain-modules/download" element={<KitDownload />} />
@@ -271,6 +280,7 @@ function AppRoutes() {
             <Route path="/builder-economy" element={<ExternalRedirect to={PUBLICATION_URL} />} />
 
             <Route path="/blog" element={<Blog />} />
+            <Route path="/2-minute-ai-upgrade-toolkit" element={<Toolkit />} />
             <Route path="/blog/10-20x-roi-what-real-ai-implementation-looks-like" element={<Navigate to="/blog/measuring-ai-work-that-pays-back" replace />} />
             <Route path="/blog/building-ai-systems-in-30-days-sprint-approach" element={<Navigate to="/blog/a-useful-first-30-days-building-with-ai" replace />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
@@ -326,6 +336,7 @@ function AppRoutes() {
         </Suspense>
       </ErrorBoundary>
       <RouteConsent />
+      <RouteExit />
     </BrowserRouter>
   );
 }

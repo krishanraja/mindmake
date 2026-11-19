@@ -23,7 +23,7 @@ function Suite() {
     <h2 id="kit-suite-title">Want the whole brain, not one module?</h2>
     <p>Each brain module does one job. Mindmake builds your whole AI brain with you, around your standards and the decisions you make.</p>
     <div className="kit-suite-actions"><a className="kit-button" href="/?start=1">Start building your AI brain <ArrowRight size={18} aria-hidden="true" /></a><Link className="kit-back" to="/">See everything Mindmake does <ArrowRight size={16} aria-hidden="true" /></Link></div>
-    <p className="kit-audit">Not ready to buy? Try <Link to="/who-decided">Who decided?</Link>, free.</p>
+    <p className="kit-audit">Not ready to buy? Try <Link to="/measure-your-ai-judgement">Measure your AI judgement</Link>, free.</p>
   </section>;
 }
 
@@ -66,7 +66,7 @@ function Catalogue() {
         <p className="kit-lede kit-explanation">Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed. You see the result in five minutes.</p>
         <a className="kit-button" href="#kit-catalogue">See the parts <ArrowDown size={18} aria-hidden="true" /></a>
         <ul className="kit-checks">{["Runs on your computer. Your files are never sent to us.", "Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click.", refund].map(text => <li key={text}><Check size={16} aria-hidden="true" />{text}</li>)}</ul>
-        <p className="kit-audit">Not sure where to start? Try <Link to="/who-decided">Who decided?</Link>, a free 20-minute audit of one real decision.</p>
+        <p className="kit-audit">Not sure where to start? Try <Link to="/measure-your-ai-judgement">Measure your AI judgement</Link>, six free questions about one real decision.</p>
       </div><PartsSampleOutput />
     </section>
     <div className="kit-section kit-built-wrap"><BuiltBy /></div>
@@ -91,7 +91,7 @@ function Detail({ kit }: { kit: Kit }) {
   const [returned, setReturned] = useState<string | null>(null);
   useEffect(() => setReturned(new URLSearchParams(search).get("checkout")), [search]);
   return <>
-    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/brain-modules"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} />{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed. We will check in once, personally, and never send you marketing." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
+    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/brain-modules"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/measure-your-ai-judgement">Measure your AI judgement</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} />{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed. We will check in once, personally, and never send you marketing." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
     <section className="kit-section kit-detail-content">
       <div><h2>What you get</h2><ul className="kit-checks">{kit.does.map(text => <li key={text}><Check size={18} aria-hidden="true" />{text}</li>)}</ul><Link className="kit-back" to={`/${kit.door}`}>Build your AI brain<ArrowRight size={16} aria-hidden="true" /></Link></div>
       <BouncyAccordion key={kit.slug} defaultValue="judgement" items={[

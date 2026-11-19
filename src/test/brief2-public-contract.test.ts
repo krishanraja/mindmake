@@ -575,7 +575,7 @@ describe("the conversion contract", () => {
       "Build your AI business",
       "Home",
       "What you can do",
-      "Ideas you can use",
+      "Your 2-minute AI upgrade toolkit",
       "Questions we get asked",
       "About us",
       "Media",
@@ -611,7 +611,7 @@ describe("the conversion contract", () => {
 
     const links = read("src/lib/publicLinks.ts");
     expect(links).toContain("https://makeyourmindup.ai");
-    expect(links).toContain('SUBSCRIBE_LABEL = "Subscribe for free"');
+    expect(links).toContain('SUBSCRIBE_LABEL = "Our media channel"');
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
     expect(shell).toContain("SUBSCRIBE_URL");
     /* Media reaches the shell footer through the shared route list, as it

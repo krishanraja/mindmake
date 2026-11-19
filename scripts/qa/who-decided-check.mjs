@@ -49,7 +49,7 @@ for (const file of ["src/features/who-decided/audit.ts", "src/pages/WhoDecided.t
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const bootstraps = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
   .map(match => match[1]).filter(script => /mmPrivateAuditDocument|mmLoadClarity/.test(script));
-for (const route of ["/who-decided", "/who-decided/"]) {
+for (const route of ["/measure-your-ai-judgement", "/measure-your-ai-judgement/"]) {
   const isolated = new JSDOM("<html><head><script></script></head><body></body></html>", { url: `https://mindmake.test${route}`, runScripts: "outside-only" });
   isolated.window.localStorage.setItem("mindmake_consent", "analytics");
   for (const script of bootstraps) isolated.window.eval(script);
@@ -64,7 +64,7 @@ const React = require("react");
 const { render, screen, fireEvent, cleanup, within } = require("@testing-library/react");
 const { MemoryRouter } = require("react-router-dom");
 const WhoDecided = require(path.join(root, "src/pages/WhoDecided.tsx")).default;
-render(React.createElement(MemoryRouter, { initialEntries: ["/who-decided"] }, React.createElement(WhoDecided)));
+render(React.createElement(MemoryRouter, { initialEntries: ["/measure-your-ai-judgement"] }, React.createElement(WhoDecided)));
 fireEvent.click(screen.getByRole("button", { name: /Begin the audit/ }));
 assert.equal(screen.getByRole("button", { name: /Continue/ }).disabled, true);
 const privateNote = "Synthetic private decision for QA";

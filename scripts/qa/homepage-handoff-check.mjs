@@ -70,7 +70,9 @@ const exactLocks = [
   [handoff.decisions?.authority?.selection?.mobileLayout, "network", "authority mobile composition"],
   [handoff.decisions?.message?.selection?.openingHeadline, "Build the business that can think with you.", "opening headline"],
   [handoff.decisions?.message?.selection?.gtmDoorDetail, "Build your AI native pricing, positioning and org.", "AI GTM subheading"],
-  [handoff.decisions?.sharedLanguage?.selection?.blog, "Ideas you can use", "editorial route label"],
+  /* The menu's editorial route is the toolkit; /blog keeps its page for search engines with no menu link (Krish, 2026-11-19). */
+  [handoff.decisions?.sharedLanguage?.selection?.toolkit, "Your 2-minute AI upgrade toolkit", "toolkit route label"],
+  [handoff.decisions?.sharedLanguage?.selection?.blog, undefined, "blog route label (no menu link)"],
   /* Quick AI tips merged into Ideas you can use on 2026-09-25 (Krish); the
      selection names no answer route label any more. */
   [handoff.decisions?.sharedLanguage?.selection?.answers, undefined, "answer route label (merged into Ideas you can use)"],

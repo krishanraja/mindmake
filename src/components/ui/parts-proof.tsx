@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { testimonials, type Testimonial } from "@/data/testimonials";
+import { LeadCard, useExitIntent } from "@/components/ui/lead-exit";
 
 /* Proof for the parts page (Krish, 18 November 2026): who built it, what a better
    decision is worth, what changed for leaders, and an answer before anyone leaves.
@@ -60,33 +61,14 @@ export function Stories() {
 
 const ANSWERS = [
   { q: "Will it work with my AI?", a: "It works inside Claude Desktop on a Mac or Windows computer, with a free or paid Claude account. You add it in one click, and it runs on your own files. Nothing is sent to us." },
-  { q: "Show me what it does first", a: "Every brain module has a sample you can run before you point it at your own files. Or try Who decided?, our free 20-minute audit of one real decision.", link: { href: "/who-decided", label: "Try Who decided?, free" } },
+  { q: "Show me what it does first", a: "Every brain module has a sample you can run before you point it at your own files. Or try Measure your AI judgement, six free questions about one real decision.", link: { href: "/measure-your-ai-judgement", label: "Try Measure your AI judgement, free" } },
   { q: "Is it worth it for a decision like mine?", a: "If the decision is worth $50,000 and checking it makes you right even one time in a hundred more often, that is $500 of expected value, against $59 once. And if it is not working for you, we run a free session with you to put it right." },
 ];
-const SEEN = "mindmake-parts-exit-seen";
-const seen = () => { try { return sessionStorage.getItem(SEEN) === "1"; } catch { return false; } };
-const remember = () => { try { sessionStorage.setItem(SEEN, "1"); } catch { /* private mode: the page still works */ } };
-
-/** Asks once per visit, when the reader moves to leave on desktop or turns back sharply on a phone. */
+/** Asks once per visit, when the reader moves to leave on desktop or turns back sharply on a phone,
+    and offers the free judgement audit to a reader not ready to buy (Krish, 2026-11-19). */
 export function ExitOverlay({ buyHref, buyLabel }: { buyHref: string; buyLabel: string }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useExitIntent();
   const [answer, setAnswer] = useState<number | null>(null);
-  useEffect(() => {
-    if (seen() || new URLSearchParams(window.location.search).has("checkout")) return;
-    let armed = false, depth = 0, lastY = window.scrollY, lastT = performance.now();
-    const arm = window.setTimeout(() => { armed = true; }, 8000);
-    const show = () => { if (!armed || seen()) return; remember(); setOpen(true); };
-    const leave = (event: MouseEvent) => { if (!event.relatedTarget && event.clientY <= 0) show(); };
-    const scroll = () => {
-      const now = performance.now(), y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
-      if (max > 0) depth = Math.max(depth, y / max);
-      if (depth > 0.5 && lastY - y > 600 && now - lastT < 500) show();
-      if (now - lastT > 500) { lastY = y; lastT = now; }
-    };
-    document.addEventListener("mouseout", leave);
-    window.addEventListener("scroll", scroll, { passive: true });
-    return () => { window.clearTimeout(arm); document.removeEventListener("mouseout", leave); window.removeEventListener("scroll", scroll); };
-  }, []);
   return <Dialog.Root open={open} onOpenChange={setOpen}>
     <Dialog.Portal><Dialog.Overlay className="kit-exit-overlay" /><Dialog.Content className="kit-exit">
       <p className="kit-label">PARTS OF YOUR AI BRAIN</p>
@@ -96,6 +78,7 @@ export function ExitOverlay({ buyHref, buyLabel }: { buyHref: string; buyLabel: 
       <div className="kit-exit-options">{ANSWERS.map((item, i) => <div key={item.q}><button type="button" aria-expanded={answer === i} onClick={() => setAnswer(answer === i ? null : i)}>{item.q}</button>{answer === i && <p>{item.a}{item.link && <> <a href={item.link.href}>{item.link.label}</a></>}</p>}</div>)}</div>
       <a className="kit-button kit-exit-buy" href={buyHref} onClick={() => setOpen(false)}>{buyLabel} <ArrowRight size={18} aria-hidden="true" /></a>
       <p className="kit-exit-promise">No marketing emails, ever. If it is not working for you, we run a free session with you.</p>
+      <div className="lx-cards lx-count-1 kit-exit-free"><LeadCard offer="audit" onGo={() => setOpen(false)} /></div>
       <Dialog.Close className="kit-exit-dismiss">Nothing. Close this.</Dialog.Close>
     </Dialog.Content></Dialog.Portal>
   </Dialog.Root>;

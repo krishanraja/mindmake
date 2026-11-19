@@ -83,6 +83,7 @@ const staticRouteModules = {
   "/case-studies": "src/pages/CaseStudies.tsx",
   "/new-age-leadership": "src/pages/NewAgeLeadership.tsx",
   "/blog": "src/pages/Blog.tsx",
+  "/2-minute-ai-upgrade-toolkit": "src/pages/Toolkit.tsx",
   "/faq": "src/pages/Library.tsx",
   "/about": "src/pages/About.tsx",
   "/contact": "src/pages/Contact.tsx",
@@ -90,7 +91,7 @@ const staticRouteModules = {
   "/terms": "src/pages/Terms.tsx",
   "/feedback/dtd": "src/pages/DtdFeedback.tsx",
   "/alumni": "src/pages/Alumni.tsx",
-  "/who-decided": "src/pages/WhoDecided.tsx",
+  "/measure-your-ai-judgement": "src/pages/WhoDecided.tsx",
 };
 const unmappedStaticRoutes = staticPages.map((page) => page.path).filter((path) => !(path in staticRouteModules));
 if (unmappedStaticRoutes.length) {
@@ -179,7 +180,7 @@ const pages = [...staticPages, ...articlePages, ...answerPages];
    first paint is the page itself. Without this the host served them the
    prerendered homepage, which painted the homepage, hydrated on the wrong
    route and then swapped (reported on /feedback/dtd, 2026-11-02). */
-const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }, { path: "/who-decided" }, { path: "/brain-modules/download" },
+const unlistedPages = [{ path: "/feedback/dtd" }, { path: "/alumni" }, { path: "/measure-your-ai-judgement" }, { path: "/brain-modules/download" },
   { path: "/brain-modules" }, ...builtKits.map(kit => ({ path: `/brain-modules/${kit.slug}` })),
 ];
 

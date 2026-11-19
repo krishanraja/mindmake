@@ -17,7 +17,7 @@ export const PUBLICATION_URL = "https://makeyourmindup.ai";
  * competes with START_LABEL, which is the way in for a reader who is ready.
  */
 export const SUBSCRIBE_URL = PUBLICATION_URL;
-export const SUBSCRIBE_LABEL = "Subscribe for free";
+export const SUBSCRIBE_LABEL = "Our media channel";
 export const START_PATH = "/?start=1";
 
 /**
@@ -81,9 +81,9 @@ export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; extern
   /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
      page's own title matches its label, so the click lands where it said. */
   { label: "What you can do", href: "/case-studies" },
-  /* Quick AI tips (/answers) merged into this page on 2026-09-25 (Krish);
-     /answers now sends the reader here. */
-  { label: "Ideas you can use", href: "/blog" },
+  /* The two free-to-try ways in (Krish, 2026-11-19). /blog stays for search
+     engines and AI crawlers, with no link from the menus. */
+  { label: "Your 2-minute AI upgrade toolkit", href: "/2-minute-ai-upgrade-toolkit" },
   { label: "Questions we get asked", href: "/faq" },
   { label: "About us", href: "/about" },
   /* The label stays the approved "Media"; the badge beside it says what the

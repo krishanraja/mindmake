@@ -1073,7 +1073,8 @@ html {
    right edge below that and its last routes are cut; here the rail takes
    three columns (three full rows of three) and, below 901px, the full width
    under the brand, so every route stays on screen. */
-@media (min-width: 701px) and (max-width: 1180px) {
+@media (min-width: 701px) and (max-width: 1380px) {
+  /* "Your 2-minute AI upgrade toolkit" made the rail longer (2026-11-19): three columns until 1380px. */
   .mm-footer-routes { grid-template-columns: repeat(3, auto); }
 }
 @media (min-width: 701px) and (max-width: 900px) {

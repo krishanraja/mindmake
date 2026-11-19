@@ -20,6 +20,7 @@ import AiGtm from "./pages/AiGtm";
 import CaseStudies from "./pages/CaseStudies";
 import NewAgeLeadership from "./pages/NewAgeLeadership";
 import Blog from "./pages/Blog";
+import Toolkit from "./pages/Toolkit";
 import BlogPost from "./pages/BlogPost";
 import Questions from "./pages/Library";
 import About from "./pages/About";
@@ -63,7 +64,7 @@ function SiteRoutes() {
       <Route path="/" element={<Index />} />
       <Route path="/ai-brain" element={<AiBrain />} />
       <Route path="/ai-gtm" element={<AiGtm />} />
-      <Route path="/who-decided" element={<WhoDecided />} />
+      <Route path="/measure-your-ai-judgement" element={<WhoDecided />} />
       <Route path="/case-studies" element={<CaseStudies />} />
       <Route path="/brain-modules" element={<Kits />} />
       <Route path="/brain-modules/download" element={<KitDownload />} />
@@ -71,6 +72,7 @@ function SiteRoutes() {
       <Route path="/brain-modules/:slug" element={<Kits />} />
       <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
       <Route path="/blog" element={<Blog />} />
+      <Route path="/2-minute-ai-upgrade-toolkit" element={<Toolkit />} />
       <Route path="/blog/:slug" element={<BlogPost />} />
       <Route path="/faq" element={<Questions />} />
       <Route path="/about" element={<About />} />

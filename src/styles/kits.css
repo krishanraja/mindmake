@@ -288,3 +288,10 @@
   .kit-engine strong { margin: 4px 0; font-size: 21px; }
   .kit-versus-table th, .kit-versus-table td { padding: 10px 6px; font-size: 14px; }
 }
+.kit-exit-free { margin: 4px 0 14px; }
+.kit-exit-free .lx-card { min-height: 0; padding: 20px; }
+.kit-exit-free .lx-tag { margin-top: 12px; }
+@media (max-width: 720px) {
+  /* A sheet from the bottom on a phone, as every "before you go" sheet is. */
+  .kit-exit { left: 0; right: 0; top: auto; bottom: 0; width: 100%; max-height: 92dvh; transform: none; border-radius: 28px 28px 0 0; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); animation: lx-rise .5s cubic-bezier(.16, 1, .3, 1) both; }
+}

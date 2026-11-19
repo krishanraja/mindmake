@@ -57,7 +57,9 @@ describe("primary routes parity", () => {
     const selection = handoff.handoff?.sharedLanguage?.selection ?? findSelection(handoff);
     const byHref = Object.fromEntries(PRIMARY_ROUTES.map(({ href, label }) => [href, label]));
     expect(byHref["/case-studies"]).toBe(selection.results);
-    expect(byHref["/blog"]).toBe(selection.blog);
+    expect(byHref["/2-minute-ai-upgrade-toolkit"]).toBe(selection.toolkit);
+    /* The blog stays for search engines with no menu link (Krish, 2026-11-19). */
+    expect(byHref["/blog"]).toBeUndefined();
     /* Quick AI tips merged into Ideas you can use (Krish, 2026-09-25): no
        menu carries /answers, and the handoff no longer names a label for it. */
     expect(byHref["/answers"]).toBeUndefined();

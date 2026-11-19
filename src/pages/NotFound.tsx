@@ -39,7 +39,7 @@ const NotFound = () => {
           <p>The page may have moved. Start again, or read one of the useful ideas.</p>
           <div className="mm-not-found-actions">
             <Link className="mm-button" to="/">Go to the home page <ArrowRight aria-hidden="true" /></Link>
-            <Link className="mm-text-link" to="/blog">See all ideas</Link>
+            <Link className="mm-text-link" to="/2-minute-ai-upgrade-toolkit">Your 2-minute AI upgrade toolkit</Link>
           </div>
         </div>
       </section>

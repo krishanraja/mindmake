@@ -20,6 +20,7 @@ Mindmake is a small AI and commercial strategy practice. It builds a leader thei
 - [What you can do with it](https://mindmake.co/case-studies): Real things leaders now do with their AI brain or AI revenue engine, and every result on the record.
 - [Build the business that can think with you](https://mindmake.co/new-age-leadership): Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.
 - [Ideas you can use](https://mindmake.co/blog): Quick AI tips and longer reads for leaders making business decisions as AI changes their market, newest first.
+- [Your 2-minute AI upgrade toolkit](https://mindmake.co/2-minute-ai-upgrade-toolkit): Measure your AI judgement for free, or add a brain module that checks your next decision before you make it.
 - [Questions we get asked](https://mindmake.co/faq): Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.
 - [About us](https://mindmake.co/about): Who runs Mindmake and why. Sixteen years building commercial teams in media, data and technology, now spent helping leaders use AI to make better decisions.
 - [Contact](https://mindmake.co/contact): Send Mindmake a general message.

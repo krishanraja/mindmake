@@ -25,7 +25,7 @@ for (const route of ["/brain-modules", "/brain-modules/download", ...kits.map(pa
     for (const heading of ["What it strengthens", "What you get", "Your first five minutes", "What it checks", "What only you can judge", "What you need"]) assert(body.includes(heading));
     assert(body.includes("Add this brain module, $59"));
     if (part.slug === "audit-a-decision") {
-      assert(body.includes("Try it free first:")); assert(body.includes('href="/who-decided"'));
+      assert(body.includes("Try it free first:")); assert(body.includes('href="/measure-your-ai-judgement"'));
       assert(body.includes("is the same six questions for one decision."));
     }
   }

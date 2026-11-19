@@ -38,3 +38,6 @@ verify_jwt = false
 # A receipt bearer capability, verified by the handler, authorises renewal.
 [functions.kits-download]
 verify_jwt = false
+
+[functions.parts-ai-stack]
+verify_jwt = false

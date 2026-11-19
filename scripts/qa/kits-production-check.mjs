@@ -35,6 +35,6 @@ for (const slug of ["evidence", "claims", "the-room", "price-floor", "your-word"
 assert(renderWithMetadata("/parts/not-a-part").body.includes("This brain module is not available."));
 for (const file of ["dist/sitemap.xml", "dist/llms.txt"]) assert(!/\/(parts|kits)(?:[\/<\s]|$)/.test(await read(file)), `${file} exposes unapproved parts`);
 await mkdir(new URL("quality/parts/", root), { recursive: true });
-const result = { status: "pass", parts: 7, unlistedRoutes: 9, legacyDownload: true, checkedAt: new Date().toISOString(), scope: "built HTML and SSR, not live commerce" };
+const result = { status: "pass", parts: kits.length, unlistedRoutes: kits.length + 2, legacyDownload: true, checkedAt: new Date().toISOString(), scope: "built HTML and SSR, not live commerce" };
 await writeFile(new URL("quality/parts/production-rule.json", root), JSON.stringify(result, null, 2) + "\n");
 console.log(JSON.stringify(result));

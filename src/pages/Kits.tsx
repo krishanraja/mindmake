@@ -74,7 +74,7 @@ function Catalogue() {
     <PartsVersus />
     <section className="kit-section" id="kit-catalogue"><h2>Pick the job you want done before your next decision.</h2>
       <div className="kit-grid">{catalogue.map(kit => <article className="kit-card" key={kit.slug}>
-        <h3><Link to={`/parts/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/parts/${kit.slug}`} aria-label={`Add ${kit.name}, $59`}>Add it, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
+        <h3><Link to={`/brain-modules/${kit.slug}`}>{kit.name}</Link></h3><p>{kit.problem}</p><div className="parts-card-price"><div className="parts-price-actions"><Link className="kit-card-link" to={`/brain-modules/${kit.slug}`} aria-label={`Add ${kit.name}, $59`}>Add it, $59 <ArrowRight size={18} aria-hidden="true" /></Link><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p></div>
       </article>)}</div>
     </section>
     <DecisionMath />
@@ -91,7 +91,7 @@ function Detail({ kit }: { kit: Kit }) {
   const [returned, setReturned] = useState<string | null>(null);
   useEffect(() => setReturned(new URLSearchParams(search).get("checkout")), [search]);
   return <>
-    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/parts"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} />{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed. We will check in once, personally, and never send you marketing." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
+    <section className="kit-section kit-hero" id="kit-hero"><div><Link className="kit-back" to="/brain-modules"><ArrowLeft size={16} aria-hidden="true" /> All parts</Link><p className="kit-label">PART OF YOUR AI BRAIN</p><h1>{kit.name}</h1><p className="kit-lede">{kit.problem}</p>{kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/who-decided">Who decided?</Link> is the same six questions for one decision.</p>}<Buy key={kit.slug} kit={kit} />{returned && <p role="status">{returned === "success" ? "Your download link will arrive by email after payment is confirmed. We will check in once, personally, and never send you marketing." : "Checkout cancelled. You can try again when you are ready."}</p>}</div><Strengthens kit={kit} /></section>
     <section className="kit-section kit-detail-content">
       <div><h2>What you get</h2><ul className="kit-checks">{kit.does.map(text => <li key={text}><Check size={18} aria-hidden="true" />{text}</li>)}</ul><Link className="kit-back" to={`/${kit.door}`}>Build your AI brain<ArrowRight size={16} aria-hidden="true" /></Link></div>
       <BouncyAccordion key={kit.slug} defaultValue="judgement" items={[
@@ -113,8 +113,8 @@ export default function Kits() {
   const { slug } = useParams();
   const kit = catalogue.find(item => item.slug === slug);
   return <MindmakeShell onStart={() => window.location.assign("/?start=1")} siteClassName="kits-site" mainClassName="kits-main" showMobileActionBar={false}>
-    <SEO title={kit ? `${kit.name} | Part of your AI brain` : "Parts of your AI brain"} description={kit?.problem ?? "Start your AI brain one module at a time."} canonical={`/parts${slug ? `/${slug}` : ""}`} noindex />
-    {slug ? kit ? <Detail key={kit.slug} kit={kit} /> : <section className="kit-section kit-missing"><h1>This brain module is not available.</h1><Link className="kit-button" to="/parts">See the parts <ArrowRight size={18} aria-hidden="true" /></Link></section> : <Catalogue />}
+    <SEO title={kit ? `${kit.name} | Part of your AI brain` : "Parts of your AI brain"} description={kit?.problem ?? "Start your AI brain one module at a time."} canonical={`/brain-modules${slug ? `/${slug}` : ""}`} noindex />
+    {slug ? kit ? <Detail key={kit.slug} kit={kit} /> : <section className="kit-section kit-missing"><h1>This brain module is not available.</h1><Link className="kit-button" to="/brain-modules">See the parts <ArrowRight size={18} aria-hidden="true" /></Link></section> : <Catalogue />}
 
   </MindmakeShell>;
 }

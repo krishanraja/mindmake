@@ -65,10 +65,10 @@ function SiteRoutes() {
       <Route path="/ai-gtm" element={<AiGtm />} />
       <Route path="/who-decided" element={<WhoDecided />} />
       <Route path="/case-studies" element={<CaseStudies />} />
-      <Route path="/parts" element={<Kits />} />
-      <Route path="/parts/download" element={<KitDownload />} />
+      <Route path="/brain-modules" element={<Kits />} />
+      <Route path="/brain-modules/download" element={<KitDownload />} />
       <Route path="/kits/download" element={<KitDownload />} />
-      <Route path="/parts/:slug" element={<Kits />} />
+      <Route path="/brain-modules/:slug" element={<Kits />} />
       <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />

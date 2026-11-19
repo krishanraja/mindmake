@@ -35,7 +35,7 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     custom_text: { submit: { message: BUYER_PROMISE } },
     ...(kit.asksFor === "company" ? { custom_fields: COMPANY_FIELDS } : {}),
-    success_url: `${deps.origin}/parts/${slug}?checkout=success`, cancel_url: `${deps.origin}/parts/${slug}?checkout=cancelled`,
+    success_url: `${deps.origin}/brain-modules/${slug}?checkout=success`, cancel_url: `${deps.origin}/brain-modules/${slug}?checkout=cancelled`,
   }, { idempotencyKey: `kit-${slug}-${requestId}` });
   if (session.livemode !== live || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
@@ -149,10 +149,10 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
       }
       const direct = await deps.sign(prepared.file_path, 7 * 24 * 60 * 60);
       const token = await deps.token(prepared.id);
-      const renew = `${deps.origin}/parts/download#token=${encodeURIComponent(token)}`;
+      const renew = `${deps.origin}/brain-modules/download#token=${encodeURIComponent(token)}`;
       prepared = await deps.prepareDelivery(id, {
         subject: `Your AI brain module: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
-        text: `${research}Your brain module is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other brain modules are at ${deps.origin}/parts, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
+        text: `${research}Your brain module is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other brain modules are at ${deps.origin}/brain-modules, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
       });
     }
     // A retry reads the stored receipt, so a research file still owed is never forgotten.

@@ -5,5 +5,5 @@ export function kitsPreview(env = process.env, mode = "production") {
 }
 export const builtKits = visibleKits(kits, kitsPreview() ? "preview" : "production");
 export const readyKitPages = kits.filter(kit => kit.status === "ready").map(kit => ({
-  path: `/parts/${kit.slug}`, title: kit.name, description: kit.problem, headline: kit.name, still: "film-02",
+  path: `/brain-modules/${kit.slug}`, title: kit.name, description: kit.problem, headline: kit.name, still: "film-02",
 }));

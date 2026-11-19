@@ -18,25 +18,36 @@ export interface CheckoutDeps {
   key: string; origin: string; catalogue: readonly Kit[]; prices: Record<string, string>;
   retrievePrice: (id: string) => Promise<Price>;
   createSession: (params: Record<string, unknown>, options: { idempotencyKey: string }) => Promise<{ url: string | null; livemode: boolean }>;
+  /** Looks up an active promotion code by what the member typed or followed a link with. */
+  findPromotion?: (code: string) => Promise<{ id: string; active: boolean; coupon: string | null } | null>;
 }
 export async function checkout(input: unknown, deps: CheckoutDeps) {
   const live = stripeMode(deps.key);
   if (!input || typeof input !== "object") throw new KitError(400, "Invalid request");
-  const { slug, requestId } = input as Record<string, unknown>;
+  const { slug, requestId, code } = input as Record<string, unknown>;
   if (typeof slug !== "string" || typeof requestId !== "string" || !/^[0-9a-f-]{36}$/i.test(requestId)) throw new KitError(400, "Invalid request");
+  if (code !== undefined && (typeof code !== "string" || !/^[A-Za-z0-9-]{3,40}$/.test(code))) throw new KitError(400, "That code does not work");
   const kit = deps.catalogue.find(item => item.slug === slug && item.status === "ready");
   if (!kit) throw new KitError(404, "Part is not for sale");
   const priceId = deps.prices[slug];
   if (!priceId?.startsWith("price_")) throw new KitError(503, "Part is not configured");
   const price = await deps.retrievePrice(priceId);
   if (!price.active || price.livemode !== live || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
+  // A member link carries its code, applied here so the member never types it; Stripe allows either an applied
+  // discount or the code box, not both.
+  let discount: Record<string, unknown> = { allow_promotion_codes: true };
+  if (typeof code === "string") {
+    const promotion = deps.findPromotion ? await deps.findPromotion(code) : null;
+    if (!promotion?.active || promotion.coupon !== MEMBER_COUPON) throw new KitError(400, "That code does not work");
+    discount = { discounts: [{ promotion_code: promotion.id }] };
+  }
   const session = await deps.createSession({
-    mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }], allow_promotion_codes: true,
+    mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }], ...discount,
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     custom_text: { submit: { message: BUYER_PROMISE } },
     ...(kit.asksFor === "company" ? { custom_fields: COMPANY_FIELDS } : {}),
     success_url: `${deps.origin}/brain-modules/${slug}?checkout=success`, cancel_url: `${deps.origin}/brain-modules/${slug}?checkout=cancelled`,
-  }, { idempotencyKey: `kit-${slug}-${requestId}` });
+  }, { idempotencyKey: `kit-${slug}-${requestId}${typeof code === "string" ? "-member" : ""}` });
   if (session.livemode !== live || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
 }
@@ -63,13 +74,26 @@ export function companyFrom(session: Record<string, unknown>): { company: string
  * 100% code on the account fails closed.
  */
 export const MEMBER_COUPON = "mymu-member-module";
-export function isMemberRedemption(object: Record<string, unknown>): boolean {
-  const discounts = Array.isArray(object.discounts) ? object.discounts as { coupon?: unknown }[] : [];
-  const coupons = discounts.map(d => typeof d?.coupon === "string" ? d.coupon : (d?.coupon as { id?: string } | undefined)?.id);
+/** The coupon a Stripe promotion code points at, in either the older (`coupon`) or newer (`promotion.coupon`) shape. */
+export function couponOf(promotion: unknown): string | null {
+  const p = promotion as { coupon?: unknown; promotion?: { coupon?: unknown } } | null;
+  const c = p?.promotion?.coupon ?? p?.coupon;
+  return typeof c === "string" ? c : typeof (c as { id?: unknown })?.id === "string" ? (c as { id: string }).id : null;
+}
+export async function isMemberRedemption(object: Record<string, unknown>, promotionCoupon?: (id: string) => Promise<string | null>): Promise<boolean> {
   const totals = object.total_details as { amount_discount?: number } | undefined;
-  return object.amount_total === 0 && object.amount_subtotal === KIT_PRICE_CENTS && totals?.amount_discount === KIT_PRICE_CENTS
-    && ["paid", "no_payment_required"].includes(String(object.payment_status))
-    && coupons.length === 1 && coupons[0] === MEMBER_COUPON;
+  if (!(object.amount_total === 0 && object.amount_subtotal === KIT_PRICE_CENTS && totals?.amount_discount === KIT_PRICE_CENTS
+    && ["paid", "no_payment_required"].includes(String(object.payment_status)))) return false;
+  const discounts = Array.isArray(object.discounts) ? object.discounts as { coupon?: unknown; promotion_code?: unknown }[] : [];
+  if (discounts.length !== 1) return false;
+  const direct = couponOf({ coupon: discounts[0]?.coupon });
+  if (direct) return direct === MEMBER_COUPON;
+  const promo = discounts[0]?.promotion_code;
+  const promoCoupon = couponOf(promo);
+  if (promoCoupon) return promoCoupon === MEMBER_COUPON;
+  const id = typeof promo === "string" ? promo : (promo as { id?: unknown })?.id;
+  if (typeof id !== "string" || !promotionCoupon) return false;
+  try { return (await promotionCoupon(id)) === MEMBER_COUPON; } catch { return false; }
 }
 
 /** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
@@ -98,6 +122,8 @@ export interface WebhookDeps {
   claimDelivery: (id: string) => Promise<Purchase | null>;
   prepareDelivery: (id: string, payload: { text: string; subject: string }) => Promise<Purchase>;
   sign: (path: string, seconds: number) => Promise<string>;
+  /** The coupon behind a promotion code, read from Stripe: a session records the code, not always its coupon. */
+  promotionCoupon?: (promotionCodeId: string) => Promise<string | null>;
   token: (id: string) => Promise<string>; origin: string;
   send: (purchase: Purchase) => Promise<boolean>;
   finishDelivery: (id: string, success: boolean) => Promise<void>;
@@ -127,7 +153,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     const kit = deps.catalogue.find(item => item.slug === metadata?.kit_slug && item.status === "ready");
     // Other products on the same Stripe account are outside this endpoint.
     if (!metadata?.kit_slug) return { received: true };
-    const member = isMemberRedemption(object);
+    const member = await isMemberRedemption(object, deps.promotionCoupon);
     const paid = object.payment_status === "paid" && object.amount_total === KIT_PRICE_CENTS;
     if (!kit || object.mode !== "payment" || !(paid || member) || object.currency !== KIT_CURRENCY || object.livemode !== deps.live) throw new KitError(400, "Invalid part purchase");
     const email = (object.customer_details as { email?: string } | undefined)?.email;

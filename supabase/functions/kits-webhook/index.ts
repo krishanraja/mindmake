@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { kits } from "../../../src/content/kits.ts";
 import { buildAndStore } from "../_shared/ai-stack/store.ts";
 import { sendResendEmail } from "../_shared/http/resend.ts";
-import { downloadToken, KitError, stripeMode, webhook, type KitEvent, type Purchase } from "../_shared/kits/core.ts";
+import { couponOf, downloadToken, KitError, stripeMode, webhook, type KitEvent, type Purchase } from "../_shared/kits/core.ts";
 import { database, env, failure, json, limitedBody, mapping, publicOrigin, stripeClient } from "../_shared/kits/runtime.ts";
 
 serve(async request => {
@@ -22,6 +22,7 @@ serve(async request => {
       live: stripeMode(env("KITS_STRIPE_SECRET_KEY")),
       verify: async (raw, signature) => await stripe.webhooks.constructEventAsync(raw, signature, secret) as unknown as KitEvent,
       catalogue: kits, files: mapping("KITS_FILES_JSON"), origin: publicOrigin(),
+      promotionCoupon: async id => couponOf(await stripe.promotionCodes.retrieve(id)),
       record: (event, purchase, refundIntent) => rpc<string | null>("kits_record_event", { p_event_id: event.id, p_event_type: event.type, p_purchase: purchase, p_refund_intent: refundIntent }),
       claimDelivery: async id => {
         const purchase = await rpc<Purchase | null>("kits_claim_delivery", { p_id: id });

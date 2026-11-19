@@ -197,24 +197,47 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     const { deps, calls } = checkoutFixture(); await checkout(checkoutInput, deps);
     assert.equal(calls[0].params.allow_promotion_codes, true);
   }],
-  ["a member code makes one module free and it is still delivered", async () => {
-    const { run, state } = webhookFixture();
-    const object = state.event.data.object as Record<string, unknown>;
-    Object.assign(object, { payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 5900, payment_intent: null,
-      total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON, promotion_code: "promo_synthetic" }] });
-    await run(); assert.equal(state.sends, 1); assert.equal(state.purchase!.payment_intent, `member_${sessionId}`);
-  }],
-  ["any other free code, or a part-price total, fails closed", async () => {
-    for (const change of [
-      { discounts: [{ coupon: "EARLYADOPTER_synthetic" }] },
-      { discounts: [] },
-      { discounts: [{ coupon: MEMBER_COUPON }, { coupon: "other" }] },
-      { amount_total: 100, total_details: { amount_discount: 5800 } },
+  ["a member code makes one module free and it is still delivered, in the shape Stripe really sends", async () => {
+    for (const discounts of [
+      [{ coupon: null, promotion_code: "promo_member" }],
+      [{ coupon: MEMBER_COUPON, promotion_code: "promo_member" }],
+      [{ promotion_code: { id: "promo_member", promotion: { coupon: MEMBER_COUPON } } }],
     ]) {
-      const { run, state } = webhookFixture();
+      const { run, state, deps } = webhookFixture();
+      deps.promotionCoupon = async id => id === "promo_member" ? MEMBER_COUPON : "other";
+      Object.assign(state.event.data.object as Record<string, unknown>, { payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 5900,
+        payment_intent: null, total_details: { amount_discount: 5900 }, discounts });
+      await run(); assert.equal(state.sends, 1); assert.equal(state.purchase!.payment_intent, `member_${sessionId}`);
+    }
+  }],
+  ["any other free code, a failed lookup, or a part-price total fails closed", async () => {
+    for (const [change, lookup] of [
+      [{ discounts: [{ coupon: null, promotion_code: "promo_other" }] }, async () => "EARLYADOPTER_synthetic"],
+      [{ discounts: [{ coupon: null, promotion_code: "promo_member" }] }, async () => { throw new Error("stripe down"); }],
+      [{ discounts: [{ coupon: null, promotion_code: "promo_member" }] }, undefined],
+      [{ discounts: [{ coupon: "EARLYADOPTER_synthetic" }] }, undefined],
+      [{ discounts: [] }, undefined],
+      [{ discounts: [{ coupon: MEMBER_COUPON }, { coupon: "other" }] }, undefined],
+      [{ amount_total: 100, total_details: { amount_discount: 5800 } }, undefined],
+    ] as [Record<string, unknown>, WebhookDeps["promotionCoupon"]][]) {
+      const { run, state, deps } = webhookFixture(); deps.promotionCoupon = lookup;
       Object.assign(state.event.data.object as Record<string, unknown>, { payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 5900,
         payment_intent: null, total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON }] }, change);
       await assert.rejects(() => run(), /Invalid part purchase/); assert.equal(state.sends, 0);
+    }
+  }],
+  ["a member link applies its code at checkout, and only a live member code works", async () => {
+    const ok = checkoutFixture(); ok.deps.findPromotion = async code => code === "MYMU-ABC" ? { id: "promo_member", active: true, coupon: MEMBER_COUPON } : null;
+    await checkout({ ...checkoutInput, code: "MYMU-ABC" }, ok.deps);
+    assert.deepEqual(ok.calls[0].params.discounts, [{ promotion_code: "promo_member" }]);
+    assert.equal(ok.calls[0].params.allow_promotion_codes, undefined);
+    assert.match(ok.calls[0].options.idempotencyKey, /-member$/);
+    for (const [code, found] of [
+      ["NOPE", null], ["OLD", { id: "promo_x", active: false, coupon: MEMBER_COUPON }], ["OTHER", { id: "promo_y", active: true, coupon: "EARLYADOPTER_synthetic" }],
+      ["<script>", null], [42, null],
+    ] as [unknown, { id: string; active: boolean; coupon: string } | null][]) {
+      const bad = checkoutFixture(); bad.deps.findPromotion = async () => found;
+      await assert.rejects(() => checkout({ ...checkoutInput, code }, bad.deps), /code does not work/); assert.equal(bad.calls.length, 0);
     }
   }],
   ["sample and unknown slugs cannot be bought", async () => {

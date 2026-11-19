@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { staticPages } from "../lib/pages.mjs";
 import { kits, visibleKits, type Kit } from "../../src/content/kits.ts";
-import { BUYER_PROMISE, checkout, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
+import { BUYER_PROMISE, checkout, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
 import { kitsPreview } from "../lib/kits-build.mjs";
 
 const ready: Kit = { ...kits[0], status: "ready" };
@@ -113,6 +113,11 @@ export const kitTests: [string, () => void | Promise<void>][] = [
         "audit-a-decision",
         "your own account of how you made this decision, against six questions.",
         "whether your account is honest, and what you will do differently next time."
+    ],
+    [
+        "read-ai-stack",
+        "each tool in the research against its evidence, capped at what that kind of evidence can prove, and against your own notes.",
+        "what the tools tell you about how this company works, and what to ask them about it."
     ]
 ];
     assert.deepEqual(kits.map(part => [part.slug, part.checks, part.whoDecided]), expected);
@@ -129,12 +134,12 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     status = "refunded"; await assert.rejects(() => renewDownload(token, deps), /Download unavailable/);
     assert.equal(calls, 1);
   }],
-  ["seven clearly named parts support decisions through the AI brain door", () => {
-    assert.deepEqual(kits.map(part => part.slug), ["fact-check-board-update", "fact-check-email", "check-a-number", "meeting-brief", "lowest-price", "test-a-discount", "audit-a-decision"]);
-    assert.deepEqual(kits.map(part => part.name), ["Fact-check my board update", "Fact-check an email before I send it", "Check a number before I rely on it", "Brief me before a meeting", "Work out my lowest price", "Test a discount before I agree to it", "Audit a decision I made with AI"]);
-    assert.deepEqual(kits.map(part => part.problem), ["Every claim traced to a source before it goes to the board.", "Every name, figure and quote checked before it leaves your outbox.", "Whether a figure is sound enough to decide on or report.", "What your own files already say about the person, and what is missing.", "Your price floor, from your own costs and margin.", "What it really costs, and how many extra sales it needs to pay for itself.", "Where your judgement held and where you handed it over, kept as a running record."]);
+  ["eight clearly named parts support decisions through the AI brain door", () => {
+    assert.deepEqual(kits.map(part => part.slug), ["fact-check-board-update", "fact-check-email", "check-a-number", "meeting-brief", "lowest-price", "test-a-discount", "audit-a-decision", "read-ai-stack"]);
+    assert.deepEqual(kits.map(part => part.name), ["Fact-check my board update", "Fact-check an email before I send it", "Check a number before I rely on it", "Brief me before a meeting", "Work out my lowest price", "Test a discount before I agree to it", "Audit a decision I made with AI", "Read a company's AI stack"]);
+    assert.deepEqual(kits.map(part => part.problem), ["Every claim traced to a source before it goes to the board.", "Every name, figure and quote checked before it leaves your outbox.", "Whether a figure is sound enough to decide on or report.", "What your own files already say about the person, and what is missing.", "Your price floor, from your own costs and margin.", "What it really costs, and how many extra sales it needs to pay for itself.", "Where your judgement held and where you handed it over, kept as a running record.", "The AI tools one company really uses, each with its evidence and how sure we can be."]);
     assert(kits.every(part => !("group" in part)));
-    assert.equal(new Set(kits.map(part => part.slug)).size, 7);
+    assert.equal(new Set(kits.map(part => part.slug)).size, 8);
     for (const part of kits) {
       assert.equal(part.status, "ready"); assert.equal(part.door, "ai-brain");
       assert(part.strengthens); assert(part.problem); assert.equal(part.does.length, 3); assert.equal(part.firstFiveMinutes.length, 3);
@@ -272,5 +277,68 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     await assert.rejects(() => verifyDownloadToken(token.replace(/^0/, "1"), secret));
     await assert.rejects(() => verifyDownloadToken(sessionId, secret));
     await assert.rejects(() => verifyDownloadToken(token, "another-secret-for-unit-tests-only-32"));
+  }],
+  ["a company brain module asks for the company and its website at checkout; the others ask for nothing", async () => {
+    const company: Kit = { ...kits.find(item => item.asksFor === "company")!, status: "ready" };
+    const { deps, calls } = checkoutFixture(); deps.catalogue = [ready, company]; deps.prices[company.slug] = "price_synthetic_company";
+    await checkout({ slug: company.slug, requestId: purchaseId }, deps);
+    await checkout(checkoutInput, deps);
+    assert.deepEqual(calls[0].params.custom_fields, COMPANY_FIELDS);
+    assert.equal(calls[1].params.custom_fields, undefined);
+    for (const field of COMPANY_FIELDS) assert(field.label.custom.length <= 50, "Stripe allows 50 characters in a label");
+  }],
+  ["the website a buyer types is read the way people type it, and nonsense is refused", () => {
+    const at = (company: string, domain: string) => companyFrom({ custom_fields: [{ key: "company", text: { value: company } }, { key: "domain", text: { value: domain } }] });
+    for (const typed of ["acme.com", "ACME.com", "https://www.acme.com/about?x=1", "www.acme.com.", "acme.com:443", " acme.com ", "jo@acme.com"]) assert.deepEqual(at("Acme", typed), { company: "Acme", domain: "acme.com" }, typed);
+    for (const typed of ["acme", "not a site", "", "http://", "acme..com", "-acme.com"]) assert.equal(at("Acme", typed), null, typed);
+    assert.equal(at("A", "acme.com"), null);
+    assert.equal(companyFrom({}), null);
+    assert.equal(at("Acme\u0007 Ltd", "acme.com")!.company, "Acme  Ltd");
+  }],
+  ["a company brain module's receipt carries the research link first, then the module", async () => {
+    const company: Kit = { ...kits.find(item => item.asksFor === "company")!, status: "ready" };
+    const { deps, state, run } = webhookFixture(); deps.catalogue = [company]; deps.files = { [company.slug]: "read-ai-stack/v1.mcpb" };
+    state.event.data.object.metadata = { kit_slug: company.slug };
+    state.event.data.object.custom_fields = [{ key: "company", text: { value: "Northwind Freight" } }, { key: "domain", text: { value: "https://northwind-freight.example/" } }];
+    const asked: unknown[] = []; const notes: string[] = [];
+    deps.research = async (purchase, subject) => { asked.push(subject); return `research/ai-stack/${purchase.id}.json`; };
+    deps.notifyOperator = async (_purchase, message) => { notes.push(message.text); };
+    await run();
+    assert.deepEqual(asked, [{ company: "Northwind Freight", domain: "northwind-freight.example" }]);
+    const text = state.purchase!.delivery_payload!.text;
+    assert(text.startsWith("Your research file on Northwind Freight (northwind-freight.example)"));
+    assert(text.indexOf("research file") < text.indexOf("brain module is ready"));
+    assert.deepEqual(state.signed, [604800, 604800]); assert.equal(state.sends, 1);
+    assert(!notes[0].includes("To do now"));
+  }],
+  ["when the research cannot be built the buyer still gets the module, and Krish is told to build it by hand", async () => {
+    const company: Kit = { ...kits.find(item => item.asksFor === "company")!, status: "ready" };
+    for (const [fields, named] of [[[{ key: "company", text: { value: "Ghost Co" } }, { key: "domain", text: { value: "ghost.example" } }], "Ghost Co (ghost.example)"], [[], "the company you named"]] as const) {
+      const { deps, state, run } = webhookFixture(); deps.catalogue = [company]; deps.files = { [company.slug]: "read-ai-stack/v1.mcpb" };
+      state.event.data.object.metadata = { kit_slug: company.slug };
+      state.event.data.object.custom_fields = fields;
+      const notes: string[] = []; let tries = 0;
+      deps.research = async () => { tries++; throw new Error("Nothing public could be read"); };
+      deps.notifyOperator = async (_purchase, message) => { notes.push(message.text); };
+      await run();
+      assert.equal(tries, fields.length ? 1 : 0);
+      const text = state.purchase!.delivery_payload!.text;
+      assert(text.startsWith(`We could not read ${named} automatically.`)); assert(text.includes("within one working day"));
+      assert(text.includes("brain module is ready")); assert.equal(state.sends, 1);
+      assert(notes[0].includes("To do now: build the research file") && notes[0].includes("buyer@example.invalid"));
+    }
+  }],
+  ["a retry after a failed send keeps the stored receipt and still tells Krish what is owed", async () => {
+    const company: Kit = { ...kits.find(item => item.asksFor === "company")!, status: "ready" };
+    const { deps, state, run } = webhookFixture(); deps.catalogue = [company]; deps.files = { [company.slug]: "read-ai-stack/v1.mcpb" };
+    state.event.data.object.metadata = { kit_slug: company.slug };
+    let tries = 0; const notes: string[] = [];
+    deps.research = async () => { tries++; throw new Error("slow"); };
+    deps.notifyOperator = async (_purchase, message) => { notes.push(message.text); };
+    state.event.data.object.custom_fields = [{ key: "company", text: { value: "Slow Co" } }, { key: "domain", text: { value: "slow.example" } }];
+    state.sendOk = false; await assert.rejects(run);
+    state.sendOk = true; state.events.clear(); await run();
+    assert.equal(tries, 1, "the stored receipt is reused, not rebuilt"); assert.equal(state.sends, 2);
+    assert(notes.length === 1 && notes[0].includes("To do now"));
   }],
 ];

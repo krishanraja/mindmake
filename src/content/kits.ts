@@ -12,6 +12,8 @@ export interface Kit {
   whoDecided: string;
   door: "ai-brain";
   status: "ready" | "sample";
+  /** Set when a purchase must name one company: checkout asks for it and delivery builds its research file. */
+  asksFor?: "company";
 }
 
 export const kits: Kit[] = [
@@ -175,6 +177,31 @@ export const kits: Kit[] = [
     "status": "ready",
     "checks": "your own account of how you made this decision, against six questions.",
     "whoDecided": "whether your account is honest, and what you will do differently next time."
+  },
+  {
+    "name": "Read a company's AI stack",
+    "slug": "read-ai-stack",
+    "problem": "The AI tools one company really uses, each with its evidence and how sure we can be.",
+    "strengthens": "Your ability to tell what a company has actually adopted from what it says it is exploring.",
+    "does": [
+      "Every AI tool we can find in public signals, with its evidence and source.",
+      "Each rating capped at what its kind of evidence can prove.",
+      "The gaps public signals cannot show, so you know what to ask."
+    ],
+    "firstFiveMinutes": [
+      "Name the company and its website when you buy.",
+      "Open this brain module in Claude Desktop and give it the research file from your email.",
+      "Read the result and decide what to ask the company directly."
+    ],
+    "requirements": [
+      "Claude Desktop on Mac or Windows.",
+      "One company per purchase."
+    ],
+    "door": "ai-brain",
+    "status": "ready",
+    "asksFor": "company",
+    "checks": "each tool in the research against its evidence, capped at what that kind of evidence can prove, and against your own notes.",
+    "whoDecided": "what the tools tell you about how this company works, and what to ask them about it."
   }
 ];
 

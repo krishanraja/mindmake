@@ -34,10 +34,27 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
     mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }],
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     custom_text: { submit: { message: BUYER_PROMISE } },
+    ...(kit.asksFor === "company" ? { custom_fields: COMPANY_FIELDS } : {}),
     success_url: `${deps.origin}/parts/${slug}?checkout=success`, cancel_url: `${deps.origin}/parts/${slug}?checkout=cancelled`,
   }, { idempotencyKey: `kit-${slug}-${requestId}` });
   if (session.livemode !== live || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
+}
+
+/** What a company brain module asks at checkout: the company and its website. */
+export const COMPANY_FIELDS = [
+  { key: "company", type: "text", label: { type: "custom", custom: "Company to read" }, text: { minimum_length: 2, maximum_length: 120 } },
+  { key: "domain", type: "text", label: { type: "custom", custom: "Its website, for example acme.com" }, text: { minimum_length: 4, maximum_length: 253 } },
+];
+const DOMAIN = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
+/** The company a buyer named at checkout, or null when either answer cannot be used. */
+export function companyFrom(session: Record<string, unknown>): { company: string; domain: string } | null {
+  const fields = Array.isArray(session.custom_fields) ? session.custom_fields as { key?: string; text?: { value?: string | null } }[] : [];
+  const value = (key: string) => Array.from(String(fields.find(field => field?.key === key)?.text?.value ?? ""), c => c.charCodeAt(0) < 32 || c.charCodeAt(0) === 127 ? " " : c).join("").trim();
+  const company = value("company").slice(0, 120);
+  let domain = value("domain").toLowerCase().replace(/^[a-z]+:\/\//, "").split(/[/?#\s]/)[0].replace(/:\d+$/, "").replace(/\.$/, "").replace(/^www\./, "");
+  if (domain.includes("@")) domain = domain.split("@").pop() ?? "";
+  return company.length >= 2 && DOMAIN.test(domain) ? { company, domain } : null;
 }
 
 /** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
@@ -69,14 +86,16 @@ export interface WebhookDeps {
   token: (id: string) => Promise<string>; origin: string;
   send: (purchase: Purchase) => Promise<boolean>;
   finishDelivery: (id: string, success: boolean) => Promise<void>;
+  /** Builds and stores the research file for a company brain module; returns its storage path. */
+  research?: (purchase: Purchase, subject: { company: string; domain: string }) => Promise<string>;
   /** Tells the operator a buyer is now a lead with a check-in due. Best effort: never fails a delivery. */
   notifyOperator?: (purchase: Purchase, message: { subject: string; text: string }) => Promise<void>;
 }
 /** The operator's note for a new buyer: a prompt for one personal check-in, never an automated send. */
-export function operatorNote(purchase: Pick<Purchase, "email" | "kit_slug">, catalogue: readonly Kit[], today: Date) {
+export function operatorNote(purchase: Pick<Purchase, "email" | "kit_slug">, catalogue: readonly Kit[], today: Date, todo?: string) {
   const due = new Date(today.getTime() + CHECK_IN_DAYS * 86400000).toISOString().slice(0, 10);
   const name = catalogue.find(item => item.slug === purchase.kit_slug)?.name ?? purchase.kit_slug;
-  return { subject: `New parts buyer: ${name}`, text: `${purchase.email} bought ${name}.\n\nCheck in with them personally by ${due}. They were promised: ${BUYER_PROMISE}\n\nNothing is sent to them automatically. They are saved as a lead in kit_purchases, with the check-in in kit_concierge_queue.` };
+  return { subject: `New parts buyer: ${name}`, text: `${purchase.email} bought ${name}.\n\nCheck in with them personally by ${due}. They were promised: ${BUYER_PROMISE}\n\nNothing is sent to them automatically. They are saved as a lead in kit_purchases, with the check-in in kit_concierge_queue.${todo ? `\n\nTo do now: ${todo}` : ""}` };
 }
 
 export async function webhook(raw: string, signature: string | null, deps: WebhookDeps) {
@@ -112,19 +131,36 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
   if (!claimed) return { received: true };
   try {
     let prepared = claimed;
+    let todo: string | undefined;
     if (!prepared.delivery_payload) {
+      const kit = deps.catalogue.find(item => item.slug === purchase.kit_slug)!;
+      let research = "";
+      if (kit.asksFor === "company") {
+        const subject = companyFrom(object);
+        try {
+          if (!subject || !deps.research) throw new Error("Research unavailable");
+          const link = await deps.sign(await deps.research(prepared, subject), 7 * 24 * 60 * 60);
+          research = `Your research file on ${subject.company} (${subject.domain}), built today from public signals:\n${link}\n\nGive this file to the brain module in Claude Desktop. This link is valid for 7 days; reply to this email for a fresh one.\n\n`;
+        } catch {
+          const what = subject ? `${subject.company} (${subject.domain})` : "the company you named";
+          todo = `build the research file for ${what} by hand and send it to ${prepared.email}.`;
+          research = `We could not read ${what} automatically. We will build your research file by hand and email it to you within one working day. You do not need to do anything.\n\n`;
+        }
+      }
       const direct = await deps.sign(prepared.file_path, 7 * 24 * 60 * 60);
       const token = await deps.token(prepared.id);
       const renew = `${deps.origin}/parts/download#token=${encodeURIComponent(token)}`;
       prepared = await deps.prepareDelivery(id, {
         subject: `Your AI brain module: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
-        text: `Your brain module is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other brain modules are at ${deps.origin}/parts, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
+        text: `${research}Your brain module is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other brain modules are at ${deps.origin}/parts, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
       });
     }
+    // A retry reads the stored receipt, so a research file still owed is never forgotten.
+    if (!todo && prepared.delivery_payload?.text.startsWith("We could not read")) todo = `build the research file by hand and send it to ${prepared.email}; the receipt they were sent names the company.`;
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }
     if (!await deps.send(prepared)) throw new Error("Delivery pending");
     await deps.finishDelivery(id, true);
-    try { await deps.notifyOperator?.(prepared, operatorNote(prepared, deps.catalogue, new Date())); } catch { /* the lead is already saved; the note is a courtesy */ }
+    try { await deps.notifyOperator?.(prepared, operatorNote(prepared, deps.catalogue, new Date(), todo)); } catch { /* the lead is already saved; the note is a courtesy */ }
   } catch {
     await deps.finishDelivery(id, false);
     throw new KitError(503, "Delivery pending; retry this event");

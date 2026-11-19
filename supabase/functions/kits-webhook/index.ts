@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { kits } from "../../../src/content/kits.ts";
+import { buildAndStore } from "../_shared/ai-stack/store.ts";
 import { sendResendEmail } from "../_shared/http/resend.ts";
 import { downloadToken, KitError, stripeMode, webhook, type KitEvent, type Purchase } from "../_shared/kits/core.ts";
 import { database, env, failure, json, limitedBody, mapping, publicOrigin, stripeClient } from "../_shared/kits/runtime.ts";
@@ -38,6 +39,18 @@ serve(async request => {
         return data.signedUrl;
       },
       token: id => downloadToken(id, env("KITS_DOWNLOAD_SECRET")),
+      // At most 15 seconds, so Stripe hears back in time; a slower company is built by hand.
+      research: async (purchase, subject) => {
+        const path = `research/ai-stack/${purchase.id}.json`;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        try {
+          await Promise.race([
+            buildAndStore(db, subject, path, env("BUILTWITH_API_KEY") || undefined),
+            new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("Research took too long")), 15000); }),
+          ]);
+        } finally { clearTimeout(timer); }
+        return path;
+      },
       send: async purchase => {
         if (env("KITS_EMAIL_ENABLED") !== "true" || !purchase.delivery_payload) return false;
         const { data, error } = await db.from("kit_purchases").select("status").eq("id", purchase.id).eq("delivery_attempt", deliveryAttempt).single();

@@ -35,6 +35,8 @@ function Strengthens({ kit }: { kit: Kit }) {
 
 function Buy({ kit }: { kit: Kit }) {
   const [state, setState] = useState<"idle" | "loading" | "error" | "sample">("idle");
+  // A makeyourmindup member link carries ?code=, which checkout applies so the member never types it.
+  const code = new URLSearchParams(useLocation().search).get("code") ?? undefined;
   const requestId = useRef<string>();
   const buy = async () => {
     if (kit.status === "sample") { setState("sample"); return; }
@@ -46,7 +48,7 @@ function Buy({ kit }: { kit: Kit }) {
       if (!base) throw new Error("Unavailable");
       const response = await fetch(`${base}/functions/v1/kits-checkout`, {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug: kit.slug, requestId: requestId.current }),
+        body: JSON.stringify({ slug: kit.slug, requestId: requestId.current, ...(code ? { code } : {}) }),
       });
       const result = await response.json();
       if (!response.ok || typeof result.url !== "string" || new URL(result.url).origin !== "https://checkout.stripe.com") throw new Error("Unavailable");
@@ -54,8 +56,8 @@ function Buy({ kit }: { kit: Kit }) {
     } catch { setState("error"); }
   };
   return <div className="kit-buy"><div className="parts-price-actions"><button className="kit-button" onClick={buy} disabled={state === "loading"}>
-    {state === "loading" ? <>Opening checkout…<SquareGrid /></> : <>Add this brain module, $59<ArrowRight size={18} aria-hidden="true" /></>}
-  </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><p className="kit-promise">{promise}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This brain module is not available." : state === "error" ? "Checkout is unavailable. Please try again." : ""}</div></div>;
+    {state === "loading" ? <>Opening checkout…<SquareGrid /></> : <>{code ? "Claim this brain module, free" : "Add this brain module, $59"}<ArrowRight size={18} aria-hidden="true" /></>}
+  </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><p className="kit-promise">{promise}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This brain module is not available." : state === "error" ? (code ? "That code does not work here. Reply to the email it came in and we will sort it out." : "Checkout is unavailable. Please try again.") : ""}</div></div>;
 }
 
 function Catalogue() {

@@ -4,7 +4,7 @@
 import { robotsAllows } from "../parts-research/robots.ts";
 import { stripHtml } from "../parts-research/transport.ts";
 import {
-  AGENT_INSTRUCTIONS, DNS_TOKENS, isAiTech, MAIL_HOSTS, match, matchAll, NAMED_TOOLS, OPTIONAL, SCRIPT_HOSTS,
+  AGENT_INSTRUCTIONS, DNS_TOKENS, INTEGRATION, isAiTech, namesVendor, MAIL_HOSTS, match, matchAll, NAMED_TOOLS, OPTIONAL, SCRIPT_HOSTS,
   SUBDOMAIN_SIGNAL, SUBDOMAIN_VENDORS, type Tool, USES,
 } from "./vendors.ts";
 
@@ -113,8 +113,15 @@ export async function buildAiStack(input: { company: string; domain: string; rel
     const text = stripHtml(page.text);
     if (AGENT_INSTRUCTIONS.test(text)) injection.push(`${url} contains text addressed to AI agents. It was noted and not followed.`);
     for (const sentence of sentencesOf(text)) {
-      const level: Level = OPTIONAL.test(sentence) ? "Inferred" : USES.test(sentence) || method === "trust" ? "Confirmed" : "Likely";
-      for (const tool of matchAll(NAMED_TOOLS, sentence)) add(tool, method, level, `"${clip(sentence, 240)}"`, url);
+      const tools = matchAll(NAMED_TOOLS, sentence);
+      if (!tools.length) continue;
+      // On its own site a company describes what it sells; only the careers and trust pages speak about what it runs.
+      if (method === "site" && INTEGRATION.test(sentence) && !USES.test(sentence)) {
+        if (signals.length < 20) signals.push({ text: `${path} offers ${tools.map((t) => t.tool).join(", ")} as part of its own product, which is not evidence the company uses it: "${clip(sentence, 200)}"`, source_url: url });
+        continue;
+      }
+      const level: Level = OPTIONAL.test(sentence) ? "Inferred" : USES.test(sentence) || method === "trust" ? "Confirmed" : method === "jobs" ? "Likely" : "Inferred";
+      for (const tool of tools) add(tool, method, level, `"${clip(sentence, 240)}"`, url);
     }
   }
   if (pagesRead.site) ran.site = `${pagesRead.site} own pages read.`;
@@ -133,6 +140,10 @@ export async function buildAiStack(input: { company: string; domain: string; rel
         const name = String(t.Name ?? "").trim();
         if (!name || seen.has(name.toLowerCase()) || !isAiTech(`${name} ${t.Tag ?? ""}`)) continue;
         seen.add(name.toLowerCase());
+        if (!namesVendor(name)) {
+          if (signals.length < 20) signals.push({ text: `Technology data lists "${name}"${t.Tag ? ` (${t.Tag})` : ""}, which names no vendor.`, source_url: `https://builtwith.com/${domain}` });
+          continue;
+        }
         const last = Number.isFinite(t.LastDetected) ? day(new Date(Number(t.LastDetected))) : null;
         add({ tool: name, vendor: name, category: /chat|support|Fin|Ada|Drift|Sierra|Decagon|Forethought|LivePerson|Kore|Yellow/i.test(name) ? "Customer-facing AI" : /personali|recommend/i.test(`${name} ${t.Tag ?? ""}`) ? "Marketing/creative AI" : "LLM/model provider" },
           "technographic", "Inferred", `Technology data lists ${name}${t.Tag ? ` (${t.Tag})` : ""}${last ? `, last seen ${last}` : ""}.`, `https://builtwith.com/${domain}`, last);

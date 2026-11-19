@@ -90,6 +90,8 @@ export const SUBDOMAIN_SIGNAL = /(?:^|[.-])(?:ai|llm|gpt|ml|genai|bot|chatbot|ag
 // Words that make a page mention weaker (one of several options) or stronger (the team uses it).
 export const OPTIONAL = /\b(?:or similar|such as|e\.g\.|for example|nice to have|is a plus|bonus|familiarity with|any of)\b/i;
 export const USES = /\b(?:we use|we build with|built (?:on|with)|our team uses|powered by|we run|in production|our stack|we've deployed|we have deployed|rolled out)\b/i;
+// A sentence about connecting a tool to the company's own product describes something it sells, not what it uses.
+export const INTEGRATION = /\b(?:connect(?:s|ing)? (?:\w+ ){0,3}(?:to|with)|integrat\w*|plug-?ins?|add-?ons?|works with|use (?:\w+ ){0,2}agents? in)\b/i;
 // Text addressed to AI agents is noted and never followed.
 export const AGENT_INSTRUCTIONS = /\b(?:ignore (?:all |any )?(?:previous|prior) instructions|(?:note|instructions?) (?:to|for) (?:ai|llm|language model)s?|if you are an? (?:ai|llm|language model|assistant)|ai agents?,? (?:please|must|should))\b/i;
 // BuiltWith technology names and tags that bear on AI. Everything else is counted, not listed.
@@ -97,6 +99,8 @@ export const AGENT_INSTRUCTIONS = /\b(?:ignore (?:all |any )?(?:previous|prior) 
 const AI_SHORT = /\b(?:AI|GPT|LLM|ML)\b/;
 const AI_WORDS = /\b(?:OpenAI|Anthropic|Claude|Gemini|Copilot|chatbot|chat bot|machine learning|Intercom Fin|Drift|Sierra|Decagon|Forethought|Kore\.ai|LivePerson|Yellow\.ai|personali[sz]ation|recommendation engine)\b/i;
 export const isAiTech = (name: string) => AI_SHORT.test(name) || AI_WORDS.test(name);
+/** True when a technology name names a vendor or product, not only a kind of thing ("AI Agent", "NPM AI"). */
+export const namesVendor = (name: string) => AI_WORDS.test(name) || /^[A-Z][\w.]*(?:\s|$)/.test(name.replace(/^NPM /, "")) && !/^(?:AI|GPT|LLM|ML)\b/.test(name.replace(/^NPM /, ""));
 
 // Every tool a sentence names, once each, in list order.
 export function matchAll(list: [RegExp, Tool][], value: string): Tool[] {

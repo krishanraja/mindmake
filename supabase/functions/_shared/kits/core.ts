@@ -33,9 +33,9 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
   if (!priceId?.startsWith("price_")) throw new KitError(503, "Part is not configured");
   const price = await deps.retrievePrice(priceId);
   if (!price.active || price.livemode !== live || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
-  // A member link carries its code, applied here so the member never types it; Stripe allows either an applied
-  // discount or the code box, not both.
-  let discount: Record<string, unknown> = { allow_promotion_codes: true };
+  // A member link carries its code, applied here so the member never types it. A normal purchase shows no code box
+  // (Ruling, Krish, 2026-11-19): codes reach members only as links.
+  let discount: Record<string, unknown> = {};
   if (typeof code === "string") {
     const promotion = deps.findPromotion ? await deps.findPromotion(code) : null;
     if (!promotion?.active || promotion.coupon !== MEMBER_COUPON) throw new KitError(400, "That code does not work");

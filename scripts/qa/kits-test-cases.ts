@@ -193,9 +193,9 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     object.state.event = paidEvent(); object.state.event.livemode = true;
     await assert.rejects(() => object.run(), /Invalid part purchase/); assert.equal(object.state.sends, 0);
   }],
-  ["checkout accepts promotion codes", async () => {
+  ["a normal purchase shows no promotion code box", async () => {
     const { deps, calls } = checkoutFixture(); await checkout(checkoutInput, deps);
-    assert.equal(calls[0].params.allow_promotion_codes, true);
+    assert.equal(calls[0].params.allow_promotion_codes, undefined); assert.equal(calls[0].params.discounts, undefined);
   }],
   ["a member code makes one module free and it is still delivered, in the shape Stripe really sends", async () => {
     for (const discounts of [

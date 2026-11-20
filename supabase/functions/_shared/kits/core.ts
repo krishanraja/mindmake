@@ -156,16 +156,20 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
   let event: KitEvent;
   try { event = await deps.verify(raw, signature); } catch { throw new KitError(400, "Invalid signature"); }
   if (event.livemode !== deps.live) throw new KitError(400, "Event mode does not match this checkout");
-  if (!["checkout.session.completed", "charge.refunded"].includes(event.type)) return { received: true };
+  // A bank payment (US bank account) completes the checkout unpaid and settles days later, as
+  // async_payment_succeeded; the module goes out only then (2026-11-20, when more payment methods were turned on).
+  if (!["checkout.session.completed", "checkout.session.async_payment_succeeded", "charge.refunded"].includes(event.type)) return { received: true };
   const object = event.data.object;
   let purchase: PurchaseInput | null = null;
   let refundIntent: string | null = null;
   let repeatClaim = false;
-  if (event.type === "checkout.session.completed") {
+  if (event.type !== "charge.refunded") {
     const metadata = object.metadata as Record<string, string> | undefined;
     const kit = deps.catalogue.find(item => item.slug === metadata?.kit_slug && item.status === "ready");
     // Other products on the same Stripe account are outside this endpoint.
     if (!metadata?.kit_slug) return { received: true };
+    // Not paid yet: a bank payment still settling. Nothing is recorded or sent until it settles.
+    if (event.type === "checkout.session.completed" && object.payment_status === "unpaid") return { received: true };
     const coupon = await freeCoupon(object, deps.promotionCoupon);
     const member = coupon !== null;
     const paid = object.payment_status === "paid" && object.amount_total === KIT_PRICE_CENTS;

@@ -32,18 +32,22 @@ export async function checkPartsInteractions(page, name, capture) {
   await trigger.press("Space"); await dialog.waitFor();
   await close.focus(); await close.press("Enter"); await dialog.waitFor({ state: "hidden" });
   if (name === "catalogue") {
-    assert.deepEqual(await page.locator(".parts-evidence-track span").evaluateAll(bars => bars.map(bar => Number(bar.dataset.value))), [.46, -.54]);
-    const beforePrice = await page.evaluate(() => {
-      const sample = document.querySelector(".parts-sample"); const price = document.querySelector(".kit-card-link");
-      return !!(sample.compareDocumentPosition(price) & Node.DOCUMENT_POSITION_FOLLOWING);
-    });
-    assert(beforePrice, "Real sample must precede the first price");
-    for (const price of await page.locator(".parts-card-price").all()) {
-      assert(await price.getByText("Full refund within 14 days, no questions asked.").isVisible());
-      const questions = price.getByRole("button", { name: "Questions?" });
-      await questions.focus(); await questions.press("Enter"); await dialog.waitFor();
-      await page.keyboard.press("Escape"); await dialog.waitFor({ state: "hidden" });
-    }
+    const evidence = page.locator(".mc-example > details");
+    await evidence.locator(":scope > summary").press("Enter");
+    assert(await evidence.getByText("Conflicting figures").isVisible());
+    assert(await evidence.getByText("evidence/people.txt, line 1", { exact: true }).isVisible());
+    await evidence.locator(":scope > summary").press("Enter");
+    const library = page.locator("#kit-catalogue");
+    assert(await library.getByText(/full refund within 14 days/).isVisible());
+    await library.getByRole("button", { name: "Set a price" }).press("Enter");
+    const rows = library.locator("details.mc-module");
+    assert.equal(await rows.count(), 2);
+    await rows.first().locator("summary").press("Enter");
+    const offer = rows.first().getByRole("link");
+    assert(await offer.isVisible());
+    assert.equal(await offer.getAttribute("href"), "/brain-modules/lowest-price");
+    await library.getByRole("button", { name: /^All/ }).press("Enter");
+    assert.equal(await rows.count(), 8);
   } else {
     const human = page.getByRole("button", { name: "What only you can judge" });
     assert.equal(await human.getAttribute("aria-expanded"), "true");

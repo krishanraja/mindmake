@@ -1,16 +1,20 @@
 # Approved website state
 
 Status: approved-r3-live
-Working-copy status: unapproved AI brain parts candidate on codex/kits-page; not deployed
-Updated: 17 November 2026.
+Working-copy status: brain module catalogue redesign on design/brain-modules-catalogue, awaiting design approval
+Updated: 20 November 2026.
 
-The latest application release is PR #250, the brief in fewer clicks (26
+The October design baseline is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
 2026). The accepted R3 opening and footer are unchanged. Current operational
 identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## Brain module catalogue candidate, 20 November 2026
+
+The current catalogue at `/brain-modules` offers eight modules. This revision brings one paid module and an interactive excerpt from its board-update report into the opening screen. The other modules are available in a compact, filterable list. The longer report, comparison, calculator and founder evidence open on request. The prices and membership rules still come from the existing product and checkout flow. This revision awaits Krish's visual approval.
 
 ## AI brain parts candidate, 17 November 2026
 

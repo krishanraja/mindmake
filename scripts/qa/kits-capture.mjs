@@ -51,19 +51,16 @@ try {
       await shot(""); await shot("-full");
       await checkPartsInteractions(page, name, shot);
       if (name === "catalogue") {
-        assert.equal(await page.locator(".kit-card").count(), 7);
-        await page.locator(".kit-hero .kit-button").click();
-        assert(await page.locator("#kit-catalogue").isVisible());
-        const kitLink = page.locator(".kit-card-link").first();
-        assert.equal(await kitLink.getAttribute("href"), "/brain-modules/fact-check-board-update");
-        const heights = [];
-        for (let i = 0; i < 5; i++) {
-          heights.push((await page.locator(".kit-quote-stack").boundingBox()).height);
-          await page.getByRole("button", { name: "Next quote" }).click();
-        }
-        assert(Math.max(...heights) - Math.min(...heights) <= 1, "Quote height changed");
-
+        assert.equal(await page.locator(".mc-buy").getAttribute("href"), "/brain-modules/fact-check-board-update");
+        await page.locator(".mc-browse").click();
+        assert.equal(new URL(page.url()).hash, "#kit-catalogue");
+        const author = page.locator(".mc-reference > details").filter({ hasText: "Who built these checks?" });
+        await author.locator("summary").press("Enter");
+        await author.getByRole("button", { name: "Next story" }).click();
+        await page.waitForFunction(() => document.querySelector(".kit-stories-track")?.scrollLeft > 0);
+        await author.locator("summary").press("Enter");
       } else if (name !== "download") {
+        await page.getByRole("checkbox", { name: "I use Claude Desktop on a Mac or Windows computer." }).press("Space");
         await page.locator(".kit-hero .kit-button").click();
         await page.getByText("Checkout is unavailable. Please try again.").first().waitFor({ state: "visible" });
       }
@@ -77,7 +74,7 @@ try {
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
       }
       assert.deepEqual(errors, []);
-      observations.push({ route, viewport, screenshots, status: "pass", actions: "catalogue, real sample, part, quote controls, keyboard FAQ and focus return, default accordion, checklist, exact chart, forward and reverse scroll", consoleErrors: errors });
+      observations.push({ route, viewport, screenshots, status: "pass", actions: "catalogue filters, source disclosure, module links, story controls, keyboard FAQ and focus return, detail accordion, checklist, forward and reverse scroll", consoleErrors: errors });
       await page.close();
     }
     await context.close();

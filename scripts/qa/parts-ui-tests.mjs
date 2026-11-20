@@ -29,7 +29,7 @@ const { BouncyAccordion } = await import("../../src/components/ui/bouncy-accordi
 const { OnboardingChecklist } = await import("../../src/components/ui/onboarding-checklist.tsx");
 const element = React.createElement;
 const cases = [
-  ["Real report excerpt matches its recorded source and precedes catalogue prices", () => {
+  ["Real report excerpt matches its recorded source and opens from the board example", () => {
     const read = file => readFileSync(new URL(`../../${file}`, import.meta.url), "utf8");
     const excerpt = read("src/content/parts-sample.json");
     const provenance = JSON.parse(read("quality/parts/sample/provenance.json"));
@@ -43,8 +43,11 @@ const cases = [
       assert(report.includes(row.claim.replaceAll("evidence/", "")));
       assert(report.includes(row.evidence.replaceAll("evidence/", "")));
     }
-    const page = read("src/pages/Kits.tsx");
-    assert(page.indexOf("<PartsSampleOutput />") < page.indexOf('className="kit-card-link"'));
+    const page = read("src/components/mindmake/ModuleCatalogue.tsx");
+    assert(page.includes('import sample from "@/content/parts-sample.json"'));
+    assert(page.includes("<PartsSampleOutput />"));
+    assert(page.includes("<BoardExample />"));
+    assert(page.indexOf("<BoardExample />") < page.indexOf('id="kit-catalogue"'));
   }],
   ["FAQ native trigger, focus containment, Escape and return focus", async () => {
     render(element(PartsFaqDrawer, { heading: true }));

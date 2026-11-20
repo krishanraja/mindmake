@@ -63,7 +63,7 @@ serve(async request => {
         if (env("KITS_EMAIL_ENABLED") !== "true" || !purchase.delivery_payload) return false;
         const { data, error } = await db.from("kit_purchases").select("status").eq("id", purchase.id).eq("delivery_attempt", deliveryAttempt).single();
         if (error || data?.status !== "paid") return false;
-        const result = await sendResendEmail({ from: env("MINDMAKE_BRIEF_FROM"), to: [purchase.email], ...purchase.delivery_payload }, {
+        const result = await sendResendEmail({ from: env("MINDMAKE_BRIEF_FROM"), to: [purchase.email], subject: purchase.delivery_payload.subject, text: purchase.delivery_payload.text, ...(purchase.delivery_payload.html ? { html: purchase.delivery_payload.html } : {}) }, {
           idempotencyKey: `kit-receipt-${purchase.session_id}`, label: "kits-receipt",
         });
         return result.ok;

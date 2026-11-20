@@ -1,4 +1,5 @@
 import { KIT_CURRENCY, KIT_PRICE_CENTS, type Kit } from "../../../../src/content/kits.ts";
+import { receiptHtml, receiptText, type ReceiptParts } from "./email.ts";
 
 export class KitError extends Error {
   constructor(public status: number, message: string) { super(message); }
@@ -110,6 +111,9 @@ export async function isMemberRedemption(object: Record<string, unknown>, promot
 export const BUYER_PROMISE = "You will never get marketing emails from us. We will check in with you once, personally, to make sure the brain module is working for you. If it is not, we will run a free session with you to put it right.";
 export const CHECK_IN_DAYS = 7;
 
+/** The stored receipt. `owed` marks what Krish still has to do by hand; it is never sent to the buyer. */
+export interface DeliveryPayload { subject: string; text: string; html?: string; owed?: "repeat" | "research" }
+
 export interface KitEvent {
   id: string; type: string; livemode: boolean; created: number;
   data: { object: Record<string, unknown> };
@@ -118,7 +122,7 @@ export interface Purchase {
   id: string; session_id: string; payment_intent: string; kit_slug: string;
   email: string; status: "paid" | "refunded"; file_path: string;
   delivery_attempt?: string;
-  delivery_payload: { text: string; subject: string } | null;
+  delivery_payload: DeliveryPayload | null;
 }
 export interface PurchaseInput {
   session_id: string; payment_intent: string; kit_slug: string; email: string; file_path: string;
@@ -130,7 +134,7 @@ export interface WebhookDeps {
   catalogue: readonly Kit[]; files: Record<string, string>;
   record: (event: KitEvent, purchase: PurchaseInput | null, refundIntent: string | null) => Promise<string | null>;
   claimDelivery: (id: string) => Promise<Purchase | null>;
-  prepareDelivery: (id: string, payload: { text: string; subject: string }) => Promise<Purchase>;
+  prepareDelivery: (id: string, payload: DeliveryPayload) => Promise<Purchase>;
   sign: (path: string, seconds: number) => Promise<string>;
   /** How many earlier MAKEMYMINDUP claims this address made, other than this session. */
   priorMemberClaims?: (email: string, sessionId: string) => Promise<number>;
@@ -198,39 +202,48 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
   try {
     let prepared = claimed;
     let todo: string | undefined;
-    if (!prepared.delivery_payload && repeatClaim) {
+    if (!prepared.delivery_payload) {
       const kit = deps.catalogue.find(item => item.slug === purchase.kit_slug)!;
-      todo = `${prepared.email} tried a second free module (${kit.name}) with MAKEMYMINDUP. No module was sent; they were told how to buy it.`;
-      prepared = await deps.prepareDelivery(id, {
-        subject: "About your free brain module",
-        text: `MAKEMYMINDUP covers one free brain module, and this email address has already used it.\n\nYou can add ${kit.name} for $59 at ${deps.origin}/brain-modules/${kit.slug}, or reply to this email and we will sort it out.\n\n${BUYER_PROMISE}`,
-      });
-    } else if (!prepared.delivery_payload) {
-      const kit = deps.catalogue.find(item => item.slug === purchase.kit_slug)!;
-      let research = "";
-      if (kit.asksFor === "company") {
-        const subject = companyFrom(object);
-        try {
-          if (!subject || !deps.research) throw new Error("Research unavailable");
-          const link = await deps.sign(await deps.research(prepared, subject), 7 * 24 * 60 * 60);
-          research = `Your research file on ${subject.company} (${subject.domain}), built today from public signals:\n${link}\n\nGive this file to the brain module in Claude Desktop. This link is valid for 7 days; reply to this email for a fresh one.\n\n`;
-        } catch {
-          const what = subject ? `${subject.company} (${subject.domain})` : "the company you named";
-          todo = `build the research file for ${what} by hand and send it to ${prepared.email}.`;
-          research = `We could not read ${what} automatically. We will build your research file by hand and email it to you within one working day. You do not need to do anything.\n\n`;
+      const page = `${deps.origin}/brain-modules/${kit.slug}`;
+      const footerLinks = [{ label: "Brain modules", href: `${deps.origin}/brain-modules` }, { label: "Your 2-minute AI upgrade toolkit", href: `${deps.origin}/2-minute-ai-upgrade-toolkit` }, { label: "mindmake.co", href: deps.origin }];
+      let parts: ReceiptParts, owed: "repeat" | "research" | undefined;
+      if (repeatClaim) {
+        owed = "repeat";
+        todo = `${prepared.email} tried a second free module (${kit.name}) with MAKEMYMINDUP. No module was sent; they were told how to buy it.`;
+        parts = { preheader: "MAKEMYMINDUP covers one free brain module.", heading: "About your free brain module",
+          intro: "MAKEMYMINDUP covers one free brain module, and this email address has already used it.",
+          button: { label: `Add ${kit.name}, $59`, href: page },
+          notes: ["Or reply to this email and we will sort it out.", BUYER_PROMISE], footerLinks };
+      } else {
+        const token = await deps.token(prepared.id);
+        const download = `${deps.origin}/brain-modules/download#token=${encodeURIComponent(token)}`;
+        let research: string | undefined;
+        if (kit.asksFor === "company") {
+          const subject = companyFrom(object);
+          try {
+            if (!subject || !deps.research) throw new Error("Research unavailable");
+            await deps.research(prepared, subject);
+            research = `Your research file on ${subject.company} (${subject.domain}) is ready on the same page, built today from public signals. Give it to the brain module in Claude Desktop.`;
+          } catch {
+            const what = subject ? `${subject.company} (${subject.domain})` : "the company you named";
+            owed = "research";
+            todo = `build the research file for ${what} by hand and send it to ${prepared.email}.`;
+            research = `We could not read ${what} automatically. We will build your research file by hand and email it to you within one working day. You do not need to do anything.`;
+          }
         }
+        parts = { preheader: `${kit.name} is ready to download.`, heading: "Thank you. Your brain module is ready.",
+          intro: `${kit.name} is yours. ${kit.problem}`,
+          button: { label: "Download your brain module", href: download },
+          steps: [...(research ? [research] : []), "Open this email on a Mac or Windows computer.", "Press the button above and open the download. Claude Desktop adds it in one click.", "Ask Claude to use it on your own files. Nothing is sent to us."],
+          // Members came in with a code, so they already read it; everyone else is asked once (Krish, 2026-11-20).
+          subscribe: object.payment_status === "paid" ? { href: "https://makeyourmindup.ai" } : undefined,
+          notes: ["The button works whenever you need it, on any computer: it fetches a fresh download each time.", "Full refund within 14 days, no questions asked. Reply to this email for help or a refund.", BUYER_PROMISE], footerLinks };
       }
-      const direct = await deps.sign(prepared.file_path, 7 * 24 * 60 * 60);
-      const token = await deps.token(prepared.id);
-      const renew = `${deps.origin}/brain-modules/download#token=${encodeURIComponent(token)}`;
-      prepared = await deps.prepareDelivery(id, {
-        subject: `Your AI brain module: ${deps.catalogue.find(item => item.slug === purchase.kit_slug)!.name}`,
-        text: `${research}Your brain module is ready to download:\n${direct}\n\nThis download link is valid for 7 days. For a fresh link, open:\n${renew}\n\nIt needs a computer: open the download in Claude Desktop on a Mac or Windows computer to add it. If you bought on your phone, open this email on your computer to set it up.\n\nFull refund within 14 days, no questions asked. Reply to this email for help or a refund.\n\n${BUYER_PROMISE}\n\nWhen you want more: the other brain modules are at ${deps.origin}/brain-modules, and you can build your whole AI brain with Mindmake at ${deps.origin}.`,
-      });
+      prepared = await deps.prepareDelivery(id, { subject: repeatClaim ? "About your free brain module" : `Your brain module: ${kit.name}`, text: receiptText(parts), html: receiptHtml(parts), ...(owed ? { owed } : {}) });
     }
-    // A retry reads the stored receipt, so a research file still owed is never forgotten.
-    if (!todo && prepared.delivery_payload?.text.startsWith("MAKEMYMINDUP covers one")) todo = `${prepared.email} tried a second free module with MAKEMYMINDUP. No module was sent.`;
-    if (!todo && prepared.delivery_payload?.text.startsWith("We could not read")) todo = `build the research file by hand and send it to ${prepared.email}; the receipt they were sent names the company.`;
+    // A retry reads the stored receipt, so anything still owed is never forgotten.
+    if (!todo && prepared.delivery_payload?.owed === "repeat") todo = `${prepared.email} tried a second free module with MAKEMYMINDUP. No module was sent.`;
+    if (!todo && prepared.delivery_payload?.owed === "research") todo = `build the research file by hand and send it to ${prepared.email}; the receipt they were sent names the company.`;
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }
     if (!await deps.send(prepared)) throw new Error("Delivery pending");
     await deps.finishDelivery(id, true);

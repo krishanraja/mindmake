@@ -11,11 +11,17 @@ const read = (path: string) => readFileSync(resolve(process.cwd(), path), "utf8"
    who opens the menu on /blog sees what they see on /. */
 describe("primary routes parity", () => {
   it("matches the R3 homepage menu route for route, in order", () => {
-    const markup = read("src/components/homepage-release/markup.ts");
-    const primary = markup.match(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/s);
-    expect(primary).not.toBeNull();
-    const r3 = [...primary![1].matchAll(/<a href="([^"]+)"[^>]*>(.*?)<\/a>/g)].map(([, href, label]) => ({ href, label: label.replace(/<[^>]+>/g, "") }));
-    expect(PRIMARY_ROUTES.map(({ href, label }) => ({ href, label }))).toEqual(r3);
+    const tree = new DOMParser().parseFromString(homepageMarkup, "text/html");
+    const menus = tree.querySelectorAll(".r3-navigation .primary-routes");
+    expect(menus).toHaveLength(2);
+    for (const menu of menus) {
+      const links = Array.from(menu.querySelectorAll("a"), link => ({
+        href: link.getAttribute("href"),
+        label: (link.querySelector(".mm-route-label-full") ?? link).textContent,
+        short: link.querySelector(".mm-route-label-short")?.textContent,
+      }));
+      expect(links).toEqual(PRIMARY_ROUTES.map(({ href, label, short }) => ({ href, label, short })));
+    }
   });
 
   it("names /ai-gtm Build your AI business in full on both menus, on every screen (Krish, 2026-11-10)", () => {
@@ -26,10 +32,6 @@ describe("primary routes parity", () => {
     for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) {
       expect(nav).toContain('<a href="/ai-gtm">Build your AI business</a>');
     }
-    /* The short-form mechanism stays for any later label too long for a phone. */
-    expect(read("src/components/mindmake/MindmakeShell.tsx")).toContain('className="mm-route-tail"');
-    expect(read("src/components/homepage-release/integration.css")).toMatch(/@media \(max-width: 767px\) \{\s*\.mm-homepage-release \.r3-navigation \.primary-routes \.mm-route-tail \{ display: none; \}/);
-    expect(read("src/styles/mindmake.css")).toMatch(/@media \(max-width: 767px\) \{\s*\.mm-menu-routes \.mm-route-tail \{ display: none; \}/);
   });
 
   it("badges Media with the subscription, on both menus (Krish, 2026-09-25)", () => {

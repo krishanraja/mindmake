@@ -174,7 +174,12 @@ export function MindmakeShell({
           ) : (
             /* The page the reader is on is marked (aria-current), in the
                approved menu's own rule style (audit CRIT-07). */
-            <NavLink key={href} to={href} end={href === "/"}>{short && label.startsWith(short) ? <span>{short}<span className="mm-route-tail">{label.slice(short.length)}</span></span> : label}</NavLink>
+            <NavLink key={href} to={href} end={href === "/"}>
+              {short ? <>
+                <span className="mm-route-label-full">{label}</span>
+                <span className="mm-route-label-short">{short}</span>
+              </> : label}
+            </NavLink>
           ))}
         </nav>
         <button className="mm-menu-start" type="button" onClick={startFromMenu}>

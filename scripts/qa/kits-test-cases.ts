@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { staticPages } from "../lib/pages.mjs";
 import { kits, visibleKits, type Kit } from "../../src/content/kits.ts";
-import { BUYER_PROMISE, checkout, downloadName, FOUNDING_COUPON, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
+import { BUYER_PROMISE, checkout, downloadName, tierFromSubscriptions, FOUNDING_COUPON, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
 import { kitsPreview } from "../lib/kits-build.mjs";
 
 const ready: Kit = { ...kits[0], status: "ready" };
@@ -480,5 +480,13 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     Object.assign(open.state.event.data.object, { amount_total: 0, amount_subtotal: 5900, payment_status: "no_payment_required", payment_intent: null,
       total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON }] });
     await open.run(); assert.equal(open.state.sends, 1);
+  }],
+  ["a member's tier is read from their Stripe subscriptions: founding plan, other Substack plan, nothing else counts", () => {
+    const sub = (status: string, meta: Record<string, string> | null) => ({ status, items: { data: [{ price: { metadata: meta } }] } });
+    assert.equal(tierFromSubscriptions([sub("active", { substack: "yes", founding: "yes", inactive: "yes" })]), "founding");
+    assert.equal(tierFromSubscriptions([sub("active", { substack: "yes" })]), "paid");
+    assert.equal(tierFromSubscriptions([sub("trialing", { substack: "yes" })]), "paid");
+    assert.equal(tierFromSubscriptions([sub("active", { substack: "yes" }), sub("active", { substack: "yes", founding: "yes" })]), "founding");
+    for (const nothing of [[], [sub("canceled", { substack: "yes", founding: "yes" })], [sub("past_due", { substack: "yes" })], [sub("active", { product: "edge_pro" })], [sub("active", null)]]) assert.equal(tierFromSubscriptions(nothing), null);
   }],
 ];

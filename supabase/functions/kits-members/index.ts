@@ -10,10 +10,11 @@ serve(async request => {
     if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
     const service = env("SUPABASE_SERVICE_ROLE_KEY");
     if (!service || request.headers.get("authorization") !== `Bearer ${service}`) return json({ error: "Not allowed" }, 403);
-    let input: { rows?: { email?: string; tier?: string }[] };
+    let input: { rows?: { email?: string; tier?: string }[]; recheck?: boolean };
     try { input = JSON.parse(await limitedBody(request, 2 * 1024 * 1024)); } catch { return json({ error: "Invalid request" }, 400); }
     const rows = (input.rows ?? []).filter(row => typeof row.email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email) && ["paid", "founding"].includes(String(row.tier)));
-    if (!rows.length) return json({ error: "No usable rows" }, 400);
+    // With no rows this only re-checks the waiting claims against Stripe, which is what a fixed-up membership needs.
+    if (!rows.length && !input.recheck) return json({ error: "No usable rows" }, 400);
     const db = database();
     // The same address twice keeps its highest tier.
     const best = new Map<string, string>();
@@ -33,10 +34,11 @@ serve(async request => {
     const { data: waiting, error: waitError } = await db.from("kit_member_requests").select("*").is("released_at", null);
     if (waitError) throw new KitError(503, "Could not read waiting claims");
     const released: string[] = [], still: string[] = [];
-    const tiers = new Map(list.map(member => [member.email_key, member.tier]));
+    const tiers = new Map<string, string | null>();
+    for (const claim of waiting ?? []) if (!tiers.has(claim.session_id)) tiers.set(claim.session_id, await base.memberTier!(claim.email));
     for (const claim of waiting ?? []) {
       // Only a claim whose address is now a member of the right tier is run again; the rest keep waiting, untouched.
-      const tier = tiers.get(claim.email_key);
+      const tier = tiers.get(claim.session_id);
       if (!(tier === "founding" || (tier === "paid" && claim.coupon !== "mymu-founding-member"))) { still.push(claim.session_id); continue; }
       try {
         const session = await stripe.checkout.sessions.retrieve(claim.session_id);

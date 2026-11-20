@@ -811,9 +811,12 @@ html {
 .mm-nav-subscribe::after { content: ""; position: absolute; inset: -5px -4px; }
 .mm-nav-subscribe:hover { border-color: var(--mm-mint-bright); background: rgba(157, 240, 200, .1); }
 .mm-nav-subscribe:focus-visible { outline: 2px solid var(--mm-chrome-paper); outline-offset: 3px; }
+.mm-masthead-label-short { display: none; }
 /* On a phone it sits 14px from the menu, as the homepage's masthead has it. */
 @media (max-width: 700px) {
   .mm-nav-subscribe { margin-right: -10px; }
+  .mm-masthead-label-full { display: none; }
+  .mm-masthead-label-short { display: inline; }
 }
 
 .mm-menu-button b { font-weight: 500; }

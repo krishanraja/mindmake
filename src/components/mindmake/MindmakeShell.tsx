@@ -131,7 +131,8 @@ export function MindmakeShell({
             rel="noreferrer"
             onClick={() => track("substack_click", { source: "masthead" })}
           >
-            Our media channel
+            <span className="mm-masthead-label-full">{SUBSCRIBE_LABEL}</span>
+            <span className="mm-masthead-label-short">Media</span>
           </a>
           <button
             ref={menuButtonRef}

@@ -5,7 +5,7 @@ import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-l
 import latestIssue from "@/data/latestIssue.json";
 import { featuredQuotes, quoteById, quotePartFor } from "@/data/testimonials";
 import { getUseCase } from "@/data/useCases";
-import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
+import { PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
 import { track } from "@/lib/analytics";
@@ -113,7 +113,7 @@ export function heroStartMarkup() {
 
 /** The subscribe link beside the menu in the homepage masthead (Krish, 2026-10-24). */
 export function mastheadSubscribeMarkup() {
-  return `<a class="hs-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="masthead">Our media channel</a>`;
+  return `<a class="hs-subscribe" href="${PUBLICATION_URL}" target="_blank" rel="noreferrer" data-subscribe-source="masthead"><span class="mm-masthead-label-full">${esc(SUBSCRIBE_LABEL)}</span><span class="mm-masthead-label-short">Media</span></a>`;
 }
 
 /**

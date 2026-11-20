@@ -21,6 +21,9 @@ export function kitsDeps(stripe: Stripe, db: Db): Omit<WebhookDeps, "verify"> {
         catalogue: kits, files: mapping("KITS_FILES_JSON"), origin: publicOrigin(),
         promotionCoupon: async id => couponOf(await stripe.promotionCodes.retrieve(id)),
         priorMemberClaims: async (email, sessionId) => {
+        // Krish's own addresses are marked unlimited in kit_members (Ruling, Krish, 2026-11-20): every code, as often as he likes.
+        const owner = await db.from("kit_members").select("unlimited").eq("email_key", await emailKey(db, email)).maybeSingle();
+        if (owner.data?.unlimited === true) return 0;
         const { count, error } = await db.from("kit_purchases").select("id", { count: "exact", head: true })
           .eq("email_key", await emailKey(db, email)).like("payment_intent", "member\\_%").neq("session_id", sessionId);
         if (error) throw new KitError(503, "Purchase processing unavailable");

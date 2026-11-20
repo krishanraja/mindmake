@@ -58,25 +58,24 @@ export const kitTests: [string, () => void | Promise<void>][] = [
       for (const route of ["/brain-modules", "/brain-modules/:slug", "/brain-modules/download", "/kits/download"]) assert(source.includes(`path="${route}"`), `${file}: ${route}`);
       assert(!source.includes('path="/kits"')); assert(!source.includes('path="/kits/:slug"'));
     }
-    assert(!staticPages.some(page => /^\/(parts|kits)(\/|$)/.test(page.path)));
+    assert(!staticPages.some(page => /^\/(brain-modules|parts|kits)(\/|$)/.test(page.path)));
     const hosting = JSON.parse(await read("vercel.json"));
     assert(hosting.redirects.some((rule: { source: string; destination: string }) => rule.source === "/kits/:path*" && rule.destination === "/brain-modules/:path*"));
     assert(hosting.redirects.some((rule: { source: string; destination: string; permanent?: boolean }) => rule.source === "/parts/:path*" && rule.destination === "/brain-modules/:path*" && rule.permanent), "old /parts links, including receipts already sent, keep working");
     const page = await read("src/pages/Kits.tsx");
+    const catalogue = await read("src/components/mindmake/ModuleCatalogue.tsx");
     assert(page.includes('noindex />')); assert(page.includes('to="/measure-your-ai-judgement"'));
-    assert(page.includes('Start your AI brain <em>one module at a time.</em>'));
+    assert(page.includes('<ModuleCatalogue catalogue={catalogue} memberSearch={memberSearch} />'));
+    assert(catalogue.includes('Before you put <em>your name on it.</em>'));
     assert(page.includes('title: "What only you can judge", content: <p>{kit.whoDecided}</p>'));
     assert(page.includes('title: "What it checks", content: <p>{kit.checks}</p>'));
     assert(!page.includes('kit.whoDecided ??'));
-    // Krish, 18 November 2026: the hero says plainly that a brain module is working software, not a prompt; one is a brain module, never "a part".
-    const explanation = "Your AI brain is your judgement, written down so AI can use it. Each brain module is working software, not a prompt: it checks what you are about to rely on against your own files, the same way every time, and remembers what changed. You see the result in five minutes.";
-    assert(page.indexOf(explanation) > page.indexOf("</h1>"));
-    // The one-click line now lives in the hero checklist, so the hero is one paragraph (18 November 2026).
-    assert(page.includes("Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click."));
-    assert(page.includes("Pick the job you want done before your next decision."));
-    assert(!page.includes("kit-group")); assert(!page.includes("kit.group"));
+    assert(catalogue.indexOf("software that checks your own files") > catalogue.indexOf("</h1>"));
+    assert(catalogue.includes("Buy once, then add it to Claude Desktop on a Mac or Windows computer in one click."));
+    assert(catalogue.includes("For <strong>Claude Desktop</strong> on Mac or Windows."));
+    assert(catalogue.includes('className="mc-buy" to={modulePath(boardSlug)}'));
     assert(page.includes('kit.slug === "audit-a-decision" && <p className="kit-audit">Try it free first: <Link to="/measure-your-ai-judgement">Measure your AI judgement</Link> is the same six questions for one decision.</p>'));
-    assert(!/\u2014|AI transformation|AI literacy|innovation|capability building|leverage AI|unlock|game-changer|the future of work/i.test(page));
+    assert(!/\u2014|AI transformation|AI literacy|innovation|capability building|leverage AI|unlock|game-changer|the future of work/i.test(page + catalogue));
   }],
   ["each part retains the report checks and human judgement verbatim", () => {
     const expected = [

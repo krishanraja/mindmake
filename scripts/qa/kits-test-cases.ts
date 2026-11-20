@@ -343,10 +343,11 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.equal(state.purchase!.status, "refunded"); assert.equal(state.sends, 0);
   }],
   ["live, unpaid and altered-amount events cannot fulfil", async () => {
-    for (const change of ["live", "unpaid", "amount"]) {
+    for (const change of ["live", "settled-but-unpaid", "amount"]) {
       const { run, state } = webhookFixture();
       if (change === "live") state.event.livemode = true;
-      if (change === "unpaid") state.event.data.object.payment_status = "unpaid";
+      // A completed checkout still unpaid waits (tested above); an event that says it settled must really be paid.
+      if (change === "settled-but-unpaid") { state.event.type = "checkout.session.async_payment_succeeded"; state.event.data.object.payment_status = "unpaid"; }
       if (change === "amount") state.event.data.object.amount_total = 1;
       await assert.rejects(run); assert.equal(state.records, 0); assert.equal(state.sends, 0);
     }
@@ -421,5 +422,20 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     state.sendOk = true; state.events.clear(); await run();
     assert.equal(tries, 1, "the stored receipt is reused, not rebuilt"); assert.equal(state.sends, 2);
     assert(notes.length === 1 && notes[0].includes("To do now"));
+  }],
+  ["a bank payment still settling sends nothing, and the module goes out when it settles", async () => {
+    const { state, run } = webhookFixture();
+    Object.assign(state.event.data.object, { payment_status: "unpaid" });
+    await run();
+    assert.equal(state.records, 0); assert.equal(state.sends, 0); assert.equal(state.purchase, null);
+    state.event = { ...paidEvent(), id: "evt_synthetic_settled", type: "checkout.session.async_payment_succeeded" };
+    await run();
+    assert.equal(state.records, 1); assert.equal(state.sends, 1); assert.match(state.purchase!.delivery_payload!.text, /ready to download/);
+  }],
+  ["a failed bank payment, or any other event, records and sends nothing", async () => {
+    for (const type of ["checkout.session.async_payment_failed", "checkout.session.expired", "payment_intent.succeeded"]) {
+      const { state, run } = webhookFixture(); state.event = { ...paidEvent(), type };
+      assert.deepEqual(await run(), { received: true }); assert.equal(state.records, 0); assert.equal(state.sends, 0);
+    }
   }],
 ];

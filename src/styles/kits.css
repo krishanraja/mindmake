@@ -345,3 +345,9 @@
 .kit-install-actions { display: flex; align-items: center; gap: 8px 24px; flex-wrap: wrap; }
 .kit-install-actions .kit-button { min-width: 0; border-radius: 8px; }
 .kit-install .kit-text-link { text-underline-offset: 4px; }
+/* The Claude badge sits clear of the line below it (Krish, 2026-11-20). */
+.kit-claude-badge { margin-bottom: 18px; }
+/* The install page's second action is a quiet button, not loose text, and the row has room above it. */
+.kit-install-actions { margin-top: 22px; }
+.kit-install-actions .kit-text-link { display: inline-flex; align-items: center; min-height: 52px; padding: 0 22px; border: 1px solid var(--kit-ink); border-radius: 8px; font-weight: 600; text-decoration: none; }
+.kit-install-actions .kit-text-link:hover { background: #ece7da; }

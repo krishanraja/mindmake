@@ -232,7 +232,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
           }
         }
         parts = { preheader: `${kit.name} is ready to download.`, heading: "Thank you. Your brain module is ready.",
-          intro: `${kit.name} is yours. ${kit.problem}`,
+          intro: `Your brain module, ${kit.name}, is ready. ${kit.problem}`,
           button: { label: "Download your brain module", href: download },
           steps: [...(research ? [research] : []), "Open this email on a Mac or Windows computer.", "Press the button above and open the download. Claude Desktop adds it in one click.", "Ask Claude to use it on your own files. Nothing is sent to us."],
           // Members came in with a code, so they already read it; everyone else is asked once (Krish, 2026-11-20).

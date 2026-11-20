@@ -60,7 +60,7 @@ function Buy({ kit }: { kit: Kit }) {
       window.location.assign(result.url);
     } catch { setState("error"); }
   };
-  return <div className="kit-buy"><ClaudeCheck checked={claude} onChange={value => { setClaude(value); if (value) setMissing(false); }} missing={missing} /><div className="parts-price-actions"><button className="kit-button" onClick={buy} disabled={state === "loading"} aria-disabled={!claude || state === "loading"} data-ready={claude}>
+  return <div className="kit-buy"><ClaudeCheck checked={claude} onChange={value => { setClaude(value); if (value) setMissing(false); }} missing={missing} /><div className="parts-price-actions"><button className="kit-button" onClick={buy} disabled={state === "loading"} aria-disabled={state === "loading" ? true : undefined} data-ready={claude}>
     {state === "loading" ? <>Opening checkout…<SquareGrid /></> : <>{code ? "Claim this brain module, free" : "Add this brain module, $59"}<ArrowRight size={18} aria-hidden="true" /></>}
   </button><PartsFaqDrawer /></div><p className="kit-refund">{refund}</p><p className="kit-promise">{promise}</p><div className="kit-buy-status" role="status">{state === "sample" ? "This brain module is not available." : state === "error" ? (code ? "That code does not work here. Reply to the email it came in and we will sort it out." : "Checkout is unavailable. Please try again.") : ""}</div></div>;
 }
@@ -101,8 +101,8 @@ function Thanks({ kit, member }: { kit: Kit; member: boolean }) {
     <div className="kit-thanks-card">
       <span className="kit-thanks-tick" aria-hidden="true"><Check size={26} /></span>
       <p className="kit-label">ORDER CONFIRMED</p>
-      <h2 id="kit-thanks-title">Thank you. {kit.name} is yours.</h2>
-      <p className="kit-thanks-lead">We are sending it to the email address you gave at checkout. It usually arrives within a minute. If you cannot see it, look in spam, or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> and a person will help.</p>
+      <h2 id="kit-thanks-title">Thank you. It is on its way.</h2>
+      <p className="kit-thanks-lead"><strong>{kit.name}</strong> is yours. We are sending it to the email address you gave at checkout. It usually arrives within a minute. If you cannot see it, look in spam, or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> and a person will help.</p>
       <div className="kit-thanks-body">
       <ol className="kit-thanks-steps">
         <li><span>01</span><div><strong>Open the email on your Mac or Windows computer.</strong> It comes from Mindmake and has one button.</div></li>

@@ -30,7 +30,7 @@ for (const route of ["/brain-modules", "/brain-modules/download", ...kits.map(pa
     }
   }
 }
-assert(renderWithMetadata("/kits/download").body.includes("Download your brain module"));
+assert(renderWithMetadata("/kits/download").body.includes("Preparing your download"));
 for (const slug of ["evidence", "claims", "the-room", "price-floor", "your-word", "the-discount", "spend", "commitments", "the-numbers", "the-source", "who-next", "quiet-deals"]) assert(renderWithMetadata(`/brain-modules/${slug}`).body.includes("This brain module is not available."));
 assert(renderWithMetadata("/brain-modules/not-a-part").body.includes("This brain module is not available."));
 for (const file of ["dist/sitemap.xml", "dist/llms.txt"]) assert(!/\/(parts|kits)(?:[\/<\s]|$)/.test(await read(file)), `${file} exposes unapproved parts`);

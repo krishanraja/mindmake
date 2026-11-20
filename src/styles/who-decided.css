@@ -1,5 +1,4 @@
-/* Who decided?: every screen fits the viewport. The page never scrolls by design;
-   if text is zoomed past what fits, the page scrolls rather than clipping. */
+/* The intro and questions use the viewport. Results can grow with their content. */
 .wd-site { --wd-paper: #f2f1ea; --wd-mint: #7fe3b4; --wd-amber: #e0a44a; --wd-line: #3a463f; --wd-line-strong: #65716a; --wd-muted: #c4c8c2; --wd-raised: #111a15; --wd-gap: clamp(10px, 2.2vh, 26px); color: var(--wd-paper); }
 .wd-site .mm-footer { display: none; }
 .wd-audit { box-sizing: border-box; min-height: 100vh; min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; padding-top: calc(var(--mm-header-height) + var(--wd-gap)); padding-bottom: var(--wd-gap); }
@@ -69,116 +68,8 @@
 .wd-controls .wd-next { min-width: 220px; }
 .wd-audit .wd-private-line { border-top: 1px solid var(--wd-line); padding-top: 8px; font: 400 .75rem/1.4 "IBM Plex Mono", monospace; color: var(--wd-muted); }
 
-/* Read: a dashboard */
-.wd-read { display: flex; flex-direction: column; gap: clamp(10px, 1.8vh, 20px); min-height: 0; }
-.wd-read-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 24px; flex-wrap: wrap; }
-.wd-read-head h1 { font-size: clamp(1.9rem, min(4vw, 5.6vh), 3.4rem); }
-.wd-audit .wd-read-head p { color: var(--wd-muted); font-size: .85rem; margin-top: 6px; }
-.wd-read-actions { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
-.wd-tabs { display: none; }
-.wd-board { flex: 1 1 auto; min-height: 0; display: grid; gap: clamp(10px, 1.4vw, 18px); grid-template-columns: minmax(0, .9fr) minmax(0, 1.75fr) minmax(0, .95fr); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "profile cards practice" "facts facts facts"; }
-.wd-panel { min-height: 0; box-sizing: border-box; border: 1px solid var(--wd-line); background: var(--wd-raised); padding: clamp(12px, 2vh, 22px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); animation: wd-in .45s ease both; }
-.wd-panel-profile { grid-area: profile; }
-.wd-panel-cards { grid-area: cards; animation-delay: .06s; }
-.wd-practice { grid-area: practice; animation-delay: .12s; }
-.wd-facts { grid-area: facts; animation-delay: .18s; }
-.wd-audit .wd-panel-label span { display: block; margin-top: 4px; text-transform: none; letter-spacing: 0; color: #8c968f; }
-
-/* Profile radar */
-.wd-radar { flex: 1 1 auto; min-height: 0; width: 100%; overflow: visible; }
-.wd-radar-ring { fill: none; stroke: var(--wd-line); stroke-width: 1; }
-.wd-radar-ring:nth-of-type(4) { stroke: var(--wd-line-strong); }
-.wd-radar-axis { stroke: var(--wd-line); stroke-width: 1; }
-.wd-radar-shape { fill: rgba(127, 227, 180, .2); stroke: var(--wd-mint); stroke-width: 2; stroke-linejoin: round; transform-box: view-box; transform-origin: 50% 50%; animation: wd-grow .7s cubic-bezier(.2, .65, .3, .9) both .15s; }
-.wd-radar-dot { fill: var(--wd-mint); }
-.wd-radar-first { fill: var(--wd-amber); stroke: #0a100d; stroke-width: 2; }
-.wd-radar-label { fill: var(--wd-paper); font: 500 13px "IBM Plex Mono", monospace; }
-.wd-radar-label.is-first { fill: var(--wd-amber); }
-.wd-owners { display: grid; gap: 8px; }
-.wd-split { display: flex; height: 10px; gap: 3px; }
-.wd-split span { flex-basis: 0; background: var(--wd-c); animation: wd-bar .6s ease both .3s; transform-origin: left; }
-.wd-split-0 { --wd-c: var(--wd-amber); }
-.wd-split-1 { --wd-c: #4f9c7a; }
-.wd-split-2 { --wd-c: var(--wd-mint); }
-.wd-split-key { margin: 0; display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 8px 14px; }
-.wd-split-key div { display: grid; gap: 2px; }
-.wd-split-key dt { white-space: nowrap; font: 400 .72rem/1.3 "IBM Plex Mono", monospace; color: var(--wd-muted); display: flex; align-items: center; gap: 6px; }
-.wd-split-key dt::before { content: ""; width: 8px; height: 8px; background: var(--wd-c); flex: none; }
-.wd-split-key dd { margin: 0; font: 400 clamp(1.4rem, 3.4vh, 2rem)/1 "IBM Plex Mono", monospace; }
-
-/* Scorecards */
-.wd-cards { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); gap: 8px; }
-.wd-card { min-height: 0; box-sizing: border-box; border: 1px solid var(--wd-line); background: #0d1611; padding: clamp(8px, 1.4vh, 14px) clamp(10px, 1.2vw, 14px); display: flex; flex-direction: column; gap: clamp(5px, .9vh, 9px); }
-.wd-card.is-first { border-color: rgba(224, 164, 74, .6); }
-.wd-card-head { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 1fr auto; grid-template-areas: "title level" "meter meter"; gap: 8px 12px; align-items: baseline; cursor: default; }
-.wd-card-head:focus-visible { outline: 3px solid var(--wd-amber); outline-offset: 3px; }
-.wd-card-title { grid-area: title; font: 500 clamp(.9rem, 2vh, 1.05rem)/1.25 "Archivo Variable", sans-serif; }
-.wd-card-level { grid-area: level; font: 400 .78rem/1.2 "IBM Plex Mono", monospace; color: var(--wd-mint); }
-.wd-card.is-first .wd-card-level { color: var(--wd-amber); }
-.wd-card .wd-meter { grid-area: meter; }
-.wd-audit .wd-card-meaning { color: var(--wd-muted); font-size: clamp(.78rem, 1.7vh, .9rem); line-height: 1.35; }
-.wd-card { position: relative; }
-.wd-read-note { margin-top: auto; }
-.wd-read-note summary { min-height: 20px; display: inline-flex; align-items: center; cursor: pointer; font: 400 .7rem/1.3 "IBM Plex Mono", monospace; color: var(--wd-mint); }
-.wd-audit .wd-read-note p { position: absolute; left: -1px; right: -1px; top: calc(100% - 1px); z-index: 4; padding: 10px 12px; background: var(--wd-paper); color: #0a100d; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .82rem; box-shadow: 0 12px 30px rgba(0, 0, 0, .5); }
-.wd-meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; min-width: 96px; }
-.wd-meter i { height: 6px; background: var(--wd-line); }
-.wd-meter i.is-on { background: var(--wd-mint); animation: wd-bar .45s ease both; transform-origin: left; }
-.wd-meter.is-first i.is-on { background: var(--wd-amber); }
-
-/* Strengthen first */
-.wd-practice { background: var(--wd-paper); color: #0a100d; border-color: var(--wd-paper); }
-.wd-audit .wd-practice .wd-panel-label { color: #4a554e; }
-.wd-audit .wd-first { font: 400 clamp(1.5rem, 3.6vh, 2.2rem)/1.1 "Newsreader Variable", serif; }
-.wd-audit .wd-first-level { display: flex; align-items: center; gap: 10px; font: 400 .78rem/1 "IBM Plex Mono", monospace; color: #8a5a12; }
-.wd-first-level .wd-meter { width: 110px; }
-.wd-first-level .wd-meter i { background: #d7d4c8; }
-.wd-first-level .wd-meter i.is-on { background: var(--wd-amber); }
-.wd-audit .wd-first-practice { font-size: clamp(.85rem, 1.9vh, .98rem); }
-.wd-audit .wd-practice .wd-next { margin-top: auto; background: #0a100d; border-color: #0a100d; color: var(--wd-paper); }
-.wd-audit .wd-practice .wd-next:hover { background: #173326; }
-
-/* Research figures: a benchmark strip across the foot of the board */
-.wd-facts { flex-direction: row; align-items: stretch; gap: clamp(12px, 1.6vw, 24px); }
-.wd-facts > .wd-panel-label { flex: 0 0 9ch; }
-.wd-facts figure { flex: 1 1 0; margin: 0; padding-left: clamp(12px, 1.6vw, 24px); border-left: 1px solid var(--wd-line); display: grid; gap: 4px; align-content: start; }
-.wd-audit .wd-fact-figure { display: flex; align-items: baseline; gap: 8px; }
-.wd-fact-figure strong { font: 500 clamp(1.2rem, 3vh, 1.7rem)/1 "IBM Plex Mono", monospace; color: var(--wd-mint); }
-.wd-fact-figure span { font: 400 .7rem/1.3 "IBM Plex Mono", monospace; color: var(--wd-muted); }
-.wd-facts blockquote { margin: 0; font: 400 clamp(.76rem, 1.6vh, .86rem)/1.4 "Archivo Variable", sans-serif; text-wrap: pretty; }
-.wd-facts a { display: inline-flex; align-items: center; min-height: 24px; color: var(--wd-muted); font: 400 .66rem/1.35 "IBM Plex Mono", monospace; text-decoration: underline; text-underline-offset: 3px; }
-
 @keyframes wd-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes wd-grow { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
-@keyframes wd-bar { from { transform: scaleX(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .wd-audit *, .wd-audit *::before { animation: none !important; transition: none !important; } }
-
-/* Tabbed read: whenever the full board will not fit. */
-@media (max-width: 1099px), (max-height: 679px) {
-  .wd-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--wd-line); }
-  .wd-tabs button { min-height: 44px; padding: 8px 4px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--wd-muted); font: 400 .75rem/1.2 "IBM Plex Mono", monospace; cursor: pointer; }
-  .wd-tabs button.is-active { color: var(--wd-paper); border-bottom-color: var(--wd-mint); }
-  .wd-board { display: flex; flex-direction: column; }
-  .wd-panel { flex: 1 1 auto; display: none; }
-  .wd-read[data-tab="Profile"] [data-panel="Profile"],
-  .wd-read[data-tab="Scorecards"] [data-panel="Scorecards"],
-  .wd-read[data-tab="Next step"] [data-panel="Next step"],
-  .wd-read[data-tab="Research"] [data-panel="Research"] { display: flex; }
-  .wd-cards { grid-template-columns: 1fr; grid-auto-rows: auto; align-content: start; gap: 6px; }
-  .wd-card { padding: 8px 12px; gap: 6px; }
-  .wd-card-head { grid-template-columns: minmax(0, 1fr) 96px 92px; grid-template-areas: "title meter level"; align-items: center; cursor: pointer; min-height: 32px; }
-  .wd-card-level { text-align: right; }
-  .wd-card:not(.is-focus) .wd-card-meaning, .wd-card:not(.is-focus) .wd-read-note { display: none; }
-  .wd-card.is-focus { border-color: var(--wd-mint); }
-  .wd-card.is-first.is-focus { border-color: var(--wd-amber); }
-  .wd-audit :is(.wd-panel-profile, .wd-panel-cards, .wd-facts) > .wd-panel-label { display: none; }
-  .wd-read[data-tab="Research"] .wd-facts { flex-direction: column; }
-  .wd-facts figure { border-left: 0; padding-left: 0; border-top: 1px solid var(--wd-line); padding-top: 8px; }
-  .wd-facts figure:first-of-type { border-top: 0; padding-top: 0; }
-  .wd-panel { padding: 12px; gap: 8px; }
-  .wd-facts figure { gap: 2px; }
-  .wd-facts blockquote { font-size: .8rem; line-height: 1.35; }
-}
 
 /* Step and intro below desktop width */
 @media (max-width: 999px) {
@@ -202,12 +93,6 @@
   .wd-controls .wd-next { flex: 1; min-width: 0; }
   .wd-step-foot { gap: 0; }
   .wd-intro-lead .wd-next { width: 100%; }
-  .wd-read-head { align-items: flex-start; flex-direction: column; gap: 4px; }
-  .wd-read-head p { display: none; }
-  .wd-read-actions { justify-content: flex-start; margin-left: -12px; }
-  .wd-card-head { grid-template-columns: minmax(0, 1fr) 72px 84px; }
-  .wd-meter { min-width: 0; }
-  .wd-audit .wd-practice .wd-next { width: 100%; }
 }
 /* Short phones: tighten before anything else gives. */
 @media (max-height: 700px) and (max-width: 699px) {
@@ -228,22 +113,6 @@
   .wd-audit legend { font-size: .95rem; }
   .wd-step-foot { flex-wrap: nowrap; }
   .wd-controls { width: auto; }
-  .wd-read-head h1 { font-size: 1.5rem; }
-  .wd-read-head { flex-direction: row; align-items: center; flex: 0 0 100%; }
-  .wd-audit .wd-read-head p { display: none; }
-  .wd-read { flex-direction: row; flex-wrap: wrap; align-content: flex-start; gap: 6px 12px; }
-  .wd-tabs { flex: 0 0 132px; grid-template-columns: 1fr; border: 0; border-right: 1px solid var(--wd-line); align-content: start; }
-  .wd-tabs button { text-align: left; border-bottom: 0; border-left: 2px solid transparent; min-height: 40px; padding-left: 10px; }
-  .wd-tabs button.is-active { border-left-color: var(--wd-mint); }
-  .wd-board { flex: 1 1 0; min-width: 0; height: calc(100% - 56px); }
-  .wd-panel-profile { flex-direction: row; align-items: center; gap: 40px; }
-  .wd-panel-profile > .wd-panel-label { display: none; }
-  .wd-panel-profile .wd-radar { height: 100%; width: auto; flex: 0 1 auto; }
-  .wd-owners { flex: 1; }
-  .wd-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .wd-read[data-tab="Research"] .wd-facts { flex-direction: row; }
-  .wd-facts figure, .wd-facts figure:first-of-type { flex: 1 1 0; border-top: 0; border-left: 1px solid var(--wd-line); padding: 0 0 0 10px; }
-  .wd-facts blockquote { font-size: .72rem; }
 }
 
 /* Very short screens: the header and type give way first. */
@@ -255,45 +124,12 @@
   .wd-step h1 { font-size: 1.6rem; }
   .wd-audit legend { font-size: .95rem; }
   .wd-option { font-size: .78rem; line-height: 1.28; padding: 6px 10px; }
-  .wd-read-head h1 { font-size: 1.5rem; }
-  .wd-fact-figure strong { font-size: 1.05rem; }
-  .wd-facts blockquote { font-size: .74rem; }
-  .wd-facts a { font-size: .6rem; min-height: 20px; }
-  .wd-card { padding: 6px 10px; }
 }
 @media (max-height: 600px) and (max-width: 359px) {
   .wd-option { font-size: .74rem; padding: 5px 8px; gap: 8px; }
   .wd-options { gap: 4px; }
   .wd-step-main { gap: 6px; }
   .wd-audit .wd-private-line { display: none; }
-  .wd-card-head { min-height: 28px; }
-  .wd-audit .wd-card-meaning { font-size: .74rem; }
-  .wd-facts blockquote { font-size: .7rem; }
-  .wd-tabs button { min-height: 40px; font-size: .68rem; }
-}
-
-/* Short desktops: the heading gives the board its room. */
-@media (min-width: 1100px) and (max-height: 820px) {
-  .wd-read { gap: 10px; }
-  .wd-read-head { align-items: center; }
-  .wd-read-head > div { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
-  .wd-read-head h1 { font-size: 2rem; }
-  .wd-audit .wd-read-head p { margin-top: 0; }
-  .wd-facts a { min-height: 0; }
-  .wd-facts figure { gap: 2px; }
-  .wd-panel { padding: 12px 14px; gap: 8px; }
-  .wd-cards { gap: 6px; }
-  .wd-audit .wd-card-meaning { font-size: .78rem; line-height: 1.3; }
-  .wd-facts blockquote { font-size: .74rem; line-height: 1.35; }
-  .wd-fact-figure strong { font-size: 1.25rem; }
-  .wd-card-head { gap: 6px 12px; }
-}
-@media (max-height: 600px) and (max-width: 359px) {
-  .wd-read { gap: 6px; }
-  .wd-read-actions .wd-back { min-height: 32px; padding-block: 4px; }
-  .wd-read-head h1 { font-size: 1.35rem; }
-  .wd-audit .wd-card-meaning { font-size: .7rem; line-height: 1.28; }
-  .wd-cards { gap: 4px; }
 }
 
 /* Measure your AI judgement, minimal (Krish, 2026-11-19): "the user should have literally nothing to

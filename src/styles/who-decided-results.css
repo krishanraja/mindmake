@@ -1,0 +1,86 @@
+/* The result is a three-step reading experience. Each spread grows with the reader's text size. */
+.wd-audit[data-screen="read"] {
+  height: auto;
+  padding-block: calc(var(--mm-header-height) + clamp(20px, 4vw, 54px)) max(32px, var(--mm-safe-bottom));
+}
+.wd-audit > .wd-results { flex: none; width: min(100%, 1080px); margin-inline: auto; min-width: 0; }
+.wd-journey { display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--wd-line); padding-bottom: 12px; }
+.wd-audit .wd-journey p, .wd-audit .wd-caption {
+  margin: 0; color: var(--wd-mint); font: 500 .72rem/1.45 "IBM Plex Mono", monospace;
+  text-transform: uppercase; letter-spacing: .07em;
+}
+.wd-journey p span { padding-inline: .3em; color: var(--wd-line-strong); }
+.wd-journey-marks { display: flex; flex-shrink: 0; gap: 4px; }
+.wd-journey-marks i { width: clamp(14px, 2.8vw, 30px); height: 3px; background: var(--wd-line); }
+.wd-journey-marks .is-done { background: var(--wd-mint); }
+.wd-spread { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: start; gap: clamp(30px, 5vw, 78px); margin-block: clamp(25px, 5vw, 66px) 26px; }
+.wd-result-intro { min-width: 0; }
+.wd-audit .wd-result-intro h1 { max-width: 14ch; font-size: clamp(2.7rem, 5.3vw, 5.2rem); line-height: 1; letter-spacing: -.04em; }
+.wd-audit .wd-result-lede { max-width: 47ch; margin-top: clamp(14px, 2vw, 24px); color: var(--wd-paper); font-size: clamp(1.04rem, 1.5vw, 1.22rem); line-height: 1.46; }
+.wd-strength { max-width: 48ch; padding-left: 15px; margin-top: clamp(16px, 2.5vw, 30px); border-left: 2px solid #4d9973; }
+.wd-audit .wd-strength .wd-caption { margin-bottom: 4px; }
+.wd-audit .wd-strength p:last-child, .wd-audit .wd-model-note { color: var(--wd-muted); }
+.wd-audit .wd-model-note { max-width: 48ch; margin-top: 14px; font-size: .88rem; }
+.wd-paper {
+  display: grid; gap: 14px; padding: clamp(20px, 3vw, 35px); min-width: 0;
+  color: #16291e; background: #f4efe3; border-top: 4px solid #8fdfb6;
+}
+.wd-audit .wd-paper .wd-caption { color: #355e49; }
+.wd-audit .wd-practice-note p:last-child { max-width: 42ch; font: 400 clamp(1.35rem, 2.2vw, 1.9rem)/1.22 "Newsreader Variable", serif; letter-spacing: -.015em; }
+.wd-audit .wd-rule-text { font: 400 clamp(1.45rem, 2.6vw, 2.15rem)/1.16 "Newsreader Variable", serif; letter-spacing: -.016em; }
+.wd-copy, .wd-previous { display: inline-flex; gap: 8px; align-items: center; justify-self: start; min-height: 44px; cursor: pointer; }
+.wd-audit .wd-copy { border: 1px solid #597760; padding: 8px 14px; background: transparent; color: #153c29; font: 600 .9rem/1.3 "Archivo Variable", sans-serif; }
+.wd-copy:hover { background: #e4eadd; }
+.wd-copy-help { font-size: .87rem; }
+.wd-journey-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; }
+.wd-audit .wd-journey-actions .wd-next { min-height: 50px; font: 600 1rem/1.3 "Archivo Variable", sans-serif; }
+.wd-journey-actions svg { flex-shrink: 0; }
+.wd-audit .wd-previous { border: 0; padding-inline: 0; background: transparent; color: var(--wd-muted); font: 400 .88rem/1.35 "Archivo Variable", sans-serif; }
+.wd-previous:hover, .wd-audit .wd-private-tools .wd-back:hover { color: var(--wd-paper); text-decoration: underline; }
+.wd-brief-offer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; width: 100%; border-top: 1px solid var(--wd-line); padding-top: 18px; }
+.wd-audit .wd-brief-offer p { max-width: 43ch; }
+.wd-result-foot { margin-top: clamp(24px, 4vw, 48px); }
+.wd-disclosure, .wd-private-tools { border-top: 1px solid var(--wd-line); }
+.wd-results summary { min-height: 44px; padding-block: 11px; cursor: pointer; font: 500 .92rem/1.4 "Archivo Variable", sans-serif; }
+.wd-results summary::marker { color: var(--wd-mint); }
+.wd-disclosure > p, .wd-disclosure figure { margin: 0 0 18px; max-width: 70ch; }
+.wd-disclosure blockquote { margin: 0; color: var(--wd-muted); font: 400 1rem/1.45 "Archivo Variable", sans-serif; }
+.wd-disclosure figcaption a { display: inline-block; padding-block: 8px; color: var(--wd-mint); font-size: .9rem; text-underline-offset: 3px; }
+.wd-reading-list { margin: 0; padding: 0 0 12px; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; }
+.wd-reading-list li { border-left: 1px solid var(--wd-line-strong); padding: 6px 12px; }
+.wd-reading-list h3 { margin: 0 0 4px; font: 600 1rem/1.4 "Archivo Variable", sans-serif; }
+.wd-reading-list small { display: block; margin-top: 6px; color: var(--wd-muted); line-height: 1.4; }
+.wd-private-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 0 22px; }
+.wd-audit .wd-private-tools .wd-back { padding-inline: 0; color: var(--wd-muted); }
+.wd-private-tools .wd-clear { gap: 0 16px; }
+.wd-model { min-width: 0; padding: clamp(16px, 2.4vw, 28px); border: 1px solid #41624e; background: #12251b; }
+.wd-model-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-block: 14px 18px; }
+.wd-model-controls label { display: flex; flex-direction: column; justify-content: flex-end; gap: 5px; color: var(--wd-muted); font: 500 .82rem/1.3 "Archivo Variable", sans-serif; }
+.wd-model-controls select { width: 100%; min-height: 44px; padding: 5px 9px; border: 1px solid #61786a; border-radius: 0; color-scheme: dark; background: #101c15; color: var(--wd-paper); font: 500 1rem/1.4 "Archivo Variable", sans-serif; cursor: pointer; }
+.wd-model-controls select:focus-visible { outline: 3px solid var(--wd-amber); outline-offset: 3px; }
+.wd-model-result > strong { display: block; color: var(--wd-mint); font: 400 clamp(3.4rem, 6vw, 5.4rem)/.98 "Newsreader Variable", serif; letter-spacing: -.055em; font-variant-numeric: lining-nums tabular-nums; }
+.wd-audit .wd-model-result p { max-width: 43ch; }
+.wd-audit .wd-model-result small { color: var(--wd-paper); font-size: .54em; letter-spacing: -.03em; }
+.wd-chart { margin: 12px 0 15px; }
+.wd-bars { display: flex; align-items: flex-end; gap: 2px; height: clamp(46px, 5vw, 72px); border-bottom: 1px solid #607966; }
+.wd-bars i { flex: 1; min-width: 0; min-height: 2px; background: #73c89b; }
+.wd-bars i:last-child { background: #f2e2b8; }
+.wd-chart figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 8px; margin-top: 5px; color: #d0dfd4; font: 400 .72rem/1.4 "IBM Plex Mono", monospace; }
+.wd-carry { border-top: 1px solid #3c5345; padding-top: 12px; }
+.wd-audit .wd-carry .wd-caption { margin-bottom: 3px; }
+.wd-maths { margin-top: 8px; border-top: 1px solid #3c5345; }
+.wd-maths summary { color: var(--wd-muted); }
+.wd-audit .wd-maths p { margin-top: 8px; color: var(--wd-muted); font-size: .89rem; }
+@media (max-width: 740px) {
+  .wd-spread { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-block: 22px 16px; }
+  .wd-audit .wd-result-intro h1 { max-width: 16ch; font-size: clamp(2.28rem, 9.4vw, 3.45rem); }
+  .wd-audit .wd-journey-actions .wd-next { width: 100%; }
+  .wd-journey-actions { gap: 2px; }
+  .wd-brief-offer { gap: 12px; }
+  .wd-reading-list { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 340px) {
+  .wd-audit .wd-journey p { font-size: .66rem; }
+  .wd-journey-marks { gap: 3px; }
+  .wd-paper { padding: 16px; }
+}

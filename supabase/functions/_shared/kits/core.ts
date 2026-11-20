@@ -33,16 +33,18 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
   if (!priceId?.startsWith("price_")) throw new KitError(503, "Part is not configured");
   const price = await deps.retrievePrice(priceId);
   if (!price.active || price.livemode !== live || price.currency !== KIT_CURRENCY || price.unit_amount !== KIT_PRICE_CENTS || price.type !== "one_time") throw new KitError(503, "Part price is not configured");
-  // A member link carries its code, applied here so the member never types it. A normal purchase shows no code box
-  // (Ruling, Krish, 2026-11-19): codes reach members only as links.
-  let discount: Record<string, unknown> = {};
+  // A member link carries its code, applied here so the member never types it. Every other checkout shows Stripe's
+  // code box (Ruling, Krish, 2026-11-20), where MAKEMYMINDUP and MAKEMYMINDUP-FOREVER work.
+  let discount: Record<string, unknown> = { allow_promotion_codes: true };
   if (typeof code === "string") {
     const promotion = deps.findPromotion ? await deps.findPromotion(code) : null;
-    if (!promotion?.active || promotion.coupon !== MEMBER_COUPON) throw new KitError(400, "That code does not work");
+    if (!promotion?.active || !FREE_COUPONS.includes(promotion.coupon ?? "")) throw new KitError(400, "That code does not work");
     discount = { discounts: [{ promotion_code: promotion.id }] };
   }
   const session = await deps.createSession({
-    mode: "payment", payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }], ...discount,
+    // No payment_method_types: the buyer sees every method the account has on (card, Link, Apple Pay, Google Pay
+    // and the rest), each of which settles at checkout (Ruling, Krish, 2026-11-20).
+    mode: "payment", line_items: [{ price: priceId, quantity: 1 }], ...discount,
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     custom_text: { submit: { message: BUYER_PROMISE } },
     ...(kit.asksFor === "company" ? { custom_fields: COMPANY_FIELDS } : {}),
@@ -74,26 +76,34 @@ export function companyFrom(session: Record<string, unknown>): { company: string
  * 100% code on the account fails closed.
  */
 export const MEMBER_COUPON = "mymu-member-module";
+/** Founding members: every brain module free, as often as they like (MAKEMYMINDUP-FOREVER; Ruling, Krish, 2026-11-20). */
+export const FOUNDING_COUPON = "mymu-founding-member";
+export const FREE_COUPONS: readonly string[] = [MEMBER_COUPON, FOUNDING_COUPON];
 /** The coupon a Stripe promotion code points at, in either the older (`coupon`) or newer (`promotion.coupon`) shape. */
 export function couponOf(promotion: unknown): string | null {
   const p = promotion as { coupon?: unknown; promotion?: { coupon?: unknown } } | null;
   const c = p?.promotion?.coupon ?? p?.coupon;
   return typeof c === "string" ? c : typeof (c as { id?: unknown })?.id === "string" ? (c as { id: string }).id : null;
 }
-export async function isMemberRedemption(object: Record<string, unknown>, promotionCoupon?: (id: string) => Promise<string | null>): Promise<boolean> {
+/** The free coupon that took off the whole price, or null. Any other 100% code on the account fails closed. */
+export async function freeCoupon(object: Record<string, unknown>, promotionCoupon?: (id: string) => Promise<string | null>): Promise<string | null> {
   const totals = object.total_details as { amount_discount?: number } | undefined;
   if (!(object.amount_total === 0 && object.amount_subtotal === KIT_PRICE_CENTS && totals?.amount_discount === KIT_PRICE_CENTS
-    && ["paid", "no_payment_required"].includes(String(object.payment_status)))) return false;
+    && ["paid", "no_payment_required"].includes(String(object.payment_status)))) return null;
   const discounts = Array.isArray(object.discounts) ? object.discounts as { coupon?: unknown; promotion_code?: unknown }[] : [];
-  if (discounts.length !== 1) return false;
+  if (discounts.length !== 1) return null;
+  const known = (id: string | null) => id && FREE_COUPONS.includes(id) ? id : null;
   const direct = couponOf({ coupon: discounts[0]?.coupon });
-  if (direct) return direct === MEMBER_COUPON;
+  if (direct) return known(direct);
   const promo = discounts[0]?.promotion_code;
   const promoCoupon = couponOf(promo);
-  if (promoCoupon) return promoCoupon === MEMBER_COUPON;
+  if (promoCoupon) return known(promoCoupon);
   const id = typeof promo === "string" ? promo : (promo as { id?: unknown })?.id;
-  if (typeof id !== "string" || !promotionCoupon) return false;
-  try { return (await promotionCoupon(id)) === MEMBER_COUPON; } catch { return false; }
+  if (typeof id !== "string" || !promotionCoupon) return null;
+  try { return known(await promotionCoupon(id)); } catch { return null; }
+}
+export async function isMemberRedemption(object: Record<string, unknown>, promotionCoupon?: (id: string) => Promise<string | null>): Promise<boolean> {
+  return (await freeCoupon(object, promotionCoupon)) !== null;
 }
 
 /** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
@@ -122,6 +132,8 @@ export interface WebhookDeps {
   claimDelivery: (id: string) => Promise<Purchase | null>;
   prepareDelivery: (id: string, payload: { text: string; subject: string }) => Promise<Purchase>;
   sign: (path: string, seconds: number) => Promise<string>;
+  /** How many earlier MAKEMYMINDUP claims this address made, other than this session. */
+  priorMemberClaims?: (email: string, sessionId: string) => Promise<number>;
   /** The coupon behind a promotion code, read from Stripe: a session records the code, not always its coupon. */
   promotionCoupon?: (promotionCodeId: string) => Promise<string | null>;
   token: (id: string) => Promise<string>; origin: string;
@@ -148,21 +160,26 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
   const object = event.data.object;
   let purchase: PurchaseInput | null = null;
   let refundIntent: string | null = null;
+  let repeatClaim = false;
   if (event.type === "checkout.session.completed") {
     const metadata = object.metadata as Record<string, string> | undefined;
     const kit = deps.catalogue.find(item => item.slug === metadata?.kit_slug && item.status === "ready");
     // Other products on the same Stripe account are outside this endpoint.
     if (!metadata?.kit_slug) return { received: true };
-    const member = await isMemberRedemption(object, deps.promotionCoupon);
+    const coupon = await freeCoupon(object, deps.promotionCoupon);
+    const member = coupon !== null;
     const paid = object.payment_status === "paid" && object.amount_total === KIT_PRICE_CENTS;
     if (!kit || object.mode !== "payment" || !(paid || member) || object.currency !== KIT_CURRENCY || object.livemode !== deps.live) throw new KitError(400, "Invalid part purchase");
     const email = (object.customer_details as { email?: string } | undefined)?.email;
     const file = deps.files[kit.slug];
-    // A member redemption costs nothing, so Stripe makes no PaymentIntent; the session id stands in for it.
-    const intent = member && object.payment_intent == null && typeof object.id === "string" ? `member_${object.id}` : object.payment_intent;
+    // A member redemption costs nothing, so Stripe makes no PaymentIntent; the session id stands in for it, marked
+    // by which code it used, so a second claim on the one-module code can be seen.
+    const intent = member && object.payment_intent == null && typeof object.id === "string" ? `${coupon === FOUNDING_COUPON ? "founding" : "member"}_${object.id}` : object.payment_intent;
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof intent !== "string" || typeof object.id !== "string") throw new KitError(400, "Incomplete purchase");
     if (!file || file.includes("..") || file.startsWith("/")) throw new KitError(503, "Part file unavailable");
     purchase = { session_id: object.id, payment_intent: intent, kit_slug: kit.slug, email, file_path: file };
+    // MAKEMYMINDUP is one free module per person: a second claim from the same address is told so, not sent a module.
+    if (coupon === MEMBER_COUPON && deps.priorMemberClaims) repeatClaim = (await deps.priorMemberClaims(email, object.id)) > 0;
   } else {
     // Only kit charges carry this metadata; it is set on the PaymentIntent.
     const metadata = object.metadata as Record<string, string> | undefined;
@@ -177,7 +194,14 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
   try {
     let prepared = claimed;
     let todo: string | undefined;
-    if (!prepared.delivery_payload) {
+    if (!prepared.delivery_payload && repeatClaim) {
+      const kit = deps.catalogue.find(item => item.slug === purchase.kit_slug)!;
+      todo = `${prepared.email} tried a second free module (${kit.name}) with MAKEMYMINDUP. No module was sent; they were told how to buy it.`;
+      prepared = await deps.prepareDelivery(id, {
+        subject: "About your free brain module",
+        text: `MAKEMYMINDUP covers one free brain module, and this email address has already used it.\n\nYou can add ${kit.name} for $59 at ${deps.origin}/brain-modules/${kit.slug}, or reply to this email and we will sort it out.\n\n${BUYER_PROMISE}`,
+      });
+    } else if (!prepared.delivery_payload) {
       const kit = deps.catalogue.find(item => item.slug === purchase.kit_slug)!;
       let research = "";
       if (kit.asksFor === "company") {
@@ -201,6 +225,7 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
       });
     }
     // A retry reads the stored receipt, so a research file still owed is never forgotten.
+    if (!todo && prepared.delivery_payload?.text.startsWith("MAKEMYMINDUP covers one")) todo = `${prepared.email} tried a second free module with MAKEMYMINDUP. No module was sent.`;
     if (!todo && prepared.delivery_payload?.text.startsWith("We could not read")) todo = `build the research file by hand and send it to ${prepared.email}; the receipt they were sent names the company.`;
     if (prepared.status === "refunded") { await deps.finishDelivery(id, false); return { received: true }; }
     if (!await deps.send(prepared)) throw new Error("Delivery pending");

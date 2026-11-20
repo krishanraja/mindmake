@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { staticPages } from "../lib/pages.mjs";
 import { kits, visibleKits, type Kit } from "../../src/content/kits.ts";
-import { BUYER_PROMISE, checkout, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
+import { BUYER_PROMISE, checkout, FOUNDING_COUPON, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
 import { kitsPreview } from "../lib/kits-build.mjs";
 
 const ready: Kit = { ...kits[0], status: "ready" };
@@ -193,9 +193,42 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     object.state.event = paidEvent(); object.state.event.livemode = true;
     await assert.rejects(() => object.run(), /Invalid part purchase/); assert.equal(object.state.sends, 0);
   }],
-  ["a normal purchase shows no promotion code box", async () => {
+  ["a normal purchase shows the code box and every payment method the account has on", async () => {
     const { deps, calls } = checkoutFixture(); await checkout(checkoutInput, deps);
-    assert.equal(calls[0].params.allow_promotion_codes, undefined); assert.equal(calls[0].params.discounts, undefined);
+    assert.equal(calls[0].params.allow_promotion_codes, true); assert.equal(calls[0].params.discounts, undefined);
+    assert.equal(calls[0].params.payment_method_types, undefined, "no card-only list, so Link, Apple Pay and Google Pay show");
+  }],
+  ["MAKEMYMINDUP-FOREVER makes every module free, as often as the member likes", async () => {
+    for (const round of [1, 2]) {
+      const { deps, state, run } = webhookFixture();
+      deps.priorMemberClaims = async () => round - 1;
+      Object.assign(state.event.data.object, { amount_total: 0, amount_subtotal: 5900, payment_status: "no_payment_required", payment_intent: null,
+        total_details: { amount_discount: 5900 }, discounts: [{ coupon: null, promotion_code: "promo_forever" }] });
+      deps.promotionCoupon = async () => FOUNDING_COUPON;
+      await run();
+      assert.equal(state.purchase!.payment_intent, `founding_${sessionId}`);
+      assert.equal(state.sends, 1); assert.match(state.purchase!.delivery_payload!.text, /ready to download/);
+    }
+  }],
+  ["MAKEMYMINDUP is one free module per person: a second claim gets a kind note, not the module", async () => {
+    for (const [prior, delivered] of [[0, true], [1, false], [3, false]] as const) {
+      const { deps, state, run } = webhookFixture(); const notes: string[] = []; const asked: string[] = [];
+      deps.priorMemberClaims = async (email, session) => { asked.push(`${email}|${session}`); return prior; };
+      deps.notifyOperator = async (_purchase, message) => { notes.push(message.text); };
+      Object.assign(state.event.data.object, { amount_total: 0, amount_subtotal: 5900, payment_status: "no_payment_required", payment_intent: null,
+        total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON }] });
+      await run();
+      assert.deepEqual(asked, [`buyer@example.invalid|${sessionId}`]);
+      const text = state.purchase!.delivery_payload!.text;
+      assert.equal(state.sends, 1);
+      assert.equal(/ready to download/.test(text), delivered, text);
+      assert.equal(state.signed.length, delivered ? 1 : 0, "no download link is ever signed for a repeat claim");
+      if (!delivered) { assert(text.startsWith("MAKEMYMINDUP covers one free brain module")); assert(notes[0].includes("To do now") && notes[0].includes("second free module")); }
+    }
+  }],
+  ["a paid purchase never asks about member claims", async () => {
+    const { deps, run } = webhookFixture(); let asked = 0; deps.priorMemberClaims = async () => { asked++; return 5; };
+    await run(); assert.equal(asked, 0);
   }],
   ["a member code makes one module free and it is still delivered, in the shape Stripe really sends", async () => {
     for (const discounts of [

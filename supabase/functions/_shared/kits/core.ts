@@ -107,6 +107,21 @@ export async function isMemberRedemption(object: Record<string, unknown>, promot
   return (await freeCoupon(object, promotionCoupon)) !== null;
 }
 
+/** What a makeyourmindup member's Stripe subscriptions say: founding if any live subscription is on a founding plan, paid if on any other Substack plan. */
+export function tierFromSubscriptions(subscriptions: { status?: string; items?: { data?: { price?: { metadata?: Record<string, string> | null } | null }[] } }[]): "paid" | "founding" | null {
+  let tier: "paid" | "founding" | null = null;
+  for (const subscription of subscriptions) {
+    if (!["active", "trialing"].includes(String(subscription.status))) continue;
+    for (const item of subscription.items?.data ?? []) {
+      const meta = item.price?.metadata ?? {};
+      if (meta.substack !== "yes") continue;
+      if (meta.founding === "yes") return "founding";
+      tier = "paid";
+    }
+  }
+  return tier;
+}
+
 /** The promise made to every buyer (Krish, 18 November 2026). Shown at checkout, in the receipt and on the page. */
 export const BUYER_PROMISE = "You will never get marketing emails from us. We will check in with you once, personally, to make sure the brain module is working for you. If it is not, we will run a free session with you to put it right.";
 export const CHECK_IN_DAYS = 7;

@@ -2,7 +2,7 @@ import { kits } from "../../../../src/content/kits.ts";
 import { buildAndStore } from "../ai-stack/store.ts";
 import { sendResendEmail } from "../http/resend.ts";
 import { receiptHtml, receiptText } from "./email.ts";
-import { couponOf, downloadToken, KitError, stripeMode, type PurchaseInput, type Purchase, type WebhookDeps } from "./core.ts";
+import { couponOf, downloadToken, KitError, tierFromSubscriptions, stripeMode, type PurchaseInput, type Purchase, type WebhookDeps } from "./core.ts";
 import { database, env, mapping, publicOrigin, stripeClient } from "./runtime.ts";
 
 type Db = ReturnType<typeof database>;
@@ -71,14 +71,24 @@ export function kitsDeps(stripe: Stripe, db: Db): Omit<WebhookDeps, "verify"> {
           await sendResendEmail({ from: env("MINDMAKE_BRIEF_FROM"), to: [to], ...message }, { idempotencyKey: `kit-operator-${purchase.session_id}`, label: "kits-operator" });
         },
       // Who may use the makeyourmindup codes: the loaded Substack list, matched on the normalised address.
+      // Who may use the makeyourmindup codes (Ruling, Krish, 2026-11-20): read live from Stripe, where Substack bills its paid and
+      // founding members, with the saved list as a manual override. Nothing to export, nothing to go stale.
       memberTier: async email => {
-        // Until the first list is loaded there is nothing to check against, so codes work as they did before.
-        const { count, error: countError } = await db.from("kit_members").select("email_key", { count: "exact", head: true });
-        if (countError) throw new KitError(503, "Purchase processing unavailable");
-        if (!count) return "founding";
         const { data, error } = await db.from("kit_members").select("tier").eq("email_key", await emailKey(db, email)).maybeSingle();
         if (error) throw new KitError(503, "Purchase processing unavailable");
-        return (data?.tier as "paid" | "founding" | undefined) ?? null;
+        const saved = (data?.tier as "paid" | "founding" | undefined) ?? null;
+        if (saved === "founding") return saved;
+        let live: "paid" | "founding" | null = null;
+        try {
+          const customers = await stripe.customers.search({ query: `email:'${email.replace(/['\\]/g, "")}'`, limit: 10 });
+          for (const customer of customers.data) {
+            const subs = await stripe.subscriptions.list({ customer: customer.id, status: "all", limit: 20 });
+            const tier = tierFromSubscriptions(subs.data as never);
+            if (tier === "founding") { live = tier; break; }
+            if (tier === "paid") live = tier;
+          }
+        } catch { throw new KitError(503, "Purchase processing unavailable"); }
+        return live === "founding" ? live : (saved ?? live);
       },
       holdForMember: async claim => {
         const key = await emailKey(db, claim.email);

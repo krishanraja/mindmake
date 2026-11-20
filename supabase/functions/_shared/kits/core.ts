@@ -49,7 +49,7 @@ export async function checkout(input: unknown, deps: CheckoutDeps) {
     metadata: { kit_slug: slug, kit_price: priceId }, payment_intent_data: { metadata: { kit_slug: slug } },
     custom_text: { submit: { message: BUYER_PROMISE } },
     ...(kit.asksFor === "company" ? { custom_fields: COMPANY_FIELDS } : {}),
-    success_url: `${deps.origin}/brain-modules/${slug}?checkout=success`, cancel_url: `${deps.origin}/brain-modules/${slug}?checkout=cancelled`,
+    success_url: `${deps.origin}/brain-modules/${slug}?checkout=success${typeof code === "string" ? "&member=1" : ""}`, cancel_url: `${deps.origin}/brain-modules/${slug}?checkout=cancelled`,
   }, { idempotencyKey: `kit-${slug}-${requestId}${typeof code === "string" ? "-member" : ""}` });
   if (session.livemode !== live || !session.url || new URL(session.url).origin !== "https://checkout.stripe.com") throw new KitError(502, "Checkout is unavailable");
   return { url: session.url };
@@ -271,14 +271,24 @@ export async function verifyDownloadToken(token: string, secret: string) {
   return id;
 }
 
+/** The saved name of a module file: mindmake-<module>.mcpb, with no version in it. */
+export function downloadName(file: string): string {
+  const base = file.split("/").pop() ?? "";
+  const match = /^(mindmake-[a-z0-9-]+?)(?:-\d+\.\d+\.\d+)?\.mcpb$/.exec(base);
+  return match ? `${match[1]}.mcpb` : "mindmake-brain-module.mcpb";
+}
+
 export async function renewDownload(token: string, deps: {
   key: string; secret: string;
   find: (id: string) => Promise<Pick<Purchase, "status" | "file_path"> | null>;
   sign: (file: string, seconds: number) => Promise<string>;
+  /** A company module's research file, when this purchase has one. Never fails the module download. */
+  signResearch?: (id: string, file: string, seconds: number) => Promise<string | null>;
 }) {
   stripeMode(deps.key);
   const id = await verifyDownloadToken(token, deps.secret);
   const purchase = await deps.find(id);
   if (!purchase || purchase.status !== "paid") throw new KitError(403, "Download unavailable");
-  return { url: await deps.sign(purchase.file_path, 7 * 24 * 60 * 60) };
+  const research = deps.signResearch ? await deps.signResearch(id, purchase.file_path, 7 * 24 * 60 * 60).catch(() => null) : null;
+  return { url: await deps.sign(purchase.file_path, 7 * 24 * 60 * 60), ...(research ? { research_url: research } : {}) };
 }

@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { KitError, renewDownload } from "../_shared/kits/core.ts";
+import { downloadName, KitError, renewDownload } from "../_shared/kits/core.ts";
 import { allowedOrigin, database, env, failure, json } from "../_shared/kits/runtime.ts";
 
 serve(async request => {
@@ -18,9 +18,14 @@ serve(async request => {
         return data;
       },
       sign: async (file, seconds) => {
-        const { data, error } = await db.storage.from("kits").createSignedUrl(file, seconds, { download: true });
+        const { data, error } = await db.storage.from("kits").createSignedUrl(file, seconds, { download: downloadName(file) });
         if (error || !data?.signedUrl) throw new KitError(503, "Download unavailable");
         return data.signedUrl;
+      },
+      signResearch: async (id, file, seconds) => {
+        if (!file.startsWith("read-ai-stack/")) return null;
+        const { data, error } = await db.storage.from("kits").createSignedUrl(`research/ai-stack/${id}.json`, seconds, { download: "mindmake-ai-stack-research.json" });
+        return error || !data?.signedUrl ? null : data.signedUrl;
       },
     }), 200, origin);
   } catch (error) { return failure(error, origin); }

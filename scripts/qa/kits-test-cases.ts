@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { staticPages } from "../lib/pages.mjs";
 import { kits, visibleKits, type Kit } from "../../src/content/kits.ts";
-import { BUYER_PROMISE, checkout, FOUNDING_COUPON, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
+import { BUYER_PROMISE, checkout, downloadName, FOUNDING_COUPON, MEMBER_COUPON, companyFrom, COMPANY_FIELDS, downloadToken, operatorNote, renewDownload, verifyDownloadToken, webhook, type CheckoutDeps, type KitEvent, type Purchase, type WebhookDeps } from "../../supabase/functions/_shared/kits/core.ts";
 import { kitsPreview } from "../lib/kits-build.mjs";
 
 const ready: Kit = { ...kits[0], status: "ready" };
@@ -207,7 +207,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
       deps.promotionCoupon = async () => FOUNDING_COUPON;
       await run();
       assert.equal(state.purchase!.payment_intent, `founding_${sessionId}`);
-      assert.equal(state.sends, 1); assert.match(state.purchase!.delivery_payload!.text, /ready to download/);
+      assert.equal(state.sends, 1); assert.match(state.purchase!.delivery_payload!.text, /Download your brain module/);
     }
   }],
   ["MAKEMYMINDUP is one free module per person: a second claim gets a kind note, not the module", async () => {
@@ -221,9 +221,9 @@ export const kitTests: [string, () => void | Promise<void>][] = [
       assert.deepEqual(asked, [`buyer@example.invalid|${sessionId}`]);
       const text = state.purchase!.delivery_payload!.text;
       assert.equal(state.sends, 1);
-      assert.equal(/ready to download/.test(text), delivered, text);
-      assert.equal(state.signed.length, delivered ? 1 : 0, "no download link is ever signed for a repeat claim");
-      if (!delivered) { assert(text.startsWith("MAKEMYMINDUP covers one free brain module")); assert(notes[0].includes("To do now") && notes[0].includes("second free module")); }
+      assert.equal(/Download your brain module/.test(text), delivered, text);
+      assert.equal(state.signed.length, 0, "the email carries a page link, never a signed storage address");
+      if (!delivered) { assert(text.includes("MAKEMYMINDUP covers one free brain module")); assert(notes[0].includes("To do now") && notes[0].includes("second free module")); }
     }
   }],
   ["a paid purchase never asks about member claims", async () => {
@@ -265,6 +265,7 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.deepEqual(ok.calls[0].params.discounts, [{ promotion_code: "promo_member" }]);
     assert.equal(ok.calls[0].params.allow_promotion_codes, undefined);
     assert.match(ok.calls[0].options.idempotencyKey, /-member$/);
+    assert.match(String(ok.calls[0].params.success_url), /\?checkout=success&member=1$/, "a member link lands on a thank-you without the subscribe card");
     for (const [code, found] of [
       ["NOPE", null], ["OLD", { id: "promo_x", active: false, coupon: MEMBER_COUPON }], ["OTHER", { id: "promo_y", active: true, coupon: "EARLYADOPTER_synthetic" }],
       ["<script>", null], [42, null],
@@ -300,7 +301,8 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.deepEqual(calls[0].params.custom_text, { submit: { message: BUYER_PROMISE } });
     const { run, state } = webhookFixture(); await run();
     const text = state.purchase!.delivery_payload!.text;
-    assert(text.includes(BUYER_PROMISE)); assert(text.includes("https://preview.example/brain-modules")); assert(text.includes("build your whole AI brain with Mindmake at https://preview.example"));
+    assert(text.includes(BUYER_PROMISE)); assert(text.includes("Brain modules: https://preview.example/brain-modules")); assert(text.includes("mindmake.co: https://preview.example"));
+    assert(state.purchase!.delivery_payload!.html!.includes(BUYER_PROMISE.replace(/&/g, "&amp;")));
   }],
   ["each delivered purchase tells the operator once, and a failed note never fails the delivery", async () => {
     const { deps, run, state } = webhookFixture(); const notes: { subject: string; text: string }[] = [];
@@ -322,16 +324,17 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     const { run, state } = webhookFixture(); await run(); await run();
     assert.equal(state.verified[0], "valid-synthetic-signature:unaltered raw body");
     assert.equal(state.records, 1); assert.equal(state.sends, 1); assert.equal(state.purchase?.status, "paid");
-    assert.deepEqual(state.signed, [604800]);
+    assert.deepEqual(state.signed, [], "no storage address is signed into an email");
     assert.match(state.purchase!.delivery_payload!.text, /brain-modules\/download#token=/);
-    assert.equal(state.purchase!.delivery_payload!.subject, "Your AI brain module: Fact-check my board update");
+    assert.equal(state.purchase!.delivery_payload!.subject, "Your brain module: Fact-check my board update");
+    for (const body of [state.purchase!.delivery_payload!.text, state.purchase!.delivery_payload!.html!]) assert(!/supabase|storage\/v1/i.test(body), "the buyer never sees a storage address");
     assert(!/\bkit\b/i.test(state.purchase!.delivery_payload!.text));
   }],
-  ["a failed email retries the persisted payload without issuing another signed URL", async () => {
+  ["a failed email retries the persisted payload and builds nothing twice", async () => {
     const { run, state } = webhookFixture(); state.sendOk = false;
     await assert.rejects(run, /Delivery pending/); const payload = state.purchase!.delivery_payload;
     state.sendOk = true; await run();
-    assert.equal(state.records, 1); assert.equal(state.sent, true); assert.equal(state.signed.length, 1);
+    assert.equal(state.records, 1); assert.equal(state.sent, true); assert.equal(state.signed.length, 0);
     assert.equal(state.purchase!.delivery_payload, payload);
   }],
   ["refund marks the purchase refunded and duplicate events remain idempotent", async () => {
@@ -388,9 +391,9 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     await run();
     assert.deepEqual(asked, [{ company: "Northwind Freight", domain: "northwind-freight.example" }]);
     const text = state.purchase!.delivery_payload!.text;
-    assert(text.startsWith("Your research file on Northwind Freight (northwind-freight.example)"));
-    assert(text.indexOf("research file") < text.indexOf("brain module is ready"));
-    assert.deepEqual(state.signed, [604800, 604800]); assert.equal(state.sends, 1);
+    assert(text.includes("Your research file on Northwind Freight (northwind-freight.example) is ready on the same page"));
+    assert(text.indexOf("Download your brain module") < text.indexOf("research file"), "the button leads; the research file is one of the steps");
+    assert.deepEqual(state.signed, [], "the research file is fetched by the download page, never linked from the email"); assert.equal(state.sends, 1);
     assert(!notes[0].includes("To do now"));
   }],
   ["when the research cannot be built the buyer still gets the module, and Krish is told to build it by hand", async () => {
@@ -405,8 +408,8 @@ export const kitTests: [string, () => void | Promise<void>][] = [
       await run();
       assert.equal(tries, fields.length ? 1 : 0);
       const text = state.purchase!.delivery_payload!.text;
-      assert(text.startsWith(`We could not read ${named} automatically.`)); assert(text.includes("within one working day"));
-      assert(text.includes("brain module is ready")); assert.equal(state.sends, 1);
+      assert(text.includes(`We could not read ${named} automatically.`)); assert(text.includes("within one working day"));
+      assert(text.includes("Download your brain module")); assert.equal(state.sends, 1);
       assert(notes[0].includes("To do now: build the research file") && notes[0].includes("buyer@example.invalid"));
     }
   }],
@@ -430,12 +433,26 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.equal(state.records, 0); assert.equal(state.sends, 0); assert.equal(state.purchase, null);
     state.event = { ...paidEvent(), id: "evt_synthetic_settled", type: "checkout.session.async_payment_succeeded" };
     await run();
-    assert.equal(state.records, 1); assert.equal(state.sends, 1); assert.match(state.purchase!.delivery_payload!.text, /ready to download/);
+    assert.equal(state.records, 1); assert.equal(state.sends, 1); assert.match(state.purchase!.delivery_payload!.text, /Download your brain module/);
   }],
   ["a failed bank payment, or any other event, records and sends nothing", async () => {
     for (const type of ["checkout.session.async_payment_failed", "checkout.session.expired", "payment_intent.succeeded"]) {
       const { state, run } = webhookFixture(); state.event = { ...paidEvent(), type };
       assert.deepEqual(await run(), { received: true }); assert.equal(state.records, 0); assert.equal(state.sends, 0);
     }
+  }],
+  ["a saved module is named mindmake-<module>.mcpb, never with a version or a ZIP name", () => {
+    assert.equal(downloadName("lowest-price/mindmake-lowest-price-1.1.0.mcpb"), "mindmake-lowest-price.mcpb");
+    assert.equal(downloadName("read-ai-stack/mindmake-read-ai-stack-1.0.0.mcpb"), "mindmake-read-ai-stack.mcpb");
+    assert.equal(downloadName("fact-check-board-update/v1.mcpb"), "mindmake-brain-module.mcpb");
+    assert.equal(downloadName("../x"), "mindmake-brain-module.mcpb");
+  }],
+  ["the download page gets the research file only when the purchase has one, and its failure never blocks the module", async () => {
+    const token = await downloadToken(purchaseId, "synthetic-secret-for-unit-tests-only-32");
+    const base = { key: "sk_test_synthetic", secret: "synthetic-secret-for-unit-tests-only-32", find: async () => ({ status: "paid" as const, file_path: "read-ai-stack/mindmake-read-ai-stack-1.0.0.mcpb" }), sign: async () => "module-url" };
+    assert.deepEqual(await renewDownload(token, base), { url: "module-url" });
+    assert.deepEqual(await renewDownload(token, { ...base, signResearch: async () => "research-url" }), { url: "module-url", research_url: "research-url" });
+    assert.deepEqual(await renewDownload(token, { ...base, signResearch: async () => null }), { url: "module-url" });
+    assert.deepEqual(await renewDownload(token, { ...base, signResearch: async () => { throw new Error("storage down"); } }), { url: "module-url" });
   }],
 ];

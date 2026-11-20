@@ -41,3 +41,6 @@ verify_jwt = false
 
 [functions.parts-ai-stack]
 verify_jwt = false
+
+[functions.kits-members]
+verify_jwt = false

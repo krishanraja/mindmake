@@ -136,6 +136,10 @@ export interface WebhookDeps {
   claimDelivery: (id: string) => Promise<Purchase | null>;
   prepareDelivery: (id: string, payload: DeliveryPayload) => Promise<Purchase>;
   sign: (path: string, seconds: number) => Promise<string>;
+  /** The tier a makeyourmindup member holds, from the loaded Substack list; null when the address is not on it. */
+  memberTier?: (email: string) => Promise<"paid" | "founding" | null>;
+  /** A free claim from an address that is not a member (yet): tell the buyer and Krish, give nothing, remember it. */
+  holdForMember?: (claim: { session_id: string; email: string; kit_slug: string; coupon: string }) => Promise<void>;
   /** How many earlier MAKEMYMINDUP claims this address made, other than this session. */
   priorMemberClaims?: (email: string, sessionId: string) => Promise<number>;
   /** The coupon behind a promotion code, read from Stripe: a session records the code, not always its coupon. */
@@ -185,6 +189,15 @@ export async function webhook(raw: string, signature: string | null, deps: Webho
     const intent = member && object.payment_intent == null && typeof object.id === "string" ? `${coupon === FOUNDING_COUPON ? "founding" : "member"}_${object.id}` : object.payment_intent;
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof intent !== "string" || typeof object.id !== "string") throw new KitError(400, "Incomplete purchase");
     if (!file || file.includes("..") || file.startsWith("/")) throw new KitError(503, "Part file unavailable");
+    // A free code is for makeyourmindup members only: paid or founding members for MAKEMYMINDUP, founding members for
+    // MAKEMYMINDUP-FOREVER. The address typed at checkout must be on the loaded list (Ruling, Krish, 2026-11-20).
+    if (coupon !== null && deps.memberTier) {
+      const tier = await deps.memberTier(email);
+      if (!(tier === "founding" || (tier === "paid" && coupon === MEMBER_COUPON))) {
+        await deps.holdForMember?.({ session_id: object.id, email, kit_slug: kit.slug, coupon });
+        return { received: true };
+      }
+    }
     purchase = { session_id: object.id, payment_intent: intent, kit_slug: kit.slug, email, file_path: file };
     // MAKEMYMINDUP is one free module per person: a second claim from the same address is told so, not sent a module.
     if (coupon === MEMBER_COUPON && deps.priorMemberClaims) repeatClaim = (await deps.priorMemberClaims(email, object.id)) > 0;

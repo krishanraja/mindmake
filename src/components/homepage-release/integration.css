@@ -739,12 +739,10 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors { margin-top: clamp(32px, 8svh, 72px); }
 }
 
-/* A menu label too long for a phone can carry a tail that hides below 768px,
-   where the menu's type grows with the screen. None does today: the
-   revenue page's "Build your AI revenue engine" used it until every link
-   became "Build your AI business" (Krish, 2026-11-10). */
+.mm-homepage-release .r3-navigation .primary-routes .mm-route-label-short { display: none; }
 @media (max-width: 767px) {
-  .mm-homepage-release .r3-navigation .primary-routes .mm-route-tail { display: none; }
+  .mm-homepage-release .r3-navigation .primary-routes .mm-route-label-full { display: none; }
+  .mm-homepage-release .r3-navigation .primary-routes .mm-route-label-short { display: inline; }
 }
 
 /* The page the reader is on, in the approved menu's rule style (audit CRIT-07). */

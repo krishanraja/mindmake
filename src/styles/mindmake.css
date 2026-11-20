@@ -1907,10 +1907,10 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
   .mm-arrived .mm-first, .mm-arrived .mm-menu-button { animation: none; }
 }
 
-/* The phone menu's short label (publicLinks.ts, short): the rest of the name
-   hides wherever the full name would not fit one line. */
+.mm-menu-routes .mm-route-label-short { display: none; }
 @media (max-width: 767px) {
-  .mm-menu-routes .mm-route-tail { display: none; }
+  .mm-menu-routes .mm-route-label-full { display: none; }
+  .mm-menu-routes .mm-route-label-short { display: inline; }
 }
 
 /* The story finder starts where the logo starts, on every page that carries

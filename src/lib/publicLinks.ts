@@ -83,7 +83,7 @@ export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; extern
   { label: "What you can do", href: "/case-studies" },
   /* The two free-to-try ways in (Krish, 2026-11-19). /blog stays for search
      engines and AI crawlers, with no link from the menus. */
-  { label: "Your 2-minute AI upgrade toolkit", href: "/2-minute-ai-upgrade-toolkit" },
+  { label: "Your 2-minute AI upgrade toolkit", short: "2-minute AI toolkit", href: "/2-minute-ai-upgrade-toolkit" },
   { label: "Questions we get asked", href: "/faq" },
   { label: "About us", href: "/about" },
   /* The label stays the approved "Media"; the badge beside it says what the

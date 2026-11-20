@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-16
-head: caa7e2b
+as_of: 2026-11-20
+head: 2c67997
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,11 +42,14 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-20)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
-The approved R3 homepage and companion surfaces are live at https://mindmake.co.
+The approved R3 homepage and companion surfaces are live at https://mindmake.co,
+with `/parts`, `/brain-modules` and `/case-studies` use-case discovery added
+since 14 November 2026. Member-code checkout is merged but its edge functions
+are not deployed.
 The canonical live deployment, rollback, backend versions and evidence limits
 are in [06_CURRENT_STATE.md](project-documentation/06_CURRENT_STATE.md).
 Do not repeat deployment journals here. History lives only in
@@ -78,6 +81,45 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-19: brain modules went on sale at `/brain-modules` (PRs #316, #317),
+  with a "Measure your AI judgement" check, the "2-minute AI upgrade toolkit"
+  and an "Our media" channel (#318). Paying makeyourmindup members can redeem
+  a free module with the coupon `mymu-member-module` (#319). A live probe
+  then showed Stripe records a promotion code on the session with its coupon
+  empty, so the first webhook check "would have refused every real member";
+  the webhook now reads the coupon from Stripe (#320), and the hosted code box
+  came off the normal checkout (#321) because it refused even valid codes
+  from a cloud machine seen as a Mexican visitor under Adaptive Pricing.
+  Member links (`/brain-modules/<slug>?code=...`) apply the code instead.
+  Not deployed: `kits-checkout` and `kits-webhook` are edge functions
+  deployed by hand.
+- 2026-11-18: seven parts of the AI brain went on sale at `/parts` (#306,
+  #314, #315) with a buyer lead capture, the promise and proof, and the line
+  "brain modules are software, not a prompt or a skill". Krish's reason for
+  building it: "This needs to be a world class lead magnet site in terms of
+  conversion rates, but not tacky looking". The parts research engine behind
+  the sample reports is paused: UK sources work, but report quality is
+  unstable across live runs (r17 to r22), so the next step is a replayable
+  record-and-replay bench before any more fixes
+  (`project-documentation/parts-research-next-steps.md`).
+- 2026-11-18: "Krish's Mission" (`project-documentation/krishs-mission/`, #312)
+  holds thirteen working files: the ladder from purpose to the business number,
+  the pitch sentence he chose, proposed copy for his surfaces, and every open
+  decision. The homepage "Prefer to ...?" nudge underline now matches the
+  phrase on screen (#310, #311).
+- 2026-11-17: the canon's thesis is "AI makes strong judgement stronger and
+  weak judgement weaker. Mindmake builds the strong kind." (#308), with its
+  evidence and a short "Why Krish started it". The first lead magnet, the
+  judgement audit "Who decided?" (#309, #313), is built at `/who-decided`:
+  six steps, a private read with no score, nothing typed leaves the page.
+  It was unlisted and noindex when last recorded; going live waits on Krish
+  reviewing it rendered.
+- 2026-11-15: use cases, results and client quotes have one record each
+  (`src/data/useCases.ts`, `src/data/testimonials.ts`, #301), and
+  `/case-studies` finds a reader's use case by type, situation, role, result
+  or search, then the eighteen approved client quotes. The cold email opt-out
+  link on mindmake.co forwards to Control Center (#303), and `/privacy` gained
+  "If Mindmake emailed you first" (#302).
 - 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
   from `public/l/index.html`, with `/l/config.js` coming from
   `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
@@ -91,54 +133,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
   masked from recordings. Aimed at the North Star: recordings and heatmaps of
   where consenting readers stop between the hero and "Check your email."
-- 2026-11-11, Krish's phone review: a tap on the way in before the page has
-  started is kept ("Start building your AI business button no longer works":
-  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
-  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
-  would you start?" on its own raised surface, ending in "See how we compare
-  →"; homepage sections are sheets laid over one another on alternating
-  grounds, nothing pinned (the opening's old divider, which drew a line across
-  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
-  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
-  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
-- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
-  chief of staff knows how you think." took its place. The homepage close lost
-  its button: a floating Brain orb asks "Where do you want to start?" (with
-  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
-  only about exploring what leaders built. No section is taller than a desktop
-  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
-- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
-  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
-  found too much page). A bubble's caption turns through the routes a visitor
-  is weighing; tapping opens the comparison set to that route, full screen on
-  a phone, closing back to the same pixel. Aimed at the North Star (cash
-  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
-  `compare_board_open` against starts.
-- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
-  floating way in, sections stacked over one another) and broke the reading by
-  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
-  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
-  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
-  the story deck became a swipe deck on every screen, including the homepage's
-  results and `/case-studies` (Krish: "Same style and movement on desktop");
-  the Brain became one connected Brain of twenty ideas in seven clusters,
-  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
-  "Build your AI business". Krish: "Why don't you just fix all the small
-  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
-  these defects returning.
-
 ## What is next and what is waiting on Krish
-
-- Kits, 16 November: local source on `codex/kits-page` adds the catalogue,
-  three preview-only invented examples and test-only commerce. No real kit
-  is ready. Full build and browser capture are blocked by `spawn EPERM` in
-  this workspace; the material firewall is closed and rendered approval is
-  outstanding. Full staging is also blocked by write permission on the linked
-  worktree Git index; no commit exists, and the partial stage is incomplete.
-  Resume the existing candidate using
-  `project-documentation/website-redesign/STATE.md` and the kits sequence in
-  `project-documentation/07_DEPLOY_RUNBOOK.md`. No push, PR, deployment,
-  migration application, Stripe object or email send is authorised.
 
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The
   owner's exception covered the 24 September 2026 release only; every release
@@ -153,16 +148,19 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 - In play: the CTRL pilot with leaders, by invitation from Krish only, and the
   first outreach drafts (a post, a note to his network, a Make Your Mind Up
   sign-off), each waiting for his yes to that exact send.
-- Next: Change 3, the brief names one thing AI could carry in the reader's
-  own week, shown rendered before it is built
-  ([STATE.md](project-documentation/website-redesign/STATE.md), "Open").
+- Next: Krish approves deploying `kits-checkout` and `kits-webhook`, then one
+  live member-code checkout to his own address proves the module path end to
+  end. Open: his answers in `project-documentation/krishs-mission/11-open-decisions.md`
+  and his review of `/who-decided` rendered.
 - Waiting on Krish: a rendered mock of the corroborated company read and one
   name for the lead-brief deliverable, before that second release is built
   (`LEAD-BRIEF-INTELLIGENCE-001`, `LEAD-BRIEF-DELIVERABLE-001` in the feedback
   ledger), and one brief started and confirmed on a phone, the end-to-end
   proof of the 26 October deploy. The code of 14:33 UTC that day came from a
   speed test, not a brief, and expired unused. Also: confirm a fresh SendLinks
-  link opens at `https://mindmake.co/l/<link>` on his phone.
+  link opens at `https://mindmake.co/l/<link>` on his phone. The canon
+  still says seventeen stories at `00_NORTH_STAR.md:83-86`, and whether R-07 in
+  `04_PROOF_RECORDS.md` stays is his call; the steward does not edit either.
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.

@@ -23,6 +23,13 @@ serve(async request => {
       verify: async (raw, signature) => await stripe.webhooks.constructEventAsync(raw, signature, secret) as unknown as KitEvent,
       catalogue: kits, files: mapping("KITS_FILES_JSON"), origin: publicOrigin(),
       promotionCoupon: async id => couponOf(await stripe.promotionCodes.retrieve(id)),
+      priorMemberClaims: async (email, sessionId) => {
+        const exact = email.replace(/[\\%_]/g, character => `\\${character}`);
+        const { count, error } = await db.from("kit_purchases").select("id", { count: "exact", head: true })
+          .ilike("email", exact).like("payment_intent", "member\\_%").neq("session_id", sessionId);
+        if (error) throw new KitError(503, "Purchase processing unavailable");
+        return count ?? 0;
+      },
       record: (event, purchase, refundIntent) => rpc<string | null>("kits_record_event", { p_event_id: event.id, p_event_type: event.type, p_purchase: purchase, p_refund_intent: refundIntent }),
       claimDelivery: async id => {
         const purchase = await rpc<Purchase | null>("kits_claim_delivery", { p_id: id });

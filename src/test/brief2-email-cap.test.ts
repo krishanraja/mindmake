@@ -43,6 +43,7 @@ describe("what can send mail", () => {
       // The results email, its verification code and the operator's digest.
       "supabase/functions/submit-mindmake-brief/index.ts",
       // The personal read's results email.
+      "supabase/functions/_shared/kits/handler.ts",
       "supabase/functions/mindmake-personal-read/index.ts",
       // The one day-14 follow-up.
       "supabase/functions/send-follow-ups/index.ts",
@@ -51,7 +52,6 @@ describe("what can send mail", () => {
       "supabase/functions/submit-dtd-feedback/index.ts",
       // The part's download link to the buyer who paid for it: a receipt the
       // buyer asked for, not outreach (Ruling, Krish, 2026-11-18: parts live for sale).
-      "supabase/functions/kits-webhook/index.ts",
     ].sort());
   });
 

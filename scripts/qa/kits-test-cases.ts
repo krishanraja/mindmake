@@ -455,4 +455,30 @@ export const kitTests: [string, () => void | Promise<void>][] = [
     assert.deepEqual(await renewDownload(token, { ...base, signResearch: async () => null }), { url: "module-url" });
     assert.deepEqual(await renewDownload(token, { ...base, signResearch: async () => { throw new Error("storage down"); } }), { url: "module-url" });
   }],
+  ["a free code works only for makeyourmindup members, by tier: paid for MAKEMYMINDUP, founding for either", async () => {
+    const cases: [string, "paid" | "founding" | null, boolean][] = [
+      [MEMBER_COUPON, "paid", true], [MEMBER_COUPON, "founding", true], [MEMBER_COUPON, null, false],
+      [FOUNDING_COUPON, "founding", true], [FOUNDING_COUPON, "paid", false], [FOUNDING_COUPON, null, false],
+    ];
+    for (const [coupon, tier, delivered] of cases) {
+      const { deps, state, run } = webhookFixture(); const held: unknown[] = []; const asked: string[] = [];
+      deps.memberTier = async email => { asked.push(email); return tier; };
+      deps.holdForMember = async claim => { held.push(claim); };
+      Object.assign(state.event.data.object, { amount_total: 0, amount_subtotal: 5900, payment_status: "no_payment_required", payment_intent: null,
+        total_details: { amount_discount: 5900 }, discounts: [{ coupon }] });
+      await run();
+      assert.deepEqual(asked, ["buyer@example.invalid"]);
+      assert.equal(state.sends, delivered ? 1 : 0, `${coupon} as ${tier}`); assert.equal(state.records, delivered ? 1 : 0);
+      assert.equal(state.signed.length, 0);
+      assert.deepEqual(held, delivered ? [] : [{ session_id: sessionId, email: "buyer@example.invalid", kit_slug: ready.slug, coupon }]);
+    }
+  }],
+  ["a paid purchase never asks about membership, and a code with no list loaded behaves as before", async () => {
+    const paid = webhookFixture(); let asked = 0; paid.deps.memberTier = async () => { asked++; return null; };
+    await paid.run(); assert.equal(asked, 0); assert.equal(paid.state.sends, 1);
+    const open = webhookFixture();
+    Object.assign(open.state.event.data.object, { amount_total: 0, amount_subtotal: 5900, payment_status: "no_payment_required", payment_intent: null,
+      total_details: { amount_discount: 5900 }, discounts: [{ coupon: MEMBER_COUPON }] });
+    await open.run(); assert.equal(open.state.sends, 1);
+  }],
 ];

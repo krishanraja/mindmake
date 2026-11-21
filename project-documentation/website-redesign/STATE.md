@@ -1,7 +1,7 @@
 # Approved website state
 
 Status: approved-r3-live
-Working-copy status: brain module catalogue redesign on design/brain-modules-catalogue, awaiting design approval
+Working-copy status: judgement audit results on design/judgement-audit-results, awaiting design approval
 Updated: 20 November 2026.
 
 The October design baseline is PR #250, the brief in fewer clicks (26
@@ -11,6 +11,12 @@ identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## Judgement audit results candidate, 20 November 2026
+
+The results at `/measure-your-ai-judgement` now lead from one finding about the reader’s decision to a rule they can keep in their own file. A worked example then lets them change the weekly improvement and time horizon and see what a sustained habit could change over five years. The example starts from an illustrative catch rate. The six audit answers supply the feedback and rule only. The full answer readout and research are available on request.
+
+The optional brief opens at `/?start=1` in a fresh document. Answers stay in the audit tab and clear when it closes. A reader who chooses Copy gets the general rule. Krish’s approval is pending for this revision.
 
 ## Brain module catalogue candidate, 20 November 2026
 

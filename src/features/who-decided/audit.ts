@@ -3,7 +3,7 @@ export const SUBTITLE = "One real decision. Six questions. A private read of whe
 export const LEVELS = ["Aware", "Supported", "Independent", "Adapting"] as const;
 export type Level = typeof LEVELS[number];
 type Option = { level: Level; text: string; meaning: string };
-type Step = { id: string; title: string; question: string; prompt: string; options: readonly Option[]; practice: string };
+type Step = { id: string; title: string; question: string; prompt: string; options: readonly Option[]; practice: string; nextTitle: string; rule: string; example: string };
 
 export const STEPS: readonly Step[] = [
   {
@@ -16,6 +16,9 @@ export const STEPS: readonly Step[] = [
       { level: "Adapting", text: "When the situation changed, I changed how I compared the options and checked again.", meaning: "You changed your method when the situation changed, then checked the options again." },
     ],
     practice: "Before asking AI, write down the decision and two real options, including leaving things as they are. Name what would make you choose each one.",
+    nextTitle: "Put a second option on the table.",
+    rule: "Before you recommend a choice, ask me for a real alternative. Compare the costs of both, including what happens if I wait.",
+    example: "When the next hire is proposed, your AI can compare hiring now with changing how the team works. You decide which cost you can carry.",
   },
   {
     id: "evidence", title: "The evidence", question: "How did you check the claims behind the answer?",
@@ -27,6 +30,9 @@ export const STEPS: readonly Step[] = [
       { level: "Adapting", text: "When sources conflicted or no longer fitted, I changed how I checked and tested the claims again.", meaning: "You adapted your checks when the evidence conflicted or no longer fitted." },
     ],
     practice: "Pick the claim that would change your decision if it were wrong. Find its original source and check what it actually says, when it was written and what it leaves out.",
+    nextTitle: "Check the claim that could change your mind.",
+    rule: "For the claim my decision depends on, show me the original source and the words that support it. Flag the gaps for me to check.",
+    example: "When a supplier promises a saving, your AI can point you to the invoice behind it. You decide whether the comparison is fair.",
   },
   {
     id: "standard", title: "The standard", question: "Without the tool, how did you know it was good enough?",
@@ -38,6 +44,9 @@ export const STEPS: readonly Step[] = [
       { level: "Adapting", text: "When the stakes changed, I revised my standard and checked the answer again.", meaning: "You revised your standard to fit changed stakes and checked again." },
     ],
     practice: "Before opening the tool, finish this sentence: ‘I will accept an answer only if…’ Name something you can check, then use it on the answer.",
+    nextTitle: "Set the bar before AI answers.",
+    rule: "Ask me what would make this answer good enough before you draft it. Check the draft against my standard and show me where it falls short.",
+    example: "For your next board update, you might require a source for every figure. Your AI can flag the gaps before the draft reaches you.",
   },
   {
     id: "numbers", title: "The numbers", question: "Which number moved you, and what could it hide?",
@@ -49,6 +58,9 @@ export const STEPS: readonly Step[] = [
       { level: "Adapting", text: "When conditions changed, I changed the measure or comparison and tested it again.", meaning: "You changed the measure or comparison to fit new conditions, then tested it again." },
     ],
     practice: "Write the number that matters beside a fair comparison. Name one thing it leaves out. If no number belongs in the call, write why.",
+    nextTitle: "Give the number a fair comparison.",
+    rule: "Put the headline number beside a fair comparison. Tell me what it leaves out, then ask whether that changes my choice.",
+    example: "When sales go up, your AI can bring back the same period last year. You decide whether the change tells the whole story.",
   },
   {
     id: "handover", title: "The handover", question: "What thinking did you hand over, and did you take it back?",
@@ -60,6 +72,9 @@ export const STEPS: readonly Step[] = [
       { level: "Adapting", text: "When AI missed something, I changed what I gave it and checked the new reasoning myself.", meaning: "You changed the handover after a miss and checked the reasoning yourself." },
     ],
     practice: "After AI answers, close it. Explain your choice and its main trade-off in your own words. Reopen it only after naming what you still need to check.",
+    nextTitle: "Put the final call in your own words.",
+    rule: "Show me the trade-off in your recommendation. Before I commit, ask me to explain the choice I am making and what I am giving up.",
+    example: "If two offers land at once, your AI can lay out the pay and the time each one asks of you. You decide what that time is worth.",
   },
   {
     id: "pattern", title: "The pattern", question: "What has AI learned about your judgement, and who could own it?",
@@ -71,6 +86,9 @@ export const STEPS: readonly Step[] = [
       { level: "Adapting", text: "When the tool or company rules changed, I checked again and changed what I share.", meaning: "You revisited the record and changed your boundary when the conditions changed." },
     ],
     practice: "Name one part of your judgement you would not want your company to own. Check the tool’s memory and your company’s rules before sharing another example of it.",
+    nextTitle: "Choose which part of your thinking to share.",
+    rule: "Ask which details I am comfortable sharing. Work from that version of the example and leave the private record with me.",
+    example: "You can keep a sensitive negotiation in your own notes and give your AI only the general rule you learned from it.",
   },
 ];
 
@@ -83,20 +101,15 @@ export const FACTS = [
 /** Incomplete or invalid answers produce no read. Equal levels keep step order. */
 export function readDecision(answers: readonly (Level | null)[]) {
   if (answers.length !== STEPS.length || STEPS.some((_, index) => !LEVELS.includes(answers[index] as Level))) return null;
-  const lines = STEPS.map((step, index) => ({
-    id: step.id, title: step.title, level: answers[index] as Level,
-    meaning: step.options.find(option => option.level === answers[index])!.meaning,
-    practice: step.practice,
-  }));
+  const lines = STEPS.map((step, index) => {
+    const answer = step.options.find(option => option.level === answers[index])!;
+    return {
+      id: step.id, title: step.title, level: answer.level, answer: answer.text, meaning: answer.meaning,
+      practice: step.practice, nextTitle: step.nextTitle, rule: step.rule, example: step.example,
+    };
+  });
   const first = lines.reduce((weakest, line) => LEVELS.indexOf(line.level) < LEVELS.indexOf(weakest.level) ? line : weakest);
   return { lines, first };
 }
 
-/** Who held the decision at each level: the tool, shared, or the leader. A count, never a score. */
-export const OWNERS = ["The tool led", "Shared", "You led"] as const;
-export type Owner = typeof OWNERS[number];
-export const ownerOf = (level: Level): Owner => level === "Aware" ? "The tool led" : level === "Supported" ? "Shared" : "You led";
-
-/** The headline figure of each fact, shown large beside it. Each is a figure stated in the fact itself. */
-export const FACT_FIGURES = ["106", "19 pts", "319"] as const;
-export const FACT_FIGURE_LABELS = ["experiments", "less likely to get it right", "knowledge workers"] as const;
+export type DecisionRead = NonNullable<ReturnType<typeof readDecision>>;

@@ -127,7 +127,12 @@ describe("/ai-gtm on the server", () => {
   it("shows what leaders do with a revenue engine, and only those (Krish, 2026-11-04: one library, sorted by product)", () => {
     /* The single testimonial gave way to the revenue engine's own situations. */
     const tabs = [...body.matchAll(/data-finder-tab="([a-z]+)"/g)].map((match) => match[1]);
-    expect(tabs).toEqual(["team", "calls"]);
+    expect(tabs).toEqual(["calls", "team"]);
+    const doc = new DOMParser().parseFromString(body, "text/html");
+    expect(doc.querySelector('[data-finder-tab][aria-selected="true"]')?.getAttribute("data-finder-tab")).toBe("calls");
+    const firstCard = doc.querySelector(".finder-panel.is-active [data-finder-card]");
+    expect(firstCard?.querySelector(".finder-heading")?.textContent).toBe("Two quarters of argument over build or partner ended in one day.");
+    expect(firstCard?.querySelector(".finder-proof")?.getAttribute("href")).toBe("/case-studies#c-15");
     expect(body).not.toContain("data-finder-pick");
     expect(text(body)).toContain("Teams working on the same account");
     expect(body).toContain('href="/case-studies#c-17"');

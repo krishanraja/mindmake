@@ -1,8 +1,8 @@
 # Approved website state
 
 Status: approved-r3-live
-Working-copy status: judgement audit results on design/judgement-audit-results, awaiting design approval
-Updated: 20 November 2026.
+Working-copy status: AI Brain decision example on design/brain-decision-story, draft for review
+Updated: 21 November 2026.
 
 The October design baseline is PR #250, the brief in fewer clicks (26
 October 2026), on top of S6 (24 October 2026) and its phone review (26 October
@@ -11,6 +11,10 @@ identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## AI Brain decision example, 21 November 2026
+
+The draft for `/ai-brain` opens with the private record a leader owns. In the existing “Your call” example, keeping the reason for a discount changes the advice at renewal. The homepage’s AI Brain link points to the reader’s next decision. The business page opens its existing stories with C-15, the build-or-partner decision.
 
 ## Judgement audit results candidate, 20 November 2026
 

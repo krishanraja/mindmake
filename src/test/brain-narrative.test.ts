@@ -31,9 +31,16 @@ describe("the Brain narrative", () => {
     expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "inside", "built"]);
     expect([...doc.querySelectorAll<HTMLElement>("#you .beat")].map((beat) => beat.id)).toEqual(["questions", "sharper", "business"]);
     expect([...doc.querySelectorAll<HTMLElement>("#inside .pair-panel")].map((panel) => panel.id)).toEqual(["memory", "how-you-think"]);
-    expect(doc.querySelector("h1")?.textContent?.trim()).toBe("An AI that thinks like you.");
+    expect(doc.querySelector("h1")?.textContent?.trim()).toBe("Teach your AI what experience taught you.");
     expect(doc.querySelector(".phase-rail")).toBeNull();
     expect(doc.querySelector(".chapter-number")).toBeNull();
+  });
+
+  it("puts the price and the reason for the discount in one renewal decision", () => {
+    const example = page().getElementById("sharper")!;
+    expect(example.querySelector('label input[type="checkbox"]')?.getAttribute("aria-controls")).toBe("renewal-advice");
+    expect(example.querySelector(".price-only")?.textContent).toBe("Offer the same discount again.");
+    expect(example.querySelector(".with-reason")?.textContent).toBe("Did we break a promise to this customer, or are we negotiating a price?");
   });
 
   it("holds the three beats in one place, the first shown, and opens the brief from the hero", () => {
@@ -155,23 +162,12 @@ describe("the Brain's voice", () => {
     ["src/components/mindmake/chiefOfStaff.ts", stripComments(read("src/components/mindmake/chiefOfStaff.ts")).replace("An AI chief of staff knows", "")],
   ];
 
-  // Owner-approved exceptions (Krish, 2026-11-11): these exact opening lines
-  // are kept verbatim; the guardrails still apply to every other line.
-  const APPROVED_EXCEPTIONS = [
-    "An AI brain starts from you, not tasks.",
-    "it becomes your $200k chief of staff.",
-  ];
-  const withoutApproved = (copy: string) =>
-    APPROVED_EXCEPTIONS.reduce((text, line) => text.split(line).join(""), copy);
-
   it.each(surfaces)("uses no banned framing in %s", (_surface, copy) => {
-    const checked = withoutApproved(copy);
-    for (const word of BANNED) expect(checked, word).not.toMatch(new RegExp(`\\b${word}\\b`, "i"));
+    for (const word of BANNED) expect(copy, word).not.toMatch(new RegExp(`\\b${word}\\b`, "i"));
   });
 
   it.each(surfaces)("uses no antithesis template in %s", (_surface, copy) => {
-    const checked = withoutApproved(copy);
-    for (const pattern of ANTITHESIS) expect(checked, String(pattern)).not.toMatch(pattern);
+    for (const pattern of ANTITHESIS) expect(copy, String(pattern)).not.toMatch(pattern);
   });
 
   it.each(surfaces)("uses no em or en dash as punctuation in %s", (_surface, copy) => {

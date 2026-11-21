@@ -87,7 +87,9 @@ export interface StoryFinderMarkupOptions {
 
 
 export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true, door, intro }: StoryFinderMarkupOptions = {}) {
-  const shown = door === "brain" || door === "gtm" ? SITUATIONS.filter((s) => s.door === door) : SITUATIONS;
+  const shown = SITUATIONS.filter((s) => !door || door === "library" || s.door === door);
+  // The business page opens with the documented build-or-partner decision.
+  if (door === "gtm") shown.sort((a, b) => Number(b.id === "calls") - Number(a.id === "calls"));
   const first = shown[0]?.door ?? "brain";
   const tabs = shown.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}" data-finder-door="${s.door}"${door === "library" && s.door !== first ? " hidden" : ""}>${s.label}</button>`).join("");
   const doors = door === "library" ? `<div class="finder-doors" role="group" aria-label="What do you want to build?">${(["brain", "gtm"] as const).map((d) => `<button type="button" data-finder-pick="${d}" aria-pressed="${d === first}">${DOOR_LABEL[d]}</button>`).join("")}</div>` : "";

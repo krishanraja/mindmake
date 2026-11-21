@@ -182,12 +182,58 @@
 .mm-site .mm-locked-brain .question-stack .leaf > .mm-icon { width: 34px; height: 34px; stroke-width: 1.35; }
 .mm-site .mm-locked-brain .question-stack .leaf > span { font-size: .62rem; }
 .mm-site .mm-locked-brain .question-stack .leaf > p { margin: 0; font-size: clamp(1.4rem, 2.2vw, 2.1rem); }
-.mm-site .mm-locked-brain .decision-stack { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: auto; gap: 1.2rem; }
-.mm-site .mm-locked-brain .decision-stack .leaf { display: flex; gap: .55rem; padding: 1rem 0 0; border-top: 2px solid rgba(234, 223, 201, .2); background: none; justify-content: flex-start; }
-.mm-site .mm-locked-brain .decision-stack .leaf[data-role="moved"] { border-top-color: var(--brass-light, #e0bd78); }
-.mm-site .mm-locked-brain .decision-stack .leaf[data-role="call"] { border-top-color: var(--mint, #91e8bc); }
-.mm-site .mm-locked-brain .decision-stack .leaf > .mm-icon, .mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 36px; height: 36px; stroke-width: 1.35; }
-.mm-site .mm-locked-brain .decision-stack .leaf > p, .mm-site .mm-locked-brain .lever-list .leaf > p { margin: 0; font-size: clamp(1.2rem, 1.6vw, 1.6rem); line-height: 1.15; }
+.mm-site .mm-locked-brain .decision-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-areas: "choice result" "privacy result";
+  align-content: start;
+  align-items: start;
+  gap: .6rem clamp(1.25rem, 3vw, 3rem);
+  padding-top: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(234, 223, 201, .35);
+  background: none;
+  box-shadow: none;
+}
+.mm-locked-brain .renewal-choice {
+  grid-area: choice;
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: .7rem;
+  min-height: 44px;
+  padding: .55rem .85rem;
+  border: 1px solid currentColor;
+  color: var(--mint, #91e8bc);
+  font-weight: 600;
+  cursor: pointer;
+}
+.mm-locked-brain .renewal-choice input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: #16533c; }
+.mm-locked-brain .renewal-choice:has(:focus-visible) { outline: 3px solid var(--mint, #91e8bc); outline-offset: 3px; }
+.mm-locked-brain .renewal-choice:has(:checked) { color: #0a1c14; background: var(--mint, #91e8bc); border-color: var(--mint, #91e8bc); }
+.mm-locked-brain .renewal-result { grid-area: result; }
+.mm-locked-brain .renewal-caption {
+  margin: 0 0 .5rem;
+  font: .75rem/1.35 var(--mm-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brass-light, #e0bd78);
+}
+.mm-locked-brain .decision-stack:has(:checked) .renewal-caption { color: var(--mint, #91e8bc); }
+/* Both readings size the same cell so keeping or clearing the reason never shifts the page. */
+.mm-locked-brain .renewal-advice { display: grid; }
+.mm-locked-brain .renewal-advice p {
+  grid-area: 1 / 1;
+  margin: 0;
+  color: var(--ivory, #efe6d3);
+  font: 400 clamp(1.5rem, 2.7vw, 2.55rem)/1.12 "Newsreader", Georgia, serif;
+  text-wrap: pretty;
+}
+.mm-locked-brain .decision-stack:not(:has(:checked)) .with-reason,
+.mm-locked-brain .decision-stack:has(:checked) .price-only { visibility: hidden; }
+.mm-locked-brain .renewal-privacy { grid-area: privacy; max-width: 30ch; margin: 0; color: rgba(239, 230, 211, .8); font-size: .94rem; line-height: 1.4; }
+.mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 36px; height: 36px; stroke-width: 1.35; }
+.mm-site .mm-locked-brain .lever-list .leaf > p { margin: 0; font-size: clamp(1.2rem, 1.6vw, 1.6rem); line-height: 1.15; }
 .mm-site .mm-locked-brain .lever-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
 .mm-site .mm-locked-brain .lever-list .leaf { display: flex; gap: .55rem; padding: 1rem 0 0; border-top: 1px solid rgba(234, 223, 201, .2); background: none; justify-content: flex-start; }
 
@@ -249,9 +295,15 @@
   .mm-site .mm-locked-brain .question-stack .leaf { grid-template-columns: 30px minmax(0, 1fr); row-gap: .2rem; padding: .7rem 0; }
   .mm-site .mm-locked-brain .question-stack .leaf > .mm-icon { grid-row: 1 / span 2; width: 26px; height: 26px; }
   .mm-site .mm-locked-brain .question-stack .leaf > p { font-size: 1.3rem; }
-  .mm-site .mm-locked-brain .decision-stack, .mm-site .mm-locked-brain .lever-list { grid-template-columns: 1fr 1fr; gap: .9rem; }
-  .mm-site .mm-locked-brain .decision-stack .leaf > p, .mm-site .mm-locked-brain .lever-list .leaf > p { font-size: 1.1rem; }
-  .mm-site .mm-locked-brain .decision-stack .leaf > .mm-icon, .mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 26px; height: 26px; }
+  .mm-site .mm-locked-brain .decision-stack {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "choice" "result" "privacy";
+    gap: .85rem;
+  }
+  .mm-locked-brain .renewal-privacy { max-width: none; }
+  .mm-site .mm-locked-brain .lever-list { grid-template-columns: 1fr 1fr; gap: .9rem; }
+  .mm-site .mm-locked-brain .lever-list .leaf > p { font-size: 1.1rem; }
+  .mm-site .mm-locked-brain .lever-list .leaf > .mm-icon { width: 26px; height: 26px; }
   .mm-locked-brain .pair-panel, .mm-locked-brain .pair-panel:first-child, .mm-locked-brain .pair-panel:last-child { padding: 1.4rem var(--mm-logo-edge) 2.2rem; }
   .mm-locked-brain .pair-panel.memory { padding-top: 0; }
   .mm-locked-brain .pair-panel.memory > .s8-plate-media, .mm-site .mm-locked-brain .chapter.built > .s8-plate-media { height: 184px; margin-inline: calc(-1 * var(--mm-logo-edge)); }

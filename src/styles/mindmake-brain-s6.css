@@ -185,8 +185,8 @@
   .mm-site .mm-locked-brain .chapter.beats { height: auto; }
   .mm-locked-brain .beat-copies,
   .mm-locked-brain .beat-instruments { gap: 2rem; }
-  .mm-locked-brain .beat-copy,
-  .mm-locked-brain .beat { grid-area: auto; visibility: visible; opacity: 1; }
+  .mm-locked-brain .beat-copy[data-active],
+  .mm-locked-brain .beat[data-active] { grid-area: auto; visibility: visible; opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mm-locked-brain :is(.beat-copy, .beat, .beat-tab, .beat-step) { transition: none; }

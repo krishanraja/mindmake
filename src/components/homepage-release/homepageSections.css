@@ -793,6 +793,14 @@
 @media (max-width: 700px) {
   .mm-homepage-release .r3-opening .hs-issue { margin-top: 14px; padding-top: 0; border-top: 0; }
   .mm-homepage-release .r3-opening .hs-issue-subscribe { display: none; }
+  /* A dark wash behind the line so the words stay legible over the bright photo. */
+  .mm-homepage-release .r3-opening .hs-issue {
+    padding: 10px 12px;
+    margin-left: -12px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(6, 17, 13, .78), rgba(6, 17, 13, .5));
+    text-shadow: 0 1px 3px rgba(6, 17, 13, .9);
+  }
   .mm-homepage-release .r3-opening .hs-issue-title {
     display: -webkit-box;
     overflow: hidden;

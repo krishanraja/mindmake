@@ -1,242 +1,35 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
-import { MemoryRouter } from "react-router-dom";
-import { afterEach, describe, expect, it, vi } from "vitest";
+// Ruling (Krish, 2026-11-25): /ai-gtm refocused on content production, distribution and monetisation
+import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
-import AiGtm from "@/pages/AiGtm";
 
-/**
- * /ai-gtm as one argument (r47): the change the reader feels, in four places;
- * the turn to the offer; the 30 days; the team; one result. These read the
- * server render for what every reader gets before scripts run, and the client
- * render for what the one switch on the page changes.
- */
-
-const ROOT = resolve(__dirname, "../..");
-const read = (relative: string) => readFileSync(resolve(ROOT, relative), "utf8");
-
-const contexts: string[] = [];
-vi.mock("@/components/mindmake/LeadBrief", () => ({
-  LeadBrief: ({ initialContext }: { initialContext?: string }) => {
-    if (initialContext) contexts.push(initialContext);
-    return null;
-  },
-}));
-
-afterEach(() => {
-  cleanup();
-  vi.restoreAllMocks();
-  vi.unstubAllGlobals();
-  contexts.length = 0;
-});
-
-const text = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/g, " ").replace(/\s+/g, " ");
-
-describe("/ai-gtm on the server", () => {
-  const html = serverRender("/ai-gtm");
-  const body = html.slice(html.indexOf('class="mm-gtm"'));
-
-  it("has one h1, and it is the proposition, with the urgency in its lede and nothing before the four places", () => {
-    /* Ruling (2026-10-24): "the Make Your Pricing, Positioning and Team AI
-       Native is probably actually the top headline", leading with the urgency
-       of the old opening, and the "add an AI tool" section "doesn't need to
-       exist". */
-    expect(html.match(/<h1\b/g)).toHaveLength(1);
-    /* The hand-drawn mark's span (2026-11-04) wraps words inside the line, so
-       it is read as part of the text, not as a break. */
-    const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>")).replace(/<span[^>]*data-hs-mark[^>]*>([^<]*)<\/span>/g, "$1");
-    expect(text(h1).trim()).toBe("Build a growth strategy that survives AI, and a team that can manage AI agents.");
-    const lede = body.indexOf("We work with commercial leaders in media businesses");
-    expect(lede).toBeGreaterThan(body.indexOf("<h1"));
-    /* Ruling (2026-11-04, mock approved): the four places open on their own
-       picture and heading, and the question of where the reader starts sits
-       under that heading, before the first place. */
-    expect(body.indexOf("You can feel it in ")).toBeGreaterThan(lede);
-    expect(body.indexOf("Where are you starting from?")).toBeGreaterThan(body.indexOf("You can feel it in "));
-    expect(body.indexOf('class="gtm-lever"')).toBeGreaterThan(body.indexOf("Where are you starting from?"));
-    expect(text(body)).not.toContain("You could add an AI tool");
-    expect(text(body)).not.toContain("The deals would go to whoever changed the rest.");
+describe("AI business", () => {
+  const main = new DOMParser().parseFromString(serverRender("/ai-gtm"), "text/html").querySelector("main")!;
+  it("keeps one hero and three sections", () => {
+    expect(main.querySelectorAll("h1")).toHaveLength(1);
+    expect(main.querySelector("h1")?.textContent).toBe("Make more of your best work, get it in front of the right people, and get paid properly for it.");
+    expect([...main.querySelectorAll(":scope > section")].map(el => el.id)).toEqual(["you", "inside", "built"]);
+    expect(main.querySelector("[data-mm-hero]")?.textContent).toBe("Start building your AI business");
   });
-
-  it("shows every part of every section at once, with nothing pinned and nothing hidden from assistive technology but the other starting point", () => {
-    expect(body).not.toMatch(/data-gtm-step=/);
-    expect(body).not.toContain("gtm-stage");
-    for (const felt of [
-      "Your buyers are being offered software that does the whole job.",
-      "Your buyers can already pay some software for each result it delivers.",
-      "Your next buyer may ask an AI assistant for a shortlist before they visit your website.",
-      "Agents, software that works on its own, now answer customers and qualify leads.",
-    ]) {
-      expect(text(body)).toContain(felt);
+  it("gives each lever a surface line and native disclosure", () => {
+    const tiles = [...main.querySelectorAll(".product-levers details")];
+    expect(tiles.map(tile => tile.querySelector("strong")?.textContent)).toEqual(["Production","Distribution","Monetisation"]);
+    for (const tile of tiles) {
+      expect(tile.querySelector("summary span")?.textContent).toBeTruthy();
+      expect(tile.querySelector("p")?.textContent).toBeTruthy();
+      expect(tile.hasAttribute("open")).toBe(false);
     }
-    /* Each card holds both starting points in one place, the chosen one shown
-       and the other hidden from sight and from assistive technology. */
-    const levers = body.slice(body.indexOf('data-gtm-chapter="levers"'), body.indexOf("</section>", body.indexOf('data-gtm-chapter="levers"')));
-    expect((levers.match(/class="gtm-lever-way" data-active="true"/g) ?? [])).toHaveLength(4);
-    expect((levers.match(/class="gtm-lever-way" data-active="false" aria-hidden="true"/g) ?? [])).toHaveLength(4);
-    for (const step of ["Week 1", "Weeks 2 to 4", "Day 30"]) expect(text(body)).toContain(step);
-    for (const keep of ["The model.", "The evidence.", "Anything we built."]) expect(text(body)).toContain(keep);
+    const first = tiles[0] as HTMLDetailsElement;
+    first.querySelector("summary")!.click();
+    expect(first.open).toBe(true);
+    first.querySelector("summary")!.click();
+    expect(first.open).toBe(false);
+    expect(main.querySelector(".team-board, .gtm-view-switch")).toBeNull();
   });
-
-  it("shows the work the month can produce instead of folding it into a drawer", () => {
-    for (const item of ["Pricing model and buyer test", "Positioning and messaging", "AI-native org chart", "Working agents", "Product marketing launch kit", "AI market read"]) {
-      expect(text(body)).toContain(item);
-    }
-    /* Ruling (2026-11-04, mock approved): detail sits one tap away ("Why now",
-       "How we test", "See every role"), but the builds are never folded away. */
-    const menu = body.slice(body.indexOf("gtm-plan-menu"), body.indexOf("</ul>", body.indexOf("gtm-plan-menu")));
-    expect(menu).not.toContain("<details");
-    for (const fold of body.match(/<details(?! data-finder-card)[\s\S]*?<\/details>/g) ?? []) {
-      expect(fold).not.toContain("Pricing model and buyer test");
-    }
-  });
-
-  it("carries both of each seat's states, so a reader without scripts sees the team change", () => {
-    expect(text(body)).toContain("8 account executives");
-    expect(text(body)).toContain("4 people + research and proposal agents");
-    expect(text(body)).toContain("27 people · 0 agents");
-    expect(text(body)).toContain("11 people · 5 agent roles");
-  });
-
-  it("writes each seat's decision into the seat, so a reader who cannot pick one still reads them all", () => {
-    const start = body.indexOf('data-gtm-chapter="team"');
-    const board = body.slice(body.indexOf("team-board", start), body.indexOf("</section>", start));
-    for (const decision of [
-      "How do you set targets when part of the team is software?",
-      "Who is accountable when an agent turns away a lead that would have bought?",
-      "Per task or per result: which can your buyers forecast and your finance team bill?",
-    ]) expect(text(board)).toContain(decision);
-    // The copies that hold the panel at its tallest decision are unseen and unheard.
-    const sizers = body.match(/class="decision-copy decision-sizer"[^>]*>/g) ?? [];
-    expect(sizers.length).toBeGreaterThan(0);
-    for (const sizer of sizers) expect(sizer).toContain('aria-hidden="true"');
-  });
-
-  it("cites a dated public source for every lever", () => {
-    const start = body.indexOf('data-gtm-chapter="levers"');
-    const levers = text(body.slice(start, body.indexOf("</section>", start)));
-    expect(levers.match(/(Zendesk|Salesforce|Shopify) · \d{1,2} [A-Z][a-z]{2} 2026/g)).toEqual([
-      "Zendesk · 14 Sep 2026",
-      "Salesforce · 03 Sep 2026",
-      "Shopify · 28 Oct 2026",
-      "Salesforce · 03 Sep 2026",
-    ]);
-  });
-
-  it("leads with commercial stories and examples, with all six wishes in reach", () => {
-    /* The single testimonial gave way to the revenue engine's own situations. */
-    const tabs = [...body.matchAll(/data-finder-tab="([a-z]+)"/g)].map((match) => match[1]);
-    expect(tabs).toEqual(["yours", "terms", "brief", "back", "calls", "try"]);
-    const doc = new DOMParser().parseFromString(body, "text/html");
-    expect(doc.querySelector('[data-finder-tab][aria-selected="true"]')?.getAttribute("data-finder-tab")).toBe("yours");
-    const firstCard = doc.querySelector(".finder-panel.is-active [data-finder-card]");
-    expect(firstCard?.querySelector(".finder-heading")?.textContent).toBe("Media advisers turned their expertise into an offer clients could buy.");
-    expect(firstCard?.querySelector(".finder-proof")?.getAttribute("href")).toBe("/case-studies#c-16");
-    expect(doc.querySelector(".finder-panel.is-active .story-example h4")?.textContent?.replaceAll("\u00a0", " ")).toBe("A placement that fits the idea");
-    expect(body).not.toContain("data-finder-pick");
-    expect(text(body)).toContain("Teams working on the same account");
-    expect(body).toContain('href="/case-studies#c-17"');
-  });
-
-  /* The acronym GTM leaves public copy (Krish, 2026-10-15); the page says
-     go-to-market in full. */
-  it("names go-to-market in full and never says GTM", () => {
-    const flat = text(body);
-    expect(flat.indexOf("go-to-market")).toBeGreaterThan(-1);
-    expect(flat).not.toContain("GTM");
-  });
-
-  it("loads its films on demand only", () => {
-    const videos = body.split("<video").slice(1).map((video) => video.slice(0, video.indexOf(">")));
-    expect(videos).toHaveLength(2);
-    for (const video of videos) {
-      expect(video).toContain("data-src=");
-      expect(video).toContain("poster=");
-      expect(video).not.toMatch(/\ssrc=/);
-    }
-  });
-
-  it("publishes no price and no retired shorthand", () => {
-      expect(text(body)).not.toMatch(/[$£€]\s?\d/);
-    for (const phrase of ["Keep the seat", "Meter the work", "Price the result"]) expect(text(body)).not.toContain(phrase);
-  });
-});
-
-describe("/ai-gtm in the browser", () => {
-  function renderPage() {
-    vi.stubGlobal("scrollTo", vi.fn());
-    return render(<MemoryRouter initialEntries={["/ai-gtm"]}><AiGtm /></MemoryRouter>);
-  }
-
-  it("lets the reader say which business they run, and follows it through the team, the result and the brief", () => {
-    renderPage();
-    const levers = document.querySelector('[data-gtm-chapter="levers"]')!.textContent;
-    expect(screen.getByText("Your sales and marketing team gets agents.")).toBeTruthy();
-    expect(contexts.at(-1)).toBe("I run an established business");
-
-    fireEvent.click(screen.getByLabelText(/I'm building an AI-native business/));
-    expect(screen.getByText("Your first commercial team can be mostly agents.")).toBeTruthy();
-    expect(contexts.at(-1)).toBe("I'm building an AI-native business");
-    /* The four places now speak to the chosen starting point, in the same
-       cells: the founder's ways are the ones shown, and no card gained or lost
-       a word, so none can change size. */
-    const shown = [...document.querySelectorAll('.gtm-lever-way[data-active="true"]')].map((way) => way.textContent).join(" ");
-    expect(shown).toContain("Build around the job AI can finish.");
-    expect(shown).not.toContain("Software that finishes the work.");
-    expect(document.querySelector('[data-gtm-chapter="levers"]')!.textContent).toBe(levers);
-    // Choosing never moves the page.
-    expect(window.scrollTo).not.toHaveBeenCalled();
-  });
-
-  it("turns today's team into the AI-native one with its switch, and shows the decision a seat creates, without moving the page", () => {
-    renderPage();
-    const team = document.querySelector('[data-gtm-chapter="team"]') as HTMLElement;
-    expect(team.dataset.view).toBe("today");
-    fireEvent.click(screen.getByRole("button", { name: "AI-native" }));
-    expect(team.dataset.view).toBe("native");
-    fireEvent.click(screen.getAllByRole("button", { name: /Lead qualification/ })[0]);
-    expect(document.querySelector(".decision-panel h3")!.textContent).toBe("Who is accountable when an agent turns away a lead that would have bought?");
-    expect(window.scrollTo).not.toHaveBeenCalled();
-  });
-});
-
-describe("/ai-gtm's stylesheet", () => {
-  const css = read("src/styles/mindmake-ai-gtm.css");
-  const tokenBlock = css.slice(css.indexOf(".mm-gtm {"), css.indexOf("}", css.indexOf(".mm-gtm {")) + 1);
-  const rest = css.replace(tokenBlock, "");
-
-  it("replaces the page's two private stylesheets", () => {
-    expect(existsSync(resolve(ROOT, "src/styles/mindmake-locked-gtm.css"))).toBe(false);
-    expect(existsSync(resolve(ROOT, "src/styles/mindmake-gtm-plain.css"))).toBe(false);
-    const page = read("src/pages/AiGtm.tsx");
-    expect(page).toContain('import "@/styles/mindmake-ai-gtm.css"');
-    expect(page).not.toMatch(/mindmake-locked-gtm|mindmake-gtm-plain/);
-  });
-
-  it("reads the house tokens and names no font of its own", () => {
-    expect(rest).not.toMatch(/#[0-9a-f]{3,8}\b/i);
-    expect(css).not.toMatch(/font-family:\s*["'A-Z]/);
-    expect(css).not.toMatch(/font:[^;]*"[^"]+"/);
-    /* Set on the element by the chapter that owns it: the step count, a rail
-       segment's count and index, the progress the hook writes, a day of the
-       month and the board's column count. */
-    const fromMarkup = new Set(["--gtm-steps", "--gtm-n", "--gtm-i", "--gtm-progress", "--gtm-day", "--gtm-cols"]);
-    for (const [, name] of css.matchAll(/var\((--[a-z0-9-]+)/g)) {
-      const defined = name.startsWith("--mm-") || fromMarkup.has(name) || new RegExp(`${name}\\s*:`).test(css);
-      expect(`${name}: ${defined}`).toBe(`${name}: true`);
-    }
-  });
-
-  it("sets no text under 12px", () => {
-    for (const [, size] of css.matchAll(/(?:font-size:|font:\s*\d+\s+)\s*(\d+(?:\.\d+)?)px/g)) {
-      expect(Number(size)).toBeGreaterThanOrEqual(12);
-    }
-  });
-
-  it("pins nothing, reads as a document without scripts, and drops transitions for reduced motion", () => {
-    expect(css).not.toMatch(/position: sticky/);
-    expect(css).toMatch(/@media \(scripting: none\) \{[\s\S]*?\.gtm-view-switch \{ display: none; \}/);
-    expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?transition: none;/);
+  it("connects four weeks of work to commercial proof and the reader's own receipt", () => {
+    expect(main.querySelectorAll(".sprint-weeks li")).toHaveLength(4);
+    expect(main.querySelector(".product-receipt")?.textContent).toContain("terms you agreed");
+    expect(main.querySelectorAll("[data-finder-tab]")).toHaveLength(6);
+    expect(main.querySelector(".finder-panel.is-active [data-finder-card]")?.getAttribute("data-finder-card")).toBe("C-16");
+    expect(main.querySelector(".finder-panel.is-active .story-example-label")?.textContent).toBe("EXAMPLE");
   });
 });

@@ -1,9 +1,9 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import AiBrain from "@/pages/AiBrain";
+import AiBrain from "@/pages/AiBrainLocked";
 import AiGtm from "@/pages/AiGtm";
-import { START_LABEL_GTM } from "@/lib/publicLinks";
+import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 
 vi.mock("@/components/mindmake/LeadBrief", () => ({
   LeadBrief: ({ open, onClose, route }: { open: boolean; onClose: () => void; route: string }) => open ? (
@@ -60,7 +60,7 @@ function enterTheBrief(path: string) {
     fireEvent.click(screen.getAllByRole("button", { name: new RegExp(START_LABEL_GTM) })[0]);
     return;
   }
-  fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
+  fireEvent.click(screen.getAllByRole("button", { name: new RegExp(START_LABEL) })[0]);
 }
 
 describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }) => {

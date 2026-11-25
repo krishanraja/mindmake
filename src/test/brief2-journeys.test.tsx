@@ -86,20 +86,14 @@ describe("the shared capture", () => {
   });
 
   it("renders a complete journey on both doors", () => {
-    /* Both routes make their work tangible before opening the same brief
-       drawer. GTM moves from the reader's business through the 30 days, the
-       four levers, the team and a result, and carries the business the reader
-       chose into the drawer; Brain moves from decision through the actual
-       graph, evidence and correction. */
+    /* Both offers lead to the same private drawer. */
     const gtm = readFileSync(resolve(__dirname, "../..", "src/pages/AiGtm.tsx"), "utf8");
-    for (const lever of ["Product", "Price", "Positioning", "People"]) expect(gtm).toContain(`${lever.toLowerCase()}: "${lever}"`);
-    for (const step of ["Week 1", "Weeks 2 to 4", "Day 30"]) expect(gtm).toContain(`when: "${step}"`);
-    expect(gtm).toContain("The decision you'll face");
-    expect(gtm).toContain("initialContext={copy.tab}");
+    for (const lever of ["Production", "Distribution", "Monetisation"]) expect(gtm).toContain(`title="${lever}"`);
+    expect(gtm).toContain('route="gtm" presentation="drawer"');
 
-    const brain = readFileSync(resolve(__dirname, "../..", "src/pages/AiBrain.tsx"), "utf8");
-    expect(brain).toContain("STAGE_NAMES.map((name, index) => <button");
-    for (const state of ["Decision", "Brain", "Evidence", "Correction"]) expect(brain).toContain(state);
+    const brain = readFileSync(resolve(__dirname, "../..", "src/pages/AiBrainLocked.tsx"), "utf8");
+    expect(brain).toContain("<LiquidBrain");
+    expect(brain).toContain('route="brain" presentation="drawer"');
   });
 });
 

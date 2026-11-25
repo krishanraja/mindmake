@@ -25,8 +25,8 @@ const local = !flag("base");
 /** What counts as a section on each page: what a reader sees as one band. */
 const PAGES = [
   { path: "/", sections: ".mm-homepage-release .hs-section" },
-  { path: "/ai-brain", sections: ".mm-locked-brain .chapter[data-phase]:not(.pair):not(.opening), .mm-locked-brain .pair-panel, .brain-close > .brain-finder, .brain-close > .brain-close-body" },
-  { path: "/ai-gtm", sections: ".mm-gtm [data-gtm-chapter]:not([data-gtm-chapter='threshold']):not(.gtm-opening)" },
+  { path: "/ai-brain", sections: ".product-page > .product-section" },
+  { path: "/ai-gtm", sections: ".product-page > .product-section" },
   { path: "/case-studies", sections: ".mm-case-route .uc-finder, .mm-case-route .uc-words" },
 ];
 const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 1280, height: 800 }];

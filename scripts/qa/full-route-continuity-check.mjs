@@ -271,19 +271,19 @@ async function verifyCaseRecordAnchor(page, label) {
     return { open: Boolean(dialog?.hasAttribute("open")), heading: heading?.textContent ?? "", hash: location.hash };
   });
   fail(!state.open, `${label}: an old proof-record link did not open its story (${JSON.stringify(state)})`);
-  fail(!state.heading.startsWith("Two quarters of argument"), `${label}: #record-day-one opened the wrong story (${JSON.stringify(state)})`);
+  fail(!state.heading.startsWith("A media company chose to partner"), `${label}: #record-day-one opened the wrong story (${JSON.stringify(state)})`);
   fail(state.hash !== "#c-15", `${label}: the old link was not rewritten to #c-15 (${JSON.stringify(state)})`);
 }
 
 async function verifyBrainNodeTargets(page, label) {
-  await page.goto(`${origin}/ai-brain#memory`, { waitUntil: "domcontentloaded" });
-  const field = page.locator("#meaningFieldS2");
+  await page.goto(`${origin}/ai-brain#inside`, { waitUntil: "domcontentloaded" });
+  const field = page.locator(".brain-field");
   await field.waitFor({ state: "visible" });
   await field.scrollIntoViewIfNeeded();
   await page.waitForTimeout(80);
-  const nodes = page.locator(".meaning-node-s2");
+  const nodes = page.locator(".brain-field button");
   const count = await nodes.count();
-  fail(count !== 20, `${label}: expected 20 selectable ideas, found ${count}`);
+  fail(count !== 6, `${label}: expected six selectable parts, found ${count}`);
 
   for (let index = 0; index < count; index += 1) {
     const node = nodes.nth(index);
@@ -419,9 +419,9 @@ async function verifyDesktopTextReflow(browser) {
     {
       route: "/ai-brain",
       targets: [
-        ".mm-locked-brain .opening-copy > h1",
-        ".mm-locked-brain .opening-copy > p",
-        ".mm-locked-brain .primary-link",
+        ".product-hero h1",
+        ".product-hero p",
+        ".product-hero .mm-button",
       ],
     },
   ];
@@ -535,49 +535,13 @@ async function verifyDesktopReflow(browser) {
 }
 
 async function verifyLockedSurfaceReflow(browser) {
-  const cases = [
-    {
-      route: "/ai-brain",
-      viewport: { width: 512, height: 384 },
-      container: ".memory",
-      targets: ["#memory-title"],
-      avoid: ".memory .instrument",
-    },
-    {
-      route: "/ai-brain",
-      viewport: { width: 720, height: 450 },
-      container: ".memory",
-      targets: ["#memory-title"],
-      avoid: ".memory .instrument",
-    },
-    {
-      route: "/ai-brain",
-      viewport: { width: 512, height: 384 },
-      container: ".correction",
-      targets: ["#correction-title"],
-      avoid: ".correction .instrument",
-    },
-    {
-      route: "/ai-brain",
-      viewport: { width: 720, height: 450 },
-      container: ".correction",
-      targets: ["#correction-title"],
-      avoid: ".correction .instrument",
-    },
-    {
-      route: "/ai-brain",
-      viewport: { width: 512, height: 384 },
-      container: ".correction-machine",
-      targets: [".memory-sheet-after p", ".machine-status"],
-    },
-    {
-      route: "/ai-gtm",
-      viewport: { width: 720, height: 450 },
-      // r47: the decision a seat creates sits on the panel beside the team.
-      container: ".decision-panel",
-      targets: [".decision-panel h3", ".decision-panel .gtm-decision-note"],
-    },
-  ];
+  const cases = [512, 720].flatMap(width => {
+    const viewport = { width, height: width === 512 ? 384 : 450 };
+    return [
+      { route: "/ai-brain", viewport, container: "#inside", targets: [".brain-inside h2", ".brain-answer h3", ".brain-answer p"], avoid: ".brain-field" },
+      { route: "/ai-gtm", viewport, container: ".product-levers", targets: [".product-levers summary strong", ".product-levers summary span"] },
+    ];
+  });
 
   for (const testCase of cases) {
     const context = await browser.newContext({ viewport: testCase.viewport, hasTouch: false, reducedMotion: "reduce" });

@@ -110,7 +110,7 @@ async function checkDeck(page, context, where, deck, touch) {
   if (still !== moved) fail(where, `a vertical scroll moved the deck from ${moved} to ${still}`);
   await cdp.detach();
 }
-const SECTIONS = { "/": ".hs-section", "/ai-brain": ".mm-locked-brain > .chapter[data-phase], .brain-close", "/ai-gtm": ".mm-gtm > [data-gtm-chapter]" };
+const SECTIONS = { "/": ".hs-section", "/ai-brain": ".product-page > .product-section", "/ai-gtm": ".product-page > .product-section" };
 
 const failures = [];
 const fail = (where, message) => failures.push(`${where}: ${message}`);
@@ -273,42 +273,12 @@ for (const profile of PROFILES) {
       if (Math.abs(after - before) > 2) fail(where, `returning to the tab moved the page from ${before} to ${after}`);
 
       if (route === "/ai-brain") {
-        /* The connected Brain (2026-11-10) tours its ideas slowly while it is
-           on screen. Each idea must stay long enough to read, a reader's pick
-           holds the tour while its card is open, and closing the card lets it
-           carry on (owner, 2026-11-11: "It still keeps going, which is a good
-           thing"). There is no tour button. It used to turn every 3.6s and
-           replace the reading before anyone could read it (audit BRAIN-05). */
-        if (await page.locator(".brain-tour, #brainTourS2").count()) fail(where, "the Brain still shows a tour button");
-        const active = () => page.evaluate(() => document.querySelector(".meaning-node-s2.is-active")?.dataset.id);
-        await page.evaluate(() => document.querySelector("#meaningFieldS2")?.scrollIntoView({ block: "center" }));
-        const first = await active();
-        await page.waitForTimeout(5000);
-        const later = await active();
-        if (first !== later) fail(where, `the Brain moved from ${first} to ${later} within 5s, too soon to read`);
-        const picked = await page.evaluate(() => {
-          const node = [...document.querySelectorAll(".meaning-node-s2:not(.is-active)")].at(-1);
-          node?.click();
-          return node?.dataset.id;
-        });
-        await page.waitForTimeout(7600);
-        const held = await active();
-        if (picked && held !== picked) fail(where, `the Brain's tour moved on while the card for ${picked} was open (now ${held})`);
-        await page.keyboard.press("Escape");
-        if (!reduced && picked) {
-          /* Closed, the tour carries on after a full stay on the idea shown. */
-          let resumed = false;
-          for (let i = 0; i < 20 && !resumed; i += 1) { await page.waitForTimeout(500); resumed = (await active()) !== picked; }
-          if (!resumed) fail(where, `the Brain's tour did not carry on within 10s of closing the card for ${picked}`);
+        const parts = page.locator(".brain-field button");
+        if (await parts.count() !== 6) fail(where, "the six parts of the Brain are missing");
+        for (const part of await parts.all()) {
+          await part.click();
+          if (await part.getAttribute("aria-pressed") !== "true") fail(where, "the chosen part did not open");
         }
-        const stacked = await page.evaluate(() => {
-          /* The panel after the goals: the living record until 11 November
-             2026, the chief of staff since (#how-you-think). */
-          const memory = document.querySelector("#memory")?.getBoundingClientRect();
-          const record = document.querySelector("#memory + .pair-panel")?.getBoundingClientRect();
-          return memory && record ? record.top >= memory.bottom - 1 : false;
-        });
-        if (!stacked) fail(where, "the goals panel and the one after it are not one after the other");
       }
 
       /* The floating button never sits on a link, a control or a picture. */
@@ -333,6 +303,7 @@ for (const profile of PROFILES) {
       /* The swipe deck, on every screen (owner, 2026-11-10: "Same style and
          movement on desktop"): the stories on /ai-brain and /ai-gtm, the
          homepage's results. */
+      if (route !== "/") await page.locator(".product-actions .mm-button").click();
       if (DECKS[route]) await checkDeck(page, context, where, DECKS[route], profile.phone);
     }
     await context.close();

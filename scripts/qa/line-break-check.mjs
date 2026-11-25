@@ -85,20 +85,14 @@ const STATES = {
     { name: "quotes", controls: '.uc-quotes-nav [aria-label="Next quote"]', repeat: 18, frames: [".uc-words"] },
   ],
   "/ai-brain": [
-    { name: "beats", controls: ".beats [data-beat-go], .beats [data-beat-step]", frames: [".beat-copies", ".beat-instruments"] },
-    /* Every idea of the connected Brain (S9 stage 3, 2026-11-10): its card
-       floats over the picture, so the section must not change size, and the
-       card's words are measured like the rest of the page. */
-    { name: "ideas", controls: "#meaningFieldS2 .meaning-node-s2", between: "Escape", frames: ["#inside"] },
-    { name: "finder", controls: ".brain-finder [data-finder-tab]", frames: [".brain-finder .story-finder"] },
-    { name: "finder rail", setup: '.brain-finder [data-finder-tab="brief"]', controls: ".brain-finder .finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".brain-finder .story-finder"] },
+    { name: "parts", controls: ".brain-field button", frames: [".brain-inside", ".brain-answer"] },
+    { name: "truths", controls: ".brain-truths summary", frames: [".brain-inside"] },
+    { name: "finder", setup: ".product-actions .mm-button", controls: ".brain-finder [data-finder-tab]", frames: [".story-finder"] },
+    { name: "finder rail", setup: '[data-finder-tab="brief"]', controls: ".finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".story-finder"] },
   ],
   "/ai-gtm": [
-    { name: "starting point", controls: ".gtm-door", frames: [".lever-steps"] },
-    /* The seats sit behind "See every role" (2026-11-04); open it, then press
-       every switch and seat as before. */
-    { name: "team", setup: ".team-roles:not([open]) > summary", controls: ".gtm-view-switch button", frames: [".gtm-team-body"] },
-    { name: "seat", setup: ".team-roles:not([open]) > summary", controls: ".role-cell:not(:disabled)", frames: [".gtm-team-body"] },
+    { name: "levers", controls: ".product-levers summary", frames: [".business-inside"] },
+    { name: "finder", setup: ".product-actions .mm-button", controls: ".brain-finder [data-finder-tab]", frames: [".story-finder"] },
   ],
   "/new-age-leadership": [{ name: "finder", controls: "[data-finder-tab]", frames: [".story-finder"] }],
 };

@@ -33,7 +33,7 @@ export default function CaseStudies() {
     <MindmakeShell onStart={openBrief} mainClassName="mm-case-route">
       <SEO
         title="What you can do with it"
-        description="Real things leaders now do with their AI brain or AI revenue engine, and every result on the record."
+        description="Real things leaders now do with their AI brain or AI business, and every result on the record."
         canonical="/case-studies"
         jsonLd={jsonLd}
       />

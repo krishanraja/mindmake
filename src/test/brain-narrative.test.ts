@@ -1,131 +1,48 @@
+import { createElement } from "react";
+import { render, fireEvent, within } from "@testing-library/react";
+import { LiquidBrain } from "@/components/mindmake/LiquidBrain";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
 import { readingProgress, sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import fixture from "@/data/vnext/brain-fixture.json";
-import { blogPosts } from "@/data/blogPosts";
-import { sourceLine } from "@/components/mindmake/locked/brainRecord";
 
-/**
- * /ai-brain after S6 (Krish, 2026-10-24), which put the S4 narrative and its S5
- * sharpening into three sections. The hero and its way in, then one panel in
- * three beats: You (the questions only they can answer), Sharper (one
- * decision) and Business (one call reaching the four levers). Then Inside
- * (what a Brain holds) beside Private (the living record), as two panels of
- * one section. Then Built (the month), with the finder, what stays with you
- * and the way in after it. The rail and the source-check and correction
- * chapters are retired.
- */
 
 const ROOT = resolve(__dirname, "../..");
 const read = (path: string) => readFileSync(resolve(ROOT, path), "utf8");
-const MARKUP = "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html";
 
 const page = () => new DOMParser().parseFromString(serverRender("/ai-brain"), "text/html");
 
-describe("the Brain narrative", () => {
-  it("runs the hero and three sections in order, the story's beats and the two panels inside them", () => {
-    const doc = page();
-    const chapters = [...doc.querySelectorAll<HTMLElement>(".mm-locked-brain .chapter[data-phase]")];
-    expect(chapters.map((chapter) => chapter.id)).toEqual(["opening", "you", "inside", "built"]);
-    expect([...doc.querySelectorAll<HTMLElement>("#you .beat")].map((beat) => beat.id)).toEqual(["questions", "sharper", "business"]);
-    expect([...doc.querySelectorAll<HTMLElement>("#inside .pair-panel")].map((panel) => panel.id)).toEqual(["memory", "how-you-think"]);
-    expect(doc.querySelector("h1")?.textContent?.trim()).toBe("Teach your AI what experience taught you.");
-    expect(doc.querySelector(".phase-rail")).toBeNull();
-    expect(doc.querySelector(".chapter-number")).toBeNull();
+// Ruling (Krish, 2026-11-25): /ai-brain revisualised
+describe("the AI brain route", () => {
+  const main = page().querySelector("main")!;
+  it("keeps the hero and three rooms in reading order", () => {
+    expect(main.querySelector("h1")?.textContent).toBe("Teach your AI what experience taught you.");
+    expect([...main.querySelectorAll(":scope > section")].map(el => el.id)).toEqual(["you", "inside", "built"]);
+    expect(main.querySelector("[data-mm-hero]")?.textContent).toBe("Start building your AI brain");
   });
-
-  it("puts the price and the reason for the discount in one renewal decision", () => {
-    const example = page().getElementById("sharper")!;
-    expect(example.querySelector('label input[type="checkbox"]')?.getAttribute("aria-controls")).toBe("renewal-advice");
-    expect(example.querySelector(".price-only")?.textContent).toBe("Offer the same discount again.");
-    expect(example.querySelector(".with-reason")?.textContent).toBe("Did we break a promise to this customer, or are we negotiating a price?");
+  it("explains one North Star and five parts beside three disclosures", () => {
+    expect([...main.querySelectorAll(".brain-field button")].map(el => el.textContent)).toEqual(["North Star","Vision","Judgement","Taste","Standards","Preferences"]);
+    expect(main.querySelector("#brain-answer")?.textContent).toContain("What are you trying to make possible?");
+    expect(main.querySelectorAll(".brain-truths details")).toHaveLength(3);
+    expect(main.textContent).not.toMatch(/\bCTRL\b|four answers|chief of staff/i);
   });
-
-  it("holds the three beats in one place, the first shown, and opens the brief from the hero", () => {
-    const doc = page();
-    const active = (selector: string) => [...doc.querySelectorAll<HTMLElement>(selector)].map((el) => el.dataset.active);
-    expect(active("#you .beat-copy")).toEqual(["true", "false", "false"]);
-    expect(active("#you .beat")).toEqual(["true", "false", "false"]);
-    expect([...doc.querySelectorAll("#you [data-beat-go]")].map((button) => button.getAttribute("aria-pressed"))).toEqual(["true", "false", "false"]);
-    const start = doc.querySelector<HTMLButtonElement>(".opening [data-brain-start]");
-    expect(start?.hasAttribute("data-mm-hero")).toBe(true);
-    expect(start?.hasAttribute("data-mm-primary")).toBe(true);
-    expect(start?.textContent).toContain("Start building your AI brain");
-    expect(doc.querySelector(".opening .primary-link")).toBeNull();
+  it("updates the same answer panel for a reader's choice", () => {
+    const view = render(createElement(LiquidBrain));
+    try {
+      const panel = view.container.querySelector("#brain-answer")!;
+      const button = within(view.container).getByRole("button", { name: "Taste" });
+      fireEvent.click(button);
+      expect(button).toHaveAttribute("aria-pressed", "true");
+      expect(view.container.querySelector("#brain-answer")).toBe(panel);
+      expect(panel.querySelector('[aria-hidden="false"]')).toHaveTextContent("Which detail makes this feel right or wrong to you?");
+    } finally { view.unmount(); }
   });
-
-  it("ends in the finder, what stays with you, and one way in, with the other page one line away", () => {
-    const doc = page();
-    const close = doc.querySelector(".brain-close")!;
-    /* Only the brain's own situations (Krish, 2026-11-04: one library, sorted by product). */
-    expect([...close.querySelectorAll<HTMLElement>("[data-finder-tab]")].map((tab) => tab.dataset.finderTab)).toEqual(["back", "terms", "calls", "try", "brief", "yours"]);
-    expect(close.querySelector(".kicker")).toBeNull();
-    expect([...close.querySelectorAll(".s8-keeps li")].map((item) => item.textContent?.trim())).toEqual(["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."]);
-    expect(close.querySelectorAll("[data-mm-primary]")).toHaveLength(1);
-    expect([...close.querySelectorAll<HTMLAnchorElement>(".mm-pairing-link")].map((link) => link.getAttribute("href"))).toEqual(["/ai-gtm"]);
-  });
-
-  it("never names CTRL in anything the record shows (Ruling, owner, 2026-10-24; audit RECORD-13)", () => {
-    const shown = [
-      ...fixture.sources.flatMap((source) => [source.label, sourceLine(source)]),
-      ...fixture.relationships.map((relationship) => relationship.meaning),
-      ...fixture.corrections.map((correction) => correction.summary),
-      ...fixture.items.map((item) => item.title),
-    ];
-    for (const line of shown) expect(line, line).not.toMatch(/\bCTRL\b/);
-  });
-
-  it("carries how it thinks in the place of the retired record, names no AI companies, and says 30 days only where it builds", () => {
-    const doc = page();
-    /* Ruling (Krish, 2026-11-11): "Private to you, and yours to keep." goes,
-       because the page says it elsewhere, and the homepage's "An AI chief of
-       staff knows how you think." takes its place. */
-    expect(doc.querySelector("#living-record, #record-title, .record-counts")).toBeNull();
-    expect(doc.body.textContent).not.toContain("Private to you, and");
-    expect(doc.querySelector("#how-you-think #how-title")?.textContent).toBe("Your AI brain knows how you think.");
-    expect([...doc.querySelectorAll("#how-you-think .cos-flow b")].map((b) => b.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
-    expect(doc.querySelector('#how-you-think a[href="/new-age-leadership"]')).not.toBeNull();
-    // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
-    // integrations with named AI companies.
-    const text = doc.querySelector(".mm-locked-brain")?.textContent ?? "";
-    for (const vendor of ["OpenAI", "Claude", "Anthropic", "Copilot", "Gemini"]) expect(text, vendor).not.toContain(vendor);
-    const main = doc.querySelector(".mm-locked-brain")!;
-    const withDays = [...main.querySelectorAll<HTMLElement>(".chapter[data-phase]")].filter((chapter) => /30 days/.test(chapter.textContent ?? ""));
-    expect(withDays.map((chapter) => chapter.id)).toEqual(["built"]);
-  });
-
-  it("tours with no button, holding while a card is open and carrying on after (owner, 2026-11-11)", () => {
-    expect(page().querySelector("#brainTourS2, .brain-tour")).toBeNull();
-    const source = read("src/pages/AiBrainLocked.tsx");
-    expect(source).toContain("if (touring) liquid?.setTour(true);");
-    expect(source).not.toMatch(/Play the tour|Pause the tour/);
-  });
-
-  it("lists every idea by its cluster for a reader without scripting", async () => {
-    const { CLUSTERS } = await import("@/components/mindmake/locked/connectedBrain");
-    const html = serverRender("/ai-brain");
-    const listing = html.match(/<noscript><ul class="brain-nojs">([\s\S]*?)<\/ul><\/noscript>/);
-    expect(listing).not.toBeNull();
-    const list = new DOMParser().parseFromString(`<ul>${listing![1]}</ul>`, "text/html");
-    expect([...list.querySelectorAll("li > b")].map((name) => name.textContent)).toEqual(CLUSTERS.map((cluster) => cluster.name));
-    const text = list.body.textContent ?? "";
-    for (const item of fixture.items) expect(text, item.id).toContain(item.title);
-    expect(html.match(/class="brain-nojs"/g)).toHaveLength(1);
-  });
-
-  it("links the month to the long read, which exists", () => {
-    const link = page().querySelector<HTMLAnchorElement>("#built .built-link");
-    const slug = link?.getAttribute("href")?.replace(/^\/blog\//, "");
-    expect(blogPosts.map((post) => post.slug)).toContain(slug);
-  });
-
-  it("retires the source check, the correction and the memory promise", () => {
-    const html = serverRender("/ai-brain");
-    for (const retired of ['id="proof"', 'id="correction"', "testSourceS2", "correctionMachine", "Nothing gets lost.", "One decision wakes the whole Brain.", "It remembers what mattered", "What this Brain holds", "approved source fixture", "It is written in plain words"]) {
-      expect(html, retired).not.toContain(retired);
-    }
+  it("ends in the four weeks, the receipt and the six wishes", () => {
+    expect(main.querySelectorAll(".sprint-weeks li")).toHaveLength(4);
+    expect(main.querySelector(".product-receipt")?.textContent).toContain("What stays with you");
+    expect(main.querySelectorAll("[data-finder-tab]")).toHaveLength(6);
   });
 });
 
@@ -154,7 +71,7 @@ describe("the Brain's voice", () => {
   ].join("\n");
   const surfaces: Array<[string, string]> = [
     ["src/pages/AiBrainLocked.tsx", stripComments(read("src/pages/AiBrainLocked.tsx"))],
-    [MARKUP, stripComments(read(MARKUP))],
+    ["LiquidBrain", stripComments(read("src/components/mindmake/LiquidBrain.tsx"))],
     ["brain-fixture (displayed fields)", displayedFixture],
     ["src/components/mindmake/chiefOfStaff.ts", stripComments(read("src/components/mindmake/chiefOfStaff.ts"))],
   ];
@@ -208,11 +125,7 @@ describe("the stepped build", () => {
     expect(readingProgress([], 600)).toBe(1);
   });
 
-  it("marks only the month as paced by reading", () => {
-    const doc = page();
-    const paced = [...doc.querySelectorAll<HTMLElement>("[data-steps]")].filter((sequence) => sequence.dataset.steps === "reading");
-    expect(paced.map((sequence) => sequence.closest(".chapter")?.id)).toEqual(["built"]);
-  });
+
 
   it("undoes itself on the way back", () => {
     const viewport = 844;

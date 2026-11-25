@@ -30,11 +30,11 @@ exact(brain.items.length, brainContract.meanings, "Brain meanings");
 exact(brain.relationships.length, brainContract.relationships, "Brain relationships");
 exact(brain.sources.length, brainContract.sources, "Brain sources");
 exact(brain.corrections.length, brainContract.corrections, "Brain corrections");
-// The signal fixture stays locked as the GTM evidence source. From r25 the
-// page no longer asks the reader to pick among its responses, so a manifest
-// states either the picker counts (r17 and earlier) or the cited signals (r25
-// onwards). A contract stating neither is refused rather than passed.
-if (gtmContract.signals === undefined && gtmContract.citedSignals === undefined) failures.push("GTM contract states neither signal counts nor cited signals");
+// Historical manifests still identify signal counts or named citations.
+// Ruling (Krish, 2026-11-25): /ai-gtm refocused on content production, distribution and monetisation
+if (!gtmContract.levers && gtmContract.signals === undefined && gtmContract.citedSignals === undefined) {
+  failures.push("AI business contract has no levers or historical signal contract");
+}
 if (gtmContract.signals !== undefined) exact(signals.length, gtmContract.signals, "GTM signals");
 if (gtmContract.responseChoices !== undefined) exact(signals.reduce((total, signal) => total + signal.responses.length, 0), gtmContract.responseChoices, "GTM response choices");
 for (const key of gtmContract.citedSignals ?? []) {
@@ -49,6 +49,11 @@ const contractSource = (name, fallback) => {
 };
 const brainSource = contractSource("brain", "src/pages/AiBrain.tsx");
 const gtmSource = contractSource("gtm", "src/pages/AiGtm.tsx");
+if (gtmContract.levers) {
+  const tiles = [...gtmSource.matchAll(/<DepthTile title="([^"]+)"/g)].map(match => match[1]);
+  if (JSON.stringify(tiles) !== JSON.stringify(gtmContract.levers)) failures.push("AI business levers differ from the approved route");
+}
+// Ruling (Krish, 2026-11-25): /ai-brain revisualised
 for (const instrument of brainContract.requiredInstruments) {
   if (!brainSource.includes(instrument)) failures.push(`Brain is missing approved instrument: ${instrument}`);
 }
@@ -74,8 +79,8 @@ if (failures.length && manifestPath === lockPath) {
 console.log(JSON.stringify({
   lock: manifestPath === lockPath ? "quality/route-lock/approved-production.lock.json" : manifest.artifact,
   lockedFiles: Object.keys(manifest.files).length,
-  brain: { meanings: brain.items.length, relationships: brain.relationships.length, sources: brain.sources.length, corrections: brain.corrections.length },
-  gtm: { signals: signals.length, responseChoices: signals.reduce((total, signal) => total + signal.responses.length, 0) },
+  brain: { states: brainContract.states, meanings: brain.items.length, relationships: brain.relationships.length, sources: brain.sources.length, corrections: brain.corrections.length },
+  gtm: gtmContract.levers ? { levers: gtmContract.levers } : { signals: signals.length, responseChoices: signals.reduce((total, signal) => total + signal.responses.length, 0) },
   failures,
 }, null, 2));
 

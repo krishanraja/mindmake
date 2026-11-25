@@ -916,7 +916,7 @@ describe("the film slots", () => {
       const renderedSource = surface === "src/pages/Index.tsx" ? serverRender("/") : source;
       const plates = renderedSource.split("<FilmPlate").slice(1);
       const nativeVideos = renderedSource.split("<video").slice(1);
-      expect(`${surface} has visual media: ${plates.length > 0 || nativeVideos.length > 0}`).toBe(`${surface} has visual media: true`);
+      expect(`${surface} has visual media: ${plates.length > 0 || nativeVideos.length > 0 || /<img src=\{heroImage\} alt=""/.test(renderedSource)}`).toBe(`${surface} has visual media: true`);
       for (const [at, plate] of plates.entries()) {
         const props = plate.slice(0, plate.indexOf("/>"));
         const labelled = /label="[^"]+"/.test(props) || /label=\{[^}]+\}/.test(props);

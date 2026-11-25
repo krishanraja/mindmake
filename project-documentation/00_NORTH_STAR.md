@@ -1,6 +1,6 @@
 # 00. North star
 
-*Current authority reviewed 26 October 2026 against the live site (S6, its phone review and the brief in fewer clicks). Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Positioning and copy approved for this branch on 25 November 2026. Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
@@ -14,7 +14,7 @@ this and lose to it.
 
 ## Horizon
 
-> By March 2027, Mindmake is the first name a PE or VC backed media, adtech or data leader hears when they ask who can build an AI that knows them, and twelve leaders run one they would vouch for out loud.
+> By March 2027, Mindmake is the first name a PE or VC backed media, entertainment, sport, arts or creative leader hears when they ask who can build an AI that knows them, and twelve leaders run one they would vouch for out loud.
 
 Set by Krish on 18 October 2026, and not reached yet. Everything below serves it, every session in this repository works toward it, and only Krish changes it.
 
@@ -38,42 +38,31 @@ Urgency (U1 to U5) is worked out every week from where the number stands against
 
 ## Mindmake in one page
 
-The whole business in the plainest words, for a person or an agent with two
-minutes. Every line here is already public on mindmake.co, so it is safe to
-repeat. Checked against the live site on 16 October 2026.
+The public brand and wordmark are **mind/make**. The company is **Mindmake**.
 
 **What it is.** Mindmake is a small AI and commercial strategy practice run by
 Krish Raja. It builds a leader their own **AI brain**: a working system that
 holds their taste, standards, judgement and memory, so the AI they already use
 stops being generic and starts working the way they do.
 
-**The line for a stranger.** *Promote your AI from intern to chief of staff.*
+**The line for a stranger.** *AI can copy almost anything except your taste.*
 
 **The problem it solves.** Every AI tool a leader can buy has read the internet
 and knows nothing about them. So they get faster at drafting and no better at
 deciding, and the work drifts to tools and advisers while their own
 understanding stands still.
 
-**Who it helps.** A founder, principal, investor or senior commercial leader who
-can make a decision on their own, and whose decisions are big enough to matter.
-Typical businesses: internet, software, media, data, content, coaching and
-advisory. It is not for someone who cannot move the decision, or who wants AI
-training, a certificate or a list of tasks to automate.
+**Who it helps.** Write for the people who shape creative work, culture and sport. Media comes first. Address the people who make the calls first and the people who make the work second. Music is outside v1.
 
 **What they get.** Two doors, one way of working.
 
-- **Build your AI brain** (`/ai-brain`): the leader's own judgement, running as
-  a system they own.
-- **Build your AI revenue engine** (`/ai-gtm`): their pricing, positioning and
-  team rebuilt for AI, then tested with real buyers.
+- **Build your AI brain** (`/ai-brain`): Put your taste and judgement to work on your next call.
+- **Build your AI business** (`/ai-gtm`): Make, share and earn from your work with AI.
 
-Either door leads to **one paid proof**: one decision or capability, built as a
-working first version, used on real work, and kept by the leader when the work
-ends. The public shape is 30 days, stated on the two door pages only. The price
-is agreed privately and never published.
+The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the invite-only toolkit used inside the Sprint. The price is agreed privately. The Sprint’s public shape is 30 days.
 
 **How to start.** **Start building your AI brain** (on `/ai-gtm`, **Start
-building your AI revenue engine**; Krish, 24 October 2026) at
+building your AI business**; Krish, 24 October 2026) at
 [mindmake.co/?start=1](https://mindmake.co/?start=1). The leader gives a work
 email, name and role, answers a few questions about their business and keeps
 the brief it produces; then Mindmake gets in touch about a free consultation.
@@ -90,14 +79,9 @@ permissions for each are in `04_PROOF.md`.
 
 - **Start building your AI brain**, the free brief above. The main way in.
 - **Make Your Mind Up**, Mindmake's free publication at
-  [makeyourmindup.ai](https://makeyourmindup.ai): what's coming in AI, before
-  it's obvious, three times a week by email. For readers who are curious but not
-  ready to start. They subscribe with the **Subscribe free** button on its home
-  page; every Media and Subscribe link on mindmake.co goes there. Its channels
-  and formats belong to its own project.
-- **CTRL**, at `ctrl.mindmake.co`, is the product the work runs on and the
-  system the leader keeps. It is in a private pilot with leaders, by invitation
-  from Krish (16 October 2026). It is never linked or priced on mindmake.co.
+  [makeyourmindup.ai](https://makeyourmindup.ai). Its headline is “Creativity, AI and Money, simplified.” It sets its own editorial line.
+- **CTRL** is the invite-only toolkit used inside the Sprint.
+
 - **Krish's own network**: people he has worked with, introductions and talks.
 
 **What is live today.** `06_CURRENT_STATE.md`, read against the site itself.
@@ -110,9 +94,7 @@ this page, then "What the growth engine may say" in `01_CANON.md`, then
 
 ## The one sentence
 
-**Every AI a leader buys already knows the market. None of them know the
-leader. Mindmake builds the one that does, so the leader keeps their edge as
-the market moves.**
+**The AI brain company for the people who shape creative work, culture and sport.**
 
 That is the whole business, and every page, email, film and decision either
 serves it or does not belong.
@@ -197,21 +179,9 @@ otherwise makes us look small. We name the distinction and let the reader judge.
 
 ## Who this is for
 
-A founder, principal, portfolio owner, investor or senior commercial leader who
-can move a decision on their own, and whose decisions are big enough that
-getting them right matters.
+A publisher, commissioning editor, creative producer or studio owner who can move a decision on their own and has a distinctive body of work to draw on.
 
-The strongest situations:
-
-- a healthy or fast-growing AI company whose product, price, positioning, people
-  or company design has to keep up with its own market;
-- an established internet, software, media, data, content, coaching or advisory
-  business whose old commercial rules have stopped working;
-- a well-connected principal whose scarce time is spread thin across ventures,
-  relationships and decisions;
-- a leader who wants an AI chief of staff, or a durable brain that makes their
-  own judgement easier to use;
-- a portfolio owner who wants more high-value time, rather than a smaller inbox.
+Start with media, then entertainment, sport, arts and creative businesses. A commissioning lead can bring the decisions behind a season of work. A maker can bring the standards they use to decide what is ready to publish.
 
 **Write for ambition as much as for pressure.** Do not write only for businesses
 in decline. The chance to build something stronger is as real a reason to start
@@ -221,29 +191,14 @@ as the fear of falling behind.
 
 ## What we sell
 
-**Two public doors, one paid proof.**
+The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the invite-only toolkit used inside the Sprint. The price is agreed privately.
 
-- **Build your AI brain.** Your taste, standards and judgement, running as a
-  system you own.
-- **Build your AI revenue engine.** An AI-native go-to-market (how a business
-  gets its product to customers and gets paid for it) across the four levers:
-  product, price, positioning or people. The acronym GTM stays internal and
-  out of public copy (Krish, 15 October 2026).
+The two doors describe what a reader can build.
 
-They are not two products. Either can be the way in, and either can lead to the
-other when the work calls for it.
+- **Build your AI brain.** Put your taste and judgement to work on your next call.
+- **Build your AI business.** Make, share and earn from your work with AI.
 
-Both lead to **one paid proof**: pick one decision or capability, build a
-working first version, use it on real work, leave something behind that keeps
-running. Not a stretch of discovery followed by a report. The price is private
-and never appears on the site; the only public length is the 30-day shape on
-`/ai-gtm` and `/ai-brain`, and there is no public diary link. The only primary action on the site
-is **Start building your AI brain** (**Start building your AI revenue engine** on `/ai-gtm`).
-
-**CTRL** is our own product, running our own practice. It appears as evidence
-that we do this ourselves. It is never a third thing to buy, never linked, never
-priced. Since 16 October 2026 it is also in a private pilot with leaders,
-offered only by Krish, person to person.
+Both lead to **one sprint** when the reader is ready to build. Choose a decision, build a working version and use it on real work.
 
 ---
 
@@ -329,13 +284,13 @@ turning sour. Both are hard gates:
 
 ## The naming law
 
-This one is absolute, because a business with two names has none.
+The public brand and wordmark are **mind/make**. The company is **Mindmake**.
 
 - The business is **Mindmake**. Never "Mindmaker", never "The Mindmaker", never
   "Mindmaker Live", never "Mindmake AI".
 - The site is **mindmake.co**. `themindmaker.ai` and `www` variants redirect to
   it and are infrastructure, never names.
-- The product is **CTRL**, at `ctrl.mindmake.co`.
+- The invite-only toolkit inside the Sprint is **CTRL**, at `ctrl.mindmake.co`.
 - The publication is **Make Your Mind Up**, at `makeyourmindup.ai` (its own
   masthead writes it makeyourmindup). Every Media and Subscribe link on the site
   goes to its home page (Krish, 26 September 2026). Its channels and formats
@@ -361,8 +316,8 @@ scoped authority.
 
 ## What we will not do
 
-- Reintroduce an offer ladder. The Teardown, The Handover and the 21-day Sprint
-  are retired and stay retired.
+- Bring back the retired Teardown or Handover offer ladder.
+
 - Publish a price, a discount, or a currency switcher.
 - Put a public diary link or a "Book a call" button on the site.
 - Ship a chatbot, or anything that makes a served research read look like a
@@ -398,27 +353,16 @@ honest move is to say so rather than guess.
 
 ## Current positioning and placement
 
-Edge is the payoff; judgement is the mechanism. Use edge sparingly, never as
-a boast. The homepage opens on **Promote your AI from intern to chief of
-staff.**, the simplest form of what an AI brain does for a leader (Krish, 15
-October 2026). Its
-opening line is **Part people. Part agent. Led by judgement.**
+The homepage opens with **AI can copy almost anything except your taste.** followed by “So we build your AI brain out of it, for the people who shape creative work, culture and sport.”
 
-Since S6 (Krish, 24 October 2026) every page is three sections: the problem,
-how it works, and what the reader gets and how they know it works. The homepage
-is the R3 opening, then "Right now, your AI is an intern." (the four eras),
-"A chief of staff knows how you think." (the organisation and the practice
-scenes) and "Built on your real work. Yours to keep." (three results). The AI
-Brain stories live on `/ai-brain`. `/new-age-leadership` remains a companion
-with its own pinned chapters and the stories. The two doors carry their
-specific capabilities.
+The two sections are “Every new technology asks us to change how we think.” and “We build yours with you in 30 days.” The footer reads “Keep the final say on your best work.” Existing founder mentions stay where they are. Add none. Use real records and clearly labelled illustrative examples.
 
 The internal buyer psychology stays private. Its approved public expression is
 *Nobody in your organisation needs to know where you started.* Write for
 ambition as much as pressure, never shame.
 
 No public price. The only public duration is the owner-approved 30-day shape
-on `/ai-gtm` and `/ai-brain`; scope and fee are agreed privately in writing. Recorded durations
+on the homepage and both door pages; scope and fee are agreed privately in writing. Recorded durations
 in consented past-work evidence are facts, not new delivery promises. Do not add
 a timing promise that the approved surface does not contain.
 

@@ -3,51 +3,50 @@
   "sha256": "f4716b043b25989c9aa717a4f61823318ec48a157096c38a8559e7a8026a8477",
   "groups": [
     {
-      "label": "Getting your ideas out",
-      "type": "AI brain",
+      "label": "Back the work you believe in, and say exactly why.",
       "useCases": [
-        "C-01",
-        "C-02",
-        "C-03"
+        "C-18",
+        "C-05"
       ]
     },
     {
-      "label": "Seeing what is changing",
-      "type": "AI brain",
-      "useCases": [
-        "C-04",
-        "C-05",
-        "C-06",
-        "C-07",
-        "C-08"
-      ]
+      "label": "Take the money without giving away the ending.",
+      "useCases": []
     },
     {
-      "label": "Getting hands-on again",
-      "type": "AI brain",
-      "useCases": [
-        "C-09",
-        "C-10",
-        "C-11"
-      ]
-    },
-    {
-      "label": "Keeping your team in step",
-      "type": "AI business",
-      "useCases": [
-        "C-12",
-        "C-13",
-        "C-14"
-      ]
-    },
-    {
-      "label": "Making the big AI calls",
-      "type": "AI business",
+      "label": "Make the big call well, and the next one without starting again.",
       "useCases": [
         "C-15",
-        "C-16",
         "C-17",
-        "C-18"
+        "C-08",
+        "C-07"
+      ]
+    },
+    {
+      "label": "Try the idea you would never have reached on your own.",
+      "useCases": [
+        "C-02",
+        "C-11",
+        "C-09",
+        "C-10"
+      ]
+    },
+    {
+      "label": "Hand over a brief without losing the point of it.",
+      "useCases": [
+        "C-13",
+        "C-14",
+        "C-12",
+        "C-03",
+        "C-06"
+      ]
+    },
+    {
+      "label": "Keep what makes your work yours, wherever it travels.",
+      "useCases": [
+        "C-16",
+        "C-01",
+        "C-04"
       ]
     }
   ],
@@ -244,7 +243,7 @@
     },
     {
       "id": "C-16",
-      "heading": "A respected advisory firm turned its expertise into an offer people could buy.",
+      "heading": "Media advisers turned their expertise into an offer clients could buy.",
       "outcome": "Their expertise became an offer people could buy.",
       "startingPoint": "The partners at a media advisory firm had expertise everyone respected, but nothing a client could simply buy.",
       "whatWeDid": "We turned their ideas into one clear offer and a plan to launch it.",
@@ -256,7 +255,8 @@
         "headline": "Expertise became an offer people could buy.",
         "detail": "A respected advisory firm turned its ideas into a clear offer and a plan to launch it.",
         "quoteId": "Q-media-advisory-partner"
-      }
+      },
+      "originalHeading": "A respected advisory firm turned its expertise into an offer people could buy."
     },
     {
       "id": "C-17",

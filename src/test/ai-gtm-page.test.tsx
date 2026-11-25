@@ -124,15 +124,16 @@ describe("/ai-gtm on the server", () => {
     ]);
   });
 
-  it("shows what leaders do with a revenue engine, and only those (Krish, 2026-11-04: one library, sorted by product)", () => {
+  it("leads with commercial stories and examples, with all six wishes in reach", () => {
     /* The single testimonial gave way to the revenue engine's own situations. */
     const tabs = [...body.matchAll(/data-finder-tab="([a-z]+)"/g)].map((match) => match[1]);
-    expect(tabs).toEqual(["calls", "team"]);
+    expect(tabs).toEqual(["yours", "terms", "brief", "back", "calls", "try"]);
     const doc = new DOMParser().parseFromString(body, "text/html");
-    expect(doc.querySelector('[data-finder-tab][aria-selected="true"]')?.getAttribute("data-finder-tab")).toBe("calls");
+    expect(doc.querySelector('[data-finder-tab][aria-selected="true"]')?.getAttribute("data-finder-tab")).toBe("yours");
     const firstCard = doc.querySelector(".finder-panel.is-active [data-finder-card]");
-    expect(firstCard?.querySelector(".finder-heading")?.textContent).toBe("Two quarters of argument over build or partner ended in one day.");
-    expect(firstCard?.querySelector(".finder-proof")?.getAttribute("href")).toBe("/case-studies#c-15");
+    expect(firstCard?.querySelector(".finder-heading")?.textContent).toBe("Media advisers turned their expertise into an offer clients could buy.");
+    expect(firstCard?.querySelector(".finder-proof")?.getAttribute("href")).toBe("/case-studies#c-16");
+    expect(doc.querySelector(".finder-panel.is-active .story-example h4")?.textContent?.replaceAll("\u00a0", " ")).toBe("A placement that fits the idea");
     expect(body).not.toContain("data-finder-pick");
     expect(text(body)).toContain("Teams working on the same account");
     expect(body).toContain('href="/case-studies#c-17"');

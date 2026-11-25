@@ -1,10 +1,11 @@
+import { examples } from "@/data/examples";
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent } from "react";
 import { leadershipStories, type LeadershipStory } from "@/components/leadership-chapters/leadershipChapters";
-import { tieLast } from "@/components/leadership-chapters/storyFinder";
+import { exampleCardMarkup, tieLast } from "@/components/leadership-chapters/storyFinder";
 import { CompareNudge } from "@/components/mindmake/CompareNudge";
-import { DOOR_LABEL, SITUATIONS, useCases, type Door, type Role, type SituationId, type UseCase, type UseCaseId } from "@/data/useCases";
+import { DOOR_LABEL, SITUATIONS, situationOf, storiesInDisplayOrder, type Door, type Role, type SituationId, type UseCase, type UseCaseId } from "@/data/useCases";
 import { caseAnchor as anchorOf, caseFromHash } from "@/lib/useCaseHash";
-import { quoteById, quotePartFor } from "@/data/testimonials";
+import { quoteById } from "@/data/testimonials";
 import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { track } from "@/lib/analytics";
@@ -14,7 +15,7 @@ import { track } from "@/lib/analytics";
  * review, 15 November 2026; synthesis of concepts C, B and A after blind
  * judging).
  *
- * One reserved box narrows the eighteen: type and situation with live counts,
+ * One reserved box narrows records and examples by wish, industry,
  * the reader's role (the line under each heading becomes that use case's own
  * starting point, so a reader recognises where they began), results on the
  * record, and a search. Nothing in it changes size as the reader chooses: the
@@ -45,16 +46,9 @@ const ROLE_LABEL: Record<Role, string> = {
 };
 const ROLES = Object.keys(ROLE_LABEL) as Role[];
 
-type Where = "all" | Door | SituationId;
-const WHERE: readonly { id: Where; label: string; level: 0 | 1 }[] = [
-  { id: "all", label: "All", level: 0 },
-  ...(["brain", "gtm"] as const).flatMap((door) => [
-    { id: door as Where, label: DOOR_LABEL[door], level: 0 as const },
-    ...SITUATIONS.filter((s) => s.door === door).map((s) => ({ id: s.id as Where, label: s.label, level: 1 as const })),
-  ]),
-];
-
-const doorOf = (entry: UseCase): Door => SITUATIONS.find((s) => s.useCases.includes(entry.id))!.door;
+type Where = "all" | SituationId;
+const WHERE = [{ id: "all" as const, label: "All wishes" }, ...SITUATIONS];
+const INDUSTRIES = [...new Set([...examples, ...storiesInDisplayOrder].map((entry) => entry.industry))].sort();
 const fold = (text: string) => text.toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ");
 
 interface Entry {
@@ -67,30 +61,29 @@ interface Entry {
   haystack: string;
 }
 
-const ENTRIES: readonly Entry[] = useCases.map((record) => {
-  const story = leadershipStories.find((s) => s.id === record.id)!;
-  /* The part of the quote that belongs to the use case; a result without one
-     (C-18) shows the short part of its result's quote, which is also exact. */
-  const quoteId = record.quoteId ?? record.result?.quoteId;
-  const voice = quoteId ? quoteById(quoteId) : undefined;
-  const text = record.quoteId ? quotePartFor(record.quoteId, record.id) : voice?.excerpt;
-  const words = voice && text ? { text, who: voice.name ? `${voice.name}, ${voice.role}` : voice.role } : undefined;
-  const situation = SITUATIONS.find((s) => s.useCases.includes(record.id))!;
-  const haystack = fold([record.heading, record.outcome, record.startingPoint, record.whatWeDid, record.result?.headline, record.result?.detail, words?.text, words?.who, ROLE_LABEL[record.role], situation.label, DOOR_LABEL[situation.door]].filter(Boolean).join(" "));
-  return { id: record.id, record, story, door: doorOf(record), words, haystack };
+const ENTRIES: readonly Entry[] = storiesInDisplayOrder.map((record) => {
+  const story = leadershipStories.find((item) => item.id === record.id)!;
+  const voice = story.quote && quoteById(story.quote.testimonialId);
+  const words = voice && story.quote ? { text: story.quote.text, who: voice.name ? `${voice.name}, ${voice.role}` : voice.role } : undefined;
+  const wish = situationOf(record.id);
+  const haystack = fold([record.heading, record.outcome, record.startingPoint, record.whatWeDid, record.result?.headline, record.result?.detail, words?.text, words?.who, ROLE_LABEL[record.role], wish.label, record.industry, DOOR_LABEL[record.door]].filter(Boolean).join(" "));
+  return { id: record.id, record, story, door: record.door, words, haystack };
 });
 
-interface Narrowing { where: Where; role: Role | null; results: boolean; query: string }
-const NONE: Narrowing = { where: "all", role: null, results: false, query: "" };
-
-const fitsWhere = (entry: Entry, where: Where) =>
-  where === "all" ? true : where === "brain" || where === "gtm" ? entry.door === where : SITUATIONS.find((s) => s.id === where)!.useCases.includes(entry.id);
-const fitsRest = (entry: Entry, { role, results, query }: Narrowing) => {
-  if (role && entry.record.role !== role) return false;
-  if (results && !entry.record.result) return false;
-  const words = fold(query).trim().split(" ").filter(Boolean);
-  return words.every((word) => entry.haystack.includes(word));
-};
+interface Narrowing { where: Where; industry: string; role: Role | null; results: boolean; query: string }
+const NONE: Narrowing = { where: "all", industry: "", role: null, results: false, query: "" };
+const GROUPS = ["Results on the record", "Practice accounts", "Illustrative examples"] as const;
+const RECORDS = ENTRIES.map((entry) => ({
+  id: entry.id as string, group: entry.record.result ? GROUPS[0] : GROUPS[1],
+  wish: situationOf(entry.id).id, industry: entry.record.industry, role: entry.record.role,
+  haystack: entry.haystack, entry,
+}));
+const ILLUSTRATIONS = examples.map((example) => ({
+  id: example.id, group: GROUPS[2], wish: example.wish, industry: example.industry,
+  role: null, haystack: fold([example.industry, example.title, example.bring, example.help, example.leave, SITUATIONS.find((s) => s.id === example.wish)!.label].join(" ")), example,
+}));
+const INDEX = [...RECORDS, ...ILLUSTRATIONS];
+type IndexItem = (typeof INDEX)[number];
 
 const startHref = (door: Door) => `/?start=${door}`;
 const startLabel = (door: Door) => (door === "gtm" ? START_LABEL_GTM : START_LABEL);
@@ -122,20 +115,31 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
      page without script list all eighteen). */
   const [live, setLive] = useState(false);
   useEffect(() => setLive(true), []);
-  const railRef = useRef<HTMLUListElement>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDialogElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const startRef = useRef(onStart);
   startRef.current = onStart;
 
-  const shown = useMemo(() => ENTRIES.filter((entry) => fitsWhere(entry, narrow.where) && fitsRest(entry, narrow)), [narrow]);
-  const counts = useMemo(() => new Map(WHERE.map((w) => [w.id, ENTRIES.filter((entry) => fitsWhere(entry, w.id) && fitsRest(entry, narrow)).length])), [narrow]);
-  const pages = Math.max(1, Math.ceil(shown.length / perPage));
-  const at = Math.min(page, pages - 1);
-  const onPage = new Set(shown.slice(at * perPage, at * perPage + perPage).map((entry) => entry.id));
-  const from = shown.length ? at * perPage + 1 : 0;
-  const to = Math.min(shown.length, at * perPage + perPage);
+  const eligible = useMemo(() => {
+    const words = fold(narrow.query).trim().split(/\s+/);
+    return INDEX.filter((item) => (!narrow.industry || item.industry === narrow.industry)
+      && (!narrow.role || item.role === narrow.role) && (!narrow.results || item.group === GROUPS[0])
+      && words.every((word) => item.haystack.includes(word)));
+  }, [narrow.industry, narrow.role, narrow.results, narrow.query]);
+  const shown = eligible.filter((item) => narrow.where === "all" || narrow.where === item.wish);
+  const counts = new Map(WHERE.map((w) => [w.id, eligible.filter((item) => w.id === "all" || item.wish === w.id).length]));
+  // Each page belongs to one evidence group, even when the last row has a spare place.
+  const slices: IndexItem[][] = [];
+  for (const group of GROUPS) {
+    const items = shown.filter((item) => item.group === group);
+    for (let i = 0; i < items.length; i += perPage) slices.push(items.slice(i, i + perPage));
+  }
+  const pages = slices.length;
+  const at = Math.max(0, Math.min(page, pages - 1));
+  const onPage = new Set(slices[at]?.map((item) => item.id));
+  const from = shown.length ? shown.findIndex((item) => onPage.has(item.id)) + 1 : 0;
+  const to = from + onPage.size - 1;
 
   const change = (next: Partial<Narrowing>) => { setNarrow((was) => ({ ...was, ...next })); setPage(0); };
 
@@ -149,7 +153,7 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
     const fit = width >= 1000 ? 3 : width >= 560 ? 2 : 1;
     rail.style.setProperty("--uc-cols", String(fit));
     rail.classList.add("is-measuring");
-    const tallest = Math.max(...[...rail.querySelectorAll<HTMLElement>(".uc-card")].map((card) => card.getBoundingClientRect().height));
+    const tallest = Math.max(...[...rail.querySelectorAll<HTMLElement>(".uc-card, .uc-example-card")].map((card) => card.getBoundingClientRect().height));
     rail.classList.remove("is-measuring");
     if (Number.isFinite(tallest) && tallest > 0) rail.style.setProperty("--uc-card-h", `${Math.ceil(tallest)}px`);
     setPerPage(fit);
@@ -164,7 +168,8 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
 
   /* The list a story's arrows step through: the narrowed set, or every use
      case when the story was opened from outside it. */
-  const steps = open && shown.some((entry) => entry.id === open) ? shown : ENTRIES;
+  const matchingRecords = shown.flatMap((item) => "entry" in item ? [item.entry] : []);
+  const steps = open && matchingRecords.some((entry) => entry.id === open) ? matchingRecords : ENTRIES;
   const stepAt = open ? steps.findIndex((entry) => entry.id === open) : -1;
   const current = open ? ENTRIES.find((entry) => entry.id === open)! : undefined;
 
@@ -260,15 +265,15 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
       <div className="mm-container">
         <div className="uc-head">
           <h1 id="library-title">What you can do with it.</h1>
-          <p>Real things leaders now do with their AI brain or AI revenue engine.</p>
+          <p>Find the call closest to yours, from commissioning a series to deciding where your work can travel.</p>
         </div>
 
-        <div className="uc-box" ref={boxRef}>
+        <div className="uc-box">
           <div className="uc-index">
-            <div className="uc-where" role="group" aria-label="Type and situation">
+            <div className="uc-where" role="group" aria-label="Wish">
               {WHERE.map((w) => (
-                <button key={w.id} type="button" className={`uc-row is-level-${w.level}`} aria-pressed={narrow.where === w.id} onClick={() => change({ where: w.id })}>
-                  <span>{w.label}</span>
+                <button key={w.id} type="button" className="uc-row" aria-pressed={narrow.where === w.id} onClick={() => change({ where: w.id })}>
+                  <span>{tieLast(w.label)}</span>
                   <span className="uc-num">{counts.get(w.id)}</span>
                 </button>
               ))}
@@ -280,12 +285,13 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
                 </button>
               ))}
             </div>
+            <label className="uc-select uc-industry"><span>Industry</span>
+              <select value={narrow.industry} onChange={(event) => change({ industry: event.target.value })}>
+                <option value="">All industries</option>
+                {INDUSTRIES.map((industry) => <option key={industry}>{industry}</option>)}
+              </select>
+            </label>
             <div className="uc-selects">
-              <span className="uc-select">
-                <select aria-label="Type and situation" value={narrow.where} onChange={(event) => change({ where: event.target.value as Where })}>
-                  {WHERE.map((w) => <option key={w.id} value={w.id}>{`${w.level ? " " : ""}${w.label} (${counts.get(w.id)})`}</option>)}
-                </select>
-              </span>
               <span className="uc-select">
                 <select aria-label="Role" value={role ?? ""} onChange={(event) => change({ role: (event.target.value || null) as Role | null })}>
                   <option value="">Any role</option>
@@ -306,48 +312,58 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
               </button>
               <div className="uc-pager">
                 <button type="button" aria-label="Previous use cases" disabled={at <= 0} onClick={() => setPage(at - 1)}>←</button>
-                <p aria-live="polite" aria-atomic="true">{nothing ? "0 of 18" : `${from === to ? from : `${from} to ${to}`} of ${shown.length}`}</p>
+                <p aria-live="polite" aria-atomic="true">{nothing ? "0 matches" : `${from === to ? from : `${from} to ${to}`} of ${shown.length}`}</p>
                 <button type="button" aria-label="Next use cases" disabled={at >= pages - 1} onClick={() => setPage(at + 1)}>→</button>
               </div>
             </div>
 
-            <div className="uc-stage">
-              <ul className="uc-rail" ref={railRef}>
-                {ENTRIES.map((entry) => {
-                  const away = live && (!shown.includes(entry) || !onPage.has(entry.id));
-                  return (
-                    <li key={entry.id} id={live ? undefined : anchorOf(entry.id)} className={`uc-card${away ? " is-away" : ""}`} data-uc={entry.id}>
-                      <a href={`#${anchorOf(entry.id)}`} className="uc-card-link" tabIndex={away ? -1 : undefined}>
-                        <span className="uc-card-plate" aria-hidden="true"><Plate src={entry.story.scene} sizes="(max-width: 899px) 90vw, 30vw" /></span>
-                        <span className="uc-card-heading">{tieLast(entry.story.heading)}</span>
-                        <span className="uc-card-lines">
-                          <span className="uc-card-outcome">{tieLast(entry.story.outcome)}</span>
-                          <span className="uc-card-start">{tieLast(entry.story.situation)}</span>
-                        </span>
-                        {entry.record.result ? <span className="uc-status">Result on the record</span> : null}
-                      </a>
-                      {/* The rest of the story, for a page without script: with
-                          script it opens in the sheet instead, so the server's
-                          page says each sentence once. */}
-                      {live ? null : (
-                        <div className="uc-card-more">
-                          <p>{tieLast(entry.story.happened)}</p>
-                          {entry.record.result ? (
-                            <div className="uc-card-result">
-                              <p className="uc-card-result-head">{tieLast(entry.record.result.headline)}</p>
-                              <p>{tieLast(entry.record.result.detail)}</p>
+            <div className="uc-stage" ref={railRef}>
+              {GROUPS.map((group) => (
+                <div key={group} className="uc-group" hidden={live && slices[at]?.[0]?.group !== group}>
+                  <h2>{group}</h2>
+                  <ul className="uc-rail">
+                    {INDEX.filter((item) => item.group === group).map((item) => {
+                      const away = live && !onPage.has(item.id);
+                      if ("example" in item) return (
+                        <li key={item.id} aria-hidden={away || undefined} className={`uc-example-card${away ? " is-away" : ""}`} dangerouslySetInnerHTML={{ __html: exampleCardMarkup(item.example) }} />
+                      );
+                      const entry = item.entry;
+                      return (
+                        <li key={entry.id} aria-hidden={away || undefined} id={live ? undefined : anchorOf(entry.id)} className={`uc-card${away ? " is-away" : ""}`} data-uc={entry.id}>
+                          <a href={`#${anchorOf(entry.id)}`} className="uc-card-link" tabIndex={away ? -1 : undefined}>
+                            <span className="uc-card-plate" aria-hidden="true"><Plate src={entry.story.scene} sizes="(max-width: 899px) 90vw, 30vw" /></span>
+                            <span className="story-sector">{entry.record.industry}</span>
+                            <span className="uc-card-heading">{tieLast(entry.story.heading)}</span>
+                            <span className="uc-card-lines">
+                              <span className="uc-card-outcome">{tieLast(entry.story.outcome)}</span>
+                              <span className="uc-card-start">{tieLast(entry.story.situation)}</span>
+                            </span>
+                            {entry.record.result ? <span className="uc-status">Result on the record</span> : null}
+                          </a>
+                          {/* The rest of the story, for a page without script: with
+                              script it opens in the sheet instead, so the server's
+                              page says each sentence once. */}
+                          {live ? null : (
+                            <div className="uc-card-more">
+                              <p>{tieLast(entry.story.happened)}</p>
+                              {entry.record.result ? (
+                                <div className="uc-card-result">
+                                  <p className="uc-card-result-head">{tieLast(entry.record.result.headline)}</p>
+                                  <p>{tieLast(entry.record.result.detail)}</p>
+                                </div>
+                              ) : null}
+                              <p className="uc-card-door"><a href={startHref(entry.door)}>{startLabel(entry.door)} <span aria-hidden="true">→</span></a></p>
                             </div>
-                          ) : null}
-                          <p className="uc-card-door"><a href={startHref(entry.door)}>{startLabel(entry.door)} <span aria-hidden="true">→</span></a></p>
-                        </div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
               <div className="uc-empty" hidden={!nothing}>
                 <p>Nothing matches that.</p>
-                <button type="button" onClick={() => change(NONE)}>Show all 18</button>
+                <button type="button" onClick={() => change(NONE)}>Clear filters</button>
               </div>
             </div>
           </div>
@@ -367,6 +383,7 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
               <article key={current.id} className="uc-story" aria-labelledby={`${anchorOf(current.id)}-h`}>
                 <figure className="uc-story-plate" aria-hidden="true"><Plate src={current.story.scene} sizes="(max-width: 899px) 100vw, 40vw" /></figure>
                 <div className="uc-story-text">
+                  <span className="story-sector">{current.record.industry}</span>
                   <h2 id={`${anchorOf(current.id)}-h`} tabIndex={-1}>{tieLast(current.story.heading)}</h2>
                   <p>{tieLast(current.story.situation)}</p>
                   <p>{tieLast(current.story.happened)}</p>

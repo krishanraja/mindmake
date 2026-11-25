@@ -55,16 +55,15 @@ describe("AI Brain stories", () => {
     expect(new Set(leadershipStories.map((story) => story.scene)).size).toBe(leadershipStories.length);
   });
 
-  it("files every story under exactly one of five situations, at least three to each", () => {
-    expect(SITUATIONS).toHaveLength(5);
-    expect(SITUATIONS.map((situation) => situation.useCases.length)).toEqual([3, 5, 3, 3, 4]);
+  it("files every story under exactly one of the six wishes, including an examples-only wish", () => {
+    expect(SITUATIONS).toHaveLength(6);
+    expect(SITUATIONS.map((situation) => situation.useCases.length)).toEqual([2, 0, 4, 4, 5, 3]);
     const filed = SITUATIONS.flatMap((situation) => {
-      expect(situation.useCases.length, situation.label).toBeGreaterThanOrEqual(3);
       return situation.useCases.map((id) => storyById(leadershipStories, id));
     });
     expect(new Set(filed).size).toBe(filed.length);
     expect([...filed].sort((a, b) => a.heading.localeCompare(b.heading))).toEqual([...leadershipStories].sort((a, b) => a.heading.localeCompare(b.heading)));
-    expect(SITUATIONS.map((situation) => situation.door)).toEqual(["brain", "brain", "brain", "gtm", "gtm"]);
+    for (const id of ["C-02", "C-15", "C-16"] as const) expect(storyById(leadershipStories, id).quote).toBeUndefined();
   });
 
   it("quotes only exact, unedited substrings of a publishable testimonial, and names its leader by that testimonial's role", () => {
@@ -102,11 +101,15 @@ describe("AI Brain stories", () => {
     const plain = human.replaceAll("\u00a0", " ");
     const cards = human.match(/<li class="finder-card">/g) ?? [];
     expect(cards).toHaveLength(18);
+    const dom = new DOMParser().parseFromString(human, "text/html");
+    expect(dom.querySelectorAll(".story-example")).toHaveLength(12);
+    expect(dom.querySelector("#finder-panel-terms .finder-card")).toBeNull();
+    expect(dom.querySelector("#finder-panel-terms .story-example-label")?.textContent).toBe("EXAMPLE");
     for (const story of leadershipStories) {
       expect(plain.split(`<span class="finder-heading">${story.heading.replaceAll("\u00a0", " ")}</span>`)).toHaveLength(2);
       expect(plain).toContain(`<span class="finder-outcome">${story.outcome.replaceAll("\u00a0", " ")}</span>`);
     }
-    for (const situation of SITUATIONS) expect(human).toContain(`<h3 class="finder-situation">${situation.label}</h3>`);
+    for (const situation of SITUATIONS) expect(plain).toContain(`<h3 class="finder-situation">${situation.label}</h3>`);
     /* The full story of each result lives on /case-studies under its use case. */
     const proofs = [...human.matchAll(/href="\/case-studies#(c-\d{2})"/g)].map((m) => m[1].toUpperCase());
     expect(proofs).toHaveLength(8);

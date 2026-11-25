@@ -369,3 +369,8 @@ export function quotePartFor(quoteId: string, useCaseId: UseCaseId): string {
   if (!text) throw new Error(`The quote "${quoteId}" has no part for ${useCaseId}`);
   return text;
 }
+
+/** Only the passage that would actually be shown is assessed. The record stays verbatim. */
+export function canShowStoryQuote(text: string): boolean {
+  return !/\b(?:krish|he|him|his)\b/i.test(text);
+}

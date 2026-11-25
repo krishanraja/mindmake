@@ -16,7 +16,7 @@ import prismPlate from "@/assets/stories/prism-light-r01-800.webp";
 import boundFolioPlate from "@/assets/stories/bound-folio-r01-800.webp";
 import drawerPlate from "@/assets/stories/index-drawer-r01-800.webp";
 import switchPlate from "@/assets/stories/switch-panel-r01-800.webp";
-import { testimonials } from "@/data/testimonials";
+import { canShowStoryQuote, quoteById, testimonials } from "@/data/testimonials";
 
 /**
  * The eighteen use cases, one record each (content source of 15 November
@@ -47,7 +47,7 @@ export type UseCaseId =
 export type Door = "brain" | "gtm";
 export const DOOR_LABEL = { brain: "AI brain", gtm: "AI business" } as const;
 
-export type SituationId = "ideas" | "change" | "hands" | "team" | "calls";
+export type SituationId = "back" | "terms" | "calls" | "try" | "brief" | "yours";
 
 /** Result ids are live link fragments (/case-studies#story=<id>), so they keep their names. */
 export type ResultId =
@@ -83,6 +83,8 @@ export interface UseCase {
   /** A figure in the outcome and where it comes from. */
   figure?: { words: string; source: "owner-reported" };
   result?: UseCaseResult;
+  industry: string;
+  door: Door;
   role: Role;
   /** The words in the heading or starting point that name the role. */
   roleWords: string;
@@ -91,20 +93,19 @@ export interface UseCase {
 export interface Situation {
   id: SituationId;
   label: string;
-  door: Door;
   useCases: readonly UseCaseId[];
 }
 
 export const SITUATIONS: readonly Situation[] = [
-  { id: "ideas", label: "Getting your ideas out", door: "brain", useCases: ["C-01", "C-02", "C-03"] },
-  { id: "change", label: "Seeing what is changing", door: "brain", useCases: ["C-04", "C-05", "C-06", "C-07", "C-08"] },
-  { id: "hands", label: "Getting hands-on again", door: "brain", useCases: ["C-09", "C-10", "C-11"] },
-  { id: "team", label: "Keeping your team in step", door: "gtm", useCases: ["C-12", "C-13", "C-14"] },
-  { id: "calls", label: "Making the big AI calls", door: "gtm", useCases: ["C-15", "C-16", "C-17", "C-18"] },
+  { id: "back", label: "Back the work you believe in, and say exactly why.", useCases: ["C-18", "C-05"] },
+  { id: "terms", label: "Take the money without giving away the ending.", useCases: [] },
+  { id: "calls", label: "Make the big call well, and the next one without starting again.", useCases: ["C-15", "C-17", "C-08", "C-07"] },
+  { id: "try", label: "Try the idea you would never have reached on your own.", useCases: ["C-02", "C-11", "C-09", "C-10"] },
+  { id: "brief", label: "Hand over a brief without losing the point of it.", useCases: ["C-13", "C-14", "C-12", "C-03", "C-06"] },
+  { id: "yours", label: "Keep what makes your work yours, wherever it travels.", useCases: ["C-16", "C-01", "C-04"] },
 ];
 
 export const useCases: readonly UseCase[] = [
-  /* Getting your ideas out */
   {
     id: "C-01",
     heading: "A founder who posted about once a month now posts most days.",
@@ -120,6 +121,8 @@ export const useCases: readonly UseCase[] = [
       detail: "A founder-owned content system cut publishing time from days to under an hour. Publishing moved from about monthly to most days.",
       quoteId: "wellness-founder",
     },
+    industry: "Research and content",
+    door: "brain",
     role: "founder",
     roleWords: "The founder runs",
   },
@@ -138,6 +141,8 @@ export const useCases: readonly UseCase[] = [
       detail: "An eight-week rebuild covered the brand, offers, lead capture, content and outreach. Five videos shipped in week one.",
       quoteId: "coaching-founder",
     },
+    industry: "Executive coaching",
+    door: "brain",
     role: "chief-executive",
     roleWords: "The CEO of an executive coaching practice",
   },
@@ -149,10 +154,11 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "Their AI brain knows that risk. It helps them get each update out, whatever the week has been like.",
     picture: updatesPlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "brain",
     role: "leader",
     roleWords: "The leader's updates",
   },
-  /* Seeing what is changing */
   {
     id: "C-04",
     heading: "A fintech leader who networks less now still hears what her market says.",
@@ -161,6 +167,8 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "We built her a one-way feed: the world outside her business, brought to her. Nothing goes out, so no customer data leaves.",
     picture: receiverPlate,
     evidence: "practice-account",
+    industry: "Fintech",
+    door: "brain",
     role: "leader",
     roleWords: "A senior fintech leader",
   },
@@ -172,6 +180,8 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "We turned his method into a system that watches for the outside signals it looks for, so his reading of the market keeps up.",
     picture: sightPlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "brain",
     role: "investor",
     roleWords: "An investor looking to buy companies",
   },
@@ -183,6 +193,8 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "We built him an AI brain that reads them for him.",
     picture: briefingPlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "brain",
     role: "chief-executive",
     roleWords: "The chief executive subscribed",
   },
@@ -194,6 +206,8 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "What we built brings them research on their company, their market and current events, only when it could change a decision.",
     picture: telescopePlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "brain",
     role: "leader",
     roleWords: "The leader only had",
   },
@@ -212,6 +226,8 @@ export const useCases: readonly UseCase[] = [
       detail: "The position and price were rebuilt in 30 days. The first two pilots were signed during the work.",
       quoteId: "martech-founder",
     },
+    industry: "Adtech",
+    door: "brain",
     role: "founder",
     roleWords: "The founder of an adtech firm",
   },
@@ -226,6 +242,8 @@ export const useCases: readonly UseCase[] = [
     picture: workbenchPlate,
     quoteId: "scaleup-ops",
     evidence: "practice-account-quote",
+    industry: "Sector not recorded",
+    door: "brain",
     role: "head-of-operations",
     roleWords: "head of operations at a scale-up",
   },
@@ -238,6 +256,8 @@ export const useCases: readonly UseCase[] = [
     picture: voicePlate,
     evidence: "practice-account-figure",
     figure: { words: "at least five times faster than AI alone", source: "owner-reported" },
+    industry: "Sector not recorded",
+    door: "brain",
     role: "team",
     roleWords: "A member of the team",
   },
@@ -256,10 +276,11 @@ export const useCases: readonly UseCase[] = [
       detail: "A data company changed how it sold as AI changed the web. The work led to a paid test with a major US publisher.",
       quoteId: "data-infra-cro",
     },
+    industry: "Data infrastructure",
+    door: "brain",
     role: "chief-revenue-officer",
     roleWords: "The chief revenue officer at",
   },
-  /* Keeping your team in step */
   {
     id: "C-12",
     heading: "Teams working on the same account stop asking each other the same questions.",
@@ -268,6 +289,8 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "Each person's AI brain now knows what the other teams already know about an account, including who already looks after it.",
     picture: folioPlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "gtm",
     role: "team",
     roleWords: "Different teams worked",
   },
@@ -279,6 +302,8 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "They corrected it once.",
     picture: stencilPlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "gtm",
     role: "team",
     roleWords: "everyone's AI",
   },
@@ -290,10 +315,11 @@ export const useCases: readonly UseCase[] = [
     whatWeDid: "Each person's AI brain now works with the division's and the CEO's. It maps each account's health and its contacts by seniority.",
     picture: orreryPlate,
     evidence: "practice-account",
+    industry: "Sector not recorded",
+    door: "gtm",
     role: "team",
     roleWords: "A team looked after",
   },
-  /* Making the big AI calls */
   {
     id: "C-15",
     heading: "Two quarters of argument over build or partner ended in one day.",
@@ -309,12 +335,14 @@ export const useCases: readonly UseCase[] = [
       detail: "Two quarters of argument over build or partner ended in one day in the room. The partner agreement was signed the following month, and build comes back for review in twelve months, once the data is stronger.",
       quoteId: "media-cro",
     },
+    industry: "Media",
+    door: "gtm",
     role: "chief-revenue-officer",
     roleWords: "The chief revenue officer of",
   },
   {
     id: "C-16",
-    heading: "A respected advisory firm turned its expertise into an offer people could buy.",
+    heading: "Media advisers turned their expertise into an offer clients could buy.",
     outcome: "Their expertise became an offer people could buy.",
     startingPoint: "The partners at a media advisory firm had expertise everyone respected, but nothing a client could simply buy.",
     whatWeDid: "We turned their ideas into one clear offer and a plan to launch it.",
@@ -327,6 +355,8 @@ export const useCases: readonly UseCase[] = [
       detail: "A respected advisory firm turned its ideas into a clear offer and a plan to launch it.",
       quoteId: "media-advisory-partner",
     },
+    industry: "Media",
+    door: "gtm",
     role: "partners",
     roleWords: "The partners at a media advisory firm",
   },
@@ -345,6 +375,8 @@ export const useCases: readonly UseCase[] = [
       detail: "A publisher moved from 14 competing AI vendors to three decisions. Its own team then shipped the chosen work with no new hires.",
       quoteId: "publisher-ops",
     },
+    industry: "Media",
+    door: "gtm",
     role: "organisation",
     roleWords: "A top-10 US digital publisher",
   },
@@ -362,6 +394,8 @@ export const useCases: readonly UseCase[] = [
       detail: "Eleven of fourteen tools were stopped. The budget was kept and the first working system went live inside 90 days.",
       quoteId: "broadcast-president",
     },
+    industry: "Media",
+    door: "gtm",
     role: "organisation",
     roleWords: "A legacy broadcast business",
   },
@@ -410,3 +444,20 @@ export function resultById(id: ResultId) {
 export function useCaseForQuote(quoteId: string): UseCaseId | undefined {
   return useCases.find((entry) => entry.quoteId === quoteId || entry.result?.quoteId === quoteId)?.id;
 }
+
+/** Select the existing passage for this story. An excluded passage has no substitute. */
+export function storyQuoteFor(entry: UseCase) {
+  const id = entry.quoteId ?? entry.result?.quoteId;
+  if (!id) return;
+  const voice = quoteById(id);
+  const text = entry.quoteId ? voice.useCaseExcerpts?.[entry.id] : voice.excerpt;
+  if (text && canShowStoryQuote(text)) return { testimonialId: id, text };
+}
+
+/** Media results lead the full index. Within each evidence group, keep the wish order. */
+const mediaLeads: readonly UseCaseId[] = ["C-15", "C-17", "C-18", "C-16"];
+const orderedRecords = [...new Set([...mediaLeads, ...filed])].map(getUseCase);
+export const storiesInDisplayOrder = [
+  ...orderedRecords.filter((entry) => entry.result),
+  ...orderedRecords.filter((entry) => !entry.result),
+];

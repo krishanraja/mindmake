@@ -5,17 +5,12 @@ import { track } from "@/lib/analytics";
 import "@/styles/new-age-leadership-r5.css";
 import "@/styles/mindmake-deck.css";
 
-/**
- * The one story library (proposal for Krish, 2026-11-04: "success stories"
- * and "what you can do with an AI brain" are the same thing for two
- * products). One card, one sheet, one finder; a product page shows only its
- * own stories, and /case-studies shows both behind the choice of product.
- */
+/** Product pages share wish membership and open the brief at their own door. */
 export function StoryLibrary({ door, onStart, id = "stories", intro, deck = false }: { door: "brain" | "gtm" | "library"; onStart: (door: "brain" | "gtm") => void; id?: string; intro?: { title: string; lede: string }; deck?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const startRef = useRef(onStart);
   startRef.current = onStart;
-  const markup = useMemo(() => storyFinderMarkup(leadershipStories, { kicker: false, door, intro }), [door, intro?.title, intro?.lede]);
+  const markup = useMemo(() => storyFinderMarkup(leadershipStories, { kicker: false, door, intro }), [door, intro]);
   useEffect(() => {
     if (!ref.current) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

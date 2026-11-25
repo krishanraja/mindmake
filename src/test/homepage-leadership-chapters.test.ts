@@ -101,6 +101,7 @@ describe("the homepage in three sections", () => {
       expect(image.getAttribute("src")).toBeTruthy();
     }
     expect(eras.map((image) => image.getAttribute("src")).join(" ")).toMatch(/history-writing.*history-loom.*history-calculator.*history-satnav/);
+    expect([...root.querySelectorAll(".hs-proof-story a")].map((link) => link.getAttribute("href"))).toEqual(["/case-studies#c-15", "/case-studies#c-18", "/case-studies#c-16"]);
     expect(new Set(results.map((image) => image.getAttribute("src"))).size).toBe(3);
   });
 
@@ -161,20 +162,20 @@ describe("the new-age leadership chapters, shared with /new-age-leadership", () 
     const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-finder-tab]")];
     const panels = [...root.querySelectorAll<HTMLElement>("[data-finder-panel]")];
     const selected = () => tabs.map((tab) => tab.getAttribute("aria-selected"));
-    expect(selected()).toEqual(["true", "false", "false", "false", "false"]);
+    expect(selected()).toEqual(["true", "false", "false", "false", "false", "false"]);
     /* The unchosen situations stay in place, out of reach, so the finder keeps
        its height (2026-10-24). */
-    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([false, true, true, true, true]);
+    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([false, true, true, true, true, true]);
     /* Arrow keys move between situations and wrap; Home and End go to the ends. */
     tabs[0].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
-    expect(selected()[4]).toBe("true");
-    expect(document.activeElement).toBe(tabs[4]);
-    tabs[4].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
+    expect(selected()[5]).toBe("true");
+    expect(document.activeElement).toBe(tabs[5]);
+    tabs[5].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
     expect(selected()[0]).toBe("true");
-    tabs[4].click();
-    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([true, true, true, true, false]);
+    tabs[2].click();
+    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([true, true, false, true, true, true]);
     /* A card opens as a sheet holding the whole story and its result on the record. */
-    const summary = panels[4].querySelector<HTMLElement>("summary")!;
+    const summary = panels[2].querySelector<HTMLElement>("summary")!;
     summary.click();
     expect(sheet.showModal).toHaveBeenCalledTimes(1);
     const body = root.querySelector<HTMLElement>("[data-finder-sheet-body]")!;

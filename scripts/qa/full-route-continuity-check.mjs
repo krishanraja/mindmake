@@ -687,10 +687,10 @@ async function verifyLeadershipInteraction(browser) {
   fail(await page.locator('[data-reach-panel="boundary"]').getAttribute("aria-hidden") !== "false", `${label}: work state does not restore`);
   /* The stories are a chooser (16 October 2026): a situation shows its own
      stories, and a story opens whole in a sheet. */
-  await page.locator('[data-finder-tab="team"]').click();
+  await page.locator('[data-finder-tab="brief"]').click();
   await page.waitForTimeout(250);
-  fail(await page.locator('[data-finder-panel="team"]').evaluate((node) => node.hidden) !== false, `${label}: AI Brain stories do not change situation`);
-  await page.locator('[data-finder-panel="team"] summary').first().click();
+  fail(await page.locator('[data-finder-panel="brief"]').evaluate((node) => node.classList.contains('is-active')) !== true, `${label}: AI Brain stories do not change situation`);
+  await page.locator('[data-finder-panel="brief"] summary').first().click();
   await page.waitForTimeout(250);
   fail(!(await page.locator("[data-finder-sheet]").evaluate((node) => node.open)), `${label}: an AI Brain story does not open`);
   await page.keyboard.press("Escape");

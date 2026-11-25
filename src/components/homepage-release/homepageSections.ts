@@ -3,8 +3,8 @@ import loomImage from "../../../prototypes/website-redesign-recovery/new-age-lea
 import calculatorImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
 import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 import latestIssue from "@/data/latestIssue.json";
-import { featuredQuotes, quoteById, quotePartFor } from "@/data/testimonials";
-import { getUseCase } from "@/data/useCases";
+import { canShowStoryQuote, featuredQuotes } from "@/data/testimonials";
+import { getUseCase, situationOf } from "@/data/useCases";
 import { PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
@@ -57,21 +57,9 @@ const ERAS = [
 
 /**
  * Three results on the record, each read from its use case's one record
- * (src/data/useCases.ts) on that use case's own picture: two told by the use
- * case's heading and outcome, the third in the client's words with the
- * result's headline.
+ * (src/data/useCases.ts), with the wish each record belongs to.
  */
-const PROOF = [
-  { record: "own-system", scene: getUseCase("C-01").picture, story: getUseCase("C-01").heading, outcome: getUseCase("C-01").outcome },
-  { record: "hand-back", scene: getUseCase("C-02").picture, story: getUseCase("C-02").heading, outcome: getUseCase("C-02").outcome },
-  {
-    record: "market-moves",
-    scene: getUseCase("C-11").picture,
-    quote: quotePartFor("data-infra-cro", "C-11"),
-    outcome: getUseCase("C-11").result!.headline,
-    who: quoteById("data-infra-cro").role,
-  },
-] as const;
+const PROOF = (["C-15", "C-18", "C-16"] as const).map(getUseCase);
 
 /**
  * A few voices under the results, one at a time (Krish, 2026-11-06: some of
@@ -81,7 +69,7 @@ const PROOF = [
  * src/data/testimonials.ts, never retyped. The line ends in the way to all of
  * them on /case-studies.
  */
-const VOICES = featuredQuotes.map((found) => ({ quote: found.featured!.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role }));
+const VOICES = featuredQuotes.filter((voice) => canShowStoryQuote(voice.featured!.excerpt)).map((found) => ({ quote: found.featured!.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role }));
 
 const startButton = () => `<button type="button" class="hs-start-button" data-start-route="brain" data-mm-primary>${START_LABEL} <span aria-hidden="true">→</span></button>`;
 
@@ -139,9 +127,8 @@ const railNav = (noun: string, stops: readonly string[]) =>
 const eraMarkup = ({ when, image, question, answer }: (typeof ERAS)[number]) =>
   `<li><button type="button" class="hs-era" aria-pressed="false" data-hs-era>${cardImage(image, 1600)}<span class="hs-era-when">${when}</span><span class="hs-era-faces"><span class="hs-era-q">“${question}”</span><span class="hs-era-a"><b>What actually happened instead</b>${answer}</span></span><span class="hs-era-mark" aria-hidden="true"></span></button></li>`;
 
-const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
-  ? `<li>${cardImage(item.scene, 800, "(max-width: 760px) 84vw, 33vw")}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
-  : `<li>${cardImage(item.scene, 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
+const proofMarkup = (item: (typeof PROOF)[number]) =>
+  `<li>${cardImage(item.picture, 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story"><a href="/case-studies#${item.id.toLowerCase()}">${esc(item.heading)}</a></p><p class="hs-proof-outcome">${esc(item.outcome)}</p><p class="hs-proof-who">${esc(situationOf(item.id).label)}</p></li>`;
 
 /**
  * Where to start, asked by a floating piece of the living Brain (Krish,

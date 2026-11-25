@@ -76,13 +76,11 @@ const STATES = {
     /* The results as the stories' swipe deck, on every screen (2026-11-10). */
     { name: "results deck", controls: '.hs-proof-deck [data-hs-deck-step="1"]', repeat: 4, frames: [".hs-proof-deck"] },
   ],
-  /* The use cases (owner review, 2026-11-15): every story in its sheet, every
-     page of cards, every way of narrowing them, and every quote. A phone
-     shows one card a page and narrows with two selects, so there the
-     narrowing sweep presses the one toggle it shows. */
+  /* The use cases (owner review, 2026-11-15): every story in its sheet, all 30
+     records and examples at one per page on a phone, the wish controls and every quote. */
   "/case-studies": [
     { name: "stories", setup: ".uc-card:not(.is-away) .uc-card-link", controls: '.uc-sheet [aria-label="Next use case"]', repeat: 18, frames: [".uc-sheet"] },
-    { name: "cards", setup: ".uc-sheet-close", controls: '.uc-pager [aria-label="Next use cases"]', repeat: 18, frames: [".uc-finder", ".uc-box"] },
+    { name: "cards", setup: ".uc-sheet-close", controls: '.uc-pager [aria-label="Next use cases"]', repeat: 30, frames: [".uc-finder", ".uc-box"] },
     { name: "narrowing", controls: ".uc-where button, .uc-roles button, .uc-toggle", frames: [".uc-finder", ".uc-box"] },
     { name: "quotes", controls: '.uc-quotes-nav [aria-label="Next quote"]', repeat: 18, frames: [".uc-words"] },
   ],
@@ -93,7 +91,7 @@ const STATES = {
        card's words are measured like the rest of the page. */
     { name: "ideas", controls: "#meaningFieldS2 .meaning-node-s2", between: "Escape", frames: ["#inside"] },
     { name: "finder", controls: ".brain-finder [data-finder-tab]", frames: [".brain-finder .story-finder"] },
-    { name: "finder rail", setup: '.brain-finder [data-finder-tab="change"]', controls: ".brain-finder .finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".brain-finder .story-finder"] },
+    { name: "finder rail", setup: '.brain-finder [data-finder-tab="brief"]', controls: ".brain-finder .finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".brain-finder .story-finder"] },
   ],
   "/ai-gtm": [
     { name: "starting point", controls: ".gtm-door", frames: [".lever-steps"] },

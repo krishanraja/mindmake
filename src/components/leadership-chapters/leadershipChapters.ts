@@ -6,8 +6,7 @@ import signalsFilm from "@/assets/films/sep2026/signals-arrive-loop-r01-20s-720p
 import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4";
 import communicationsFilm from "@/assets/films/sep2026/communications-compose-loop-r01-20s-720p-web-sealed.mp4";
 import readyFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
-import { quotePartFor } from "@/data/testimonials";
-import { useCases, type UseCaseId, type UseCaseResult } from "@/data/useCases";
+import { storyQuoteFor, useCases, type UseCaseId, type UseCaseResult } from "@/data/useCases";
 import { mountStoryFinder, storyFinderMarkup } from "./storyFinder";
 
 /**
@@ -81,7 +80,7 @@ export const leadershipStories: readonly LeadershipStory[] = useCases.map((entry
   happened: set(entry.id, "happened", entry.whatWeDid),
   outcome: set(entry.id, "outcome", entry.outcome),
   ...(entry.result ? { result: entry.result, record: entry.result.id } : {}),
-  ...(entry.quoteId ? { quote: { testimonialId: entry.quoteId, text: quotePartFor(entry.quoteId, entry.id) } } : {}),
+  quote: storyQuoteFor(entry),
   scene: entry.picture,
 }));
 

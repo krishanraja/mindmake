@@ -7,27 +7,13 @@ import { LeaderCount } from "@/components/mindmake/LeaderCount";
 import { LogoRail } from "@/components/mindmake/LogoRail";
 import { UseCaseFinder } from "@/components/mindmake/UseCaseFinder";
 import { ClientWords } from "@/components/mindmake/ClientWords";
-import { useCases } from "@/data/useCases";
+import { storiesInDisplayOrder } from "@/data/useCases";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 import "@/styles/mindmake-usecases.css";
 
-/**
- * What you can do with it: the eighteen use cases, then the clients' own
- * words (owner review, 15 November 2026).
- *
- * Three sections, as on every page since S6. The problem: one box narrows the
- * eighteen use cases by type, situation, role, results on the record and
- * words. How it works: each opens whole in a sheet, from where the reader
- * started to what changed, with the result on the record and the client's
- * words where they exist. What the reader gets and how they know: the
- * eighteen client quotes, the leaders who have attended, and the way in.
- *
- * The proof field and the drum of every quote no longer render here:
- * session comments and career references are not client proof, and every
- * result now lives on its use case.
- */
+/** Real records lead the wish index and structured data. Illustrations have their own cards. */
 export default function CaseStudies() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
 
@@ -35,7 +21,7 @@ export default function CaseStudies() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "What you can do with it",
-    itemListElement: useCases.map((entry, index) => ({
+    itemListElement: storiesInDisplayOrder.map((entry, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: entry.heading,

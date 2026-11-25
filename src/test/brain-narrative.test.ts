@@ -60,7 +60,7 @@ describe("the Brain narrative", () => {
     const doc = page();
     const close = doc.querySelector(".brain-close")!;
     /* Only the brain's own situations (Krish, 2026-11-04: one library, sorted by product). */
-    expect([...close.querySelectorAll<HTMLElement>("[data-finder-tab]")].map((tab) => tab.dataset.finderTab)).toEqual(["ideas", "change", "hands"]);
+    expect([...close.querySelectorAll<HTMLElement>("[data-finder-tab]")].map((tab) => tab.dataset.finderTab)).toEqual(["back", "terms", "calls", "try", "brief", "yours"]);
     expect(close.querySelector(".kicker")).toBeNull();
     expect([...close.querySelectorAll(".s8-keeps li")].map((item) => item.textContent?.trim())).toEqual(["Your brain, built out.", "The systems that amplify you, proven.", "The confidence of being an AI era leader."]);
     expect(close.querySelectorAll("[data-mm-primary]")).toHaveLength(1);

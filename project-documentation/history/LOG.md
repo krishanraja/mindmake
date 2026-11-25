@@ -5,6 +5,13 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-25: steward fold and roll
+
+- rolled from NOW.md: 2026-11-11, Krish's phone review: a tap on the way in before the page started is kept (it showed at 0.75s and answered at 5.1s; `src/lib/earlyStart.ts`); "Prefer to ...?" rides the seam above "Where would you start?"; homepage sections became sheets with nothing pinned. Ledger rows `S9-START-001`, `S9-NUDGE-001`, `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
+- rolled from NOW.md: 2026-11-11, "Private to you" left `/ai-brain`; the homepage close lost its button for a floating Brain orb asking "Where do you want to start?"; no section taller than a desktop screen, enforced by `qa:section-heights`. "Prefer to ...?" opens a comparison set to the route a visitor is weighing; measure `compare_nudge_open`, `compare_pick`, `compare_board_open` against starts.
+- rolled from NOW.md: 2026-11-10, S9 "a more alive site" shipped in the morning and broke the reading by evening (ledger `S9-AUDIT-001`: "an audit mapped 96 issues, three of them P0"). Repaired in five stages (PRs #283 to #287): stacking and pinning removed, a swipe deck on every screen, one connected Brain of twenty ideas in seven clusters, every link to `/ai-gtm` reads "Build your AI business". `qa:reading-flow` is new.
+- folded: the fifteen closeout notes of 15 to 23 November into NOW.md and removed them from `now-notes/`. The workflow's fold had not run, so the steward folded by hand.
+
 ## 2026-11-18: r21 contract and scanned accounts correction
 
 - Ruling (Krish, 2026-11-18): remove undeclared significance from packs, enforce the documented keys, recover own annual reports after image-only accounts, and correct comparative periods, measure names and pence. Period provenance also moved to the receipt because it was undeclared. 92 offline research bodies and 22 parts tests pass. Actual part-reader compatibility and live Monzo report decoding remain external checks.

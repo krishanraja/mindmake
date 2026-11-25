@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-20
-head: caa7e2b
+as_of: 2026-11-25
+head: f7439bf
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -42,7 +42,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-25)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -73,59 +73,46 @@ persistence, one due follow-up and a downloaded brief) is from 24 September
 2026; a code confirmed by a person since the 26 October function deploy is not
 yet recorded. That proof is not permission for additional sends.
 
-A live discoverability readback on 26 October 2026 passed on all 36 routes and
-42 metadata assets.
+A discoverability readback on 26 October 2026 passed on all 36 routes.
 
 ## What changed recently
 
-- 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
-  from `public/l/index.html`, with `/l/config.js` coming from
-  `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
-  address is never committed to this public repository. `/l/` is noindex,
-  no-referrer and no-store. The page's source is `krishanraja/sendlinks`
-  `web/recipient/`; the route lock was regenerated for the intended edit.
-- 2026-11-13: Microsoft Clarity is in the head of every page, behind the same
-  Allow as Google Analytics (Krish: "Copy and paste the Clarity code into the
-  <head> element of site"). Allow now covers two tools, so the page notice
-  asks "Analytics cookies?" and the brief "Can we use analytics cookies on your
-  visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
-  masked from recordings. Aimed at the North Star: recordings and heatmaps of
-  where consenting readers stop between the hero and "Check your email."
-- 2026-11-11, Krish's phone review: a tap on the way in before the page has
-  started is kept ("Start building your AI business button no longer works":
-  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
-  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
-  would you start?" on its own raised surface, ending in "See how we compare
-  →"; homepage sections are sheets laid over one another on alternating
-  grounds, nothing pinned (the opening's old divider, which drew a line across
-  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
-  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
-  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
-- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
-  chief of staff knows how you think." took its place. The homepage close lost
-  its button: a floating Brain orb asks "Where do you want to start?" (with
-  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
-  only about exploring what leaders built. No section is taller than a desktop
-  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
-- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
-  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
-  found too much page). A bubble's caption turns through the routes a visitor
-  is weighing; tapping opens the comparison set to that route, full screen on
-  a phone, closing back to the same pixel. Aimed at the North Star (cash
-  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
-  `compare_board_open` against starts.
-- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
-  floating way in, sections stacked over one another) and broke the reading by
-  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
-  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
-  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
-  the story deck became a swipe deck on every screen, including the homepage's
-  results and `/case-studies` (Krish: "Same style and movement on desktop");
-  the Brain became one connected Brain of twenty ideas in seven clusters,
-  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
-  "Build your AI business". Krish: "Why don't you just fix all the small
-  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
-  these defects returning.
+- 2026-11-23: on phones the publication line at the foot of the homepage hero
+  sits on a dark wash, because it was hard to read over the bright photo (#336).
+  Krish approved the edit to the locked homepage file that day and the route
+  lock moved with it. Keep the wash in any later redesign of the phone hero, or
+  replace it with something that passes the same legibility check.
+- 2026-11-21: the AI Brain draft shows how keeping the reason for a discount
+  changes the next renewal decision (#334); the homepage introduces the next
+  decision and `/ai-gtm` leads with the build-or-partner story. The judgement
+  audit result gives the reader one finding, one reusable rule and a worked
+  example of compounding, ending in a fresh AI brain brief (#333). Both wait on
+  Krish's review before publication.
+- 2026-11-20: brain modules went live (#319 to #331): a $59 module on the
+  opening screen of the catalogue (the production page measured 9,189px tall at
+  390px wide, the built candidate 2,401px), free codes for makeyourmindup
+  members, membership read live from Stripe, a designed receipt and one-click
+  install. The header link reads "Media" up to 700px wide and "Our media
+  channel" above it. Detail is under "next" below.
+- 2026-11-19: a live probe showed Stripe records a promotion code on the
+  session with its coupon empty, so the first webhook check would have refused
+  every real member; the webhook now reads the code's coupon from Stripe, and
+  member links apply the code at checkout because the hosted code box refused
+  valid codes from a cloud machine seen as a Mexican visitor.
+- 2026-11-17 to 18: Krish chose the thesis "AI makes strong judgement stronger
+  and weak judgement weaker. Mindmake builds the strong kind." for the canon's
+  "Why this exists", and "Who decided?" (`/who-decided`, unlisted, noindex)
+  was built as the first lead magnet, a private read with no score that
+  leaves nothing on the server. `project-documentation/krishs-mission/` holds
+  the thirteen-file mission pack. The unpublished `/parts` candidate reached r5
+  and the parts research pilot is paused for a record-and-replay bench
+  (`project-documentation/parts-research-next-steps.md`); report quality was
+  unstable across live runs.
+- 2026-11-15: use cases and the eighteen client quotes have one record each
+  (#301) and `/case-studies` finds a use case by type, situation, role or search.
+- 2026-11-13 to 14: Microsoft Clarity sits behind the same Allow as Google
+  Analytics, aimed at where readers stop before "Check your email."; the
+  SendLinks page is served at `/l/<link>` (#300). Earlier entries are in the LOG.
 
 ## What is next and what is waiting on Krish
 
@@ -144,6 +131,14 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   recheck until a scheduled one is built. The module code lives in the private
   mindmake-kits repository. Detail: `now-notes/2026-11-20-brain-modules-live.md`.
 
+- Krish to update `00_NORTH_STAR.md` lines 83 to 86 (still says seventeen
+  stories) and decide whether R-07 in `04_PROOF_RECORDS.md` stays.
+- Firecrawl (page reading) and Parallel (web search) keys exist in the Supabase
+  edge function secrets, unused, no spend; use only when a task needs a cited
+  page, and record the source of any claim that rests on one.
+- Waiting on Krish to review: the catalogue design, the AI Brain draft, the
+  judgement audit results and "Who decided?" before it goes live and joins the
+  navigation, and his founding story's exact words.
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The
   owner's exception covered the 24 September 2026 release only; every release
   since shipped without them.
@@ -170,7 +165,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-11-16): holds.
+- North Star check (2026-11-23): holds.
 
 ## Read next
 

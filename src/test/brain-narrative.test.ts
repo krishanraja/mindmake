@@ -84,7 +84,7 @@ describe("the Brain narrative", () => {
        staff knows how you think." takes its place. */
     expect(doc.querySelector("#living-record, #record-title, .record-counts")).toBeNull();
     expect(doc.body.textContent).not.toContain("Private to you, and");
-    expect(doc.querySelector("#how-you-think #how-title")?.textContent).toBe("An AI chief of staff knows how you think.");
+    expect(doc.querySelector("#how-you-think #how-title")?.textContent).toBe("Your AI brain knows how you think.");
     expect([...doc.querySelectorAll("#how-you-think .cos-flow b")].map((b) => b.textContent)).toEqual(["Notices", "Connects", "Prepares"]);
     expect(doc.querySelector('#how-you-think a[href="/new-age-leadership"]')).not.toBeNull();
     // Ruling (Krish, 2026-09-26): the Brain is sold on the jobs it does, not on
@@ -156,10 +156,7 @@ describe("the Brain's voice", () => {
     ["src/pages/AiBrainLocked.tsx", stripComments(read("src/pages/AiBrainLocked.tsx"))],
     [MARKUP, stripComments(read(MARKUP))],
     ["brain-fixture (displayed fields)", displayedFixture],
-    /* The moved section's own words. Its approved heading is the one place the
-       page says "chief of staff" (Krish, 2026-11-11); everything else in it
-       meets every rule here. */
-    ["src/components/mindmake/chiefOfStaff.ts", stripComments(read("src/components/mindmake/chiefOfStaff.ts")).replace("An AI chief of staff knows", "")],
+    ["src/components/mindmake/chiefOfStaff.ts", stripComments(read("src/components/mindmake/chiefOfStaff.ts"))],
   ];
 
   it.each(surfaces)("uses no banned framing in %s", (_surface, copy) => {

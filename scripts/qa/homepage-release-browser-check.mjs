@@ -80,7 +80,7 @@ try {
           console.log(`Testing ${label}`);
           const observed = { label, viewport };
 
-          assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Promote your AI from intern to chief of staff.', `${label}: approved opening`);
+          assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'AI can copy almost anything except your taste.', `${label}: approved opening`);
           const order = await page.evaluate(() => ['#opening', '#hs-problem-title', '#hs-get-title', '#footer'].map(selector => {
             const node = document.querySelector(selector);
             return node ? node.getBoundingClientRect().top + scrollY : null;

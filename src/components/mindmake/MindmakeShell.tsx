@@ -204,7 +204,7 @@ export function MindmakeShell({
         <div className="mm-footer-grid">
           <div className="mm-footer-brand">
             <MindmakeBrand compact />
-            <p className="mm-footer-statement">Keep your edge as AI<br />changes the market.</p>
+            <p className="mm-footer-statement">Keep the final say<br />on your best work.</p>
             {/* The footer's one quiet way to stay close. The brief stays the
                 way in; this is for the reader not ready yet. */}
             <a

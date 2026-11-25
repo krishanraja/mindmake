@@ -22,13 +22,13 @@ type Row = string;
     impactful leads (Krish, 2026-10-15): what an AI brain does for a leader, in
     the terms a chief executive grasped at once. R3's headline turns last. */
 export const LINES: ReadonlyArray<readonly [Row, Row, Row]> = [
-  ["Promote *your* AI", "from intern to", "chief of staff."],
+  ["AI can copy almost", "anything except", "*your* taste."],
   /* The closing chapter's headline, folded into the rotation when that
      chapter was cut (Ruling, Krish, 2026-10-24: "the copy for Own Your
      Judgment and Amplify it... should maybe just go in to the top section"). */
   ["Own *your*", "judgement, and", "amplify it."],
   ["High standards", "deserve an AI that", "knows *yours*."],
-  ["AI can copy almost", "anything except", "*your* taste."],
+  ["Keep the final", "say on *your*", "best work."],
   ["Amplify *your*", "judgement, and the", "business follows."],
   ["Build the human + AI", "business that augments", "*your* vision."],
 ];

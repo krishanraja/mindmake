@@ -13,10 +13,10 @@ export const site = "https://mindmake.co";
 export const staticPages = [
   {
     path: "/",
-    title: "Promote your AI from intern to chief of staff.",
-    description: "Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.",
-    headline: "Promote your AI from intern to chief of staff.",
-    claim: "Part people. Part agent. Led by judgement.",
+    title: "AI can copy almost anything except your taste.",
+    description: "The AI brain company for the people who shape creative work, culture and sport.",
+    headline: "AI can copy almost anything except your taste.",
+    claim: "The AI brain company for the people who shape creative work, culture and sport.",
     still: "film-02",
   },
   {
@@ -29,9 +29,9 @@ export const staticPages = [
   },
   {
     path: "/ai-gtm",
-    title: "Build your AI revenue engine",
+    title: "Build your AI business",
     description: "Make your pricing, positioning and team AI-native, then test it with real buyers.",
-    headline: "Build your AI revenue engine.",
+    headline: "Build your AI business.",
     claim: "Make your pricing, positioning and team AI-native, then test it with real buyers.",
     still: "film-03",
   },

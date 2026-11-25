@@ -23,7 +23,7 @@ describe("the homepage in three sections", () => {
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
     expect(sections.match(/<section\b/g)).toHaveLength(2);
     /* Krish, 2026-11-11: the chief of staff section moved to /ai-brain. */
-    expect(words).not.toContain("An AI chief of staff knows how you think.");
+    expect(words).not.toContain("Your AI brain knows how you think.");
     expect(sections).toContain('id="history"');
   });
 
@@ -45,7 +45,7 @@ describe("the homepage in three sections", () => {
     expect(hero).not.toContain("Free and private.");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves 10x better, and set the new pace.");
+    expect(homepageMarkup).toContain("So we build your AI brain out of it, for the people who shape creative work, culture and sport.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {

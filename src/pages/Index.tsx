@@ -105,8 +105,8 @@ export default function Index() {
   return (
     <>
       <SEO
-        title="Promote your AI from intern to chief of staff."
-        description="Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake."
+        title="AI can copy almost anything except your taste."
+        description="The AI brain company for the people who shape creative work, culture and sport."
         canonical="/"
       />
       <div ref={rootRef} className="mm-homepage-release mm-home-approved" dangerouslySetInnerHTML={{ __html: homepageMarkup }} />

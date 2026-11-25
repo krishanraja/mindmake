@@ -248,7 +248,9 @@ describe("the three-second gate", () => {
   /* Vocabulary a non-technical scroller should never have to decode. Prose
      only: these words are legitimate in code, so the scan reads visible copy. */
   const BANNED_WORDS = [
-    "chief of staff", "ingest", "orchestrate", "agentic", "harness", "semantic",
+    /* Ruling (Krish, 2026-11-25): "AI chief of staff" is retired everywhere. A
+       human chief of staff, a real job title in an organisation chart, stays. */
+    "ai chief of staff", "ingest", "orchestrate", "agentic", "harness", "semantic",
   ];
 
   const visibleCopy = (source: string) => source

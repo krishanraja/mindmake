@@ -27,7 +27,7 @@ capability the business should still have when the work ends.
 
 ## Current public contract
 
-The public brand and wordmark are **mind/make**. The company is **Mindmake**. The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the invite-only toolkit used inside the Sprint. The price is agreed privately.
+The public brand and wordmark are **mind/make**. The company is **Mindmake**. The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately.
 
 Write for the people who shape creative work, culture and sport. Media comes first. Address the people who make the calls first and the people who make the work second. Music is outside v1. Existing founder mentions stay where they are. Add none. Use real records and clearly labelled illustrative examples.
 
@@ -554,7 +554,7 @@ documented in `src/lib/answerFormat.ts`.
 
 ## Proof and product
 
-**CTRL** is the invite-only toolkit used inside the Sprint. It keeps memory, sources, checks and the human decision visible. It has no public signup or price.
+**CTRL** is the toolkit we use with you inside the 30-day Sprint. It keeps memory, sources, checks and the human decision visible. It has no public signup or price.
 
 Product footage stays clean. Do not draw over changing interfaces.
 

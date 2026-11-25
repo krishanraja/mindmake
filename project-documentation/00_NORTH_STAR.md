@@ -59,7 +59,7 @@ understanding stands still.
 - **Build your AI brain** (`/ai-brain`): Put your taste and judgement to work on your next call.
 - **Build your AI business** (`/ai-gtm`): Make, share and earn from your work with AI.
 
-The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the invite-only toolkit used inside the Sprint. The price is agreed privately. The Sprint’s public shape is 30 days.
+The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately. The Sprint’s public shape is 30 days.
 
 **How to start.** **Start building your AI brain** (on `/ai-gtm`, **Start
 building your AI business**; Krish, 24 October 2026) at
@@ -80,7 +80,7 @@ permissions for each are in `04_PROOF.md`.
 - **Start building your AI brain**, the free brief above. The main way in.
 - **Make Your Mind Up**, Mindmake's free publication at
   [makeyourmindup.ai](https://makeyourmindup.ai). Its headline is “Creativity, AI and Money, simplified.” It sets its own editorial line.
-- **CTRL** is the invite-only toolkit used inside the Sprint.
+- **CTRL** is the toolkit we use with you inside the 30-day Sprint.
 
 - **Krish's own network**: people he has worked with, introductions and talks.
 
@@ -191,7 +191,7 @@ as the fear of falling behind.
 
 ## What we sell
 
-The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the invite-only toolkit used inside the Sprint. The price is agreed privately.
+The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately.
 
 The two doors describe what a reader can build.
 
@@ -290,7 +290,7 @@ The public brand and wordmark are **mind/make**. The company is **Mindmake**.
   "Mindmaker Live", never "Mindmake AI".
 - The site is **mindmake.co**. `themindmaker.ai` and `www` variants redirect to
   it and are infrastructure, never names.
-- The invite-only toolkit inside the Sprint is **CTRL**, at `ctrl.mindmake.co`.
+- The toolkit we use with you inside the Sprint is **CTRL**. It has no public signup, waitlist or launch date.
 - The publication is **Make Your Mind Up**, at `makeyourmindup.ai` (its own
   masthead writes it makeyourmindup). Every Media and Subscribe link on the site
   goes to its home page (Krish, 26 September 2026). Its channels and formats

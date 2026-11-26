@@ -133,6 +133,7 @@
   outline: none;
 }
 .mm-site .uc-search input::-webkit-search-cancel-button { filter: invert(.8); }
+.mm-site .uc-search input::placeholder { color: var(--mm-tx2); opacity: 1; }
 
 .mm-site .uc-toggle {
   display: inline-flex;
@@ -156,6 +157,8 @@
 .mm-site .uc-pager button,
 .mm-site .uc-sheet-steps button,
 .mm-site .uc-quotes-nav button {
+  flex: none;
+  box-sizing: border-box;
   width: 44px;
   height: 44px;
   border: 1px solid var(--mm-seam);

@@ -794,12 +794,22 @@
   .mm-homepage-release .r3-opening .hs-issue { margin-top: 14px; padding-top: 0; border-top: 0; }
   .mm-homepage-release .r3-opening .hs-issue-subscribe { display: none; }
   /* A dark wash behind the line so the words stay legible over the bright photo. */
+  /* The wash reaches 12px past the text on each side, drawn behind it, so the
+     line itself stays on the wordmark's edge (qa:logo-alignment). */
   .mm-homepage-release .r3-opening .hs-issue {
-    padding: 10px 12px;
-    margin-left: -12px;
+    position: relative;
+    isolation: isolate;
+    padding: 10px 0;
+    text-shadow: 0 1px 3px rgba(6, 17, 13, .9);
+  }
+  .mm-homepage-release .r3-opening .hs-issue::before {
+    content: "";
+    position: absolute;
+    inset: 0 -12px;
+    z-index: -1;
     border-radius: 2px;
     background: linear-gradient(90deg, rgba(6, 17, 13, .78), rgba(6, 17, 13, .5));
-    text-shadow: 0 1px 3px rgba(6, 17, 13, .9);
+    pointer-events: none;
   }
   .mm-homepage-release .r3-opening .hs-issue-title {
     display: -webkit-box;

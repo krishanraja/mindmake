@@ -30,7 +30,7 @@ export default function AiBrainLocked() {
     </header>
     <section className="product-section product-problem" id="you">
       <h2>The questions only you can answer.</h2>
-      <p>If you switched AI tools tomorrow, what would you have to teach the next one?</p>
+      <p>If you worked with someone new tomorrow, what would you have to teach them first?</p>
       <p>You gave a customer a discount because delivery was late. At renewal, your AI sees last year’s price.</p>
     </section>
     <section className="product-section brain-inside" id="inside">

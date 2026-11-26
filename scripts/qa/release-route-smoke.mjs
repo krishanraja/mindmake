@@ -292,6 +292,10 @@ async function routerPatterns(browser) {
     await prepare(page, record);
     const other = [...new Set([...literalRoutes.filter(route => !routes.includes(route) && !['/blog/:slug', '/answers/:slug'].includes(route)), ...retired])];
     for (const pattern of other) {
+      // The judgement audit is isolated by design: PrivateAuditRoute reloads it as
+      // a full page, so client-side routing cannot follow it. It is recorded,
+      // not exercised here.
+      if (pattern === '/measure-your-ai-judgement') { record.observations.push({ pattern, isolated: 'loads as a full page by design (PrivateAuditRoute)' }); continue; }
       const route = pattern === '*' ? '/qa-missing-public-page' : pattern.replace(':slug', 'qa-missing-slug');
       await page.goto(`${origin}/`, { waitUntil: 'domcontentloaded' }); await ready(page, record);
       // There is no built HTML for these paths. Exercise BrowserRouter separately;
@@ -302,7 +306,7 @@ async function routerPatterns(browser) {
       if (!['/signal', '/builder-economy'].includes(pattern)) {
         const observed = record.observations.at(-1);
         assert(record, observed.headings.length === 1, `Router pattern ${pattern} has no single heading`);
-        const expected = ['/operator', '/tool'].includes(pattern) ? '/ai-brain' : ['/library', '/answers'].includes(pattern) ? '/blog' : pattern === '/blog/10-20x-roi-what-real-ai-implementation-looks-like' ? '/blog/measuring-ai-work-that-pays-back' : pattern === '/blog/building-ai-systems-in-30-days-sprint-approach' ? '/blog/a-useful-first-30-days-building-with-ai' : ['*', '/alumni', '/feedback/dtd'].includes(pattern) ? route : '/?start=1';
+        const expected = ['/operator', '/tool'].includes(pattern) ? '/ai-brain' : ['/library', '/answers'].includes(pattern) ? '/blog' : pattern === '/blog/10-20x-roi-what-real-ai-implementation-looks-like' ? '/blog/measuring-ai-work-that-pays-back' : pattern === '/blog/building-ai-systems-in-30-days-sprint-approach' ? '/blog/a-useful-first-30-days-building-with-ai' : ['*', '/alumni', '/feedback/dtd', '/measure-your-ai-judgement', '/brain-modules', '/brain-modules/download', '/kits/download', '/brain-modules/:slug'].includes(pattern) ? route : '/?start=1';
         assert(record, observed.actual === expected, `Router pattern ${pattern} expected ${expected}, observed ${observed.actual}`);
       }
     }

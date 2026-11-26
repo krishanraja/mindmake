@@ -113,3 +113,16 @@ it("filters examples and records by the same wish and industry, and restores the
   expect(group("Results on the record").querySelector(".uc-card:not(.is-away)")?.getAttribute("data-uc")).toBe("C-15");
   view.unmount();
 });
+
+
+it("follows a wish link and restores the full index for an unknown wish", () => {
+  const props = { onStart: () => undefined };
+  const view = renderComponent(createElement(UseCaseFinder, { ...props, wish: "terms" }));
+  const ui = within(view.container);
+  expect(ui.getByRole("button", { name: /Take the money/ })).toHaveAttribute("aria-pressed", "true");
+  expect(ui.getByRole("heading", { name: "Illustrative examples" })).toBeTruthy();
+  expect(ui.getByRole("combobox", { name: "Wish" })).toHaveValue("terms");
+  view.rerender(createElement(UseCaseFinder, { ...props, wish: "missing" }));
+  expect(ui.getByRole("button", { name: /All\s+wishes/ })).toHaveAttribute("aria-pressed", "true");
+  view.unmount();
+});

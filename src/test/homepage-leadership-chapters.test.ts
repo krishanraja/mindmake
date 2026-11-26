@@ -21,7 +21,7 @@ describe("the homepage in three sections", () => {
     const words = sections.replace(/<span class="hs-mark"[^>]*>([^<]*)<\/span>/g, "$1");
     const order = ["Every new technology asks us to change how we think.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
-    expect(sections.match(/<section\b/g)).toHaveLength(2);
+    expect(sections.match(/<section\b/g)).toHaveLength(3);
     /* Krish, 2026-11-11: the chief of staff section moved to /ai-brain. */
     expect(words).not.toContain("Your AI brain knows how you think.");
     expect(sections).toContain('id="history"');
@@ -70,20 +70,15 @@ describe("the homepage in three sections", () => {
     expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("asks where to start from a floating piece of the Brain, and leaves the band to the stories", () => {
-    /* Krish, 2026-11-11: the orb on "We build yours with you in 30 days."
-       asks whether to start with yourself or your business and takes the
-       reader to one of the two pages; the section's own button goes, and the
-       band is only about exploring what leaders built. */
+  it("opens each wish at its own case index and ends with the shared way forward", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
-    const get = root.querySelector(".hs-get")!;
-    const doors = [...get.querySelectorAll<HTMLAnchorElement>(".hs-choose [data-choose]")];
-    expect(doors.map((door) => door.getAttribute("href"))).toEqual(["/ai-brain", "/ai-gtm"]);
-    expect(doors.map((door) => door.querySelector("b")?.textContent)).toEqual(["With yourself", "With your business"]);
-    expect(get.querySelector(".hs-choose [data-hs-orb]")).not.toBeNull();
-    expect(get.querySelector(".hs-start-button, [data-mm-primary]")).toBeNull();
-    expect(get.querySelector(".hs-voices .hs-explore")?.getAttribute("href")).toBe("/case-studies");
+    const chips = [...root.querySelectorAll<HTMLAnchorElement>(".wish-paths a")];
+    expect(root.querySelector("#wish-question")?.textContent).toBe("What would you do more of?");
+    expect(chips.map(chip => chip.search)).toEqual(["back", "terms", "calls", "try", "brief", "yours"].map(id => "?wish=" + id));
+    expect(chips.every(chip => chip.pathname === "/case-studies")).toBe(true);
+    expect(root.querySelector(".hs-get .journey-end button")?.textContent).toBe("Start your brief");
+    expect(root.querySelector(".hs-get .hs-explore")?.getAttribute("href")).toBe("/case-studies");
   });
 
   it("puts each era and each result on its own picture, decorative and loaded when near", () => {

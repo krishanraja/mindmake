@@ -9,28 +9,8 @@ type ViewTransition = { finished: Promise<void>; skipTransition(): void };
 type TransitionDocument = Document & { startViewTransition?: (update: () => Promise<void> | void) => ViewTransition };
 
 /**
- * Page changes: the ruled line.
- *
- * Krish, 2026-09-25: the transitions between pages "feel incredibly glitchy
- * and sudden", and should be "never seen before but very subtle and classy".
- *
- * What was glitchy was three separate things, and this is the fix for each:
- *
- *  - Every link in the homepage's generated markup was a plain anchor, so
- *    leaving the homepage reloaded the whole document. Those clicks now stay in
- *    the app like every other internal link.
- *  - The next page's code was requested at the moment of the click, so an
- *    unvisited page arrived through the loading fallback. It is fetched first
- *    now (and on hover or focus, before the click), and the swap waits for it.
- *  - The old page jumped to the top before the new one painted. The scroll
- *    reset now happens inside the transition, after the old page is captured.
- *
- * What is new is the ruled line. One hairline in the site's mint travels down
- * the screen and the new page is set in behind it, as a composing machine sets
- * a line of type, while the old page settles back into the ground. About half a
- * second and one easing; nothing slides, bounces or scales. The header is the
- * same pixels on both sides, and the line reaches past it in its first frames,
- * so the chrome reads as still.
+ * Prefetch internal links on hover or focus. Capture the old page before
+ * scrolling the new one to its heading, then cross-fade beneath the masthead.
  *
  * Browsers without view transitions, and readers who prefer reduced motion,
  * get the same prefetched, jump-free navigation with no animation. Back and
@@ -93,11 +73,7 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
          cross over the new page (audit OTHER-01). Its ground stays, so the
          new page sets in over a calm screen. */
       menu?.setAttribute("data-mm-leaving", "");
-      const rule = document.createElement("div");
-      rule.className = "mm-route-rule";
-      rule.setAttribute("aria-hidden", "true");
       const transition = doc.startViewTransition(() => new Promise<void>((resolve) => {
-        document.body.append(rule);
         document.documentElement.classList.add("mm-route-changing");
         committed.current = resolve;
         /* A page that still suspends must not hold the screen frozen. */
@@ -113,7 +89,6 @@ export function RouteTransitions({ preload }: { preload?: (pathname: string) => 
       (transition as ViewTransition & { ready?: Promise<void>; updateCallbackDone?: Promise<void> }).ready?.catch(() => {});
       (transition as ViewTransition & { updateCallbackDone?: Promise<void> }).updateCallbackDone?.catch(() => {});
       transition.finished.finally(() => {
-        rule.remove();
         menu?.removeAttribute("data-mm-leaving");
         document.documentElement.classList.remove("mm-route-changing");
         if (running.current === transition) running.current = null;

@@ -4,4 +4,4 @@ export function mountLiquidBrain(field: HTMLElement, options: {
   initial: string;
   reduced: boolean;
   onAdvance: (id: string) => void;
-}): { select(id: string, byReader: boolean): void; destroy(): void };
+}): { select(id: string, byReader: boolean): void; confirm(id: string): void; destroy(): void };

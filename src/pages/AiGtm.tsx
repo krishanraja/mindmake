@@ -37,7 +37,7 @@ export default function AiGtm() {
       <div className="product-levers">
           <DepthTile title="Production" line="Make more of the work that meets your standards." detail="Set a brief against work you rate. Choose the idea worth making and keep the detail that earns its place." />
           <DepthTile title="Distribution" line="Give each piece a home that suits it." detail="Compare the full cut with a clip or a newsletter. Keep the point of the piece wherever it travels." />
-          <DepthTile title="Monetisation" line="Set the price and the rights for your work." detail="Package a series or license a format. Decide who can use it, for how long and which rights stay yours." />
+          <DepthTile title="Monetisation" line="Set the price and the rights for your work." detail="Package a series or license a format. When an offer includes the sequel, your AI brain asks which rights you meant to sell." />
       </div>
     </section>
     <ProductSprint door="gtm" onStart={openBrief} />

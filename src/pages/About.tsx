@@ -1,8 +1,8 @@
+import { JourneyEnd } from "@/components/mindmake/JourneyEnd";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { Instrument } from "@/components/mindmake/Instrument";
-import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { Arrive } from "@/components/mindmake/Arrive";
 import { testimonials } from "@/data/testimonials";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -85,7 +85,7 @@ export default function About() {
         jsonLd={aboutJsonLd}
       />
 
-      <section className="mm-answers-page mm-about-page" aria-labelledby="about-title">
+      <header className="mm-answers-page mm-about-page" aria-labelledby="about-title">
         <div className="mm-container">
           <div className="mm-answers-hero">
             <h1 id="about-title">About us.</h1>
@@ -96,7 +96,7 @@ export default function About() {
             </p>
           </div>
         </div>
-      </section>
+      </header>
 
       <section className="mm-founder is-standing mm-about-founder" aria-labelledby="founder-title">
         <div className="mm-container">
@@ -130,13 +130,13 @@ export default function About() {
                   whole way through: sitting with a smart person who was stuck, and working out
                   together what to do next.
                 </p>
-                <p>
+                <details className="journey-detail"><summary>The work behind the practice</summary><p>
                   I started at Microsoft, writing automations that turned weeks of data entry into
                   hours. Since then I have launched markets from scratch and built revenue lines that
                   did not exist before. At Nine, digital revenue grew from $9M to $61M. At Captify, I
                   built the Australian business from zero to $12M a year. At SingTel, we took a
                   platform business from $4M to $38M across twelve markets.
-                </p>
+                </p></details>
               </div>
             </Arrive>
           </div>
@@ -156,12 +156,12 @@ export default function About() {
                 They had plenty of intelligence. What they were short of was time, and someone who
                 would explain it plainly and show it working in a real business.
               </p>
-              <p>
+              <details className="journey-detail"><summary>Inside the practice</summary><p>
                 So I built my own first. Mindmake runs on fourteen AI agents with named roles and a
                 shared memory. They do the research, the follow-ups and the admin, and I make the
                 calls. Everything we show you is something I use every day and pay for myself, so
                 you hear what it really costs and where it still breaks.
-              </p>
+              </p></details>
               <p>
                 I would rather you left a first conversation with one good idea to use on Monday
                 than with a proposal. If that sounds useful, I would love to hear what you are
@@ -184,7 +184,7 @@ export default function About() {
             <Instrument kind="rail" className="mm-head-mark" />
             In the words of people he has worked with
           </h2>
-          <div className="mm-about-references">
+          <div className="mm-about-references" tabIndex={0} role="region" aria-label="Colleague references">
             <Arrive stagger>
             {references.map((reference) => (
               <figure key={reference.id}>
@@ -197,15 +197,9 @@ export default function About() {
             ))}
             </Arrive>
           </div>
+          <JourneyEnd page="about" onStart={openBrief} />
         </div>
       </section>
-
-      <CloseBlock
-        instrument="levels"
-        claim="Tell us what you are working on."
-        body="Four details, and we do the reading before we talk."
-        onStart={openBrief}
-      />
 
       <LeadBrief open={briefOpen} onClose={closeBrief} />
     </MindmakeShell>

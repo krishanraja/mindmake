@@ -37,6 +37,11 @@ describe("the AI brain route", () => {
       expect(button).toHaveAttribute("aria-pressed", "true");
       expect(view.container.querySelector("#brain-answer")).toBe(panel);
       expect(panel.querySelector('[aria-hidden="false"]')).toHaveTextContent("Which detail makes this feel right or wrong to you?");
+      fireEvent.click(within(view.container).getByRole("button", { name: "Preferences" }));
+      const guess = within(view.container).getByRole("button", { name: "Preferences" });
+      expect(guess).toHaveAttribute("data-guess", "pending");
+      fireEvent.click(within(view.container).getByRole("button", { name: "Confirm this preference" }));
+      expect(guess).toHaveAttribute("data-guess", "confirmed");
     } finally { view.unmount(); }
   });
   it("ends in the four weeks, the receipt and the six wishes", () => {

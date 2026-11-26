@@ -106,9 +106,15 @@ function Plate({ src, sizes }: { src: string; sizes: string }) {
   );
 }
 
-export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
+export function UseCaseFinder({ onStart, wish, onWishChange }: { wish?: string | null; onWishChange?: (wish: Where) => void; onStart: (door: Door) => void }) {
   const [narrow, setNarrow] = useState<Narrowing>(NONE);
   const [page, setPage] = useState(0);
+  useEffect(() => {
+    if (wish === undefined) return;
+    const where = SITUATIONS.find(item => item.id === wish)?.id ?? "all";
+    setNarrow(previous => ({ ...previous, where }));
+    setPage(0);
+  }, [wish]);
   const [perPage, setPerPage] = useState(2);
   const [open, setOpen] = useState<UseCaseId | null>(null);
   /* Until the finder runs, every card is in reach (the server's page and a
@@ -141,7 +147,11 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
   const from = shown.length ? shown.findIndex((item) => onPage.has(item.id)) + 1 : 0;
   const to = from + onPage.size - 1;
 
-  const change = (next: Partial<Narrowing>) => { setNarrow((was) => ({ ...was, ...next })); setPage(0); };
+  const change = (next: Partial<Narrowing>) => {
+    if (next.where && next.where !== narrow.where) onWishChange?.(next.where);
+    setNarrow(previous => ({ ...previous, ...next }));
+    setPage(0);
+  };
 
   /* How many cards a page holds follows the room the cards have; every card
      takes the tallest card's height at that width, so the box never changes
@@ -270,6 +280,12 @@ export function UseCaseFinder({ onStart }: { onStart: (door: Door) => void }) {
 
         <div className="uc-box">
           <div className="uc-index">
+            <label className="uc-phone-wish">
+              <span>{WHERE.find(item => item.id === narrow.where)?.label}</span>
+              <select aria-label="Wish" value={narrow.where} onChange={event => change({ where: event.target.value as Where })}>
+                {WHERE.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}
+              </select>
+            </label>
             <div className="uc-where" role="group" aria-label="Wish">
               {WHERE.map((w) => (
                 <button key={w.id} type="button" className="uc-row" aria-pressed={narrow.where === w.id} onClick={() => change({ where: w.id })}>

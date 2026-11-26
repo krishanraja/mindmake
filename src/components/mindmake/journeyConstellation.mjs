@@ -97,7 +97,7 @@ export function mountLiquidBrain(field, options) {
 
   if (!g || !n) {
     defs.remove(); goo.remove(); net.remove(); field.classList.remove("is-liquid");
-    return { select() {}, destroy() {} };
+    return { select() {}, confirm() {}, destroy() {} };
   }
 
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -182,7 +182,7 @@ export function mountLiquidBrain(field, options) {
   let touch = null;
 
   const down = (event) => {
-    if (event.pointerType === "mouse") return;
+    if (reduced) return;
     const [x, y] = toBrain(event);
     touch = { x, y, t0: performance.now() };
     for (const p of particles) {
@@ -267,8 +267,8 @@ export function mountLiquidBrain(field, options) {
           dy = mouse[1] - p.y,
           d = Math.hypot(dx, dy);
         if (d < 160 && d > 0) {
-          p.vx += (dx / d) * (160 - d) * 0.012;
-          p.vy += (dy / d) * (160 - d) * 0.012;
+          p.vx += (dx / d) * (160 - d) * 0.006;
+          p.vy += (dy / d) * (160 - d) * 0.006;
         }
       }
       if (pull > 0 && touch) {
@@ -389,6 +389,10 @@ export function mountLiquidBrain(field, options) {
   visibility.observe(field);
 
   return {
+    confirm(id) {
+      settledById.set(id, true);
+      draw(performance.now());
+    },
     select(id, byReader) {
       active = id;
       if (byReader) pinned = true;

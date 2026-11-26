@@ -14,6 +14,8 @@ export function LiquidBrain() {
   const field = useRef<HTMLDivElement>(null);
   const renderer = useRef<ReturnType<typeof mountLiquidBrain>>();
   const [selected, setSelected] = useState<string>("North Star");
+  const [confirmed, setConfirmed] = useState(false);
+  const agreed = useRef(false);
   const selection = useRef(selected);
   useEffect(() => {
     const host = field.current!;
@@ -21,7 +23,7 @@ export function LiquidBrain() {
     const mount = () => {
       renderer.current?.destroy();
       renderer.current = mountLiquidBrain(host, {
-        ideas: parts.map(([id, , , x, y]) => ({ id, x, y, settled: id !== "Preferences" })),
+        ideas: parts.map(([id, , , x, y]) => ({ id, x, y, settled: id !== "Preferences" || agreed.current })),
         nodes: new Map(Array.from(host.querySelectorAll("button"), node => [node.textContent!, node])),
         initial: selection.current, reduced: motion.matches,
         onAdvance: setSelected,
@@ -36,11 +38,18 @@ export function LiquidBrain() {
   return <div className="product-map">
     <div className="brain-field" ref={field} role="group" aria-label="Parts of your AI brain">
       {parts.map(([name, , , x, y]) => <button key={name} aria-pressed={selected === name}
+        data-guess={name === "Preferences" ? (confirmed ? "confirmed" : "pending") : undefined}
+        aria-description={name === "Preferences" ? (confirmed ? "Confirmed preference" : "Suggested preference") : undefined}
         aria-controls="brain-answer" style={{ "--x": x + "%", "--y": y + "%" } as CSSProperties}
         onClick={() => { selection.current = name; setSelected(name); renderer.current?.select(name, true); }}>{name}</button>)}
     </div>
     <div className="brain-answer" id="brain-answer" aria-live="polite">{parts.map(([name, question, answer]) =>
-      <div key={name} aria-hidden={selected !== name}><h3>{question}</h3><p>{answer}</p></div>
+      <div key={name} aria-hidden={selected !== name}><h3>{question}</h3><p>{answer}</p>
+        {name === "Preferences" && <button className="brain-confirm" type="button" disabled={confirmed}
+          onClick={() => { agreed.current = true; setConfirmed(true); renderer.current?.confirm(name); }}>
+          {confirmed ? "Confirmed" : "Confirm this preference"}
+        </button>}
+      </div>
     )}</div>
     <noscript><dl>{parts.slice(1).map(([name, question, answer]) => <div key={name}><dt>{name}</dt><dd>{question} {answer}</dd></div>)}</dl></noscript>
   </div>;

@@ -70,4 +70,8 @@
   .product-stories { padding: 12px; }
 }
 
-.brain-field button:last-child::before { background: transparent; border: 1px dotted currentColor; }
+.brain-field button[data-guess="pending"]::before { background: transparent; border: 2px dotted var(--mm-amber); }
+.brain-field button[data-guess="confirmed"]::before { background: var(--mm-mint); border: 2px solid var(--mm-mint); }
+.brain-field button::before { transition: background-color var(--journey-swap) var(--journey-ease), border-color var(--journey-swap) var(--journey-ease); }
+.brain-confirm { color: var(--mm-mint); min-height: 44px; border-bottom: 1px solid currentColor; }
+.brain-confirm:disabled { color: var(--mm-tx2); }

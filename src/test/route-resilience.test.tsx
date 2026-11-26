@@ -12,7 +12,22 @@ import { answers } from "@/lib/answers";
 import { ideas } from "@/lib/ideas";
 import { asQuestion } from "@/lib/answerFormat";
 
-const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+// Follow the same pager as a reader, including the last, shorter page.
+function readIdeaPages() {
+  const entries = [];
+  for (let page = 0; page < ideas.length; page++) {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>(".mm-idea-entry:not([hidden])")];
+    entries.push(...links.map(link => ({
+      title: link.querySelector("h2")!.textContent,
+      href: link.getAttribute("href"),
+      line: link.querySelector("p")!.textContent,
+    })));
+    const next = document.querySelector<HTMLButtonElement>('button[aria-label="Next ideas"]');
+    if (!next || next.disabled) return entries;
+    fireEvent.click(next);
+  }
+  throw new Error("Idea pagination did not reach the last page");
+}
 
 const renderWithAppProviders = (node: React.ReactNode, route = "/") => {
   const queryClient = new QueryClient({
@@ -40,36 +55,28 @@ describe("public route resilience", () => {
        it. Both kinds are present or the merge lost a source. */
     renderWithAppProviders(<Blog />, "/blog");
 
-    const headings = screen.getAllByRole("heading", { level: 2 }).map((node) => node.textContent);
-    expect(headings).toEqual(ideas.map((idea) => idea.title));
+    const entries = readIdeaPages();
+    expect(entries.map(entry => entry.title)).toEqual(ideas.map(idea => idea.title));
     expect(ideas.some((idea) => idea.kind === "tip") && ideas.some((idea) => idea.kind === "read")).toBe(true);
     expect(ideas).toHaveLength(blogPosts.length + answers.length);
     expect(ideas[0].lead).toBe(true);
     const rest = ideas.slice(1).map((idea) => idea.publishedAt);
     expect(rest).toEqual([...rest].sort().reverse());
-    for (const idea of ideas) {
-      expect(screen.getByRole("link", { name: new RegExp(escapeRegExp(idea.title.slice(0, 30)), "i") }))
-        .toHaveAttribute("href", idea.href);
-    }
+    expect(entries.map(entry => entry.href)).toEqual(ideas.map(idea => idea.href));
   });
 
   it("narrows the ideas by kind and by subject, and shows every idea again", () => {
     renderWithAppProviders(<Blog />, "/blog");
 
     fireEvent.click(screen.getByRole("button", { name: "Quick tips" }));
-    for (const idea of ideas) {
-      expect(screen.queryByRole("heading", { name: idea.title }) !== null, idea.href).toBe(idea.kind === "tip");
-    }
+    expect(readIdeaPages().map(entry => entry.title)).toEqual(ideas.filter(idea => idea.kind === "tip").map(idea => idea.title));
 
     fireEvent.click(screen.getByRole("button", { name: "For leaders" }));
-    for (const idea of ideas) {
-      expect(screen.queryByRole("heading", { name: idea.title }) !== null, idea.href)
-        .toBe(idea.kind === "tip" && idea.subject === "leadership");
-    }
+    expect(readIdeaPages().map(entry => entry.title)).toEqual(ideas.filter(idea => idea.kind === "tip" && idea.subject === "leadership").map(idea => idea.title));
 
     fireEvent.click(screen.getByRole("button", { name: "All" }));
     fireEvent.click(screen.getByRole("button", { name: "All subjects" }));
-    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(ideas.length);
+    expect(readIdeaPages().map(entry => entry.href)).toEqual(ideas.map(idea => idea.href));
   });
 
   it("copies an article link when native sharing is unavailable", async () => {
@@ -138,14 +145,13 @@ describe("public route resilience", () => {
   it("lists every answer page with the question it answers, or its description where the title already asks it", () => {
     renderWithAppProviders(<Blog />, "/blog");
 
+    const entries = readIdeaPages();
     for (const answer of answers) {
-      expect(screen.getByRole("heading", { name: answer.title })).toBeInTheDocument();
-      /* A title that is itself a question shows the page's description: the
-         search question under it only said the title again (audit OTHER-04). */
-      if (answer.title.trim().endsWith("?")) expect(screen.getByText(answer.description)).toBeInTheDocument();
-      else expect(screen.getByText(asQuestion(answer.targetQuery))).toBeInTheDocument();
-      expect(screen.getByRole("link", { name: new RegExp(answer.title.slice(0, 30), "i") }))
-        .toHaveAttribute("href", `/answers/${answer.slug}`);
+      expect(entries.find(entry => entry.href === "/answers/" + answer.slug)).toEqual({
+        href: "/answers/" + answer.slug,
+        title: answer.title,
+        line: answer.title.trim().endsWith("?") ? answer.description : asQuestion(answer.targetQuery),
+      });
     }
   });
 

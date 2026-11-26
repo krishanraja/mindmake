@@ -1,8 +1,9 @@
+import { useSearchParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { Instrument } from "@/components/mindmake/Instrument";
-import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { JourneyEnd } from "@/components/mindmake/JourneyEnd";
 import { LeaderCount } from "@/components/mindmake/LeaderCount";
 import { LogoRail } from "@/components/mindmake/LogoRail";
 import { UseCaseFinder } from "@/components/mindmake/UseCaseFinder";
@@ -17,6 +18,7 @@ import "@/styles/mindmake-usecases.css";
 export default function CaseStudies() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
 
+  const [params, setParams] = useSearchParams();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -38,7 +40,14 @@ export default function CaseStudies() {
         jsonLd={jsonLd}
       />
 
-      <UseCaseFinder onStart={(door) => openBrief(door)} />
+      <UseCaseFinder wish={params.get("wish")} onWishChange={wish => {
+        setParams(previous => {
+          const next = new URLSearchParams(previous);
+          if (wish === "all") next.delete("wish");
+          else next.set("wish", wish);
+          return next;
+        }, { preventScrollReset: true });
+      }} onStart={(door) => openBrief(door)} />
 
       <ClientWords>
         <div className="mm-attendance">
@@ -50,12 +59,11 @@ export default function CaseStudies() {
         </div>
       </ClientWords>
 
-      <CloseBlock
-        instrument="levels"
-        claim="Find the result worth proving."
-        body="Four details, and we do the reading before asking you to explain the problem."
-        onStart={openBrief}
-      />
+      <section className="mm-block"><div className="mm-container">
+        <h2>Find the result worth proving.</h2>
+        <p>Bring a decision you want to make with the same confidence.</p>
+        <JourneyEnd page="cases" onStart={openBrief} />
+      </div></section>
 
       <LeadBrief open={briefOpen} onClose={closeBrief} />
     </MindmakeShell>

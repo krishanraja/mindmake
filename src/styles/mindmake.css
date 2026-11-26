@@ -1768,7 +1768,7 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
 
 [data-reveal="pending"] {
   opacity: 0;
-  transform: translate3d(0, 14px, 0);
+  transform: translate3d(0, var(--journey-rise, 6px), 0);
 }
 
 /* An animation, and not the transition this started as.
@@ -1787,10 +1787,10 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
    for the rest of the page's life and quietly outrank anything that wanted to
    move it later. */
 [data-reveal="shown"] {
-  animation: mm-arrive .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-after, 0ms) + var(--mm-reveal-i, 0) * 70ms) backwards;
+  animation: mm-arrive var(--journey-enter, 360ms) var(--journey-ease, ease-out) calc(var(--mm-reveal-i, 0) * var(--journey-stagger, 38ms)) backwards;
 }
 @keyframes mm-arrive {
-  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  from { opacity: 0; transform: translate3d(0, var(--journey-rise, 6px), 0); }
   to { opacity: 1; transform: none; }
 }
 /* A heading is written in a line at a time (src/lib/scrollBuild.ts,

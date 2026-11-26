@@ -1,3 +1,4 @@
+import { JourneyEnd } from "@/components/mindmake/JourneyEnd";
 import { useRef } from "react";
 import { StoryLibrary } from "./StoryLibrary";
 import { CompareNudge } from "./CompareNudge";
@@ -42,6 +43,7 @@ export function ProductSprint({ door, onStart }: { door: Door; onStart: (door: D
       <small>{results.length} results on the record</small>
       <CompareNudge page={door} />
     </div>
+    <JourneyEnd page={business ? "gtm" : "brain"} onStart={() => onStart(door)} />
     <dialog ref={stories} className="product-stories" aria-label="Stories by wish">
       <button className="product-close" onClick={() => stories.current?.close()}>Close stories</button>
       <StoryLibrary door={door} deck onStart={startFromStory} />

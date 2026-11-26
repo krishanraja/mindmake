@@ -853,7 +853,7 @@
   grid-template-rows: auto;
   grid-auto-flow: row;
   margin: 0;
-  padding: calc(var(--peek) * 2) 0 0;
+  padding: 0;
   overflow: hidden;
   scroll-snap-type: none;
   overscroll-behavior-x: auto;
@@ -865,30 +865,16 @@
   align-content: start;
   width: 100%;
   margin: 0;
-  transform-origin: 50% 0;
-  transition: transform .42s cubic-bezier(.22, .8, .2, 1), translate .2s ease, visibility 0s linear .42s;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--journey-swap) var(--journey-ease), visibility var(--journey-swap);
 }
 .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="current"] {
-  transform: none;
-  visibility: inherit;
-  transition: transform .42s cubic-bezier(.22, .8, .2, 1), translate .2s ease, visibility 0s;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"] {
-  transform: translateY(calc(var(--depth) * var(--peek) * -1)) scale(calc(1 - var(--depth) * .045));
-  visibility: inherit;
-  transition: transform .42s cubic-bezier(.22, .8, .2, 1), visibility 0s;
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: #050c09;
-  opacity: calc(var(--depth) * .32);
-  pointer-events: none;
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"][style*="--depth: 3"] { visibility: hidden; }
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"] { transform: translateX(108%); visibility: hidden; }
 /* The same card as the stories' deck (new-age-leadership-r5.css, the finder
    face): the scene in a band at the top that fades into the card, a brass
    rule round it, the story large and the outcome in mint after an arrow. */
@@ -945,53 +931,6 @@
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li { transition: none; }
 }
 
-/* On a wide screen the results to come fan out to the right of the current
-   one, as the story deck does (mindmake-deck.css; owner, 2026-11-11: "more
-   spread out and visible throughout the section"): each a step smaller and
-   darker, pressed to come to the front; the ones read slide away left. */
-@media (min-width: 761px) {
-  .mm-homepage-release .hs-proof-deck.is-deck { max-width: none; }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof { padding-top: 0; justify-items: start; }
-  /* Bigger cards, and the fan reaches the section's far edge (owner,
-     2026-11-11: "use the full width of the section on desktop"). */
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
-    width: clamp(360px, 44%, 680px);
-    transform-origin: 0 50%;
-    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s linear .42s;
-  }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="current"] {
-    opacity: 1;
-    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, translate .2s ease, visibility 0s;
-  }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"] {
-    transform: translateX(calc(var(--ahead) * var(--fan-step, 0px))) scale(calc(1 - var(--ahead) * .06));
-    visibility: inherit;
-    cursor: pointer;
-    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .42s ease, visibility 0s;
-  }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"]::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    background: #050c09;
-    opacity: calc(var(--ahead) * .22);
-    pointer-events: none;
-    transition: opacity .25s ease;
-  }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"][style*="--ahead: 4"] { visibility: hidden; }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"],
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"][style*="--depth: 3"] {
-    transform: translateX(-6%) scale(.94);
-    opacity: 0;
-    visibility: hidden;
-    transition: transform .42s cubic-bezier(.22, .8, .2, 1), opacity .3s ease, visibility 0s linear .42s;
-  }
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="past"]::after { content: none; }
-}
-@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="next"]:hover::after { opacity: calc(var(--ahead) * .12); }
-}
 @media (prefers-reduced-motion: reduce) {
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li,
   .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck] { transition: none; }

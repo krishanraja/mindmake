@@ -3,6 +3,8 @@ import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar } from "@/components/mindmake/SiteActionBar";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
+import { revealOnArrival } from "@/hooks/useReveal";
+import "@/styles/journey.css";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -30,6 +32,14 @@ export function MindmakeShell({
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    const headings = mainRef.current?.querySelectorAll<HTMLElement>(
+      "section.journey-room > h2, .product-section > h2, section.mm-block > .mm-container > h2, .brain-inside > div > h2, .journey-end"
+    );
+    const release = Array.from(headings ?? [], (node, i) => revealOnArrival(node, i % 3));
+    return () => release.forEach(stop => stop());
+  }, [location.pathname]);
 
   useEffect(() => setMenuOpen(false), [location.pathname, location.hash, location.search]);
 

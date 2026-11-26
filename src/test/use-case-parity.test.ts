@@ -20,6 +20,8 @@ type FixtureQuote = (typeof fixture.quotes)[number];
    UX better and does not lose any meaning"), approved on the rendered preview
    the same day: "Happy With your recommendations". */
 const HEADING_RULINGS: Partial<Record<UseCaseId, { status: "pending" | "approved"; text: string }>> = {
+  // Ruling (Krish, 2026-11-25): stories overhaul
+  "C-16": { status: "approved", text: "Media advisers turned their expertise into an offer clients could buy." },
   "C-09": { status: "approved", text: "A head of operations is hands-on again, building systems from the best of what's new and proven, fitted to their exact work." },
   "C-10": { status: "approved", text: "Someone new to AI now talks their own dashboard into existence, anchored to their north star values." },
 };
@@ -71,10 +73,10 @@ function quoteProblems(voice: Testimonial | undefined, source: FixtureQuote): st
 }
 
 describe("use cases and quotes match the content source", () => {
-  it("has eighteen use cases in the five groups, in order", () => {
+  it("has eighteen use cases in the six wishes, in order", () => {
     expect(useCases.map((entry) => entry.id)).toEqual(fixture.useCases.map((entry) => entry.id));
     expect(SITUATIONS.map((situation) => situation.label)).toEqual(fixture.groups.map((group) => group.label));
-    expect(SITUATIONS.map((situation) => (situation.door === "brain" ? "AI brain" : "AI business"))).toEqual(fixture.groups.map((group) => group.type));
+    expect(useCases.map((entry) => entry.door)).toEqual([...Array(11).fill("brain"), ...Array(7).fill("gtm")]);
     expect(SITUATIONS.map((situation) => [...situation.useCases])).toEqual(fixture.groups.map((group) => group.useCases));
   });
 
@@ -111,8 +113,11 @@ describe("use cases and quotes match the content source", () => {
     for (const entry of useCases) expect(`${entry.heading} ${entry.startingPoint}`, entry.id).toContain(entry.roleWords);
   });
 
-  it("keeps the two headings awaiting a ruling explicit, and every other heading exact", () => {
-    const differing = fixture.useCases.filter((source) => useCases.find((entry) => entry.id === source.id)!.heading !== source.heading).map((source) => source.id);
+  it("records each approved heading change and keeps every other heading exact", () => {
+    const differing = fixture.useCases.filter((source) => useCases.find((entry) => entry.id === source.id)!.heading !== (source.originalHeading ?? source.heading)).map((source) => source.id);
+    for (const source of fixture.useCases.filter((entry) => entry.originalHeading)) {
+      expect(HEADING_RULINGS[source.id as UseCaseId]).toEqual({ status: "approved", text: source.heading });
+    }
     expect(differing.sort()).toEqual(Object.keys(HEADING_RULINGS).sort());
   });
 

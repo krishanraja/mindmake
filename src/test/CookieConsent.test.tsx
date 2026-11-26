@@ -41,7 +41,7 @@ describe("CookieConsent", () => {
     render(<CookieConsent />);
     leaveFirstScreen();
     expect(screen.getByText("Allow")).toBeInTheDocument();
-    expect(document.documentElement).toHaveClass("mm-cookie-visible");
+    expect(screen.getByRole("region", { name: "Privacy notice" })).toContainElement(screen.getByText("Allow"));
   });
 
   it("shows banner immediately when the page is already scrolled", () => {
@@ -256,13 +256,9 @@ describe("the privacy strip's rules", () => {
   });
 
   it("sits apart from the action bar and never stacks on it", () => {
-    /* Ruling (2026-10-24): the bar stacked on the notice made the foot of
-       /ai-brain four competing controls. On a phone the notice docks under
-       the masthead, so the bottom edge is the bar's alone; on a laptop it is a
-       card on the left, in the bar's band, while the button is on the right. */
-    expect(phoneStrip).toContain("inset: calc(var(--mm-header-bar, 66px) + var(--mm-safe-top)) 0 auto 0");
-    expect(phoneStrip).not.toContain("calc(76px");
-    expect(block(".mm-cookie-notice {")).toContain("inset: auto auto calc(14px + var(--mm-safe-bottom)) var(--mm-gutter)");
+    expect(block(".mm-cookie-notice {")).toContain("position: static");
+    expect(block(".mm-cookie-notice {")).toContain("--mm-bar-reserve");
+    expect(phoneStrip).not.toContain("position: fixed");
     /* The bar's rules live in mindmake.css, beside --mm-bar-reserve and the
        .mm-footer rule that reads it, never in the instruments stylesheet that
        only /case-studies imports. It sits on the bottom edge itself and reads

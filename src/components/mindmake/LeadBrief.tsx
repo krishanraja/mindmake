@@ -1110,7 +1110,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setStep(handoffEnabled ? "contact" : "success");
   };
 
-  const previewDoorLabel = door === "brain" ? "AI Brain" : door === "gtm" ? "AI revenue engine" : "Mindmake";
+  const previewDoorLabel = door === "brain" ? "AI brain" : door === "gtm" ? "AI business" : "Mindmake";
   const previewDivision = DIVISIONS.find((entry) => entry.id === (collected?.division ?? division))?.label ?? "Leader";
   const previewStartingPoint = `${previewDoorLabel} · ${pressure.replace(/[.]+$/, "")}.`;
   const previewLeaves = [

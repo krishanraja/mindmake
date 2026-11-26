@@ -3,14 +3,13 @@ import loomImage from "../../../prototypes/website-redesign-recovery/new-age-lea
 import calculatorImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
 import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 import latestIssue from "@/data/latestIssue.json";
-import { featuredQuotes, quoteById, quotePartFor } from "@/data/testimonials";
-import { getUseCase } from "@/data/useCases";
+import { canShowStoryQuote, testimonials } from "@/data/testimonials";
+import { getUseCase, situationOf, SITUATIONS } from "@/data/useCases";
 import { PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import { buildOnScroll } from "@/lib/scrollBuild";
 import { track } from "@/lib/analytics";
-import { mountLiquidOrb } from "@/components/mindmake/locked/liquidOrb";
-import { DECK_WIDE, paintDeckCards, swipeIntent } from "@/components/leadership-chapters/storyFinder";
+import { paintDeckCards, swipeIntent } from "@/components/leadership-chapters/storyFinder";
 
 /**
  * The homepage after its opening, in two sections since 2026-11-11 (three
@@ -29,7 +28,7 @@ import { DECK_WIDE, paintDeckCards, swipeIntent } from "@/components/leadership-
  *    built (Krish, 2026-11-11: the section's button went, "the call to action
  *    is now taken care of by the floating blob orb").
  *
- * "An AI chief of staff knows how you think." moved to /ai-brain on
+ * "Your AI brain knows how you think." moved to /ai-brain on
  * 2026-11-11 (src/components/mindmake/chiefOfStaff.ts).
  *
  * The carousels and pictures follow Krish's review on the phone, 24 October
@@ -57,31 +56,17 @@ const ERAS = [
 
 /**
  * Three results on the record, each read from its use case's one record
- * (src/data/useCases.ts) on that use case's own picture: two told by the use
- * case's heading and outcome, the third in the client's words with the
- * result's headline.
+ * (src/data/useCases.ts), with the wish each record belongs to.
  */
-const PROOF = [
-  { record: "own-system", scene: getUseCase("C-01").picture, story: getUseCase("C-01").heading, outcome: getUseCase("C-01").outcome },
-  { record: "hand-back", scene: getUseCase("C-02").picture, story: getUseCase("C-02").heading, outcome: getUseCase("C-02").outcome },
-  {
-    record: "market-moves",
-    scene: getUseCase("C-11").picture,
-    quote: quotePartFor("data-infra-cro", "C-11"),
-    outcome: getUseCase("C-11").result!.headline,
-    who: quoteById("data-infra-cro").role,
-  },
-] as const;
+const PROOF = (["C-15", "C-18", "C-16"] as const).map(getUseCase);
 
-/**
- * A few voices under the results, one at a time (Krish, 2026-11-06: some of
- * the quotes at the foot of the homepage, "non-obtrusive and minimalist", to
- * send more people to the full range of results). They are the featured
- * quotes, in their order, each the featured part of its one record in
- * src/data/testimonials.ts, never retyped. The line ends in the way to all of
- * them on /case-studies.
- */
-const VOICES = featuredQuotes.map((found) => ({ quote: found.featured!.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role }));
+// Use the approved story excerpts, with the publisher beside the media results.
+const VOICES = ([["publisher-ops", "C-17"], ["wellness-founder", "C-01"]] as const)
+  .map(([id, story]) => {
+    const voice = testimonials.find(record => record.id === id)!;
+    return { quote: voice.useCaseExcerpts![story]!, who: voice.role };
+  })
+  .filter(voice => canShowStoryQuote(voice.quote));
 
 const startButton = () => `<button type="button" class="hs-start-button" data-start-route="brain" data-mm-primary>${START_LABEL} <span aria-hidden="true">→</span></button>`;
 
@@ -139,24 +124,15 @@ const railNav = (noun: string, stops: readonly string[]) =>
 const eraMarkup = ({ when, image, question, answer }: (typeof ERAS)[number]) =>
   `<li><button type="button" class="hs-era" aria-pressed="false" data-hs-era>${cardImage(image, 1600)}<span class="hs-era-when">${when}</span><span class="hs-era-faces"><span class="hs-era-q">“${question}”</span><span class="hs-era-a"><b>What actually happened instead</b>${answer}</span></span><span class="hs-era-mark" aria-hidden="true"></span></button></li>`;
 
-const proofMarkup = (item: (typeof PROOF)[number]) => "quote" in item
-  ? `<li>${cardImage(item.scene, 800, "(max-width: 760px) 84vw, 33vw")}<blockquote class="hs-proof-story">“${item.quote}”</blockquote><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who">${item.who}</p></li>`
-  : `<li>${cardImage(item.scene, 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story">${item.story}</p><p class="hs-proof-outcome">${item.outcome}</p><p class="hs-proof-who" aria-hidden="true"></p></li>`;
+const proofMarkup = (item: (typeof PROOF)[number]) =>
+  `<li>${cardImage(item.picture, 800, "(max-width: 760px) 84vw, 33vw")}<p class="hs-proof-story"><a href="/case-studies#${item.id.toLowerCase()}">${esc(item.heading)}</a></p><p class="hs-proof-outcome">${esc(item.outcome)}</p><p class="hs-proof-who">${esc(situationOf(item.id).label)}</p></li>`;
 
-/**
- * Where to start, asked by a floating piece of the living Brain (Krish,
- * 2026-11-11: the orb "show up on the 'We build yours with you in 30 days'
- * section and ask the user if they want to start with themselves (AI Brain) or
- * their business (AI revenue)"). The two answers are real links, so the reader
- * lands on one of the two pages with or without script; the orb only paints.
- * The business door reads "Your AI business" (Krish, 2026-11-11), the name
- * every link to /ai-gtm carries.
- */
-const chooserMarkup = () => `<div class="hs-choose" data-hs-choose><span class="hs-choose-orb" aria-hidden="true"><span class="hs-choose-body" data-hs-orb></span><span class="hs-choose-shadow"></span></span><div class="hs-choose-bubble" role="group" aria-labelledby="hs-choose-q"><p id="hs-choose-q" class="hs-choose-q">Where do you want to start?</p><div class="hs-choose-doors"><a class="hs-choose-door" href="/ai-brain" data-choose="brain"><b>With yourself</b><span>Your AI brain</span><i aria-hidden="true">→</i></a><a class="hs-choose-door" href="/ai-gtm" data-choose="gtm"><b>With your business</b><span>Your AI business</span><i aria-hidden="true">→</i></a></div></div></div>`;
+const chooserMarkup = () => `<nav class="wish-paths" aria-labelledby="wish-question"><h3 id="wish-question">What would you do more of?</h3><div>${SITUATIONS.map(wish => `<a href="/case-studies?wish=${wish.id}">${esc(wish.label)}</a>`).join("")}</div></nav>`;
+
 
 export function homepageSectionsMarkup() {
-  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner">${compareSlot("sheet")}<h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">We resist every new technology at first. With AI, that is the fastest way to become replaceable.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div></div></section>
-      <section class="hs-section hs-get" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then you learn to grow it. It needs no sensitive company data: your goals, ideas and habits are enough for it to begin bringing you the world around you.</p>${chooserMarkup()}<div class="hs-proof-deck" data-hs-deck><ul class="hs-proof" data-hs-deck-track>${PROOF.map(proofMarkup).join("")}</ul><div class="hs-deck-nav"><button type="button" data-hs-deck-step="-1" aria-label="Previous result" disabled>←</button><p><span data-hs-deck-at>1</span> of ${PROOF.length}</p><button type="button" data-hs-deck-step="1" aria-label="Next result">→</button></div></div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link hs-explore" href="/case-studies">Explore what leaders built <span aria-hidden="true">→</span></a></div></div></section>
+  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner">${compareSlot("sheet")}<h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">Each time, the real question was who kept the judgement. With AI, it is the same question.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div></div></section>
+      <section class="hs-section hs-build" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then it is yours to grow. It starts with no sensitive material: your goals, your standards and the calls you have made are enough to begin.</p><details class="journey-detail"><summary>A rule worth keeping</summary><p>If you always keep the final edit, your AI brain can bring that rule back when a sponsor asks for approval.</p></details>${chooserMarkup()}</div></section><section class="hs-section hs-get" aria-labelledby="proof-heading"><div class="hs-inner"><h2 class="hs-title" id="proof-heading">What the work made possible.</h2><div class="hs-proof-deck" data-hs-deck><ul class="hs-proof" data-hs-deck-track>${PROOF.map(proofMarkup).join("")}</ul><div class="hs-deck-nav"><button type="button" data-hs-deck-step="-1" aria-label="Previous result" disabled>←</button><p><span data-hs-deck-at>1</span> of ${PROOF.length}</p><button type="button" data-hs-deck-step="1" aria-label="Next result">→</button></div></div><div class="hs-voices" data-hs-voices><ul class="hs-voices-stack" aria-label="What clients say">${VOICES.map((voice, index) => `<li${index ? "" : ' class="is-on"'}><q>${esc(voice.quote)}</q> <span class="hs-voices-who">${esc(voice.who)}</span></li>`).join("")}</ul><a class="hs-voices-link hs-explore" href="/case-studies">Explore what leaders built <span aria-hidden="true">→</span></a></div><div class="journey-end"><button type="button" class="mm-button" data-mm-primary data-start-route="brain">Start your brief</button><a href="/ai-brain">Inside an AI brain <span aria-hidden="true">→</span></a></div></div></section>
       `;
 }
 
@@ -183,11 +159,9 @@ function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
   const prev = deck.querySelector<HTMLButtonElement>('[data-hs-deck-step="-1"]');
   const next = deck.querySelector<HTMLButtonElement>('[data-hs-deck-step="1"]');
   let at = 0;
-  const wide = window.matchMedia?.(DECK_WIDE);
   const paint = () => {
     at = Math.max(0, Math.min(cards.length - 1, at));
-    /* On a wide screen the results to come fan out to the right (2026-11-11). */
-    paintDeckCards(cards, at, Boolean(wide?.matches), track, { fill: true });
+    paintDeckCards(cards, at, false);
     if (counter) counter.textContent = String(at + 1);
     if (prev) prev.disabled = at <= 0;
     if (next) next.disabled = at >= cards.length - 1;
@@ -205,7 +179,6 @@ function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
     if (!drag || event.pointerId !== drag.id) return;
     const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
     if (!drag.moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) drag.moved = true;
-    if (drag.moved) cards[at].style.translate = `${dx.toFixed(0)}px 0`;
   }, { signal });
   const release = (event: PointerEvent) => {
     if (!drag || event.pointerId !== drag.id) return;
@@ -225,14 +198,7 @@ function mountProofDeck(deck: HTMLElement, signal: AbortSignal) {
       event.stopImmediatePropagation();
       return;
     }
-    /* A result fanned out to the right comes to the front when pressed. */
-    const card = (event.target as Element | null)?.closest?.("[data-hs-deck-track] > li") as HTMLElement | null;
-    if (!card || card.dataset.deck === "current") return;
-    at = cards.indexOf(card);
-    paint();
   }, { capture: true, signal });
-  wide?.addEventListener?.("change", paint, { signal } as AddEventListenerOptions);
-  addEventListener("resize", paint, { passive: true, signal });
   deck.classList.add("is-deck");
   paint();
   signal.addEventListener("abort", () => {
@@ -329,19 +295,25 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
-  root.querySelectorAll<HTMLElement>("[data-hs-deck]").forEach((deck) => mountProofDeck(deck, abort.signal));
+  const phone = window.matchMedia("(max-width: 760px)");
+  let mobileDeck: AbortController | undefined;
+  const fitProof = () => {
+    mobileDeck?.abort();
+    if (!phone.matches) return;
+    mobileDeck = new AbortController();
+    root.querySelectorAll<HTMLElement>("[data-hs-deck]").forEach(deck => mountProofDeck(deck, mobileDeck!.signal));
+  };
+  fitProof();
+  phone.addEventListener("change", fitProof, { signal: abort.signal });
+  abort.signal.addEventListener("abort", () => mobileDeck?.abort());
   root.querySelectorAll<HTMLElement>("[data-hs-voices]").forEach((voices) => mountVoices(voices, abort.signal, reduced));
-  const orbs = [...root.querySelectorAll<HTMLElement>("[data-hs-orb]")].map((host) => mountLiquidOrb(host, { reduced, size: () => host.getBoundingClientRect().width || 84 }));
-  root.querySelectorAll<HTMLAnchorElement>("[data-choose]").forEach((door) => {
-    door.addEventListener("click", () => track("door_click", { source: "orb", to: door.getAttribute("href") ?? "" }), { signal: abort.signal });
-  });
   /* Each section builds as the reader reaches it (src/lib/scrollBuild.ts). */
   const unbuild = buildOnScroll(root, {
     sections: ".hs-section",
     title: ".hs-title",
     lede: ".hs-lede",
     splitLede: true,
-    items: ".hs-eras > li, .hs-proof-deck, .hs-inner > .hs-close, .hs-inner > .hs-proof-links, .hs-inner > .hs-voices, .hs-inner > .hs-choose, .hs-rail-nav",
+    items: ".wish-paths a, .hs-build .journey-detail, .journey-end, .hs-eras > li, .hs-proof-deck, .hs-inner > .hs-voices, .hs-rail-nav",
   });
-  return () => { abort.abort(); unbuild(); orbs.forEach((orb) => orb.destroy()); };
+  return () => { abort.abort(); unbuild(); };
 }

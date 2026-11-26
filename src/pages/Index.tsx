@@ -1,3 +1,4 @@
+import { useMastheadHeight } from "@/hooks/useMastheadHeight";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { SEO } from "@/components/SEO";
@@ -9,13 +10,13 @@ import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
 import { HOME_COMPARE_IN_HERO, mountHomepageSections } from "@/components/homepage-release/homepageSections";
 import { mountHeroRotation } from "@/components/homepage-release/heroRotation";
-import { settleSections } from "@/lib/sectionSettle";
 import "@/styles/mindmake.css";
 import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
 import "@/components/homepage-release/page.css";
 import "@/components/homepage-release/integration.css";
 import "@/components/homepage-release/homepageSections.css";
+import "@/styles/journey.css";
 
 /**
  * Production delivery of the accepted R3 opening, menu and footer, compiled
@@ -25,6 +26,7 @@ import "@/components/homepage-release/homepageSections.css";
  */
 export default function Index() {
   const rootRef = useRef<HTMLDivElement>(null);
+  useMastheadHeight(rootRef, ".r3-opening .site-masthead");
   const { briefOpen, briefRoute, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
   const startRef = useRef(openBrief);
   const briefOpener = useRef<HTMLElement | null>(null);
@@ -63,10 +65,6 @@ export default function Index() {
       },
     });
     const unmountSections = mountHomepageSections(root);
-    /* Each section eases back as it leaves (Ruling, owner, 2026-11-10:
-       "Gentle settle, no pinning"). Not the opening: the approved masthead is
-       fixed inside it, and a scale would carry the masthead with it. */
-    const unsettle = settleSections([...root.querySelectorAll<HTMLElement>(".hs-section")]);
     const unrotate = mountHeroRotation(root);
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
@@ -83,7 +81,6 @@ export default function Index() {
       root.removeEventListener("click", measure);
       unrotate();
       unmountSections();
-      unsettle();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");
       document.body.classList.remove("mm-homepage-active");
@@ -105,8 +102,8 @@ export default function Index() {
   return (
     <>
       <SEO
-        title="Promote your AI from intern to chief of staff."
-        description="Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake."
+        title="AI can copy almost anything except your taste."
+        description="The AI brain company for the people who shape creative work, culture and sport."
         canonical="/"
       />
       <div ref={rootRef} className="mm-homepage-release mm-home-approved" dangerouslySetInnerHTML={{ __html: homepageMarkup }} />

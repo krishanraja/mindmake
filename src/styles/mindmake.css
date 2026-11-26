@@ -1593,13 +1593,10 @@ html {
    and full width above the action bar on a phone, where the gutters would
    have left a 350px box that the sentence and the button do not share. */
 .mm-cookie-notice {
-  position: fixed;
-  /* Bottom left on a laptop, inside the action bar's band when the bar is up,
-     so the notice and the one button sit apart in one row and never stack. */
-  inset: auto auto calc(14px + var(--mm-safe-bottom)) var(--mm-gutter);
-  z-index: 90;
-  width: max-content;
-  max-width: calc(100vw - var(--mm-gutter) * 2);
+  position: static;
+  width: fit-content;
+  max-width: calc(100% - var(--mm-gutter) * 2);
+  margin: 0 var(--mm-gutter) calc(12px + var(--mm-safe-bottom) + var(--mm-bar-reserve, 0px));
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1632,14 +1629,9 @@ html {
 .mm-cookie-notice button { white-space: nowrap; }
 .mm-cookie-actions { display: flex; gap: 8px; margin-left: auto; }
 
-/* Docked under the masthead on a phone, full width (Ruling, Krish,
-   2026-10-24). The bottom edge belongs to the one button; the notice stacked
-   under it made the bottom of the screen a wall of controls. Up here it
-   publishes no bottom reserve (CookieConsent measures where it actually is),
-   and Allow and Decline stay equal and reachable until answered. */
 @media (max-width: 767px) {
   .mm-cookie-notice {
-    inset: calc(var(--mm-header-bar, 66px) + var(--mm-safe-top)) 0 auto 0;
+    margin-inline: 0;
     width: auto;
     max-width: none;
     justify-content: space-between;
@@ -1667,7 +1659,7 @@ html {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.mm-cookie-notice .mm-button-small { min-height: 30px; padding: 5px 10px; }
+.mm-cookie-notice .mm-button-small { min-width: 44px; min-height: 44px; padding: 5px 10px; }
 
 html.mm-cookie-visible{scroll-padding-bottom:calc(var(--mm-cookie-reserve,0px) + 16px)}
 /* The action bar is an opaque band across the whole bottom edge, so a control
@@ -1682,7 +1674,6 @@ html.mm-cookie-visible .mm-brain-r5 .close>div,
 html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm-cookie-reserve,0px) / -2))}
 
 @media(max-height:520px) and (orientation:landscape){
-  .mm-cookie-notice{inset:calc(var(--mm-header-bar, 66px) + 8px + var(--mm-safe-top)) 8px auto auto}
 }
 
 /* Both reserves are published by the components that occupy the space, and
@@ -1768,7 +1759,7 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
 
 [data-reveal="pending"] {
   opacity: 0;
-  transform: translate3d(0, 14px, 0);
+  transform: translate3d(0, var(--journey-rise, 6px), 0);
 }
 
 /* An animation, and not the transition this started as.
@@ -1787,10 +1778,10 @@ html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm
    for the rest of the page's life and quietly outrank anything that wanted to
    move it later. */
 [data-reveal="shown"] {
-  animation: mm-arrive .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-after, 0ms) + var(--mm-reveal-i, 0) * 70ms) backwards;
+  animation: mm-arrive var(--journey-enter, 360ms) var(--journey-ease, ease-out) calc(var(--mm-reveal-i, 0) * var(--journey-stagger, 38ms)) backwards;
 }
 @keyframes mm-arrive {
-  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  from { opacity: 0; transform: translate3d(0, var(--journey-rise, 6px), 0); }
   to { opacity: 1; transform: none; }
 }
 /* A heading is written in a line at a time (src/lib/scrollBuild.ts,

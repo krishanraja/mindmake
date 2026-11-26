@@ -1,9 +1,9 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import AiBrain from "@/pages/AiBrain";
+import AiBrain from "@/pages/AiBrainLocked";
 import AiGtm from "@/pages/AiGtm";
-import { START_LABEL_GTM } from "@/lib/publicLinks";
+import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 
 vi.mock("@/components/mindmake/LeadBrief", () => ({
   LeadBrief: ({ open, onClose, route }: { open: boolean; onClose: () => void; route: string }) => open ? (
@@ -48,19 +48,11 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-/**
- * Opens the brief the way that page's reader actually would.
- *
- * Neither route collects identity before the drawer opens. The AI revenue
- * engine page opens with its own way in (2026-10-24), labelled with
- * START_LABEL_GTM, the same words its navigation and action bar carry.
- */
+// Ruling (Krish, 2026-11-25): the floating start buttons are retired on the two product pages.
 function enterTheBrief(path: string) {
-  if (path === "/ai-gtm") {
-    fireEvent.click(screen.getAllByRole("button", { name: new RegExp(START_LABEL_GTM) })[0]);
-    return;
-  }
-  fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
+  const hero = document.querySelector<HTMLElement>(".product-hero")!;
+  const label = path === "/ai-gtm" ? START_LABEL_GTM : START_LABEL;
+  fireEvent.click(within(hero).getByRole("button", { name: label }));
 }
 
 describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }) => {
@@ -74,13 +66,13 @@ describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }
     const startParameter = entryRoute;
     expect(screen.getByTestId("location")).toHaveTextContent(`${path}?campaign=route-test&start=${startParameter}#proof`);
 
-    fireEvent.click(screen.getByRole("button", { name: "Browser back" }));
+    fireEvent.click(screen.getByText("Browser back", { selector: "button" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(screen.getByTestId("location")).toHaveTextContent(baseLocation);
 
     enterTheBrief(path);
-    await screen.findByRole("dialog");
-    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    const reopened = await screen.findByRole("dialog");
+    fireEvent.click(within(reopened).getByRole("button", { name: "Close" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(screen.getByTestId("location")).toHaveTextContent(baseLocation);
   });
@@ -90,7 +82,7 @@ describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }
 
     const dialog = await screen.findByRole("dialog");
     expect(dialog).toHaveAttribute("data-entry-route", entryRoute);
-    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.click(within(dialog).getByRole("button", { name: "Close" }));
 
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(screen.getByTestId("location")).toHaveTextContent(`${path}?campaign=route-test&source=private#proof`);

@@ -1,7 +1,8 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { MemoryRouter, useLocation } from "react-router-dom";
+import AiBrain from "@/pages/AiBrainLocked";
+import AiGtm from "@/pages/AiGtm";
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { BRAIN_STEPS, GTM_STEPS } from "@/content/journeySteps";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
 import { cleanDomain, isPublicHostname } from "@/lib/domain";
@@ -85,21 +86,30 @@ describe("the shared capture", () => {
     }
   });
 
-  it("renders a complete journey on both doors", () => {
-    /* Both routes make their work tangible before opening the same brief
-       drawer. GTM moves from the reader's business through the 30 days, the
-       four levers, the team and a result, and carries the business the reader
-       chose into the drawer; Brain moves from decision through the actual
-       graph, evidence and correction. */
-    const gtm = readFileSync(resolve(__dirname, "../..", "src/pages/AiGtm.tsx"), "utf8");
-    for (const lever of ["Product", "Price", "Positioning", "People"]) expect(gtm).toContain(`${lever.toLowerCase()}: "${lever}"`);
-    for (const step of ["Week 1", "Weeks 2 to 4", "Day 30"]) expect(gtm).toContain(`when: "${step}"`);
-    expect(gtm).toContain("The decision you'll face");
-    expect(gtm).toContain("initialContext={copy.tab}");
-
-    const brain = readFileSync(resolve(__dirname, "../..", "src/pages/AiBrain.tsx"), "utf8");
-    expect(brain).toContain("STAGE_NAMES.map((name, index) => <button");
-    for (const state of ["Decision", "Brain", "Evidence", "Correction"]) expect(brain).toContain(state);
+  // Ruling (Krish, 2026-11-25): /ai-gtm refocused on content production, distribution and monetisation.
+  it.each([
+    { path: "/ai-brain", Page: AiBrain, door: "brain" },
+    { path: "/ai-gtm", Page: AiGtm, door: "gtm" },
+  ])("opens the private brief from the $door door", async ({ path, Page, door }) => {
+    function Entry() {
+      const location = useLocation();
+      return <output data-testid="entry" data-key={location.key}>{location.search}</output>;
+    }
+    const { container } = render(<MemoryRouter initialEntries={[path]}><Page /><Entry /></MemoryRouter>);
+    if (door === "gtm") {
+      expect([...container.querySelectorAll(".product-levers summary strong")].map(el => el.textContent))
+        .toEqual(["Production", "Distribution", "Monetisation"]);
+    } else {
+      expect(screen.getByRole("group", { name: "Parts of your AI brain" })).toBeVisible();
+    }
+    fireEvent.click(within(container.querySelector<HTMLElement>(".product-hero")!).getByRole("button"));
+    const drawer = await screen.findByRole("dialog", { name: "Let’s get started." });
+    expect(drawer).toHaveAttribute("data-presentation", "drawer");
+    expect(within(drawer).getByLabelText("Work email")).toBeVisible();
+    const entry = screen.getByTestId("entry");
+    expect(new URLSearchParams(entry.textContent!).get("start")).toBe(door);
+    const draft = sessionStorage.getItem("mindmake-brief-draft:" + entry.dataset.key);
+    expect(JSON.parse(draft!)).toMatchObject({ door, step: "company" });
   });
 });
 

@@ -1,5 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { setBottomReserve } from "@/lib/bottomReserve";
+import { useState, useEffect } from "react";
 import { CONSENT_KEY, allowAnalytics, briefIsOpen, consentStored, declineAnalytics, onConsentSignal } from "@/lib/consent";
 
 /**
@@ -30,14 +29,6 @@ export const AnalyticsChoiceReset = () => (
   </button>
 );
 
-/* useLayoutEffect on the server does nothing and React says so, once per page,
-   which was twenty-one stack traces in a build log where a real warning has to
-   be visible. The effect below is client-only in practice: it never runs until
-   the notice is visible, and the notice is only ever made visible by an effect.
-   Naming that is the whole fix; the browser still gets the layout effect, so
-   the reserve is published before paint exactly as it was. */
-const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
-
 export const CookieConsent = () => {
   /* Due once the visitor leaves the first screen; shown only while no brief
      is open, because the brief asks the same question inside itself
@@ -46,7 +37,6 @@ export const CookieConsent = () => {
   const [briefOpen, setBriefOpenState] = useState(false);
   const [answered, setAnswered] = useState(false);
   const visible = due && !briefOpen && !answered;
-  const noticeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setBriefOpenState(briefIsOpen());
@@ -56,16 +46,7 @@ export const CookieConsent = () => {
     });
   }, []);
 
-  /**
-   * Held back until the visitor leaves the first screen.
-   *
-   * As a corner card pinned to the bottom right it landed on top of the
-   * homepage's two doors, which are the page's only primary action and happen
-   * to sit at the foot of the first viewport. Nothing here reserves layout, so
-   * the only way it cannot cover something is to appear once the reader has
-   * moved past it. Anyone who never scrolls never sees a notice they also never
-   * needed, and the moment they do scroll it arrives.
-   */
+  // Keep the first-screen timing. The choice itself lives after the footer.
   useEffect(() => {
     /* A blocked storage API reads as unanswered and should not hide the
        privacy notice. */
@@ -81,50 +62,6 @@ export const CookieConsent = () => {
     return () => window.removeEventListener("scroll", show);
   }, []);
 
-  useIsomorphicLayoutEffect(() => {
-    if (!visible) return;
-
-    const root = document.documentElement;
-    const notice = noticeRef.current;
-    if (!notice) return;
-
-    /* The space the notice occupies at the bottom of the screen, which is its
-       height plus whatever gap it leaves under itself. On a phone it is a strip
-       flush to the bottom edge, so the gap is zero and this is exactly the
-       height it always published. On a desktop it is a corner card inset from
-       the bottom, and publishing the height alone put the action bar 14px into
-       it: the bar cleared 40px of card while the card's own top edge was 54px
-       up. Measured from the viewport rather than added as a constant, so a
-       change to the card's inset cannot leave a copy of it here to drift. */
-    const publishReserve = () => {
-      const box = notice.getBoundingClientRect();
-      /* On a short landscape screen the notice moves to the top, under the
-         masthead, and occupies nothing at the bottom. Measuring it from the
-         bottom anyway published most of the screen as reserve, which lifted
-         the action bar off the top of the screen and left the page ending in
-         a band of nothing. */
-      const atBottom = window.innerHeight - box.bottom < 64;
-      const occupied = atBottom ? Math.max(0, window.innerHeight - box.top) : 0;
-      setBottomReserve("--mm-cookie-reserve", `${occupied}px`);
-    };
-
-    root.classList.add("mm-cookie-visible");
-    publishReserve();
-
-    const observer = typeof ResizeObserver === "undefined"
-      ? null
-      : new ResizeObserver(publishReserve);
-    observer?.observe(notice);
-    window.addEventListener("resize", publishReserve);
-
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("resize", publishReserve);
-      root.classList.remove("mm-cookie-visible");
-      root.style.removeProperty("--mm-cookie-reserve");
-    };
-  }, [visible]);
-
   const allow = () => {
     allowAnalytics();
     setAnswered(true);
@@ -139,7 +76,6 @@ export const CookieConsent = () => {
 
   return (
     <div
-      ref={noticeRef}
       className="mm-cookie-notice"
       role="region"
       aria-labelledby="privacy-notice-title"

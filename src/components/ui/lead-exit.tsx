@@ -11,7 +11,7 @@ export type Offer = "audit" | "modules";
 
 const CARDS: Record<Offer, { href: string; tag: string; title: string; line: string; cta: string }> = {
   audit: { href: AUDIT_PATH, tag: "Free · 6 questions", title: "Measure your AI judgement", line: "One decision you made with AI. Where your judgement held.", cta: "Start" },
-  modules: { href: MODULES_PATH, tag: "$59 · one-off", title: "Brain modules", line: "Software that checks the next decision before you make it.", cta: "Choose one" },
+  modules: { href: MODULES_PATH, tag: "Software · one-off", title: "Brain modules", line: "Software that checks the next decision before you make it.", cta: "Choose one" },
 };
 
 /** Six points of a judgement profile, or a stack of modules: each card's own mark. */

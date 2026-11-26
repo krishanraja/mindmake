@@ -19,7 +19,7 @@ import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 const bar = (html: string) => html.match(/<div class="mm-action-bar[^"]*"[^>]*>[\s\S]*?<\/button><\/div><\/div>/)?.[0] ?? "";
 
 describe("the action bar", () => {
-  it.each(["/ai-brain", "/ai-gtm", "/ai-brain/", "/ai-gtm/", "/blog", "/case-studies", "/faq", "/contact"])(
+  it.each(["/blog", "/case-studies", "/faq", "/contact"])(
     "offers no door on %s, only the one button",
     (route) => {
       const html = serverRender(route);
@@ -29,15 +29,17 @@ describe("the action bar", () => {
   );
 
   it("names what the reader is building, and the revenue engine on its own page", () => {
-    for (const route of ["/ai-brain", "/blog", "/faq", "/case-studies"]) {
+    for (const route of ["/blog", "/faq", "/case-studies"]) {
       expect(bar(serverRender(route)).includes(START_LABEL), route).toBe(true);
     }
     for (const route of ["/ai-gtm", "/ai-gtm/"]) {
-      expect(bar(serverRender(route)).includes(START_LABEL_GTM), route).toBe(true);
+      expect(serverRender(route)).toContain(START_LABEL_GTM);
+      expect(bar(serverRender(route))).toBe("");
     }
   });
 
   it("renders the same bar on both spellings of an offer route", () => {
+    expect(bar(serverRender("/ai-brain"))).toBe("");
     expect(bar(serverRender("/ai-brain/"))).toBe(bar(serverRender("/ai-brain")));
     expect(bar(serverRender("/ai-gtm/"))).toBe(bar(serverRender("/ai-gtm")));
   });

@@ -1,8 +1,11 @@
+import { useMastheadHeight } from "@/hooks/useMastheadHeight";
 import { type MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar } from "@/components/mindmake/SiteActionBar";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
+import { revealOnArrival } from "@/hooks/useReveal";
+import "@/styles/journey.css";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -25,11 +28,21 @@ export function MindmakeShell({
   startLabel = START_LABEL,
 }: MindmakeShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const siteRef = useRef<HTMLDivElement>(null);
+  useMastheadHeight(siteRef, ".mm-header");
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    const headings = mainRef.current?.querySelectorAll<HTMLElement>(
+      "section.journey-room > h2, .product-section > h2, section.mm-block > .mm-container > h2, .brain-inside > div > h2, .journey-end"
+    );
+    const release = Array.from(headings ?? [], (node, i) => revealOnArrival(node, i % 3));
+    return () => release.forEach(stop => stop());
+  }, [location.pathname]);
 
   useEffect(() => setMenuOpen(false), [location.pathname, location.hash, location.search]);
 
@@ -117,7 +130,7 @@ export function MindmakeShell({
   };
 
   return (
-    <div className={`mm-site ${siteClassName}`.trim()}>
+    <div ref={siteRef} className={`mm-site ${siteClassName}`.trim()}>
       <a className="mm-skip" href="#main">Skip to content</a>
       <header className="mm-header">
         <div className="mm-container mm-nav">
@@ -204,7 +217,7 @@ export function MindmakeShell({
         <div className="mm-footer-grid">
           <div className="mm-footer-brand">
             <MindmakeBrand compact />
-            <p className="mm-footer-statement">Keep your edge as AI<br />changes the market.</p>
+            <p className="mm-footer-statement">Keep the final say<br />on your best work.</p>
             {/* The footer's one quiet way to stay close. The brief stays the
                 way in; this is for the reader not ready yet. */}
             <a

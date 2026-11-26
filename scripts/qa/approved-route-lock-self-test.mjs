@@ -50,6 +50,7 @@ if (result.status === 0 || !result.stdout.includes(firstPath)) {
 // Second control: a GTM contract that states no evidence contract at all must
 // be refused, not silently skipped.
 const unanchored = JSON.parse(await readFile(manifestPath, "utf8"));
+delete unanchored.minimumContracts.gtm.levers;
 delete unanchored.minimumContracts.gtm.signals;
 delete unanchored.minimumContracts.gtm.responseChoices;
 delete unanchored.minimumContracts.gtm.citedSignals;
@@ -60,7 +61,7 @@ const unanchoredResult = spawnSync(process.execPath, [resolve(root, "scripts/qa/
   encoding: "utf8",
   env: { ...process.env, MINDMAKE_ROUTE_LOCK_MANIFEST: unanchoredManifest },
 });
-if (unanchoredResult.status === 0 || !unanchoredResult.stdout.includes("neither signal counts nor cited signals")) {
+if (unanchoredResult.status === 0 || !unanchoredResult.stdout.includes("no levers or historical signal contract")) {
   console.error(JSON.stringify({ artifact: "approved-route-lock-self-test", expectedFailure: "unanchored GTM contract", status: unanchoredResult.status, stdout: unanchoredResult.stdout }, null, 2));
   process.exit(1);
 }

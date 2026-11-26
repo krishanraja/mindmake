@@ -21,9 +21,9 @@ describe("the homepage in three sections", () => {
     const words = sections.replace(/<span class="hs-mark"[^>]*>([^<]*)<\/span>/g, "$1");
     const order = ["Every new technology asks us to change how we think.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
-    expect(sections.match(/<section\b/g)).toHaveLength(2);
+    expect(sections.match(/<section\b/g)).toHaveLength(3);
     /* Krish, 2026-11-11: the chief of staff section moved to /ai-brain. */
-    expect(words).not.toContain("An AI chief of staff knows how you think.");
+    expect(words).not.toContain("Your AI brain knows how you think.");
     expect(sections).toContain('id="history"');
   });
 
@@ -45,7 +45,7 @@ describe("the homepage in three sections", () => {
     expect(hero).not.toContain("Free and private.");
     expect(hero).toContain('href="https://makeyourmindup.ai"');
     expect(hero).not.toMatch(/latest/i);
-    expect(homepageMarkup).toContain("The leaders who shape the next ten years will use AI to make themselves 10x better, and set the new pace.");
+    expect(homepageMarkup).toContain("So we build your AI brain out of it, for the people who shape creative work, culture and sport.");
   });
 
   it("turns each era in place, the question giving way to what happened, and stops listening once unmounted", () => {
@@ -70,20 +70,34 @@ describe("the homepage in three sections", () => {
     expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("asks where to start from a floating piece of the Brain, and leaves the band to the stories", () => {
-    /* Krish, 2026-11-11: the orb on "We build yours with you in 30 days."
-       asks whether to start with yourself or your business and takes the
-       reader to one of the two pages; the section's own button goes, and the
-       band is only about exploring what leaders built. */
+  it("opens each wish at its own case index and ends with the shared way forward", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
-    const get = root.querySelector(".hs-get")!;
-    const doors = [...get.querySelectorAll<HTMLAnchorElement>(".hs-choose [data-choose]")];
-    expect(doors.map((door) => door.getAttribute("href"))).toEqual(["/ai-brain", "/ai-gtm"]);
-    expect(doors.map((door) => door.querySelector("b")?.textContent)).toEqual(["With yourself", "With your business"]);
-    expect(get.querySelector(".hs-choose [data-hs-orb]")).not.toBeNull();
-    expect(get.querySelector(".hs-start-button, [data-mm-primary]")).toBeNull();
-    expect(get.querySelector(".hs-voices .hs-explore")?.getAttribute("href")).toBe("/case-studies");
+    expect(root.querySelector(".hs-voices-stack li:first-child q")?.textContent)
+      .toBe("We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability.");
+    const chips = [...root.querySelectorAll<HTMLAnchorElement>(".wish-paths a")];
+    expect(root.querySelector("#wish-question")?.textContent).toBe("What would you do more of?");
+    expect(chips.map(chip => chip.search)).toEqual(["back", "terms", "calls", "try", "brief", "yours"].map(id => "?wish=" + id));
+    expect(chips.every(chip => chip.pathname === "/case-studies")).toBe(true);
+    expect(root.querySelector(".hs-get .journey-end button")?.textContent).toBe("Start your brief");
+    expect(root.querySelector(".hs-get .hs-explore")?.getAttribute("href")).toBe("/case-studies");
+  });
+
+  it("keeps three results accessible on desktop and pages them on a phone", () => {
+    const viewport = Object.assign(new EventTarget(), { matches: false });
+    vi.stubGlobal("matchMedia", (query: string) => query === "(max-width: 760px)" ? viewport : Object.assign(new EventTarget(), { matches: false }));
+    const root = document.createElement("main");
+    root.innerHTML = homepageSectionsMarkup();
+    const unmount = mountHomepageSections(root);
+    try {
+      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(3);
+      viewport.matches = true;
+      viewport.dispatchEvent(new Event("change"));
+      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(1);
+      viewport.matches = false;
+      viewport.dispatchEvent(new Event("change"));
+      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(3);
+    } finally { unmount(); }
   });
 
   it("puts each era and each result on its own picture, decorative and loaded when near", () => {
@@ -101,6 +115,7 @@ describe("the homepage in three sections", () => {
       expect(image.getAttribute("src")).toBeTruthy();
     }
     expect(eras.map((image) => image.getAttribute("src")).join(" ")).toMatch(/history-writing.*history-loom.*history-calculator.*history-satnav/);
+    expect([...root.querySelectorAll(".hs-proof-story a")].map((link) => link.getAttribute("href"))).toEqual(["/case-studies#c-15", "/case-studies#c-18", "/case-studies#c-16"]);
     expect(new Set(results.map((image) => image.getAttribute("src"))).size).toBe(3);
   });
 
@@ -161,20 +176,20 @@ describe("the new-age leadership chapters, shared with /new-age-leadership", () 
     const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-finder-tab]")];
     const panels = [...root.querySelectorAll<HTMLElement>("[data-finder-panel]")];
     const selected = () => tabs.map((tab) => tab.getAttribute("aria-selected"));
-    expect(selected()).toEqual(["true", "false", "false", "false", "false"]);
+    expect(selected()).toEqual(["true", "false", "false", "false", "false", "false"]);
     /* The unchosen situations stay in place, out of reach, so the finder keeps
        its height (2026-10-24). */
-    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([false, true, true, true, true]);
+    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([false, true, true, true, true, true]);
     /* Arrow keys move between situations and wrap; Home and End go to the ends. */
     tabs[0].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
-    expect(selected()[4]).toBe("true");
-    expect(document.activeElement).toBe(tabs[4]);
-    tabs[4].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
+    expect(selected()[5]).toBe("true");
+    expect(document.activeElement).toBe(tabs[5]);
+    tabs[5].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
     expect(selected()[0]).toBe("true");
-    tabs[4].click();
-    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([true, true, true, true, false]);
+    tabs[2].click();
+    expect(panels.map((panel) => panel.hasAttribute("inert"))).toEqual([true, true, false, true, true, true]);
     /* A card opens as a sheet holding the whole story and its result on the record. */
-    const summary = panels[4].querySelector<HTMLElement>("summary")!;
+    const summary = panels[2].querySelector<HTMLElement>("summary")!;
     summary.click();
     expect(sheet.showModal).toHaveBeenCalledTimes(1);
     const body = root.querySelector<HTMLElement>("[data-finder-sheet-body]")!;

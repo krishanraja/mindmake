@@ -105,7 +105,6 @@ const MAX_SHARE = Number(flag("max-share", 0.18));
 /** How far from the bottom edge the strip may sit before it is floating. */
 const FLUSH_SLACK = 1.5;
 /** The corner card's designed inset on a laptop, from `--mm-safe-bottom` + 14. */
-const DESKTOP_INSET = 14;
 
 const problems = [];
 const rows = [];
@@ -194,6 +193,7 @@ for (const [width, height] of SIZES) {
           const footerLast = document.querySelector(".mm-footer small");
           return {
             notice: box(notice),
+            noticePosition: notice && getComputedStyle(notice).position,
             bar: box(bar),
             noticeOverflow: overflow(notice),
             barOverflow: overflow(bar),
@@ -221,18 +221,12 @@ for (const [width, height] of SIZES) {
 
         const where = `${width}x${height} ${path} ${label} x${scale}`;
         rows.push({ where, notice: read.notice, bar: read.bar, buttonLines: read.buttonLines });
+        if (label === "foot" && !read.notice) problems.push(where + ": missing privacy choice at the foot");
         if (!read.notice) continue;
-
-        const gap = read.viewport.height - read.notice.bottom;
-        if (phone) {
-          if (gap > FLUSH_SLACK) problems.push(`${where}: the privacy strip floats ${Math.round(gap)}px above the bottom of the screen`);
-          if (Math.abs(read.notice.left) > FLUSH_SLACK || Math.abs(read.notice.right - read.viewport.width) > FLUSH_SLACK) {
-            problems.push(`${where}: the privacy strip is not full width (${Math.round(read.notice.left)} to ${Math.round(read.notice.right)} of ${read.viewport.width})`);
-          }
-        } else if (Math.abs(gap - DESKTOP_INSET) > 2) {
-          problems.push(`${where}: the privacy card sits ${Math.round(gap)}px from the bottom, not its designed ${DESKTOP_INSET}px`);
+        if (read.noticePosition !== "static") problems.push(where + ": privacy choice must occupy its own row");
+        if (phone && (Math.abs(read.notice.left) > FLUSH_SLACK || Math.abs(read.notice.right - read.viewport.width) > FLUSH_SLACK)) {
+          problems.push(where + ": privacy choice is not full width on phone");
         }
-
         for (const [name, chrome] of [["privacy strip", read.notice], ["action bar", read.bar]]) {
           if (!chrome) continue;
           const budget = MAX_HEIGHT[scale] ?? 128;

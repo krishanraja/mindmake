@@ -31,26 +31,11 @@ export interface BuildSelectors {
 
 export function buildOnScroll(root: HTMLElement, selectors: BuildSelectors): () => void {
   const cleanups: Array<() => void> = [];
-  const still = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const arrive = (el: Element | null, order: number, onShown?: () => void) => {
-    if (el instanceof HTMLElement && el.dataset.reveal === undefined) cleanups.push(revealOnArrival(el, order, onShown));
+  const arrive = (el: Element, order: number) => {
+    if (el instanceof HTMLElement && el.dataset.reveal === undefined) cleanups.push(revealOnArrival(el, order));
   };
   root.querySelectorAll<HTMLElement>(selectors.sections).forEach((section) => {
-    const titles = [...section.querySelectorAll<HTMLElement>(selectors.title)];
-    /* The body waits for its heading to be written (audit WIPE-01). */
-    if (titles.length && !still) {
-      section.style.setProperty("--mm-reveal-after", `${WIPE_BODY_WAIT_MS}ms`);
-      cleanups.push(() => section.style.removeProperty("--mm-reveal-after"));
-    }
-    titles.forEach((title) => {
-      title.classList.add("hs-wipe");
-      arrive(title, 0, () => {
-        /* Only a heading that was actually waiting below the fold is written
-           in; one already on screen is never hidden, even for a moment. */
-        if (title.dataset.reveal === "shown") cleanups.push(wipeLines(title));
-        drawMarks(title);
-      });
-    });
+    section.querySelectorAll(selectors.title).forEach(title => arrive(title, 0));
     if (selectors.lede) {
       section.querySelectorAll<HTMLElement>(selectors.lede).forEach((lede) => {
         const sentences = (lede.textContent ?? "").match(/[^.!?]+[.!?]+["”’]?\s*/g) ?? [];

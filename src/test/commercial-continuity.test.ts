@@ -59,7 +59,9 @@ describe("the approved commercial Decision Balance surface", () => {
     expect(html).toContain('href="/ai-brain"');
     expect(html).toContain('href="/ai-gtm"');
     expect(html.match(/class="mm-decision-balance-start"/g)).toHaveLength(1);
-    expect(html.match(/data-mm-primary="true"/g)).toHaveLength(1);
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    expect(doc.querySelectorAll(".mm-decision-balance [data-mm-primary]")).toHaveLength(1);
+    expect(doc.querySelector(".journey-end [data-mm-primary]")?.textContent).toBe("Start your brief");
     expect(html).toContain("Get a first decision record before email");
     expect(html).toContain("Nothing has been sent.");
   });

@@ -1,5 +1,7 @@
+import { examples, type StoryExample } from "@/data/examples";
+import "@/styles/story-examples.css";
 import { publishableTestimonials } from "@/data/testimonials";
-import { DOOR_LABEL, SITUATIONS, type UseCaseId } from "@/data/useCases";
+import { getUseCase, SITUATIONS, type UseCaseId } from "@/data/useCases";
 import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
 import type { LeadershipStory } from "./leadershipChapters";
@@ -9,8 +11,7 @@ import type { LeadershipStory } from "./leadershipChapters";
  * Krish, 15 October 2026: "on mobile I see just an endless list of stuff,
  * which overwhelms me … help me think about this like the CEO of Apple").
  *
- * The reader answers one question about themselves and gets the three stories
- * that fit, one card at a time, with the whole story a tap away. One card is
+ * The reader chooses a wish and gets the stories that fit, one card at a time, with the whole story a tap away. One card is
  * one client: the story and the outcome it led to ("Maybe we figure out a way
  * of just having a story and an outcome mapped to one another", Krish, 15
  * October 2026). Where the client's result is on the record the card links to
@@ -21,7 +22,7 @@ import type { LeadershipStory } from "./leadershipChapters";
  * cards a rail, and a card opens as a sheet.
  */
 
-/* The five situations and the use cases in each, read from their one record (src/data/useCases.ts). */
+/* All finders read the same wish and record memberships. */
 export { SITUATIONS };
 
 /** Holds the last two words of a line of copy together, so no word sits alone
@@ -56,30 +57,35 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
      where no words sit; the card's ink thickens under the words. */
   const faceVisual = `<span class="finder-plate" aria-hidden="true">${plate}</span>`;
   const fullVisual = `<figure class="finder-full-plate" aria-hidden="true">${plate}</figure>`;
-  const quote = story.quote ? `<blockquote>“${story.quote.text}”${voice ? `<cite>${esc(tieLast(voice.role))}</cite>` : ""}</blockquote>` : "";
+  const quote = story.quote ? `<blockquote>“${esc(story.quote.text)}”${voice ? `<cite>${esc(tieLast(voice.role))}</cite>` : ""}</blockquote>` : "";
   /* The whole story, with every way of narrowing the eighteen, is on
      /case-studies under the use case's own fragment. */
-  const proof = record ? `<p class="finder-record"><a class="finder-proof" href="/case-studies#${story.id.toLowerCase()}">The full story\u00a0<span aria-hidden="true">→</span></a></p>` : "";
   /* The result on the record follows the outcome in the sheet: its headline,
      then what moved, in amber (the colour of what moved; mint is the answer). */
-  const result = record ? `<div class="finder-result"><p class="finder-result-head">${tieLast(esc(record.headline))}</p><p>${tieLast(esc(record.detail))}</p></div>` : "";
-  const face = `<span class="finder-face">${faceVisual}<span class="finder-heading">${story.heading}</span><span class="finder-outcome">${story.outcome}</span></span>`;
+  const result = record ? `<div class="finder-result"><p class="finder-result-head"><a class="finder-proof" href="/case-studies#${story.id.toLowerCase()}">${tieLast(esc(record.headline))}</a></p><p>${tieLast(esc(record.detail))}</p></div>` : "";
+  const face = `<span class="finder-face">${faceVisual}<span class="story-sector">${esc(getUseCase(story.id).industry)}${record ? " · RESULT ON THE RECORD" : ""}</span><span class="finder-heading">${story.heading}</span><span class="finder-outcome">${story.outcome}</span></span>`;
   /* The heading and the outcome are said once, on the card; the sheet borrows
      them when it opens, so a page without scripts never says them twice. */
-  const full = `<div class="finder-full"><div class="finder-full-media">${fullVisual}</div><div class="finder-full-text"><p>${story.situation}</p><p data-finder-happened>${story.happened}</p>${result}${quote}${proof}${startLink(door)}</div></div>`;
+  const full = `<div class="finder-full"><div class="finder-full-media">${fullVisual}</div><div class="finder-full-text"><p>${story.situation}</p><p data-finder-happened>${story.happened}</p>${result}${quote}${startLink(door)}</div></div>`;
   return `<li class="finder-card"><details data-finder-card="${id}"><summary>${face}</summary>${full}</details></li>`;
+}
+
+/** Shared by the HTML finder and the React case index. All copy is escaped at this boundary. */
+export function exampleCardMarkup(example: StoryExample) {
+  const line = (prefix: string, words: string) => `<p><strong>${prefix}</strong> ${esc(tieLast(words))}</p>`;
+  return `<article class="story-example">
+    <span class="story-example-label">EXAMPLE</span><span class="story-sector">${esc(example.industry)}</span>
+    <h4>${esc(tieLast(example.title))}</h4>
+    ${line("You bring", example.bring)}
+    ${line("Your brain helps", "you " + example.help)}
+    ${line("You could leave with", example.leave)}
+  </article>`;
 }
 
 export interface StoryFinderMarkupOptions {
   /** The "What your AI Brain makes possible" label. /ai-brain leaves it out: the page already says so. */
   kicker?: boolean;
-  /**
-   * Which product's stories (proposal for Krish, 2026-11-04: one library, one
-   * card, sorted by product; approved 4 November 2026). A product page shows
-   * only its own; "library" is /case-studies, which opens with the choice of
-   * product. Left out, every situation shows with no choice, as on
-   * /new-age-leadership.
-   */
+  /** A product page leads back to its own brief and can prioritise its wishes. */
   door?: "brain" | "gtm" | "library";
   /** A page heading and line set inside the finder, so they share its one left edge and its ground. */
   intro?: { title: string; lede: string };
@@ -87,20 +93,22 @@ export interface StoryFinderMarkupOptions {
 
 
 export function storyFinderMarkup(stories: readonly LeadershipStory[], { kicker = true, door, intro }: StoryFinderMarkupOptions = {}) {
-  const shown = SITUATIONS.filter((s) => !door || door === "library" || s.door === door);
-  // The business page opens with the documented build-or-partner decision.
-  if (door === "gtm") shown.sort((a, b) => Number(b.id === "calls") - Number(a.id === "calls"));
-  const first = shown[0]?.door ?? "brain";
-  const tabs = shown.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}" data-finder-door="${s.door}"${door === "library" && s.door !== first ? " hidden" : ""}>${s.label}</button>`).join("");
-  const doors = door === "library" ? `<div class="finder-doors" role="group" aria-label="What do you want to build?">${(["brain", "gtm"] as const).map((d) => `<button type="button" data-finder-pick="${d}" aria-pressed="${d === first}">${DOOR_LABEL[d]}</button>`).join("")}</div>` : "";
+  const shown = [...SITUATIONS];
+  if (door === "gtm") {
+    const order = ["yours", "terms", "brief", "back", "calls", "try"];
+    shown.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  }
+  const tabs = shown.map((s, i) => `<button type="button" role="tab" id="finder-tab-${s.id}" aria-controls="finder-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-finder-tab="${s.id}">${tieLast(s.label)}</button>`).join("");
   const panels = shown.map((s, i) => {
-    const cards = s.useCases.map((id, n) => card(storyById(stories, id), s.door, `${s.id}-${n + 1}`)).join("");
-    return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${s.label}</h3><ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> of ${s.useCases.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div></div>`;
+    const cards = s.useCases.map((id) => card(storyById(stories, id), door === "gtm" || door === "brain" ? door : getUseCase(id).door, id)).join("");
+    const rail = cards ? `<ul class="finder-rail" data-finder-rail>${cards}</ul><div class="finder-nav"><button type="button" data-finder-prev aria-label="Previous story">←</button><p><span data-finder-at>1</span> of ${s.useCases.length}</p><button type="button" data-finder-next aria-label="Next story">→</button></div>` : "";
+    const illustrations = examples.filter((example) => example.wish === s.id).map(exampleCardMarkup).join("");
+    return `<div class="finder-panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="finder-panel-${s.id}" aria-labelledby="finder-tab-${s.id}" data-finder-panel="${s.id}"><h3 class="finder-situation">${tieLast(s.label)}</h3>${rail}<div class="story-examples">${illustrations}</div></div>`;
   }).join("");
   const label = kicker ? `<p class="kicker" id="proof-title"><span></span>What your AI Brain makes possible</p>` : "";
-  const question = door === "library" ? "What do you want to build?" : "Where would you start?";
+  const question = "What would you like to do more of?";
   const head = intro ? `<div class="finder-intro"><h1 id="library-title">${esc(intro.title)}</h1><p>${esc(intro.lede)}</p></div>` : "";
-  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2>${doors}<div class="finder-tabs" role="tablist" aria-label="Where would you start?">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
+  return `<div class="story-finder${door === "library" ? " is-library" : ""}" data-story-finder>${head}${label}<h2 class="finder-question">${question}</h2><div class="finder-tabs" role="tablist" aria-label="${question}">${tabs}</div><div class="finder-panels">${panels}</div><dialog class="finder-sheet" data-finder-sheet aria-label="Story"><button type="button" class="finder-close" data-finder-close aria-label="Close">×</button><div data-finder-sheet-body></div></dialog></div>`;
 }
 
 export interface StoryFinderOptions {
@@ -144,41 +152,11 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
     tabs[index]?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
   };
   panels.forEach((panel, i) => { panel.toggleAttribute("inert", i !== 0); });
-  /* The library's first choice: which product. Its situations are the only
-     tabs shown, and the first of them opens. */
-  const picks = [...finder.querySelectorAll<HTMLButtonElement>("[data-finder-pick]")];
-  picks.forEach((pick) => pick.addEventListener("click", () => {
-    const door = pick.dataset.finderPick;
-    picks.forEach((other) => other.setAttribute("aria-pressed", String(other === pick)));
-    tabs.forEach((tab) => { tab.hidden = tab.dataset.finderDoor !== door; });
-    select(tabs.findIndex((tab) => tab.dataset.finderDoor === door));
-  }, { signal }));
-  /* The library's two products have different numbers of situations, so the
-     list of them holds the longer product's height and choosing a product
-     never resizes the finder (Ruling, Krish, 2026-10-24; qa:line-breaks found
-     /case-studies 19px shorter on the business side at 1280x800). Measured
-     whenever the width or the faces change, never while the reader chooses. */
-  const tablist = finder.querySelector<HTMLElement>(".finder-tabs");
-  const holdTabs = () => {
-    if (!picks.length || !tablist) return;
-    const was = tabs.map((tab) => tab.hidden);
-    tablist.style.removeProperty("min-height");
-    let tallest = 0;
-    for (const door of new Set(tabs.map((tab) => tab.dataset.finderDoor))) {
-      tabs.forEach((tab) => { tab.hidden = tab.dataset.finderDoor !== door; });
-      tallest = Math.max(tallest, tablist.getBoundingClientRect().height);
-    }
-    tabs.forEach((tab, i) => { tab.hidden = was[i]; });
-    if (tallest) tablist.style.minHeight = `${Math.ceil(tallest)}px`;
-  };
-  holdTabs();
-  addEventListener("resize", holdTabs, { passive: true, signal });
-  void document.fonts?.ready.then(() => { if (!signal.aborted) holdTabs(); });
   tabs.forEach((tab, i) => {
     tab.addEventListener("click", () => select(i), { signal });
     tab.addEventListener("keydown", (event) => {
       const step = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 0;
-      /* Only the chosen product's situations are tabs the reader can reach. */
+      /* Keyboard navigation follows the visible tabs. */
       const shown = tabs.map((_, n) => n).filter((n) => !tabs[n].hidden);
       const at = shown.indexOf(i);
       if (event.key === "Home") { event.preventDefault(); select(shown[0], true); return; }
@@ -305,7 +283,7 @@ export function mountStoryFinder(root: HTMLElement, { reduced, onStart, deck = f
 
   const undeck = deck ? mountDeck(finder, tabs, panels, signal) : () => undefined;
 
-  return () => { abort.abort(); undeck(); close(); tablist?.style.removeProperty("min-height"); finder.classList.remove("is-live"); };
+  return () => { abort.abort(); undeck(); close(); finder.classList.remove("is-live"); };
 }
 
 /** Earlier stories that stay visible above the current one. */

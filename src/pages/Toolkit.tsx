@@ -1,3 +1,4 @@
+import { JourneyEnd } from "@/components/mindmake/JourneyEnd";
 import { useState } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
@@ -16,12 +17,19 @@ const Toolkit = () => {
   return (
     <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO title={TITLE} description={DESCRIPTION} canonical="/2-minute-ai-upgrade-toolkit" />
-      <section className="mm-toolkit mm-container" aria-labelledby="toolkit-title">
-        <h1 id="toolkit-title">Your 2-minute AI upgrade toolkit.</h1>
-        <div className="lx-cards mm-toolkit-cards">
-          <LeadCard offer="audit" />
-          <LeadCard offer="modules" />
-        </div>
+      <header className="journey-hero mm-container"><h1>Your 2-minute AI upgrade toolkit.</h1></header>
+      <section className="journey-room mm-container" aria-label="Your judgement">
+        <div className="lx-cards mm-toolkit-cards"><LeadCard offer="audit" /></div>
+      </section>
+      <section className="journey-room mm-container" aria-label="Brain modules">
+        <div className="lx-cards mm-toolkit-cards"><LeadCard offer="modules" /></div>
+      </section>
+      <section className="journey-room mm-container">
+        <h2>Bring a rule to your next call.</h2>
+        <details className="journey-detail"><summary>Keep the final edit</summary>
+          <p>When a sponsor asks for approval, your rule comes back as a question. Who gets to change the ending?</p>
+        </details>
+        <JourneyEnd page="toolkit" onStart={() => setBriefOpen(true)} />
       </section>
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

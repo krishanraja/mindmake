@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { JourneyEnd } from "@/components/mindmake/JourneyEnd";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
@@ -29,6 +30,16 @@ const Blog = () => {
   const [briefOpen, setBriefOpen] = useState(false);
   const [kind, setKind] = useState<IdeaKind | null>(null);
   const [subject, setSubject] = useState<IdeaSubject | null>(null);
+  const [first, setFirst] = useState(0);
+  const [pageSize, setPageSize] = useState<number | null>(null);
+  useEffect(() => {
+    const phone = window.matchMedia("(max-width: 700px)");
+    const resize = () => setPageSize(phone.matches ? 1 : 3);
+    resize();
+    phone.addEventListener("change", resize);
+    return () => phone.removeEventListener("change", resize);
+  }, []);
+  const page = Math.floor(first / (pageSize ?? 3));
   const visible = ideas.filter((idea) => (!kind || idea.kind === kind) && (!subject || idea.subject === subject));
 
   return (
@@ -56,34 +67,34 @@ const Blog = () => {
         }}
       />
 
-      <section className="mm-blog-page" aria-labelledby="blog-title">
+      <div className="mm-blog-page">
         <header className="mm-container mm-blog-hero">
           <h1 id="blog-title">Ideas you can use.</h1>
         </header>
 
-        <div className="mm-container mm-ideas-tools">
+        <section className="mm-container mm-ideas-tools journey-room"><h2>Find an idea for your next call.</h2>
           <div className="mm-ideas-filters">
             <div className="mm-blog-filters" role="group" aria-label="Kind of idea">
               {KINDS.map((option) => (
-                <button key={option.label} type="button" aria-pressed={kind === option.value} onClick={() => setKind(option.value)}>
+                <button key={option.label} type="button" aria-pressed={kind === option.value} onClick={() => { setKind(option.value); setFirst(0); }}>
                   {option.label}
                 </button>
               ))}
             </div>
             <div className="mm-blog-filters" role="group" aria-label="Subject">
-              <button type="button" aria-pressed={subject === null} onClick={() => setSubject(null)}>All subjects</button>
+              <button type="button" aria-pressed={subject === null} onClick={() => { setSubject(null); setFirst(0); }}>All subjects</button>
               {IDEA_SUBJECTS.map((option) => (
-                <button key={option} type="button" aria-pressed={subject === option} onClick={() => setSubject(option)}>
+                <button key={option} type="button" aria-pressed={subject === option} onClick={() => { setSubject(option); setFirst(0); }}>
                   {subjectLabels[option]}
                 </button>
               ))}
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="mm-container mm-ideas-list">
-          {visible.length > 0 ? visible.map((idea) => (
-            <Link key={idea.href} className="mm-idea-entry" to={idea.href}>
+        <section className="mm-container journey-room" aria-label="Ideas"><div className={"mm-ideas-list" + (pageSize ? " is-paged" : "")}>
+          {visible.length > 0 ? visible.map((idea, index) => (
+            <Link key={idea.href} hidden={pageSize !== null && Math.floor(index / pageSize) !== page} className="mm-idea-entry" to={idea.href}>
               <article>
                 <h2>{idea.title}</h2>
                 {/* A tip titled as a question shows its own description: its
@@ -108,7 +119,19 @@ const Blog = () => {
             </div>
           )}
         </div>
-      </section>
+        {pageSize !== null && visible.length > pageSize && <nav className="idea-pages" aria-label="Idea pages">
+          <button disabled={page === 0} onClick={() => setFirst((page - 1) * pageSize)} aria-label="Previous ideas">←</button>
+          <span aria-live="polite">{page + 1} of {Math.ceil(visible.length / pageSize)}</span>
+          <button disabled={(page + 1) * pageSize >= visible.length} onClick={() => setFirst((page + 1) * pageSize)} aria-label="Next ideas">→</button>
+        </nav>}
+        </section>
+        <section className="mm-container journey-room"><h2>Put an idea to work.</h2>
+          <details className="journey-detail"><summary>A second reading of a brief</summary>
+            <p>Give your AI the brief and a piece you would commission again. Ask which detail the brief misses.</p>
+          </details>
+          <JourneyEnd page="blog" onStart={() => setBriefOpen(true)} />
+        </section>
+      </div>
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

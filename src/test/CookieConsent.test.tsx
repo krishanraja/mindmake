@@ -215,11 +215,11 @@ describe("CookieConsent", () => {
  * - `white-space: nowrap; text-wrap: initial` in one rule, where the second
  *   declaration is the first shorthand's own longhand reset to `wrap`.
  *
- * `npm run qa:chrome` measures the rendered result at eight screen sizes and
+ * `npm run qa:chrome` measures the rendered result at nine screen sizes and
  * two text scales. These hold the rules that produce it.
  */
 describe("the privacy strip's rules", () => {
-  const css = readFileSync(resolve(__dirname, "../styles/mindmake.css"), "utf8");
+  const css = readFileSync(resolve(__dirname, "../styles/mindmake.css"), "utf8").replaceAll("\r\n", "\n");
   const instruments = readFileSync(resolve(__dirname, "../styles/mindmake-instruments.css"), "utf8");
   const block = (selector: string) => {
     const at = css.indexOf(selector);
@@ -241,10 +241,7 @@ describe("the privacy strip's rules", () => {
   });
 
   /** The one media block that makes the strip full width, and nothing after it. */
-  const phoneStrip = (() => {
-    const at = css.indexOf("@media (max-width: 767px)", css.indexOf(".mm-cookie-notice {"));
-    return css.slice(at, css.indexOf("\n}\n", at));
-  })();
+  const phoneStrip = block("@media (max-width: 767px) {\n  .mm-cookie-notice {");
 
   it("keeps the label on one line and lets the row wrap instead", () => {
     expect(block(".mm-cookie-notice button {")).toContain("white-space: nowrap");
@@ -258,7 +255,14 @@ describe("the privacy strip's rules", () => {
   it("sits apart from the action bar and never stacks on it", () => {
     expect(block(".mm-cookie-notice {")).toContain("position: static");
     expect(block(".mm-cookie-notice {")).toContain("--mm-bar-reserve");
-    expect(phoneStrip).not.toContain("position: fixed");
+    // Ruling (Krish, 2026-10-24): dock the phone notice under the masthead.
+    expect(block("@media (max-width: 767px),")).toContain("position: fixed");
+    expect(phoneStrip).toContain("inset: calc(var(--mm-header-bar, 66px) + var(--mm-safe-top)) 0 auto 0");
+    const landscape = block("@media(max-height:520px) and (orientation:landscape){\n  .mm-cookie-notice{");
+    expect(landscape).toContain("inset:calc(var(--mm-header-bar, 66px) + 8px + var(--mm-safe-top)) 8px auto auto");
+    const choices = block(".mm-cookie-notice .mm-button-small {");
+    expect(choices).toContain("min-width: 44px");
+    expect(choices).toContain("min-height: 44px");
     /* The bar's rules live in mindmake.css, beside --mm-bar-reserve and the
        .mm-footer rule that reads it, never in the instruments stylesheet that
        only /case-studies imports. It sits on the bottom edge itself and reads

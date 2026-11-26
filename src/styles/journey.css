@@ -123,3 +123,8 @@
   .mm-homepage-release .hs-get .hs-card-img { height: clamp(100px,14vh,144px); }
   .mm-homepage-release .hs-get .hs-deck-nav { display: none; }
 }
+
+/* Hash links and disclosure controls land below the visible, fixed masthead. */
+:is(.mm-site, .mm-homepage-release) :where([id], a[name], .brain-truths summary) {
+  scroll-margin-top: var(--mm-measured-nav-height, var(--mm-header-height, 64px));
+}

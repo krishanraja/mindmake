@@ -1,3 +1,4 @@
+import { useMastheadHeight } from "@/hooks/useMastheadHeight";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { SEO } from "@/components/SEO";
@@ -25,6 +26,7 @@ import "@/styles/journey.css";
  */
 export default function Index() {
   const rootRef = useRef<HTMLDivElement>(null);
+  useMastheadHeight(rootRef, ".r3-opening .site-masthead");
   const { briefOpen, briefRoute, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
   const startRef = useRef(openBrief);
   const briefOpener = useRef<HTMLElement | null>(null);

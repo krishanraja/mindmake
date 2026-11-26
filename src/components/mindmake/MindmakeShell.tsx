@@ -1,3 +1,4 @@
+import { useMastheadHeight } from "@/hooks/useMastheadHeight";
 import { type MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar } from "@/components/mindmake/SiteActionBar";
@@ -27,6 +28,8 @@ export function MindmakeShell({
   startLabel = START_LABEL,
 }: MindmakeShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const siteRef = useRef<HTMLDivElement>(null);
+  useMastheadHeight(siteRef, ".mm-header");
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
@@ -127,7 +130,7 @@ export function MindmakeShell({
   };
 
   return (
-    <div className={`mm-site ${siteClassName}`.trim()}>
+    <div ref={siteRef} className={`mm-site ${siteClassName}`.trim()}>
       <a className="mm-skip" href="#main">Skip to content</a>
       <header className="mm-header">
         <div className="mm-container mm-nav">

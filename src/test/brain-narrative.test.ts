@@ -1,3 +1,5 @@
+import { MemoryRouter } from "react-router-dom";
+import { ProductSprint } from "@/components/mindmake/ProductSprint";
 import { createElement } from "react";
 import { render, fireEvent, within } from "@testing-library/react";
 import { LiquidBrain } from "@/components/mindmake/LiquidBrain";
@@ -42,6 +44,27 @@ describe("the AI brain route", () => {
       expect(guess).toHaveAttribute("data-guess", "pending");
       fireEvent.click(within(view.container).getByRole("button", { name: "Confirm this preference" }));
       expect(guess).toHaveAttribute("data-guess", "confirmed");
+    } finally { view.unmount(); }
+  });
+  it("opens the six wishes from the Sprint and follows the brief wish to its next card", () => {
+    const view = render(createElement(MemoryRouter, {}, createElement(ProductSprint, { door: "brain", onStart: () => undefined })));
+    try {
+      const dialog = view.container.querySelector<HTMLDialogElement>(".product-stories")!;
+      dialog.showModal = () => dialog.setAttribute("open", "");
+      fireEvent.click(within(view.container).getByRole("button", { name: "Explore the stories" }));
+      expect(dialog.open).toBe(true);
+      const tabs = within(dialog).getAllByRole("tab");
+      expect(tabs).toHaveLength(6);
+      const brief = tabs.find(tab => tab.dataset.finderTab === "brief")!;
+      fireEvent.click(brief);
+      expect(brief).toHaveAttribute("aria-selected", "true");
+      const panel = dialog.querySelector(".finder-panel.is-active")!;
+      const next = panel.querySelector<HTMLButtonElement>("[data-finder-next]")!;
+      const first = panel.querySelector('[data-deck="current"]');
+      expect(first).toBeTruthy();
+      expect(next).toBeEnabled();
+      fireEvent.click(next);
+      expect(panel.querySelector('[data-deck="current"]')).not.toBe(first);
     } finally { view.unmount(); }
   });
   it("ends in the four weeks, the receipt and the six wishes", () => {

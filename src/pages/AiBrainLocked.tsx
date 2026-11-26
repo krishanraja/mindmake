@@ -37,13 +37,13 @@ export default function AiBrainLocked() {
       <div>
         <h2>Your AI brain knows how you think.</h2>
         <p>It holds your goals, taste and standards, so you can trust its answers.</p>
-        <div className="brain-truths">
-          <DepthTile group="brain-truth" title="Correct its reading." detail="A guess stays dotted until you say yes. Change the reading when it misses your point." />
-          <DepthTile group="brain-truth" title="Weigh a choice." detail="Your own rules come back as questions before a hard call." />
-          <DepthTile group="brain-truth" title="Keep control of what you share." detail="Nothing is shared or reused without your say." />
-        </div>
       </div>
       <LiquidBrain />
+      <div className="brain-truths">
+        <DepthTile group="brain-truth" title="Correct its reading." detail="A guess stays dotted until you say yes. Change the reading when it misses your point." />
+        <DepthTile group="brain-truth" title="Weigh a choice." detail="Your own rules come back as questions before a hard call." />
+        <DepthTile group="brain-truth" title="Keep control of what you share." detail="Nothing is shared or reused without your say." />
+      </div>
     </section>
     <ProductSprint door="brain" onStart={openBrief} />
     <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />

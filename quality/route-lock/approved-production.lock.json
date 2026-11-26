@@ -228,6 +228,6 @@
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
     "vercel.json": "14fe1a9a8b38a423675cbdff122551cc18eb188323667645443cc2dddc4e93f0",
-    "vite.config.ts": "83a4586e66d743f1c5b169bb1d59ac57fd9a331910aa53b2c7e7ec233debeffc"
+    "vite.config.ts": "986f4e44276c39f9779aa945d11850630af1cc15390b2fc96dbf688dc685981c"
   }
 }

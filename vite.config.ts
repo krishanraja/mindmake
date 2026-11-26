@@ -44,6 +44,9 @@ export default defineConfig(({ mode }) => ({
   test: {
     globals: true,
     environment: "jsdom",
+    // The revisualised /ai-brain renders the liquid Brain in full under jsdom;
+    // a few route tests that mount it run past five seconds on CI runners.
+    testTimeout: 20000,
     setupFiles: "./src/test/setup.ts",
     // Vitest's default glob swept up the Deno tests that live beside the edge
     // functions. Those import from https: URLs, which the Node ESM loader

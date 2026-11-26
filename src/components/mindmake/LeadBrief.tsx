@@ -409,6 +409,23 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const firstDivisionRef = useRef<HTMLButtonElement>(null);
   const divisionSelectRef = useRef<HTMLSelectElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
+  /* Safari does not focus a button when it is clicked, so at the moment the
+     brief opens document.activeElement is the body. The last control the
+     reader pressed is remembered here and used instead, so focus can return
+     to the button that opened the brief in every browser. */
+  const lastPressed = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const remember = (event: Event) => {
+      const control = (event.target as Element | null)?.closest?.<HTMLElement>("button, a[href], [role='button']");
+      if (control) lastPressed.current = control;
+    };
+    document.addEventListener("pointerdown", remember, true);
+    document.addEventListener("click", remember, true);
+    return () => {
+      document.removeEventListener("pointerdown", remember, true);
+      document.removeEventListener("click", remember, true);
+    };
+  }, []);
   const researchAbortRef = useRef<AbortController | null>(null);
   const handoffAbortRef = useRef<AbortController | null>(null);
   const requestIdRef = useRef(createRequestId());
@@ -511,7 +528,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       resetJourney();
       return;
     }
-    previousFocus.current = document.activeElement as HTMLElement | null;
+    const focused = document.activeElement as HTMLElement | null;
+    previousFocus.current = focused && focused !== document.body ? focused : (lastPressed.current?.isConnected ? lastPressed.current : focused);
     document.body.classList.add("mm-dialog-open");
     /* On a phone the page behind is locked at the root as well, because the
        body alone does not stop it scrolling there. iOS still moves the page to

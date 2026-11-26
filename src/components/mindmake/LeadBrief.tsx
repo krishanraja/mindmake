@@ -549,8 +549,26 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
         if (ariaHidden === null) element.removeAttribute("aria-hidden");
         else element.setAttribute("aria-hidden", ariaHidden);
       });
-      previousFocus.current?.focus();
+      /* Safari can ignore focus on an element whose inert ancestor was cleared
+         in the same task, and the homepage can rebuild its hero while the
+         brief is open. Focus now, then once more on the next frame, finding
+         the same control again if the one remembered has been replaced. */
+      const opener = previousFocus.current;
       previousFocus.current = null;
+      const sameControl = (element: HTMLElement | null) => {
+        if (!element) return null;
+        if (element.isConnected) return element;
+        const route = element.getAttribute("data-start-route") ?? element.getAttribute("data-early-start");
+        const label = element.textContent?.trim();
+        const candidates = Array.from(document.querySelectorAll<HTMLElement>(element.tagName));
+        return candidates.find((candidate) => (route ? (candidate.getAttribute("data-start-route") ?? candidate.getAttribute("data-early-start")) === route : true) && candidate.textContent?.trim() === label) ?? null;
+      };
+      sameControl(opener)?.focus();
+      window.requestAnimationFrame(() => {
+        const active = document.activeElement;
+        if (active && active !== document.body) return;
+        sameControl(opener)?.focus();
+      });
       const phone = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 560px)").matches;
       if (phone && Math.abs(window.scrollY - openedAtScrollY) > 1) window.scrollTo(0, openedAtScrollY);
     };

@@ -3,7 +3,7 @@ import loomImage from "../../../prototypes/website-redesign-recovery/new-age-lea
 import calculatorImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
 import satnavImage from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 import latestIssue from "@/data/latestIssue.json";
-import { canShowStoryQuote, featuredQuotes } from "@/data/testimonials";
+import { canShowStoryQuote, testimonials } from "@/data/testimonials";
 import { getUseCase, situationOf, SITUATIONS } from "@/data/useCases";
 import { PUBLICATION_URL, START_LABEL, SUBSCRIBE_LABEL } from "@/lib/publicLinks";
 import { placeholderFor, srcsetFor } from "@/lib/responsiveImages";
@@ -60,15 +60,13 @@ const ERAS = [
  */
 const PROOF = (["C-15", "C-18", "C-16"] as const).map(getUseCase);
 
-/**
- * A few voices under the results, one at a time (Krish, 2026-11-06: some of
- * the quotes at the foot of the homepage, "non-obtrusive and minimalist", to
- * send more people to the full range of results). They are the featured
- * quotes, in their order, each the featured part of its one record in
- * src/data/testimonials.ts, never retyped. The line ends in the way to all of
- * them on /case-studies.
- */
-const VOICES = featuredQuotes.filter((voice) => canShowStoryQuote(voice.featured!.excerpt)).map((found) => ({ quote: found.featured!.excerpt, who: found.name ? `${found.name}, ${found.role}` : found.role }));
+// Use the approved story excerpts, with the publisher beside the media results.
+const VOICES = ([["publisher-ops", "C-17"], ["wellness-founder", "C-01"]] as const)
+  .map(([id, story]) => {
+    const voice = testimonials.find(record => record.id === id)!;
+    return { quote: voice.useCaseExcerpts![story]!, who: voice.role };
+  })
+  .filter(voice => canShowStoryQuote(voice.quote));
 
 const startButton = () => `<button type="button" class="hs-start-button" data-start-route="brain" data-mm-primary>${START_LABEL} <span aria-hidden="true">→</span></button>`;
 
@@ -297,7 +295,17 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
-  root.querySelectorAll<HTMLElement>("[data-hs-deck]").forEach((deck) => mountProofDeck(deck, abort.signal));
+  const phone = window.matchMedia("(max-width: 760px)");
+  let mobileDeck: AbortController | undefined;
+  const fitProof = () => {
+    mobileDeck?.abort();
+    if (!phone.matches) return;
+    mobileDeck = new AbortController();
+    root.querySelectorAll<HTMLElement>("[data-hs-deck]").forEach(deck => mountProofDeck(deck, mobileDeck!.signal));
+  };
+  fitProof();
+  phone.addEventListener("change", fitProof, { signal: abort.signal });
+  abort.signal.addEventListener("abort", () => mobileDeck?.abort());
   root.querySelectorAll<HTMLElement>("[data-hs-voices]").forEach((voices) => mountVoices(voices, abort.signal, reduced));
   /* Each section builds as the reader reaches it (src/lib/scrollBuild.ts). */
   const unbuild = buildOnScroll(root, {

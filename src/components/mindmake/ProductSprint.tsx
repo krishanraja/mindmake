@@ -39,7 +39,7 @@ export function ProductSprint({ door, onStart }: { door: Door; onStart: (door: D
     </div>
     <noscript><a href="/case-studies">Explore the case studies</a></noscript>
     <div className="product-actions">
-      <button className="mm-button" onClick={openStories}>Explore the stories</button>
+      <button className="product-story-link" onClick={openStories}>Explore the stories</button>
       <small>{results.length} results on the record</small>
       <CompareNudge page={door} />
     </div>

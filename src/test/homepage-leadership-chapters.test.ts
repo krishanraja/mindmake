@@ -73,12 +73,31 @@ describe("the homepage in three sections", () => {
   it("opens each wish at its own case index and ends with the shared way forward", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
+    expect(root.querySelector(".hs-voices-stack li:first-child q")?.textContent)
+      .toBe("We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability.");
     const chips = [...root.querySelectorAll<HTMLAnchorElement>(".wish-paths a")];
     expect(root.querySelector("#wish-question")?.textContent).toBe("What would you do more of?");
     expect(chips.map(chip => chip.search)).toEqual(["back", "terms", "calls", "try", "brief", "yours"].map(id => "?wish=" + id));
     expect(chips.every(chip => chip.pathname === "/case-studies")).toBe(true);
     expect(root.querySelector(".hs-get .journey-end button")?.textContent).toBe("Start your brief");
     expect(root.querySelector(".hs-get .hs-explore")?.getAttribute("href")).toBe("/case-studies");
+  });
+
+  it("keeps three results accessible on desktop and pages them on a phone", () => {
+    const viewport = Object.assign(new EventTarget(), { matches: false });
+    vi.stubGlobal("matchMedia", (query: string) => query === "(max-width: 760px)" ? viewport : Object.assign(new EventTarget(), { matches: false }));
+    const root = document.createElement("main");
+    root.innerHTML = homepageSectionsMarkup();
+    const unmount = mountHomepageSections(root);
+    try {
+      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(3);
+      viewport.matches = true;
+      viewport.dispatchEvent(new Event("change"));
+      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(1);
+      viewport.matches = false;
+      viewport.dispatchEvent(new Event("change"));
+      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(3);
+    } finally { unmount(); }
   });
 
   it("puts each era and each result on its own picture, decorative and loaded when near", () => {

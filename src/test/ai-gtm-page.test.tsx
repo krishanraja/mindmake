@@ -6,7 +6,7 @@ describe("AI business", () => {
   const main = new DOMParser().parseFromString(serverRender("/ai-gtm"), "text/html").querySelector("main")!;
   it("keeps one hero and three sections", () => {
     expect(main.querySelectorAll("h1")).toHaveLength(1);
-    expect(main.querySelector("h1")?.textContent).toBe("Make more of your best work, get it in front of the right people, and get paid properly for it.");
+    expect(main.querySelector("h1")?.textContent).toBe("Make it, share it, and get paid for it.");
     expect([...main.querySelectorAll(":scope > section")].map(el => el.id)).toEqual(["you", "inside", "built"]);
     expect(main.querySelector("[data-mm-hero]")?.textContent).toBe("Start building your AI business");
   });
@@ -14,8 +14,11 @@ describe("AI business", () => {
     const tiles = [...main.querySelectorAll(".product-levers details")];
     expect(tiles.map(tile => tile.querySelector("strong")?.textContent)).toEqual(["Production","Distribution","Monetisation"]);
     for (const tile of tiles) {
-      expect(tile.querySelector("summary span")?.textContent).toBeTruthy();
+      expect(tile.querySelector(".lever-line")?.textContent).toBeTruthy();
       expect(tile.querySelector("p")?.textContent).toBeTruthy();
+      expect(tile.querySelector("summary img")).toBeTruthy();
+      expect(tile.getAttribute("name")).toBe("business-lever");
+      expect(tile.querySelector("blockquote")?.textContent).toMatch(/\?$/);
       expect(tile.hasAttribute("open")).toBe(false);
     }
     const first = tiles[0] as HTMLDetailsElement;

@@ -50,7 +50,10 @@ const contractSource = (name, fallback) => {
 const brainSource = contractSource("brain", "src/pages/AiBrain.tsx");
 const gtmSource = contractSource("gtm", "src/pages/AiGtm.tsx");
 if (gtmContract.levers) {
-  const tiles = [...gtmSource.matchAll(/<DepthTile title="([^"]+)"/g)].map(match => match[1]);
+  const leverPattern = gtmContract.requiredInstruments.includes("lever-reading")
+    ? /\{ title: "([^"]+)", still:/g
+    : /<DepthTile title="([^"]+)"/g;
+  const tiles = [...gtmSource.matchAll(leverPattern)].map(match => match[1]);
   if (JSON.stringify(tiles) !== JSON.stringify(gtmContract.levers)) failures.push("AI business levers differ from the approved route");
 }
 // Ruling (Krish, 2026-11-25): /ai-brain revisualised

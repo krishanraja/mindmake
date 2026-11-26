@@ -86,7 +86,7 @@ export function mountLiquidBrain(field, options) {
   const goo = document.createElement("canvas");
   goo.className = "liquid-goo";
   goo.setAttribute("aria-hidden", "true");
-  goo.style.filter = `url(#${filterId})`;
+  goo.style.filter = `url(#${filterId}) drop-shadow(0 0 8px rgba(132,235,185,.28))`;
   const net = document.createElement("canvas");
   net.className = "liquid-net";
   net.setAttribute("aria-hidden", "true");
@@ -127,11 +127,8 @@ export function mountLiquidBrain(field, options) {
       vy: 0,
       hx: x,
       hy: y,
-      ex: 0,
-      ey: 0,
       r: 21 + random() * 12,
       ph: random() * 6.28,
-      until: 0,
     }),
   );
 
@@ -190,7 +187,7 @@ export function mountLiquidBrain(field, options) {
         dy = p.y - y,
         d = Math.hypot(dx, dy);
       if (d < 190 && d > 0) {
-        const k = (190 - d) * 0.22;
+        const k = (190 - d) * 0.023;
         p.vx += (dx / d) * k;
         p.vy += (dy / d) * k;
       }
@@ -206,37 +203,14 @@ export function mountLiquidBrain(field, options) {
   field.addEventListener("pointermove", move, { passive: true });
   field.addEventListener("pointerleave", leave, { passive: true });
 
-  let lastSwitch = 0,
-    lastSearch = 0;
-
-  const search = (t) => {
-    const angle = random() * 6.28,
-      k = 6 + Math.floor(random() * 10),
-      reach = 70 + random() * 120;
-    particles
-      .map((p) => ({
-        p,
-        d:
-          Math.cos(Math.atan2(p.hy - 430, p.hx - 500) - angle) *
-          Math.hypot(p.hx - 500, p.hy - 430),
-      }))
-      .sort((a, b) => b.d - a.d)
-      .slice(0, k)
-      .forEach(({ p }, j) => {
-        p.ex = Math.cos(angle) * reach * (1 - (j / k) * 0.5);
-        p.ey = Math.sin(angle) * reach * (1 - (j / k) * 0.5);
-        p.until = t + 1800 + random() * 900;
-      });
-  };
+  let lastSwitch = 0;
+  // One continuous cortical surface holds the moving pigment, even during a tap.
+  const surface = new Path2D("M139 423 C108 354 141 275 202 240 C217 174 296 133 370 140 C430 74 542 70 614 106 C711 97 783 161 792 220 C870 248 903 331 874 395 C893 457 847 508 809 525 C821 613 748 666 668 645 Q622 627 613 697 Q609 735 587 739 Q565 737 563 699 Q562 647 531 644 C466 680 389 656 360 613 C268 629 199 574 191 510 Q145 488 139 423 Z");
   const step = (t) => {
     if (!pinned && t - lastSwitch > 3600) {
       lastSwitch = t;
       active = order[(order.indexOf(active) + 1) % order.length];
       options.onAdvance(active);
-    }
-    if (t - lastSearch > 2600) {
-      lastSearch = t;
-      search(t);
     }
     const age = touch ? t - touch.t0 : Infinity;
     if (touch && age > TOUCH_MS) touch = null;
@@ -244,12 +218,8 @@ export function mountLiquidBrain(field, options) {
       age < 180 ? 0 : age < TOUCH_MS ? 1 - (age - 180) / (TOUCH_MS - 180) : 0;
     const seat = seats.get(active);
     for (const p of particles) {
-      if (p.until && t > p.until) {
-        p.ex = p.ey = 0;
-        p.until = 0;
-      }
-      const tx = p.hx + p.ex + Math.sin(t / 900 + p.ph) * 4,
-        ty = p.hy + p.ey + Math.cos(t / 1100 + p.ph) * 4;
+      const tx = p.hx + Math.sin(t / 900 + p.ph) * 4,
+        ty = p.hy + Math.cos(t / 1100 + p.ph) * 4;
       p.vx += (tx - p.x) * 0.012;
       p.vy += (ty - p.y) * 0.012;
 
@@ -297,17 +267,24 @@ export function mountLiquidBrain(field, options) {
     pigment.addColorStop(0.64, "#2c5943");
     pigment.addColorStop(1, "#173729");
     g.fillStyle = pigment;
+    g.fill(surface);
+    g.save();
+    g.clip(surface);
+    g.fillStyle = "rgba(164, 222, 188, .06)";
     for (const p of particles) {
       g.beginPath();
       g.arc(p.x, p.y, p.r, 0, 6.283);
       g.fill();
     }
 
+    g.restore();
     n.setTransform(dpr * s, 0, 0, dpr * sy, dpr * ox, dpr * oy);
     n.clearRect(-ox / s, -oy / sy, W / s, H / sy);
+    n.save();
+    n.clip(surface);
     const seat = seats.get(active);
     const tone = settledById.get(active) ? MINT : AMBER;
-    const pulse = 0.55 + Math.sin(t / 420) * 0.2;
+    const pulse = 0.55 + (reduced ? 0 : Math.sin(t / 1500) * 0.22);
     if (options.scatter && !field.classList.contains("gathered") && !reduced)
       return;
     if (seat) {
@@ -360,6 +337,7 @@ export function mountLiquidBrain(field, options) {
       n.arc(p.x, p.y, 1.6, 0, 6.283);
       n.fill();
     }
+    n.restore();
   }
 
   let raf = 0;

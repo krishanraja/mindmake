@@ -18,7 +18,7 @@ export default function AiBrainLocked() {
     start();
   };
 
-  return <MindmakeShell mainClassName="product-page" onStart={start} startLabel={START_LABEL}>
+  return <MindmakeShell showMobileActionBar={false} mainClassName="product-page" onStart={start} startLabel={START_LABEL}>
     <SEO title="Build your AI brain" description="An AI brain keeps your ideas, memories and plans in a private record you own." canonical="/ai-brain" />
     <header className="product-hero">
       <img src={heroImage} alt="" />

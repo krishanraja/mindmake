@@ -20,8 +20,12 @@ export function LiquidBrain() {
   useEffect(() => {
     const host = field.current!;
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    // The painted field needs canvas 2D and Path2D; where a browser (or a test
+    // environment) has neither, the six parts stay as plain, working buttons.
+    const canPaint = typeof Path2D !== "undefined" && Boolean(document.createElement("canvas").getContext?.("2d"));
     const mount = () => {
       renderer.current?.destroy();
+      if (!canPaint) return;
       renderer.current = mountLiquidBrain(host, {
         ideas: parts.map(([id, , , x, y]) => ({ id, x, y, settled: id !== "Preferences" || agreed.current })),
         nodes: new Map(Array.from(host.querySelectorAll("button"), node => [node.textContent!, node])),
@@ -29,7 +33,7 @@ export function LiquidBrain() {
         onAdvance: setSelected,
       });
       // Keep the reader's question in view while the liquid field moves.
-      renderer.current.select(selection.current, true);
+      renderer.current?.select(selection.current, true);
     };
     mount();
     motion.addEventListener("change", mount);

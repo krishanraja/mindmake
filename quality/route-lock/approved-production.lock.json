@@ -155,7 +155,7 @@
     "src/components/mindmake/ClientWords.tsx": "a2e21562ed800e2badde85deaf604c386a4ca5f08a661e18e083e2123978ff3f",
     "src/components/mindmake/JourneyEnd.tsx": "207473003da45b951d78c2b9ad3c275b7dc98199e344e38b810460e515625a79",
     "src/components/mindmake/LeadBrief.tsx": "607b77056df98a68de2b9193d75d76b43e8974ccc83b474a95d367a21064de55",
-    "src/components/mindmake/LiquidBrain.tsx": "98ab0611d941154f01195552528b6d8f923c24b833ecef9d98b8d5aec2c9dc51",
+    "src/components/mindmake/LiquidBrain.tsx": "b52927a3bb68a2404afb81bed89c93dd1ccaa47ebdc1ec629cf6167d3b379bc5",
     "src/components/mindmake/MindmakeShell.tsx": "9a9a6210b4da18000b83bdad841e0bf24e0e5449402870e0e654964fcbfe4e19",
     "src/components/mindmake/PairingBridge.tsx": "0e258356d98d81c81b5b69117de13e51d09a9adc1c15c21b4f91e1c92d89d426",
     "src/components/mindmake/ProductSprint.tsx": "58123813e67431346a2abd5815a7613a76e76729ad250e3cef848be26ec2fd91",
@@ -228,6 +228,6 @@
     "supabase/functions/submit-mindmake-brief/core.ts": "8080a68c6dfb2fc17a7542b143bde500880f3b5404f610bca2f4779e4a23b313",
     "supabase/functions/submit-mindmake-brief/core_test.ts": "402bd774ef0ec4bf2359720b228cd24ab611e28806fbe77a66847df9ca4c1971",
     "vercel.json": "14fe1a9a8b38a423675cbdff122551cc18eb188323667645443cc2dddc4e93f0",
-    "vite.config.ts": "83a4586e66d743f1c5b169bb1d59ac57fd9a331910aa53b2c7e7ec233debeffc"
+    "vite.config.ts": "025dce05e5d03f86929ac84c9878a910740e6da4d40c88c08a8d3f433eb364a2"
   }
 }

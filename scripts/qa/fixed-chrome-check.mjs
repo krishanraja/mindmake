@@ -22,14 +22,12 @@
  *    declaration is the first shorthand's own longhand, reset to `wrap`, so the
  *    sentence had never been on one line since the day it was written.
  *
- * What this asks, at eight screen sizes, on two pages, at normal text and at
+ * What this asks, at nine screen sizes, on two pages, at normal text and at
  * the 1.5x an Android visitor's accessibility setting produces:
  *
- * 1. **Flush.** The strip sits on the bottom edge of the screen on a phone, and
- *    at its designed inset in the corner on a laptop. No gap with page showing
- *    through it.
- * 2. **Stacked, never overlapping.** The action bar sits on the strip when both
- *    are up, and the two rectangles do not intersect.
+ * 1. **Placement.** The strip docks below the masthead on phones. On desktop
+ *    the notice occupies a row after the footer.
+ * 2. **Separate controls.** The action bar and the notice never overlap.
  * 3. **Compact.** Neither is taller than a budget, in pixels and as a share of
  *    the screen, so fixed chrome cannot eat the reading.
  * 4. **Unbroken.** The button's label is on one line, and nothing inside either
@@ -73,10 +71,10 @@ if (server) {
 const PATHS = flag("paths", "/,/ai-gtm").split(",");
 const REPORT = args.includes("--report");
 
-/** The same eight as `qa:screens`, for the same reasons, plus the phone in the photograph. */
+/** Portrait and landscape phones, a tablet and desktop sizes. */
 const SIZES = [
   [360, 800], [390, 844], [412, 915], [430, 932],
-  [768, 1024], [1024, 768], [1280, 800], [1440, 900],
+  [844, 390], [768, 1024], [1024, 768], [1280, 800], [1440, 900],
 ];
 
 /**
@@ -102,9 +100,8 @@ const SCALES = [1, 1.5];
  */
 const MAX_HEIGHT = { 1: 80, 1.5: 128 };
 const MAX_SHARE = Number(flag("max-share", 0.18));
-/** How far from the bottom edge the strip may sit before it is floating. */
+/** Allow for fractional CSS pixels at the edges of the strip. */
 const FLUSH_SLACK = 1.5;
-/** The corner card's designed inset on a laptop, from `--mm-safe-bottom` + 14. */
 
 const problems = [];
 const rows = [];
@@ -113,7 +110,8 @@ const browser = await chromium.launch({
 });
 
 for (const [width, height] of SIZES) {
-  const phone = width < 768;
+  const landscapePhone = width <= 900 && height <= 520 && width > height;
+  const phone = width < 768 || landscapePhone;
   for (const scale of SCALES) {
     for (const path of PATHS) {
       const context = await browser.newContext({
@@ -134,6 +132,9 @@ for (const [width, height] of SIZES) {
         .catch((error) => { if (error.name === "TimeoutError") return null; throw error; });
       if (response && !response.ok()) throw new Error(`${BASE}${asked(path)} answered ${response.status()}`);
       if (scale !== 1) {
+        // Mount the delayed notice before applying the visitor's text scale.
+        await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.7));
+        await page.locator(".mm-cookie-notice").waitFor({ state: "attached" });
         /* Every font size multiplied once, which is what a phone's text-size
            setting does. An `em` rule on a subtree is not the same thing: it
            compounds at every level, so a link inside a paragraph came out at
@@ -182,18 +183,26 @@ for (const [width, height] of SIZES) {
           const overflow = (el) => (el ? Math.round(el.scrollWidth - el.clientWidth) : 0);
           const lineCount = (el) => {
             if (!el) return 0;
-            const style = getComputedStyle(el);
-            const line = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.2;
-            const inner = el.getBoundingClientRect().height
-              - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)
-              - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth);
-            return Math.max(1, Math.round(inner / line));
+            // Measure text fragments. A 44px tap target can hold a single line.
+            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            const range = document.createRange();
+            const centres = [];
+            while (walker.nextNode()) {
+              if (!walker.currentNode.textContent.trim()) continue;
+              range.selectNodeContents(walker.currentNode);
+              for (const rect of range.getClientRects()) {
+                const centre = (rect.top + rect.bottom) / 2;
+                if (!centres.some((y) => Math.abs(y - centre) < rect.height / 2)) centres.push(centre);
+              }
+            }
+            return centres.length;
           };
           const buried = [];
           const footerLast = document.querySelector(".mm-footer small");
           return {
             notice: box(notice),
             noticePosition: notice && getComputedStyle(notice).position,
+            mastheadHeight: parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--mm-header-bar")),
             bar: box(bar),
             noticeOverflow: overflow(notice),
             barOverflow: overflow(bar),
@@ -221,10 +230,17 @@ for (const [width, height] of SIZES) {
 
         const where = `${width}x${height} ${path} ${label} x${scale}`;
         rows.push({ where, notice: read.notice, bar: read.bar, buttonLines: read.buttonLines });
-        if (label === "foot" && !read.notice) problems.push(where + ": missing privacy choice at the foot");
+        if ((phone || label === "foot") && !read.notice) problems.push(where + ": missing privacy choice");
         if (!read.notice) continue;
-        if (read.noticePosition !== "static") problems.push(where + ": privacy choice must occupy its own row");
-        if (phone && (Math.abs(read.notice.left) > FLUSH_SLACK || Math.abs(read.notice.right - read.viewport.width) > FLUSH_SLACK)) {
+        // Ruling (Krish, 2026-10-24): dock the phone notice under the masthead.
+        if (phone) {
+          const inset = landscapePhone ? 8 : 0;
+          if (read.noticePosition !== "fixed" || Math.abs(read.notice.top - read.mastheadHeight - inset) > FLUSH_SLACK
+            || Math.abs(read.notice.right - read.viewport.width + inset) > FLUSH_SLACK) {
+            problems.push(where + ": privacy choice is not docked below the masthead");
+          }
+        } else if (read.noticePosition !== "static") problems.push(where + ": privacy choice must occupy its own row");
+        if (phone && !landscapePhone && Math.abs(read.notice.left) > FLUSH_SLACK) {
           problems.push(where + ": privacy choice is not full width on phone");
         }
         for (const [name, chrome] of [["privacy strip", read.notice], ["action bar", read.bar]]) {

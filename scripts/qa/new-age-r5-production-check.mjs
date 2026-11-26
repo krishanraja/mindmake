@@ -180,15 +180,12 @@ for (const engineName of asked) {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
     page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
+    /* Measure the story with the privacy choice already answered. The notice
+       appears only after scrolling, so an opening-screen click never cleared it. */
+    await page.addInitScript(() => localStorage.setItem("mindmake_consent", "essential"));
     await page.goto(`${origin}/new-age-leadership`, { waitUntil: "domcontentloaded" });
     await page.locator("#hero-title").waitFor();
     await page.evaluate(() => document.fonts?.ready);
-    /* The privacy notice is answered before measuring. It is real chrome and
-       other gates check it where it belongs; here it would sit over the
-       sequence controls at the foot of the screen for part of every sweep and
-       change the page's height while it does. */
-    const consent = page.locator(".mm-cookie-notice button", { hasText: /got it/iu }).first();
-    if (await consent.count()) await consent.click().catch(() => undefined);
     await page.waitForTimeout(400);
 
     const opening = await page.evaluate(() => {

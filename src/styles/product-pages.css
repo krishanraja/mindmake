@@ -69,6 +69,8 @@
   .product-problem, .brain-inside, .product-levers { display: block; }
   .product-levers .product-tile { min-height: 0; height: 12rem; position: relative; }
   .product-levers .product-tile p { position: absolute; top: 6.3rem; font-size: 16px; margin: 0; }
+  .brain-truths { padding-bottom: 0; }
+  .brain-truths .product-tile p { position: static; min-height: 0; padding-bottom: 12px; }
   .brain-field { height: 290px; }
   .brain-field > button { font-size: 12px; }
   .sprint-weeks { grid-template-columns: 1fr 1fr; }

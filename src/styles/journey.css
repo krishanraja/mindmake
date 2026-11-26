@@ -40,7 +40,10 @@
 .journey-hero h1 { font: 400 clamp(44px,7vw,96px)/1 var(--mm-serif); text-wrap: balance; }
 .journey-room h2 { font: 400 clamp(32px,4vw,58px)/1.06 var(--mm-serif); margin: 0 0 18px; text-wrap: balance; }
 .journey-detail { border-top: 1px solid var(--mm-seam); max-width: 65ch; }
-.journey-detail summary { cursor: pointer; padding-block: 12px; min-height: 44px; font-weight: 550; }
+.journey-detail summary { cursor: pointer; padding-block: 12px; padding-inline-end: 30px; min-height: 44px; font-weight: 550; list-style: none; position: relative; }
+.journey-detail summary::-webkit-details-marker { display: none; }
+.journey-detail summary::after { content: "+"; position: absolute; right: 4px; top: 12px; color: var(--mm-mint); }
+.journey-detail[open] summary::after { content: "−"; }
 .journey-detail p { margin: 0 0 12px; text-wrap: pretty; }
 .journey-questions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 4vw; align-items: start; }
 .wish-paths { display: grid; gap: 16px; }

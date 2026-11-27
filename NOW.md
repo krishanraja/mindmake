@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-20
-head: caa7e2b
+as_of: 2026-11-27
+head: 19c81d2
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -18,14 +18,15 @@ never_publish: [the private price and the internal rate card, the cash floor and
 
 Mindmake is a small AI and commercial strategy practice run by Krish Raja. It
 builds a leader their own AI brain: a working system that holds their taste,
-standards, judgement and memory. Two doors, Build your AI brain and Build your
-AI revenue engine, lead to one privately scoped paid proof. The headline turns
-through six lines and opens on **Promote your AI from intern to chief of
-staff.** The way in is **Start building your AI brain** (**Start building your AI
-business** on `/ai-gtm`). The publication, **Make Your
-Mind Up** at https://makeyourmindup.ai, is for readers not ready yet. CTRL, the
-product the work runs on, is in a private pilot with leaders. The whole account
-is "Mindmake in one page" in
+standards, judgement and memory. The public brand is mind/make; Mindmake is the
+company. Two doors, Build your AI brain and Build your AI business, lead to one
+privately scoped paid proof. The homepage line is **AI can copy almost anything
+except your taste.** (Krish, 25 November 2026; "AI chief of staff" is retired
+everywhere). The way in is **Start building your AI brain** (**Start building
+your AI business** on `/ai-gtm`). The publication, **Make Your Mind Up** at
+https://makeyourmindup.ai, is for readers not ready yet. CTRL is the invite-only
+toolkit used with a client inside the 30-day Sprint; it has no public signup,
+waitlist or launch date. The whole account is "Mindmake in one page" in
 [00_NORTH_STAR.md](project-documentation/00_NORTH_STAR.md).
 
 This repository is the site at https://mindmake.co and `project-documentation/`,
@@ -34,15 +35,16 @@ the numbered canon and the one source of truth for the business. Numbered docume
 
 ## Who it is for and why it matters for Mindmake
 
-This is Mindmake itself, so the buyer is the canon's buyer: a founder, principal
-or senior commercial leader who can move a decision and the result behind it.
+This is Mindmake itself, so the buyer is the canon's buyer: a leader who shapes creative
+work, culture or sport (media first) and can move a decision and the result
+behind it.
 [00_NORTH_STAR.md](project-documentation/00_NORTH_STAR.md) and
 [01_CANON.md](project-documentation/01_CANON.md) own buyers, offers, claims and
 approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-27)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -54,17 +56,22 @@ Do not repeat deployment journals here. History lives only in
 
 Keep the accepted composition, copy, imagery, controls and responsive choices.
 Since S6 (24 October 2026) every page is three sections: the problem, how it
-works, and what the reader gets and how they know it works. Between the R3
-opening and the footer the homepage carries "Right now, your AI is an intern."
-(the four eras, a carousel on their pictures) and "We build yours with you in
-30 days." (results, a floating Brain orb asking where to start, and a band
-for exploring what leaders built); "An AI chief of staff knows how you think."
-moved to `/ai-brain` on 11 November 2026; nothing on the homepage pins. No
-section is taller than a desktop screen (`qa:section-heights`). The AI Brain stories are a
-chooser on `/ai-brain` that never pins: eighteen stories in five situations,
-the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
-Generate the adapter from the immutable R3 source, never reconstruct it from
-older components.
+works, and what the reader gets and how they know it works. Nothing on the
+homepage pins and no section is taller than a desktop screen
+(`qa:section-heights`). Stories are organised by six wishes (what the reader
+wants to do more of) across `/case-studies`, the homepage, `/ai-brain`,
+`/ai-gtm` and `/new-age-leadership`: real records keep their facts and quotes,
+and twelve clearly labelled EXAMPLE cards cover six worlds (music is out of
+v1). `/ai-brain` explains what an AI brain is with a liquid Brain and five
+parts; `/ai-gtm` leads with production, distribution and monetisation for
+creative and media owners. `/new-age-leadership` keeps its pinned chapters.
+Generate the homepage adapter from the immutable R3 source, never reconstruct
+it from older components.
+
+Brain modules are live at `/brain-modules` and sold there; the judgement
+audit ("Who decided?") and `/2-minute-ai-upgrade-toolkit` are unlisted pages.
+`/parts` carries the parts research pilot (paused, see Next). Live state and
+limits: `06_CURRENT_STATE.md`.
 
 Since 26 October 2026 the brief takes 8 clicks from the homepage hero to
 "Check your email." and sends the code before the research behind it. The last
@@ -78,72 +85,56 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
-- 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
-  from `public/l/index.html`, with `/l/config.js` coming from
-  `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
-  address is never committed to this public repository. `/l/` is noindex,
-  no-referrer and no-store. The page's source is `krishanraja/sendlinks`
-  `web/recipient/`; the route lock was regenerated for the intended edit.
-- 2026-11-13: Microsoft Clarity is in the head of every page, behind the same
-  Allow as Google Analytics (Krish: "Copy and paste the Clarity code into the
-  <head> element of site"). Allow now covers two tools, so the page notice
-  asks "Analytics cookies?" and the brief "Can we use analytics cookies on your
-  visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
-  masked from recordings. Aimed at the North Star: recordings and heatmaps of
-  where consenting readers stop between the hero and "Check your email."
-- 2026-11-11, Krish's phone review: a tap on the way in before the page has
-  started is kept ("Start building your AI business button no longer works":
-  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
-  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
-  would you start?" on its own raised surface, ending in "See how we compare
-  →"; homepage sections are sheets laid over one another on alternating
-  grounds, nothing pinned (the opening's old divider, which drew a line across
-  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
-  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
-  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
-- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
-  chief of staff knows how you think." took its place. The homepage close lost
-  its button: a floating Brain orb asks "Where do you want to start?" (with
-  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
-  only about exploring what leaders built. No section is taller than a desktop
-  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
-- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
-  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
-  found too much page). A bubble's caption turns through the routes a visitor
-  is weighing; tapping opens the comparison set to that route, full screen on
-  a phone, closing back to the same pixel. Aimed at the North Star (cash
-  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
-  `compare_board_open` against starts.
-- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
-  floating way in, sections stacked over one another) and broke the reading by
-  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
-  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
-  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
-  the story deck became a swipe deck on every screen, including the homepage's
-  results and `/case-studies` (Krish: "Same style and movement on desktop");
-  the Brain became one connected Brain of twenty ideas in seven clusters,
-  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
-  "Build your AI business". Krish: "Why don't you just fix all the small
-  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
-  these defects returning.
+- 2026-11-26: a run of browser findings that had failed verification on main
+  since at least #336 was cleared (PRs #338 to #343). Safari does not focus a
+  clicked button, so the brief returned focus to the body on close; presses are
+  now recorded from page load (`src/lib/lastPressed.ts`). At 320x568 `/ai-brain`
+  began under the 64px fixed header and its heading overlapped it. CI's jsdom
+  has no Path2D, so mounting the new `/ai-brain` threw and failed the
+  approved-routes job after #337; the Brain now paints only where canvas exists.
+  On a phone the cookie notice docks under the masthead (Krish, 2026-10-24);
+  on desktop it sits after the footer (Krish, 2026-11-25).
+- 2026-11-26: One motion system and a clearer journey (PR #337): shared easings,
+  a breathing Brain, homepage wish chips that open the stories already
+  filtered, and one next step at the end of every page. Plain language for
+  readers who have never used AI on `/ai-brain`.
+- 2026-11-25: Krish repositioned the site for creative work, culture and sport.
+  Rulings: mind/make is the public brand; "AI chief of staff" is retired
+  everywhere; the offers are AI Immersion and the 30-day Sprint; the homepage
+  h1 is "AI can copy almost anything except your taste."; the exit-card price
+  is gone; existing founder mentions stay and none are added. Canon, search
+  metadata, `/ai-brain` and `/ai-gtm` moved together (commits a97bbe9c to
+  0f7a074a).
+- 2026-11-23: phone-only dark wash behind the hero's publication line, because
+  the line was hard to read over the bright photo (issue #335, PR #336, Krish
+  approved the change to the locked homepage file; the route lock moved with
+  it). Keep it in any later phone hero, or replace it with something that
+  passes the same legibility check.
+- 2026-11-20: brain modules went on sale at `/brain-modules` ($59 one-off, eight
+  modules, Claude Desktop only), with every payment method, a thank-you page, a
+  designed receipt and a one-click `.mcpb` install page (PRs #316 to #332).
+  A live probe showed Stripe records a promotion code on the session with its
+  coupon empty, so the first webhook check would have refused every real
+  member; the webhook now reads the coupon from Stripe. Membership for the free
+  codes is read live from Stripe, with `kit_members` as override.
 
 ## What is next and what is waiting on Krish
 
-- Brain modules, 20 November: live and on sale at mindmake.co/brain-modules
-  ($59 one-off, eight modules, Claude Desktop only, ticked before buying).
-  Checkout takes every payment method; `MAKEMYMINDUP` (one free module) and
-  `MAKEMYMINDUP-FOREVER` (every module) are permanent codes for the member's
-  own address. Membership is read live from Stripe's Substack subscriptions
-  (founding or paid) with `kit_members` as override; Krish's four addresses are
-  unlimited. After paying: thank-you page, designed receipt email, one-click
-  install page (`/brain-modules/download`, a `.mcpb` the buyer opens in Claude
-  Desktop). Lead magnets: "Measure your AI judgement" and the brain modules,
-  both on `/2-minute-ai-upgrade-toolkit`. Merged and deployed; not yet proven by
-  a real card purchase, a clean-machine install, or the Substack welcome emails
-  (Cowork). Held claims for brand-new members need a manual `kits-members`
-  recheck until a scheduled one is built. The module code lives in the private
-  mindmake-kits repository. Detail: `now-notes/2026-11-20-brain-modules-live.md`.
-
+- Brain modules: merged and deployed, not yet proven by a real card purchase, a
+  clean-machine install or the Substack welcome emails (Cowork). Next
+  (2026-11-20): Krish buys one module with his own card, refunds it, and reads
+  the thank-you page, the email on his phone and the install page. Held claims
+  for brand-new members need a manual `kits-members` recheck until a scheduled
+  one exists. The module code lives in the private mindmake-kits repository.
+- Waiting on Krish: the open decisions in
+  `project-documentation/krishs-mission/11-open-decisions.md` (D2, D4, D6, D7
+  first); his review of the judgement audit results and the AI Brain draft
+  before publication; whether R-07 in `04_PROOF_RECORDS.md` stays, and a check
+  of `00_NORTH_STAR.md` lines 83 to 86 (once seventeen stories) against the
+  eighteen client quotes.
+- `/parts` research: start a new session from
+  `project-documentation/parts-research-next-steps.md` and build the
+  record-and-replay bench before any more engine fixes.
 - Physical iPhone VoiceOver and Android TalkBack have never been run. The
   owner's exception covered the 24 September 2026 release only; every release
   since shipped without them.
@@ -170,7 +161,7 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 No new public prices, durations, claims, sections or routes without scope.
 Do not ask the owner to reapprove settled selections or quietly choose new ones.
-- North Star check (2026-11-16): holds.
+- North Star check (2026-11-23): holds.
 
 ## Read next
 

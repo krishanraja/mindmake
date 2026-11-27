@@ -128,7 +128,7 @@
     "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
-    "scripts/qa/website-restart-contract-check.mjs": "13cf6c32e7b5b1c95c4a601759c836fa6e8e33fd917190311a3d271fa812a24f",
+    "scripts/qa/website-restart-contract-check.mjs": "93cb73aa62213d0a2fc99578722aeb7a244ed45e3010e5dc652bad7d29a42b58",
     "src/App.tsx": "d80f48050674a4fb722a5fd84563dfb6a68b32e35cba1044a68cafcb22fc0e58",
     "src/assets/films/sep2026/README.md": "8afb409eb16129578921bd6b2e06ddd5c30659ba8c01de5535f8705f559c2227",
     "src/assets/stories/founder-pantograph-r01-800.webp": "b73604e1c49766c0c84b58651c1f518fdd3ed14e156dd1d4f298b662d85ca860",

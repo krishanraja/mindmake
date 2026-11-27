@@ -5,6 +5,170 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-27: current state after the creative repositioning
+
+- Docs sync after PRs #337 to #343 (merge `19c81d25`, 26 November 2026; positioning approved by Krish on 25 November 2026). `06_CURRENT_STATE.md`, `03_DESIGN_CONTRACT.md` and `website-redesign/STATE.md` now describe the repositioned site, and the text they replaced is kept below verbatim. README.md, NOW.md, CLAUDE.md, 03, 04, 00 and 01 headers, `website-redesign/STATE.md` and `krishs-mission/` were brought into line the same day.
+
+- Replaced in `06_CURRENT_STATE.md`: The latest-release bullet (PR #277). Original text:
+
+  > - Latest application release: PR #277 (merge `9353eba`, 6 November 2026),
+  >   all 16 attendee brands on the `/case-studies` rail, one client voice at a
+  >   time at the homepage's foot and every homepage section after the opening
+  >   fitting below the masthead on a desktop, on Krish's request ("Merge
+  >   everything to main."), then the fix forward that loads the rail's marks
+  >   eagerly, since the post-merge Chromium run found marks past the rail's
+  >   clipped edge never loading. Production read back on 6 November 2026: the
+  >   voices line and the new marks served, and every homepage section measured
+  >   within the screen at 1280x720, 1536x730, 1866x900 and 1920x1080. Rollback:
+  >   the preceding production, `9ca19c4`. No backend change.
+
+- Replaced in `06_CURRENT_STATE.md`: The post-merge route-lock bullet on `ad6c1b1`. Original text:
+
+  > - Main's post-merge route lock on `ad6c1b1` (run 40367119390, the
+  >   documentation audit) passed its source job and its Linux Chromium leg on
+  >   `ubuntu-24.04`. Firefox and WebKit results
+  >   are not read (CLAUDE.md, Krish, 2026-09-26).
+
+- Replaced in `06_CURRENT_STATE.md`: The live-site reading of 26 October 2026 and the `/`, `/ai-brain`, `/ai-gtm` and both-offer-pages bullets. Original text:
+
+  > Read back on https://mindmake.co on 26 October 2026. `website-redesign/STATE.md`
+  > owns the accepted detail and `01_CANON.md` the exact copy.
+  >
+  > - `/`: the R3 opening (film, a headline that turns through six lines and rests
+  >   on "Promote your AI from intern to chief of staff.", both doors, **Start
+  >   building your AI brain** with "Free and private. It starts with a read of
+  >   your business." beneath, and a publication line), then two sections (since
+  >   11 November 2026): "Right now, your AI is an intern." with the four eras as
+  >   a carousel on their pictures, and "We build yours with you in 30 days." with
+  >   three results on their stories' pictures, a floating Brain orb asking where
+  >   to start (yourself, "Your AI brain", to /ai-brain, or your business, "Your
+  >   AI business", to /ai-gtm) and a band only about exploring what leaders
+  >   built; then the footer. Since 11 November 2026 each section is a sheet laid
+  >   over the one before, on alternating grounds.
+  >   Nothing on it pins, and the opening grows to hold everything it carries.
+  > - `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
+  >   Brain holds and "An AI chief of staff knows how you think." (moved from the
+  >   homepage on 11 November 2026, replacing "Private to you"), the 30 days, the story chooser (eighteen
+  >   stories in five situations, never pinned, the whole story in a sheet, as a
+  >   swipe deck on every screen), "What stays with you" and one line to the
+  >   revenue engine. Since 10 November 2026 the goals section's picture is one
+  >   connected Brain: twenty ideas in seven named clusters on a liquid mass, with
+  >   a reading and a floating card per idea; it holds still until the reader
+  >   picks or presses Play (detail in `website-redesign/STATE.md`, S9).
+  > - `/ai-gtm`: "Make your pricing, positioning and team AI-native." in three
+  >   sections on the r47 rebuild (`AI-GTM-R47-OWNER-REVIEW-001`, accepted:
+  >   "I approve the /ai-gtm rebuild"); nothing pins; **Start building your AI
+  >   business** (its stories end in the same words since 11 November 2026).
+  > - Both offer pages (Krish, 2026-11-11): "Prefer to …?" above "Where would
+  >   you start?", riding the seam with the section before, a bubble whose
+  >   caption turns through the routes a visitor is weighing and ends in "See how
+  >   we compare →"; it opens the comparison set to that route, with the full
+  >   board one tap away. `03_DESIGN_CONTRACT.md` owns the rules.
+
+- Replaced in `06_CURRENT_STATE.md`: The shell-pages bullet. Original text:
+
+  > - Shell pages: `/case-studies` ("What you can do", since 15 November 2026: one box narrows the eighteen use cases by type, situation, role, result and search, each opening whole in a sheet with its result and the client's words, then "In their words.", the eighteen client quotes; `#c-NN` opens a use case and older `#story=`/`#record-` links map to it), `/blog` with
+  >   `/blog/:slug`, the answers at `/answers/:slug` (`/answers` redirects to
+  >   `/blog`), `/faq`, `/about`, `/contact`, `/privacy`, `/terms` and the unlisted,
+  >   noindex `/alumni`. The sitemap lists 36 URLs.
+
+- Replaced in `06_CURRENT_STATE.md`: The navigation-labels bullet. Original text:
+
+  > - Every page carries the same masthead (logo, Subscribe, menu) and footer.
+  >   Navigation labels: Home, Build your AI brain, Build your AI business (the
+  >   name every link to `/ai-gtm` now uses, Krish, 2026-11-10), What you can do, Ideas you can use, Questions we get asked, About us and
+  >   Media, and the one action, Start building your AI brain (Start building your
+  >   AI business on `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM` in
+  >   `src/lib/publicLinks.ts`).
+
+- Replaced in `06_CURRENT_STATE.md`: The cookie-notice placement sentence. Original text:
+
+  > On a laptop the notice is a card on the left of the bottom band; on a
+  > phone it docks under the masthead. 
+
+- Replaced in `06_CURRENT_STATE.md`: The visitor-journey door sentence. Original text:
+
+  > opens it at the AI brain's door; the `/ai-gtm` buttons open the revenue
+  > engine's.
+
+- Replaced in `06_CURRENT_STATE.md`: The gates paragraph for PR #255. Original text:
+
+  > PR #255 passed locally before its merge: the unit suite (705 tests),
+  > typecheck, lint, qa:approved-routes and its self-test, qa:docs,
+  > qa:website-restart, qa:homepage-handoff, qa:plain-language,
+  > qa:website-feedback, qa:material-review:self-test, the build, qa:line-breaks
+  > (all 36 indexed pages, `/privacy` among them), qa:homepage-release:pre-merge
+  > (10 cases), qa:lead-keyboard (237 observations) and qa:lead-contrast (2,514
+  > measurements), `deno check` of the function's closure and its ten Deno tests.
+  > `npm run qa:material-review -- quality/website-redesign/material-review-candidate.json`
+  > fails closed on its stale September receipts, identically on `c03b21c`; the
+  > candidate does not cover `/privacy`, whose one clause Krish approved in
+  > substance. Its exact-head checks passed before the merge: approved-routes and
+  > the Vercel preview (the browser matrix runs on main, after the merge). The required gate list is in `CLAUDE.md`.
+
+- Replaced in `03_DESIGN_CONTRACT.md`: The homepage composition paragraph. Original text:
+
+  > The homepage contains the opening (film, rotation, both doors, the way in and the publication line), two sections and the footer (three until 11 November 2026, when Krish moved "An AI chief of staff knows how you think." to /ai-brain), with its navigation overlay. The sections are the problem ("Right now, your AI is an intern.", with the four eras as a carousel swiped through time, oldest first, each tile on its picture from the old history chapter and turning in place) and what the reader gets ("We build yours with you in 30 days.", three results in their public words, each on its story's picture; beside the heading a floating piece of the living Brain (`liquidOrb.ts`) asks "Where do you want to start?" with two real links, **With yourself** ("Your AI brain") to `/ai-brain` and **With your business** ("Your AI business", Krish, 2026-11-11) to `/ai-gtm`; then a band that is only about exploring what leaders built: one approved client voice at a time, turning every seven seconds in a cell that never changes size, and "Explore what leaders built" to `/case-studies`. The section has no button of its own: Krish, 2026-11-11, "the call to action is now taken care of by the floating blob orb"). Each section is a sheet laid over the one before (Krish, 2026-11-11: "Each section just blends into the next and looks like one endless section"): a rounded top edge (28px, 22px on a phone) that laps only the padding of the section above, a shadow cast upwards, a mint hairline, and alternating grounds (the problem on #0b1812, what the reader gets on the deep green #11291f); nothing is sticky, and the settle as a section leaves reads as one sheet sliding over the last. The opening's own foot divider gives way to the first sheet's edge, and nothing of a section may paint over the sheet that laps it (`qa:reading-flow`). A carousel runs to the screen's edge so the next card shows, snaps a card to the start, and carries arrows and a timeline of its stops that fills as it moves; where every card fits, the controls keep their room unseen. A picture behind text never shows through more than 10% of the card's ink where text can fall (`npm run qa:card-contrast` measures every line). The opening is at least one screen tall and grows to hold everything it carries (Krish, 2026-10-24). On a desktop no section after it is taller than the screen below the masthead (Krish, 2026-11-06: "This is imperative."), measured on the built page from 1280x620 to 2560x1440; the how picture is capped to the section's room rather than drawn 4:5 at any height. Krish set this shape on 24 October 2026 (S6); the history pin, the reach and practice chapters, the stories, the returned hour and the route chapter left the homepage. `/new-age-leadership` remains a companion route with the shared chapters and keeps the historical argument. Do not add the former founder portrait, logo strip, testimonial deck or other retired homepage sections because an old inventory listed them.
+
+- Replaced in `03_DESIGN_CONTRACT.md`: The motion and stories paragraph. Original text:
+
+  > Nothing on the homepage, `/ai-brain` or `/ai-gtm` pins (S6). The AI Brain stories do not pin: on `/ai-brain` they are a chooser, one question ("Where would you start?"), five situations as tabs, the stories of the chosen situation on a rail (one card at a time with the next peeking on a phone, up to three side by side on a laptop, with arrows and "1 to 3 of 5" where more than fit), each card a story and its outcome with the outcomes starting on one line, and the whole story in a sheet that ends in the way in at the story's door; the situations share one place, so choosing one never resizes the chooser, and without scripts every situation and story is on the page, each opening in place. `/new-age-leadership` keeps its pins: reach (two states) and practice (three; on a phone at least 480px tall the scenes pin under their introduction and build by the signal sweep; shorter, or without scripts, they flow one after another). Those pinned chapters' native sticky geometry and scroll-driven state progression live in `leadershipChapters.ts`, with direct controls that move the page to a state. They pin under the homepage's fixed masthead, advance through the complete approved sequence, release at the end and reverse naturally. Reduced motion keeps the pins and drops transitions and films. Do not replace the pinned chapters with long stacked story panels or intercept wheel/touch input into an inescapable trap, and do not turn the stories back into a long list or a forced scroll. `/case-studies` (Krish, 15 November 2026) is the one place to find your path: one box that never changes size narrows the eighteen use cases by AI brain or AI business, situation, role, "Result on the record" and search, with live counts and one way back from an empty search; each use case opens whole in the native sheet (where the leader started, what we did, the outcome, the result on the record in amber, the client's own words) with the way in and "Prefer to …?" fixed in the sheet's bar; then "In their words.", the eighteen client quotes one in front, the five featured first, never turning by themselves, each that belongs to a use case linking to its story. `#c-NN` opens a use case; older `#story=` and `#record-` links open the same story. The only evidence label is "Result on the record", in Plex Mono at a card's foot, never mint and never above a heading.
+
+- Replaced in `03_DESIGN_CONTRACT.md`: The AI Brain signature paragraph. Original text:
+
+  > The AI Brain signature (S6, 24 October 2026, edited in place in the S4 source; earlier receipt `quality/ai-brain/approved-narrative-s5.json`) speaks to the reader in three sections. The opening is "An AI that thinks like you." and the way in. The problem is one panel in three beats with tabs and arrows: the questions only you can answer (five, each labelled with what it draws on), your next call gets sharper (one decision: the standard, the question you tend to skip, your call) and your business rises with you (one call reaching product, price, positioning and people); the beats share one place, so the panel never resizes. How it works is two panels: what a Brain holds (the twenty-idea constellation) and "An AI chief of staff knows how you think." (`chiefOfStaff.ts`: notices, connects, prepares; what AI carries and what you keep; the receiver picture), which replaced "Private to you, and yours to keep." on 11 November 2026 because the page says it elsewhere. The close is two sections, each within one screen: the stories, then "What stays with you" and the way in on a ground of its own. What you get is the month (thirty days with four steps, Week 1, Weeks 2 to 4, Day 30 and After), the story chooser, "What stays with you" as a receipt (`Receipt.tsx`), the way in and one line to the revenue engine. The rail and chapter numbers are retired. The page names jobs and outcomes, never AI companies, and carries no eyebrows, captions or stray lines. The stepped instruments light by colour and opacity only, forward and back with scroll, and read whole without script, with reduced motion or on short screens; the month lights each step as its own top reaches the reading line, 72% down the screen, so its thirty days fill as it is read. Chapters after the opening take the height left under the fixed header and centre above the action bar and privacy notice from the heights those publish. Grounds reuse the Brain's own: sand with the clay band (You and Built), paper, teal and amber. Portrait phones use a readable natural-height document.
+
+- Replaced in `03_DESIGN_CONTRACT.md`: The AI GTM paragraph. Original text:
+
+  > The AI GTM page (S6, 24 October 2026, on the r47 rebuild) is drawn only in the house system, in three sections, and nothing pins. The opening is "Make your pricing, positioning and team AI-native." with the urgency as its lede ("Your customers have changed how they buy. We change how you sell to match, then test it with real buyers."), the way in and a control that pauses the page's films. The problem is the question "Where are you starting from?" (established business or AI-native founder) and the four places the change is felt (Product, Price, Positioning, People), each a card holding both starting points' ways in one place, the old way struck in amber and a dated source. How it works is the team on paper, with a Today and AI-native switch and the decision a picked seat creates. What you get is one go-to-market move in 30 days, the work it can produce, "What stays with you" as a receipt, the result in the client's words with "Read the story", the way in and one line to the AI brain. "You could add an AI tool" is gone. Krish's review of the r47 page is `AI-GTM-R47-OWNER-REVIEW-001`; his S6 cards are `S6-R01` to `S6-R07` in the feedback ledger.
+
+- Replaced in `03_DESIGN_CONTRACT.md`: The "Prefer to …?" placement clause. Original text:
+
+  > sits above "Where would you start?" on both offer pages (`CompareNudge.tsx`, rendered by the page before the finder, so it is in the prerendered page). It rides the seam with the section above, its bubble crossing the edge and never within 12px of that section's words, on
+
+- Replaced in `website-redesign/STATE.md`: 14 current-state passages (baseline, S7 library sentence, story sources, approved source and scope, visitor flow names, doors, offer-page close, footer, rotation, lede, analytics notice, non-regression items 1 and 8). Original text of each:
+
+  > The October design baseline is PR #250, the brief in fewer clicks (26
+  > October 2026), on top of S6 (24 October 2026) and its phone review (26 October
+  > 2026). The accepted R3 opening and footer are unchanged.
+
+  > Nothing is
+  > set in italic. The one library across both products is live: `/case-studies` is "What
+  > you can do with it." (menu: "What you can do"), and each product page shows only its own situations
+  > (approved by Krish, 4 November 2026).
+
+  > Sources that still serve the stories: `src/components/leadership-chapters/leadershipChapters.ts`
+  > holds the eighteen stories and `storyFinder.ts` the chooser, for `/ai-brain`
+  > and `/new-age-leadership` alike; the chooser's styles are section 10 of
+  > `src/styles/new-age-leadership-r6.layer.css`, compiled into the generated
+  > `new-age-leadership-r5.css`. Proof rules are in `04_PROOF.md`, "The AI Brain
+  > stories". The front door's 15 October approval
+  > (`POSITIONING-DOORS-NARRATIVE-001`) still holds for the headline that leads the
+  > rotation and the name "Build your AI revenue engine"; S6 replaced both door
+  > explanations.
+
+  > The R3 opening and footer are live at `https://mindmake.co` and remain locked in copy, imagery, composition and controls; since S6 (24 October 2026) the three sections between them are `homepageSections.ts`, and nothing on the homepage pins.
+
+  > `/ai-brain` is S6, edited in place in the S4 source; BRAIN-NARRATIVE-S5 (26 September 2026, receipt `quality/ai-brain/approved-narrative-s5.json`) and S4 (r48) are its provenance.
+
+  > - Three intents, three names, one of each on every CTA. **Start building your AI brain** (`START_LABEL`; **Start building your AI revenue engine**, `START_LABEL_GTM`, on `/ai-gtm`; S6, Krish, 2026-10-24, replacing "Get your free AI brief") is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI revenue engine** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`.
+
+  > Since S6 the brain door reads "Your judgement, running as a system you own." and the revenue engine door "The pricing, positioning and team you'll need.", and the closing route chapter is gone
+
+  > - Both offer pages end with `PairingBridge` (S6, Krish, 2026-10-24: the card "needs to be condensed"): this page's way in, then one line to the other page. The button is `data-mm-primary`, so the action bar stands down and one way in holds. "What stays with you" is a receipt above it (`Receipt.tsx`), the same object on both pages.
+
+  > The footer is the brand, "Keep your edge as AI changes the market.", Subscribe,
+
+  > - The homepage hero turns its headline once through six lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"; the closing chapter's headline joined second with S6): "Promote your AI from intern to chief of staff.", "Own your judgement, and amplify it.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision."
+
+  > Since S6 the lede reads "The leaders who shape the next decade will have an AI that thinks like them. We build yours."
+
+  > On a laptop it is a card on the left of the bottom band while the bar's one button is on the right; on a phone it docks under the masthead. Allow and Decline stay equal.
+
+  > 1. Between the opening and the footer the homepage carries two sections (S6, then Krish, 2026-11-11): the problem, with the four eras as a carousel of tiles on their pictures that turn in place; and what the reader gets, with three results on their stories' pictures, a floating Brain orb asking where to start (two links, to /ai-brain and /ai-gtm) and a band for exploring what leaders built. "An AI chief of staff knows how you think." lives on /ai-brain since 2026-11-11. The opening is at least one screen tall and grows to hold everything it carries. Nothing on the homepage pins. The AI Brain stories are eighteen cards in five situations on /ai-brain, a chooser that never pins;
+
+  > 8. Preserve accepted labels: Home, What you can do, Ideas you can use, Questions we get asked, About us, Media and Start building your AI brain (S6; Krish renamed the four content routes and added Home and About us on 25 September 2026, r47, and merged Quick AI tips into Ideas you can use the same day; the earlier labels are preserved in `history/LOG.md`).
+
 ## 2026-11-18: r21 contract and scanned accounts correction
 
 - Ruling (Krish, 2026-11-18): remove undeclared significance from packs, enforce the documented keys, recover own annual reports after image-only accounts, and correct comparative periods, measure names and pence. Period provenance also moved to the receipt because it was undeclared. 92 offline research bodies and 22 parts tests pass. Actual part-reader compatibility and live Monzo report decoding remain external checks.

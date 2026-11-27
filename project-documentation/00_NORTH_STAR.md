@@ -1,6 +1,6 @@
 # 00. North star
 
-*Positioning and copy approved for this branch on 25 November 2026. Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Positioning and copy approved by Krish on 25 November 2026 and live since PR #337 (merged 26 November 2026; main at `19c81d25` after the fixes forward). Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
@@ -70,7 +70,7 @@ Apart from a code that confirms the address, it sends the results and one
 follow-up two weeks later, nothing more.
 
 **The proof.** Eighteen true use cases, eight with their result on the
-record, found by situation, role or search on `/case-studies` and shown on
+record, found by wish, role or search on `/case-studies` and shown on
 `/ai-brain`, `/ai-gtm` and `/new-age-leadership`; eighteen client quotes on
 `/case-studies`; the homepage shows three results that link to them. The
 permissions for each are in `04_PROOF.md`.

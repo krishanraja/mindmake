@@ -1,11 +1,13 @@
 # Decisions only Krish can make
 
+> **Superseded on 25 November 2026.** Krish approved a repositioning of Mindmake on 25 November 2026, live on mindmake.co since PR #337. It replaced the audience (now the people who shape creative work, culture and sport, media first, where this pack says "leaders"), the homepage headline (now "AI can copy almost anything except your taste."), the second door's name (D2, resolved as "Build your AI business"), the framing of CTRL (the toolkit we use with clients inside the 30-day Sprint, with no signup, waitlist or standalone use) and "AI chief of staff", which is retired in public copy. Where this folder and `../00_NORTH_STAR.md` disagree, 00_NORTH_STAR wins. Krish's approved sentences below stay as he approved them on 18 November 2026, as a record. D2 is resolved. D3's note that "Immersion" and "sprint" are retired names is superseded: the offers are AI Immersion and the 30-day Sprint.
+
 Status: Open as of 18 November 2026. Each has a recommendation. When he answers, record his words in the owning repository's commit body as `Ruling (Krish, YYYY-MM-DD): ...`, update the owner, then this folder.
 
 | ID | Decision | Recommendation | Owner to update |
 |---|---|---|---|
 | D1 | The one sentence | Decided 18 Nov 2026: option A (`02-positioning-and-pitch.md`) | Done here and in the brand profile |
-| D2 | The second door's one name: "Build your AI business" (live site), "Build your AI revenue engine" (canon) or "Build your AI GTM" (LinkedIn, ai-harness) | "Build your AI business" | mindmake `01_CANON.md`; ai-harness `commercial-canon.md`; LinkedIn |
+| D2 | The second door's one name: "Build your AI business" (live site), "Build your AI revenue engine" (canon) or "Build your AI GTM" (LinkedIn, ai-harness). Resolved on 25 November 2026: "Build your AI business" in the canon and on the site | "Build your AI business" | mindmake `01_CANON.md`; ai-harness `commercial-canon.md`; LinkedIn |
 | D3 | Sessions for leadership teams: sold, and named what? "Immersion" and "sprint" are retired names | Keynotes and moderation for now; a team session only once named and scoped | mindmake canon |
 | D4 | The skills second line, and the ten-skills framework published as Mindmake's own | Yes to both, with the cautions in `05-ten-skills-framework.md` | Boardy brief; mindmake.co; growth-mindmake |
 | D5 | The staff content programme ("through Make Your Mind Up... alongside MindMake") meets the publication's ruling that CTRL beta access is its only visible link to Mindmake | Sell it as Mindmake's, delivered with the publication's format and engine | mindmake canon; makeyourmindup media kit |

@@ -197,12 +197,14 @@ const currentDocumentationRequirements = [
   ["state", "quality/route-lock/approved-production-r14.json"],
   ["state", "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/"],
   ["state", "scripts/qa/build-homepage-release.mjs"],
+  // 25 November 2026: three homepage sections and the six wishes replaced the
+  // S6 two-section homepage and the five situations.
   // S6 (Ruling, Krish, 2026-10-24): every page is three sections, and nothing
   // on the homepage pins. It supersedes r41's history and reach contract and
   // the homepage placement of the stories, which moved to /ai-brain.
-  ["state", "Between the opening and the footer the homepage carries two sections (S6, then Krish, 2026-11-11)"],
+  ["state", "Between the opening and the footer the homepage carries three sections (25 November 2026)"],
   ["state", "Nothing on the homepage pins"],
-  ["state", "The AI Brain stories are eighteen cards in five situations on /ai-brain, a chooser that never pins"],
+  ["state", "The stories are eighteen use cases and twelve labelled examples grouped by six wishes, and never pin"],
   ["state", "No swapping component changes size when a reader makes a choice"],
   ["state", "No wheel/touch cancellation"],
   ["state", "Every state stays reachable from its direct controls on reduced-motion and short screens"],
@@ -231,6 +233,8 @@ const obsoleteCurrentClaims = [
   "History retains four reversible states",
   "the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41)",
   "fifteen cards in five situations",
+  "eighteen cards in five situations",
+  "the homepage carries two sections (S6, then Krish, 2026-11-11)",
 ];
 function validateCurrentDocumentation(documents) {
   const issues = [];

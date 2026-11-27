@@ -94,10 +94,15 @@ every page reads it from there. The words live only in
 keep a second copy of either, and `src/test/use-case-parity.test.ts` holds
 both to Krish's cleaned content file of that date, word for word.
 
-- **Eighteen use cases, C-01 to C-18, in five situations.** Getting your ideas
-  out (3), Seeing what is changing (5) and Getting hands-on again (3) are AI
-  brain; Keeping your team in step (3) and Making the big AI calls (4) are AI
-  business. Each owns its heading, outcome, starting point, what we did,
+- **Eighteen use cases, C-01 to C-18, in six wishes** (since 25 November
+  2026, replacing the five situations; `SITUATIONS` in `src/data/useCases.ts`).
+  Back the work you believe in (2), Take the money without giving away the
+  ending (none yet, only illustrative examples), Make the big call well (4),
+  Try the idea you would never have reached (4), Hand over a brief (5) and
+  Keep what makes your work yours (3). Eleven sit at the AI brain door and
+  seven at the AI business door. Twelve illustrative examples in
+  `src/data/examples.ts` are labelled as examples and are never client
+  evidence. Each use case owns its heading, outcome, starting point, what we did,
   picture and, only where the client said it, one line of their own words.
 - **Eight carry their result on the record inside the same entry.** There is
   no separate results inventory. Keep each client anonymous at role and sector

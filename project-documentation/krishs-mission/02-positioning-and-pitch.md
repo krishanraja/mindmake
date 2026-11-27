@@ -1,5 +1,7 @@
 # Positioning and the pitch
 
+> **Superseded on 25 November 2026.** Krish approved a repositioning of Mindmake on 25 November 2026, live on mindmake.co since PR #337. It replaced the audience (now the people who shape creative work, culture and sport, media first, where this pack says "leaders"), the homepage headline (now "AI can copy almost anything except your taste."), the second door's name (D2, resolved as "Build your AI business"), the framing of CTRL (the toolkit we use with clients inside the 30-day Sprint, with no signup, waitlist or standalone use) and "AI chief of staff", which is retired in public copy. Where this folder and `../00_NORTH_STAR.md` disagree, 00_NORTH_STAR wins. Krish's approved sentences below stay as he approved them on 18 November 2026, as a record. The one sentence of 18 November 2026 is the pitch about him; the line for a stranger on the site is now 00_NORTH_STAR's.
+
 Status: Working pack. The one sentence was chosen by Krish on 18 November 2026; everything else here is proposed. The machine-readable home for how he is introduced is ai-harness `skills/mindmake/references/brand-profile.md` (merged with this pack); this file explains it.
 
 ## The one sentence (approved by Krish, 18 November 2026)

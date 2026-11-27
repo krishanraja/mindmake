@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-20
-head: caa7e2b
+as_of: 2026-11-27
+head: 19c81d25
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -17,15 +17,19 @@ never_publish: [the private price and the internal rate card, the cash floor and
 ## What it is
 
 Mindmake is a small AI and commercial strategy practice run by Krish Raja. It
-builds a leader their own AI brain: a working system that holds their taste,
-standards, judgement and memory. Two doors, Build your AI brain and Build your
-AI revenue engine, lead to one privately scoped paid proof. The headline turns
-through six lines and opens on **Promote your AI from intern to chief of
-staff.** The way in is **Start building your AI brain** (**Start building your AI
-business** on `/ai-gtm`). The publication, **Make Your
-Mind Up** at https://makeyourmindup.ai, is for readers not ready yet. CTRL, the
-product the work runs on, is in a private pilot with leaders. The whole account
-is "Mindmake in one page" in
+builds an AI brain for the people who shape creative work, culture and sport,
+media first: a working system that holds their taste, standards, judgement and
+memory. The headline turns through six lines and opens on **AI can copy almost
+anything except your taste.** Two doors, **Build your AI brain** ("Put your
+taste and judgement to work on your next call.") and **Build your AI
+business** ("Make, share and earn from your work with AI."), lead to the
+offers, AI Immersion and the 30-day Sprint, priced privately. The way in is
+**Start building your AI brain** (**Start building your AI business** on
+`/ai-gtm`). The publication, **Make Your Mind Up** at
+https://makeyourmindup.ai, is for readers not ready yet. CTRL is the toolkit we
+use with clients inside the Sprint; it has no signup, waitlist or standalone
+use. The positioning was approved on 25 November 2026 and is live since PR
+#337. The whole account is "Mindmake in one page" in
 [00_NORTH_STAR.md](project-documentation/00_NORTH_STAR.md).
 
 This repository is the site at https://mindmake.co and `project-documentation/`,
@@ -34,15 +38,18 @@ the numbered canon and the one source of truth for the business. Numbered docume
 
 ## Who it is for and why it matters for Mindmake
 
-This is Mindmake itself, so the buyer is the canon's buyer: a founder, principal
-or senior commercial leader who can move a decision and the result behind it.
+This is Mindmake itself, so the buyer is the canon's buyer: a person who shapes
+creative work, culture or sport and can move a decision on their own, such as a
+publisher, commissioning editor, creative producer or studio owner. Media comes
+first, then entertainment, sport, arts and creative businesses; the people who
+make the calls first, the people who make the work second. Music is outside v1.
 [00_NORTH_STAR.md](project-documentation/00_NORTH_STAR.md) and
 [01_CANON.md](project-documentation/01_CANON.md) own buyers, offers, claims and
 approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-14)
+## Where it is right now (as of 2026-11-27)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -53,18 +60,22 @@ Do not repeat deployment journals here. History lives only in
 [history/LOG.md](project-documentation/history/LOG.md).
 
 Keep the accepted composition, copy, imagery, controls and responsive choices.
-Since S6 (24 October 2026) every page is three sections: the problem, how it
-works, and what the reader gets and how they know it works. Between the R3
-opening and the footer the homepage carries "Right now, your AI is an intern."
-(the four eras, a carousel on their pictures) and "We build yours with you in
-30 days." (results, a floating Brain orb asking where to start, and a band
-for exploring what leaders built); "An AI chief of staff knows how you think."
-moved to `/ai-brain` on 11 November 2026; nothing on the homepage pins. No
-section is taller than a desktop screen (`qa:section-heights`). The AI Brain stories are a
-chooser on `/ai-brain` that never pins: eighteen stories in five situations,
-the whole story in a sheet. `/new-age-leadership` keeps its pinned chapters.
-Generate the adapter from the immutable R3 source, never reconstruct it from
-older components.
+Between the R3 opening and the footer the homepage carries "Every new
+technology asks us to change how we think." (the four eras, a carousel on
+their pictures), "We build yours with you in 30 days." (with "A rule worth
+keeping" and the chooser "What would you do more of?", six wishes that each
+open `/case-studies?wish=<id>`) and "What the work made possible." (three
+results, two client voices, "Explore what leaders built", "Start your brief"
+and "Inside an AI brain →"); nothing on the homepage pins. `/ai-brain` opens on
+"Teach your AI what experience taught you.", then "The questions only you can
+answer." and the liquid Brain (North Star and five parts) under "Your AI brain
+knows how you think.", then the 30-day Sprint and the stories by wish in a
+sheet. `/ai-gtm` opens on "Make it, share it, and get paid for it." and covers
+production, distribution and monetisation. Stories are grouped by six wishes:
+eighteen use cases and twelve labelled illustrative examples. One motion system
+runs site-wide. `/new-age-leadership` keeps its pinned chapters. Generate the
+adapter from the immutable R3 source, never reconstruct it from older
+components.
 
 Since 26 October 2026 the brief takes 8 clicks from the homepage hero to
 "Check your email." and sends the code before the research behind it. The last
@@ -78,6 +89,13 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-25 to 26: the creative repositioning (PRs #337 to #343, merge
+  `19c81d25` on 26 November) is live. New headline, audience, door names and
+  copy across `/`, `/ai-brain` and `/ai-gtm`; stories grouped by six wishes
+  with twelve labelled examples; one motion system; the cookie notice docks under the masthead on phones again
+  (Krish's 24 October ruling). Browser verification on main passed in Chromium,
+  Firefox and WebKit (run 45755491040 on `19c81d25`). Detail:
+  [06_CURRENT_STATE.md](project-documentation/06_CURRENT_STATE.md).
 - 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
   from `public/l/index.html`, with `/l/config.js` coming from
   `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
@@ -154,8 +172,8 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
   (`04_PROOF.md`) still needs its section 6 evidence trail compiled before the
   figure is used anywhere beyond the approved line above the brand grid on
   `/case-studies`.
-- In play: the CTRL pilot with leaders, by invitation from Krish only, and the
-  first outreach drafts (a post, a note to his network, a Make Your Mind Up
+- In play: CTRL, now framed as the toolkit used with clients inside the Sprint
+  (25 November 2026), and the first outreach drafts (a post, a note to his network, a Make Your Mind Up
   sign-off), each waiting for his yes to that exact send.
 - Next: Change 3, the brief names one thing AI could carry in the reader's
   own week, shown rendered before it is built

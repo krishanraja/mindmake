@@ -1,5 +1,7 @@
 # Proposed copy for every surface
 
+> **Superseded on 25 November 2026.** Krish approved a repositioning of Mindmake on 25 November 2026, live on mindmake.co since PR #337. It replaced the audience (now the people who shape creative work, culture and sport, media first, where this pack says "leaders"), the homepage headline (now "AI can copy almost anything except your taste."), the second door's name (D2, resolved as "Build your AI business"), the framing of CTRL (the toolkit we use with clients inside the 30-day Sprint, with no signup, waitlist or standalone use) and "AI chief of staff", which is retired in public copy. Where this folder and `../00_NORTH_STAR.md` disagree, 00_NORTH_STAR wins. Krish's approved sentences below stay as he approved them on 18 November 2026, as a record. The mindmake.co table below records its 18 November proposals; its "Now" column is corrected to the live site on 27 November 2026.
+
 Status: Proposed. Each block needs Krish's yes to its exact words before it is used, and he applies LinkedIn and Boardy changes himself. Every block passed Control Center's `check_voice` on 18 November 2026 unless marked. The second line (skills) is decision D4.
 
 ## Boardy brief
@@ -65,11 +67,11 @@ Removed from his current entry, with reasons: "Maven lessons with 4,000+ student
 
 | Placement (`../01_CANON.md`, "The two doors") | Now | Proposed |
 |---|---|---|
-| Homepage headline | "Promote your AI from intern to chief of staff." | Keep |
-| Homepage lede | "The leaders who shape the next decade will have an AI that thinks like them. We build yours." | "Most leaders now ask one AI chat about everything and get roughly the answer everyone else gets. We spend 30 days building you an AI Brain that lays out each big decision, shows its sources and carries your standards into every tool you use." |
-| Homepage section 1, "Right now, your AI is an intern." | (as live) | Add one line: "Too often the AI plan is handed to IT or RevOps, and the leader waits for a to-do list. The leaders who gain are the ones who drive it themselves." |
+| Homepage headline | "AI can copy almost anything except your taste." (since 25 November 2026) | Settled by the 25 November repositioning |
+| Homepage lede | "So we build your AI brain out of it, for the people who shape creative work, culture and sport." (since 25 November 2026; the 18 November proposal beside it was not adopted) | "Most leaders now ask one AI chat about everything and get roughly the answer everyone else gets. We spend 30 days building you an AI Brain that lays out each big decision, shows its sources and carries your standards into every tool you use." |
+| Homepage section 1, now "Every new technology asks us to change how we think." | (as live since 25 November 2026) | Add one line: "Too often the AI plan is handed to IT or RevOps, and the leader waits for a to-do list. The leaders who gain are the ones who drive it themselves." |
 | A line for who it is for | none | "We work best with leaders who are curious, determined to evolve, imaginative, and clear on their standards and their north star." |
-| Second door name | "Build your AI revenue engine" in the canon; "Build your AI business" read live on 18 Nov | One name everywhere (D2; recommended "Build your AI business") |
+| Second door name | "Build your AI business" in the canon and on every link (since 25 November 2026) | Resolved (D2) |
 | Comparison board | nine alternatives | Add "Handing it to IT or RevOps" (`03-compared-to.md`) |
 
 ## krishraja.com (its own repository, `krishanraja/krish-raja`; keep its voice and title)

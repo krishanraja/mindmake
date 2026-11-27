@@ -1,5 +1,7 @@
 # Krish's Mission
 
+> **Superseded on 25 November 2026.** Krish approved a repositioning of Mindmake on 25 November 2026, live on mindmake.co since PR #337. It replaced the audience (now the people who shape creative work, culture and sport, media first, where this pack says "leaders"), the homepage headline (now "AI can copy almost anything except your taste."), the second door's name (D2, resolved as "Build your AI business"), the framing of CTRL (the toolkit we use with clients inside the 30-day Sprint, with no signup, waitlist or standalone use) and "AI chief of staff", which is retired in public copy. Where this folder and `../00_NORTH_STAR.md` disagree, 00_NORTH_STAR wins. Krish's approved sentences below stay as he approved them on 18 November 2026, as a record.
+
 Status: Working pack, assembled 18 November 2026 at Krish's request ("pull together THE most complete set of individual files that are able to work alongside one another to help me drive and iterate on this in a new session"). Proposed throughout unless a line says Krish approved it.
 
 This folder gathers, in one place, how Krish's mission ladders from humans and society down to Mindmake's number, how Mindmake is pitched, what CTRL does, and every change waiting to be made because of it. It is a working pack for the next session, not a new source of truth: each file names the owner of every fact it uses, and when an owner and this folder disagree, the owner wins and this folder is corrected.

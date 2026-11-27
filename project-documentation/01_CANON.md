@@ -1,6 +1,6 @@
 # 01. Canon
 
-*Positioning and copy approved for this branch on 25 November 2026. Operational evidence and limits: `06_CURRENT_STATE.md`.*
+*Positioning and copy approved by Krish on 25 November 2026 and live since PR #337 (merged 26 November 2026; main at `19c81d25` after the fixes forward). Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.

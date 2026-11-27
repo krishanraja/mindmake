@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Current as of 10 November 2026. This file owns live identities, what was
+Current as of 27 November 2026. This file owns live identities, what was
 verified and when, and the known limits. It is current delivery truth, not a
 changelog: superseded lines live only in [history/LOG.md](history/LOG.md), and
 the whole text this file replaced on 26 October 2026 is kept verbatim in
@@ -18,16 +18,30 @@ Accepted surface and change guards: website-redesign/STATE.md.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Production follows main, so every commit there deploys, documentation
   included; GitHub's deployment record names the deployment for each commit.
-- Latest application release: PR #277 (merge `9353eba`, 6 November 2026),
-  all 16 attendee brands on the `/case-studies` rail, one client voice at a
-  time at the homepage's foot and every homepage section after the opening
-  fitting below the masthead on a desktop, on Krish's request ("Merge
-  everything to main."), then the fix forward that loads the rail's marks
-  eagerly, since the post-merge Chromium run found marks past the rail's
-  clipped edge never loading. Production read back on 6 November 2026: the
-  voices line and the new marks served, and every homepage section measured
-  within the screen at 1280x720, 1536x730, 1866x900 and 1920x1080. Rollback:
-  the preceding production, `9ca19c4`. No backend change.
+- Latest application release: the creative repositioning, PRs #337 to #343,
+  merged on 26 November 2026 (merge `19c81d25`, PR #343; GitHub's production
+  deployment record for that commit reports success at 04:30 UTC). Positioning
+  and copy approved by Krish on 25 November 2026 (`00_NORTH_STAR.md`). #337
+  repositioned the site for the people who shape creative work, culture and
+  sport: the headline "AI can copy almost anything except your taste.", the
+  doors Build your AI brain and Build your AI business, a rebuilt `/ai-brain`
+  (the liquid Brain), `/ai-gtm` refocused on making, sharing and earning,
+  every story organised by six wishes with twelve labelled examples, and one
+  motion system across the site. #338 to #343 were fixes forward: route tests
+  given time to render the new `/ai-brain` (#338), the phone media line and
+  Safari focus return after the brief (#339 to #341), the fixed header cleared
+  on small phones (#340), the core navigation check following the homepage
+  menu's real links (#342), and the `/new-age-leadership` gutter with the
+  cookie notice back under the masthead on phones (#343, Krish's 24 October
+  ruling). Rollback: `2774ead8` (PR #342) for the last fix, `f7439bf1` (PR
+  #336) for the whole repositioning. No change under `supabase/`, `api/` or
+  `vercel.json` between `f7439bf1` and `19c81d25`. A production
+  readback of the live pages after the merge: not read.
+- Releases between PR #277 (6 November 2026) and PR #336 (23 November 2026)
+  are not itemised in this file; GitHub's merged pull requests are the record.
+- PR #277 (merge `9353eba`, 6 November 2026): all 16 attendee brands on the
+  `/case-studies` rail and every homepage section fitting below the masthead
+  on a desktop. Detail in history/LOG.md, 27 November 2026.
 - PR #256 (28 October 2026): the brief's "Keep the private brief"
   at the bottom right, bigger and pulsing with no line beneath it, and the
   analytics question asked inside the brief, merged on 28 October 2026 on
@@ -53,56 +67,67 @@ Accepted surface and change guards: website-redesign/STATE.md.
   S6, three sections on every page), PR #244 (21 October 2026, the answer hub
   and machine-readable discovery) and PRs #242 and #243 (19 October 2026, the
   two legal entities).
-- Main's post-merge route lock on `ad6c1b1` (run 40367119390, the
-  documentation audit) passed its source job and its Linux Chromium leg on
-  `ubuntu-24.04`. Firefox and WebKit results
-  are not read (CLAUDE.md, Krish, 2026-09-26).
+- Main's post-merge route lock on `19c81d25` (run 45755491040, "Approved
+  route lock") passed all four jobs: approved-routes and browser-verification
+  in Chromium and Firefox on `ubuntu-24.04` and in WebKit on `macos-latest`.
+  It is the first release recorded here with Firefox and WebKit read as
+  passing.
 
 ## What the live site is
 
-Read back on https://mindmake.co on 26 October 2026. `website-redesign/STATE.md`
-owns the accepted detail and `01_CANON.md` the exact copy.
+Read from the source at `19c81d25` on 27 November 2026; a live readback after
+the merge is not recorded. `website-redesign/STATE.md` owns the accepted
+detail and `01_CANON.md` the exact copy.
 
 - `/`: the R3 opening (film, a headline that turns through six lines and rests
-  on "Promote your AI from intern to chief of staff.", both doors, **Start
-  building your AI brain** with "Free and private. It starts with a read of
-  your business." beneath, and a publication line), then two sections (since
-  11 November 2026): "Right now, your AI is an intern." with the four eras as
-  a carousel on their pictures, and "We build yours with you in 30 days." with
-  three results on their stories' pictures, a floating Brain orb asking where
-  to start (yourself, "Your AI brain", to /ai-brain, or your business, "Your
-  AI business", to /ai-gtm) and a band only about exploring what leaders
-  built; then the footer. Since 11 November 2026 each section is a sheet laid
-  over the one before, on alternating grounds.
-  Nothing on it pins, and the opening grows to hold everything it carries.
-- `/ai-brain`: "An AI that thinks like you.", one panel in three beats, what a
-  Brain holds and "An AI chief of staff knows how you think." (moved from the
-  homepage on 11 November 2026, replacing "Private to you"), the 30 days, the story chooser (eighteen
-  stories in five situations, never pinned, the whole story in a sheet, as a
-  swipe deck on every screen), "What stays with you" and one line to the
-  revenue engine. Since 10 November 2026 the goals section's picture is one
-  connected Brain: twenty ideas in seven named clusters on a liquid mass, with
-  a reading and a floating card per idea; it holds still until the reader
-  picks or presses Play (detail in `website-redesign/STATE.md`, S9).
-- `/ai-gtm`: "Make your pricing, positioning and team AI-native." in three
-  sections on the r47 rebuild (`AI-GTM-R47-OWNER-REVIEW-001`, accepted:
-  "I approve the /ai-gtm rebuild"); nothing pins; **Start building your AI
-  business** (its stories end in the same words since 11 November 2026).
-- Both offer pages (Krish, 2026-11-11): "Prefer to …?" above "Where would
-  you start?", riding the seam with the section before, a bubble whose
-  caption turns through the routes a visitor is weighing and ends in "See how
-  we compare →"; it opens the comparison set to that route, with the full
-  board one tap away. `03_DESIGN_CONTRACT.md` owns the rules.
+  on "AI can copy almost anything except your taste.", the lede "So we build
+  your AI brain out of it, for the people who shape creative work, culture and
+  sport.", both doors, **Start building your AI brain** with "Free and
+  private. It starts with a read of your business." beneath, and a publication
+  line), then three sections: "Every new technology asks us to change how we
+  think." with the four eras as a carousel on their pictures; "We build yours
+  with you in 30 days." with "A rule worth keeping" one tap away and the
+  chooser "What would you do more of?", six wishes that each open
+  `/case-studies?wish=<id>` (`back`, `terms`, `calls`, `try`, `brief`, `yours`
+  in `src/data/useCases.ts`); and "What the work made possible." with three
+  results (C-15, C-18, C-16) as a swipe deck, two client voices, "Explore what
+  leaders built", "Start your brief" and "Inside an AI brain →"; then the
+  footer. Nothing on it pins.
+- `/ai-brain` (`src/pages/AiBrainLocked.tsx`, title "Build your AI brain"):
+  "Teach your AI what experience taught you." with **Start building your AI
+  brain**; "The questions only you can answer."; "Your AI brain knows how you
+  think." with the liquid Brain (`LiquidBrain.tsx`: North Star, then Vision,
+  Judgement, Taste, Standards and Preferences) and three tiles; then the
+  30-day Sprint, "We build yours with you in 30 days.", four weeks, "What
+  stays with you", "Explore the stories" (the stories by wish in a dialog),
+  the count of results on the record and "Start your brief". The earlier
+  `src/pages/AiBrain.tsx`, with "One decision is enough to begin.", is not
+  routed.
+- `/ai-gtm` (`src/pages/AiGtm.tsx`, title "Build your AI business"): "Make
+  it, share it, and get paid for it."; "More work is easier to make."; "Make
+  it. Share it. Earn from it." with production, distribution and monetisation
+  as three studies; then the 30-day Sprint as "One decision, from brief to
+  return."; **Start building your AI business**.
+- Both offer pages and the homepage: "Prefer to …?" with "See how we compare
+  →" opens the comparison set. On the door pages it sits beside "Explore the
+  stories"; on the homepage it floats in the hero on a wide screen and leads
+  the first sheet on a phone. `03_DESIGN_CONTRACT.md` owns the rules.
 - Every way in that opens the brief in place keeps a tap made before the page
   has started and opens the brief as the page starts (11 November 2026,
   `src/lib/earlyStart.ts`); before, a tap in those seconds did nothing.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".
-- Shell pages: `/case-studies` ("What you can do", since 15 November 2026: one box narrows the eighteen use cases by type, situation, role, result and search, each opening whole in a sheet with its result and the client's words, then "In their words.", the eighteen client quotes; `#c-NN` opens a use case and older `#story=`/`#record-` links map to it), `/blog` with
-  `/blog/:slug`, the answers at `/answers/:slug` (`/answers` redirects to
-  `/blog`), `/faq`, `/about`, `/contact`, `/privacy`, `/terms` and the unlisted,
-  noindex `/alumni`. The sitemap lists 36 URLs.
+- Shell pages: `/case-studies` ("What you can do with it.": one box narrows
+  the eighteen use cases and twelve labelled illustrative examples by wish
+  (six, plus "All wishes", read from `?wish=`), industry, role, result and
+  search, in three groups, results on the record, practice accounts and
+  illustrative examples; each opens whole in a sheet; then "In their words.",
+  the client quotes; `#c-NN` opens a use case), `/2-minute-ai-upgrade-toolkit`,
+  `/blog` with `/blog/:slug` (indexed, absent from the menu), the answers at
+  `/answers/:slug` (`/answers` redirects to `/blog`), `/faq`, `/about`,
+  `/contact`, `/privacy`, `/terms` and the unlisted, noindex `/alumni`. Sitemap
+  count at this head: not read.
 - `/optout/<token>` (Ruling, Krish, 2026-11-15: the opt-out link lives on a mindmake.co path that forwards to
   Control Center): the one-click opt-out link under every cold email. `vercel.json` rewrites it, token unchanged and
   method kept, to Control Center's `/api/optout`, which owns the page and the deletion; it is noindex, never cached
@@ -123,11 +148,11 @@ owns the accepted detail and `01_CANON.md` the exact copy.
   Mindmake's materials (wording version `dtd-quote-consent-v1`); the email
   records yes with name, yes anonymous or no, and the exact sentence agreed.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
-  Navigation labels: Home, Build your AI brain, Build your AI business (the
-  name every link to `/ai-gtm` now uses, Krish, 2026-11-10), What you can do, Ideas you can use, Questions we get asked, About us and
-  Media, and the one action, Start building your AI brain (Start building your
-  AI business on `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM` in
-  `src/lib/publicLinks.ts`).
+  Navigation labels (`PRIMARY_ROUTES` in `src/lib/publicLinks.ts`): Home,
+  Build your AI brain, Build your AI business, What you can do, Your 2-minute
+  AI upgrade toolkit, Questions we get asked, About us and Media, and the one
+  action, Start building your AI brain (Start building your AI business on
+  `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM`).
 - www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to
   mindmake.co preserving path and query. Canonical non-root routes omit
   trailing slashes.
@@ -135,8 +160,8 @@ owns the accepted detail and `01_CANON.md` the exact copy.
 ## Visitor journey
 
 Every way in opens the same company-first LeadBrief. A button that names no
-door opens it at the AI brain's door; the `/ai-gtm` buttons open the revenue
-engine's. The steps: "Let’s get started." with a work email and **Get
+door opens it at the AI brain's door; the `/ai-gtm` buttons open the AI
+business door's. The steps: "Let’s get started." with a work email and **Get
 building** (and "Not ready yet? Subscribe to Make Your Mind Up, free" beneath);
 name and business role (a first.last or first_last address fills both names);
 the corroborated company read; the problem and the returned-time choice, each
@@ -163,8 +188,9 @@ Analytics: Plausible (cookieless) counts every visit. Google Analytics
 Google and no cookie is set until the visitor chooses Allow on the privacy
 notice, stored as `mindmake_consent=analytics`; Decline stores `essential`. The
 older `accepted` answer was given to a Plausible-only notice and never counts
-as a yes. On a laptop the notice is a card on the left of the bottom band; on a
-phone it docks under the masthead. `/privacy` sections 4 and 5 name every tool
+as a yes. On a phone the notice docks under the masthead, full width (Krish, 24
+October 2026, restored in PR #343); on a desktop it sits after the footer so it
+never covers content (Krish, 25 November 2026). `/privacy` sections 4 and 5 name every tool
 and section 5 carries "Change your analytics choice", which also clears
 Clarity's `_clck` and `_clsk`.
 
@@ -287,18 +313,13 @@ privacy, retention, email and failure-path contracts.
 
 ## Gates for the latest release
 
-PR #255 passed locally before its merge: the unit suite (705 tests),
-typecheck, lint, qa:approved-routes and its self-test, qa:docs,
-qa:website-restart, qa:homepage-handoff, qa:plain-language,
-qa:website-feedback, qa:material-review:self-test, the build, qa:line-breaks
-(all 36 indexed pages, `/privacy` among them), qa:homepage-release:pre-merge
-(10 cases), qa:lead-keyboard (237 observations) and qa:lead-contrast (2,514
-measurements), `deno check` of the function's closure and its ten Deno tests.
-`npm run qa:material-review -- quality/website-redesign/material-review-candidate.json`
-fails closed on its stale September receipts, identically on `c03b21c`; the
-candidate does not cover `/privacy`, whose one clause Krish approved in
-substance. Its exact-head checks passed before the merge: approved-routes and
-the Vercel preview (the browser matrix runs on main, after the merge). The required gate list is in `CLAUDE.md`.
+The repositioning (PRs #337 to #343) passed main's post-merge route lock on
+`19c81d25` (run 45755491040): approved-routes and browser-verification in
+Chromium, Firefox and WebKit. Local gate results for each of the seven pull
+requests are not read here; each pull request's own checks are on GitHub. The
+docs steward's validate job failed on the first run for that commit
+(45755491446) and passed on a later run (45930560310). The required gate list
+is in `CLAUDE.md`.
 
 The active source lock is `quality/route-lock/approved-production.lock.json`,
 generated by `npm run qa:approved-routes:update` and checked by
@@ -315,8 +336,12 @@ Preserve the deterministic adapter and accepted source.
   follow-up disclosure in 05.
 - Physical iPhone VoiceOver and Android TalkBack have never been run. Krish's
   exception covered the 24 September 2026 release only; every later release,
-  #245, #248 and #250 included, shipped without them. Emulation is not physical
-  proof.
+  #337 to #343 included, shipped without them. Automated WebKit on macOS now
+  passes on main; neither it nor emulation is physical proof.
+- A live readback of `/`, `/ai-brain`, `/ai-gtm` and `/case-studies` after the
+  26 November 2026 merge is not recorded.
+- Under review and not yet live: a Vision/Craft discovery concept awaiting Krish's
+  approval. Nothing of it is in `src/`.
 - A phone held sideways with the keyboard up has too little height for the
   brief, and a physical phone keyboard is unproven until Krish repeats the walk
   on a phone.

@@ -39,6 +39,7 @@ historical passages are not current authority.
 | [07_DEPLOY_RUNBOOK.md](07_DEPLOY_RUNBOOK.md) | Repeatable release procedure |
 | [website-redesign/STATE.md](website-redesign/STATE.md) | Accepted R3 implementation guard |
 | [website-redesign/FEEDBACK-WORKFLOW.md](website-redesign/FEEDBACK-WORKFLOW.md) | Individual/overall feedback handling |
+| [krishs-mission/](krishs-mission/README.md) | Krish's working pack of 18 November 2026; superseded where the 25 November 2026 repositioning differs, and 00 wins |
 | [history/LOG.md](history/LOG.md) | Single historical ledger, never current guidance |
 
 ## Precedence and freshness

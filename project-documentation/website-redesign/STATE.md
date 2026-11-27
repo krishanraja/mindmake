@@ -2,15 +2,65 @@
 
 Status: approved-r3-live
 Working-copy status: AI Brain decision example on design/brain-decision-story, draft for review
-Updated: 21 November 2026.
+Updated: 27 November 2026.
 
-The October design baseline is PR #250, the brief in fewer clicks (26
-October 2026), on top of S6 (24 October 2026) and its phone review (26 October
-2026). The accepted R3 opening and footer are unchanged. Current operational
+The current design baseline is the creative repositioning (positioning approved
+by Krish on 25 November 2026, PRs #337 to #343, main at `19c81d25` on 26
+November 2026), on top of S6 (24 October 2026) and the brief in fewer clicks
+(PR #250, 26 October 2026). The accepted R3 opening composition and footer
+structure are unchanged; their words follow 00 and 01. Current operational
 identity, readback and evidence limits are in 06_CURRENT_STATE.md; do not
 relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
+
+## Creative repositioning, 25 November 2026: the current surface
+
+Krish approved the positioning and copy on 25 November 2026
+(`00_NORTH_STAR.md`, `01_CANON.md`), with these rulings recorded in the commit
+messages of PR #337: "/ai-brain revisualised"; "/ai-gtm refocused on content
+production, distribution and monetisation"; stories overhauled as real records
+plus labelled illustrative examples; "music is out of v1". The sections S6 to
+S9 further down are dated records. Where they name headings, doors, story
+groupings, the homepage orb or the cookie notice's laptop position, this
+section supersedes them.
+
+- Audience: the people who shape creative work, culture and sport, media
+  first; the people who make the calls first, the people who make the work
+  second.
+- Homepage opening: the rotation rests on "AI can copy almost anything except
+  your taste." and the lede reads "So we build your AI brain out of it, for the
+  people who shape creative work, culture and sport." The doors are **Build
+  your AI brain** ("Put your taste and judgement to work on your next call.")
+  and **Build your AI business** ("Make, share and earn from your work with
+  AI."), converted by `scripts/qa/build-homepage-release.mjs`. The footer
+  statement reads "Keep the final say on your best work."
+- Homepage sections (`homepageSections.ts`): "Every new technology asks us to
+  change how we think." (the four eras); "We build yours with you in 30 days."
+  ("A rule worth keeping" and the chooser "What would you do more of?", six
+  wishes linking to `/case-studies?wish=<id>`); "What the work made possible."
+  (C-15, C-18 and C-16, two client voices, "Explore what leaders built",
+  "Start your brief", "Inside an AI brain →"). The floating Brain orb asking
+  "Where do you want to start?" is gone from the homepage.
+- `/ai-brain` is `src/pages/AiBrainLocked.tsx`: "Teach your AI what experience
+  taught you.", "The questions only you can answer.", "Your AI brain knows how
+  you think." with the liquid Brain (North Star and five parts), then the
+  30-day Sprint (`ProductSprint.tsx`). `src/pages/AiBrain.tsx` is not routed.
+- `/ai-gtm` (`src/pages/AiGtm.tsx`), title "Build your AI business": "Make it,
+  share it, and get paid for it.", production, distribution and monetisation,
+  then the Sprint as "One decision, from brief to return."
+- Stories: six wishes in `src/data/useCases.ts` replace the five situations
+  everywhere; twelve labelled examples in `src/data/examples.ts`;
+  `/case-studies` filters by wish through `?wish=`.
+- One motion system across the site (shared easings and reveals), and one next
+  step at the end of every page (`JourneyEnd.tsx`).
+- Cookie notice: under the masthead on a phone (Krish, 24 October 2026,
+  restored in PR #343), after the footer on a desktop (Krish, 25 November
+  2026).
+- Retired in public copy: "Promote your AI from intern to chief of staff.",
+  "Build your AI revenue engine" and "AI chief of staff".
+- Under review and not yet live: a Vision/Craft discovery concept awaiting Krish's
+  approval.
 
 ## AI Brain decision example, 21 November 2026
 
@@ -88,6 +138,8 @@ and specialist receipts remain outstanding. Changes are uncommitted under the
 read-only Git boundary; no publication or external commerce mutation has been performed.
 
 ## S9: a more alive site (10 November 2026), then its repair
+
+*Dated record. Where it names headings, doors, story groupings or placements, the creative repositioning of 25 November 2026 (top of this file) supersedes it.*
 
 ### Unpublished candidate: Who decided? (17 November 2026)
 
@@ -250,6 +302,8 @@ section, 360 to 680px) and a step that brings the last card to the far edge
 
 ## S8: one idea per section on the product pages (4 November 2026)
 
+*Dated record. Where it names headings, doors, story groupings or placements, the creative repositioning of 25 November 2026 (top of this file) supersedes it.*
+
 `/ai-gtm` and `/ai-brain` (and the homepage's chief of staff section) carry
 one idea per section, approved by Krish from now-and-planned mocks: each
 section opens on a full-width picture with its heading (`Plate`), or on its
@@ -262,6 +316,8 @@ swipes and two-up tiles. The other pages are unchanged by Krish's choice.
 Styles: `src/styles/mindmake-calm-s8.css`. Ledger row `S8-CALM-001`.
 
 ## S7: one screen per section, plain words, upright type (4 November 2026)
+
+*Dated record. Where it names headings, doors, story groupings or placements, the creative repositioning of 25 November 2026 (top of this file) supersedes it.*
 
 Krish's review of the live site on 4 November 2026 (feedback ledger rows
 `S7-PICTURES-001` to `S7-WRAP-001`). Every story card in "Where would you
@@ -276,9 +332,9 @@ places, the plan steps and the two Brain panels swipe. Still open: the
 team section at 360x780 (786px). Copy is rewritten in plain words from
 Krish's 3 November v0 edits, with the Brain framed around what the leader wants
 to be good at, improve and catch up on, and no company data needed. Nothing is
-set in italic. The one library across both products is live: `/case-studies` is "What
-you can do with it." (menu: "What you can do"), and each product page shows only its own situations
-(approved by Krish, 4 November 2026). Since 15 November 2026 (Krish, on the
+set in italic. From that date the one library across both products was `/case-studies`, "What
+you can do with it." (menu: "What you can do"), and each product page showed only its own situations
+(approved by Krish, 4 November 2026; grouped by wish since 25 November 2026). Since 15 November 2026 (Krish, on the
 rendered preview: "Happy With your recommendations") `/case-studies` narrows the
 eighteen use cases by type, situation, role, result and search in one box,
 opens each whole in the sheet with its result and the client's words, and ends
@@ -294,6 +350,8 @@ hero's underline under "your" is hand-drawn and revealed along its shape
 (approved 4 November 2026).
 
 ## S6: three sections on every page (24 October 2026)
+
+*Dated record. Where it names headings, doors, story groupings or placements, the creative repositioning of 25 November 2026 (top of this file) supersedes it.*
 
 Krish reviewed the live site in a walkthrough on 24 October 2026 (22 feedback
 cards, `H01` to `R07`, in his Drive handoff "mindmake-visual-feedback") and
@@ -426,24 +484,24 @@ corroborated company read and one name for the brief's deliverable
 recorded word for word in [feedback-ledger.json](feedback-ledger.json); the
 request itself lives in private planning documents and is not copied here.
 
-Sources that still serve the stories: `src/components/leadership-chapters/leadershipChapters.ts`
-holds the eighteen stories and `storyFinder.ts` the chooser, for `/ai-brain`
-and `/new-age-leadership` alike; the chooser's styles are section 10 of
-`src/styles/new-age-leadership-r6.layer.css`, compiled into the generated
-`new-age-leadership-r5.css`. Proof rules are in `04_PROOF.md`, "The AI Brain
-stories". The front door's 15 October approval
-(`POSITIONING-DOORS-NARRATIVE-001`) still holds for the headline that leads the
-rotation and the name "Build your AI revenue engine"; S6 replaced both door
-explanations.
+Sources that serve the stories (27 November 2026): `src/data/useCases.ts`
+holds the eighteen use cases and the six wishes, `src/data/examples.ts` the
+twelve labelled examples, `storyFinder.ts` the wish chooser for
+`/new-age-leadership`, `StoryLibrary.tsx` the stories on `/ai-brain` and
+`/ai-gtm`, and `UseCaseFinder.tsx` the `/case-studies` finder. Proof rules are
+in `04_PROOF.md`. The front door's 15 October approval
+(`POSITIONING-DOORS-NARRATIVE-001`) was superseded on 25 November 2026: the
+rotation now leads with "AI can copy almost anything except your taste." and
+the second door is "Build your AI business".
 
 ## Approved source and scope
 
-Krish approved R3 on 24 September 2026 and authorised publication after end-to-end verification. The R3 opening and footer are live at `https://mindmake.co` and remain locked in copy, imagery, composition and controls; since S6 (24 October 2026) the three sections between them are `homepageSections.ts`, and nothing on the homepage pins. R3's pinned history and leadership-dividend progression are retired from `/`.
+Krish approved R3 on 24 September 2026 and authorised publication after end-to-end verification. The R3 opening and footer are live at `https://mindmake.co` and remain locked in imagery, composition and controls, with their words updated through the generator to the copy approved on 25 November 2026; the three sections between them are `homepageSections.ts`, and nothing on the homepage pins. R3's pinned history and leadership-dividend progression are retired from `/`.
 
 - Immutable homepage reference: `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/`.
 - Accepted R3 material provenance: `quality/route-lock/approved-production-r14.json`. The active checker reads `quality/route-lock/approved-production.lock.json`, a generated lock that continues `quality/route-lock/approved-production-r48.json` (BRAIN-NARRATIVE-S4 on `/ai-brain`, the last numbered manifest). Every intended edit since r48, S6 included, regenerates that lock in the commit that makes it; with `06_CURRENT_STATE.md` it identifies what is live. The numbered manifests r1 to r48 are frozen history and never describe today's site: several say on their own face that owner approval was outstanding (r17 to r21, r23), r44 records the Archive Engine r06 opening Krish rejected and r45 its removal, and r35, r39 and r41 record homepage chapters S6 retired. The ones still cited as provenance: r14 (R3), r25 (the earlier GTM-PLAIN-R2 `/ai-gtm`), r47 (the `/ai-gtm` rebuild S6 builds on) and r48 (the `/ai-brain` S4 source S6 edits in place). Never rewrite any of them or any earlier immutable approval or candidate manifest.
 - Delivery: `src/pages/Index.tsx` and `src/components/homepage-release/`, compiled by `scripts/qa/build-homepage-release.mjs`, which since S6 cuts everything between the R3 opening and footer by named anchors and inserts `src/components/homepage-release/homepageSections.ts`. `src/components/leadership-chapters/leadershipChapters.ts` remains the one source for the reach, practice and story chapters on `/new-age-leadership`, and for the organisation the homepage shows. Change the canonical generator when generated output needs an authorised correction; do not reconstruct the approved page from prose or screenshots.
-- /ai-gtm's GTM-PLAIN-R2 surface is retired by r47, which rebuilt the page on the house system (`AI-GTM-R47-OWNER-REVIEW-001`, accepted); S6 restructured that rebuild into three sections. `/ai-brain` is S6, edited in place in the S4 source; BRAIN-NARRATIVE-S5 (26 September 2026, receipt `quality/ai-brain/approved-narrative-s5.json`) and S4 (r48) are its provenance. The approved records for the other companion surfaces (START-HERE-INTERACTION-S4, CASE-PROOF-FIELD-S2, COMMERCIAL-READINESS-S4-R3 and TIME-LENS-S3-R5) remain their provenance. The active lock binds the actual delivered sources.
+- /ai-gtm's GTM-PLAIN-R2 surface is retired by r47, which rebuilt the page on the house system (`AI-GTM-R47-OWNER-REVIEW-001`, accepted); S6 restructured that rebuild into three sections. `/ai-brain` has been `src/pages/AiBrainLocked.tsx` since 25 November 2026; the S6 page edited in place in the S4 source (`src/pages/AiBrain.tsx`, not routed), BRAIN-NARRATIVE-S5 (26 September 2026, receipt `quality/ai-brain/approved-narrative-s5.json`) and S4 (r48) are its provenance. The approved records for the other companion surfaces (START-HERE-INTERACTION-S4, CASE-PROOF-FIELD-S2, COMMERCIAL-READINESS-S4-R3 and TIME-LENS-S3-R5) remain their provenance. The active lock binds the actual delivered sources.
 - `quality/website-redesign/homepage-handoff.v1.json` preserves the earlier recovery baseline. It is subordinate to this accepted R3 state, not permission to restore an obsolete homepage.
 - The historical r1 source-parity findings are not the current production-source verdict. Do not substitute a candidate manifest to bypass an approved-source failure.
 
@@ -451,31 +509,31 @@ Krish approved R3 on 24 September 2026 and authorised publication after end-to-e
 
 Krish set these on 25 September 2026; `quality/route-lock/approved-production-r38.json` records them.
 
-- Three intents, three names, one of each on every CTA. **Start building your AI brain** (`START_LABEL`; **Start building your AI revenue engine**, `START_LABEL_GTM`, on `/ai-gtm`; S6, Krish, 2026-10-24, replacing "Get your free AI brief") is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI revenue engine** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`. **Subscribe for free** (`SUBSCRIBE_LABEL`) is for a reader who is not ready and opens the publication's subscribe form.
-- The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. Since S6 the brain door reads "Your judgement, running as a system you own." and the revenue engine door "The pricing, positioning and team you'll need.", and the closing route chapter is gone: its button is the hero's way in and its headline joins the rotation.
+- Three intents, three names, one of each on every CTA. **Start building your AI brain** (`START_LABEL`; **Start building your AI business**, `START_LABEL_GTM`, on `/ai-gtm`; S6, Krish, 2026-10-24, replacing "Get your free AI brief", and renamed for `/ai-gtm` on 10 November 2026) is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI business** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`. **Subscribe for free** (`SUBSCRIBE_LABEL`) is for a reader who is not ready and opens the publication's subscribe form.
+- The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. Since 25 November 2026 the brain door reads "Put your taste and judgement to work on your next call." and the AI business door "Make, share and earn from your work with AI."; since S6 the closing route chapter is gone: its button is the hero's way in and its headline joins the rotation.
 - The opening hero plays the Archive Engine r07 loop (`src/assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4`, poster `archive-engine-hero-poster-r07.webp`, its own first frame), substituted by the same generator (Krish, 2026-09-25). The r04 package stays in the repository as the recoverable fallback. On a phone the film is cropped at 55% across (`integration.css`, Krish, 2026-09-26) so the mint circuit shows; the desktop frame is unchanged. The closing chapter that also played it left with S6. The rejected r06 local Blender render and its derivatives are absent from the repository and must not be restored as a production candidate.
 - The homepage copy and fit rulings of 26 September 2026 (the history questions, the reach headings, the returned hour and the closing chapter) went with the chapters S6 retired; they are kept verbatim in `history/LOG.md`, 26 October 2026.
-- Both offer pages end with `PairingBridge` (S6, Krish, 2026-10-24: the card "needs to be condensed"): this page's way in, then one line to the other page. The button is `data-mm-primary`, so the action bar stands down and one way in holds. "What stays with you" is a receipt above it (`Receipt.tsx`), the same object on both pages.
+- Both offer pages end with the 30-day Sprint (`ProductSprint.tsx`, since 25 November 2026): four weeks, "What stays with you", "Explore the stories", "Prefer to …?" and `JourneyEnd`, "Start your brief" with one onward link. The button is `data-mm-primary`, so one way in holds. S6's `PairingBridge` and `Receipt.tsx` close are no longer what these pages render.
 - Surfaces explain nothing about themselves and hold still under interaction (r43, Krish, 2026-09-25). `/ai-brain` carries no caveats, status lines or source labels; its hero orbit is the decorative ground behind the whole opening; its ideas keep one size, its titles one line, and its panels one height. Since r48 its stepped instruments (questions, decision, levers and, since S5, the month) light by colour and opacity only, forward and back with scroll, and show whole without script or motion. `/ai-brain` corrections live in `src/styles/mindmake-brain-refinements.css` and the S4 and S5 chapters in `src/styles/mindmake-brain-narrative.css`, both loaded after the generated locked stylesheet, which stays reproducible from its prototype sources.
 - `/blog`, Ideas you can use, lists every quick tip and every longer read in one list, newest first, in the tips' entry form, under a kind filter (All, Quick tips, Longer reads) and a subject filter (Krish, 2026-09-25; `/answers` redirects there and the tips keep their pages under `/answers/:slug`). It never opens on an idea marked `lead: false` (the adtech answer); the newest idea allowed to lead goes first and the rest keep date order (`orderIdeas` in `src/lib/ideaFormat.ts`). Tip titles are in sentence case, and each tip entry shows the question it answers as a sentence-case question.
 - Every Media link, and the old `/signal` and `/builder-economy` redirects, land on the publication's own site, https://makeyourmindup.ai (Krish, 2026-09-26; `PUBLICATION_URL`). Subscribing appears in six places: a hairline badge beside Media in both menus, a Subscribe button beside the menu in every masthead (Krish, 2026-10-24), a footer button, the brief's first step (for a reader not ready to build) and its success step, and since S6 one line at the foot of the homepage hero naming an issue; every "Subscribe for free" link goes to https://makeyourmindup.ai too (Krish, 2026-09-26: "Every single subscribe link should go to makeyourmindup.ai"; `SUBSCRIBE_URL` is `PUBLICATION_URL`). There is no band, pop-up or modal. It never outweighs the brief's filled mint.
 - No word or link sits alone on a new line at 1440x900, 1280x800, 390x844 or 360x780 on any page, and no swapping component changes size when a reader makes a choice (`qa:line-breaks`, which clicks every tab, toggle, step, seat and carousel on `/`, `/ai-brain`, `/ai-gtm` and `/new-age-leadership`, and since 24 October 2026 also fails text cut off at the top or bottom of a box that hides overflow; Krish, 2026-10-24: "we don't ever get one word sprawl over to a second line and change the entire component size"; the rule is in `03_DESIGN_CONTRACT.md`).
-- Every page carries the homepage's masthead and footer, identical within 1px at 360, 390, 412, 768, 1024 and 1440 (Krish, 2026-09-26: "The logo in the top left nav bar changes size depending on what page you're on, which is unacceptable"; "the bottom nav bar is super inconsistent across pages"). The footer is the brand, "Keep your edge as AI changes the market.", Subscribe, the route rail on wider screens, Privacy and Terms as two separate 44px links, and "© 2026 Mindmake." on the left edge. On phones it fills the width on the masthead's gutter; there is no Contact link (the address is on /about, /privacy and /terms).
-- The homepage hero turns its headline once through six lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"; the closing chapter's headline joined second with S6): "Promote your AI from intern to chief of staff.", "Own your judgement, and amplify it.", "High standards deserve an AI that knows yours.", "AI can copy almost anything except your taste.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision." A unit test holds the first to the generated h1 (`src/test/hero-rotation.test.ts`). The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). Since S6 the lede reads "The leaders who shape the next decade will have an AI that thinks like them. We build yours."
-- The analytics notice never stacks on the action bar (S6, Krish, 2026-10-24: "the bottom panel is horrible"). On a laptop it is a card on the left of the bottom band while the bar's one button is on the right; on a phone it docks under the masthead. Allow and Decline stay equal.
+- Every page carries the homepage's masthead and footer, identical within 1px at 360, 390, 412, 768, 1024 and 1440 (Krish, 2026-09-26: "The logo in the top left nav bar changes size depending on what page you're on, which is unacceptable"; "the bottom nav bar is super inconsistent across pages"). The footer is the brand, "Keep the final say on your best work." (since 25 November 2026), Subscribe, the route rail on wider screens, Privacy and Terms as two separate 44px links, and "© 2026 Mindmake." on the left edge. On phones it fills the width on the masthead's gutter; there is no Contact link (the address is on /about, /privacy and /terms).
+- The homepage hero turns its headline once through six lines and rests on the first (Krish, 2026-09-27; reordered 2026-10-15, "the most impactful first"; the closing chapter's headline joined second with S6; reset on 25 November 2026): "AI can copy almost anything except your taste.", "Own your judgement, and amplify it.", "High standards deserve an AI that knows yours.", "Keep the final say on your best work.", "Amplify your judgement, and the business follows." and "Build the human + AI business that augments your vision." A unit test holds the first to the generated h1 (`src/test/hero-rotation.test.ts`). The second and third screen for standards and taste early in the turn ("the headlines need to filter out people that don't self-identify with this"). Each is set in the same three fixed lines at every width ("every headline takes exactly the same amount of lines on mobile and desktop"), underlines its "you" or "your" as it arrives, and the h1 keeps the approved headline as its accessible name; reduced motion, no script and crawlers see only that one (`heroRotation.ts`). On a phone the headline and lede sit just above the doors ("close the gap on mobile"). Since 25 November 2026 the lede reads "So we build your AI brain out of it, for the people who shape creative work, culture and sport."
+- The analytics notice never stacks on the action bar (S6, Krish, 2026-10-24: "the bottom panel is horrible"). On a phone it docks under the masthead (Krish, 2026-10-24, restored in PR #343); on a desktop it sits after the footer so it never covers content (Krish, 2026-11-25). Allow and Decline stay equal.
 - No page carries caveat or disclaimer labels: no "Illustrative machinery", "Illustrative team", "Illustrative sequence. Not evidence." or "illustrative example" lines (Krish, 2026-09-26: "Get rid of all the annoying asterisk commentary, like illustrative machinery, from the whole"). Generated films and example teams remain what they are; the page simply does not narrate it. The private brief document and its email keep their one "not advice" line.
 - Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and the two pages cross over about 720ms (Krish, 2026-09-27: the transitions were "so blunt, needs to be much smoother"): the old page fades out, the new one fades in and rises 10px into place, the masthead holds still under its own view-transition name, and the ruled line remains as a fainter sweep. Only the page's own masthead carries the name, not the menu's, because a duplicate name on screen makes Chromium refuse the transition. Media that has not painted when a page mounts fades up instead of cutting in (`MediaArrival.tsx`), most visibly the `/ai-brain` film, and nothing waits more than 2.5s. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. Both components render nothing, so hydration is unchanged.
 
 ## Non-regression contract
 
-1. Between the opening and the footer the homepage carries two sections (S6, then Krish, 2026-11-11): the problem, with the four eras as a carousel of tiles on their pictures that turn in place; and what the reader gets, with three results on their stories' pictures, a floating Brain orb asking where to start (two links, to /ai-brain and /ai-gtm) and a band for exploring what leaders built. "An AI chief of staff knows how you think." lives on /ai-brain since 2026-11-11. The opening is at least one screen tall and grows to hold everything it carries. Nothing on the homepage pins. The AI Brain stories are eighteen cards in five situations on /ai-brain, a chooser that never pins; `/new-age-leadership` keeps its own reach, practice and story chapters from the shared source. R3's history pin, authority, leadership-dividend and route chapters are retired from `/`.
+1. Between the opening and the footer the homepage carries three sections (25 November 2026): "Every new technology asks us to change how we think.", with the four eras as a carousel of tiles on their pictures that turn in place; "We build yours with you in 30 days.", with "A rule worth keeping" and the six-wish chooser "What would you do more of?"; and "What the work made possible.", with three results on their stories' pictures, two client voices and the way to explore and start. The opening is at least one screen tall and grows to hold everything it carries. Nothing on the homepage pins. The stories are eighteen use cases and twelve labelled examples grouped by six wishes, and never pin; `/new-age-leadership` keeps its own reach, practice and story chapters from the shared source. R3's history pin, authority, leadership-dividend and route chapters are retired from `/`. The two-section homepage and the five situations it replaced are recorded in `../history/LOG.md` (27 November 2026).
 2. No wheel/touch cancellation anywhere. No swapping component changes size when a reader makes a choice: every panel that swaps holds all its states in one place. Without scripts every state reads in flow (the eras show question and answer, the beats one after another, the team as a document). Every state stays reachable from its direct controls on reduced-motion and short screens. `/new-age-leadership` keeps its pinned chapters and their r46 phone sweep.
 3. Proof of a swapping state observes visible text after each actual control and the height of the component around it. A screenshot, state attribute or entrance reveal alone is not proof.
 4. Preserve the selected masthead/content alignment: every section takes the fixed masthead's gutter, and `/new-age-leadership`'s chapters pin under its masthead. Device-specific compositions remain distinct. No clipping, collisions, hidden actions, blank substitute panels or fixed-nav/cookie overlap.
 5. Menu and LeadBrief retain visible focus entry, Escape/Back recovery, a visible restored opener and no stale inert background. Route transitions retain hydration and lifecycle cleanup. Hidden states must not remain keyboard-reachable or falsely current.
 6. Keep the existing company-first LeadBrief, route history, validation, data and sending boundaries. A useful preview is not a sent email; actual delivery and persistence require their own evidence.
 7. Keep all public route families, editorial/detail routes, answers, FAQ, contact, legal destinations and Media reachable. `/new-age-leadership` remains a companion route; the R3 homepage does not authorise its deletion or redirect.
-8. Preserve accepted labels: Home, What you can do, Ideas you can use, Questions we get asked, About us, Media and Start building your AI brain (S6; Krish renamed the four content routes and added Home and About us on 25 September 2026, r47, and merged Quick AI tips into Ideas you can use the same day; the earlier labels are preserved in `history/LOG.md`). On a phone the footers carry no route list; the menu does. Each page's title matches its label. Keep exact R3 wording, selected supporting labels and evidence boundaries rather than applying superseded blanket rules as a redesign instruction.
+8. Preserve accepted labels: Home, Build your AI brain, Build your AI business, What you can do, Your 2-minute AI upgrade toolkit, Questions we get asked, About us, Media and Start building your AI brain (`PRIMARY_ROUTES`; Krish renamed the four content routes and added Home and About us on 25 September 2026, r47; the toolkit joined and Ideas you can use left the menu on 19 November 2026, with `/blog` still indexed; the earlier labels are preserved in `history/LOG.md`). On a phone the footers carry no route list; the menu does. Each page's title matches its label. Keep exact R3 wording, selected supporting labels and evidence boundaries rather than applying superseded blanket rules as a redesign instruction.
 9. Proof families remain separate. Generated imagery is not client evidence. Brain fixture meaning and GTM evidence freshness/recovery must remain truthful. No invented claims, public price/duration, new product or public diary route.
 10. Rejected surfaces remain evidence, never implementation foundations. Preserve the rejection and supersession chain rather than asking Krish to repeat settled choices.
 

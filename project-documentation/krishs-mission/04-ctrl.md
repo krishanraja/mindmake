@@ -1,5 +1,7 @@
 # CTRL: what it is, and how it serves Mindmake
 
+> **Superseded on 25 November 2026.** Krish approved a repositioning of Mindmake on 25 November 2026, live on mindmake.co since PR #337. It replaced the audience (now the people who shape creative work, culture and sport, media first, where this pack says "leaders"), the homepage headline (now "AI can copy almost anything except your taste."), the second door's name (D2, resolved as "Build your AI business"), the framing of CTRL (the toolkit we use with clients inside the 30-day Sprint, with no signup, waitlist or standalone use) and "AI chief of staff", which is retired in public copy. Where this folder and `../00_NORTH_STAR.md` disagree, 00_NORTH_STAR wins. Krish's approved sentences below stay as he approved them on 18 November 2026, as a record. CTRL's own description below, including "personal AI chief of staff" and "live and invite-only", is CTRL's record of its date; mindmake.co presents CTRL only as the Sprint's toolkit.
+
 Status: Working pack. The owners are `krishanraja/ctrl-mindmake`: `NOW.md`, `docs/current/README.md`, `docs/current/commercial.md`, `docs/current/sales-pack/` (start with `start-here.md`, `positioning.md` and `for-anyone-plain-words.md`) and its claims ledger. Read them live: CTRL ships daily. Nothing here may carry a CTRL price, a customer count or an infrastructure identifier (CTRL's `NOW.md`, `never_publish`).
 
 ## What it is

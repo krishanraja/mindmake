@@ -321,7 +321,7 @@ export function UseCaseFinder({ onStart, wish, onWishChange }: { wish?: string |
             <div className="uc-tools">
               <label className="uc-search">
                 <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.5" /><path d="m13 13 4.5 4.5" stroke="currentColor" strokeWidth="1.5" /></svg>
-                <input type="search" aria-label="Search the use cases" value={narrow.query} onChange={(event) => change({ query: event.target.value })} />
+                <input type="search" aria-label="Search the use cases" placeholder="Search case studies"value={narrow.query} onChange={(event) => change({ query: event.target.value })} />
               </label>
               <button type="button" className="uc-toggle" aria-pressed={narrow.results} onClick={() => change({ results: !narrow.results })}>
                 <span className="uc-tick" aria-hidden="true" />Result on the record

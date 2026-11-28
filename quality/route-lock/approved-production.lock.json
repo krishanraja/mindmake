@@ -44,7 +44,7 @@
   "files": {
     ".github/workflows/approved-route-lock.yml": "68cefefadb5c50b008b98bce2200f8c8f9eb03f13293235c3a4e0832fb19e64f",
     ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
-    "index.html": "d0197975bd8013aa82bb4bcbe258b4c813b900d9042cc57e4fb667afa23eb0a7",
+    "index.html": "8825b1b9531310d7fbb3df79fa4f4fdf1e48a276cd82708ac66f9eaf03fec20c",
     "package-lock.json": "b89c99f615402523c52ae8fb5b7197d1cd35f1629f4c0c3d8acb0a882293178e",
     "package.json": "f044e5e246afba158a975a9872868c5c6f65ff3db929301a4e409a0dee4f5345",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "1040fd54e660e0040f740ce769cee7033957e2a6d79b4bf0389479fd1d590c9e",

@@ -86,7 +86,11 @@
          of them only delays the answer. `fonts.load()` in the first frame rather than
          `fonts.ready` here, because a ready promise taken before the
          stylesheet exists is a promise about a set with no faces in it.
-         CURTAIN is the one switch: false keeps the type arrival alone.
+         CURTAIN is the one switch: false keeps the type arrival alone. It is
+         false since 28 November 2026 ("Page loading is important").
+         The strips have been display: none since 11 November (an opaque
+         entrance cannot precede readable content), so asking for them only
+         held a class on <html> for 1.1s for nothing.
 
          The root marker for the curtain is mm-covered, and the strips are
          .mm-curtain: two names on purpose. On 3 September the root carried
@@ -97,7 +101,7 @@
          from the browser, which reported the first frame it presented. -->
     <script>
       (function(){try{
-        var CURTAIN=true;
+        var CURTAIN=false;
         var d=document,h=d.documentElement;
         if(!d.fonts||!d.fonts.load||location.pathname==="/"||location.hash)return;
         if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;

@@ -208,3 +208,13 @@
   .brain-page .brain-story > .brain-passage { order: 4; }
   .brain-page .brain-story .product-section { --sheet-lap: 22px; }
 }
+/* Beside the brain the Sprint has half the width, so its four weeks sit two
+   by two in a tighter set, keeping the section within one desktop screen
+   (qa:section-heights, 1280x800). */
+@media (min-width: 1024px) {
+  .brain-page .sprint h2 { font-size: clamp(38px, min(4.4vw, 7vh), 72px); margin-bottom: .2em; }
+  .brain-page .sprint-weeks { margin-top: 18px; row-gap: 16px; }
+  .brain-page .sprint-weeks li { font-size: clamp(17px, 1.3vw, 19px); padding-top: 10px; }
+  .brain-page .sprint-weeks small { margin-bottom: 6px; }
+  .brain-page .product-receipt { margin: 18px 0 12px; }
+}

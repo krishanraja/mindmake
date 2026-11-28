@@ -266,7 +266,9 @@ describe("the entrance, held in the head and released once", () => {
     expect(mindmakeCss).toContain(".mm-covered .mm-curtain {");
     expect(script).toContain('classList.add("mm-covered")');
     expect(script).toContain('classList.remove("mm-covered")');
-    expect(script).toContain("var CURTAIN=true");
+    /* Switched off on 2026-11-28 (Krish: "Page loading is important"): the
+       strips are inert, so the page no longer asks for them. */
+    expect(script).toContain("var CURTAIN=false");
   });
 
   it("never gives the root the strips' own class name", () => {

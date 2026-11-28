@@ -5,6 +5,12 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-28: the curtain switched off; mindmake on the Codex lane; Higgsfield share
+
+- Krish, 28 November 2026 ("Page loading is important"): `CURTAIN=false` in `index.html`'s entrance script. Its strips have been `display: none` since 11 November, so every page but `/` asked for a curtain it never showed and held `mm-covered` on `<html>` for 1.1s; `first-second-check` flagged it on `/ai-brain` and `/about`. The type arrival is unchanged.
+- mindmake is a Codex lane venture in content-engine (`config/codex-lanes.json`, content-engine PR #1030); the two cards built in this session moved from `codex/queue/` to `codex/built/` so the lane never rebuilds them.
+- Control Center places Mindmake in Higgsfield's smaller share beside Full Time and makeyourmindup (control-center PR #1042), so the day's 32.5 credits are booked against growth-mindmake.
+
 ## 2026-11-28: one door, /ai-gtm retired, /ai-brain rebuilt with a 3D brain
 
 - Krish, 28 November 2026: `/ai-gtm` retires ("not a separate page but just the inevitable outcome of having an AI brain at your disposal"); its three levers become the last three ways cards on the homepage, the homepage opening keeps one door, and `/ai-gtm` redirects permanently to `/ai-brain`. The visible menu becomes Home, Build your AI brain, the toolkit, Questions we get asked and About us; Media leaves the menus.

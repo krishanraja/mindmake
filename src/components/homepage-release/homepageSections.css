@@ -849,12 +849,6 @@
    next one showing, arrows and the parts of the brain as its stops. */
 .mm-homepage-release .hs-ways { --hs-ground: #11291f; --hs-rail-ground: var(--hs-ground); z-index: 2; background: var(--hs-ground); }
 .mm-homepage-release .hs-ways .hs-inner { padding-bottom: var(--hs-sheet-lap); }
-.mm-homepage-release .hs-you {
-  text-decoration: underline;
-  text-decoration-color: var(--hs-mint);
-  text-decoration-thickness: .06em;
-  text-underline-offset: .12em;
-}
 .mm-homepage-release .hs-ways-track {
   display: grid;
   grid-auto-flow: column;

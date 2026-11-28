@@ -55,7 +55,7 @@ These placements record the approved November copy. The homepage rotates through
 | Brain promise | An AI brain keeps your ideas, memories and plans in a private record you own. You choose which parts your AI checks before it gives you advice. |
 | Brain 30 days | We build it with you in 30 days. |
 | Brain receipt | Your brain, built out. The systems that amplify you, proven. The confidence of being an AI era leader. |
-| Ways section (homepage) | Ways an AI brain can level you up. ("you" underlined) |
+| Ways section (homepage) | Ways an AI brain can level you up. ("you" with the hero's pen-stroke underline) |
 | Ways card fronts | Back the work you believe in. / Take the money, keep the ending. / Make the big call well. / Reach the idea you'd never reach alone. / Hand over a brief that keeps its point. / Keep your work yours, wherever it travels. / Decide what's worth making next. / Know where your work should go. / Price your work for what it's worth. |
 | GTM promise | We work with commercial leaders in media businesses to decide, quickly and safely, how to change the way they make money and serve customers now that AI is here. |
 | GTM 30 days | One go-to-market move in 30 days |

@@ -37,7 +37,7 @@ describe("homepage ways and words", () => {
     expect(at('id="ways"')).toBeGreaterThan(at('id="history"'));
     expect(at('id="words"')).toBeGreaterThan(at('id="ways"'));
     expect(at("We build yours with you in")).toBeGreaterThan(at('id="words"'));
-    expect(html).toContain('Ways an AI brain can level <span class="hs-you">you</span> up.');
+    expect(html).toContain('Ways an AI brain can level <span class="hs-ul">you</span> up.');
     expect(html.match(/class="vs-tilt-card"/g)?.length).toBe(WAYS.length);
     expect(html).not.toContain("/case-studies");
     expect(html).not.toContain("What would you do more of?");

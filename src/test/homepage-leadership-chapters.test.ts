@@ -21,8 +21,8 @@ describe("the homepage in four sheets", () => {
     /* The headings' key words carry a hand-drawn mark (Krish, 2026-11-04), so
        the order is read from the words, without the marks' own tags. */
     const sections = homepageSectionsMarkup();
-    const words = sections.replace(/<span class="hs-mark"[^>]*>([^<]*)<\/span>/g, "$1");
-    const order = ["Every new technology asks us to change how we think.", 'Ways an AI brain can level <span class="hs-you">you</span> up.', "In their words.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
+    const words = sections.replace(/<span class="hs-(?:mark|ul)"[^>]*>([^<]*)<\/span>/g, "$1");
+    const order = ["Every new technology asks us to change how we think.", "Ways an AI brain can level you up.", "In their words.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
     expect(sections.match(/<section\b/g)).toHaveLength(4);
     /* Krish, 2026-11-11: the chief of staff section moved to /ai-brain. */

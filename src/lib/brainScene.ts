@@ -31,8 +31,8 @@ import brainUrl from "@/assets/brain/brain.glb?url";
 export interface BrainSceneOptions {
   parts: readonly string[];
   reduced: boolean;
-  /** Called after each frame with each part's place on the canvas, 0..1, and whether it faces the camera. */
-  onLayout: (layout: Record<string, { x: number; y: number; front: boolean }>) => void;
+  /** Called after each frame with each part's place on the canvas, 0..1, and whether it faces the camera. Optional. */
+  onLayout?: (layout: Record<string, { x: number; y: number; front: boolean }>) => void;
   onReady?: () => void;
 }
 
@@ -158,13 +158,13 @@ export function mountBrainScene(host: HTMLElement, options: BrainSceneOptions): 
       const projected = world.clone().project(camera);
       out[name] = { x: (projected.x + 1) / 2, y: (1 - projected.y) / 2, front: normal.dot(camDir) > -0.15 };
     }
-    options.onLayout(out);
+    options.onLayout?.(out);
   };
 
   const render = () => {
     pivot.rotation.set(state.pitch + lean.ey * 0.18, state.yaw + lean.ex * 0.32, -0.04);
     renderer.render(scene, camera);
-    if (ready) layout();
+    if (ready && options.onLayout) layout();
   };
 
   const tick = (now: number) => {

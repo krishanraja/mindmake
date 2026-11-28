@@ -5,7 +5,7 @@ import { track } from "@/lib/analytics";
 import { SEO } from "@/components/SEO";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { ProductSprint, DepthTile } from "@/components/mindmake/ProductSprint";
-import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { filmsMayLoad } from "@/lib/filmGate";
 import { BrainStage } from "@/components/mindmake/BrainStage";
 import { BRAIN_PARTS } from "@/components/mindmake/LiquidBrain";
 import { buildOnScroll } from "@/lib/scrollBuild";
@@ -37,6 +37,33 @@ const fromHash = () => {
   const slug = typeof location === "undefined" ? "" : decodeURIComponent(location.hash.slice(1));
   return PARTS.find((name) => name.toLowerCase().replace(/\s+/g, "-") === slug);
 };
+
+/**
+ * The hero film. The server and the first client render are the poster alone,
+ * so hydration has nothing to disagree about; the loop mounts after, only
+ * where motion is allowed and the line is fast enough (src/lib/filmGate.ts),
+ * and fades up over its own first frame once it is actually playing.
+ */
+function HeroFilm() {
+  const [play, setPlay] = useState(false);
+  useEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let live = true;
+    void filmsMayLoad().then((ok) => { if (live && ok) setPlay(true); });
+    return () => { live = false; };
+  }, []);
+  return <div className="product-hero-film" aria-hidden="true">
+    <picture>
+      <source srcSet={heroImageWebp} type="image/webp" />
+      <img className="mm-plate-media" src={heroImage} alt="" decoding="async" {...{ fetchpriority: "high" }} />
+    </picture>
+    {play && <video className="mm-plate-media mm-plate-loop" poster={heroImage} autoPlay muted loop playsInline preload="auto"
+      onPlaying={(event) => event.currentTarget.classList.add("is-live")}>
+      <source src={heroLoopWebm} type="video/webm" />
+      <source src={heroLoop} type="video/mp4" />
+    </video>}
+  </div>;
+}
 
 function Passage({ part, children }: { part: string; children: ReactNode }) {
   return <div className="brain-passage" data-brain-part={part}>{children}</div>;
@@ -94,7 +121,7 @@ export default function AiBrainLocked() {
   return <MindmakeShell showMobileActionBar={false} mainClassName="product-page brain-page" onStart={start} startLabel={START_LABEL}>
     <SEO title="Build your AI brain" description="An AI brain keeps your ideas, memories and plans in a private record you own." canonical="/ai-brain" />
     <header className="product-hero">
-      <FilmPlate className="product-hero-film" poster={heroImage} posterWebp={heroImageWebp} src={heroLoop} srcWebm={heroLoopWebm} priority decorative label="" />
+      <HeroFilm />
       <div>
         <h1>{lines("Teach your AI what", "experience taught you.")}</h1>
         <p>An AI brain keeps your ideas, memories and plans in a private record you own.</p>

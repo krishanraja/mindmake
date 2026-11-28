@@ -120,10 +120,11 @@ export function renderWithMetadata(path: string): { body: string; metadata: SEOP
             rather than a page. */}
         <ScrollToLocation />
         <RouteTransitions />
-        <LineBreaks />
         <ErrorBoundary>
           <Suspense fallback={<PageLoading />}>
             <SiteRoutes />
+            {/* Inside the boundary, as in src/App.tsx (2026-11-28). */}
+            <LineBreaks />
           </Suspense>
         </ErrorBoundary>
         <RouteConsent />

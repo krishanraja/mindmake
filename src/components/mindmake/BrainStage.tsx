@@ -24,19 +24,12 @@ export function BrainStage({ active, onSelect }: { active: string; onSelect: (pa
       if (cancelled) return;
       if (!webglAvailable()) { setMode("flat"); return; }
       setMode("3d");
-      const buttons = new Map(Array.from(host.querySelectorAll<HTMLButtonElement>("button[data-part]"), (node) => [node.dataset.part!, node]));
+      /* The labels keep the brain map's fixed places (the liquid Brain's), so
+         they never overlap or wander as the brain turns; the brain turns to
+         face the chosen part and lights it. */
       scene.current = mountBrainScene(host, {
         parts: BRAIN_PARTS.map(([name]) => name),
         reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
-        onLayout: (layout) => {
-          for (const [name, place] of Object.entries(layout)) {
-            const button = buttons.get(name);
-            if (!button) continue;
-            button.style.setProperty("--x", `${(place.x * 100).toFixed(2)}%`);
-            button.style.setProperty("--y", `${(place.y * 100).toFixed(2)}%`);
-            button.dataset.side = place.front ? "front" : "back";
-          }
-        },
         onReady: () => { if (!cancelled) setReady(true); },
       });
       scene.current.select(active);

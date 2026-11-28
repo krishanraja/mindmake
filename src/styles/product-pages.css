@@ -178,7 +178,7 @@
 .brain-stage .brain-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .brain-stage .brain-field-3d > button { transition: opacity .3s ease, color .3s ease; }
 .brain-stage:not([data-ready]) .brain-field-3d > button { opacity: 0; }
-.brain-stage .brain-field-3d > button[data-side="back"] { opacity: .32; }
+.brain-stage .brain-field-3d > button { scroll-margin-top: calc(var(--mm-header-height, 66px) + 24px); scroll-margin-bottom: 24px; }
 .brain-stage .brain-field-3d > button[aria-pressed=true] { opacity: 1; }
 .brain-stage .brain-field-3d > button::before { display: none; }
 .brain-stage .brain-field-3d > button { padding: 4px 8px; border-radius: 99px; background: rgba(6, 17, 13, .55); }

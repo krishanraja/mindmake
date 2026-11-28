@@ -255,7 +255,6 @@ function AppRoutes() {
       <ScrollToLocation />
       <RouteTransitions preload={preloadPage} />
       <MediaArrival />
-      <LineBreaks />
       <ErrorBoundary>
         <Suspense fallback={<PageLoading />}>
           <Routes>
@@ -327,6 +326,12 @@ function AppRoutes() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {/* Inside the page's boundary, so it first runs once the page has
+              hydrated. Outside it, on a slow line it joined words in the
+              server's text before the page's own code arrived, and React threw
+              the server render away (errors #418 and #425 on /about and
+              /ai-brain under a 4G throttle, 2026-11-28). */}
+          <LineBreaks />
         </Suspense>
       </ErrorBoundary>
       <RouteConsent />

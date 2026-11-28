@@ -75,7 +75,7 @@ const STATES = {
     { name: "era rail", setup: '.hs-problem [data-hs-rail-go="0"]', controls: '.hs-problem [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-problem [data-hs-rail-track]", frames: [".hs-problem .hs-rail"] },
     // Krish, 2026-11-28: the ways cards turn over in place, never changing size, and the rail moves card by card.
     { name: "ways cards", controls: ".hs-ways .vs-tilt-card-toggle", frames: [".hs-ways-track", ".hs-ways"] },
-    { name: "ways rail", setup: '.hs-ways [data-hs-rail-go="0"]', controls: '.hs-ways [data-hs-rail-step="1"]', repeat: 8, ifOverflows: ".hs-ways [data-hs-rail-track]", frames: [".hs-ways .hs-rail"] },
+    { name: "ways rail", setup: '.hs-ways [data-hs-rail-go="0"]', controls: '.hs-ways [data-hs-rail-step="1"]', repeat: 12, ifOverflows: ".hs-ways [data-hs-rail-track]", frames: [".hs-ways .hs-rail"] },
     // The client quotes, moved here from /case-studies: every quote shares one cell.
     { name: "quotes", controls: '.hs-words [data-hs-words-step="1"]', repeat: 18, frames: [".hs-words-stack", ".hs-words"] },
   ],

@@ -25,7 +25,6 @@ const local = !flag("base");
 const PAGES = [
   { path: "/", sections: ".mm-homepage-release .hs-section" },
   { path: "/ai-brain", sections: ".product-page .product-section" },
-  { path: sections: ".product-page > .product-section" },
   { path: "/2-minute-ai-upgrade-toolkit", sections: ".journey-room" },
   { path: "/faq", sections: ".journey-room" },
   { path: "/blog", sections: ".journey-room" },

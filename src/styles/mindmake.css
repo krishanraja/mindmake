@@ -1036,7 +1036,8 @@ html {
 }
 .mm-footer-routes {
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  /* Five routes and the way in since 2026-11-28: two full rows of three. */
+  grid-template-columns: repeat(3, auto);
   justify-content: start;
   align-content: start;
   gap: clamp(8px, .8vw, 14px) clamp(16px, 1.6vw, 30px);

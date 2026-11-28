@@ -45,8 +45,7 @@ These placements record the approved November copy. The homepage rotates through
 | Homepage lede | So we build your AI brain out of it, for the people who shape creative work, culture and sport. |
 | Brain door | Build your AI brain |
 | Brain door explanation | Put your taste and judgement to work on your next call. |
-| Business door | Build your AI business |
-| Business door explanation | Make, share and earn from your work with AI. |
+| Business door | Retired 28 November 2026 with `/ai-gtm` (Krish); its words live on as three ways cards |
 | Homepage section 1 (the problem) | Every new technology asks us to change how we think. |
 | Homepage section 2 (how it works) | We build yours with you in 30 days. |
 | Homepage section 1 lede | Each time, the real question was who kept the judgement. With AI, it is the same question. |
@@ -55,7 +54,8 @@ These placements record the approved November copy. The homepage rotates through
 | Brain promise | An AI brain keeps your ideas, memories and plans in a private record you own. You choose which parts your AI checks before it gives you advice. |
 | Brain 30 days | We build it with you in 30 days. |
 | Brain receipt | Your brain, built out. The systems that amplify you, proven. The confidence of being an AI era leader. |
-| GTM headline (`/ai-gtm` h1) | Build a growth strategy that survives AI, and a team that can manage AI agents. |
+| Ways section (homepage) | Ways an AI brain can level you up. ("you" underlined) |
+| Ways card fronts | Back the work you believe in. / Take the money, keep the ending. / Make the big call well. / Reach the idea you'd never reach alone. / Hand over a brief that keeps its point. / Keep your work yours, wherever it travels. / Decide what's worth making next. / Know where your work should go. / Price your work for what it's worth. |
 | GTM promise | We work with commercial leaders in media businesses to decide, quickly and safely, how to change the way they make money and serve customers now that AI is here. |
 | GTM 30 days | One go-to-market move in 30 days |
 | GTM receipt | The model. The evidence. Anything we built. |
@@ -69,7 +69,7 @@ begins with what the last one taught you.", the old GTM promise beginning "AI
 is changing what customers pay for" and the route control "AI brain or AI
 revenue engine".
 
-Public route labels in order are **Home**, **Build your AI brain**, **Build your AI business**, **Your 2-minute AI upgrade toolkit**, **Questions we get asked**, **About us** and **Media**. The badge reads **Our media channel**. The main action is **Start building your AI brain**, or **Start building your AI business** on the business page. The footer reads **Keep the final say on your best work.**
+Public route labels in order are **Home**, **Build your AI brain**, **Your 2-minute AI upgrade toolkit**, **Questions we get asked** and **About us** (Krish, 28 November 2026; Media left the menus and keeps the masthead's Subscribe and the hero's publication line). The badge reads **Our media channel**. The main action is **Start building your AI brain**, or **Start building your AI business** on the business page. The footer reads **Keep the final say on your best work.**
 
 The four underlying GTM levers remain **product, price, positioning and people**.
 This approved shorter door sentence is not permission to remove product from
@@ -386,7 +386,7 @@ rather than the craft.
 ## The conversion path
 
 There is no public diary link or "Book a fit call" CTA. **Start building your
-AI brain** (on `/ai-gtm`, **Start building your AI business**) is the
+AI brain** is the
 primary action and opens the free brief; it replaced "Get your free AI brief"
 on 24 October 2026. A button that names no door opens the brief at the AI
 brain's door (26 October 2026), so the visitor is never asked which door.

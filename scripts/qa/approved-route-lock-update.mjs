@@ -8,6 +8,9 @@
 //   npm run qa:approved-routes:update -- --add a b    also lock a and b
 //   npm run qa:approved-routes:update -- --remove a   stop locking a
 //   npm run qa:approved-routes:update -- --check      fail if the lock is stale
+//   npm run qa:approved-routes:update -- --retire-contract gtm
+//                                                     drop a retired route's contract
+//                                                     (its minimum contract and sources)
 //
 // Never run it to absorb an edit you did not mean to make: a failing
 // qa:approved-routes is telling you a locked file changed.
@@ -25,6 +28,7 @@ const listAfter = (flag) => {
 const check = args.includes("--check");
 const added = listAfter("--add");
 const removed = new Set(listAfter("--remove"));
+const retired = listAfter("--retire-contract");
 
 const current = await readFile(lockPath, "utf8");
 const lock = JSON.parse(current);
@@ -40,6 +44,11 @@ if (missing.length) {
 
 const files = {};
 for (const path of paths) files[path] = (await hashLockedFile(path, lock)).hash;
+for (const name of retired) {
+  if (!lock.minimumContracts?.[name]) { console.error(`No contract named ${name} to retire`); process.exit(1); }
+  delete lock.minimumContracts[name];
+  if (lock.contractSources) delete lock.contractSources[name];
+}
 const next = serializeLock({ ...lock, files });
 const changed = Object.keys(files).filter((path) => files[path] !== lock.files[path]);
 const dropped = Object.keys(lock.files).filter((path) => !(path in files));

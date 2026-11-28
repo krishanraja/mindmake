@@ -127,7 +127,6 @@ const [posts, { answers, answerPath }] = await Promise.all([
 const ROUTES = [
   "/",
   "/ai-brain",
-  "/ai-gtm",
   "/new-age-leadership",
   "/blog",
   `/blog/${posts[0].slug}`,

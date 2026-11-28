@@ -187,8 +187,8 @@ quote collection. The previous nine-reference prose is preserved, unchanged, in
 The approved R3 homepage controls its proof placement. No additional logo strip,
 result cards, founder block or testimonial deck is required by this file. A
 result lives on its use case, and every surface that shows one reads it from
-`src/data/useCases.ts`; the use cases and their results are on `/ai-brain`,
-`/ai-gtm` and `/new-age-leadership`, and on the homepage one anchor story per
+`src/data/useCases.ts`; the use cases and their results are on `/ai-brain`
+and `/new-age-leadership`, and on the homepage one anchor story per
 wish on the back of its card ("Ways an AI brain can level you up.", Krish, 28
 November 2026, `src/data/ways.ts`) with the client quotes after it, each under
 its scoped approval. Named-client quotes stay

@@ -54,15 +54,15 @@ understanding stands still.
 
 **Who it helps.** Write for the people who shape creative work, culture and sport. Media comes first. Address the people who make the calls first and the people who make the work second. Music is outside v1.
 
-**What they get.** Two doors, one way of working.
-
-- **Build your AI brain** (`/ai-brain`): Put your taste and judgement to work on your next call.
-- **Build your AI business** (`/ai-gtm`): Make, share and earn from your work with AI.
+**What they get.** One door: **Build your AI brain** (`/ai-brain`): Put your
+taste and judgement to work on your next call. Making, sharing and earning
+from the work are what an AI brain leads to, not a second product (Krish, 28
+November 2026: `/ai-gtm` retired into the homepage's ways cards and redirects
+to `/ai-brain`).
 
 The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately. The Sprint’s public shape is 30 days.
 
-**How to start.** **Start building your AI brain** (on `/ai-gtm`, **Start
-building your AI business**; Krish, 24 October 2026) at
+**How to start.** **Start building your AI brain** (Krish, 24 October 2026) at
 [mindmake.co/?start=1](https://mindmake.co/?start=1). The leader gives a work
 email, name and role, answers a few questions about their business and keeps
 the brief it produces; then Mindmake gets in touch about a free consultation.
@@ -72,7 +72,7 @@ follow-up two weeks later, nothing more.
 **The proof.** Eighteen true use cases, eight with their result on the
 record. The homepage carries them as "Ways an AI brain can level you up.",
 one card per wish that turns over to its story, then the clients' own words
-("In their words."); the whole set opens by wish on `/ai-brain`, `/ai-gtm` and
+("In their words."); the whole set opens by wish on `/ai-brain` and
 `/new-age-leadership`. `/case-studies` retired into the homepage on 28
 November 2026. The permissions for each are in `04_PROOF.md`.
 
@@ -194,12 +194,12 @@ as the fear of falling behind.
 
 The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately.
 
-The two doors describe what a reader can build.
+One door describes what a reader can build: **Build your AI brain.** Put your
+taste and judgement to work on your next call. Deciding what to make, where it
+goes and what it is worth is part of what it does (the three business cards
+on the homepage).
 
-- **Build your AI brain.** Put your taste and judgement to work on your next call.
-- **Build your AI business.** Make, share and earn from your work with AI.
-
-Both lead to **one sprint** when the reader is ready to build. Choose a decision, build a working version and use it on real work.
+It leads to **one sprint** when the reader is ready to build. Choose a decision, build a working version and use it on real work.
 
 ---
 

@@ -155,7 +155,7 @@ try {
           /* The ways cards (Krish, 2026-11-28): six, each turning over in place
              without changing the rail's size. */
           const cards = page.locator('.hs-ways .vs-tilt-card-toggle');
-          assert(await cards.count() === 6, `${label}: six ways cards`);
+          assert(await cards.count() === 9, `${label}: nine ways cards`);
           const rail = page.locator('.hs-ways-track');
           const railHeight = await rail.evaluate(node => node.offsetHeight);
           await cards.first().scrollIntoViewIfNeeded();

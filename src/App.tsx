@@ -27,7 +27,6 @@ const AnswerPage = preloadable(() => import("./pages/Answer"));
 const Alumni = preloadable(() => import("./pages/Alumni"));
 const DtdFeedback = preloadable(() => import("./pages/DtdFeedback"));
 const AiBrain = preloadable(() => import("./pages/AiBrainLocked"));
-const AiGtm = preloadable(() => import("./pages/AiGtm"));
 const Kits = preloadable(() => import("./pages/Kits"));
 const KitDownload = preloadable(() => import("./pages/KitDownload"));
 const WhoDecided = preloadable(() => import("./pages/WhoDecided"));
@@ -64,7 +63,6 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/brain-modules\/download\/?$/, KitDownload],
   [/^\/brain-modules(?:\/[^/]+)?\/?$/, Kits],
   [/^\/ai-brain\/?$/, AiBrain],
-  [/^\/ai-gtm\/?$/, AiGtm],
   [/^\/blog\/?$/, Blog],
   [/^\/2-minute-ai-upgrade-toolkit\/?$/, Toolkit],
   [/^\/blog\/[^/]+\/?$/, BlogPost],
@@ -263,7 +261,6 @@ function AppRoutes() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/ai-brain" element={<AiBrain />} />
-            <Route path="/ai-gtm" element={<AiGtm />} />
             <Route path="/measure-your-ai-judgement" element={<PrivateAuditRoute />} />
             <Route path="/brain-modules" element={<Kits />} />
             <Route path="/brain-modules/download" element={<KitDownload />} />

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { mountLiquidBrain } from "./journeyConstellation.mjs";
 
-const parts = [
+/** The six parts, shared with the 3D brain (BrainStage.tsx) and named by the homepage's ways cards. */
+export const BRAIN_PARTS = [
   ["North Star", "What are you trying to make possible?", "The ambition you use to judge the next decision.", 50, 46],
   ["Vision", "What do you want to exist that does not exist yet?", "The change you want your work to bring about.", 43, 8],
   ["Judgement", "When two good things conflict, how do you choose?", "The trade you would make and the reason behind it.", 80, 32],
@@ -9,6 +10,7 @@ const parts = [
   ["Standards", "What must a piece of work earn before you release it?", "The test you put a finished piece through.", 39, 76],
   ["Preferences", "How do you usually like to work?", "The habits that make a good working day yours.", 82, 79],
 ] as const;
+const parts = BRAIN_PARTS;
 
 export function LiquidBrain() {
   const field = useRef<HTMLDivElement>(null);

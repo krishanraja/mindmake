@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render as serverRender } from "@/entry-server";
-import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
+import { START_LABEL } from "@/lib/publicLinks";
 
 /**
  * The action bar is one button and nothing else.
@@ -31,10 +31,6 @@ describe("the action bar", () => {
   it("names what the reader is building, and the revenue engine on its own page", () => {
     for (const route of ["/blog", "/faq"]) {
       expect(bar(serverRender(route)).includes(START_LABEL), route).toBe(true);
-    }
-    for (const route of ["/ai-gtm", "/ai-gtm/"]) {
-      expect(serverRender(route)).toContain(START_LABEL_GTM);
-      expect(bar(serverRender(route))).toBe("");
     }
   });
 

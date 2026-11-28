@@ -5,7 +5,7 @@ const onward = {
   brain: ["/#ways", "See what people built"],
   gtm: ["/#ways", "Explore work that stayed yours"],
   cases: ["/ai-brain", "Inside an AI brain"],
-  leadership: ["/ai-gtm", "Build your AI business"],
+  leadership: ["/ai-brain", "Build your AI brain"],
   toolkit: ["/ai-brain", "Explore your AI brain"],
   faq: ["/#ways", "See the work"],
   about: ["/new-age-leadership", "Explore hybrid leadership"],

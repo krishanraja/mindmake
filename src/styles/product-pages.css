@@ -125,3 +125,86 @@
   .product-page .product-hero h1 { font-size: clamp(40px, 12vw, 56px); }
   .product-page .product-hero { align-items: start; padding-top: calc(64px + 24px); }
 }
+
+/* ---------- /ai-brain, rebuilt (Krish, 2026-11-28) ----------
+   The homepage's look and feel: the sections are sheets laid over one
+   another (rounded lap, mint hairline, alternating grounds), the story is
+   told in headlines, and the AI brain in 3D stands beside the words on a
+   desktop, lighting the part each passage is about. Scroll is never held:
+   the brain's column is sticky inside its own story, under the masthead. */
+
+/* The hero film (it had been a still since 25 November). */
+.product-hero > .product-hero-film { position: absolute; z-index: -2; inset: 0; display: block; min-height: 0; border-radius: 0; background: var(--mm-ink); overflow: hidden; }
+.product-hero-film .mm-plate-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; }
+.product-hero-film picture { position: absolute; inset: 0; }
+.product-hero-film .mm-plate-loop { opacity: 0; transition: opacity .6s ease; }
+.product-hero-film .mm-plate-loop.is-live { opacity: 1; }
+
+/* Headlines rise out of their lines (the scroll-type spec, reskinned). */
+.brain-page .ln { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
+.brain-page .ln > span { display: block; transition: transform 1.25s cubic-bezier(.22, .7, .2, 1); transition-delay: calc(var(--i, 0) * .11s + .1s); }
+.brain-page [data-reveal="pending"] .ln > span { transform: translateY(108%); }
+.brain-page [data-reveal="pending"]:has(.ln) { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .brain-page .product-hero h1 .ln > span { animation: brain-rise 1.25s cubic-bezier(.22, .7, .2, 1) both; animation-delay: calc(var(--i, 0) * .11s + .15s); }
+}
+@keyframes brain-rise { from { transform: translateY(108%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .brain-page .ln > span, .brain-page [data-reveal="pending"] .ln > span { transform: none; transition: none; }
+}
+
+/* Sheets, as on the homepage. */
+.brain-page .brain-story { position: relative; }
+.brain-page .brain-story .product-section {
+  --sheet-lap: 28px;
+  margin-top: calc(-1 * var(--sheet-lap));
+  border-radius: var(--sheet-lap) var(--sheet-lap) 0 0;
+  border-bottom: 0;
+  box-shadow: 0 -24px 40px -16px rgba(0, 0, 0, .62), inset 0 1px 0 rgba(157, 240, 200, .18);
+}
+.brain-page .brain-story .product-problem { background: #0b1812; }
+.brain-page .brain-story .brain-inside { background: #11291f; }
+.brain-page .brain-story .sprint { background: var(--mm-ink); }
+.brain-page .brain-passage { display: block; }
+.brain-page .brain-passage h2 { font: 300 clamp(44px, min(5.4vw, 8vh), 88px)/.99 var(--mm-serif); letter-spacing: -.045em; text-wrap: balance; margin: .2em 0 .32em; max-width: 20ch; }
+.brain-page .brain-lede { max-width: 40ch; font: 400 clamp(20px, 1.8vw, 28px)/1.25 var(--mm-serif); margin: 12px 0 22px; text-wrap: pretty; color: var(--mm-tx); }
+.brain-page .product-problem { display: block; min-height: 0; }
+.brain-page .product-problem h2, .brain-page .brain-inside h2 { grid-row: auto; }
+.brain-page .brain-inside { display: block; }
+
+/* The 3D brain: the page's own buttons laid over the canvas, each placed where
+   its part sits on the brain (BrainStage.tsx). A part turned away dims. */
+.brain-stage .brain-field-3d { height: clamp(320px, 52vh, 560px); }
+.brain-stage .brain-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.brain-stage .brain-field-3d > button { transition: opacity .3s ease, color .3s ease; }
+.brain-stage:not([data-ready]) .brain-field-3d > button { opacity: 0; }
+.brain-stage .brain-field-3d > button[data-side="back"] { opacity: .32; }
+.brain-stage .brain-field-3d > button[aria-pressed=true] { opacity: 1; }
+.brain-stage .brain-field-3d > button::before { display: none; }
+.brain-stage .brain-field-3d > button { padding: 4px 8px; border-radius: 99px; background: rgba(6, 17, 13, .55); }
+
+@media (min-width: 1024px) {
+  .brain-page .brain-story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .86fr); }
+  .brain-page .brain-story > .product-section, .brain-page .brain-story > .brain-passage { grid-column: 1 / -1; }
+  .brain-page .brain-story > .product-section { padding-right: calc(43% + var(--room-pad)); }
+  .brain-page .brain-story > .brain-passage > .product-section { padding-right: calc(43% + var(--room-pad)); }
+  .brain-page .brain-story > .product-problem { grid-row: 1; }
+  .brain-page .brain-story > .brain-inside { grid-row: 2; }
+  .brain-page .brain-story > .brain-passage { grid-row: 3; }
+  .brain-page .brain-aside {
+    grid-column: 2; grid-row: 1 / span 3; z-index: 5; align-self: start;
+    position: sticky; top: var(--mm-header-height, 66px);
+    height: calc(100svh - var(--mm-header-height, 66px)); display: grid; align-content: center;
+    padding: 24px var(--room-pad) 24px 0; pointer-events: none;
+  }
+  .brain-page .brain-aside > * { pointer-events: auto; }
+  .brain-page .sprint-weeks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  .brain-page .brain-story { display: flex; flex-direction: column; }
+  .brain-page .brain-story > .product-problem { order: 1; }
+  .brain-page .brain-story > .brain-inside { order: 2; }
+  .brain-page .brain-aside { order: 3; padding: 8px var(--room-pad) 32px; background: #11291f; }
+  .brain-page .brain-story > .brain-passage { order: 4; }
+  .brain-page .brain-story .product-section { --sheet-lap: 22px; }
+}

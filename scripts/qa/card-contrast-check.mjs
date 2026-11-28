@@ -96,7 +96,7 @@ try {
     for (let i = 0; i < tiles; i++) for (const face of ["question", "answer"]) cards.push({ locator: page.locator("[data-hs-era]").nth(i), name: `era ${i + 1}, ${face}`, face });
     const ways = await page.locator(".hs-ways .vs-tilt-card-front").count();
     for (let i = 0; i < ways; i++) cards.push({ locator: page.locator(".hs-ways .vs-tilt-card-front").nth(i), name: `ways card ${i + 1}, front` });
-    if (tiles !== 4 || ways !== 6) failures.push(`${viewport.width}x${viewport.height}: expected four eras and six ways cards, found ${tiles} and ${ways}`);
+    if (tiles !== 4 || ways !== 9) failures.push(`${viewport.width}x${viewport.height}: expected four eras and nine ways cards, found ${tiles} and ${ways}`);
     for (const card of cards) {
       if (card.face) await card.locator.evaluate((node, face) => node.setAttribute("aria-pressed", String(face === "answer")), card.face);
       await card.locator.scrollIntoViewIfNeeded();

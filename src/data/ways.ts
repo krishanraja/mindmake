@@ -4,6 +4,9 @@ import callsArt from "@/assets/ways/ways-calls-r01-800.webp";
 import tryArt from "@/assets/ways/ways-try-r01-800.webp";
 import briefArt from "@/assets/ways/ways-brief-r01-800.webp";
 import yoursArt from "@/assets/ways/ways-yours-r01-800.webp";
+import makeArt from "@/assets/ways/ways-make-r01-800.webp";
+import shareArt from "@/assets/ways/ways-share-r01-800.webp";
+import earnArt from "@/assets/ways/ways-earn-r01-800.webp";
 import { examples } from "@/data/examples";
 import { getUseCase, type SituationId, type UseCaseId } from "@/data/useCases";
 
@@ -24,13 +27,19 @@ export type BrainPart = "North Star" | "Vision" | "Judgement" | "Taste" | "Stand
 
 export const partSlug = (part: BrainPart) => part.toLowerCase().replace(/\s+/g, "-");
 
+/** The three business cards, folded in from the retired /ai-gtm (Krish, 2026-11-28). */
+export type BusinessWay = "make" | "share" | "earn";
+
 export interface WayCard {
-  wish: SituationId;
+  wish: SituationId | BusinessWay;
   front: string;
   part: BrainPart;
   art: string;
   /** The back: the anchor story's heading, outcome and result, or a labelled example. */
-  back: { kind: "story"; id: UseCaseId; heading: string; outcome: string; result?: string } | { kind: "example"; title: string; leave: string };
+  back:
+    | { kind: "story"; id: UseCaseId; heading: string; outcome: string; result?: string }
+    | { kind: "example"; title: string; leave: string }
+    | { kind: "lever"; title: string; input: string; question: string };
 }
 
 const story = (id: UseCaseId): WayCard["back"] => {
@@ -45,6 +54,23 @@ const example = (id: string): WayCard["back"] => {
   return { kind: "example", title: entry.title, leave };
 };
 
+/**
+ * What /ai-gtm said about the business (25 November 2026), in its approved
+ * words: an AI brain also decides what to make, where it goes and what it is
+ * worth. Krish, 2026-11-28: "not a separate page but just the inevitable
+ * outcome of having an AI brain at your disposal".
+ */
+export const LEVERS = [
+  { title: "Production", way: "make", input: "A trailer gives away the ending.", question: "Where could you cut before the reveal?" },
+  { title: "Distribution", way: "share", input: "An interview has a quiet opening.", question: "Which exchange would bring a new reader to the full piece?" },
+  { title: "Monetisation", way: "earn", input: "A licence includes the sequel.", question: "Did you mean to sell the next story too?" },
+] as const;
+
+const lever = (way: BusinessWay): WayCard["back"] => {
+  const entry = LEVERS.find((item) => item.way === way)!;
+  return { kind: "lever", title: entry.title, input: entry.input, question: entry.question };
+};
+
 export const WAYS: readonly WayCard[] = [
   { wish: "back", front: "Back the work you believe in.", part: "Taste", art: backArt, back: story("C-18") },
   { wish: "terms", front: "Take the money, keep the ending.", part: "North Star", art: termsArt, back: example("series") },
@@ -52,4 +78,7 @@ export const WAYS: readonly WayCard[] = [
   { wish: "try", front: "Reach the idea you'd never reach alone.", part: "Vision", art: tryArt, back: story("C-02") },
   { wish: "brief", front: "Hand over a brief that keeps its point.", part: "Standards", art: briefArt, back: story("C-13") },
   { wish: "yours", front: "Keep your work yours, wherever it travels.", part: "Preferences", art: yoursArt, back: story("C-16") },
+  { wish: "make", front: "Decide what's worth making next.", part: "Vision", art: makeArt, back: lever("make") },
+  { wish: "share", front: "Know where your work should go.", part: "Judgement", art: shareArt, back: lever("share") },
+  { wish: "earn", front: "Price your work for what it's worth.", part: "North Star", art: earnArt, back: lever("earn") },
 ];

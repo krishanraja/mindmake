@@ -14,7 +14,6 @@ import { ideas } from "@/lib/ideas";
 const routes = [
   ["/", ".hs-section", 4],
   ["/ai-brain", ".product-section"],
-  ["/ai-gtm", ".product-section"],
   ["/new-age-leadership", 'section[aria-label="The problem"], section[aria-label="How it works"], section[aria-label="What you keep"]'],
   ["/2-minute-ai-upgrade-toolkit", ".journey-room"],
   ["/faq", ".journey-room"],

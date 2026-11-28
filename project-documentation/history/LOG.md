@@ -5,6 +5,13 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-28: one door, /ai-gtm retired, /ai-brain rebuilt with a 3D brain
+
+- Krish, 28 November 2026: `/ai-gtm` retires ("not a separate page but just the inevitable outcome of having an AI brain at your disposal"); its three levers become the last three ways cards on the homepage, the homepage opening keeps one door, and `/ai-gtm` redirects permanently to `/ai-brain`. The visible menu becomes Home, Build your AI brain, the toolkit, Questions we get asked and About us; Media leaves the menus.
+- `/ai-brain` rebuilt: the hero film plays again (it had been the poster as a plain image since commit `0f7a074`, 25 November), the sections take the homepage's sheets, each section is a headline and at most one sentence, headlines rise out of their lines as they arrive, and the AI brain is drawn in 3D (three.js 0.170.0, a Meshy image-to-3D model of a still made for it, 20 credits; Draco, decoder served locally), lighting the part each passage is about. S6's "nothing on `/ai-brain` pins" gives way to the brain's sticky column on a desktop.
+- Replaced in `03_DESIGN_CONTRACT.md`: the AI GTM page paragraph (the 25 November `/ai-gtm`: "Make it, share it, and get paid for it.", the three lever studies, "One decision, from brief to return.") and the AI Brain signature paragraph (the liquid Brain as the page's figure, two-paragraph sections).
+- The route lock retires the `gtm` contract (`qa:approved-routes:update -- --retire-contract gtm`, new in this change); the check reads a frozen manifest that still names it as before.
+
 ## 2026-11-28: the ways cards, the client words on the homepage, /case-studies retired
 
 - Krish, 28 November 2026: one homepage section, "Ways an AI brain can level you up.", replaces "What would you do more of?" and "What the work made possible."; "In their words." moves from `/case-studies` to the homepage ahead of "We build yours with you in 30 days."; `/case-studies` retires (`/case-studies` to `/#ways`, `/testimonials` to `/#words`, permanent).

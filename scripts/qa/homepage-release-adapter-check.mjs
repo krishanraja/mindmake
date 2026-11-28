@@ -49,11 +49,12 @@ try {
     await page.keyboard.press('Escape');
     // The hero doors are links to their pages (Krish, 2026-09-25), not a
     // scroll to the closing chapter. The closing chapter keeps its own toggle.
-    const door = page.locator('.r3-opening [data-route-choice="gtm"]:visible');
-    assert.equal(await door.getAttribute('href'), '/ai-gtm', 'The AI revenue engine door is a real link to its page');
+    // One door since 2026-11-28 (Krish): the AI brain's.
+    const door = page.locator('.r3-opening [data-route-choice="brain"]:visible');
+    assert.equal(await door.getAttribute('href'), '/ai-brain', 'The AI brain door is a real link to its page');
     await door.click();
-    await page.waitForURL(url => /^\/ai-gtm\/?$/.test(new URL(url).pathname));
-    await page.locator('.mm-route-gtm main h1').waitFor();
+    await page.waitForURL(url => /^\/ai-brain\/?$/.test(new URL(url).pathname));
+    await page.locator('.product-page h1').waitFor();
     await page.goBack();
     await page.locator('.mm-homepage-release [data-route-toggle]:visible').waitFor();
     await page.locator('.r3-route [data-route-toggle]:visible').click();

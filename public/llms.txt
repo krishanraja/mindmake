@@ -16,7 +16,6 @@ Mindmake is a small AI and commercial strategy practice. It builds a leader thei
 ## Pages
 
 - [Build your AI brain](https://mindmake.co/ai-brain): An AI brain keeps your ideas, memories and plans in a private record you own.
-- [Build your AI business](https://mindmake.co/ai-gtm): Decide what to make, where to share it and how to earn from it.
 - [Build the business that can think with you](https://mindmake.co/new-age-leadership): Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.
 - [Ideas you can use](https://mindmake.co/blog): Quick AI tips and longer reads for leaders making business decisions as AI changes their market, newest first.
 - [Your 2-minute AI upgrade toolkit](https://mindmake.co/2-minute-ai-upgrade-toolkit): Measure your AI judgement for free, or add a brain module that checks your next decision before you make it.

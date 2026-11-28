@@ -2,8 +2,7 @@ import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-li
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AiBrain from "@/pages/AiBrainLocked";
-import AiGtm from "@/pages/AiGtm";
-import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
+import { START_LABEL } from "@/lib/publicLinks";
 
 vi.mock("@/components/mindmake/LeadBrief", () => ({
   LeadBrief: ({ open, onClose, route }: { open: boolean; onClose: () => void; route: string }) => open ? (
@@ -29,7 +28,6 @@ function HistoryBackProbe() {
 
 const routes = [
   { path: "/ai-brain", entryRoute: "brain", Page: AiBrain },
-  { path: "/ai-gtm", entryRoute: "gtm", Page: AiGtm },
 ] as const;
 
 function renderRoute(path: string, Page: (typeof routes)[number]["Page"]) {
@@ -37,7 +35,6 @@ function renderRoute(path: string, Page: (typeof routes)[number]["Page"]) {
     <MemoryRouter initialEntries={[path]}>
       <Routes>
         <Route path="/ai-brain" element={<><Page /><LocationProbe /><HistoryBackProbe /></>} />
-        <Route path="/ai-gtm" element={<><Page /><LocationProbe /><HistoryBackProbe /></>} />
       </Routes>
     </MemoryRouter>,
   );
@@ -51,7 +48,7 @@ afterEach(() => {
 // Ruling (Krish, 2026-11-25): the floating start buttons are retired on the two product pages.
 function enterTheBrief(path: string) {
   const hero = document.querySelector<HTMLElement>(".product-hero")!;
-  const label = path === "/ai-gtm" ? START_LABEL_GTM : START_LABEL;
+  const label = START_LABEL;
   fireEvent.click(within(hero).getByRole("button", { name: label }));
 }
 

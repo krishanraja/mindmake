@@ -42,7 +42,7 @@ const BASE = flag("base") ?? `http://127.0.0.1:${port}`;
 
 const sitemap = await readFile(resolve(root, "dist/sitemap.xml"), "utf8");
 const routes = [...new Set([...sitemap.matchAll(/<loc>https?:\/\/[^/<]+(\/[^<]*)<\/loc>/g)].map(([, path]) => path || "/"))];
-for (const extra of ["/ai-brain", "/ai-gtm", "/about", "/contact", "/privacy", "/terms", "/a-page-that-does-not-exist"]) if (!routes.includes(extra)) routes.push(extra);
+for (const extra of ["/ai-brain", "/about", "/contact", "/privacy", "/terms", "/a-page-that-does-not-exist"]) if (!routes.includes(extra)) routes.push(extra);
 const only = flag("paths")?.split(",");
 const VIEWPORTS = [{ name: "desktop", width: 1440, height: 900 }, { name: "mobile", width: 390, height: 844 }];
 const FACES = ["Newsreader", "Archivo", "IBM Plex Mono"];

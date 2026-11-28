@@ -86,11 +86,6 @@ const STATES = {
     { name: "finder", setup: ".product-story-link", controls: ".brain-finder [data-finder-tab]", frames: [".story-finder"] },
     { name: "finder rail", setup: '[data-finder-tab="brief"]', controls: ".finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".story-finder"] },
   ],
-  "/ai-gtm": [
-    { name: "levers", controls: ".product-levers summary", frames: [".business-inside"] },
-    // Ruling (Krish, 2026-11-25): story exploration is the secondary action inside the Sprint.
-    { name: "finder", setup: ".product-story-link", controls: ".brain-finder [data-finder-tab]", frames: [".story-finder"] },
-  ],
   "/new-age-leadership": [{ name: "finder", controls: "[data-finder-tab]", frames: [".story-finder"] }],
 };
 

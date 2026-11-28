@@ -74,16 +74,12 @@ export const CONTACT_EMAIL = "krish@mindmake.co";
 export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string; short?: string }> = [
   { label: "Home", href: "/" },
   { label: "Build your AI brain", href: "/ai-brain" },
-  /* Every link to /ai-gtm reads "Build your AI business" (Krish, 2026-11-10),
-     the name the homepage's door already used; the page keeps its own title.
-     It fits one line on a phone, so it needs no short form. */
-  { label: "Build your AI business", href: "/ai-gtm" },
   /* The two free-to-try ways in (Krish, 2026-11-19). /blog stays for search
      engines and AI crawlers, with no link from the menus. */
   { label: "Your 2-minute AI upgrade toolkit", short: "2-minute AI toolkit", href: "/2-minute-ai-upgrade-toolkit" },
   { label: "Questions we get asked", href: "/faq" },
   { label: "About us", href: "/about" },
-  /* The label stays the approved "Media"; the badge beside it says what the
-     click gets you (Krish, 2026-09-25). */
-  { label: "Media", href: PUBLICATION_URL, external: true, badge: SUBSCRIBE_LABEL },
+  /* Media left the menus on 2026-11-28 (Krish: the visible menu is the
+     landing page, the AI brain, the toolkit, the questions and about us); the
+     publication keeps its line in the hero and the Subscribe in the masthead. */
 ];

@@ -12,7 +12,6 @@ const evidenceDir = "C:/Users/krish/.scratch/mindmake-full-route-continuity";
 const requiredRoutes = [
   "/",
   "/ai-brain",
-  "/ai-gtm",
   "/new-age-leadership",
   "/blog",
   "/faq",
@@ -243,7 +242,7 @@ async function verifyShell(page, label) {
         .find((link) => link.textContent.trim() === "Media")?.getAttribute("href"),
     };
   });
-  for (const href of ["/ai-brain", "/ai-gtm", "/blog", "/faq"]) {
+  for (const href of ["/ai-brain", "/blog", "/faq"]) {
     fail(!shell.internal.includes(href), `${label}: menu is missing ${href}`);
   }
   fail(shell.media !== "https://makeyourmindup.ai", `${label}: Media points to ${shell.media}`);
@@ -521,7 +520,7 @@ async function verifyLockedSurfaceReflow(browser) {
     const viewport = { width, height: width === 512 ? 384 : 450 };
     return [
       { route: "/ai-brain", viewport, container: "#inside", targets: [".brain-inside h2", ".brain-answer h3", ".brain-answer p"], avoid: ".brain-field" },
-      { route: "/ai-gtm", viewport, container: ".product-levers", targets: [".product-levers summary strong", ".product-levers summary span"] },
+      { route: viewport, container: ".product-levers", targets: [".product-levers summary strong", ".product-levers summary span"] },
     ];
   });
 

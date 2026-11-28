@@ -137,7 +137,9 @@ const brainGlyph = (lit: BrainPart) =>
 
 const turnIcon = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M10 6a4 4 0 1 1-1.2-2.85"/><path d="M9.2 1.2v2.2H7"/></svg>`;
 
-const wayBack = (card: WayCard) => card.back.kind === "story"
+const wayBack = (card: WayCard) => card.back.kind === "lever"
+  ? `<p class="vs-tilt-card-back-title">${esc(tieLast(card.back.input))}</p><p class="vs-tilt-card-back-line">${esc(tieLast(card.back.question))}</p><p class="vs-tilt-card-result">Your AI brain asks before you decide<small class="vs-tilt-card-label">${esc(card.back.title)}</small></p>`
+  : card.back.kind === "story"
   ? `<p class="vs-tilt-card-back-title">${esc(tieLast(card.back.heading))}</p><p class="vs-tilt-card-back-line">${esc(tieLast(card.back.outcome))}</p>${card.back.result ? `<p class="vs-tilt-card-result">${esc(tieLast(card.back.result))}<small>Result on the record</small></p>` : '<p class="vs-tilt-card-result">A practice account<small class="vs-tilt-card-label">From our own work</small></p>'}`
   : `<p class="vs-tilt-card-back-title">${esc(tieLast(card.back.title))}</p><p class="vs-tilt-card-back-line">${esc(tieLast(card.back.leave))}</p><p class="vs-tilt-card-result">An illustration of the work<small class="vs-tilt-card-label">Example</small></p>`;
 

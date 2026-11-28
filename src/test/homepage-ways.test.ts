@@ -9,12 +9,16 @@ import { WAYS } from "@/data/ways";
    nothing links to the retired /case-studies. */
 describe("homepage ways and words", () => {
   it("gives every wish one card whose front is under ten words", () => {
-    expect(WAYS.map((card) => card.wish).sort()).toEqual(SITUATIONS.map((wish) => wish.id).sort());
+    const wishes = new Set<string>(SITUATIONS.map((wish) => wish.id));
+    expect(WAYS.filter((card) => wishes.has(card.wish)).map((card) => card.wish).sort()).toEqual([...wishes].sort());
+    /* The three business cards folded in from the retired /ai-gtm (2026-11-28). */
+    expect(WAYS.filter((card) => !wishes.has(card.wish)).map((card) => card.wish)).toEqual(["make", "share", "earn"]);
     for (const card of WAYS) expect(card.front.split(/\s+/).length, card.front).toBeLessThan(10);
   });
 
   it("maps the six wishes one to one onto the six parts of the brain", () => {
-    expect(new Set(WAYS.map((card) => card.part)).size).toBe(6);
+    const wishes = new Set<string>(SITUATIONS.map((wish) => wish.id));
+    expect(new Set(WAYS.filter((card) => wishes.has(card.wish)).map((card) => card.part)).size).toBe(6);
   });
 
   it("tells each story in its record's own words", () => {

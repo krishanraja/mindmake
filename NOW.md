@@ -20,12 +20,11 @@ Mindmake is a small AI and commercial strategy practice run by Krish Raja. It
 builds an AI brain for the people who shape creative work, culture and sport,
 media first: a working system that holds their taste, standards, judgement and
 memory. The headline turns through six lines and opens on **AI can copy almost
-anything except your taste.** Two doors, **Build your AI brain** ("Put your
-taste and judgement to work on your next call.") and **Build your AI
-business** ("Make, share and earn from your work with AI."), lead to the
-offers, AI Immersion and the 30-day Sprint, priced privately. The way in is
-**Start building your AI brain** (**Start building your AI business** on
-`/ai-gtm`). The publication, **Make Your Mind Up** at
+anything except your taste.** One door, **Build your AI brain** ("Put your
+taste and judgement to work on your next call."), leads to the offers, AI
+Immersion and the 30-day Sprint, priced privately; making, sharing and earning
+from the work are what an AI brain leads to (28 November 2026, `/ai-gtm`
+retired). The way in is **Start building your AI brain**. The publication, **Make Your Mind Up** at
 https://makeyourmindup.ai, is for readers not ready yet. CTRL is the toolkit we
 use with clients inside the Sprint; it has no signup, waitlist or standalone
 use. The positioning was approved on 25 November 2026 and is live since PR
@@ -61,17 +60,16 @@ Do not repeat deployment journals here. History lives only in
 
 Keep the accepted composition, copy, imagery, controls and responsive choices.
 Between the R3 opening and the footer the homepage carries "Every new
-technology asks us to change how we think." (the four eras, a carousel on
-their pictures), "We build yours with you in 30 days." (with "A rule worth
-keeping" and the chooser "What would you do more of?", six wishes that each
-open `/case-studies?wish=<id>`) and "What the work made possible." (three
-results, two client voices, "Explore what leaders built", "Start your brief"
-and "Inside an AI brain →"); nothing on the homepage pins. `/ai-brain` opens on
-"Teach your AI what experience taught you.", then "The questions only you can
-answer." and the liquid Brain (North Star and five parts) under "Your AI brain
-knows how you think.", then the 30-day Sprint and the stories by wish in a
-sheet. `/ai-gtm` opens on "Make it, share it, and get paid for it." and covers
-production, distribution and monetisation. Stories are grouped by six wishes:
+technology asks us to change how we think." (the four eras), "Ways an AI
+brain can level you up." (nine tilt cards that turn over: one per wish, then
+three for the business), "In their words." (the client quotes, the count and
+the logo rail) and "We build yours with you in 30 days." (one client voice,
+"Start your brief" and "Inside an AI brain →"); nothing on the homepage pins.
+`/ai-brain` has the homepage's sheets, the hero film, headlines that rise as
+they arrive, and the AI brain in 3D beside the words, lighting the part each
+passage is about. `/case-studies` and `/ai-gtm` retired on 28 November 2026
+(redirects to `/#ways` and `/ai-brain`). The menu is Home, Build your AI brain,
+the toolkit, Questions we get asked and About us. Stories are grouped by six wishes:
 eighteen use cases and twelve labelled illustrative examples. One motion system
 runs site-wide. `/new-age-leadership` keeps its pinned chapters. Generate the
 adapter from the immutable R3 source, never reconstruct it from older
@@ -89,6 +87,11 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
+- 2026-11-28 (branch `claude/relaxed-goodall-qzhcbj`, awaiting Krish's yes to
+  merge): the ways cards and the client words on the homepage, `/case-studies`
+  and `/ai-gtm` retired, one door, the trimmed menu, and `/ai-brain` rebuilt
+  with its film playing and the 3D brain. Detail in
+  [history/LOG.md](project-documentation/history/LOG.md).
 - 2026-11-25 to 26: the creative repositioning (PRs #337 to #343, merge
   `19c81d25` on 26 November) is live. New headline, audience, door names and
   copy across `/`, `/ai-brain` and `/ai-gtm`; stories grouped by six wishes

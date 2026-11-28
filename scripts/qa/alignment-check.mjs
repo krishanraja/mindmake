@@ -20,7 +20,7 @@ const flag = (name) => { const i = process.argv.indexOf(`--${name}`); return i >
 const port = 4372;
 const server = flag("base") ? null : spawn(process.execPath, [resolve(root, "node_modules/vite/bin/vite.js"), "preview", "--host", "127.0.0.1", "--port", String(port), "--strictPort"], { cwd: root, stdio: "ignore" });
 const BASE = flag("base") ?? `http://127.0.0.1:${port}`;
-const ROUTES = (flag("routes") ?? "/,/ai-brain/,/ai-gtm/").split(",");
+const ROUTES = (flag("routes") ?? "/,/ai-brain/").split(",");
 const VIEWPORTS = [[1440, 900], [1280, 800], [390, 844], [360, 780]];
 const SKIP = ".finder-card, .finder-sheet, .pair-panel:not(:first-child), .hs-proof, .hs-acts, .hs-eras, .lever-steps, .team-instrument, .decision-panel, .mm-receipt, dialog, footer, .r3-footer, [aria-hidden='true'], .beat-copy[data-active='false'], .sr-only";
 

@@ -110,14 +110,14 @@ describe("the homepage in four sheets", () => {
     const eras = [...root.querySelectorAll<HTMLImageElement>("[data-hs-era] .hs-card-img")];
     const cards = [...root.querySelectorAll<HTMLImageElement>(".vs-tilt-card-img")];
     expect(eras).toHaveLength(4);
-    expect(cards).toHaveLength(6);
+    expect(cards).toHaveLength(9);
     for (const image of [...eras, ...cards]) {
       expect(image.getAttribute("alt")).toBe("");
       expect(image.getAttribute("loading")).toBe("lazy");
       expect(image.getAttribute("src")).toBeTruthy();
     }
     expect(eras.map((image) => image.getAttribute("src")).join(" ")).toMatch(/history-writing.*history-loom.*history-calculator.*history-satnav/);
-    expect(new Set(cards.map((image) => image.getAttribute("src"))).size).toBe(6);
+    expect(new Set(cards.map((image) => image.getAttribute("src"))).size).toBe(9);
   });
 
   it("shows one client quote at a time, moved only by its arrows", () => {
@@ -142,7 +142,7 @@ describe("the homepage in four sheets", () => {
     const rails = [...root.querySelectorAll<HTMLElement>("[data-hs-rail]")];
     expect(rails).toHaveLength(2);
     expect([...rails[0].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["370 BC", "1675", "1970s", "2000s"]);
-    expect([...rails[1].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["01", "02", "03", "04", "05", "06"]);
+    expect([...rails[1].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["01", "02", "03", "04", "05", "06", "07", "08", "09"]);
     for (const rail of rails) {
       expect(rail.querySelector('[data-hs-rail-step="-1"]')?.getAttribute("aria-label")).toMatch(/^Previous /);
       expect(rail.querySelector('[data-hs-rail-step="1"]')?.getAttribute("aria-label")).toMatch(/^Next /);

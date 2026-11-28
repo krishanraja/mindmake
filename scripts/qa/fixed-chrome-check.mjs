@@ -68,7 +68,7 @@ if (server) {
   }
   if (!up) { server.kill(); throw new Error(`No preview answered at ${BASE}. Run npm run build first.`); }
 }
-const PATHS = flag("paths", "/,/ai-gtm").split(",");
+const PATHS = flag("paths", "/").split(",");
 const REPORT = args.includes("--report");
 
 /** Portrait and landscape phones, a tablet and desktop sizes. */

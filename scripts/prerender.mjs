@@ -79,7 +79,6 @@ const staticRouteModules = {
   "/brain-modules/download": "src/pages/KitDownload.tsx",
   "/": null,
   "/ai-brain": "src/pages/AiBrainLocked.tsx",
-  "/ai-gtm": "src/pages/AiGtm.tsx",
   "/new-age-leadership": "src/pages/NewAgeLeadership.tsx",
   "/blog": "src/pages/Blog.tsx",
   "/2-minute-ai-upgrade-toolkit": "src/pages/Toolkit.tsx",

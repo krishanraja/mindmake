@@ -3334,3 +3334,52 @@ Ruling (Krish, 2026-11-18): preserve the reviewer edits for Claude 5, independen
 ### 2026-11-18: UK sources research engine
 
 Ruling (Krish, 2026-11-18): "Fix UK sources". Added bounded Investegate RNS discovery and parsing, bound Companies House account documents, fiscal half-year/year tables and longer purchase identity probes. Offline fixtures pass full pack validation; live acceptance and actual PDF decoding remain pending. Reviewer edits and the protected homepage manifest were preserved.
+
+### 2026-11-28: rolled from NOW.md
+
+rolled from NOW.md: surplus "What changed recently" bullets of 10, 11 and 13 November 2026, kept in full below.
+
+- 2026-11-13: Microsoft Clarity is in the head of every page, behind the same
+  Allow as Google Analytics (Krish: "Copy and paste the Clarity code into the
+  <head> element of site"). Allow now covers two tools, so the page notice
+  asks "Analytics cookies?" and the brief "Can we use analytics cookies on your
+  visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
+  masked from recordings. Aimed at the North Star: recordings and heatmaps of
+  where consenting readers stop between the hero and "Check your email."
+- 2026-11-11, Krish's phone review: a tap on the way in before the page has
+  started is kept ("Start building your AI business button no longer works":
+  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
+  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
+  would you start?" on its own raised surface, ending in "See how we compare
+  →"; homepage sections are sheets laid over one another on alternating
+  grounds, nothing pinned (the opening's old divider, which drew a line across
+  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
+  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
+  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
+- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
+  chief of staff knows how you think." took its place. The homepage close lost
+  its button: a floating Brain orb asks "Where do you want to start?" (with
+  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
+  only about exploring what leaders built. No section is taller than a desktop
+  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
+- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
+  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
+  found too much page). A bubble's caption turns through the routes a visitor
+  is weighing; tapping opens the comparison set to that route, full screen on
+  a phone, closing back to the same pixel. Aimed at the North Star (cash
+  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
+  `compare_board_open` against starts.
+- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
+  floating way in, sections stacked over one another) and broke the reading by
+  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
+  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
+  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
+  the story deck became a swipe deck on every screen, including the homepage's
+  results and `/case-studies` (Krish: "Same style and movement on desktop");
+  the Brain became one connected Brain of twenty ideas in seven clusters,
+  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
+  "Build your AI business". Krish: "Why don't you just fix all the small
+  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
+  these defects returning.
+
+Folded into NOW.md and removed: the fifteen closeout notes in `now-notes/` dated 2026-11-15 to 2026-11-23. Detail lives in the commits and in the documents they name (`06_CURRENT_STATE.md`, `website-redesign/STATE.md`, `krishs-mission/`).

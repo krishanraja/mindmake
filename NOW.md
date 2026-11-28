@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-11-27
-head: 19c81d25
+as_of: 2026-11-28
+head: acc79bbf
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -49,7 +49,7 @@ approved copy; read them before writing anything public. The site is the front
 door to both doors and to the proof, so every public word here is a claim the
 business stands behind. Everything in `never_publish` above stays off it.
 
-## Where it is right now (as of 2026-11-27)
+## Where it is right now (as of 2026-11-28)
 
 <!-- north-star-state {"week_of":"2026-11-02","week_target":"private","current":"private","current_as_of":"2026-11-02","current_source":"Control Center revenue_events (Stripe, account mindmaker_llc), read-only","urgency":4,"urgency_reason":"at 28% of this week's target"} --> **North Star number: U4, far behind.** Cash collected by Mindmake, trailing 4 weeks: at 28% of this week's target (figures private). A bold swing every day; work that does not move the number waits.
 
@@ -89,61 +89,13 @@ A live discoverability readback on 26 October 2026 passed on all 36 routes and
 
 ## What changed recently
 
-- 2026-11-25 to 26: the creative repositioning (PRs #337 to #343, merge
-  `19c81d25` on 26 November) is live. New headline, audience, door names and
-  copy across `/`, `/ai-brain` and `/ai-gtm`; stories grouped by six wishes
-  with twelve labelled examples; one motion system; the cookie notice docks under the masthead on phones again
-  (Krish's 24 October ruling). Browser verification on main passed in Chromium,
-  Firefox and WebKit (run 45755491040 on `19c81d25`). Detail:
-  [06_CURRENT_STATE.md](project-documentation/06_CURRENT_STATE.md).
-- 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300),
-  from `public/l/index.html`, with `/l/config.js` coming from
-  `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks
-  address is never committed to this public repository. `/l/` is noindex,
-  no-referrer and no-store. The page's source is `krishanraja/sendlinks`
-  `web/recipient/`; the route lock was regenerated for the intended edit.
-- 2026-11-13: Microsoft Clarity is in the head of every page, behind the same
-  Allow as Google Analytics (Krish: "Copy and paste the Clarity code into the
-  <head> element of site"). Allow now covers two tools, so the page notice
-  asks "Analytics cookies?" and the brief "Can we use analytics cookies on your
-  visit?"; `/privacy` sections 4 and 5 name Clarity; the brief's panel is
-  masked from recordings. Aimed at the North Star: recordings and heatmaps of
-  where consenting readers stop between the hero and "Check your email."
-- 2026-11-11, Krish's phone review: a tap on the way in before the page has
-  started is kept ("Start building your AI business button no longer works":
-  on a slow phone it showed at 0.75s and answered at 5.1s; aimed at the North
-  Star, `src/lib/earlyStart.ts`). "Prefer to …?" rides the seam above "Where
-  would you start?" on its own raised surface, ending in "See how we compare
-  →"; homepage sections are sheets laid over one another on alternating
-  grounds, nothing pinned (the opening's old divider, which drew a line across
-  the first sheet, is off); the chooser says "Your AI business"; /ai-gtm's
-  stories lost their nested box. Ledger rows `S9-START-001`, `S9-NUDGE-001`,
-  `S9-SHEETS-001`, `S9-CHOOSER-001`, `S9-GTM-GROUND-001`.
-- 2026-11-11: "Private to you" left `/ai-brain` and the homepage's "An AI
-  chief of staff knows how you think." took its place. The homepage close lost
-  its button: a floating Brain orb asks "Where do you want to start?" (with
-  yourself, to /ai-brain; with your business, to /ai-gtm) and the band is
-  only about exploring what leaders built. No section is taller than a desktop
-  screen on `/`, `/ai-brain` or `/ai-gtm`, enforced by `qa:section-heights`.
-- 2026-11-11: "Prefer to …?" on `/ai-brain` and `/ai-gtm`, at "Where would
-  you start?", led by a floating piece of the living Brain (`liquidOrb.ts`) (it replaced the same day's inline "Instead of…", which Krish
-  found too much page). A bubble's caption turns through the routes a visitor
-  is weighing; tapping opens the comparison set to that route, full screen on
-  a phone, closing back to the same pixel. Aimed at the North Star (cash
-  collected, U4). Measure `compare_nudge_open`, `compare_pick` and
-  `compare_board_open` against starts.
-- 2026-11-10: S9 "a more alive site" shipped in the morning (a liquid Brain, a
-  floating way in, sections stacked over one another) and broke the reading by
-  evening. Krish's phone recording: "an audit mapped 96 issues, three of them
-  P0" (ledger `S9-AUDIT-001`). Repair in five stages the same day (PRs #283 to
-  #287): stacking and pinning removed entirely, replaced by a gentle 3% settle;
-  the story deck became a swipe deck on every screen, including the homepage's
-  results and `/case-studies` (Krish: "Same style and movement on desktop");
-  the Brain became one connected Brain of twenty ideas in seven clusters,
-  approved after three rounds of mocks; and every link to `/ai-gtm` now reads
-  "Build your AI business". Krish: "Why don't you just fix all the small
-  issues?" `qa:reading-flow` is new and scrolls the pages both ways to catch
-  these defects returning.
+- 2026-11-25 to 26: the creative repositioning (PRs #337 to #343, merge `19c81d25` on 26 November) is live. New headline, audience, door names and copy across `/`, `/ai-brain` and `/ai-gtm`; stories grouped by six wishes with twelve labelled examples; one motion system; the cookie notice docks under the masthead on phones again (Krish's 24 October ruling). Browser verification on main passed in Chromium, Firefox and WebKit (run 45755491040 on `19c81d25`). Detail: [06_CURRENT_STATE.md](project-documentation/06_CURRENT_STATE.md).
+- 2026-11-14: the SendLinks recipient page is served at `/l/<link>` (PR #300), from `public/l/index.html`, with `/l/config.js` coming from `api/sendlinks-config.js`, which reads `SENDLINKS_OPEN_BASE` so the SendLinks address is never committed to this public repository. `/l/` is noindex, no-referrer and no-store. The page's source is `krishanraja/sendlinks` `web/recipient/`; the route lock was regenerated for the intended edit.
+- 2026-11-23: on phones the publication line at the foot of the homepage hero sits on a dark wash so it stays readable over the bright photo. Krish approved the edit to the locked homepage file that day; the route lock moved with it.
+- 2026-11-20: brain modules went live at mindmake.co/brain-modules (detail under next). The catalogue was redesigned so a priced module is on the opening screen: at 390px the production page measured 9,189px tall and the built candidate 2,401px. Member codes were fixed after a live probe showed Stripe records a promotion code with its coupon empty, which would have refused every real member. The header shows "Media" up to 700px wide and "Our media channel" above.
+- 2026-11-18: Krish's Mission, a working pack of thirteen files in `project-documentation/krishs-mission/`, holds the ladder from purpose to the business number, the chosen pitch sentence, CTRL, proposed surface copy and every open decision. No live copy, route or price changed. The parts research pilot paused for a replayable test bench; report quality is unstable across live runs (`project-documentation/parts-research-next-steps.md`).
+- 2026-11-17: Krish chose the judgement audit "Who decided?" as the first lead magnet; it is built at `/who-decided`, unlisted and noindex, awaiting his review. The canon's "Why this exists" now carries his thesis, with its sources. Ruling (Krish, 2026-11-17): "This needs to be a world class lead magnet site in terms of conversion rates, but not tacky looking".
+- 2026-11-15: use cases, results and client quotes have one record each (`src/data/useCases.ts`, `src/data/testimonials.ts`, PR #301), and `/case-studies` finds a use case by type, situation, role, result or search. Krish to update `00_NORTH_STAR.md:83-86` (still says seventeen stories) and decide whether R-07 in `04_PROOF_RECORDS.md` stays.
 
 ## What is next and what is waiting on Krish
 

@@ -272,7 +272,7 @@ async function navigation(browser, engine, viewport) {
     await prepare(page, record);
     // The homepage menu carries the toolkit where it once carried /blog (menu
     // since 20 Nov 2026), so core navigation follows the links that exist.
-    for (const destination of ['/ai-brain', '/ai-gtm', '/case-studies', '/2-minute-ai-upgrade-toolkit']) {
+    for (const destination of ['/ai-brain', '/ai-gtm', '/2-minute-ai-upgrade-toolkit']) {
       await page.goto(`${origin}/`, { waitUntil: 'domcontentloaded' }); await ready(page, record);
       await page.getByRole('button', { name: 'Open navigation', exact: true }).filter({ visible: true }).click();
       await page.locator(`.r3-navigation a[href="${destination}"]:visible`).click();

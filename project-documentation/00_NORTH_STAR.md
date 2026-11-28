@@ -70,10 +70,11 @@ Apart from a code that confirms the address, it sends the results and one
 follow-up two weeks later, nothing more.
 
 **The proof.** Eighteen true use cases, eight with their result on the
-record, found by wish, role or search on `/case-studies` and shown on
-`/ai-brain`, `/ai-gtm` and `/new-age-leadership`; eighteen client quotes on
-`/case-studies`; the homepage shows three results that link to them. The
-permissions for each are in `04_PROOF.md`.
+record. The homepage carries them as "Ways an AI brain can level you up.",
+one card per wish that turns over to its story, then the clients' own words
+("In their words."); the whole set opens by wish on `/ai-brain`, `/ai-gtm` and
+`/new-age-leadership`. `/case-studies` retired into the homepage on 28
+November 2026. The permissions for each are in `04_PROOF.md`.
 
 **Ways in, and what extends the work.**
 

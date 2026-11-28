@@ -46,7 +46,7 @@
   box-shadow: 0 -24px 40px -16px rgba(0, 0, 0, .62), inset 0 1px 0 rgba(157, 240, 200, .18);
 }
 .mm-homepage-release .hs-problem { --hs-ground: #0b1812; --hs-rail-ground: var(--hs-ground); z-index: 1; background: var(--hs-ground); }
-.mm-homepage-release .hs-get { --hs-ground: #11291f; --hs-rail-ground: var(--hs-ground); z-index: 2; background: var(--hs-ground); }
+
 /* The section a sheet lies over keeps the lapped strip clear of its words. */
 .mm-homepage-release .hs-problem .hs-inner { padding-bottom: var(--hs-sheet-lap); }
 /* The opening's own divider (R3's 1px rule along every section's foot, at
@@ -356,97 +356,26 @@
 .mm-homepage-release .hs-acts span { font: 400 clamp(16px, 1.3vw, 19px) / 1.35 var(--r3-serif); }
 
 /* 3. What you get: three results whose parts line up across the row. */
-.mm-homepage-release .hs-proof {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: auto;
-  column-gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.mm-homepage-release .hs-proof > li {
-  --hs-band: 150px;
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  grid-row: span 3;
-  display: grid;
-  grid-template-rows: subgrid;
-  row-gap: 14px;
-  min-width: 0;
-  margin-bottom: 12px;
-  padding: var(--hs-band) 20px 20px;
-  border: 1px solid var(--hs-line);
-  background: var(--hs-ink-2);
-}
-.mm-homepage-release .hs-proof > li::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(13, 28, 22, .3) 0, rgba(13, 28, 22, .45) calc(var(--hs-band) - 60px), rgba(13, 28, 22, .9) calc(var(--hs-band) - 6px), rgba(13, 28, 22, .93) 100%);
-}
-.mm-homepage-release .hs-proof-story {
-  margin: 0;
-  font: 400 clamp(19px, 1.6vw, 23px) / 1.3 var(--r3-serif);
-}
-.mm-homepage-release blockquote.hs-proof-story { font-style: normal; }
-.mm-homepage-release .hs-proof-outcome {
-  margin: 0;
-  padding-top: 12px;
-  border-top: 1px solid var(--hs-line);
-  color: var(--hs-mint);
-  font: 400 16px / 1.45 var(--r3-serif);
-}
-.mm-homepage-release .hs-proof-who {
-  margin: 0;
-  color: var(--hs-cream-3);
-  font: 400 12px / 1.4 var(--r3-mono);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-.mm-homepage-release .hs-proof-links { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0; }
-.mm-homepage-release .hs-proof-links a {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  color: var(--hs-cream);
-  font: 400 12px / 1 var(--r3-mono);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-color: rgba(234, 223, 200, .4);
-}
-.mm-homepage-release .hs-proof-links a:hover { text-decoration-color: currentColor; }
+
+
+
+
+
+
+
+
+
+
 
 /* A few voices under the results, one at a time, and the way to all of them.
    One quiet line on a hairline: the quote in the serif, who said it in the
    mono, the link at the end. Every voice shares one cell, so the line is the
    height of the longest and a turn moves nothing (homepageSections.ts). */
-.mm-homepage-release .hs-voices {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px 32px;
-  padding-top: 14px;
-  border-top: 1px solid var(--hs-line);
-}
-.mm-homepage-release .hs-voices-stack { display: grid; margin: 0; padding: 0; list-style: none; }
-.mm-homepage-release .hs-voices-stack > li {
-  grid-area: 1 / 1;
-  align-self: center;
-  min-width: 0;
-  color: var(--hs-cream-2);
-  font: 400 clamp(17px, 1.35vw, 20px) / 1.4 var(--r3-serif);
-  text-wrap: balance;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .6s ease, visibility 0s linear .6s;
-}
-.mm-homepage-release .hs-voices-stack > li.is-on { opacity: 1; visibility: visible; transition: opacity .6s ease .3s, visibility 0s; }
-.mm-homepage-release .hs-voices q { color: var(--hs-cream); quotes: "\201C" "\201D"; }
+
+
+
+
+
 .mm-homepage-release .hs-voices-who {
   display: inline-block;
   margin-left: 10px;
@@ -455,30 +384,15 @@
   letter-spacing: .1em;
   text-transform: uppercase;
 }
-.mm-homepage-release .hs-voices-link {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 8px;
-  color: var(--hs-mint);
-  font: 400 12px / 1 var(--r3-mono);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-color: rgba(159, 241, 201, .4);
-  white-space: nowrap;
-}
-.mm-homepage-release .hs-voices-link:hover { text-decoration-color: currentColor; }
-.mm-homepage-release .hs-voices-link:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) {
-  .mm-homepage-release .hs-voices-stack > li { transition: none; }
-}
+
+
+
+
 @media (max-width: 760px) {
-  .mm-homepage-release .hs-voices { grid-template-columns: minmax(0, 1fr); gap: 2px; padding-top: 10px; }
-  .mm-homepage-release .hs-voices-stack > li { font-size: 15.5px; }
+  
+  
   .mm-homepage-release .hs-voices-who { display: block; margin: 4px 0 0; font-size: 10.5px; }
-  .mm-homepage-release .hs-voices-link { min-height: 40px; }
+  
 }
 
 /* The way in, in the hero and at the end. */
@@ -615,7 +529,7 @@
 
 /* Phones and tablets: their own composition. */
 @media (max-width: 760px) {
-  .mm-homepage-release .hs-proof { grid-template-columns: minmax(0, 1fr); }
+  
 
   .mm-homepage-release .hs-era { padding: 14px; }
   .mm-homepage-release .hs-era-q { font-size: 18px; }
@@ -655,18 +569,12 @@
 .mm-homepage-release .hs-close { max-width: 46ch; margin: 0; font-size: clamp(19px, min(1.6vw, 3vh), 26px); text-wrap: pretty; }
 .mm-homepage-release .hs-era { min-height: clamp(260px, 38vh, 360px); }
 .mm-homepage-release .hs-rail { gap: 12px; }
-.mm-homepage-release .hs-proof > li { --hs-band: clamp(84px, 13vh, 130px); }
-.mm-homepage-release .hs-get .hs-proof-links { align-items: center; }
+
+
 
 /* The close on a desktop: the heading and its line on the left, the orb's
    question beside them, then the results and the band across the width. */
-@media (min-width: 1024px) {
-  .mm-homepage-release .hs-get .hs-inner { grid-template-columns: minmax(0, 1fr) auto; column-gap: clamp(32px, 5vw, 88px); align-items: start; }
-  .mm-homepage-release .hs-get .hs-inner > * { grid-column: 1 / -1; }
-  .mm-homepage-release .hs-get .hs-inner > .hs-title,
-  .mm-homepage-release .hs-get .hs-inner > .hs-lede { grid-column: 1; }
-  .mm-homepage-release .hs-get .hs-inner > .hs-choose { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
-}
+
 
 /* No section taller than the screen below the masthead on a desktop (Krish,
    2026-11-06: "no section should be bigger than a desktop screen on desktop.
@@ -680,7 +588,7 @@
   .mm-homepage-release .hs-inner { gap: clamp(10px, 2vh, 22px); }
   .mm-homepage-release .hs-title { max-width: none; font-size: clamp(30px, min(3.4vw, 6vh), 58px); }
   .mm-homepage-release .hs-era { --hs-band: clamp(72px, 16vh, 150px); min-height: 0; }
-  .mm-homepage-release .hs-proof > li { --hs-band: clamp(56px, 11vh, 130px); }
+  
   .mm-homepage-release .hs-how-figure .hs-card-img { max-height: calc(100svh - var(--masthead) - 2 * clamp(24px, 4.5vh, 64px)); }
   /* The opening's way in and publication line close up on a short screen,
      so at 1536x730 the subscribe line no longer falls below the fold. */
@@ -691,20 +599,9 @@
 /* A phone: the three results swipe in one row, like the eras, and the
    organisation drops each role's small print so it reads in one glance. */
 @media (max-width: 760px) {
-  .mm-homepage-release .hs-proof {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: min(84%, 340px);
-    margin: 0 calc(var(--hs-edge) * -1);
-    padding: 0 var(--hs-edge);
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: var(--hs-edge);
-    scrollbar-width: none;
-  }
-  .mm-homepage-release .hs-proof > li { scroll-snap-align: start; margin-bottom: 0; }
-  .mm-homepage-release .hs-proof::-webkit-scrollbar { display: none; }
+  
+  
+  
   .mm-homepage-release .hs-how .hs-org .org-cell { min-height: 0; padding: 8px 10px; }
   .mm-homepage-release .hs-how .hs-org .org-cell span { display: none; }
   .mm-homepage-release .hs-how .hs-org .instrument-label { display: none; }
@@ -715,7 +612,7 @@
   .mm-homepage-release .hs-acts .hs-card-img { position: absolute; width: 100%; height: 100%; }
   .mm-homepage-release .hs-acts span { display: none; }
   .mm-homepage-release .hs-era { min-height: 250px; }
-  .mm-homepage-release .hs-proof-links { gap: 0 20px; }
+  
 }
 @media (max-width: 760px) {
   .mm-homepage-release .hs-section { padding: 24px var(--hs-edge) 28px; }
@@ -726,11 +623,11 @@
   .mm-homepage-release .hs-era { min-height: 214px; }
   .mm-homepage-release .hs-era-q { font-size: 17px; }
   .mm-homepage-release .hs-rail-stops button { font-size: 11px; letter-spacing: .03em; }
-  .mm-homepage-release .hs-proof > li { --hs-band: 64px; padding: var(--hs-band) 16px 16px; row-gap: 10px; }
-  .mm-homepage-release .hs-proof-story { font-size: 18px; }
+  
+  
   .mm-homepage-release .hs-carries { gap: 2px 16px; font-size: 14px; line-height: 1.35; }
   .mm-homepage-release .hs-acts > li { min-height: 72px; }
-  .mm-homepage-release .hs-get .hs-inner > .hs-start { margin-top: 2px; }
+  
 }
 @media (max-width: 380px) {
   .mm-homepage-release .hs-section { padding-block: 18px 22px; }
@@ -743,8 +640,8 @@
   .mm-homepage-release .hs-carries { display: grid; gap: 8px; }
   .mm-homepage-release .hs-carries span { display: grid; gap: 2px; }
   .mm-homepage-release .hs-carries b { margin: 0; }
-  .mm-homepage-release .hs-proof-links { gap: 0 24px; }
-  .mm-homepage-release .hs-proof-links a { min-height: 40px; }
+  
+  
 }
 @media (max-width: 700px) {
   .mm-homepage-release .hs-section { --hs-edge: 5.13vw; }
@@ -854,97 +751,31 @@
    wait out of sight; one cell, so the deck is one height for every result.
    Only the class the script adds turns it on: without script the three stay
    a row, and on a phone a row to swipe. */
-.mm-homepage-release .hs-deck-nav { display: none; }
-.mm-homepage-release .hs-proof-deck.is-deck { width: 100%; max-width: 520px; }
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof {
-  --peek: 14px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto;
-  grid-auto-flow: row;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  scroll-snap-type: none;
-  overscroll-behavior-x: auto;
-  touch-action: pan-y;
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
-  grid-area: 1 / 1;
-  grid-template-rows: auto auto 1fr;
-  align-content: start;
-  width: 100%;
-  margin: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity var(--journey-swap) var(--journey-ease), visibility var(--journey-swap);
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck="current"] {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
+
+
+
+
+
 /* The same card as the stories' deck (new-age-leadership-r5.css, the finder
    face): the scene in a band at the top that fades into the card, a brass
    rule round it, the story large and the outcome in mint after an arrow. */
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li {
-  --hs-band: clamp(150px, 13vw, 200px);
-  row-gap: 12px;
-  padding: var(--hs-band) 0 22px;
-  border: 1px solid rgba(178, 138, 72, .5);
-  background: #0a1712;
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li::before {
-  background: linear-gradient(180deg, rgba(8, 20, 15, .12) 0, rgba(8, 20, 15, .4) calc(var(--hs-band) - 70px), rgba(8, 20, 15, .9) calc(var(--hs-band) - 8px), rgba(8, 20, 15, .94) 100%);
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li > .hs-card-img {
-  inset: 0 0 auto;
-  height: calc(var(--hs-band) + 90px);
-  object-position: 50% 72%;
-  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
-  mask-image: linear-gradient(180deg, #000 60%, transparent);
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-story {
-  padding: 0 18px;
-  font: 400 clamp(22px, 1.9vw, 28px) / 1.1 var(--r3-serif);
-  letter-spacing: -.01em;
-  text-wrap: pretty;
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-outcome {
-  position: relative;
-  padding: 0 18px 0 42px;
-  border-top: 0;
-  font: 400 clamp(16px, 1.25vw, 18px) / 1.38 var(--r3-serif);
-  text-wrap: pretty;
-}
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-outcome::before { content: "→" / ""; position: absolute; left: 18px; }
-.mm-homepage-release .hs-proof-deck.is-deck .hs-proof-who { padding: 0 18px; }
-/* The story deck's own controls: back, where the reader is, and on. */
-.mm-homepage-release .hs-proof-deck.is-deck .hs-deck-nav { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
-.mm-homepage-release .hs-deck-nav p { margin: 0; color: var(--hs-cream); font: 500 13px/1 var(--r3-mono, "IBM Plex Mono", monospace); letter-spacing: .06em; }
-.mm-homepage-release .hs-deck-nav button {
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(234, 223, 200, .24);
-  background: transparent;
-  color: var(--hs-cream);
-  font: 18px / 1 var(--r3-sans, Archivo, Arial, sans-serif);
-  cursor: pointer;
-}
-.mm-homepage-release .hs-deck-nav button[disabled] { opacity: .35; cursor: default; }
-.mm-homepage-release .hs-deck-nav button:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
-@media (hover: hover) and (pointer: fine) {
-  .mm-homepage-release .hs-deck-nav button:not([disabled]):hover { border-color: var(--hs-mint); color: var(--hs-mint); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li { transition: none; }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li,
-  .mm-homepage-release .hs-proof-deck.is-deck .hs-proof > li[data-deck] { transition: none; }
-}
+
+
+
+
+
+
+/* The story deck's own controls: back, where the reader is, and on. */
+
+
+
+
+
+
+
+
+
 
 /* ---------- Where to start: a floating piece of the living Brain ---------- */
 .mm-homepage-release .hs-choose { --orb: 84px; display: flex; align-items: center; gap: 16px; }
@@ -1003,16 +834,120 @@
 .mm-homepage-release .hs-choose-door:hover { border-color: var(--hs-mint); background: rgba(159, 241, 201, .08); }
 .mm-homepage-release .hs-choose-door:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
 /* The band is only about exploring what leaders built. */
-.mm-homepage-release .hs-voices-link.hs-explore {
-  padding: 0 18px;
-  border: 1px solid rgba(159, 241, 201, .55);
-  border-radius: 2px;
-  text-decoration: none;
-}
-.mm-homepage-release .hs-voices-link.hs-explore:hover { background: rgba(159, 241, 201, .08); border-color: var(--hs-mint); }
+
+
 @media (max-width: 760px) {
   .mm-homepage-release .hs-choose { --orb: 64px; gap: 12px; align-items: flex-start; }
   .mm-homepage-release .hs-choose-bubble::before { top: 34px; }
   .mm-homepage-release .hs-choose-doors { display: grid; }
   .mm-homepage-release .hs-choose-door { min-height: 48px; }
 }
+
+/* 2. Ways an AI brain can level you up (Krish, 2026-11-28): one rail of
+   cards that tilt and turn over (src/lib/tiltCard.ts, vs-tilt-card.css),
+   following the eras' carousel: edge to edge, a card snapped to the start, the
+   next one showing, arrows and the parts of the brain as its stops. */
+.mm-homepage-release .hs-ways { --hs-ground: #11291f; --hs-rail-ground: var(--hs-ground); z-index: 2; background: var(--hs-ground); }
+.mm-homepage-release .hs-ways .hs-inner { padding-bottom: var(--hs-sheet-lap); }
+.mm-homepage-release .hs-you {
+  text-decoration: underline;
+  text-decoration-color: var(--hs-mint);
+  text-decoration-thickness: .06em;
+  text-underline-offset: .12em;
+}
+.mm-homepage-release .hs-ways-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: clamp(14px, 1.6vw, 22px);
+  margin: 0 calc(var(--hs-edge) * -1);
+  /* Room for the lift and the cast shadow, so the rail never clips a card. */
+  padding: 10px var(--hs-edge) 34px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--hs-edge);
+  scrollbar-width: none;
+}
+.mm-homepage-release .hs-ways-track::-webkit-scrollbar { display: none; }
+.mm-homepage-release .hs-ways-track > li { scroll-snap-align: start; }
+/* In a rail the page may pan both ways, so a sideways swipe moves the rail. */
+.mm-homepage-release .hs-ways .vs-tilt-card { touch-action: pan-x pan-y; }
+.mm-homepage-release .hs-ways .hs-rail { gap: 0; }
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-ways .vs-tilt-card { --vs-tilt-card-w: min(72vw, 280px); }
+}
+
+/* 3. In their words (moved from /case-studies on 2026-11-28): one quote in
+   front, every quote in one cell so the box never changes size, then the
+   count and the attendees' businesses drifting past. */
+.mm-homepage-release .hs-words { --hs-ground: #0b1812; --hs-rail-ground: var(--hs-ground); z-index: 3; background: var(--hs-ground); }
+.mm-homepage-release .hs-words .hs-inner { padding-bottom: var(--hs-sheet-lap); }
+.mm-homepage-release .hs-words-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.mm-homepage-release .hs-words-nav { display: flex; align-items: center; gap: 8px; }
+.mm-homepage-release .hs-words-nav p { min-width: 7ch; margin: 0; text-align: center; color: var(--hs-cream); font: 400 12px / 1 var(--r3-mono); letter-spacing: .1em; text-transform: uppercase; }
+.mm-homepage-release .hs-words-nav button {
+  display: grid; place-items: center; width: 48px; height: 48px;
+  border: 1px solid var(--hs-line); border-radius: 3px; background: transparent; color: var(--hs-cream); font: 400 18px / 1 var(--r3-mono); cursor: pointer;
+}
+.mm-homepage-release .hs-words-nav button[disabled] { opacity: .35; cursor: default; }
+.mm-homepage-release .hs-words-nav button:focus-visible { outline: 2px solid var(--hs-mint); outline-offset: 3px; }
+@media (hover: hover) { .mm-homepage-release .hs-words-nav button:not([disabled]):hover { border-color: var(--hs-mint); color: var(--hs-mint); } }
+/* Without script every quote stands in a row to swipe, and the arrows go. */
+.mm-homepage-release .hs-words:not(.is-live) .hs-words-nav { visibility: hidden; }
+.mm-homepage-release .hs-words-stack {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(86%, 760px); gap: 14px;
+  margin: 0; padding: 0; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.mm-homepage-release .hs-words.is-live .hs-words-stack { grid-auto-flow: row; grid-auto-columns: auto; overflow: visible; touch-action: pan-y; }
+.mm-homepage-release .hs-words-stack > li {
+  display: grid; align-content: space-between; gap: 18px; min-width: 0;
+  padding: clamp(22px, 3vw, 40px); border: 1px solid rgba(178, 138, 72, .5); border-radius: 6px; background: rgba(13, 28, 22, .55);
+  scroll-snap-align: start;
+}
+.mm-homepage-release .hs-words.is-live .hs-words-stack > li { grid-area: 1 / 1; max-width: 1080px; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s linear .5s; }
+.mm-homepage-release .hs-words.is-live .hs-words-stack > li.is-on { opacity: 1; visibility: visible; transition: opacity .5s ease, visibility 0s; }
+.mm-homepage-release .hs-words blockquote { margin: 0; }
+.mm-homepage-release .hs-words blockquote p { margin: 0; color: var(--hs-cream); font: 400 clamp(18px, 1.7vw, 26px) / 1.4 var(--r3-serif); text-wrap: pretty; }
+.mm-homepage-release .hs-words-who { margin: 0; color: var(--hs-cream-3); font: 400 11.5px / 1.4 var(--r3-mono); letter-spacing: .1em; text-transform: uppercase; }
+.mm-homepage-release .hs-words-who cite { font-style: normal; color: var(--hs-cream-2); }
+.mm-homepage-release .hs-count { margin: 0; color: var(--hs-cream-2); font: 400 clamp(17px, 1.4vw, 21px) / 1.35 var(--r3-serif); }
+.mm-homepage-release .hs-count-figure { display: inline-block; min-width: 2.6em; color: var(--hs-mint); font-size: 1.5em; line-height: 1; font-variant-numeric: tabular-nums; }
+.mm-homepage-release .hs-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.mm-homepage-release .hs-logos {
+  --hs-logo-h: clamp(22px, 2.8vh, 28px);
+  overflow: hidden; border: 1px solid var(--hs-line); border-radius: 3px; background: var(--hs-ink-2);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.mm-homepage-release .hs-logos-track { display: flex; width: max-content; }
+.mm-homepage-release .hs-logos-track ul { display: flex; margin: 0; padding: 0; list-style: none; }
+.mm-homepage-release .hs-logo-cell {
+  display: grid; place-items: center; flex: 0 0 clamp(140px, 14vw, 200px);
+  height: calc(var(--hs-logo-h) * 1.5 + clamp(20px, 3vw, 32px)); padding: 0 clamp(14px, 1.6vw, 22px); border-right: 1px solid var(--hs-line);
+}
+.mm-homepage-release .hs-logo-cell img { width: auto; max-width: 100%; height: var(--hs-logo-h); object-fit: contain; filter: brightness(0) invert(1); opacity: .62; }
+@media (prefers-reduced-motion: no-preference) {
+  .mm-homepage-release .hs-logos-track { animation: hs-logo-drift 64s linear infinite; }
+  .mm-homepage-release .hs-logos:hover .hs-logos-track { animation-play-state: paused; }
+}
+@keyframes hs-logo-drift { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .mm-homepage-release .hs-logos { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .mm-homepage-release .hs-logos-copy { display: none !important; }
+  .mm-homepage-release .hs-words.is-live .hs-words-stack > li { transition: none; }
+}
+@media (max-width: 760px) {
+  .mm-homepage-release .hs-words-head { flex-wrap: wrap; gap: 10px; }
+  .mm-homepage-release .hs-words-head .hs-title { flex: 1 1 100%; }
+  .mm-homepage-release .hs-words-nav button { width: 44px; height: 44px; }
+  .mm-homepage-release .hs-words blockquote p { font-size: 17px; }
+}
+
+/* 4. The close: one client voice on a hairline, then the way in. */
+.mm-homepage-release .hs-closing-voice {
+  margin: 0; padding-top: 14px; border-top: 1px solid var(--hs-line);
+  color: var(--hs-cream-2); font: 400 clamp(17px, 1.35vw, 20px) / 1.4 var(--r3-serif); text-wrap: balance;
+}
+.mm-homepage-release .hs-closing-voice q { color: var(--hs-cream); quotes: "\201C" "\201D"; }

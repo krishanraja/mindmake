@@ -17,7 +17,6 @@ import { LineBreaks } from "@/components/LineBreaks";
 import Index from "./pages/Index";
 import AiBrain from "./pages/AiBrainLocked";
 import AiGtm from "./pages/AiGtm";
-import CaseStudies from "./pages/CaseStudies";
 import NewAgeLeadership from "./pages/NewAgeLeadership";
 import Blog from "./pages/Blog";
 import Toolkit from "./pages/Toolkit";
@@ -65,7 +64,6 @@ function SiteRoutes() {
       <Route path="/ai-brain" element={<AiBrain />} />
       <Route path="/ai-gtm" element={<AiGtm />} />
       <Route path="/measure-your-ai-judgement" element={<WhoDecided />} />
-      <Route path="/case-studies" element={<CaseStudies />} />
       <Route path="/brain-modules" element={<Kits />} />
       <Route path="/brain-modules/download" element={<KitDownload />} />
       <Route path="/kits/download" element={<KitDownload />} />

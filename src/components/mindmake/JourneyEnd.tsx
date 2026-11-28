@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { track } from "@/lib/analytics";
 
 const onward = {
-  brain: ["/case-studies", "See what people built"],
-  gtm: ["/case-studies?wish=yours", "Explore work that stayed yours"],
+  brain: ["/#ways", "See what people built"],
+  gtm: ["/#ways", "Explore work that stayed yours"],
   cases: ["/ai-brain", "Inside an AI brain"],
   leadership: ["/ai-gtm", "Build your AI business"],
   toolkit: ["/ai-brain", "Explore your AI brain"],
-  faq: ["/case-studies", "See the work"],
+  faq: ["/#ways", "See the work"],
   about: ["/new-age-leadership", "Explore hybrid leadership"],
   blog: ["/2-minute-ai-upgrade-toolkit", "Try the toolkit"],
 } as const;

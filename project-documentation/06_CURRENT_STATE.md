@@ -84,15 +84,14 @@ detail and `01_CANON.md` the exact copy.
   your AI brain out of it, for the people who shape creative work, culture and
   sport.", both doors, **Start building your AI brain** with "Free and
   private. It starts with a read of your business." beneath, and a publication
-  line), then three sections: "Every new technology asks us to change how we
-  think." with the four eras as a carousel on their pictures; "We build yours
-  with you in 30 days." with "A rule worth keeping" one tap away and the
-  chooser "What would you do more of?", six wishes that each open
-  `/case-studies?wish=<id>` (`back`, `terms`, `calls`, `try`, `brief`, `yours`
-  in `src/data/useCases.ts`); and "What the work made possible." with three
-  results (C-15, C-18, C-16) as a swipe deck, two client voices, "Explore what
-  leaders built", "Start your brief" and "Inside an AI brain →"; then the
-  footer. Nothing on it pins.
+  line), then four sheets (28 November 2026): "Every new technology asks us
+  to change how we think." with the four eras as a carousel on their
+  pictures; "Ways an AI brain can level you up.", six tilt cards, one per wish,
+  each a bright picture and a promise under ten words that turns over to its
+  anchor story (`src/data/ways.ts`); "In their words.", the client quotes one
+  at a time, the 4000+ count and the logo rail; and "We build yours with you
+  in 30 days." with "A rule worth keeping", one client voice, "Start your
+  brief" and "Inside an AI brain →"; then the footer. Nothing on it pins.
 - `/ai-brain` (`src/pages/AiBrainLocked.tsx`, title "Build your AI brain"):
   "Teach your AI what experience taught you." with **Start building your AI
   brain**; "The questions only you can answer."; "Your AI brain knows how you
@@ -118,12 +117,9 @@ detail and `01_CANON.md` the exact copy.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".
-- Shell pages: `/case-studies` ("What you can do with it.": one box narrows
-  the eighteen use cases and twelve labelled illustrative examples by wish
-  (six, plus "All wishes", read from `?wish=`), industry, role, result and
-  search, in three groups, results on the record, practice accounts and
-  illustrative examples; each opens whole in a sheet; then "In their words.",
-  the client quotes; `#c-NN` opens a use case), `/2-minute-ai-upgrade-toolkit`,
+- `/case-studies` retired on 28 November 2026 and redirects to `/#ways`
+  (`/testimonials` to `/#words`).
+- Shell pages: `/2-minute-ai-upgrade-toolkit`,
   `/blog` with `/blog/:slug` (indexed, absent from the menu), the answers at
   `/answers/:slug` (`/answers` redirects to `/blog`), `/faq`, `/about`,
   `/contact`, `/privacy`, `/terms` and the unlisted, noindex `/alumni`. Sitemap
@@ -149,7 +145,7 @@ detail and `01_CANON.md` the exact copy.
   records yes with name, yes anonymous or no, and the exact sentence agreed.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels (`PRIMARY_ROUTES` in `src/lib/publicLinks.ts`): Home,
-  Build your AI brain, Build your AI business, What you can do, Your 2-minute
+  Build your AI brain, Build your AI business, Your 2-minute
   AI upgrade toolkit, Questions we get asked, About us and Media, and the one
   action, Start building your AI brain (Start building your AI business on
   `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM`).
@@ -356,9 +352,6 @@ Preserve the deterministic adapter and accepted source.
 - `main` has no branch protection and no rulesets (read 26 October 2026).
   Checked workflows fail closed; privileged bypass remains possible, so a
   violation is not claimed impossible.
-- `/case-studies#record-<id>` does not open a record on a desktop, where the
-  panel is `display: none` until the story is expanded; it opens on a phone
-  (re-checked live at 1440x900 and 390x844 on 26 October 2026).
 - Two QA scripts assert retired surfaces and are not release gates:
   `scripts/qa/full-route-continuity-check.mjs` (the deleted `#archive-title`
   and the retired Brain chapters) and

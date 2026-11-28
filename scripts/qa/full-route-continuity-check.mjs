@@ -13,7 +13,6 @@ const requiredRoutes = [
   "/",
   "/ai-brain",
   "/ai-gtm",
-  "/case-studies",
   "/new-age-leadership",
   "/blog",
   "/faq",
@@ -244,7 +243,7 @@ async function verifyShell(page, label) {
         .find((link) => link.textContent.trim() === "Media")?.getAttribute("href"),
     };
   });
-  for (const href of ["/ai-brain", "/ai-gtm", "/case-studies", "/blog", "/faq"]) {
+  for (const href of ["/ai-brain", "/ai-gtm", "/blog", "/faq"]) {
     fail(!shell.internal.includes(href), `${label}: menu is missing ${href}`);
   }
   fail(shell.media !== "https://makeyourmindup.ai", `${label}: Media points to ${shell.media}`);
@@ -256,23 +255,6 @@ async function verifyShell(page, label) {
   fail(!(await menu.isVisible()), `${label}: menu control disappeared after Escape`);
   fail((await menu.getAttribute("aria-expanded")) !== "false", `${label}: Escape did not close navigation`);
   fail(!(await menu.evaluate((element) => element === document.activeElement)), `${label}: Escape did not restore menu focus`);
-}
-
-async function verifyCaseRecordAnchor(page, label) {
-  /* Since 15 November 2026 a result lives on its use case: an old proof-record
-     link opens that use case's story in the sheet (C-15 holds day-one), with
-     the address rewritten to the use case's own link. */
-  await page.goto(`${origin}/case-studies#record-day-one`, { waitUntil: "domcontentloaded" });
-  const sheet = page.locator("dialog.uc-sheet[open]");
-  await sheet.waitFor({ state: "visible", timeout: 5_000 }).catch(() => undefined);
-  const state = await page.evaluate(() => {
-    const dialog = document.querySelector("dialog.uc-sheet");
-    const heading = dialog?.querySelector("[id$='-h']");
-    return { open: Boolean(dialog?.hasAttribute("open")), heading: heading?.textContent ?? "", hash: location.hash };
-  });
-  fail(!state.open, `${label}: an old proof-record link did not open its story (${JSON.stringify(state)})`);
-  fail(!state.heading.startsWith("A media company chose to partner"), `${label}: #record-day-one opened the wrong story (${JSON.stringify(state)})`);
-  fail(state.hash !== "#c-15", `${label}: the old link was not rewritten to #c-15 (${JSON.stringify(state)})`);
 }
 
 async function verifyBrainNodeTargets(page, label) {
@@ -690,7 +672,6 @@ try {
         await page.goto(`${origin}/`, { waitUntil: "domcontentloaded" });
         await verifyShell(page, `${engine} ${viewport.name} shared shell`);
         if (["landscape-844x390", "desktop-1440x900", "mobile-390x844"].includes(viewport.name)) {
-          await verifyCaseRecordAnchor(page, `${engine} ${viewport.name} case record anchor`);
         }
         if (["mobile-320x568", "mobile-390x844"].includes(viewport.name)) {
           await verifyBrainNodeTargets(page, `${engine} ${viewport.name} Brain idea targets`);

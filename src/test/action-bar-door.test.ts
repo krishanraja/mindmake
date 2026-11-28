@@ -19,7 +19,7 @@ import { START_LABEL, START_LABEL_GTM } from "@/lib/publicLinks";
 const bar = (html: string) => html.match(/<div class="mm-action-bar[^"]*"[^>]*>[\s\S]*?<\/button><\/div><\/div>/)?.[0] ?? "";
 
 describe("the action bar", () => {
-  it.each(["/blog", "/case-studies", "/faq", "/contact"])(
+  it.each(["/blog", "/faq", "/contact"])(
     "offers no door on %s, only the one button",
     (route) => {
       const html = serverRender(route);
@@ -29,7 +29,7 @@ describe("the action bar", () => {
   );
 
   it("names what the reader is building, and the revenue engine on its own page", () => {
-    for (const route of ["/blog", "/faq", "/case-studies"]) {
+    for (const route of ["/blog", "/faq"]) {
       expect(bar(serverRender(route)).includes(START_LABEL), route).toBe(true);
     }
     for (const route of ["/ai-gtm", "/ai-gtm/"]) {

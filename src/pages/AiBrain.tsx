@@ -319,7 +319,7 @@ export default function AiBrain() {
               <span className="source">{activeStory.story.attribution} · identity withheld</span>
               <button className="proof-disclosure" type="button" aria-expanded={proofWordsOpen} aria-controls="client-proof" onClick={() => setProofWordsOpen((open) => !open)}>{proofWordsOpen ? "Close the client's words" : "Read the client's words"}<span aria-hidden="true">{proofWordsOpen ? "−" : "+"}</span></button>
               {proofWordsOpen ? <blockquote id="client-proof">“{activeStory.story.quote}”<cite>{activeStory.story.attribution}</cite></blockquote> : null}
-              <Link className="proof-archive-link" to="/case-studies">See all eight results <span aria-hidden="true">→</span></Link>
+              <Link className="proof-archive-link" to="/#ways">See all eight results <span aria-hidden="true">→</span></Link>
             </div>
 
             <div className="proof-story-stage">

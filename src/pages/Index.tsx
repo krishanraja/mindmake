@@ -16,6 +16,7 @@ import "@/components/homepage-release/component-styles.css";
 import "@/components/homepage-release/page.css";
 import "@/components/homepage-release/integration.css";
 import "@/components/homepage-release/homepageSections.css";
+import "@/styles/vs-tilt-card.css";
 import "@/styles/journey.css";
 
 /**

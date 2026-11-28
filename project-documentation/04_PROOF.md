@@ -79,7 +79,7 @@ no logo links. Motion stops for reduced-motion users. Preserve the accepted
 homepage rather than inserting an earlier proof-stack design.
 
 Since 6 November 2026 (Krish: "add more logos to the carousel") the rail under
-the count on `/case-studies` carries all 16, media first, as one slow loop that
+the count in "In their words." on the homepage (moved from `/case-studies` on 28 November 2026) carries all 16, media first, as one slow loop that
 pauses under a pointer and stands still, swipeable, with reduced motion
 (`src/components/mindmake/LogoRail.tsx`). The 13 added marks are each brand's
 own artwork from its Brandfetch kit, drawn as one flat mark; P&G's roundel and
@@ -148,8 +148,8 @@ both to Krish's cleaned content file of that date, word for word.
 - No caveat, eyebrow, asterisk or label marks any of them as anything other
   than true (Krish, 15 October 2026). The one exception, approved on the
   rendered `/case-studies` on 15 November 2026, is the status label "Result on
-  the record" at the foot of the eight cards that hold one, and as the filter
-  that shows only those.
+  the record" at the foot of a card that holds one (on the homepage's cards
+  since 28 November 2026, when `/case-studies` retired).
 
 ## Quotes on the site
 
@@ -187,9 +187,11 @@ quote collection. The previous nine-reference prose is preserved, unchanged, in
 The approved R3 homepage controls its proof placement. No additional logo strip,
 result cards, founder block or testimonial deck is required by this file. A
 result lives on its use case, and every surface that shows one reads it from
-`src/data/useCases.ts`; the use cases and their results are on `/case-studies`,
-`/ai-brain`, `/ai-gtm` and `/new-age-leadership`, and three results on the
-homepage, each under its scoped approval. Named-client quotes stay
+`src/data/useCases.ts`; the use cases and their results are on `/ai-brain`,
+`/ai-gtm` and `/new-age-leadership`, and on the homepage one anchor story per
+wish on the back of its card ("Ways an AI brain can level you up.", Krish, 28
+November 2026, `src/data/ways.ts`) with the client quotes after it, each under
+its scoped approval. Named-client quotes stay
 consent-gated and never form an unapproved new section.
 
 ## Guardrails

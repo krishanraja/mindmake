@@ -5,6 +5,13 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-28: the ways cards, the client words on the homepage, /case-studies retired
+
+- Krish, 28 November 2026: one homepage section, "Ways an AI brain can level you up.", replaces "What would you do more of?" and "What the work made possible."; "In their words." moves from `/case-studies` to the homepage ahead of "We build yours with you in 30 days."; `/case-studies` retires (`/case-studies` to `/#ways`, `/testimonials` to `/#words`, permanent).
+- The cards: the vividsites Tilt Card with the Holo Card's turn, in the house faces (`src/lib/tiltCard.ts`, `src/styles/vs-tilt-card.css`, `src/data/ways.ts`). Six fronts, one per wish, each a bright still made for it on Higgsfield (GPT Image 2.6, 1.25 credits each; Control Center had no Higgsfield pool for mindmake, so the spend went ahead on Krish's explicit approval in the session and is not booked there). Each wish names one of the brain's six parts.
+- Replaced in `03_DESIGN_CONTRACT.md`: the homepage's three sections (the wish chooser, the three results as a swipe deck, "Explore what leaders built") and the `/case-studies` paragraph ("the one place to find your path", the use-case finder and "In their words.").
+- Codex: `codex/README.md` and two cards. mindmake is not yet in content-engine's `config/codex-lanes.json`, so the lane does not build them; this session built the ways cards itself.
+
 ## 2026-11-27: current state after the creative repositioning
 
 - Docs sync after PRs #337 to #343 (merge `19c81d25`, 26 November 2026; positioning approved by Krish on 25 November 2026). `06_CURRENT_STATE.md`, `03_DESIGN_CONTRACT.md` and `website-redesign/STATE.md` now describe the repositioned site, and the text they replaced is kept below verbatim. README.md, NOW.md, CLAUDE.md, 03, 04, 00 and 01 headers, `website-redesign/STATE.md` and `krishs-mission/` were brought into line the same day.

@@ -1,0 +1,152 @@
+/*
+  vs-tilt-card: a 3D tilt card with pointer-tracked glare, contour foil and a
+  turn to its back (vividsites "Tilt Card", with the Holo Card's flip; ported
+  2026-11-28). Script: src/lib/tiltCard.ts.
+
+  Customise through the variables on .vs-tilt-card only. Deviations from the
+  vividsites source, both forced by the house rules:
+  - the faces are the site's own (Newsreader, IBM Plex Mono), because
+    qa:type-system allows only the self-hosted faces, so the Google Fonts tags
+    are not loaded;
+  - inside a rail the card lets the page pan both ways (touch-action), so a
+    sideways swipe still moves the rail; a press still tilts the card.
+*/
+.vs-tilt-card {
+  --vs-tilt-card-w: clamp(232px, min(30vw, 44vh), 300px);
+  --vs-tilt-card-radius: 18px;
+  --vs-tilt-card-max: 11;
+  --vs-tilt-card-ink: #eadfc8;
+  --vs-tilt-card-front-ink: #06110d;
+  --vs-tilt-card-accent: #9ff1c9;
+  --vs-tilt-card-result: #e0a44a;
+  --vs-tilt-card-glare: .7;
+  --vs-tilt-card-foil: .55;
+  --vs-tilt-card-back: #0d1c16;
+  --vs-tilt-card-shadow: rgba(2, 8, 5, .58);
+  --vs-tilt-card-serif: var(--r3-serif, "Newsreader"), Georgia, serif;
+  --vs-tilt-card-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  position: relative; display: block; width: var(--vs-tilt-card-w); aspect-ratio: 5 / 7;
+  perspective: 1000px; cursor: pointer; outline: none; user-select: none; -webkit-user-select: none;
+  touch-action: pan-y; -webkit-tap-highlight-color: transparent;
+  color: var(--vs-tilt-card-ink); font-family: var(--vs-tilt-card-mono);
+  text-align: left; padding: 0; border: 0; background: none;
+}
+.vs-tilt-card-shadow {
+  position: absolute; left: 9%; right: 9%; top: 14%; bottom: -3%; border-radius: var(--vs-tilt-card-radius);
+  background: var(--vs-tilt-card-shadow); filter: blur(22px); transform: translate3d(0, 18px, 0); opacity: .7;
+  will-change: transform, opacity; pointer-events: none;
+}
+.vs-tilt-card-body { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; pointer-events: none; }
+.vs-tilt-card-face {
+  position: absolute; inset: 0; border-radius: var(--vs-tilt-card-radius); overflow: hidden;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden; isolation: isolate;
+  background: #f1ead9;
+}
+.vs-tilt-card-face::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 6;
+  box-shadow: inset 0 0 0 1px rgba(255, 250, 238, .3), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+.vs-tilt-card-back { transform: rotateY(180deg); background: var(--vs-tilt-card-back); }
+.vs-tilt-card-back::after { box-shadow: inset 0 0 0 1px rgba(159, 241, 201, .22), inset 0 1px 0 rgba(255, 255, 255, .12); }
+
+.vs-tilt-card-img {
+  position: absolute; inset: -5%; width: 110%; height: 110%; max-width: none; object-fit: cover; display: block;
+  will-change: transform; transform: translate3d(0, 0, 0);
+}
+/* The words sit on a cream panel at the card's foot, so they keep their
+   contrast whatever the picture holds there (qa:card-contrast). */
+.vs-tilt-card-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgba(246, 240, 226, .97) 0%, rgba(246, 240, 226, .94) 30%, rgba(246, 240, 226, 0) 50%);
+}
+.vs-tilt-card-foil {
+  position: absolute; inset: 0; z-index: 2; opacity: 0; mix-blend-mode: color-dodge; overflow: hidden; pointer-events: none;
+  --vs-tilt-card-lines: repeating-radial-gradient(ellipse 140% 90% at 18% 112%, #000 0 .8px, transparent 1.4px 11px);
+  -webkit-mask-image: var(--vs-tilt-card-lines), linear-gradient(to bottom, #000 8%, rgba(0, 0, 0, .35) 45%, transparent 70%);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--vs-tilt-card-lines), linear-gradient(to bottom, #000 8%, rgba(0, 0, 0, .35) 45%, transparent 70%);
+  mask-composite: intersect;
+  will-change: opacity;
+}
+.vs-tilt-card-foil i {
+  position: absolute; top: -50%; left: -100%; width: 300%; height: 200%; will-change: transform;
+  background: linear-gradient(112deg, transparent 40%, #ffb36b 44%, #ffe38a 46.5%, #9ff1c9 49%, #8ad7ff 51.5%, #c8a2ff 54%, #ff9ad1 56%, transparent 60%);
+}
+.vs-tilt-card-back .vs-tilt-card-foil {
+  -webkit-mask-image: var(--vs-tilt-card-lines), linear-gradient(to top, #000 8%, rgba(0, 0, 0, .35) 45%, transparent 70%);
+  mask-image: var(--vs-tilt-card-lines), linear-gradient(to top, #000 8%, rgba(0, 0, 0, .35) 45%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.vs-tilt-card-glare { position: absolute; inset: 0; z-index: 5; overflow: hidden; opacity: 0; mix-blend-mode: overlay; pointer-events: none; will-change: opacity; }
+.vs-tilt-card-glare i {
+  position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; will-change: transform;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, .5) 12%, rgba(255, 255, 255, .12) 26%, rgba(255, 255, 255, 0) 42%);
+}
+.vs-tilt-card-content {
+  position: absolute; inset: 0; z-index: 3; padding: 18px 18px 16px; display: flex; flex-direction: column;
+  will-change: transform;
+}
+.vs-tilt-card-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  font: 400 10.5px/1 var(--vs-tilt-card-mono); letter-spacing: .12em; text-transform: uppercase;
+}
+.vs-tilt-card-front .vs-tilt-card-row { color: var(--vs-tilt-card-front-ink); }
+.vs-tilt-card-part {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px 6px 8px; border-radius: 99px;
+  background: rgba(246, 240, 226, .86); color: var(--vs-tilt-card-front-ink);
+}
+.vs-tilt-card-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #2f6b4c; box-shadow: 0 0 8px #9ff1c9; }
+.vs-tilt-card-title {
+  margin: auto 0 0; color: var(--vs-tilt-card-front-ink);
+  font: 300 clamp(23px, 2.1vw, 27px)/1.08 var(--vs-tilt-card-serif); letter-spacing: -.02em;
+  text-wrap: balance;
+}
+.vs-tilt-card-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(6, 17, 13, .16);
+  font: 400 10px/1.4 var(--vs-tilt-card-mono); letter-spacing: .12em; text-transform: uppercase; color: rgba(6, 17, 13, .72);
+}
+.vs-tilt-card-turn { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.vs-tilt-card-turn svg { width: 12px; height: 12px; }
+
+/* The back: the story in its own words, on the brain's deep green. */
+.vs-tilt-card-back .vs-tilt-card-content { padding: 18px 18px 16px; }
+.vs-tilt-card-back::before {
+  content: ""; position: absolute; inset: 0; opacity: .07;
+  background: repeating-radial-gradient(ellipse 120% 80% at 80% -10%, var(--vs-tilt-card-accent) 0 1px, transparent 1.5px 11px);
+}
+.vs-tilt-card-back .vs-tilt-card-row { color: var(--vs-tilt-card-accent); }
+.vs-tilt-card-glyph { width: 46px; height: 34px; flex: none; }
+.vs-tilt-card-glyph path { fill: none; stroke: rgba(234, 223, 200, .34); stroke-width: 1; stroke-linejoin: round; }
+.vs-tilt-card-glyph circle { fill: rgba(234, 223, 200, .24); }
+.vs-tilt-card-glyph circle.is-lit { fill: var(--vs-tilt-card-accent); filter: drop-shadow(0 0 3px var(--vs-tilt-card-accent)); }
+.vs-tilt-card-back-title {
+  margin: 16px 0 0; font: 300 clamp(19px, 1.65vw, 22px)/1.16 var(--vs-tilt-card-serif); letter-spacing: -.015em; color: var(--vs-tilt-card-ink);
+}
+.vs-tilt-card-back-line { margin: 10px 0 0; font: 400 15px/1.38 var(--vs-tilt-card-serif); color: rgba(234, 223, 200, .78); }
+.vs-tilt-card-result {
+  margin: auto 0 0; padding-top: 10px; border-top: 1px solid rgba(224, 164, 74, .34);
+  font: 400 15px/1.32 var(--vs-tilt-card-serif); color: var(--vs-tilt-card-ink);
+}
+.vs-tilt-card-result small, .vs-tilt-card-label {
+  display: block; margin-top: 8px; font: 400 10px/1.3 var(--vs-tilt-card-mono); letter-spacing: .12em; text-transform: uppercase;
+}
+.vs-tilt-card-result small { color: var(--vs-tilt-card-result); }
+.vs-tilt-card-label { color: rgba(234, 223, 200, .62); }
+
+/* The one control: a transparent button over the whole card. */
+.vs-tilt-card-toggle {
+  position: absolute; inset: 0; z-index: 8; width: 100%; height: 100%; margin: 0; padding: 0;
+  border: 0; border-radius: var(--vs-tilt-card-radius); background: transparent; color: transparent;
+  cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent;
+}
+.vs-tilt-card:has(.vs-tilt-card-toggle:focus-visible) .vs-tilt-card-face { box-shadow: 0 0 0 2px #06110d, 0 0 0 4px var(--vs-tilt-card-accent); }
+
+/* Without script the card turns while a pointer rests on it or it has focus,
+   and a screen reader reads both faces in order (neither is hidden until the
+   script takes over), so the story is never out of reach and nothing moves. */
+.vs-tilt-card:not(.is-live):is(:hover, :focus-within) .vs-tilt-card-body { transform: rotateY(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-tilt-card-foil, .vs-tilt-card-glare { display: none; }
+}

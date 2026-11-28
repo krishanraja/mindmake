@@ -62,7 +62,7 @@ for (const finding of contract.verifiedOpenFindings) {
 }
 
 // /answers itself redirects to /blog since 2026-09-25 (Krish); the answer pages stay.
-const requiredRoutes = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/:slug", "/answers/:slug", "/faq", "/contact", "/privacy", "/terms"];
+const requiredRoutes = ["/", "/ai-brain", "/ai-gtm", "/new-age-leadership", "/blog", "/blog/:slug", "/answers/:slug", "/faq", "/contact", "/privacy", "/terms"];
 for (const route of requiredRoutes) requireCondition(contract.routeContinuity.mustPreserve.includes(route), `route continuity is missing ${route}`);
 // The publication moved to makeyourmindup.ai (Krish, 2026-09-26); every Media
 // and Subscribe link goes there (PUBLICATION_URL in src/lib/publicLinks.ts).
@@ -118,7 +118,7 @@ for (const requiredFixture of ["iframe assembly", "missing reverse scroll", "sta
 const rubricFailures = validateRubric(rubric);
 failures.push(...rubricFailures.map((failure) => `rubric v3: ${failure}`));
 const representativeAwardRoutes = [
-  "/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog",
+  "/", "/ai-brain", "/ai-gtm", "/new-age-leadership", "/blog",
   "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
   "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms",
 ];

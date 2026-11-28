@@ -54,6 +54,6 @@ Mindmake is a small AI and commercial strategy practice. It builds a leader thei
 
 There are two ways in. [Build your AI brain](/ai-brain) starts with the leader's own judgement. [Build your AI business](/ai-gtm) starts with the business's pricing, positioning, product and people.
 
-[What you can do](/case-studies) holds the use cases, the results on the record and the clients' own words.
+[Ways an AI brain can level you up](/#ways) holds the use cases, the results on the record and the clients' own words.
 
 The test for any of it is the one in the answer above: does it run on your decisions, is it yours, and would you vouch for it out loud.

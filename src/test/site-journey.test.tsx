@@ -8,11 +8,13 @@ import Blog from "@/pages/Blog";
 import corpus from "@/content/answers.json";
 import { ideas } from "@/lib/ideas";
 
+/* The homepage carries four sheets since 2026-11-28 (Krish: the ways cards
+   and the client words join it ahead of the 30 days); every other page keeps
+   three. Each closes its last section with the brief and one onward link. */
 const routes = [
-  ["/", ".hs-section"],
+  ["/", ".hs-section", 4],
   ["/ai-brain", ".product-section"],
   ["/ai-gtm", ".product-section"],
-  ["/case-studies", "section.uc-finder, section.uc-words, main > section.mm-block"],
   ["/new-age-leadership", 'section[aria-label="The problem"], section[aria-label="How it works"], section[aria-label="What you keep"]'],
   ["/2-minute-ai-upgrade-toolkit", ".journey-room"],
   ["/faq", ".journey-room"],
@@ -23,11 +25,11 @@ const routes = [
 const documentFor = (route: string) => new DOMParser().parseFromString(render(route), "text/html");
 
 describe("the nine public journeys", () => {
-  it.each(routes)("%s closes the third chapter with the brief and one onward link", (route, selector) => {
-    const doc = documentFor(route);
-    const sections = doc.querySelectorAll(selector);
-    expect(sections).toHaveLength(3);
-    const end = sections[2].querySelector(".journey-end");
+  it.each(routes)("%s closes its last chapter with the brief and one onward link", (route, selector, count = 3) => {
+    const doc = documentFor(route as string);
+    const sections = doc.querySelectorAll(selector as string);
+    expect(sections).toHaveLength(count as number);
+    const end = sections[(count as number) - 1].querySelector(".journey-end");
     expect(end).not.toBeNull();
     expect(doc.querySelectorAll(".journey-end")).toHaveLength(1);
     expect(end!.querySelector("button")?.textContent).toBe("Start your brief");

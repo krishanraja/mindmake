@@ -49,7 +49,7 @@ const WIDTH = Number(flag("width", 1440));
    fallback, so a stale slug would not fail, it would quietly measure the
    wrong page. */
 const { answers, answerPath } = await loadAnswers(resolve(dirname(fileURLToPath(import.meta.url)), "../.."));
-const PATHS = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/faq", "/new-age-leadership",
+const PATHS = ["/", "/ai-brain", "/ai-gtm", "/faq", "/new-age-leadership",
   "/blog", answerPath(answers[0].slug)];
 
 /* Properties where losing changes the layout or the reading. A reset winning on

@@ -13,7 +13,6 @@ import Index from "./pages/Index";
 import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
 import { SiteExit } from "@/components/ui/lead-exit";
 
-const CaseStudies = preloadable(() => import("./pages/CaseStudies"));
 const NewAgeLeadership = preloadable(() => import("./pages/NewAgeLeadership"));
 const NotFound = lazyRoute(() => import("./pages/NotFound"));
 const Privacy = preloadable(() => import("./pages/Privacy"));
@@ -66,7 +65,6 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/brain-modules(?:\/[^/]+)?\/?$/, Kits],
   [/^\/ai-brain\/?$/, AiBrain],
   [/^\/ai-gtm\/?$/, AiGtm],
-  [/^\/case-studies\/?$/, CaseStudies],
   [/^\/blog\/?$/, Blog],
   [/^\/2-minute-ai-upgrade-toolkit\/?$/, Toolkit],
   [/^\/blog\/[^/]+\/?$/, BlogPost],
@@ -267,7 +265,6 @@ function AppRoutes() {
             <Route path="/ai-brain" element={<AiBrain />} />
             <Route path="/ai-gtm" element={<AiGtm />} />
             <Route path="/measure-your-ai-judgement" element={<PrivateAuditRoute />} />
-            <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/brain-modules" element={<Kits />} />
             <Route path="/brain-modules/download" element={<KitDownload />} />
             <Route path="/kits/download" element={<KitDownload />} />

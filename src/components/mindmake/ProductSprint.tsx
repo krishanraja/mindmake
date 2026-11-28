@@ -37,7 +37,7 @@ export function ProductSprint({ door, onStart }: { door: Door; onStart: (door: D
       <h3>What stays with you</h3>
       <p>{business ? "The finished work, the terms you agreed and a brief for the next release." : "Your brain, built out. Your standards, the systems you tested and a record of the call."}</p>
     </div>
-    <noscript><a href="/case-studies">Explore the case studies</a></noscript>
+    <noscript><a href="/#ways">Explore the stories</a></noscript>
     <div className="product-actions">
       <button className="product-story-link" onClick={openStories}>Explore the stories</button>
       <small>{results.length} results on the record</small>

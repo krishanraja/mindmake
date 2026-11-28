@@ -78,9 +78,6 @@ export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; extern
      the name the homepage's door already used; the page keeps its own title.
      It fits one line on a phone, so it needs no short form. */
   { label: "Build your AI business", href: "/ai-gtm" },
-  /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
-     page's own title matches its label, so the click lands where it said. */
-  { label: "What you can do", href: "/case-studies" },
   /* The two free-to-try ways in (Krish, 2026-11-19). /blog stays for search
      engines and AI crawlers, with no link from the menus. */
   { label: "Your 2-minute AI upgrade toolkit", short: "2-minute AI toolkit", href: "/2-minute-ai-upgrade-toolkit" },

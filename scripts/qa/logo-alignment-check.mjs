@@ -128,7 +128,6 @@ const ROUTES = [
   "/",
   "/ai-brain",
   "/ai-gtm",
-  "/case-studies",
   "/new-age-leadership",
   "/blog",
   `/blog/${posts[0].slug}`,

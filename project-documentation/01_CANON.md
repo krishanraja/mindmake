@@ -69,7 +69,7 @@ begins with what the last one taught you.", the old GTM promise beginning "AI
 is changing what customers pay for" and the route control "AI brain or AI
 revenue engine".
 
-Public route labels in order are **Home**, **Build your AI brain**, **Build your AI business**, **What you can do**, **Your 2-minute AI upgrade toolkit**, **Questions we get asked**, **About us** and **Media**. The badge reads **Our media channel**. The main action is **Start building your AI brain**, or **Start building your AI business** on the business page. The footer reads **Keep the final say on your best work.**
+Public route labels in order are **Home**, **Build your AI brain**, **Build your AI business**, **Your 2-minute AI upgrade toolkit**, **Questions we get asked**, **About us** and **Media**. The badge reads **Our media channel**. The main action is **Start building your AI brain**, or **Start building your AI business** on the business page. The footer reads **Keep the final say on your best work.**
 
 The four underlying GTM levers remain **product, price, positioning and people**.
 This approved shorter door sentence is not permission to remove product from
@@ -539,8 +539,8 @@ documented in `src/lib/answerFormat.ts`.
 - **Quality bar.** The direct answer comes first and stands alone, in two or
   three sentences. The page says one thing the pages already answering the
   question do not (`claim`). No price, no duration, no count, no client name,
-  and no client result outside `/case-studies` (`04_PROOF.md`, Placement
-  authority); link to `/case-studies` instead. Practice voice, house style,
+  and no client result on the page itself (`04_PROOF.md`, Placement
+  authority); link to `/#ways` instead. Practice voice, house style,
   honest dates. An adtech-led page carries `lead: false` (Krish, 25 September
   2026). `src/test/answer-hub.test.ts` and `src/test/discoverability.test.ts`
   hold the fields, lengths, slugs, structured data, sitemap, feed and llms

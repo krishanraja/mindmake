@@ -43,9 +43,9 @@
     "allowedContext": ["the matching public production or preview website", "this neutral judging rubric", "the assigned surface and viewports", "the frozen candidate-bound evidence packet", "publicly observable browser evidence gathered by the judge"]
   },
   "requiredRouteGroups": {
-    "core": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership"],
+    "core": ["/", "/ai-brain", "/ai-gtm", "/new-age-leadership"],
     "utility": ["/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"],
-    "complete": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"]
+    "complete": ["/", "/ai-brain", "/ai-gtm", "/new-age-leadership", "/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"]
   },
   "jurors": [
     { "id": "juror_art_system", "assignments": ["desktop_art_system", "mobile_art_system"] },

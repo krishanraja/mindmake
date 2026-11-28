@@ -7,7 +7,6 @@ const ACTIVE_BUYING_SURFACES = [
   "src/pages/Index.tsx",
   "src/pages/AiBrain.tsx",
   "src/pages/AiGtm.tsx",
-  "src/pages/CaseStudies.tsx",
   "src/pages/Contact.tsx",
   "src/components/mindmake/LeadBrief.tsx",
   "src/components/mindmake/MindmakeShell.tsx",

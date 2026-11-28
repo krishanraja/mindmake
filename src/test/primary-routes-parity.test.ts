@@ -58,7 +58,8 @@ describe("primary routes parity", () => {
     const handoff = JSON.parse(read("quality/website-redesign/homepage-handoff.v1.json"));
     const selection = handoff.handoff?.sharedLanguage?.selection ?? findSelection(handoff);
     const byHref = Object.fromEntries(PRIMARY_ROUTES.map(({ href, label }) => [href, label]));
-    expect(byHref["/case-studies"]).toBe(selection.results);
+    /* /case-studies retired into the homepage (Krish, 2026-11-28). */
+    expect(byHref["/case-studies"]).toBeUndefined();
     expect(byHref["/2-minute-ai-upgrade-toolkit"]).toBe(selection.toolkit);
     /* The blog stays for search engines with no menu link (Krish, 2026-11-19). */
     expect(byHref["/blog"]).toBeUndefined();

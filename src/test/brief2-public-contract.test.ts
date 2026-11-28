@@ -43,7 +43,6 @@ const PUBLIC_SURFACES = [
   "src/components/ai-gtm/TeamChapter.tsx",
   "src/components/ai-gtm/ProofBand.tsx",
   "src/components/ai-gtm/Unbroken.tsx",
-  "src/pages/CaseStudies.tsx",
   "src/pages/Contact.tsx",
   "src/pages/Alumni.tsx",
   "src/pages/Library.tsx",
@@ -576,7 +575,6 @@ describe("the conversion contract", () => {
       "Build your AI brain",
       "Build your AI business",
       "Home",
-      "What you can do",
       "Your 2-minute AI upgrade toolkit",
       "Questions we get asked",
       "About us",
@@ -607,7 +605,7 @@ describe("the conversion contract", () => {
        step, each saying the same "Subscribe for free". */
     expect(`band exists: ${existsSync(resolve(process.cwd(), "src/components/mindmake/SubscribeBand.tsx"))}`)
       .toBe("band exists: false");
-    for (const page of ["src/pages/CaseStudies.tsx", "src/pages/AiGtm.tsx", "src/pages/AiBrainLocked.tsx", "src/pages/Index.tsx"]) {
+    for (const page of ["src/pages/AiGtm.tsx", "src/pages/AiBrainLocked.tsx", "src/pages/Index.tsx"]) {
       expect(read(page)).not.toContain("SubscribeBand");
     }
 

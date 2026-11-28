@@ -221,6 +221,11 @@ body.mm-homepage-active { margin: 0; }
    circuit (the riser at the press and the line across the glass) is on screen
    (Krish, 2026-09-26). Desktop keeps the whole frame. */
 .mm-homepage-release .r3-opening .preview-mobile .hero-stage video { object-position: 55% center; }
+/* An underlined phrase never breaks, so its stroke is always one line. */
+.mm-homepage-release .hs-title .hs-ul { white-space: nowrap; }
+/* Under reduced motion the film's poster stands in its place (homepageSections.ts). */
+.mm-homepage-release .r3-opening .hero-stage .hs-film-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.mm-homepage-release .r3-opening .preview-mobile .hero-stage .hs-film-still { object-position: 55% center; }
 
 /* The hero doors are links to their pages now (Krish, 2026-09-25). They keep
    the approved door composition; only a link's own defaults are undone. */

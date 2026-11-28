@@ -162,8 +162,8 @@ const wordsMarkup = () => `<section id="words" class="hs-section hs-words" aria-
 const waysMarkup = () => `<section id="ways" class="hs-section hs-ways" aria-labelledby="ways-title"><div class="hs-inner"><h2 id="ways-title" class="hs-title">Ways an AI brain can level <span class="hs-ul">you</span> up.</h2><div class="hs-rail" data-hs-rail><ul class="hs-ways-track" data-hs-rail-track aria-label="Ways an AI brain helps, one card each; turn a card for its story">${WAYS.map(wayMarkup).join("")}</ul>${railNav("card", WAYS.map((_, index) => String(index + 1).padStart(2, "0")))}</div></div></section>`;
 
 export function homepageSectionsMarkup() {
-  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner">${compareSlot("sheet")}<h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-mark" data-hs-mark="underline">how we think</span>.</h2><p class="hs-lede">Each time, the real question was who kept the judgement. With AI, it is the same question.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div></div></section>
-      ${waysMarkup()}${wordsMarkup()}<section class="hs-section hs-build" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-mark" data-hs-mark="underline">30 days</span>.</h2><p class="hs-lede">Then it is yours to grow. It starts with no sensitive material: your goals, your standards and the calls you have made are enough to begin.</p><details class="journey-detail"><summary>A rule worth keeping</summary><p>If you always keep the final edit, your AI brain can bring that rule back when a sponsor asks for approval.</p></details>${CLOSING_VOICE ? `<p class="hs-closing-voice"><q>${esc(CLOSING_VOICE.quote)}</q> <span class="hs-voices-who">${esc(CLOSING_VOICE.who)}</span></p>` : ""}<div class="journey-end"><button type="button" class="mm-button" data-mm-primary data-start-route="brain">Start your brief</button><a href="/ai-brain">Inside an AI brain <span aria-hidden="true">→</span></a></div></div></section>
+  return `<section id="history" class="hs-section hs-problem" aria-labelledby="hs-problem-title"><div class="hs-inner">${compareSlot("sheet")}<h2 id="hs-problem-title" class="hs-title">Every new technology asks us to change <span class="hs-ul">how we think</span>.</h2><p class="hs-lede">Each time, the real question was who kept the judgement. With AI, it is the same question.</p><div class="hs-rail" data-hs-rail><ul class="hs-eras" data-hs-rail-track aria-label="Four times we have been here before, oldest first">${ERAS.map(eraMarkup).join("")}</ul>${railNav("era", ERAS.map((era) => era.stop))}</div></div></section>
+      ${waysMarkup()}${wordsMarkup()}<section class="hs-section hs-build" aria-labelledby="hs-get-title"><div class="hs-inner"><h2 id="hs-get-title" class="hs-title">We build yours with you in <span class="hs-ul">30 days</span>.</h2><p class="hs-lede">Then it is yours to grow. It starts with no sensitive material: your goals, your standards and the calls you have made are enough to begin.</p><details class="journey-detail"><summary>A rule worth keeping</summary><p>If you always keep the final edit, your AI brain can bring that rule back when a sponsor asks for approval.</p></details>${CLOSING_VOICE ? `<p class="hs-closing-voice"><q>${esc(CLOSING_VOICE.quote)}</q> <span class="hs-voices-who">${esc(CLOSING_VOICE.who)}</span></p>` : ""}<div class="journey-end"><button type="button" class="mm-button" data-mm-primary data-start-route="brain">Start your brief</button><a href="/ai-brain">Inside an AI brain <span aria-hidden="true">→</span></a></div></div></section>
       `;
 }
 
@@ -288,6 +288,39 @@ function mountCount(figure: HTMLElement, signal: AbortSignal, reduced: boolean) 
 }
 
 /**
+ * Under reduced motion the hero shows its poster as a picture and no film is
+ * mounted at all (03_DESIGN_CONTRACT.md: films stop for reduced motion;
+ * scripts/qa/first-second-check.mjs counts the elements). The film is
+ * preload="none", so it never fetched a byte; it comes back if the reader
+ * turns motion on again.
+ */
+function stillFilms(root: HTMLElement, signal: AbortSignal) {
+  const query = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+  if (!query) return;
+  const swapped = new Map<HTMLImageElement, HTMLVideoElement>();
+  const sync = () => {
+    if (query.matches) {
+      root.querySelectorAll<HTMLVideoElement>(".r3-opening .hero-stage video").forEach((video) => {
+        const still = document.createElement("img");
+        still.className = "hs-film-still";
+        still.src = video.getAttribute("poster") ?? "";
+        still.alt = "";
+        still.decoding = "async";
+        still.setAttribute("aria-hidden", "true");
+        video.replaceWith(still);
+        swapped.set(still, video);
+      });
+    } else {
+      swapped.forEach((video, still) => still.replaceWith(video));
+      swapped.clear();
+    }
+  };
+  sync();
+  query.addEventListener("change", sync, { signal });
+  signal.addEventListener("abort", () => { swapped.forEach((video, still) => still.replaceWith(video)); swapped.clear(); });
+}
+
+/**
  * The eras turn on a tap: the question gives way to what actually happened,
  * in the same place, so a tile never changes size. Without script a tile shows
  * both, and each carousel is a row to swipe (homepageSections.css).
@@ -299,6 +332,7 @@ export function mountHomepageSections(root: HTMLElement) {
     tile.addEventListener("click", () => tile.setAttribute("aria-pressed", String(tile.getAttribute("aria-pressed") !== "true")), { signal: abort.signal });
   });
   root.querySelectorAll<HTMLElement>("[data-hs-rail]").forEach((rail) => mountRail(rail, abort.signal, reduced));
+  stillFilms(root, abort.signal);
   const unTilt = mountTiltCards(root);
   root.querySelectorAll<HTMLElement>(".hs-words").forEach((section) => mountWords(section, abort.signal));
   root.querySelectorAll<HTMLElement>("[data-hs-count]").forEach((figure) => mountCount(figure, abort.signal, reduced));

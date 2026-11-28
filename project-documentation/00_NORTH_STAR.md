@@ -54,11 +54,12 @@ understanding stands still.
 
 **Who it helps.** Write for the people who shape creative work, culture and sport. Media comes first. Address the people who make the calls first and the people who make the work second. Music is outside v1.
 
-**What they get.** One door: **Build your AI brain** (`/ai-brain`): Put your
-taste and judgement to work on your next call. Making, sharing and earning
-from the work are what an AI brain leads to, not a second product (Krish, 28
-November 2026: `/ai-gtm` retired into the homepage's ways cards and redirects
-to `/ai-brain`).
+**What they get.** One door, and what it leads to. Since 28 November 2026
+(Krish) the business is the outcome of an AI brain, not a second product:
+`/ai-gtm` retired into the homepage's ways cards and redirects to `/ai-brain`.
+
+- **Build your AI brain** (`/ai-brain`): Put your taste and judgement to work on your next call.
+- **Build your AI business** (`/#ways`): Make, share and earn from your work with AI.
 
 The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately. The Sprint’s public shape is 30 days.
 
@@ -194,12 +195,13 @@ as the fear of falling behind.
 
 The offers are **AI Immersion** and the **30-day Sprint**. CTRL is the toolkit we use with you inside the 30-day Sprint; clients do not sign up for it or use it on their own. The price is agreed privately.
 
-One door describes what a reader can build: **Build your AI brain.** Put your
-taste and judgement to work on your next call. Deciding what to make, where it
-goes and what it is worth is part of what it does (the three business cards
-on the homepage).
+One door describes what a reader can build, and the business is what it leads
+to (the three business cards on the homepage, no page of their own).
 
-It leads to **one sprint** when the reader is ready to build. Choose a decision, build a working version and use it on real work.
+- **Build your AI brain.** Put your taste and judgement to work on your next call.
+- **Build your AI business.** Make, share and earn from your work with AI.
+
+Both lead to **one sprint** when the reader is ready to build. Choose a decision, build a working version and use it on real work.
 
 ---
 

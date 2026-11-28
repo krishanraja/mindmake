@@ -45,7 +45,8 @@ These placements record the approved November copy. The homepage rotates through
 | Homepage lede | So we build your AI brain out of it, for the people who shape creative work, culture and sport. |
 | Brain door | Build your AI brain |
 | Brain door explanation | Put your taste and judgement to work on your next call. |
-| Business door | Retired 28 November 2026 with `/ai-gtm` (Krish); its words live on as three ways cards |
+| Business door | Build your AI business (no door or page since 28 November 2026: the last three ways cards on the homepage) |
+| Business door explanation | Make, share and earn from your work with AI. |
 | Homepage section 1 (the problem) | Every new technology asks us to change how we think. |
 | Homepage section 2 (how it works) | We build yours with you in 30 days. |
 | Homepage section 1 lede | Each time, the real question was who kept the judgement. With AI, it is the same question. |

@@ -62,7 +62,7 @@ function card(story: LeadershipStory, door: "brain" | "gtm", id: string) {
      /case-studies under the use case's own fragment. */
   /* The result on the record follows the outcome in the sheet: its headline,
      then what moved, in amber (the colour of what moved; mint is the answer). */
-  const result = record ? `<div class="finder-result"><p class="finder-result-head"><a class="finder-proof" href="/case-studies#${story.id.toLowerCase()}">${tieLast(esc(record.headline))}</a></p><p>${tieLast(esc(record.detail))}</p></div>` : "";
+  const result = record ? `<div class="finder-result"><p class="finder-result-head"><a class="finder-proof" href="/#ways">${tieLast(esc(record.headline))}</a></p><p>${tieLast(esc(record.detail))}</p></div>` : "";
   const face = `<span class="finder-face">${faceVisual}<span class="story-sector">${esc(getUseCase(story.id).industry)}${record ? " · RESULT ON THE RECORD" : ""}</span><span class="finder-heading">${story.heading}</span><span class="finder-outcome">${story.outcome}</span></span>`;
   /* The heading and the outcome are said once, on the card; the sheet borrows
      them when it opens, so a page without scripts never says them twice. */

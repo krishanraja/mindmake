@@ -32,7 +32,6 @@ const PUBLIC_SURFACES = [
   "src/App.tsx",
   "src/pages/Index.tsx",
   "src/pages/AiBrain.tsx",
-  "src/pages/AiGtm.tsx",
   /* r47 moved the page's markup into its chapters; the gates follow it. */
   "src/components/ai-gtm/Opening.tsx",
   "src/components/ai-gtm/Workaround.tsx",
@@ -43,7 +42,6 @@ const PUBLIC_SURFACES = [
   "src/components/ai-gtm/TeamChapter.tsx",
   "src/components/ai-gtm/ProofBand.tsx",
   "src/components/ai-gtm/Unbroken.tsx",
-  "src/pages/CaseStudies.tsx",
   "src/pages/Contact.tsx",
   "src/pages/Alumni.tsx",
   "src/pages/Library.tsx",
@@ -123,7 +121,6 @@ const MOTION_SURFACES = [
   "src/components/mindmake/MindmakeShell.tsx",
   "src/pages/Index.tsx",
   "src/pages/AiBrain.tsx",
-  "src/pages/AiGtm.tsx",
   "src/components/ai-gtm/Opening.tsx",
   "src/components/ai-gtm/Workaround.tsx",
   "src/components/ai-gtm/StepRail.tsx",
@@ -315,8 +312,7 @@ describe("the eyebrow ban", () => {
   const PAGES = [
     "src/pages/Index.tsx",
     "src/pages/AiBrain.tsx",
-    "src/pages/AiGtm.tsx",
-    "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Opening.tsx",
     "src/components/ai-gtm/Workaround.tsx",
     "src/components/ai-gtm/StepRail.tsx",
     "src/components/ai-gtm/LeverChapter.tsx",
@@ -384,8 +380,7 @@ describe("the motion gate", () => {
     for (const [surface, source] of readAll([
       "src/pages/Index.tsx",
       "src/pages/AiBrain.tsx",
-      "src/pages/AiGtm.tsx",
-      "src/components/ai-gtm/Opening.tsx",
+          "src/components/ai-gtm/Opening.tsx",
       "src/components/ai-gtm/Workaround.tsx",
       "src/components/ai-gtm/StepRail.tsx",
       "src/components/ai-gtm/LeverChapter.tsx",
@@ -574,13 +569,10 @@ describe("the conversion contract", () => {
     expect(shell).toContain("PRIMARY_ROUTES.map");
     for (const item of [
       "Build your AI brain",
-      "Build your AI business",
       "Home",
-      "What you can do",
       "Your 2-minute AI upgrade toolkit",
       "Questions we get asked",
       "About us",
-      "Media",
     ]) {
       expect(links).toContain(item);
     }
@@ -607,7 +599,7 @@ describe("the conversion contract", () => {
        step, each saying the same "Subscribe for free". */
     expect(`band exists: ${existsSync(resolve(process.cwd(), "src/components/mindmake/SubscribeBand.tsx"))}`)
       .toBe("band exists: false");
-    for (const page of ["src/pages/CaseStudies.tsx", "src/pages/AiGtm.tsx", "src/pages/AiBrainLocked.tsx", "src/pages/Index.tsx"]) {
+    for (const page of ["src/pages/AiBrainLocked.tsx", "src/pages/Index.tsx"]) {
       expect(read(page)).not.toContain("SubscribeBand");
     }
 
@@ -616,10 +608,10 @@ describe("the conversion contract", () => {
     expect(links).toContain('SUBSCRIBE_LABEL = "Our media channel"');
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
     expect(shell).toContain("SUBSCRIBE_URL");
-    /* Media reaches the shell footer through the shared route list, as it
-       does on the homepage's rail, rather than as a footer-only link. */
+    /* Media left the shared route list on 2026-11-28 (Krish); the
+       publication stays in the masthead and the footer's own subscribe. */
     expect(shell).toContain("PRIMARY_ROUTES");
-    expect(links).toMatch(/label: "Media", href: PUBLICATION_URL/);
+    expect(links).not.toMatch(/label: "Media", href: PUBLICATION_URL/);
     expect(read("src/components/mindmake/LeadBrief.tsx")).toContain("SUBSCRIBE_LABEL");
   });
 });
@@ -816,7 +808,7 @@ describe("the Brain decision proof", () => {
   });
 
   it("keeps the internal engine name out of the public argument", () => {
-    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx", "src/components/ai-gtm/Opening.tsx", "src/components/ai-gtm/Workaround.tsx", "src/components/ai-gtm/StepRail.tsx", "src/components/ai-gtm/LeverChapter.tsx", "src/components/ai-gtm/TurnBand.tsx", "src/components/ai-gtm/PlanChapter.tsx", "src/components/ai-gtm/TeamChapter.tsx", "src/components/ai-gtm/ProofBand.tsx", "src/components/ai-gtm/Unbroken.tsx"])) {
+    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/components/ai-gtm/Opening.tsx", "src/components/ai-gtm/Workaround.tsx", "src/components/ai-gtm/StepRail.tsx", "src/components/ai-gtm/LeverChapter.tsx", "src/components/ai-gtm/TurnBand.tsx", "src/components/ai-gtm/PlanChapter.tsx", "src/components/ai-gtm/TeamChapter.tsx", "src/components/ai-gtm/ProofBand.tsx", "src/components/ai-gtm/Unbroken.tsx"])) {
       expect(`${surface}: ${/\bCTRL\b/.test(source)}`).toBe(`${surface}: false`);
     }
   });
@@ -910,7 +902,7 @@ describe("the film slots", () => {
        decorative because the copy sitting on it already says what it is. An
        empty label with neither is a plate that announces itself as an image
        called nothing. */
-    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"])) {
+    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx"])) {
       // Index consumes the immutable compiled adapter. Inspect what it renders,
       // not a wrapper file that deliberately contains no duplicated markup.
       const renderedSource = surface === "src/pages/Index.tsx" ? serverRender("/") : source;

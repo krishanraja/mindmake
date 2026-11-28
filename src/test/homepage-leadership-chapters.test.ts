@@ -4,13 +4,16 @@ import { heroStartMarkup, homepageSectionsMarkup, mastheadSubscribeMarkup, mount
 import { leadershipChaptersMarkup, mountLeadershipChapters, organisationGridMarkup, practiceRest, practiceSweep } from "@/components/leadership-chapters/leadershipChapters";
 import { readFileSync } from "node:fs";
 
-describe("the homepage in three sections", () => {
+describe("the homepage in four sheets", () => {
   afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
 
   /* Ruling (2026-10-24): "drastically simplify everything here to be probably
      three sections". The R3 opening, then the problem, how it works and what
      the reader gets, then the R3 footer. */
-  it("runs the opening, the three sections and the footer, in that order", () => {
+  /* Krish, 2026-11-28: the ways cards and the client words join the
+     homepage, ahead of the 30 days, in place of the wish chooser, the three
+     results and /case-studies. */
+  it("runs the opening, the four sheets and the footer, in that order", () => {
     const at = (needle: string) => homepageMarkup.indexOf(needle);
     expect(at('id="opening"')).toBeGreaterThan(-1);
     expect(at('id="hs-problem-title"')).toBeGreaterThan(at('id="opening"'));
@@ -18,10 +21,10 @@ describe("the homepage in three sections", () => {
     /* The headings' key words carry a hand-drawn mark (Krish, 2026-11-04), so
        the order is read from the words, without the marks' own tags. */
     const sections = homepageSectionsMarkup();
-    const words = sections.replace(/<span class="hs-mark"[^>]*>([^<]*)<\/span>/g, "$1");
-    const order = ["Every new technology asks us to change how we think.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
+    const words = sections.replace(/<span class="hs-(?:mark|ul)"[^>]*>([^<]*)<\/span>/g, "$1");
+    const order = ["Every new technology asks us to change how we think.", "Ways an AI brain can level you up.", "In their words.", "We build yours with you in 30 days."].map((title) => words.indexOf(title));
     expect(order.every((index, i) => index > -1 && (i === 0 || index > order[i - 1]))).toBe(true);
-    expect(sections.match(/<section\b/g)).toHaveLength(3);
+    expect(sections.match(/<section\b/g)).toHaveLength(4);
     /* Krish, 2026-11-11: the chief of staff section moved to /ai-brain. */
     expect(words).not.toContain("Your AI brain knows how you think.");
     expect(sections).toContain('id="history"');
@@ -70,66 +73,76 @@ describe("the homepage in three sections", () => {
     expect(tiles[0].getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("opens each wish at its own case index and ends with the shared way forward", () => {
+  it("closes on one client voice and the shared way forward", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
-    expect(root.querySelector(".hs-voices-stack li:first-child q")?.textContent)
+    expect(root.querySelector(".hs-closing-voice q")?.textContent)
       .toBe("We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability.");
-    const chips = [...root.querySelectorAll<HTMLAnchorElement>(".wish-paths a")];
-    expect(root.querySelector("#wish-question")?.textContent).toBe("What would you do more of?");
-    expect(chips.map(chip => chip.search)).toEqual(["back", "terms", "calls", "try", "brief", "yours"].map(id => "?wish=" + id));
-    expect(chips.every(chip => chip.pathname === "/case-studies")).toBe(true);
-    expect(root.querySelector(".hs-get .journey-end button")?.textContent).toBe("Start your brief");
-    expect(root.querySelector(".hs-get .hs-explore")?.getAttribute("href")).toBe("/case-studies");
+    expect(root.querySelector(".hs-build .journey-end button")?.textContent).toBe("Start your brief");
+    expect(root.querySelector(".hs-build .journey-end a")?.getAttribute("href")).toBe("/ai-brain");
+    expect(root.querySelector(".wish-paths")).toBeNull();
   });
 
-  it("keeps three results accessible on desktop and pages them on a phone", () => {
-    const viewport = Object.assign(new EventTarget(), { matches: false });
-    vi.stubGlobal("matchMedia", (query: string) => query === "(max-width: 760px)" ? viewport : Object.assign(new EventTarget(), { matches: false }));
+  it("turns a ways card over on a tap, the story taking the front's place, and stops listening once unmounted", () => {
     const root = document.createElement("main");
     root.innerHTML = homepageSectionsMarkup();
+    document.body.append(root);
+    const card = root.querySelector<HTMLElement>('.vs-tilt-card[data-way="calls"]')!;
+    const toggle = card.querySelector<HTMLButtonElement>(".vs-tilt-card-toggle")!;
+    const front = card.querySelector(".vs-tilt-card-front")!;
+    const back = card.querySelector(".vs-tilt-card-back")!;
+    expect(back.textContent?.replaceAll("\u00a0", " ")).toContain("Two quarters of argument over build or partner ended in one day.");
+    expect(back.textContent).toContain("Result on the record");
     const unmount = mountHomepageSections(root);
-    try {
-      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(3);
-      viewport.matches = true;
-      viewport.dispatchEvent(new Event("change"));
-      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(1);
-      viewport.matches = false;
-      viewport.dispatchEvent(new Event("change"));
-      expect(root.querySelectorAll(".hs-proof li:not([inert])")).toHaveLength(3);
-    } finally { unmount(); }
+    expect([toggle.getAttribute("aria-pressed"), front.getAttribute("aria-hidden"), back.getAttribute("aria-hidden")]).toEqual(["false", "false", "true"]);
+    toggle.click();
+    expect([toggle.getAttribute("aria-pressed"), front.getAttribute("aria-hidden"), back.getAttribute("aria-hidden")]).toEqual(["true", "true", "false"]);
+    toggle.click();
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    unmount();
+    toggle.click();
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("puts each era and each result on its own picture, decorative and loaded when near", () => {
-    /* The owner's review on their phone, 24 October 2026: the old history
-       pictures behind the eras, the stories' pictures behind the results. */
+  it("puts each era and each card on its own picture, decorative and loaded when near", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
     const eras = [...root.querySelectorAll<HTMLImageElement>("[data-hs-era] .hs-card-img")];
-    const results = [...root.querySelectorAll<HTMLImageElement>(".hs-proof > li > .hs-card-img")];
+    const cards = [...root.querySelectorAll<HTMLImageElement>(".vs-tilt-card-img")];
     expect(eras).toHaveLength(4);
-    expect(results).toHaveLength(3);
-    for (const image of [...eras, ...results]) {
+    expect(cards).toHaveLength(9);
+    for (const image of [...eras, ...cards]) {
       expect(image.getAttribute("alt")).toBe("");
       expect(image.getAttribute("loading")).toBe("lazy");
       expect(image.getAttribute("src")).toBeTruthy();
     }
     expect(eras.map((image) => image.getAttribute("src")).join(" ")).toMatch(/history-writing.*history-loom.*history-calculator.*history-satnav/);
-    expect([...root.querySelectorAll(".hs-proof-story a")].map((link) => link.getAttribute("href"))).toEqual(["/case-studies#c-15", "/case-studies#c-18", "/case-studies#c-16"]);
-    expect(new Set(results.map((image) => image.getAttribute("src"))).size).toBe(3);
+    expect(new Set(cards.map((image) => image.getAttribute("src"))).size).toBe(9);
+  });
+
+  it("shows one client quote at a time, moved only by its arrows", () => {
+    const root = document.createElement("main");
+    root.innerHTML = homepageSectionsMarkup();
+    document.body.append(root);
+    const unmount = mountHomepageSections(root);
+    try {
+      const shown = () => [...root.querySelectorAll(".hs-words-stack > li:not([inert])")];
+      expect(shown()).toHaveLength(1);
+      expect(root.querySelector('[data-hs-words-step="-1"]')?.hasAttribute("disabled")).toBe(true);
+      root.querySelector<HTMLButtonElement>('[data-hs-words-step="1"]')!.click();
+      expect(root.querySelector("[data-hs-words-at]")?.textContent).toBe("2");
+      expect(shown()).toHaveLength(1);
+      expect(root.querySelector(".hs-count")?.textContent).toContain("leaders who have adopted mind/make thinking");
+    } finally { unmount(); }
   });
 
   it("runs the eras as a carousel with a timeline of their stops, oldest first", () => {
     const root = document.createElement("div");
     root.innerHTML = homepageSectionsMarkup();
     const rails = [...root.querySelectorAll<HTMLElement>("[data-hs-rail]")];
-    expect(rails).toHaveLength(1);
+    expect(rails).toHaveLength(2);
     expect([...rails[0].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["370 BC", "1675", "1970s", "2000s"]);
-    /* The three results are the stories' swipe deck (owner, 2026-11-10). */
-    const deck = root.querySelector<HTMLElement>("[data-hs-deck]");
-    expect(deck?.querySelectorAll("[data-hs-deck-track] > li")).toHaveLength(3);
-    expect(deck?.querySelector(".hs-deck-nav p")?.textContent).toBe("1 of 3");
-    expect(deck?.querySelector('[data-hs-deck-step="-1"]')?.getAttribute("aria-label")).toBe("Previous result");
+    expect([...rails[1].querySelectorAll("[data-hs-rail-go]")].map((stop) => stop.textContent)).toEqual(["01", "02", "03", "04", "05", "06", "07", "08", "09"]);
     for (const rail of rails) {
       expect(rail.querySelector('[data-hs-rail-step="-1"]')?.getAttribute("aria-label")).toMatch(/^Previous /);
       expect(rail.querySelector('[data-hs-rail-step="1"]')?.getAttribute("aria-label")).toMatch(/^Next /);
@@ -195,7 +208,7 @@ describe("the new-age leadership chapters, shared with /new-age-leadership", () 
     const body = root.querySelector<HTMLElement>("[data-finder-sheet-body]")!;
     expect(body.querySelector("h3")!.textContent).toMatch(/^Two quarters of argument/);
     expect(body.querySelector(".finder-outcome")!.textContent).toMatch(/partner agreement was signed/);
-    expect(body.querySelector(".finder-proof")!.getAttribute("href")).toBe("/case-studies#c-15");
+    expect(body.querySelector(".finder-proof")!.getAttribute("href")).toBe("/#ways");
     /* The result on the record follows the outcome, headline first. */
     const after = body.querySelector("[data-finder-happened]")!.nextElementSibling!;
     expect(after.className).toBe("finder-outcome");

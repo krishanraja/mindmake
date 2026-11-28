@@ -88,7 +88,7 @@ export function ProofVoices() {
         </div>
 
         <p className="mm-voices-more">
-          <Link className="mm-text-link" to="/case-studies">
+          <Link className="mm-text-link" to="/#ways">
             Read the written archive <span aria-hidden="true">→</span>
           </Link>
         </p>

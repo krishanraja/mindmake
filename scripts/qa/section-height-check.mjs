@@ -24,9 +24,7 @@ const local = !flag("base");
 /** What counts as a section on each page: what a reader sees as one band. */
 const PAGES = [
   { path: "/", sections: ".mm-homepage-release .hs-section" },
-  { path: "/ai-brain", sections: ".product-page > .product-section" },
-  { path: "/ai-gtm", sections: ".product-page > .product-section" },
-  { path: "/case-studies", sections: ".mm-case-route > section" },
+  { path: "/ai-brain", sections: ".product-page .product-section" },
   { path: "/2-minute-ai-upgrade-toolkit", sections: ".journey-room" },
   { path: "/faq", sections: ".journey-room" },
   { path: "/blog", sections: ".journey-room" },

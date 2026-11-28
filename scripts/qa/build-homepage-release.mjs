@@ -125,7 +125,6 @@ body = body.replace(new RegExp(`(<source src=")${heroFilm.mp4.replace(/[.*+?^${}
 // bottom nav bar ... there's a mobile menu that is easily accessible"). The
 // desktop footer keeps its rail.
 const routeLabels = [
-  ['/case-studies', 'What you can do'],
   ['/2-minute-ai-upgrade-toolkit', 'Your 2-minute AI upgrade toolkit', '2-minute AI toolkit'],
   ['/faq', 'Questions we get asked'],
 ];
@@ -139,7 +138,12 @@ body = body.replace(/(<nav class="(?:primary|footer)-routes"[^>]*>)([\s\S]*?)(<\
     routes = routes.replace(new RegExp(`<a href="${href}">[^<]*</a>`), `<a href="${href}">${text}</a>`);
   }
   routes = routes.replace(/<a href="\/answers">[^<]*<\/a>/, '');
-  routes = routes.replace(/(<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>)/, '<a href="/about">About us</a>$1');
+  // /case-studies retired into the homepage's own ways and words, and /ai-gtm
+  // and Media left the menus (Krish, 2026-11-28): Home, Build your AI brain,
+  // the toolkit, Questions we get asked and About us.
+  routes = routes.replace(/<a href="\/case-studies">[^<]*<\/a>/, '');
+  routes = routes.replace(/<a href="\/ai-gtm">[^<]*<\/a>/, '');
+  routes = routes.replace(/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/, '<a href="/about">About us</a>');
   /* The homepage menu marks Home as the page the reader is on (audit CRIT-07). */
   return `${open}<a href="/"${open.includes('primary-routes') ? ' aria-current="page"' : ''}>Home</a>${routes}${close}`;
 });
@@ -177,6 +181,10 @@ body = body.replace(/<small>(© \d{4} Mindmake\.)<\/small>/g, `<small>$1 ${entit
 // opens the brief at the AI brain's door; the publication is one line under it
 // (homepageSections.ts writes both).
 body = body.replace(/<p class="hero-lede">For leaders in creative industries with high standards and curiosity required to drive the new era\.<\/p>/g, '<p class="hero-lede">So we build your AI brain out of it, for the people who shape creative work, culture and sport.</p>');
+// A twenty-first (Krish, 2026-11-28): one door. /ai-gtm retired into the
+// homepage's ways cards; making, sharing and earning are what an AI brain
+// leads to, not a second product. The AI business door leaves the opening.
+body = body.replace(/<a href="\/ai-gtm" data-route-choice="gtm">[\s\S]*?<\/a>/g, '');
 body = body.replace(/(<div class="route-doors" role="group" aria-label="Choose a Mindmake route">[\s\S]*?<\/div>)/g, '$1${heroStartMarkup()}');
 // A seventeenth (Krish, 2026-10-24: "add a subscribe button in the top nav bar
 // next to the hamburger"): the masthead's Subscribe sits before the menu
@@ -186,7 +194,7 @@ body = body.replace(/(<button class="menu-control" type="button" aria-label="Ope
 // The menu's and footer's way in say what the reader is building, as
 // START_LABEL in src/lib/publicLinks.ts does on every other page.
 body = body.replace(/(href="\/start">)Get your free AI brief/g, '$1Start building your AI brain');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/\$\{mastheadSubscribeMarkup\(\)\}<button class="menu-control" type="button" aria-label="Open navigation">/g, 2, 'masthead subscribe'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 3, 'Media to the publication'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 2, 'hero film'], [/archive-engine-hero-poster-r07/g, 2, 'hero poster'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<section id="(?:authority|leadership-dividend|route)"/g, 0, 'cut chapters'], [/\$\{homepageSectionsMarkup\(\)\}/g, 1, 'homepage sections'], [/\$\{heroStartMarkup\(\)\}/g, 2, 'hero way in'], [/Keep the final say<br>on your best work\./g, 2, 'footer statement break'], [/<span class="mm-hero-row">anything except<\/span> <span class="mm-hero-row"><span class="mm-hero-your">your<\/span> taste\.<\/span><\/span><\/h1>/g, 2, 'hero lines'], [/<strong>AI business<\/strong>/g, 2, 'revenue engine door'], [/<small>Put your taste and judgement to work on your next call\.<\/small>/g, 2, 'brain door line'], [/<small>Make, share and earn from your work with AI\.<\/small>/g, 2, 'revenue engine door line'], [/<a href="\/ai-gtm">Build your AI business<\/a>/g, 3, 'AI business menu and footer routes'], [/AI revenue engine<\/a>/g, 0, 'the old name on a link'], [/GTM/g, 0, 'GTM acronym in public copy'], [/href="\/start">Start building your AI brain/g, 3, 'menu and footer way in'], [/Get your free AI brief/g, 0, 'retired way in'], [/<p class="hero-lede">So we build your AI brain out of it, for the people who shape creative work, culture and sport\.<\/p>/g, 2, 'hero lede'], [/<a href="\/" aria-current="page">Home<\/a>/g, 2, 'Home route, marked current in the menus'], [/<a href="\/">Home<\/a>/g, 1, 'Home route in the footer'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:What you can do|Your 2-minute AI upgrade toolkit|Questions we get asked|2-minute AI toolkit<\/span>)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/<small>© \d{4} Mindmake\. <span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company\.<\/span> <span>Mindmaker Ltd in the UK\.<\/span><\/span><\/small>/g, 2, 'footer entity note'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
+for (const [pattern, expected, label] of [[/data-route-choice="brain"/g, 2, 'hero door'], [/data-route-choice="gtm"/g, 0, 'retired AI business door'], [/data-badge=/g, 0, 'Media badge'], [/\$\{mastheadSubscribeMarkup\(\)\}<button class="menu-control" type="button" aria-label="Open navigation">/g, 2, 'masthead subscribe'], [/<a href="https:\/\/makeyourmindup\.ai"[^>]*>Media<\/a>/g, 0, 'Media leaves the menus'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r07/g, 2, 'hero film'], [/archive-engine-hero-poster-r07/g, 2, 'hero poster'], [/film-02-(?:loop|poster)/g, 0, 'retired route film'], [/<section id="(?:authority|leadership-dividend|route)"/g, 0, 'cut chapters'], [/\$\{homepageSectionsMarkup\(\)\}/g, 1, 'homepage sections'], [/\$\{heroStartMarkup\(\)\}/g, 2, 'hero way in'], [/Keep the final say<br>on your best work\./g, 2, 'footer statement break'], [/<span class="mm-hero-row">anything except<\/span> <span class="mm-hero-row"><span class="mm-hero-your">your<\/span> taste\.<\/span><\/span><\/h1>/g, 2, 'hero lines'], [/<strong>AI business<\/strong>/g, 0, 'revenue engine door'], [/<small>Put your taste and judgement to work on your next call\.<\/small>/g, 2, 'brain door line'], [/<small>Make, share and earn from your work with AI\.<\/small>/g, 0, 'revenue engine door line'], [/<a href="\/ai-gtm">/g, 0, 'retired AI business route'], [/AI revenue engine<\/a>/g, 0, 'the old name on a link'], [/GTM/g, 0, 'GTM acronym in public copy'], [/href="\/start">Start building your AI brain/g, 3, 'menu and footer way in'], [/Get your free AI brief/g, 0, 'retired way in'], [/<p class="hero-lede">So we build your AI brain out of it, for the people who shape creative work, culture and sport\.<\/p>/g, 2, 'hero lede'], [/<a href="\/" aria-current="page">Home<\/a>/g, 2, 'Home route, marked current in the menus'], [/<a href="\/">Home<\/a>/g, 1, 'Home route in the footer'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Your 2-minute AI upgrade toolkit|Questions we get asked|2-minute AI toolkit<\/span>)<\/a>/g, 6, 'renamed routes'], [/<a href="\/case-studies">/g, 0, 'retired case-studies route'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/<small>© \d{4} Mindmake\. <span class="mm-entity-note"><span>Mindmake is a Mindmaker LLC company\.<\/span> <span>Mindmaker Ltd in the UK\.<\/span><\/span><\/small>/g, 2, 'footer entity note'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }

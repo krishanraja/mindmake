@@ -39,15 +39,15 @@ describe("the early tap catcher", () => {
     expect(catcher).toBeTruthy();
   });
 
-  it("keeps a tap on /ai-gtm's way in, marks it pressed and hands the door to the page once", () => {
-    arm("/ai-gtm");
-    document.body.innerHTML = `<div class="mm-pairing"><button class="mm-button" data-early-start="gtm">Start building your AI business <span>→</span></button></div>`;
+  it("keeps a tap on /ai-brain's way in, marks it pressed and hands the door to the page once", () => {
+    arm("/ai-brain");
+    document.body.innerHTML = `<div class="mm-pairing"><button class="mm-button" data-early-start="brain">Start building your AI brain <span>→</span></button></div>`;
     const button = document.querySelector("button")!;
     const event = tap(button.querySelector("span")!);
     expect(event.defaultPrevented).toBe(true);
     expect(button.hasAttribute("data-early-pressed")).toBe(true);
     expect(button.getAttribute("aria-busy")).toBe("true");
-    expect(takeEarlyStart()).toBe("gtm");
+    expect(takeEarlyStart()).toBe("brain");
     expect(button.hasAttribute("data-early-pressed")).toBe(false);
     expect(button.hasAttribute("aria-busy")).toBe(false);
     // Taken away: a later tap reaches the page's own handler untouched.
@@ -62,7 +62,7 @@ describe("the early tap catcher", () => {
     expect(takeEarlyStart()).toBe("brain");
 
     delete window.__mmEarly;
-    arm("/ai-gtm/");
+    arm("/ai-brain/");
     document.body.innerHTML = `<div class="mm-action-bar"><button class="mm-button">Start</button></div><a class="finder-start" href="/?start=brain" data-finder-start="brain">Start</a>`;
     tap(document.querySelector(".mm-action-bar button")!);
     tap(document.querySelector("a")!);
@@ -77,7 +77,7 @@ describe("the early tap catcher", () => {
 
   it("leaves every other click, modified clicks and other pages alone", () => {
     arm("/ai-brain");
-    document.body.innerHTML = `<a href="/ai-gtm">Build your AI business</a><a class="finder-start" href="/?start=brain" data-finder-start="brain">Start</a>`;
+    document.body.innerHTML = `<a href="/faq">Questions we get asked</a><a class="finder-start" href="/?start=brain" data-finder-start="brain">Start</a>`;
     expect(tap(document.querySelector("a")!).defaultPrevented).toBe(false);
     expect(tap(document.querySelector(".finder-start")!, { metaKey: true }).defaultPrevented).toBe(false);
     expect(takeEarlyStart()).toBeNull();
@@ -92,18 +92,18 @@ describe("the page reading it", () => {
   const at = (path: string) => ({ children }: { children: ReactNode }) => <MemoryRouter initialEntries={[path]}>{children}</MemoryRouter>;
 
   it("opens the brief at the door tapped before the page started", async () => {
-    arm("/ai-gtm");
+    arm("/ai-brain");
     document.body.innerHTML = `<button data-early-start="gtm">Start</button>`;
     tap(document.querySelector("button")!);
-    const { result } = renderHook(() => useLeadBriefHistory(), { wrapper: at("/ai-gtm") });
+    const { result } = renderHook(() => useLeadBriefHistory(), { wrapper: at("/ai-brain") });
     await waitFor(() => expect(result.current.briefOpen).toBe(true));
     expect(result.current.briefRoute).toBe("gtm");
     expect(window.__mmEarly?.done).toBe(true);
   });
 
   it("opens nothing when nothing was tapped", async () => {
-    arm("/ai-gtm");
-    const { result } = renderHook(() => useLeadBriefHistory(), { wrapper: at("/ai-gtm") });
+    arm("/ai-brain");
+    const { result } = renderHook(() => useLeadBriefHistory(), { wrapper: at("/ai-brain") });
     await waitFor(() => expect(window.__mmEarly?.done).toBe(true));
     expect(result.current.briefOpen).toBe(false);
   });

@@ -96,8 +96,11 @@ describe("public route contract", () => {
   it("keeps retired public forms and article slugs away from stale surfaces", () => {
     expect(bySource.get("/intake")?.destination).toBe("/?start=1");
     expect(bySource.get("/intake/index.html")?.destination).toBe("/?start=1");
-    expect(bySource.get("/testimonials")?.destination).toBe("/case-studies");
-    expect(bySource.get("/testimonials/index.html")?.destination).toBe("/case-studies");
+    expect(bySource.get("/testimonials")?.destination).toBe("/#words");
+    expect(bySource.get("/testimonials/index.html")?.destination).toBe("/#words");
+    /* /case-studies retired into the homepage's ways and words (Krish, 2026-11-28). */
+    expect(bySource.get("/case-studies")?.destination).toBe("/#ways");
+    expect(bySource.get("/case-studies/")?.destination).toBe("/#ways");
     expect(bySource.get("/blog/10-20x-roi-what-real-ai-implementation-looks-like")?.destination)
       .toBe("/blog/measuring-ai-work-that-pays-back");
     expect(bySource.get("/blog/building-ai-systems-in-30-days-sprint-approach")?.destination)

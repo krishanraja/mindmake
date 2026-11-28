@@ -28,21 +28,6 @@ export const staticPages = [
     still: "film-02",
   },
   {
-    path: "/ai-gtm",
-    title: "Build your AI business",
-    description: "Decide what to make, where to share it and how to earn from it.",
-    headline: "Build your AI business.",
-    claim: "Decide what to make, where to share it and how to earn from it.",
-    still: "film-03",
-  },
-  {
-    path: "/case-studies",
-    title: "What you can do with it",
-    description: "Real things leaders now do with their AI brain or AI business, and every result on the record.",
-    headline: "What you can do with it.",
-    still: "film-04",
-  },
-  {
     /* The page's own words, from src/pages/NewAgeLeadership.tsx. This entry
        carried the retired org-chart title and description into the served
        head for months after the page was rebuilt, because SEO.tsx writes the

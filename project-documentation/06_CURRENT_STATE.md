@@ -82,32 +82,25 @@ detail and `01_CANON.md` the exact copy.
 - `/`: the R3 opening (film, a headline that turns through six lines and rests
   on "AI can copy almost anything except your taste.", the lede "So we build
   your AI brain out of it, for the people who shape creative work, culture and
-  sport.", both doors, **Start building your AI brain** with "Free and
+  sport.", one door (the AI brain's; 28 November 2026), **Start building your AI brain** with "Free and
   private. It starts with a read of your business." beneath, and a publication
-  line), then three sections: "Every new technology asks us to change how we
-  think." with the four eras as a carousel on their pictures; "We build yours
-  with you in 30 days." with "A rule worth keeping" one tap away and the
-  chooser "What would you do more of?", six wishes that each open
-  `/case-studies?wish=<id>` (`back`, `terms`, `calls`, `try`, `brief`, `yours`
-  in `src/data/useCases.ts`); and "What the work made possible." with three
-  results (C-15, C-18, C-16) as a swipe deck, two client voices, "Explore what
-  leaders built", "Start your brief" and "Inside an AI brain →"; then the
-  footer. Nothing on it pins.
-- `/ai-brain` (`src/pages/AiBrainLocked.tsx`, title "Build your AI brain"):
-  "Teach your AI what experience taught you." with **Start building your AI
-  brain**; "The questions only you can answer."; "Your AI brain knows how you
-  think." with the liquid Brain (`LiquidBrain.tsx`: North Star, then Vision,
-  Judgement, Taste, Standards and Preferences) and three tiles; then the
-  30-day Sprint, "We build yours with you in 30 days.", four weeks, "What
-  stays with you", "Explore the stories" (the stories by wish in a dialog),
-  the count of results on the record and "Start your brief". The earlier
-  `src/pages/AiBrain.tsx`, with "One decision is enough to begin.", is not
-  routed.
-- `/ai-gtm` (`src/pages/AiGtm.tsx`, title "Build your AI business"): "Make
-  it, share it, and get paid for it."; "More work is easier to make."; "Make
-  it. Share it. Earn from it." with production, distribution and monetisation
-  as three studies; then the 30-day Sprint as "One decision, from brief to
-  return."; **Start building your AI business**.
+  line), then four sheets (28 November 2026): "Every new technology asks us
+  to change how we think." with the four eras as a carousel on their
+  pictures; "Ways an AI brain can level you up.", six tilt cards, one per wish,
+  each a bright picture and a promise under ten words that turns over to its
+  anchor story (`src/data/ways.ts`); "In their words.", the client quotes one
+  at a time, the 4000+ count and the logo rail; and "We build yours with you
+  in 30 days." with "A rule worth keeping", one client voice, "Start your
+  brief" and "Inside an AI brain →"; then the footer. Nothing on it pins.
+- `/ai-brain` (`src/pages/AiBrainLocked.tsx`, title "Build your AI brain";
+  rebuilt 28 November 2026): the hero film playing again, "Teach your AI
+  what experience taught you." and one sentence; the homepage's sheets; "The
+  questions only you can answer." with one question; "Your AI brain knows how
+  you think." with three tiles; the 30-day Sprint; and beside the words the
+  AI brain in 3D, lighting the part each passage is about as the reader
+  scrolls (North Star, Vision, Taste, Judgement, Preferences, Standards).
+- `/ai-gtm` retired on 28 November 2026 and redirects to `/ai-brain`; its
+  three levers are the last three ways cards on the homepage.
 - Both offer pages and the homepage: "Prefer to …?" with "See how we compare
   →" opens the comparison set. On the door pages it sits beside "Explore the
   stories"; on the homepage it floats in the hero on a wide screen and leads
@@ -118,12 +111,9 @@ detail and `01_CANON.md` the exact copy.
 - `/new-age-leadership`: the approved companion. It keeps its own pinned
   history, reach and practice chapters, the story chooser from the same source
   and "The returned hour".
-- Shell pages: `/case-studies` ("What you can do with it.": one box narrows
-  the eighteen use cases and twelve labelled illustrative examples by wish
-  (six, plus "All wishes", read from `?wish=`), industry, role, result and
-  search, in three groups, results on the record, practice accounts and
-  illustrative examples; each opens whole in a sheet; then "In their words.",
-  the client quotes; `#c-NN` opens a use case), `/2-minute-ai-upgrade-toolkit`,
+- `/case-studies` retired on 28 November 2026 and redirects to `/#ways`
+  (`/testimonials` to `/#words`).
+- Shell pages: `/2-minute-ai-upgrade-toolkit`,
   `/blog` with `/blog/:slug` (indexed, absent from the menu), the answers at
   `/answers/:slug` (`/answers` redirects to `/blog`), `/faq`, `/about`,
   `/contact`, `/privacy`, `/terms` and the unlisted, noindex `/alumni`. Sitemap
@@ -149,10 +139,9 @@ detail and `01_CANON.md` the exact copy.
   records yes with name, yes anonymous or no, and the exact sentence agreed.
 - Every page carries the same masthead (logo, Subscribe, menu) and footer.
   Navigation labels (`PRIMARY_ROUTES` in `src/lib/publicLinks.ts`): Home,
-  Build your AI brain, Build your AI business, What you can do, Your 2-minute
-  AI upgrade toolkit, Questions we get asked, About us and Media, and the one
-  action, Start building your AI brain (Start building your AI business on
-  `/ai-gtm`; `START_LABEL` and `START_LABEL_GTM`).
+  Build your AI brain, Your 2-minute AI upgrade toolkit, Questions we get
+  asked and About us (28 November 2026), and the one action, Start building
+  your AI brain (`START_LABEL`).
 - www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to
   mindmake.co preserving path and query. Canonical non-root routes omit
   trailing slashes.
@@ -160,8 +149,7 @@ detail and `01_CANON.md` the exact copy.
 ## Visitor journey
 
 Every way in opens the same company-first LeadBrief. A button that names no
-door opens it at the AI brain's door; the `/ai-gtm` buttons open the AI
-business door's. The steps: "Let’s get started." with a work email and **Get
+door opens it at the AI brain's door. The steps: "Let’s get started." with a work email and **Get
 building** (and "Not ready yet? Subscribe to Make Your Mind Up, free" beneath);
 name and business role (a first.last or first_last address fills both names);
 the corroborated company read; the problem and the returned-time choice, each
@@ -356,9 +344,6 @@ Preserve the deterministic adapter and accepted source.
 - `main` has no branch protection and no rulesets (read 26 October 2026).
   Checked workflows fail closed; privileged bypass remains possible, so a
   violation is not claimed impossible.
-- `/case-studies#record-<id>` does not open a record on a desktop, where the
-  panel is `display: none` until the story is expanded; it opens on a phone
-  (re-checked live at 1440x900 and 390x844 on 26 October 2026).
 - Two QA scripts assert retired surfaces and are not release gates:
   `scripts/qa/full-route-continuity-check.mjs` (the deleted `#archive-title`
   and the retired Brain chapters) and

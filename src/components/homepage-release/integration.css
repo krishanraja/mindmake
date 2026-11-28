@@ -112,12 +112,13 @@ body.mm-homepage-active { margin: 0; }
 .mm-homepage-release .r3-footer .footer-routes a { font-size: clamp(13px, 1.1vw, 17px); }
 /* The footer's ten routes (Home and About us joined the eight on
    2026-09-25) no longer fit one line at 1440, and a wrapping row left the
-   last route alone. Two even rows of five keep every row full at every
-   desktop width; the type stays at the size the one-line rail used. */
+   last route alone. Since 2026-11-28 the rail is five routes and the way
+   in, six: two even rows of three keep every row full at every desktop
+   width; the type stays at the size the one-line rail used. */
 @media (min-width: 701px) {
   .mm-homepage-release .r3-footer .preview-desktop .site-footer .footer-routes {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(3, auto);
     justify-content: start;
     gap: clamp(8px, 0.8vw, 14px) clamp(16px, 1.6vw, 30px);
   }
@@ -220,6 +221,11 @@ body.mm-homepage-active { margin: 0; }
    circuit (the riser at the press and the line across the glass) is on screen
    (Krish, 2026-09-26). Desktop keeps the whole frame. */
 .mm-homepage-release .r3-opening .preview-mobile .hero-stage video { object-position: 55% center; }
+/* An underlined phrase never breaks, so its stroke is always one line. */
+.mm-homepage-release .hs-title .hs-ul { white-space: nowrap; }
+/* Under reduced motion the film's poster stands in its place (homepageSections.ts). */
+.mm-homepage-release .r3-opening .hero-stage .hs-film-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.mm-homepage-release .r3-opening .preview-mobile .hero-stage .hs-film-still { object-position: 55% center; }
 
 /* The hero doors are links to their pages now (Krish, 2026-09-25). They keep
    the approved door composition; only a link's own defaults are undone. */
@@ -651,11 +657,16 @@ body.mm-homepage-active { margin: 0; }
 }
 
 /* The hand-drawn accent stays still as the headline changes. */
+/* The hero's pen stroke under "your", shared with "you" in "Ways an AI
+   brain can level you up." (Krish, 2026-11-28: "a natural underline, similar
+   to the rest on the site"). */
+.mm-homepage-release .hs-title .hs-ul,
 .mm-homepage-release .r3-opening h1 .mm-hero-your {
   --hero-ul: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M2.0 16.6 C4.0 16.4 10.2 15.8 14.3 15.3 C18.3 14.8 22.4 14.1 26.5 13.7 C30.6 13.4 34.7 13.3 38.8 13.3 C42.8 13.3 46.9 13.8 51.0 14.0 C55.1 14.1 59.2 14.2 63.3 14.3 C67.3 14.5 71.4 14.8 75.5 14.9 C79.6 15.0 83.7 15.2 87.8 15.1 C91.8 14.9 95.9 14.4 100.0 14.1 C104.1 13.8 108.2 13.6 112.3 13.4 C116.3 13.1 120.4 12.8 124.5 12.7 C128.6 12.6 132.7 12.9 136.8 12.7 C140.8 12.6 144.9 12.1 149.0 11.9 C153.1 11.8 157.2 12.1 161.3 11.9 C165.3 11.7 169.4 11.1 173.5 10.9 C177.6 10.7 181.7 10.9 185.8 10.7 C189.8 10.5 196.0 10.0 198.0 9.9' fill='none' stroke='%239df0c8' stroke-width='3' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
   position: relative;
   padding-bottom: .1em;
 }
+.mm-homepage-release .hs-title .hs-ul::after,
 .mm-homepage-release .r3-opening h1 .mm-hero-your::after {
   content: "";
   position: absolute;

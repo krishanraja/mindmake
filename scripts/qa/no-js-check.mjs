@@ -49,7 +49,7 @@ const flag = (name, fallback) => {
 const root = resolve(import.meta.dirname, "../..");
 let BASE = flag("base", "");
 let server;
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/faq,/new-age-leadership").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/faq,/new-age-leadership").split(",");
 const REPORT = args.includes("--report");
 
 const delay = (milliseconds) => new Promise((resolveDelay) => setTimeout(resolveDelay, milliseconds));

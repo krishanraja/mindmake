@@ -81,17 +81,17 @@ try {
           const observed = { label, viewport };
 
           assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'AI can copy almost anything except your taste.', `${label}: approved opening`);
-          const order = await page.evaluate(() => ['#opening', '#hs-problem-title', '#hs-get-title', '#proof-heading', '#footer'].map(selector => {
+          const order = await page.evaluate(() => ['#opening', '#hs-problem-title', '#ways-title', '#words-title', '#hs-get-title', '#footer'].map(selector => {
             const node = document.querySelector(selector);
             return node ? node.getBoundingClientRect().top + scrollY : null;
           }));
           observed.order = order;
-          assert(order.every((top, i) => top !== null && (i === 0 || top > order[i - 1])), `${label}: opening, three sections and footer in order (${order.join(', ')})`);
+          assert(order.every((top, i) => top !== null && (i === 0 || top > order[i - 1])), `${label}: opening, four sheets and footer in order (${order.join(', ')})`);
 
           /* Nothing pins: each section moves exactly as far as the page does. */
           const sticky = await page.evaluate(() => [...document.querySelectorAll('.mm-homepage-release main *')].filter(node => getComputedStyle(node).position === 'sticky').map(node => node.className || node.tagName));
           assert(!sticky.length, `${label}: nothing on the page is sticky (${sticky.slice(0, 3).join(', ')})`);
-          for (const selector of ['.hs-problem', '.hs-build', '.hs-get']) {
+          for (const selector of ['.hs-problem', '.hs-ways', '.hs-words', '.hs-build']) {
             const section = page.locator(selector);
             await section.scrollIntoViewIfNeeded();
             await page.evaluate(() => scrollBy({ top: -120, behavior: 'instant' }));
@@ -152,8 +152,18 @@ try {
           /* The way in at the top; where to start at the end. */
           await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
           await openAndClose(page, `${label}/hero`, page.locator('.r3-opening .hs-start-button:visible').first());
-          const wishes = await page.locator('.wish-paths a').evaluateAll(links => links.map(link => link.search));
-          assert(wishes.join() === '?wish=back,?wish=terms,?wish=calls,?wish=try,?wish=brief,?wish=yours', `${label}: six wish links reach the index`);
+          /* The ways cards (Krish, 2026-11-28): six, each turning over in place
+             without changing the rail's size. */
+          const cards = page.locator('.hs-ways .vs-tilt-card-toggle');
+          assert(await cards.count() === 9, `${label}: nine ways cards`);
+          const rail = page.locator('.hs-ways-track');
+          const railHeight = await rail.evaluate(node => node.offsetHeight);
+          await cards.first().scrollIntoViewIfNeeded();
+          await cards.first().click();
+          await settle(page);
+          assert(await cards.first().getAttribute('aria-pressed') === 'true', `${label}: a ways card turns over`);
+          assert(Math.abs(await rail.evaluate(node => node.offsetHeight) - railHeight) <= 1, `${label}: a ways card turns without resizing the rail`);
+          await cards.first().click();
 
           assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${label}: horizontal overflow`);
           assert(!errors.length, `${label}: page errors ${errors.join(' | ')}`);

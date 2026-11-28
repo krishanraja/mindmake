@@ -16,8 +16,6 @@ import { LineBreaks } from "@/components/LineBreaks";
    exactly as they are, so nothing about the shipped bundle changes shape. */
 import Index from "./pages/Index";
 import AiBrain from "./pages/AiBrainLocked";
-import AiGtm from "./pages/AiGtm";
-import CaseStudies from "./pages/CaseStudies";
 import NewAgeLeadership from "./pages/NewAgeLeadership";
 import Blog from "./pages/Blog";
 import Toolkit from "./pages/Toolkit";
@@ -63,9 +61,7 @@ function SiteRoutes() {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/ai-brain" element={<AiBrain />} />
-      <Route path="/ai-gtm" element={<AiGtm />} />
       <Route path="/measure-your-ai-judgement" element={<WhoDecided />} />
-      <Route path="/case-studies" element={<CaseStudies />} />
       <Route path="/brain-modules" element={<Kits />} />
       <Route path="/brain-modules/download" element={<KitDownload />} />
       <Route path="/kits/download" element={<KitDownload />} />
@@ -124,10 +120,11 @@ export function renderWithMetadata(path: string): { body: string; metadata: SEOP
             rather than a page. */}
         <ScrollToLocation />
         <RouteTransitions />
-        <LineBreaks />
         <ErrorBoundary>
           <Suspense fallback={<PageLoading />}>
             <SiteRoutes />
+            {/* Inside the boundary, as in src/App.tsx (2026-11-28). */}
+            <LineBreaks />
           </Suspense>
         </ErrorBoundary>
         <RouteConsent />

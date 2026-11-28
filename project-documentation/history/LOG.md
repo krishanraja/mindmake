@@ -5,6 +5,22 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-11-28: one door, /ai-gtm retired, /ai-brain rebuilt with a 3D brain
+
+- Krish, 28 November 2026: `/ai-gtm` retires ("not a separate page but just the inevitable outcome of having an AI brain at your disposal"); its three levers become the last three ways cards on the homepage, the homepage opening keeps one door, and `/ai-gtm` redirects permanently to `/ai-brain`. The visible menu becomes Home, Build your AI brain, the toolkit, Questions we get asked and About us; Media leaves the menus.
+- `/ai-brain` rebuilt: the hero film plays again (it had been the poster as a plain image since commit `0f7a074`, 25 November), the sections take the homepage's sheets, each section is a headline and at most one sentence, headlines rise out of their lines as they arrive, and the AI brain is drawn in 3D (three.js 0.170.0, a Meshy image-to-3D model of a still made for it, 20 credits; Draco, decoder served locally), lighting the part each passage is about. S6's "nothing on `/ai-brain` pins" gives way to the brain's sticky column on a desktop.
+- Replaced in `03_DESIGN_CONTRACT.md`: the AI GTM page paragraph (the 25 November `/ai-gtm`: "Make it, share it, and get paid for it.", the three lever studies, "One decision, from brief to return.") and the AI Brain signature paragraph (the liquid Brain as the page's figure, two-paragraph sections).
+- Hydration fix (found by `first-second-check` under its 4G throttle): `LineBreaks` ran outside the page's Suspense boundary, so on a slow line it joined words in the server's text before the page's code arrived and React discarded the server render (#418, #425). It already did this on `/about` on main; it now sits inside the boundary in `src/App.tsx` and `src/entry-server.tsx`, and both pages hydrate clean under the throttle.
+- Fixed, both on main before this change: under reduced motion the homepage hero now shows its poster and mounts no `<video>` (`first-second-check`), and the heading underlines on "how we think" and "30 days", which never drew because `drawMarks` is never called, now carry the hero's pen stroke like "you" (`.hs-ul`, one rule in `integration.css`).
+- The route lock retires the `gtm` contract (`qa:approved-routes:update -- --retire-contract gtm`, new in this change); the check reads a frozen manifest that still names it as before.
+
+## 2026-11-28: the ways cards, the client words on the homepage, /case-studies retired
+
+- Krish, 28 November 2026: one homepage section, "Ways an AI brain can level you up.", replaces "What would you do more of?" and "What the work made possible."; "In their words." moves from `/case-studies` to the homepage ahead of "We build yours with you in 30 days."; `/case-studies` retires (`/case-studies` to `/#ways`, `/testimonials` to `/#words`, permanent).
+- The cards: the vividsites Tilt Card with the Holo Card's turn, in the house faces (`src/lib/tiltCard.ts`, `src/styles/vs-tilt-card.css`, `src/data/ways.ts`). Six fronts, one per wish, each a bright still made for it on Higgsfield (GPT Image 2.6, 1.25 credits each; Control Center had no Higgsfield pool for mindmake, so the spend went ahead on Krish's explicit approval in the session and is not booked there). Each wish names one of the brain's six parts.
+- Replaced in `03_DESIGN_CONTRACT.md`: the homepage's three sections (the wish chooser, the three results as a swipe deck, "Explore what leaders built") and the `/case-studies` paragraph ("the one place to find your path", the use-case finder and "In their words.").
+- Codex: `codex/README.md` and two cards. mindmake is not yet in content-engine's `config/codex-lanes.json`, so the lane does not build them; this session built the ways cards itself.
+
 ## 2026-11-27: current state after the creative repositioning
 
 - Docs sync after PRs #337 to #343 (merge `19c81d25`, 26 November 2026; positioning approved by Krish on 25 November 2026). `06_CURRENT_STATE.md`, `03_DESIGN_CONTRACT.md` and `website-redesign/STATE.md` now describe the repositioned site, and the text they replaced is kept below verbatim. README.md, NOW.md, CLAUDE.md, 03, 04, 00 and 01 headers, `website-redesign/STATE.md` and `krishs-mission/` were brought into line the same day.

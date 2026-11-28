@@ -21,7 +21,8 @@ describe("the AI brain route", () => {
   const main = page().querySelector("main")!;
   it("keeps the hero and three rooms in reading order", () => {
     expect(main.querySelector("h1")?.textContent).toBe("Teach your AI what experience taught you.");
-    expect([...main.querySelectorAll(":scope > section")].map(el => el.id)).toEqual(["you", "inside", "built"]);
+    /* Since 2026-11-28 the three rooms sit in one story beside the 3D brain. */
+    expect([...main.querySelectorAll("section.product-section")].map(el => el.id)).toEqual(["you", "inside", "built"]);
     expect(main.querySelector("[data-mm-hero]")?.textContent).toBe("Start building your AI brain");
   });
   it("explains one North Star and five parts beside three disclosures", () => {

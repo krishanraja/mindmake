@@ -110,10 +110,8 @@ describe("AI Brain stories", () => {
       expect(plain).toContain(`<span class="finder-outcome">${story.outcome.replaceAll("\u00a0", " ")}</span>`);
     }
     for (const situation of SITUATIONS) expect(plain).toContain(`<h3 class="finder-situation">${situation.label}</h3>`);
-    /* The full story of each result lives on /case-studies under its use case. */
-    const proofs = [...human.matchAll(/href="\/case-studies#(c-\d{2})"/g)].map((m) => m[1].toUpperCase());
-    expect(proofs).toHaveLength(8);
-    for (const id of proofs) expect(results.map((entry) => entry.useCase)).toContain(id);
+    /* Each result links to the homepage's ways, where the stories now live (2026-11-28). */
+    expect([...human.matchAll(/class="finder-proof" href="\/#ways"/g)]).toHaveLength(8);
     /* The sheet shows the result itself, headline and detail, after the outcome. */
     for (const result of results) expect(plain).toContain(result.headline);
     expect(human).not.toMatch(/success story/i);

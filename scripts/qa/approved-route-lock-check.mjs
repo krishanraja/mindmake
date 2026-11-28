@@ -18,10 +18,12 @@ for (const [relativePath, approvedHash] of Object.entries(manifest.files)) {
 }
 
 const brain = JSON.parse(sources.get("src/data/vnext/brain-fixture.json"));
-const signalFixture = JSON.parse(sources.get("src/data/vnext/gtm-signals.json"));
+const signalFixture = sources.has("src/data/vnext/gtm-signals.json") ? JSON.parse(sources.get("src/data/vnext/gtm-signals.json")) : {};
 const signals = Object.values(signalFixture);
 const brainContract = manifest.minimumContracts.brain;
-const gtmContract = manifest.minimumContracts.gtm;
+// /ai-gtm retired into the homepage's ways cards (Krish, 2026-11-28); its
+// contract is retired with it. A frozen manifest that still names it is read as before.
+const gtmContract = manifest.minimumContracts.gtm ?? null;
 const exact = (actual, expected, label) => {
   if (actual !== expected) failures.push(`${label}: expected ${expected}, found ${actual}`);
 };
@@ -32,12 +34,12 @@ exact(brain.sources.length, brainContract.sources, "Brain sources");
 exact(brain.corrections.length, brainContract.corrections, "Brain corrections");
 // Historical manifests still identify signal counts or named citations.
 // Ruling (Krish, 2026-11-25): /ai-gtm refocused on content production, distribution and monetisation
-if (!gtmContract.levers && gtmContract.signals === undefined && gtmContract.citedSignals === undefined) {
+if (gtmContract && !gtmContract.levers && gtmContract.signals === undefined && gtmContract.citedSignals === undefined) {
   failures.push("AI business contract has no levers or historical signal contract");
 }
-if (gtmContract.signals !== undefined) exact(signals.length, gtmContract.signals, "GTM signals");
-if (gtmContract.responseChoices !== undefined) exact(signals.reduce((total, signal) => total + signal.responses.length, 0), gtmContract.responseChoices, "GTM response choices");
-for (const key of gtmContract.citedSignals ?? []) {
+if (gtmContract?.signals !== undefined) exact(signals.length, gtmContract.signals, "GTM signals");
+if (gtmContract?.responseChoices !== undefined) exact(signals.reduce((total, signal) => total + signal.responses.length, 0), gtmContract.responseChoices, "GTM response choices");
+for (const key of gtmContract?.citedSignals ?? []) {
   if (!signalFixture[key]?.source) failures.push(`GTM cites a signal with no source: ${key}`);
 }
 
@@ -48,8 +50,8 @@ const contractSource = (name, fallback) => {
   return paths.map((relativePath) => sources.get(relativePath) ?? "").join("\n");
 };
 const brainSource = contractSource("brain", "src/pages/AiBrain.tsx");
-const gtmSource = contractSource("gtm", "src/pages/AiGtm.tsx");
-if (gtmContract.levers) {
+const gtmSource = gtmContract ? contractSource("gtm", "src/pages/AiGtm.tsx") : "";
+if (gtmContract?.levers) {
   const leverPattern = gtmContract.requiredInstruments.includes("lever-reading")
     ? /\{ title: "([^"]+)", still:/g
     : /<DepthTile title="([^"]+)"/g;
@@ -60,17 +62,17 @@ if (gtmContract.levers) {
 for (const instrument of brainContract.requiredInstruments) {
   if (!brainSource.includes(instrument)) failures.push(`Brain is missing approved instrument: ${instrument}`);
 }
-for (const instrument of gtmContract.requiredInstruments) {
+for (const instrument of gtmContract?.requiredInstruments ?? []) {
   if (!gtmSource.includes(instrument)) failures.push(`GTM is missing approved instrument: ${instrument}`);
 }
 for (const state of brainContract.states) {
   if (!brainSource.toLowerCase().includes(state.toLowerCase())) failures.push(`Brain is missing approved state: ${state}`);
 }
-for (const stage of gtmContract.stages) {
+for (const stage of gtmContract?.stages ?? []) {
   if (!gtmSource.toLowerCase().includes(stage.toLowerCase())) failures.push(`GTM is missing approved stage: ${stage}`);
 }
 
-const publicRouteText = `${brainSource}\n${gtmSource}\n${sources.get("src/data/vnext/gtm-signals.json")}`.toLowerCase();
+const publicRouteText = `${brainSource}\n${gtmSource}\n${sources.get("src/data/vnext/gtm-signals.json") ?? ""}`.toLowerCase();
 for (const phrase of manifest.forbiddenPhrases) {
   if (publicRouteText.includes(phrase.toLowerCase())) failures.push(`Forbidden phrase returned: ${phrase}`);
 }
@@ -83,7 +85,7 @@ console.log(JSON.stringify({
   lock: manifestPath === lockPath ? "quality/route-lock/approved-production.lock.json" : manifest.artifact,
   lockedFiles: Object.keys(manifest.files).length,
   brain: { states: brainContract.states, meanings: brain.items.length, relationships: brain.relationships.length, sources: brain.sources.length, corrections: brain.corrections.length },
-  gtm: gtmContract.levers ? { levers: gtmContract.levers } : { signals: signals.length, responseChoices: signals.reduce((total, signal) => total + signal.responses.length, 0) },
+  gtm: !gtmContract ? "retired" : gtmContract.levers ? { levers: gtmContract.levers } : { signals: signals.length, responseChoices: signals.reduce((total, signal) => total + signal.responses.length, 0) },
   failures,
 }, null, 2));
 

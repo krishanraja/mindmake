@@ -43,7 +43,7 @@ const flag = (name, fallback) => {
   return at === -1 ? fallback : args[at + 1];
 };
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/new-age-leadership").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/new-age-leadership").split(",");
 const BUDGET = Number(flag("budget", 1.35));
 const REPORT = args.includes("--report");
 

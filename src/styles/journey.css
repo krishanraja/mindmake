@@ -49,7 +49,7 @@
 .wish-paths a { display: flex; align-items: center; border: 1px solid currentColor; border-radius: var(--journey-radius); padding: 12px 16px; min-height: 44px; text-decoration: none; text-wrap: pretty; }
 .mm-homepage-release .hs-build { background: var(--mm-ink, #0a100d); color: var(--mm-tx, #e6ede8); }
 .mm-homepage-release .hs-build .hs-lede { color: inherit; }
-.mm-homepage-release .hs-get .journey-end { grid-column: 1/-1; }
+.mm-homepage-release .hs-build .journey-end { grid-column: 1/-1; }
 .mm-site .mm-ideas-list { width: 100%; max-width: none; margin-inline: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
 .mm-site .mm-ideas-list [hidden] { display: none; }
 .idea-pages { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
@@ -68,7 +68,7 @@
 }
 @keyframes journey-in { from { opacity: 0; } to { opacity: 1; } }
 .mm-homepage-release .journey-end .mm-button { color: var(--hs-ink); background: var(--hs-mint); border-color: var(--hs-mint); font: 700 15px/1.1 var(--r3-sans); text-transform: none; letter-spacing: -.01em; }
-.mm-homepage-release .hs-build { --hs-sheet-lap: 0px; --hs-ground: var(--hs-ink); --hs-rail-ground: var(--hs-ground); }
+.mm-homepage-release .hs-build { z-index: 4; --hs-ground: var(--hs-ink); --hs-rail-ground: var(--hs-ground); }
 @media (min-width: 701px) {
   .journey-questions { position: relative; display: block; padding-inline-end: 52%; }
   .journey-questions details { max-width: none; }
@@ -121,13 +121,6 @@
   font: 300 var(--journey-heading)/1.02 var(--mm-serif);
   letter-spacing: -.045em; text-wrap: balance;
 }
-.mm-homepage-release .wish-paths > div { gap: 0 clamp(20px,3vw,48px); }
-.mm-homepage-release .wish-paths a {
-  gap: 16px; justify-content: space-between; padding: 14px 0;
-  border: 0; border-top: 1px solid var(--hs-line); border-radius: 0;
-  color: var(--hs-cream); font: 400 clamp(19px,1.7vw,26px)/1.17 var(--r3-serif); text-wrap: pretty;
-}
-.mm-homepage-release .wish-paths a::after { content: "↗" / ""; color: var(--hs-mint); font: 14px var(--r3-mono); }
 .mm-homepage-release .hs-get .hs-inner .hs-voices { grid-column: 1/-1; }
 @media (min-width: 761px) {
   .mm-homepage-release .hs-get .hs-inner { grid-template-columns: minmax(0,1fr); }

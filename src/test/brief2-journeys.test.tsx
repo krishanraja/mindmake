@@ -1,6 +1,5 @@
 import { MemoryRouter, useLocation } from "react-router-dom";
 import AiBrain from "@/pages/AiBrainLocked";
-import AiGtm from "@/pages/AiGtm";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { BRAIN_STEPS, GTM_STEPS } from "@/content/journeySteps";
@@ -89,7 +88,6 @@ describe("the shared capture", () => {
   // Ruling (Krish, 2026-11-25): /ai-gtm refocused on content production, distribution and monetisation.
   it.each([
     { path: "/ai-brain", Page: AiBrain, door: "brain" },
-    { path: "/ai-gtm", Page: AiGtm, door: "gtm" },
   ])("opens the private brief from the $door door", async ({ path, Page, door }) => {
     function Entry() {
       const location = useLocation();

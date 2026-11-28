@@ -13,7 +13,6 @@ import Index from "./pages/Index";
 import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
 import { SiteExit } from "@/components/ui/lead-exit";
 
-const CaseStudies = preloadable(() => import("./pages/CaseStudies"));
 const NewAgeLeadership = preloadable(() => import("./pages/NewAgeLeadership"));
 const NotFound = lazyRoute(() => import("./pages/NotFound"));
 const Privacy = preloadable(() => import("./pages/Privacy"));
@@ -28,7 +27,6 @@ const AnswerPage = preloadable(() => import("./pages/Answer"));
 const Alumni = preloadable(() => import("./pages/Alumni"));
 const DtdFeedback = preloadable(() => import("./pages/DtdFeedback"));
 const AiBrain = preloadable(() => import("./pages/AiBrainLocked"));
-const AiGtm = preloadable(() => import("./pages/AiGtm"));
 const Kits = preloadable(() => import("./pages/Kits"));
 const KitDownload = preloadable(() => import("./pages/KitDownload"));
 const WhoDecided = preloadable(() => import("./pages/WhoDecided"));
@@ -65,8 +63,6 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/brain-modules\/download\/?$/, KitDownload],
   [/^\/brain-modules(?:\/[^/]+)?\/?$/, Kits],
   [/^\/ai-brain\/?$/, AiBrain],
-  [/^\/ai-gtm\/?$/, AiGtm],
-  [/^\/case-studies\/?$/, CaseStudies],
   [/^\/blog\/?$/, Blog],
   [/^\/2-minute-ai-upgrade-toolkit\/?$/, Toolkit],
   [/^\/blog\/[^/]+\/?$/, BlogPost],
@@ -259,15 +255,12 @@ function AppRoutes() {
       <ScrollToLocation />
       <RouteTransitions preload={preloadPage} />
       <MediaArrival />
-      <LineBreaks />
       <ErrorBoundary>
         <Suspense fallback={<PageLoading />}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/ai-brain" element={<AiBrain />} />
-            <Route path="/ai-gtm" element={<AiGtm />} />
             <Route path="/measure-your-ai-judgement" element={<PrivateAuditRoute />} />
-            <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/brain-modules" element={<Kits />} />
             <Route path="/brain-modules/download" element={<KitDownload />} />
             <Route path="/kits/download" element={<KitDownload />} />
@@ -333,6 +326,12 @@ function AppRoutes() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {/* Inside the page's boundary, so it first runs once the page has
+              hydrated. Outside it, on a slow line it joined words in the
+              server's text before the page's own code arrived, and React threw
+              the server render away (errors #418 and #425 on /about and
+              /ai-brain under a 4G throttle, 2026-11-28). */}
+          <LineBreaks />
         </Suspense>
       </ErrorBoundary>
       <RouteConsent />

@@ -26,9 +26,11 @@ const out = join(root, "src/assets/responsive");
 await mkdir(out, { recursive: true });
 
 const stories = (await readdir(join(root, "src/assets/stories"))).filter((f) => /-r01-800\.webp$/.test(f)).map((f) => join("src/assets/stories", f));
+const ways = (await readdir(join(root, "src/assets/ways"))).filter((f) => /-r01-800\.webp$/.test(f)).map((f) => join("src/assets/ways", f));
 const eras = ["writing", "loom", "calculator", "satnav"].map((n) => `prototypes/website-redesign-recovery/new-age-leadership/media/history-${n}-s2.webp`);
 const jobs = [
   ...stories.map((src) => ({ src, widths: [400, 600], placeholder: true, beside: true })),
+  ...ways.map((src) => ({ src, widths: [400, 600], placeholder: true, beside: true })),
   ...eras.map((src) => ({ src, widths: [480, 960], placeholder: true, beside: false })),
   { src: "src/assets/films/sep2026/archive-engine-hero-poster-r07.webp", widths: [720, 1280], placeholder: false, beside: true },
   { src: "prototypes/website-redesign-recovery/brain-signature/media/evidence-connects-poster.png", widths: [720, 1280], placeholder: false, beside: false },

@@ -19,7 +19,7 @@ export function ProofBand({ quote, result, who, story }: { quote: string; result
       <p className="gtm-proof-result">{result}</p>
       <figcaption className="gtm-proof-who">
         <cite><Unbroken text={who} /></cite>
-        <Link className="mm-text-link" to={`/case-studies#story=${story}`}>Read the story <span aria-hidden="true">&rarr;</span></Link>
+        <Link className="mm-text-link" to="/#ways">Read the story <span aria-hidden="true">&rarr;</span></Link>
       </figcaption>
     </figure>
   );

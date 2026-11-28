@@ -16,7 +16,7 @@ The starting read is an outside view, not a finished diagnosis or advice. The vi
 
 ## Shared private-brief journey
 
-`src/components/mindmake/LeadBrief.tsx` owns the current progressive flow. A route-specific entry carries Brain/GTM; an entry that names no door (`?start=1`, `/start`, the menus, the footers, the action bar off `/ai-gtm`) opens at the AI brain's, because every such button reads "Start building your AI brain" (Krish, 2026-10-26: as few clicks and as little brainpower as possible).
+`src/components/mindmake/LeadBrief.tsx` owns the current progressive flow. A route-specific entry carries Brain/GTM; an entry that names no door (`?start=1`, `/start`, the menus, the footers, the action bar) opens at the AI brain's, because every such button reads "Start building your AI brain" (Krish, 2026-10-26: as few clicks and as little brainpower as possible).
 
 1. Work email → **Get building** (Krish, 2026-10-24; the step opens "Let’s get started." and offers the publication instead, under the button). Derive the company domain; reject personal addresses for company research. The public read begins while the visitor continues.
 2. First name, last name and division/Leadership → **See the company read**. Do not ask the visitor to re-enter the company or work email. A `first.last@` or `first_last@` address fills both names in the browser (`nameFromEmail`, `src/lib/workEmail.ts`); a role mailbox, a single word or a shape it cannot place fills nothing, and a name the visitor typed is never replaced. The guess is an editable default, not evidence, and is not sent anywhere the typed name would not be.

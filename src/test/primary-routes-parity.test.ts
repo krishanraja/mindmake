@@ -24,41 +24,33 @@ describe("primary routes parity", () => {
     }
   });
 
-  it("names /ai-gtm Build your AI business in full on both menus, on every screen (Krish, 2026-11-10)", () => {
+  /* Krish, 2026-11-28: the visible menu is the landing page, the AI brain,
+     the toolkit, the questions and about us; /ai-gtm retired and Media left
+     the menus (the publication keeps the hero line and the masthead). */
+  it("carries exactly the five approved routes on both menus", () => {
+    expect(PRIMARY_ROUTES.map(({ href }) => href)).toEqual(["/", "/ai-brain", "/2-minute-ai-upgrade-toolkit", "/faq", "/about"]);
     const markup = read("src/components/homepage-release/markup.ts");
-    const route = PRIMARY_ROUTES.find(({ href }) => href === "/ai-gtm");
-    expect(route?.label).toBe("Build your AI business");
-    expect(route?.short).toBeUndefined();
-    for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) {
-      expect(nav).toContain('<a href="/ai-gtm">Build your AI business</a>');
-    }
-  });
-
-  it("badges Media with the subscription, on both menus (Krish, 2026-09-25)", () => {
-    const markup = read("src/components/homepage-release/markup.ts");
-    const media = PRIMARY_ROUTES.find(({ label }) => label === "Media");
-    expect(media?.href).toBe(PUBLICATION_URL);
+    expect(markup).not.toContain('href="/ai-gtm"');
+    for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) expect(nav).not.toContain(">Media</a>");
     expect(PUBLICATION_URL).toBe("https://makeyourmindup.ai");
     expect(SUBSCRIBE_URL).toBe("https://makeyourmindup.ai");
-    expect(media?.badge).toBe(SUBSCRIBE_LABEL);
-    for (const [, nav] of markup.matchAll(/<nav class="primary-routes"[^>]*>(.*?)<\/nav>/gs)) {
-      expect(nav).toContain(`data-badge="${SUBSCRIBE_LABEL}">Media</a>`);
-    }
-    expect(read("src/components/mindmake/MindmakeShell.tsx")).toContain("data-badge={badge}");
+    expect(SUBSCRIBE_LABEL).toBeTruthy();
   });
 
   it("sends the hero doors to their pages, as real links", () => {
     const markup = read("src/components/homepage-release/markup.ts");
     expect(markup).not.toMatch(/<button[^>]*data-route-choice/);
+    /* One door since 2026-11-28. */
     expect([...markup.matchAll(/<a href="(\/ai-(?:brain|gtm))" data-route-choice="(brain|gtm)"/g)].map(([, href, route]) => `${route}:${href}`))
-      .toEqual(["brain:/ai-brain", "gtm:/ai-gtm", "brain:/ai-brain", "gtm:/ai-gtm"]);
+      .toEqual(["brain:/ai-brain", "brain:/ai-brain"]);
   });
 
   it("uses the approved shared language", () => {
     const handoff = JSON.parse(read("quality/website-redesign/homepage-handoff.v1.json"));
     const selection = handoff.handoff?.sharedLanguage?.selection ?? findSelection(handoff);
     const byHref = Object.fromEntries(PRIMARY_ROUTES.map(({ href, label }) => [href, label]));
-    expect(byHref["/case-studies"]).toBe(selection.results);
+    /* /case-studies retired into the homepage (Krish, 2026-11-28). */
+    expect(byHref["/case-studies"]).toBeUndefined();
     expect(byHref["/2-minute-ai-upgrade-toolkit"]).toBe(selection.toolkit);
     /* The blog stays for search engines with no menu link (Krish, 2026-11-19). */
     expect(byHref["/blog"]).toBeUndefined();
@@ -67,10 +59,9 @@ describe("primary routes parity", () => {
     expect(byHref["/answers"]).toBeUndefined();
     expect(selection.answers).toBeUndefined();
     expect(byHref["/faq"]).toBe(selection.faq);
-    expect(PRIMARY_ROUTES.at(-1)?.label).toBe(selection.media);
-    /* Home leads and About us sits before Media (Krish, 2026-09-25). */
+    /* Home leads and About us closes the list (Media left it on 2026-11-28). */
     expect(PRIMARY_ROUTES[0]).toEqual({ label: "Home", href: "/" });
-    expect(PRIMARY_ROUTES.at(-2)).toEqual({ label: "About us", href: "/about" });
+    expect(PRIMARY_ROUTES.at(-1)).toEqual({ label: "About us", href: "/about" });
     /* The way in was renamed on 24 October 2026 ("Start building your AI
        brain"), after the handoff froze "Get your free AI brief". The handoff is
        an immutable recovery record, so the homepage the generator writes is

@@ -50,10 +50,11 @@ const PROFILES = [
   { name: "pixel7-landscape", options: { ...devices["Pixel 7 landscape"] }, phone: true },
   { name: "1440x900", options: { viewport: { width: 1440, height: 900 } }, phone: false },
 ];
-const ROUTES = ["/", "/ai-brain", "/ai-gtm"];
+const ROUTES = ["/", "/ai-brain"];
 /* Where each page's swipe deck is, and its controls. */
 const FINDER_DECK = { root: ".story-finder", cards: ".finder-panel.is-active .finder-card", at: ".finder-panel.is-active [data-finder-at]", next: ".finder-panel.is-active [data-finder-next]", tabs: "[data-finder-tab]" };
-const DECKS = { "/": { root: ".hs-proof-deck", cards: ".hs-proof-deck [data-hs-deck-track] > li", at: ".hs-proof-deck [data-hs-deck-at]", next: '.hs-proof-deck [data-hs-deck-step="1"]' }, "/ai-brain": FINDER_DECK, "/ai-gtm": FINDER_DECK };
+/* The homepage's results deck gave way to the ways cards on 2026-11-28; the cards are a rail, measured by qa:line-breaks. */
+const DECKS = { "/ai-brain": FINDER_DECK };
 
 /** The deck runs, keeps one height whatever is chosen, has solid cards, moves one card per arrow or sideways swipe, and ignores a vertical scroll. */
 async function checkDeck(page, context, where, deck, touch) {
@@ -110,7 +111,7 @@ async function checkDeck(page, context, where, deck, touch) {
   if (still !== moved) fail(where, `a vertical scroll moved the deck from ${moved} to ${still}`);
   await cdp.detach();
 }
-const SECTIONS = { "/": ".hs-section", "/ai-brain": ".product-page > .product-section", "/ai-gtm": ".product-page > .product-section" };
+const SECTIONS = { "/": ".hs-section", "/ai-brain": ".product-page .product-section" };
 
 const failures = [];
 const fail = (where, message) => failures.push(`${where}: ${message}`);
@@ -308,27 +309,6 @@ for (const profile of PROFILES) {
     }
     await context.close();
   }
-}
-
-/* /case-studies (since 15 November 2026) is the use-case finder rather than
-   the swipe deck: the reader moves through the cards with its pager, and the
-   finder must be running and move forward when asked. */
-for (const profile of PROFILES) {
-  const context = await browser.newContext({ ...profile.options });
-  await context.addInitScript(() => { try { localStorage.setItem("mindmake_consent", "declined"); } catch {} });
-  const page = await context.newPage();
-  await page.goto(BASE + "/case-studies", { waitUntil: "networkidle" });
-  const where = `${profile.name} /case-studies`;
-  const count = () => page.locator(".uc-pager p, .uc-pager span").first().textContent().catch(() => null);
-  const before = await count();
-  const next = page.locator('.uc-pager button[aria-label="Next use cases"]');
-  if (!before || !(await next.count())) fail(where, "the use-case finder is not running");
-  else {
-    await next.click();
-    await page.waitForTimeout(400);
-    if ((await count()) === before) fail(where, "the use-case pager did not move forward");
-  }
-  await context.close();
 }
 
 /* Negative control for the blank screen: an empty screen must count as

@@ -140,7 +140,7 @@ const geometry = async (page) => page.evaluate(() => {
     videoPaused: video?.paused,
     brainHref: root?.querySelector('a[href="/ai-brain"]')?.getAttribute("href"),
     gtmHref: root?.querySelector('a[href="/ai-gtm"]')?.getAttribute("href"),
-    storiesHref: root?.querySelector('a[href="/case-studies"]')?.getAttribute("href"),
+    storiesHref: root?.querySelector("#ways") ? "#ways" : null,
     currentDoor: root?.querySelector('.mm-commercial-doors a[aria-current="page"]')?.getAttribute("href") || "",
   };
 });
@@ -161,7 +161,7 @@ const assessCold = (state, label, route) => {
     fail(state.progress > 0.08, `${label}: cold surface began at progress ${state.progress}`);
   }
   fail(!state.startVisible, `${label}: Start here is not visible in the cold viewport`);
-  fail(state.brainHref !== "/ai-brain" || state.gtmHref !== "/ai-gtm" || state.storiesHref !== "/case-studies", `${label}: one or more commercial routes are missing`);
+  fail(state.brainHref !== "/ai-brain" || state.gtmHref !== "/ai-gtm" || state.storiesHref !== "#ways", `${label}: one or more commercial routes are missing`);
   const expectedCurrent = route.context === "brain" ? "/ai-brain" : route.context === "gtm" ? "/ai-gtm" : "";
   fail(state.currentDoor !== expectedCurrent, `${label}: expected current door ${expectedCurrent || "none"}, saw ${state.currentDoor || "none"}`);
   const expectedFilm = route.context === "gtm" && staticLandscape ? "signals-arrive" : route.film;

@@ -73,16 +73,11 @@ const STATES = {
   "/": [
     { name: "eras", controls: "[data-hs-era]", frames: [".hs-eras"] },
     { name: "era rail", setup: '.hs-problem [data-hs-rail-go="0"]', controls: '.hs-problem [data-hs-rail-step="1"]', repeat: 6, ifOverflows: ".hs-problem [data-hs-rail-track]", frames: [".hs-problem .hs-rail"] },
-    // Ruling (Krish, 2026-11-25): the three media results share one desktop composition; phones keep the deck.
-    { name: "results deck", desktopResults: true, controls: '.hs-proof-deck [data-hs-deck-step="1"]', repeat: 4, frames: [".hs-proof-deck"] },
-  ],
-  /* The use cases (owner review, 2026-11-15): every story in its sheet, all 30
-     records and examples at one per page on a phone, the wish controls and every quote. */
-  "/case-studies": [
-    { name: "stories", setup: ".uc-card:not(.is-away) .uc-card-link", controls: '.uc-sheet [aria-label="Next use case"]', repeat: 18, frames: [".uc-sheet"] },
-    { name: "cards", setup: ".uc-sheet-close", controls: '.uc-pager [aria-label="Next use cases"]', repeat: 30, frames: [".uc-finder", ".uc-box"] },
-    { name: "narrowing", controls: ".uc-where button, .uc-roles button, .uc-toggle", frames: [".uc-finder", ".uc-box"] },
-    { name: "quotes", controls: '.uc-quotes-nav [aria-label="Next quote"]', repeat: 18, frames: [".uc-words"] },
+    // Krish, 2026-11-28: the ways cards turn over in place, never changing size, and the rail moves card by card.
+    { name: "ways cards", controls: ".hs-ways .vs-tilt-card-toggle", frames: [".hs-ways-track", ".hs-ways"] },
+    { name: "ways rail", setup: '.hs-ways [data-hs-rail-go="0"]', controls: '.hs-ways [data-hs-rail-step="1"]', repeat: 12, ifOverflows: ".hs-ways [data-hs-rail-track]", frames: [".hs-ways .hs-rail"] },
+    // The client quotes, moved here from /case-studies: every quote shares one cell.
+    { name: "quotes", controls: '.hs-words [data-hs-words-step="1"]', repeat: 18, frames: [".hs-words-stack", ".hs-words"] },
   ],
   "/ai-brain": [
     { name: "parts", controls: ".brain-field button", frames: [".brain-inside", ".brain-answer"] },
@@ -90,11 +85,6 @@ const STATES = {
     // Ruling (Krish, 2026-11-25): story exploration is the secondary action inside the Sprint.
     { name: "finder", setup: ".product-story-link", controls: ".brain-finder [data-finder-tab]", frames: [".story-finder"] },
     { name: "finder rail", setup: '[data-finder-tab="brief"]', controls: ".finder-panel.is-active [data-finder-next]", repeat: 8, frames: [".story-finder"] },
-  ],
-  "/ai-gtm": [
-    { name: "levers", controls: ".product-levers summary", frames: [".business-inside"] },
-    // Ruling (Krish, 2026-11-25): story exploration is the secondary action inside the Sprint.
-    { name: "finder", setup: ".product-story-link", controls: ".brain-finder [data-finder-tab]", frames: [".story-finder"] },
   ],
   "/new-age-leadership": [{ name: "finder", controls: "[data-finder-tab]", frames: [".story-finder"] }],
 };
@@ -213,25 +203,6 @@ const heights = (frames) => frames.map((selector) => {
    report a frame whose height moved. */
 async function sweep(page, groups, report, swept = {}) {
   for (const group of groups) {
-    if (group.desktopResults && page.viewportSize().width > 760) {
-      const complete = await page.evaluate(() => {
-        const deck = document.querySelector(".hs-proof-deck");
-        if (!deck) return false;
-        const links = [...deck.querySelectorAll(".hs-proof-story a")];
-        if (links.length !== 3 || new Set(links.map(link => link.href)).size !== 3) return false;
-        if ([...deck.querySelectorAll(".hs-deck-nav button")].some(button => button.checkVisibility())) return false;
-        const boxes = links.map(link => link.closest("li").getBoundingClientRect());
-        return links.every((link, i) => {
-          const box = boxes[i];
-          return link.checkVisibility({ visibilityProperty: true, opacityProperty: true }) && !link.closest("[inert],[aria-hidden=true]") &&
-            box.width > 0 && box.height > 0 && box.left >= -1 && box.right <= innerWidth + 1 &&
-            Math.abs(box.top - boxes[0].top) <= 1 && (i === 0 || box.left >= boxes[i - 1].right - 1);
-        });
-      });
-      if (!complete) report({ kind: "coverage", where: group.name, stranded: "expected three visible, linked results in one row with no deck controls" });
-      swept[group.name] = complete ? "three results in one row" : 0;
-      continue;
-    }
     if (group.ifOverflows && !(await page.evaluate((selector) => {
       const row = document.querySelector(selector);
       return row ? row.scrollWidth > row.clientWidth + 2 : true;
@@ -280,7 +251,6 @@ async function sweep(page, groups, report, swept = {}) {
       });
     }
     swept[group.name] = clicked;
-    if (group.desktopResults && clicked !== 2) report({ kind: "coverage", where: group.name, stranded: "expected two advances through three phone results" });
     if (group.repeat && clicked >= group.repeat) report({ kind: "coverage", where: group.name, stranded: `still offered after ${clicked} presses: the rail never reaches its last card` });
     if (!clicked) report({ kind: "coverage", where: group.name, stranded: `no visible control matches ${group.controls}` });
   }

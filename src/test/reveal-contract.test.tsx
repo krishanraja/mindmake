@@ -261,8 +261,7 @@ describe("the motion law, as it now stands", () => {
     for (const surface of [
       "src/pages/Index.tsx",
       "src/pages/AiBrain.tsx",
-      "src/pages/AiGtm.tsx",
-      "src/components/ai-gtm/Opening.tsx",
+          "src/components/ai-gtm/Opening.tsx",
       "src/components/ai-gtm/LeverChapter.tsx",
       "src/components/ai-gtm/TurnBand.tsx",
       "src/components/ai-gtm/PlanChapter.tsx",

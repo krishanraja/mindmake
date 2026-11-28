@@ -50,6 +50,9 @@ if (result.status === 0 || !result.stdout.includes(firstPath)) {
 // Second control: a GTM contract that states no evidence contract at all must
 // be refused, not silently skipped.
 const unanchored = JSON.parse(await readFile(manifestPath, "utf8"));
+// /ai-gtm's contract retired on 2026-11-28; the control still plants one with
+// no evidence, to prove a contract without levers or signals is refused.
+unanchored.minimumContracts.gtm ??= { requiredInstruments: [], stages: [] };
 delete unanchored.minimumContracts.gtm.levers;
 delete unanchored.minimumContracts.gtm.signals;
 delete unanchored.minimumContracts.gtm.responseChoices;
